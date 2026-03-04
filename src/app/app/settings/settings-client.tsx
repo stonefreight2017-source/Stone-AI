@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   Shield,
@@ -15,6 +15,9 @@ import {
   Brain,
   Clock,
   Loader2,
+  Gift,
+  Share2,
+  Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -395,6 +398,9 @@ export function SettingsClient({
         </CardContent>
       </Card>
 
+      {/* Referral Program */}
+      <ReferralCard />
+
       {/* Security */}
       <Card className="bg-zinc-900 border-zinc-800">
         <CardHeader className="pb-3">
@@ -427,5 +433,141 @@ export function SettingsClient({
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+// ─── Referral Program Card ───────────────────────────────
+
+interface ReferralData {
+  referralCode: string;
+  referralLink: string;
+  stats: { total: number; pending: number; qualified: number; rewarded: number };
+  referrals: {
+    id: string;
+    status: string;
+    name: string | null;
+    email: string;
+    tier: string;
+    joinedAt: string;
+  }[];
+}
+
+function ReferralCard() {
+  const [data, setData] = useState<ReferralData | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/referral")
+      .then((r) => r.json())
+      .then((d) => setData(d))
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  function copyLink() {
+    if (data?.referralLink) {
+      navigator.clipboard.writeText(data.referralLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }
+
+  return (
+    <Card className="bg-zinc-900 border-zinc-800">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-zinc-300 text-sm font-medium flex items-center gap-2">
+          <Gift className="h-4 w-4 text-emerald-400" />
+          Referral Program
+          <Badge className="bg-emerald-900/50 text-emerald-300 text-xs ml-2">
+            Earn Rewards
+          </Badge>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        {loading ? (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+          </div>
+        ) : data ? (
+          <>
+            <div className="bg-zinc-800/50 rounded-lg p-4">
+              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2">
+                Your Referral Link
+              </p>
+              <div className="flex items-center gap-2">
+                <code className="flex-1 bg-zinc-800 px-3 py-2 rounded text-xs text-emerald-400 font-mono overflow-x-auto">
+                  {data.referralLink}
+                </code>
+                <Button size="sm" variant="outline" onClick={copyLink} className="shrink-0">
+                  {copied ? (
+                    <Check className="h-3 w-3 text-green-400" />
+                  ) : (
+                    <Copy className="h-3 w-3" />
+                  )}
+                </Button>
+              </div>
+              <p className="text-xs text-zinc-500 mt-2">
+                Code: <span className="text-zinc-300 font-mono">{data.referralCode}</span>
+              </p>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
+                <p className="text-lg font-bold text-white">{data.stats.total}</p>
+                <p className="text-xs text-zinc-500">Total Referrals</p>
+              </div>
+              <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
+                <p className="text-lg font-bold text-emerald-400">{data.stats.qualified}</p>
+                <p className="text-xs text-zinc-500">Qualified</p>
+              </div>
+              <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
+                <p className="text-lg font-bold text-amber-400">{data.stats.rewarded}</p>
+                <p className="text-xs text-zinc-500">Rewarded</p>
+              </div>
+            </div>
+
+            {data.referrals.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs text-zinc-500 uppercase tracking-wide">Recent Referrals</p>
+                {data.referrals.slice(0, 5).map((r) => (
+                  <div
+                    key={r.id}
+                    className="flex items-center justify-between bg-zinc-800/30 rounded-lg px-3 py-2"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Users className="h-3 w-3 text-zinc-500" />
+                      <span className="text-sm text-zinc-300">{r.name || r.email}</span>
+                    </div>
+                    <Badge
+                      className={
+                        r.status === "REWARDED"
+                          ? "bg-amber-900/50 text-amber-300"
+                          : r.status === "QUALIFIED"
+                          ? "bg-emerald-900/50 text-emerald-300"
+                          : "bg-zinc-800 text-zinc-400"
+                      }
+                    >
+                      {r.status.toLowerCase()}
+                    </Badge>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div className="bg-zinc-800/30 rounded-lg p-3 text-xs text-zinc-500">
+              <p className="font-medium text-zinc-400 mb-1 flex items-center gap-1">
+                <Share2 className="h-3 w-3" /> How it works
+              </p>
+              <p>Share your link with friends. When they sign up and subscribe to any paid plan, you both get rewarded with bonus messages and a discount on your next billing cycle.</p>
+            </div>
+          </>
+        ) : (
+          <p className="text-zinc-500 text-sm text-center py-4">
+            Unable to load referral data. Please try again later.
+          </p>
+        )}
+      </CardContent>
+    </Card>
   );
 }

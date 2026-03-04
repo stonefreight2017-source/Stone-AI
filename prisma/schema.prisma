@@ -43,6 +43,8 @@ model User {
   stripeCustomerId     String?            @unique
   stripeSubscriptionId String?            @unique
   subscriptionStatus   SubscriptionStatus @default(INACTIVE)
+  referralCode         String?            @unique
+  referredBy           String?
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
 
@@ -57,6 +59,8 @@ model User {
   forumLikes     ForumLike[]
   feedbacks      Feedback[]
   notifications  Notification[]
+  referrals      Referral[]     @relation("Referrer")
+  referredUsers  Referral[]     @relation("ReferredUser")
 }
 
 model Conversation {
@@ -249,6 +253,34 @@ model AgentMemory {
 
   @@unique([agentId, userId, key])
   @@index([agentId, userId])
+}
+
+// ═══════════════════════════════════════════
+// REFERRAL SYSTEM
+// ═══════════════════════════════════════════
+
+enum ReferralStatus {
+  PENDING
+  QUALIFIED
+  REWARDED
+}
+
+model Referral {
+  id             String         @id @default(cuid())
+  referrerId     String
+  referredUserId String
+  status         ReferralStatus @default(PENDING)
+  rewardType     String?
+  rewardAmount   Float?
+  qualifiedAt    DateTime?
+  rewardedAt     DateTime?
+  createdAt      DateTime       @default(now())
+
+  referrer     User @relation("Referrer", fields: [referrerId], references: [id], onDelete: Cascade)
+  referredUser User @relation("ReferredUser", fields: [referredUserId], references: [id], onDelete: Cascade)
+
+  @@unique([referrerId, referredUserId])
+  @@index([referrerId, status])
 }
 
 // ═══════════════════════════════════════════
