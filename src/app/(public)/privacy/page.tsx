@@ -13,7 +13,7 @@ export default function PrivacyPage() {
 
       <main className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 3, 2026</p>
+        <p className="text-zinc-500 text-sm mb-10">Last updated: March 4, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
@@ -81,33 +81,56 @@ export default function PrivacyPage() {
               <li>To allow AI agents to remember your preferences (agent memory)</li>
               <li>To improve the Service (aggregated, anonymized usage statistics only)</li>
               <li>To respond to your support inquiries and feedback</li>
+              <li>To personalize your experience, including the display of contextually relevant content and advertisements on ad-supported tiers</li>
+              <li>To generate anonymized, aggregated interest segments based on usage patterns for service optimization and advertising relevance</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">6. What We Do NOT Do</h2>
+            <h2 className="text-lg font-semibold text-white">6. Advertising and Sponsored Content</h2>
+            <p>
+              Stone AI offers both ad-supported and ad-free subscription tiers. On ad-supported tiers (including the
+              Free tier), the Service may display contextual advertisements and sponsored content. These ads are
+              selected based on anonymized interest categories derived from your usage of the Service, such as
+              conversation topics, agent categories used, and general engagement patterns.
+            </p>
+            <p>
+              We do not sell personally identifiable information (PII) to advertisers. Advertising partners may
+              receive anonymized, aggregated audience segment data to deliver relevant ads. Paid subscription tiers
+              receive an ad-free experience. By using the Service, you consent to the display of advertisements on
+              ad-supported tiers as described in this policy.
+            </p>
+            <p>
+              We may use third-party advertising services (such as Google AdSense) to serve ads. These services
+              may use cookies and similar technologies as described in their own privacy policies.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">7. What We Do NOT Do</h2>
             <ul className="list-disc pl-6 space-y-1 text-zinc-400">
-              <li>We do NOT sell your data to third parties</li>
+              <li>We do NOT sell your personally identifiable information to third parties</li>
               <li>We do NOT use your conversations to train AI models</li>
-              <li>We do NOT share your data with advertisers</li>
+              <li>We do NOT share your conversation content with advertisers</li>
               <li>We do NOT track you across other websites</li>
               <li>We do NOT store your payment card details (Stripe handles this)</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">7. Third-Party Services</h2>
+            <h2 className="text-lg font-semibold text-white">8. Third-Party Services</h2>
             <p>We use the following third-party services:</p>
             <ul className="list-disc pl-6 space-y-1 text-zinc-400">
               <li><strong className="text-zinc-300">Clerk</strong> — authentication and user management</li>
               <li><strong className="text-zinc-300">Stripe</strong> — payment processing and subscription billing</li>
               <li><strong className="text-zinc-300">OpenAI</strong> — cloud AI inference (Smart mode only, Smart and Pro tiers)</li>
+              <li><strong className="text-zinc-300">Google AdSense</strong> — contextual advertising on ad-supported tiers</li>
             </ul>
             <p>Each service has its own privacy policy. We recommend reviewing them.</p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">8. Data Retention</h2>
+            <h2 className="text-lg font-semibold text-white">9. Data Retention</h2>
             <p>
               Conversation data is retained as long as your account is active. You can delete individual
               conversations at any time. Forum posts remain visible unless deleted by you or a moderator.
@@ -117,7 +140,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">9. Your Rights</h2>
+            <h2 className="text-lg font-semibold text-white">10. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc pl-6 space-y-1 text-zinc-400">
               <li>Access your data (available in Settings and through conversation export)</li>
@@ -130,15 +153,18 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">10. Cookies</h2>
+            <h2 className="text-lg font-semibold text-white">11. Cookies and Tracking Technologies</h2>
             <p>
-              We use only essential cookies required for authentication and session management (provided by
-              Clerk). We do not use advertising cookies, analytics cookies, or third-party tracking cookies.
+              We use essential cookies required for authentication and session management (provided by Clerk).
+              On ad-supported tiers, third-party advertising services may set additional cookies to deliver
+              relevant advertisements and measure ad performance. These cookies help ensure you see content
+              that is relevant to your interests. For details on third-party cookies, please refer to the
+              respective privacy policies of our advertising partners.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">11. Children's Privacy</h2>
+            <h2 className="text-lg font-semibold text-white">12. Children's Privacy</h2>
             <p>
               Stone AI is not intended for users under 18 years of age. We do not knowingly collect data
               from minors. If we learn that we have collected data from a minor, we will delete it promptly.
@@ -146,7 +172,19 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">12. Changes to This Policy</h2>
+            <h2 className="text-lg font-semibold text-white">13. California Privacy Rights (CCPA)</h2>
+            <p>
+              If you are a California resident, you have the right to request disclosure of the categories of
+              personal information we collect, the purposes for which it is used, and the categories of third
+              parties with whom it is shared. You may also request deletion of your personal information and
+              opt out of the sale or sharing of personal information. To exercise these rights, visit the
+              Privacy Choices section in your account Settings or contact us at support@stone-ai.net. We will
+              respond to verified requests within 45 days.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">14. Changes to This Policy</h2>
             <p>
               We may update this privacy policy from time to time. Material changes will be communicated
               via email at least 14 days before taking effect. The "last updated" date at the top of this
@@ -155,7 +193,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">13. Contact</h2>
+            <h2 className="text-lg font-semibold text-white">15. Contact</h2>
             <p>
               For privacy-related questions or data requests, contact us at support@stone-ai.net.
             </p>

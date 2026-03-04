@@ -401,6 +401,9 @@ export function SettingsClient({
       {/* Referral Program */}
       <ReferralCard />
 
+      {/* Privacy Choices (CCPA Compliance) */}
+      <PrivacyChoicesCard />
+
       {/* Security */}
       <Card className="bg-zinc-900 border-zinc-800">
         <CardHeader className="pb-3">
@@ -567,6 +570,69 @@ function ReferralCard() {
             Unable to load referral data. Please try again later.
           </p>
         )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ─── Privacy Choices (CCPA Compliance) ───────────────────
+
+function PrivacyChoicesCard() {
+  const [optedOut, setOptedOut] = useState(false);
+
+  useEffect(() => {
+    setOptedOut(localStorage.getItem("stone_ccpa_optout") === "true");
+  }, []);
+
+  function handleOptOut() {
+    localStorage.setItem("stone_ccpa_optout", "true");
+    setOptedOut(true);
+  }
+
+  function handleOptIn() {
+    localStorage.removeItem("stone_ccpa_optout");
+    setOptedOut(false);
+  }
+
+  return (
+    <Card className="bg-zinc-900 border-zinc-800">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-zinc-300 text-sm font-medium flex items-center gap-2">
+          <Shield className="h-4 w-4" />
+          Privacy Choices
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3 text-sm text-zinc-400">
+        <p>
+          We use anonymized interest segments to display relevant content on ad-supported tiers.
+          Your conversation content is never shared with advertisers.
+        </p>
+        <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg p-3">
+          <div>
+            <p className="text-zinc-300 font-medium">Personalized Ads</p>
+            <p className="text-xs text-zinc-500">
+              {optedOut
+                ? "You have opted out of personalized advertising."
+                : "Contextual ads based on usage patterns."}
+            </p>
+          </div>
+          {optedOut ? (
+            <Button size="sm" variant="outline" onClick={handleOptIn} className="text-xs">
+              Opt Back In
+            </Button>
+          ) : (
+            <Button size="sm" variant="outline" onClick={handleOptOut} className="text-xs text-zinc-500">
+              Do Not Sell My Info
+            </Button>
+          )}
+        </div>
+        <p className="text-xs text-zinc-600">
+          Under the California Consumer Privacy Act (CCPA), you have the right to opt out of the
+          sale or sharing of personal information.{" "}
+          <a href="/privacy" className="text-zinc-500 hover:text-zinc-400 underline">
+            Read our Privacy Policy
+          </a>
+        </p>
       </CardContent>
     </Card>
   );

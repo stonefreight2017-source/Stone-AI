@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
 import { TierBadge } from "@/components/billing/TierBadge";
+import { TierGatedAd } from "@/components/ads/TierGatedAd";
 import { useCreateConversation } from "@/hooks/use-conversations";
 import { useAppStore } from "@/store/app-store";
 import { useQuery } from "@tanstack/react-query";
@@ -145,6 +146,9 @@ export function Sidebar({ userTier }: SidebarProps) {
           <HelpCircle className="h-4 w-4" />
           Help & Support
         </Button>
+
+        {/* Ad slot for free-tier users */}
+        <TierGatedAd tier={userTier} slot="sidebar" className="mx-2 my-2" />
 
         <Separator className="bg-zinc-800 my-2" />
 
