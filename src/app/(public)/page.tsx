@@ -38,6 +38,7 @@ interface PricingTier {
   price: number;
   priceDisplay: string;
   popular: boolean;
+  enterprise?: boolean;
   features: PricingFeature[];
 }
 
@@ -116,6 +117,24 @@ const PRICING_FEATURES: PricingTier[] = [
       { text: "Priority inference queue", highlight: true },
       { text: "100x Free plan capacity" },
       { text: "10 concurrent chats + 32K responses" },
+    ],
+  },
+  {
+    key: "ENTERPRISE",
+    name: "Enterprise",
+    tagline: "Dedicated infrastructure for teams",
+    price: 500,
+    priceDisplay: "From $500",
+    popular: false,
+    enterprise: true,
+    features: [
+      { text: "Everything in Pro" },
+      { text: "Multiple seats & API keys", highlight: true },
+      { text: "Dedicated inference priority", highlight: true },
+      { text: "99.9% uptime SLA", highlight: true },
+      { text: "SSO/SAML + audit logging" },
+      { text: "50K+ requests/day + custom limits" },
+      { text: "Dedicated support channel" },
     ],
   },
 ];
@@ -396,17 +415,22 @@ export default function LandingPage() {
           Start free, scale when you're ready. Cancel anytime.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {(PRICING_FEATURES as PricingTier[]).map((tier) => (
             <Card
               key={tier.key}
               className={`bg-zinc-900 border-zinc-800 p-5 flex flex-col relative ${
                 tier.popular ? "ring-2 ring-purple-500" : ""
-              }`}
+              } ${tier.enterprise ? "ring-2 ring-emerald-500" : ""}`}
             >
               {tier.popular && (
                 <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px]">
                   <Star className="h-3 w-3 mr-1" /> Most Popular
+                </Badge>
+              )}
+              {tier.enterprise && (
+                <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[10px]">
+                  Teams & Business
                 </Badge>
               )}
               <h3 className="font-semibold text-lg mb-1">{tier.name}</h3>
@@ -439,11 +463,13 @@ export default function LandingPage() {
                 className={
                   tier.popular
                     ? "bg-purple-600 hover:bg-purple-500 w-full"
+                    : tier.enterprise
+                    ? "border-emerald-700 text-emerald-400 hover:bg-emerald-900/30 w-full"
                     : "border-zinc-700 w-full"
                 }
               >
-                <Link href="/sign-up">
-                  {tier.price === 0 ? "Start Free" : "Get Started"}
+                <Link href={tier.enterprise ? "/app/support" : "/sign-up"}>
+                  {tier.price === 0 ? "Start Free" : tier.enterprise ? "Contact Sales" : "Get Started"}
                 </Link>
               </Button>
             </Card>

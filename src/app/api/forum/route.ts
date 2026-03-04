@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { sanitizeUserInput } from "@/lib/security";
+import { checkContentModeration, getViolationTitle, POLICY_VIOLATION_MESSAGE } from "@/lib/content-moderation";
 import { z } from "zod";
 
 // GET /api/forum — list posts with pagination + filtering
@@ -99,6 +100,29 @@ export async function POST(req: NextRequest) {
     const title = sanitizeUserInput(parsed.data.title);
     const content = sanitizeUserInput(parsed.data.content);
     const { category } = parsed.data;
+
+    // Content moderation — check title and content for abuse
+    const titleCheck = checkContentModeration(title);
+    const contentCheck = checkContentModeration(content);
+    const violation = titleCheck.flagged ? titleCheck : contentCheck.flagged ? contentCheck : null;
+
+    if (violation) {
+      // Auto-notify the user with policy explanation
+      await db.notification.create({
+        data: {
+          userId: user.id,
+          type: "content_violation",
+          title: getViolationTitle(violation.severity!),
+          body: POLICY_VIOLATION_MESSAGE,
+          href: "/app/community",
+        },
+      });
+
+      return NextResponse.json(
+        { error: "Your post was flagged for violating community guidelines. Please review our policies — a notification has been sent to your account." },
+        { status: 403 }
+      );
+    }
 
     const post = await db.forumPost.create({
       data: {

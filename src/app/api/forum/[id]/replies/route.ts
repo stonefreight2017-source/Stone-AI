@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { sanitizeUserInput } from "@/lib/security";
+import { checkContentModeration, getViolationTitle, POLICY_VIOLATION_MESSAGE } from "@/lib/content-moderation";
 import { z } from "zod";
 
 const replySchema = z.object({
@@ -46,11 +47,33 @@ export async function POST(
       );
     }
 
+    const sanitizedContent = sanitizeUserInput(parsed.data.content);
+
+    // Content moderation — check for abuse before creating
+    const modCheck = checkContentModeration(sanitizedContent);
+    if (modCheck.flagged) {
+      // Auto-notify the user with policy explanation
+      await db.notification.create({
+        data: {
+          userId: user.id,
+          type: "content_violation",
+          title: getViolationTitle(modCheck.severity!),
+          body: POLICY_VIOLATION_MESSAGE,
+          href: "/app/community",
+        },
+      });
+
+      return NextResponse.json(
+        { error: "Your reply was flagged for violating community guidelines. Please review our policies — a notification has been sent to your account." },
+        { status: 403 }
+      );
+    }
+
     const reply = await db.forumReply.create({
       data: {
         postId: id,
         userId: user.id,
-        content: sanitizeUserInput(parsed.data.content),
+        content: sanitizedContent,
       },
       include: {
         user: { select: { id: true, name: true, tier: true } },
