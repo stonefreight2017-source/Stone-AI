@@ -9,6 +9,7 @@ const isPublicRoute = createRouteMatcher([
   "/privacy",
   "/acceptable-use",
   "/refund",
+  "/reseller-agreement",
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/stripe/webhook",

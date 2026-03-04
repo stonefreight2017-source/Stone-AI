@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
-import { Plus, Settings, CreditCard, PanelLeftClose, Bot, Users, HelpCircle, Bell, Gift, Sparkles, Heart } from "lucide-react";
+import { Plus, Settings, CreditCard, PanelLeftClose, Bot, Users, HelpCircle, Bell, Sparkles, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";

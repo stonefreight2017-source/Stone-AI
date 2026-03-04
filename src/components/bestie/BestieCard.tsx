@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MessageCircle, Pencil, Trash2, Loader2 } from "lucide-react";
+import { MessageCircle, Trash2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -88,15 +88,6 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
             </div>
           </div>
           <div className="flex gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-zinc-500 hover:text-pink-400"
-              onClick={() => router.push(`/app/bestie/edit/${bestie.id}`)}
-              aria-label="Edit bestie"
-            >
-              <Pencil className="h-3.5 w-3.5" />
-            </Button>
             <Button
               variant="ghost"
               size="icon"

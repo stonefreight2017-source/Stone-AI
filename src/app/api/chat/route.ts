@@ -67,6 +67,21 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Invalid JSON" }, { status: 400 });
     }
 
+    // AI SDK v6 TextStreamChatTransport sends { messages: [...] } not { message: string }
+    // Extract the last user message text for Zod validation
+    const b = body as Record<string, unknown>;
+    if (typeof b.message !== "string" && Array.isArray(b.messages)) {
+      const lastUserMsg = [...b.messages].reverse().find((m: { role?: string }) => m.role === "user");
+      if (lastUserMsg) {
+        const msg = lastUserMsg as { parts?: { type: string; text: string }[]; content?: string };
+        if (Array.isArray(msg.parts)) {
+          b.message = msg.parts.filter((p) => p.type === "text").map((p) => p.text).join("");
+        } else if (typeof msg.content === "string") {
+          b.message = msg.content;
+        }
+      }
+    }
+
     const parsed = chatMessageSchema.safeParse(body);
     if (!parsed.success) {
       return Response.json({ error: "Invalid input" }, { status: 400 });

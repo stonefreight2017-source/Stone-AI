@@ -1,5 +1,5 @@
 import { wrapSystemPrompt } from "@/lib/security";
-import { buildMemoryContext } from "@/lib/agent-memory";
+import { buildBestieMemoryContext } from "@/lib/bestie-memory";
 import type { BestieTrait, BestieStyle, BestieExpertise } from "@/lib/bestie-validators";
 
 interface BestiePersonality {
@@ -94,7 +94,7 @@ BEHAVIORAL RULES:
 10. Be proactive — suggest activities, check in on things they mentioned, remember important dates they share.`;
 
   // Inject persistent bestie memory
-  const memoryContext = await buildMemoryContext(profile.id, userId);
+  const memoryContext = await buildBestieMemoryContext(profile.id, userId);
   if (memoryContext) {
     basePrompt += memoryContext;
   }

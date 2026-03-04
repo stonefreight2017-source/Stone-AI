@@ -29,7 +29,8 @@ import { checkQuota, incrementDailyUsage, recordTokenUsage } from "@/lib/quota";
 import { getModel } from "@/lib/ai";
 import { buildBestiePrompt } from "@/lib/bestie-prompt";
 import { sanitizeUserInput } from "@/lib/security";
-import { buildMemoryExtractionPrompt, storeExtractedMemories } from "@/lib/agent-memory";
+import { buildMemoryExtractionPrompt } from "@/lib/agent-memory";
+import { storeBestieMemories } from "@/lib/bestie-memory";
 import type { Tier } from "@/lib/tier-config";
 import type { Role, Mode } from "@/generated/prisma/enums";
 
@@ -49,6 +50,20 @@ export async function POST(req: NextRequest) {
       body = await req.json();
     } catch {
       return Response.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
+    // AI SDK v6 TextStreamChatTransport sends { messages: [...] } not { message: string }
+    const b = body as Record<string, unknown>;
+    if (typeof b.message !== "string" && Array.isArray(b.messages)) {
+      const lastUserMsg = [...b.messages].reverse().find((m: { role?: string }) => m.role === "user");
+      if (lastUserMsg) {
+        const msg = lastUserMsg as { parts?: { type: string; text: string }[]; content?: string };
+        if (Array.isArray(msg.parts)) {
+          b.message = msg.parts.filter((p) => p.type === "text").map((p) => p.text).join("");
+        } else if (typeof msg.content === "string") {
+          b.message = msg.content;
+        }
+      }
     }
 
     const parsed = bestieChatSchema.safeParse(body);
@@ -309,7 +324,7 @@ async function extractBestieMemory(
       if (jsonMatch) {
         const sanitized = sanitizeExtractedMemories(jsonMatch[0]);
         if (sanitized) {
-          await storeExtractedMemories(bestieId, userId, sanitized);
+          await storeBestieMemories(bestieId, userId, sanitized);
         }
       }
     }

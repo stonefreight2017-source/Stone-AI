@@ -59,6 +59,7 @@ model User {
   upgradeOffers  UpgradeOffer[]
   apiKeys        ApiKey[]
   agentMemories  AgentMemory[]
+  bestieMemories BestieMemory[]
   forumPosts     ForumPost[]
   forumReplies   ForumReply[]
   forumLikes     ForumLike[]
@@ -411,7 +412,24 @@ model BestieProfile {
 
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   conversations Conversation[]
+  memories      BestieMemory[]
 
   @@unique([userId, name])
   @@index([userId])
+}
+
+model BestieMemory {
+  id        String   @id @default(cuid())
+  bestieId  String
+  userId    String
+  key       String
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bestie BestieProfile @relation(fields: [bestieId], references: [id], onDelete: Cascade)
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([bestieId, userId, key])
+  @@index([bestieId, userId])
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, Star, Crown, ArrowRight, Zap, Building2 } from "lucide-react";
+import { Check, Star, Crown, ArrowRight, Building2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

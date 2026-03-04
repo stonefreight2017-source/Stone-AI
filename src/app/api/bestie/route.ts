@@ -18,20 +18,8 @@ import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { createBestieSchema, updateBestieSchema } from "@/lib/bestie-validators";
 import { checkRateLimit } from "@/lib/rate-limiter";
-import { getTierConfig } from "@/lib/tier-config";
+import { getTierConfig, getMaxBesties } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
-
-const MAX_BESTIES: Record<string, number> = {
-  FREE: 1,
-  STARTER: 1,
-  PLUS: 2,
-  SMART: 3,
-  PRO: 5,
-};
-
-function getMaxBesties(tier: string): number {
-  return MAX_BESTIES[tier] ?? 1;
-}
 
 // GET — List user's besties
 export async function GET() {
@@ -59,7 +47,7 @@ export async function GET() {
         createdAt: b.createdAt,
         updatedAt: b.updatedAt,
       })),
-      maxBesties: getMaxBesties(user.tier),
+      maxBesties: getMaxBesties(user.tier as Tier),
       tier: user.tier,
     });
   } catch (error) {
