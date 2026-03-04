@@ -12,11 +12,25 @@ export async function GET(
     const post = await db.forumPost.findUnique({
       where: { id },
       include: {
-        user: { select: { id: true, name: true, tier: true } },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            tier: true,
+            _count: { select: { forumPosts: true } },
+          },
+        },
         replies: {
           orderBy: { createdAt: "asc" },
           include: {
-            user: { select: { id: true, name: true, tier: true } },
+            user: {
+              select: {
+                id: true,
+                name: true,
+                tier: true,
+                _count: { select: { forumPosts: true } },
+              },
+            },
           },
         },
         likedBy: {
@@ -43,6 +57,7 @@ export async function GET(
           id: post.user.id,
           name: post.user.name || "Anonymous",
           tier: post.user.tier,
+          postCount: post.user._count.forumPosts,
         },
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
@@ -54,6 +69,7 @@ export async function GET(
             id: r.user.id,
             name: r.user.name || "Anonymous",
             tier: r.user.tier,
+            postCount: r.user._count.forumPosts,
           },
           createdAt: r.createdAt,
         })),

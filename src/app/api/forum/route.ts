@@ -27,18 +27,27 @@ export async function GET(req: NextRequest) {
       orderBy = [{ pinned: "desc" }, { createdAt: "desc" }];
     }
 
-    const [posts, total] = await Promise.all([
+    const [posts, total, totalMembers, proMembers] = await Promise.all([
       db.forumPost.findMany({
         where,
         orderBy,
         skip: (page - 1) * limit,
         take: limit,
         include: {
-          user: { select: { id: true, name: true, tier: true } },
+          user: {
+            select: {
+              id: true,
+              name: true,
+              tier: true,
+              _count: { select: { forumPosts: true } },
+            },
+          },
           _count: { select: { replies: true, likedBy: true } },
         },
       }),
       db.forumPost.count({ where }),
+      db.user.count({ where: { forumPosts: { some: {} } } }),
+      db.user.count({ where: { tier: "PRO", forumPosts: { some: {} } } }),
     ]);
 
     return NextResponse.json({
@@ -55,10 +64,16 @@ export async function GET(req: NextRequest) {
           id: p.user.id,
           name: p.user.name || "Anonymous",
           tier: p.user.tier,
+          postCount: p.user._count.forumPosts,
         },
         createdAt: p.createdAt,
         updatedAt: p.updatedAt,
       })),
+      communityStats: {
+        totalDiscussions: total,
+        totalMembers,
+        proMembers,
+      },
       pagination: {
         page,
         limit,

@@ -14,6 +14,9 @@ import {
   Clock,
   TrendingUp,
   Users,
+  Crown,
+  Flame,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,6 +27,13 @@ interface Author {
   id: string;
   name: string;
   tier: string;
+  postCount?: number;
+}
+
+interface CommunityStats {
+  totalDiscussions: number;
+  totalMembers: number;
+  proMembers: number;
 }
 
 interface PostSummary {
@@ -59,6 +69,32 @@ interface Pagination {
   totalPages: number;
 }
 
+// Rank system based on post + reply activity
+interface Rank {
+  min: number;
+  label: string;
+  color: string;
+  icon: typeof Crown | typeof Flame | typeof Star | null;
+}
+
+const RANKS: Rank[] = [
+  { min: 0,   label: "Newcomer",    color: "text-zinc-400",   icon: null },
+  { min: 1,   label: "Member",      color: "text-zinc-300",   icon: null },
+  { min: 5,   label: "Contributor", color: "text-blue-400",   icon: null },
+  { min: 15,  label: "Regular",     color: "text-indigo-400", icon: null },
+  { min: 30,  label: "Veteran",     color: "text-purple-400", icon: Star },
+  { min: 50,  label: "Expert",      color: "text-amber-400",  icon: Flame },
+  { min: 100, label: "Legend",       color: "text-amber-300",  icon: Crown },
+];
+
+function getRank(postCount: number): Rank {
+  let rank = RANKS[0];
+  for (const r of RANKS) {
+    if (postCount >= r.min) rank = r;
+  }
+  return rank;
+}
+
 const CATEGORIES = [
   { key: "ALL", label: "All Posts", color: "bg-zinc-700" },
   { key: "GENERAL", label: "General", color: "bg-blue-900" },
@@ -84,6 +120,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState("ALL");
   const [sort, setSort] = useState("newest");
+  const [stats, setStats] = useState<CommunityStats | null>(null);
 
   // Create form
   const [newTitle, setNewTitle] = useState("");
@@ -94,6 +131,21 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
   // Reply form
   const [replyContent, setReplyContent] = useState("");
   const [replying, setReplying] = useState(false);
+
+  // Derive top contributors from loaded posts
+  const topContributors = Object.values(
+    posts.reduce<Record<string, { name: string; tier: string; count: number }>>((acc, p) => {
+      if (!acc[p.author.id]) acc[p.author.id] = { name: p.author.name, tier: p.author.tier, count: 0 };
+      acc[p.author.id].count++;
+      return acc;
+    }, {})
+  )
+    .sort((a, b) => {
+      if (a.tier === "PRO" && b.tier !== "PRO") return -1;
+      if (b.tier === "PRO" && a.tier !== "PRO") return 1;
+      return b.count - a.count;
+    })
+    .slice(0, 5);
 
   const loadPosts = useCallback(async (page = 1) => {
     setLoading(true);
@@ -108,6 +160,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
       const data = await res.json();
       setPosts(data.posts);
       setPagination(data.pagination);
+      if (data.communityStats) setStats(data.communityStats);
     } catch {
       // silent
     } finally {
@@ -357,11 +410,16 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
 
             <div className="flex items-center gap-3 text-sm">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-zinc-700 flex items-center justify-center text-xs font-medium text-white">
+                <div className={`h-8 w-8 rounded-full flex items-center justify-center text-xs font-medium ${
+                  selectedPost.author.tier === "PRO" ? "bg-amber-500/20 text-amber-400" : "bg-zinc-700 text-white"
+                }`}>
                   {selectedPost.author.name.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-zinc-300 font-medium">{selectedPost.author.name}</span>
                 <TierBadge tier={selectedPost.author.tier} />
+                {selectedPost.author.postCount != null && (
+                  <RankBadge postCount={selectedPost.author.postCount} />
+                )}
               </div>
               <span className="text-zinc-600">·</span>
               <span className="text-zinc-500 flex items-center gap-1">
@@ -402,11 +460,16 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
             <Card key={reply.id} className="bg-zinc-900/50 border-zinc-800">
               <CardContent className="pt-4 pb-3 space-y-2">
                 <div className="flex items-center gap-2 text-sm">
-                  <div className="h-6 w-6 rounded-full bg-zinc-700 flex items-center justify-center text-[10px] font-medium text-white">
+                  <div className={`h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-medium ${
+                    reply.author.tier === "PRO" ? "bg-amber-500/20 text-amber-400" : "bg-zinc-700 text-white"
+                  }`}>
                     {reply.author.name.charAt(0).toUpperCase()}
                   </div>
                   <span className="text-zinc-300 font-medium text-sm">{reply.author.name}</span>
                   <TierBadge tier={reply.author.tier} />
+                  {reply.author.postCount != null && (
+                    <RankBadge postCount={reply.author.postCount} />
+                  )}
                   <span className="text-zinc-600 text-xs">{timeAgo(reply.createdAt)}</span>
                 </div>
                 <p className="text-zinc-300 text-sm whitespace-pre-wrap leading-relaxed pl-8">
@@ -459,6 +522,17 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
     );
   }
 
+  function RankBadge({ postCount }: { postCount: number }) {
+    const rank = getRank(postCount);
+    const Icon = rank.icon;
+    return (
+      <span className={`inline-flex items-center gap-0.5 text-[10px] font-medium ${rank.color}`}>
+        {Icon && <Icon className="h-2.5 w-2.5" />}
+        {rank.label}
+      </span>
+    );
+  }
+
   // --- LIST VIEW ---
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
@@ -478,6 +552,46 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
           New Post
         </Button>
       </div>
+
+      {/* Social Proof Stats Bar */}
+      {stats && (
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center">
+            <p className="text-lg font-bold text-white">{stats.totalDiscussions}</p>
+            <p className="text-xs text-zinc-500">Discussions</p>
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center">
+            <p className="text-lg font-bold text-white">{stats.totalMembers}</p>
+            <p className="text-xs text-zinc-500">Active Members</p>
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center">
+            <p className="text-lg font-bold text-amber-400 flex items-center justify-center gap-1">
+              <Crown className="h-4 w-4" /> {stats.proMembers}
+            </p>
+            <p className="text-xs text-zinc-500">PRO Members</p>
+          </div>
+        </div>
+      )}
+
+      {/* Top Contributors */}
+      {topContributors.length > 0 && (
+        <div className="flex items-center gap-3 overflow-x-auto pb-1">
+          <span className="text-xs text-zinc-500 shrink-0 flex items-center gap-1">
+            <Flame className="h-3 w-3 text-amber-400" /> Top contributors:
+          </span>
+          {topContributors.map((c, i) => (
+            <div key={i} className="flex items-center gap-1.5 shrink-0">
+              <div className={`h-5 w-5 rounded-full flex items-center justify-center text-[9px] font-bold ${
+                c.tier === "PRO" ? "bg-amber-500/20 text-amber-400" : "bg-zinc-700 text-white"
+              }`}>
+                {c.name.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-xs text-zinc-300">{c.name}</span>
+              <TierBadge tier={c.tier} />
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -538,46 +652,60 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
         </Card>
       ) : (
         <div className="space-y-2">
-          {posts.map((post) => (
-            <Card
-              key={post.id}
-              className="bg-zinc-900 border-zinc-800 hover:border-zinc-700 transition-colors cursor-pointer"
-              onClick={() => loadPost(post.id)}
-            >
-              <CardContent className="py-4 px-5">
-                <div className="flex items-start gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      {getCategoryBadge(post.category)}
-                      {post.pinned && <Pin className="h-3 w-3 text-amber-400" />}
-                      {post.locked && <Lock className="h-3 w-3 text-red-400" />}
+          {posts.map((post) => {
+            const isPro = post.author.tier === "PRO";
+            return (
+              <Card
+                key={post.id}
+                className={`bg-zinc-900 hover:border-zinc-700 transition-colors cursor-pointer ${
+                  isPro
+                    ? "border-l-amber-500/60 border-l-2 border-zinc-800"
+                    : "border-zinc-800"
+                }`}
+                onClick={() => loadPost(post.id)}
+              >
+                <CardContent className="py-4 px-5">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        {getCategoryBadge(post.category)}
+                        {post.pinned && <Pin className="h-3 w-3 text-amber-400" />}
+                        {post.locked && <Lock className="h-3 w-3 text-red-400" />}
+                      </div>
+                      <h3 className="font-semibold text-white truncate">{post.title}</h3>
+                      <p className="text-zinc-500 text-sm mt-1 line-clamp-2">{post.content}</p>
+                      <div className="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+                        <span className="flex items-center gap-1.5">
+                          <div className={`h-5 w-5 rounded-full flex items-center justify-center text-[9px] font-bold ${
+                            isPro ? "bg-amber-500/20 text-amber-400" : "bg-zinc-700 text-white"
+                          }`}>
+                            {post.author.name.charAt(0).toUpperCase()}
+                          </div>
+                          <span className="text-zinc-300">{post.author.name}</span>
+                        </span>
+                        <TierBadge tier={post.author.tier} />
+                        {post.author.postCount != null && (
+                          <RankBadge postCount={post.author.postCount} />
+                        )}
+                        <span className="text-zinc-600">·</span>
+                        <span>{timeAgo(post.createdAt)}</span>
+                      </div>
                     </div>
-                    <h3 className="font-semibold text-white truncate">{post.title}</h3>
-                    <p className="text-zinc-500 text-sm mt-1 line-clamp-2">{post.content}</p>
-                    <div className="flex items-center gap-3 mt-2 text-xs text-zinc-500">
-                      <span className="flex items-center gap-1">
-                        <div className="h-4 w-4 rounded-full bg-zinc-700 flex items-center justify-center text-[8px] font-medium">
-                          {post.author.name.charAt(0).toUpperCase()}
-                        </div>
-                        {post.author.name}
-                      </span>
-                      <span>{timeAgo(post.createdAt)}</span>
+                    <div className="flex flex-col items-center gap-2 shrink-0">
+                      <div className="flex items-center gap-1 text-zinc-500 text-sm">
+                        <ThumbsUp className="h-3.5 w-3.5" />
+                        {post.likes}
+                      </div>
+                      <div className="flex items-center gap-1 text-zinc-500 text-sm">
+                        <MessageSquare className="h-3.5 w-3.5" />
+                        {post.replyCount}
+                      </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-center gap-2 shrink-0">
-                    <div className="flex items-center gap-1 text-zinc-500 text-sm">
-                      <ThumbsUp className="h-3.5 w-3.5" />
-                      {post.likes}
-                    </div>
-                    <div className="flex items-center gap-1 text-zinc-500 text-sm">
-                      <MessageSquare className="h-3.5 w-3.5" />
-                      {post.replyCount}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
 
           {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
