@@ -19,6 +19,7 @@ import {
   MessageSquare,
   Rocket,
   Target,
+  Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -233,7 +234,7 @@ export default function LandingPage() {
             ))}
           </div>
           <p className="text-[10px] text-zinc-600 mt-3 text-center">
-            Average first-token latency. Cloud providers measured via public API. Stone AI™ measured on RTX 5090.
+            Typical first-token latency based on internal benchmarks. Cloud provider estimates reflect publicly available API performance data and may vary. Stone AI™ local inference benchmarked on NVIDIA RTX 5090. Actual performance depends on hardware, network conditions, and query complexity.
           </p>
         </Card>
       </section>
@@ -796,15 +797,68 @@ export default function LandingPage() {
           </div>
         </Card>
 
+        {/* Reseller success agents */}
+        <Card className="bg-zinc-900 border-zinc-800 p-6 md:p-8 mb-10">
+          <h3 className="text-lg font-bold mb-2">
+            Your reselling business comes with AI support
+          </h3>
+          <p className="text-xs text-zinc-400 mb-4">
+            Pro subscribers get access to agents that help you build, market, and scale your reselling operation — plug and play.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {[
+              { agent: "Sales Agent", help: "Find clients, write proposals, close deals" },
+              { agent: "Copywriting Agent", help: "Write landing pages, ads, and email sequences" },
+              { agent: "Business Plan Agent", help: "Structure your reselling business from day one" },
+              { agent: "High-Ticket Funnel Agent", help: "Build sales funnels that convert" },
+              { agent: "Social Media Agent", help: "Market your AI services across platforms" },
+              { agent: "Compliance Agent", help: "Draft contracts and stay legally protected" },
+            ].map((item) => (
+              <div key={item.agent} className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50">
+                <span className="text-sm font-medium text-amber-400">{item.agent}</span>
+                <p className="text-xs text-zinc-400 mt-1">{item.help}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+
         <div className="text-center">
           <p className="text-sm text-zinc-400 mb-4">
-            API access is included with the Pro plan ($199/mo). No additional fees.
+            API access is included with the Pro plan ($199/mo). No additional fees. Businesses needing enhanced security or dedicated endpoints — Enterprise plans start at $500/mo.
           </p>
           <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-500 text-lg px-8">
             <Link href="/sign-up">
               Get API Access <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
+        </div>
+      </section>
+
+      {/* Get Best AI App */}
+      <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 to-zinc-900 border-t border-zinc-800">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-4">
+            Take Stone AI™ everywhere.
+          </h2>
+          <p className="text-zinc-400 max-w-xl mx-auto mb-3">
+            Download <span className="text-amber-400 font-semibold">Best AI™</span> — the mobile companion app with all 30 agents, your personal AI bestie, and everything you need to plan, start, and run your business from your phone.
+          </p>
+          <p className="text-zinc-500 text-sm mb-8">
+            Your subscription works on both platforms. One account, everywhere.
+          </p>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <Button size="lg" className="bg-white text-black hover:bg-zinc-200 gap-2 px-6">
+              <Smartphone className="h-5 w-5" />
+              App Store
+            </Button>
+            <Button size="lg" className="bg-white text-black hover:bg-zinc-200 gap-2 px-6">
+              <Smartphone className="h-5 w-5" />
+              Google Play
+            </Button>
+          </div>
+          <p className="text-[11px] text-zinc-600">
+            Available on iOS and Android. Free to download. Subscription unlocks premium features.
+          </p>
         </div>
       </section>
 
