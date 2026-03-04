@@ -1,0 +1,355 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Tier {
+  FREE
+  STARTER
+  PLUS
+  SMART
+  PRO
+}
+
+enum SubscriptionStatus {
+  INACTIVE
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+enum Role {
+  USER
+  ASSISTANT
+  SYSTEM
+}
+
+enum Mode {
+  LOCAL
+  SMART
+}
+
+model User {
+  id                   String             @id @default(cuid())
+  clerkId              String             @unique
+  email                String             @unique
+  name                 String?
+  tier                 Tier               @default(FREE)
+  banned               Boolean            @default(false)
+  stripeCustomerId     String?            @unique
+  stripeSubscriptionId String?            @unique
+  subscriptionStatus   SubscriptionStatus @default(INACTIVE)
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+
+  conversations Conversation[]
+  usageRecords  UsageRecord[]
+  dailyUsages   DailyUsage[]
+  upgradeOffers UpgradeOffer[]
+  apiKeys       ApiKey[]
+  agentMemories AgentMemory[]
+  forumPosts     ForumPost[]
+  forumReplies   ForumReply[]
+  forumLikes     ForumLike[]
+  feedbacks      Feedback[]
+  notifications  Notification[]
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  agentId   String?
+  title     String    @default("New Chat")
+  archived  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent    Agent?    @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  messages Message[]
+
+  @@index([userId, updatedAt])
+  @@index([agentId])
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  conversationId String
+  role           Role
+  content        String   @db.Text
+  model          String?
+  mode           Mode?
+  tokensIn       Int?
+  tokensOut      Int?
+  createdAt      DateTime @default(now())
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
+
+model UsageRecord {
+  id                String   @id @default(cuid())
+  userId            String
+  billingCycleStart DateTime
+  billingCycleEnd   DateTime
+  messagesSent      Int      @default(0)
+  tokensIn          Int      @default(0)
+  tokensOut         Int      @default(0)
+  localRequests     Int      @default(0)
+  smartRequests     Int      @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, billingCycleStart])
+  @@index([userId])
+}
+
+model DailyUsage {
+  id           String   @id @default(cuid())
+  userId       String
+  date         DateTime @db.Date
+  messagesSent Int      @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@index([userId, date])
+}
+
+model UpgradeOffer {
+  id             String    @id @default(cuid())
+  userId         String
+  currentTier    Tier
+  targetTier     Tier
+  discountPct    Int       @default(15)
+  stripeCouponId String?
+  expiresAt      DateTime
+  redeemedAt     DateTime?
+  triggeredBy    String
+  createdAt      DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, currentTier, targetTier])
+}
+
+model FeatureFlag {
+  id      String  @id @default(cuid())
+  key     String  @unique
+  enabled Boolean @default(true)
+
+  @@map("feature_flags")
+}
+
+model InviteCode {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  tier        Tier      @default(PRO)
+  maxUses     Int       @default(1)
+  usedCount   Int       @default(0)
+  expiresAt   DateTime?
+  createdBy   String
+  createdAt   DateTime  @default(now())
+
+  redemptions InviteRedemption[]
+
+  @@index([code])
+}
+
+model InviteRedemption {
+  id           String   @id @default(cuid())
+  inviteCodeId String
+  userId       String
+  previousTier Tier
+  newTier      Tier
+  redeemedAt   DateTime @default(now())
+
+  inviteCode InviteCode @relation(fields: [inviteCodeId], references: [id], onDelete: Cascade)
+
+  @@unique([inviteCodeId, userId])
+}
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String    @default("Default")
+  keyHash    String    @unique
+  keyPrefix  String
+  lastUsedAt DateTime?
+  createdAt  DateTime  @default(now())
+  revokedAt  DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([keyHash])
+}
+
+enum AgentCategory {
+  BUSINESS
+  CONTENT
+  MARKETING
+  EDUCATION
+  TECHNICAL
+  FINANCE
+}
+
+model Agent {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  name          String
+  description   String        @db.Text
+  category      AgentCategory
+  icon          String        @default("bot")
+  systemPrompt  String        @db.Text
+  requiredTier  Tier          @default(FREE)
+  isActive      Boolean       @default(true)
+  sortOrder     Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  knowledgeChunks AgentKnowledgeChunk[]
+  memories        AgentMemory[]
+  conversations   Conversation[]
+
+  @@index([category])
+  @@index([requiredTier])
+}
+
+model AgentKnowledgeChunk {
+  id        String   @id @default(cuid())
+  agentId   String
+  title     String
+  content   String   @db.Text
+  source    String?
+  embedding Unsupported("vector(768)")?
+  createdAt DateTime @default(now())
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@index([agentId])
+}
+
+model AgentMemory {
+  id        String   @id @default(cuid())
+  agentId   String
+  userId    String
+  key       String
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([agentId, userId, key])
+  @@index([agentId, userId])
+}
+
+// ═══════════════════════════════════════════
+// COMMUNITY FORUM
+// ═══════════════════════════════════════════
+
+enum ForumCategory {
+  GENERAL
+  TIPS
+  SHOWCASE
+  AGENTS
+  BUSINESS
+  TECHNICAL
+  FEEDBACK
+}
+
+model ForumPost {
+  id        String        @id @default(cuid())
+  userId    String
+  title     String
+  content   String        @db.Text
+  category  ForumCategory @default(GENERAL)
+  pinned    Boolean       @default(false)
+  locked    Boolean       @default(false)
+  likes     Int           @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replies ForumReply[]
+  likedBy ForumLike[]
+
+  @@index([category, createdAt(sort: Desc)])
+  @@index([userId])
+  @@index([pinned, createdAt(sort: Desc)])
+}
+
+model ForumReply {
+  id        String   @id @default(cuid())
+  postId    String
+  userId    String
+  content   String   @db.Text
+  likes     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId, createdAt])
+  @@index([userId])
+}
+
+model ForumLike {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  user User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post ForumPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+}
+
+// ═══════════════════════════════════════════
+// FEEDBACK & NOTIFICATIONS
+// ═══════════════════════════════════════════
+
+enum FeedbackType {
+  QUESTION
+  BUG
+  FEATURE
+}
+
+model Feedback {
+  id        String       @id @default(cuid())
+  userId    String
+  email     String
+  type      FeedbackType @default(QUESTION)
+  message   String       @db.Text
+  resolved  Boolean      @default(false)
+  adminNote String?      @db.Text
+  createdAt DateTime     @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([resolved, createdAt])
+  @@index([userId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  title     String
+  body      String
+  href      String?
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, read, createdAt(sort: Desc)])
+}

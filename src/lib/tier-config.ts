@@ -1,0 +1,193 @@
+import { Tier as PrismaTier, Mode as PrismaMode } from "@/generated/prisma/enums";
+
+// Re-export Prisma enums for convenience
+export const Tier = PrismaTier;
+export type Tier = PrismaTier;
+
+export const Mode = PrismaMode;
+export type Mode = PrismaMode;
+
+// Extended mode type that includes PRIORITY (not stored in DB, used for routing)
+export type RequestMode = "LOCAL" | "SMART" | "PRIORITY";
+
+export interface TierLimits {
+  messagesPerDay: number;
+  tokensPerMonth: number;
+  maxResponseTokens: number;
+  concurrentRequests: number;
+  requestsPerMinute: number;
+}
+
+export interface TierPerks {
+  contextMessages: number;   // How many past messages sent to model as context
+  autoRouting: boolean;       // Auto-pick best model per question
+  conversationExport: boolean;
+  priorityQueue: boolean;
+}
+
+export interface TierConfig {
+  name: string;
+  price: number;
+  stripePriceEnvKey: string | null;
+  limits: TierLimits;
+  perks: TierPerks;
+  allowedModes: RequestMode[];
+  priority: number;
+  cloudFallback: boolean;
+}
+
+export const TIER_CONFIG: Record<Tier, TierConfig> = {
+  FREE: {
+    name: "Free",
+    price: 0,
+    stripePriceEnvKey: null,
+    limits: {
+      messagesPerDay: 30,
+      tokensPerMonth: 100_000,
+      maxResponseTokens: 500,
+      concurrentRequests: 1,
+      requestsPerMinute: 2,
+    },
+    perks: {
+      contextMessages: 10,
+      autoRouting: false,
+      conversationExport: false,
+      priorityQueue: false,
+    },
+    allowedModes: ["LOCAL"],
+    priority: 0,
+    cloudFallback: false,
+  },
+  STARTER: {
+    name: "Starter",
+    price: 9.99,
+    stripePriceEnvKey: "STRIPE_PRICE_STARTER",
+    limits: {
+      messagesPerDay: 150,
+      tokensPerMonth: 2_000_000,
+      maxResponseTokens: 2_000,
+      concurrentRequests: 1,
+      requestsPerMinute: 8,
+    },
+    perks: {
+      contextMessages: 20,
+      autoRouting: false,
+      conversationExport: false,
+      priorityQueue: false,
+    },
+    allowedModes: ["LOCAL"],
+    priority: 1,
+    cloudFallback: false,
+  },
+  PLUS: {
+    name: "Plus",
+    price: 29.99,
+    stripePriceEnvKey: "STRIPE_PRICE_PLUS",
+    limits: {
+      messagesPerDay: 490,
+      tokensPerMonth: 9_800_000,
+      maxResponseTokens: 3_920,
+      concurrentRequests: 2,
+      requestsPerMinute: 15,
+    },
+    perks: {
+      contextMessages: 40,
+      autoRouting: false,
+      conversationExport: true,
+      priorityQueue: false,
+    },
+    allowedModes: ["LOCAL"],
+    priority: 2,
+    cloudFallback: false,
+  },
+  SMART: {
+    name: "Smart",
+    price: 69.99,
+    stripePriceEnvKey: "STRIPE_PRICE_SMART",
+    limits: {
+      messagesPerDay: 980,
+      tokensPerMonth: 29_400_000,
+      maxResponseTokens: 7_840,
+      concurrentRequests: 3,
+      requestsPerMinute: 29,
+    },
+    perks: {
+      contextMessages: 60,
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: false,
+    },
+    allowedModes: ["LOCAL", "SMART"],
+    priority: 3,
+    cloudFallback: true,
+  },
+  PRO: {
+    name: "Pro",
+    price: 199,
+    stripePriceEnvKey: "STRIPE_PRICE_PRO",
+    limits: {
+      messagesPerDay: 3_008,
+      tokensPerMonth: 100_200_000,
+      maxResponseTokens: 32_060,
+      concurrentRequests: 10,
+      requestsPerMinute: 60,
+    },
+    perks: {
+      contextMessages: 100,
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: true,
+    },
+    allowedModes: ["LOCAL", "SMART", "PRIORITY"],
+    priority: 4,
+    cloudFallback: true,
+  },
+} as const;
+
+// Ordered tier list for progression logic
+const TIER_ORDER: Tier[] = ["FREE", "STARTER", "PLUS", "SMART", "PRO"];
+
+export function getTierConfig(tier: Tier): TierConfig {
+  return TIER_CONFIG[tier];
+}
+
+export function getNextTier(tier: Tier): Tier | null {
+  const idx = TIER_ORDER.indexOf(tier);
+  if (idx === -1 || idx === TIER_ORDER.length - 1) return null;
+  return TIER_ORDER[idx + 1];
+}
+
+export function isModeAllowed(tier: Tier, mode: RequestMode): boolean {
+  return TIER_CONFIG[tier].allowedModes.includes(mode);
+}
+
+export function getRequiredTierForMode(mode: RequestMode): Tier {
+  for (const tier of TIER_ORDER) {
+    if (TIER_CONFIG[tier].allowedModes.includes(mode)) return tier;
+  }
+  return "PRO"; // fallback
+}
+
+export function getStripePriceId(tier: Tier): string | null {
+  const envKey = TIER_CONFIG[tier].stripePriceEnvKey;
+  if (!envKey) return null;
+  return process.env[envKey] || null;
+}
+
+// Map a Stripe price ID back to a tier
+export function mapPriceToTier(priceId: string): Tier | null {
+  for (const tier of TIER_ORDER) {
+    const envKey = TIER_CONFIG[tier].stripePriceEnvKey;
+    if (envKey && process.env[envKey] === priceId) return tier;
+  }
+  return null;
+}
+
+// Display config for frontend
+export const TIER_DISPLAY = [
+  { key: "FREE" as Tier, name: "Free", price: 0, badge: "zinc", popular: false },
+  { key: "STARTER" as Tier, name: "Starter", price: 9.99, badge: "blue", popular: false },
+  { key: "PLUS" as Tier, name: "Plus", price: 29.99, badge: "indigo", popular: false },
+  { key: "SMART" as Tier, name: "Smart", price: 69.99, badge: "purple", popular: true },
+  { key: "PRO" as Tier, name: "Pro", price: 199, badge: "amber", popular: false },
+] as const;
