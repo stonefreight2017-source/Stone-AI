@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import { getOrCreateUser } from "@/lib/auth";
 import { getStripePriceId } from "@/lib/tier-config";
 import { checkRateLimit } from "@/lib/rate-limiter";
-import type { Tier } from "@/lib/tier-config";
+import type { Tier, BillingPeriod } from "@/lib/tier-config";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-02-25.clover",
@@ -12,6 +12,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 const checkoutSchema = z.object({
   tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]),
+  period: z.enum(["monthly", "semiannual", "annual"]).optional().default("monthly"),
 });
 
 // POST /api/stripe/checkout — create a Stripe checkout session
@@ -41,7 +42,8 @@ export async function POST(req: NextRequest) {
     }
 
     const targetTier = parsed.data.tier as Tier;
-    const priceId = getStripePriceId(targetTier);
+    const billingPeriod = parsed.data.period as BillingPeriod;
+    const priceId = getStripePriceId(targetTier, billingPeriod);
 
     if (!priceId || priceId === "price_PASTE_LATER") {
       return NextResponse.json(
@@ -75,7 +77,7 @@ export async function POST(req: NextRequest) {
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${appUrl}/app/billing?success=true&tier=${targetTier}`,
       cancel_url: `${appUrl}/app/billing?canceled=true`,
-      metadata: { userId: user.id, targetTier },
+      metadata: { userId: user.id, targetTier, billingPeriod },
       subscription_data: {
         metadata: { userId: user.id },
       },

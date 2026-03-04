@@ -67,6 +67,13 @@ export function BillingClient({
   const [usageData, setUsageData] = useState<UsageData | null>(null);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
   const [loadingPortal, setLoadingPortal] = useState(false);
+  const [billingPeriod, setBillingPeriod] = useState<"monthly" | "semiannual" | "annual">("monthly");
+
+  const PERIOD_INFO = {
+    monthly: { label: "Monthly", discount: 0, months: 1 },
+    semiannual: { label: "6 Months", discount: 10, months: 6 },
+    annual: { label: "Annual", discount: 20, months: 12 },
+  } as const;
 
   useEffect(() => {
     fetch("/api/user/usage")
@@ -81,7 +88,7 @@ export function BillingClient({
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ tier, period: billingPeriod }),
       });
       const data = await res.json();
       if (data.url) {
@@ -296,6 +303,28 @@ export function BillingClient({
           Upgrade Your Plan
         </h2>
 
+        {/* Billing Period Toggle */}
+        <div className="flex items-center justify-center gap-1 mb-6 bg-zinc-800 rounded-lg p-1 max-w-md mx-auto">
+          {(["monthly", "semiannual", "annual"] as const).map((p) => (
+            <button
+              key={p}
+              onClick={() => setBillingPeriod(p)}
+              className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                billingPeriod === p
+                  ? "bg-white text-black"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              {PERIOD_INFO[p].label}
+              {PERIOD_INFO[p].discount > 0 && (
+                <span className="ml-1 text-emerald-400 text-xs font-bold">
+                  -{PERIOD_INFO[p].discount}%
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {tiers
             .filter((t) => t.key !== "FREE")
@@ -332,9 +361,21 @@ export function BillingClient({
 
                     <div>
                       <span className="text-3xl font-bold text-white">
-                        ${t.price}
+                        ${billingPeriod === "monthly"
+                          ? t.price
+                          : (t.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}
                       </span>
                       <span className="text-zinc-500 text-sm">/mo</span>
+                      {billingPeriod !== "monthly" && (
+                        <div className="text-xs text-zinc-500 mt-1">
+                          <span className="text-emerald-400 line-through mr-1">${t.price}/mo</span>
+                          billed ${
+                            PERIOD_INFO[billingPeriod].months === 6
+                              ? `$${(t.price * 6 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)} every 6 months`
+                              : `$${(t.price * 12 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}/year`
+                          }
+                        </div>
+                      )}
                     </div>
 
                     {isCurrentPlan ? (

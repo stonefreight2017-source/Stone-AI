@@ -168,10 +168,33 @@ export function getRequiredTierForMode(mode: RequestMode): Tier {
   return "PRO"; // fallback
 }
 
-export function getStripePriceId(tier: Tier): string | null {
-  const envKey = TIER_CONFIG[tier].stripePriceEnvKey;
-  if (!envKey) return null;
+export type BillingPeriod = "monthly" | "semiannual" | "annual";
+
+export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: number; months: number }[] = [
+  { key: "monthly", label: "Monthly", discount: 0, months: 1 },
+  { key: "semiannual", label: "6 Months", discount: 10, months: 6 },
+  { key: "annual", label: "Annual", discount: 20, months: 12 },
+];
+
+export function getStripePriceId(tier: Tier, period: BillingPeriod = "monthly"): string | null {
+  if (period === "monthly") {
+    const envKey = TIER_CONFIG[tier].stripePriceEnvKey;
+    if (!envKey) return null;
+    return process.env[envKey] || null;
+  }
+  const suffix = period === "semiannual" ? "_6MO" : "_ANNUAL";
+  const envKey = `STRIPE_PRICE_${tier}${suffix}`;
   return process.env[envKey] || null;
+}
+
+export function getPriceForPeriod(monthlyPrice: number, period: BillingPeriod): number {
+  const info = BILLING_PERIODS.find((p) => p.key === period)!;
+  return Math.round(monthlyPrice * info.months * (1 - info.discount / 100) * 100) / 100;
+}
+
+export function getMonthlyEquivalent(monthlyPrice: number, period: BillingPeriod): number {
+  const info = BILLING_PERIODS.find((p) => p.key === period)!;
+  return Math.round(monthlyPrice * (1 - info.discount / 100) * 100) / 100;
 }
 
 // Map a Stripe price ID back to a tier
