@@ -33,7 +33,9 @@ export default function ResellerAgreementPage() {
               and the entity or individual approved as a reseller (&quot;Reseller&quot;, &quot;you&quot;, &quot;your&quot;).
               This Agreement governs your right to resell, distribute, or sublicense access to the Stone AI
               platform, API, AI agents, Bestie companions, and related services (collectively, the &quot;Products&quot;)
-              to your end customers (&quot;End Users&quot;).
+              to your end customers (&quot;End Users&quot;). &quot;Products&quot; includes, without limitation, browser search bar
+              integrations, home screen widgets, mobile companion apps, voice-enabled interfaces, and any other
+              access points or distribution channels developed by Stone AI.
             </p>
           </section>
 
@@ -64,6 +66,32 @@ export default function ResellerAgreementPage() {
             </ul>
             <p>
               <strong className="text-white">All rights not expressly granted herein are reserved by Stone AI.</strong>
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">3A. Bring Your Bestie Anywhere — Distribution Integrations</h2>
+            <p>
+              Stone AI offers users seamless access through lightweight integration points including, but not limited to:
+              browser search bar integrations, mobile home screen widgets, voice-enabled interfaces, and OS-level
+              quick-access features (collectively, &quot;Access Points&quot;). These Access Points are designed for convenience —
+              allowing users to reach their AI agents and Bestie companions instantly, without switching apps or
+              granting intrusive device permissions.
+            </p>
+            <p>
+              Reseller may promote and distribute Access Points to End Users subject to the following:
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-zinc-400">
+              <li>Access Points must be installed with clear, informed user consent</li>
+              <li>Reseller shall not bundle Access Points with unrelated software or use deceptive installation patterns</li>
+              <li>All Access Points must remain unmodified and sourced from Stone AI&apos;s official distribution channels</li>
+              <li>Reseller must clearly communicate that Access Points connect to Stone AI&apos;s infrastructure and provide links to Stone AI&apos;s Privacy Policy</li>
+              <li>Reseller may not use Access Points to collect, intercept, or redirect user data for purposes outside the scope of this Agreement</li>
+            </ul>
+            <p>
+              Stone AI is committed to a <strong className="text-white">privacy-first, minimal-permissions approach</strong> across all Access Points.
+              Users should feel that their AI companion is with them wherever they go — not that an application is monitoring
+              their activity. Reseller marketing must reflect this philosophy.
             </p>
           </section>
 

@@ -679,28 +679,71 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Mobile App Coming Soon */}
+      {/* Bring Your Bestie Anywhere */}
       <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 to-zinc-900 border-t border-zinc-800">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium mb-6">
-            <Clock className="h-3.5 w-3.5" />
-            Coming Soon
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-medium mb-6">
+              <Zap className="h-3.5 w-3.5" />
+              Always With You
+            </div>
+            <h2 className="text-3xl font-bold mb-4">
+              Bring your Bestie <span className="text-pink-400">anywhere.</span>
+            </h2>
+            <p className="text-zinc-400 max-w-xl mx-auto">
+              Your AI companion doesn&apos;t live inside an app — it lives where you do.
+              One keystroke from your search bar. One tap from your home screen.
+              No extra permissions. No app switching. Just your AI, always there.
+            </p>
           </div>
-          <h2 className="text-3xl font-bold mb-4">
-            Take Stone AI™ everywhere.
-          </h2>
-          <p className="text-zinc-400 max-w-xl mx-auto mb-3">
-            <span className="text-amber-400 font-semibold">Best AI™</span> — the mobile companion app — is coming to iOS and Android.
-            All your agents, your AI Bestie, and your business tools in your pocket.
-          </p>
-          <p className="text-zinc-500 text-sm mb-6">
-            Get started on the web today. Your account will carry over seamlessly when the app launches.
-          </p>
-          <Button asChild size="lg" className="bg-white text-black hover:bg-zinc-200 gap-2 px-8">
-            <Link href="/sign-up">
-              Start Free on Web <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
-          </Button>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <Card className="bg-zinc-900 border-zinc-800 p-6 text-center">
+              <div className="text-3xl mb-3">{"\uD83D\uDD0D"}</div>
+              <h3 className="font-semibold text-white mb-2">Search Bar</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Type a question in your browser&apos;s search bar — your Bestie answers instantly.
+                No tab switching. No app opening. Just answers, right where you already type.
+              </p>
+            </Card>
+            <Card className="bg-zinc-900 border-zinc-800 p-6 text-center">
+              <div className="text-3xl mb-3">{"\uD83D\uDCF1"}</div>
+              <h3 className="font-semibold text-white mb-2">Home Screen Widget</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                One tap on your phone&apos;s home screen and your Bestie is ready.
+                No app load time. No login screen. Your companion, front and center.
+              </p>
+              <div className="inline-flex items-center gap-1 mt-3 px-2 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
+                <Clock className="h-3 w-3 text-amber-400" />
+                <span className="text-[10px] text-amber-400 font-medium">Coming Soon</span>
+              </div>
+            </Card>
+            <Card className="bg-zinc-900 border-zinc-800 p-6 text-center">
+              <div className="text-3xl mb-3">{"\uD83C\uDF10"}</div>
+              <h3 className="font-semibold text-white mb-2">Cross-Device Memory</h3>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Your Bestie remembers you across every device.
+                Start a conversation on your laptop, pick it up on your phone.
+                Same personality. Same memories. Same AI.
+              </p>
+              <div className="inline-flex items-center gap-1 mt-3 px-2 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
+                <Clock className="h-3 w-3 text-amber-400" />
+                <span className="text-[10px] text-amber-400 font-medium">Coming Soon</span>
+              </div>
+            </Card>
+          </div>
+
+          <div className="text-center">
+            <p className="text-zinc-500 text-sm mb-4">
+              We believe AI should feel like a companion — not like an app that wants your data.
+              Minimal permissions. Maximum presence.
+            </p>
+            <Button asChild size="lg" className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-lg px-8">
+              <Link href="/sign-up">
+                Meet Your Bestie <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
