@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { checkRateLimit } from "@/lib/rate-limiter";
+import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { TIER_CONFIG } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
 
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
     const user = await getOrCreateUser();
 
     // Rate limit
-    const rateCheck = checkRateLimit(`trial:${user.id}`, 3);
+    const rateCheck = await checkRateLimitAsync(`trial:${user.id}`, 3);
     if (!rateCheck.allowed) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }

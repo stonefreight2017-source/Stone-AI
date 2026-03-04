@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getOrCreateUser } from "@/lib/auth";
 
 // GET /api/forum/[id] — get single post with all replies
 export async function GET(
@@ -7,6 +8,8 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Require authentication
+    const user = await getOrCreateUser();
     const { id } = await params;
 
     const post = await db.forumPost.findUnique({
@@ -22,6 +25,7 @@ export async function GET(
         },
         replies: {
           orderBy: { createdAt: "asc" },
+          take: 100, // Pagination: cap replies to prevent huge payloads
           include: {
             user: {
               select: {
@@ -34,6 +38,7 @@ export async function GET(
           },
         },
         likedBy: {
+          where: { userId: user.id }, // Only check if current user liked it
           select: { userId: true },
         },
       },
@@ -52,7 +57,7 @@ export async function GET(
         pinned: post.pinned,
         locked: post.locked,
         likes: post.likes,
-        likedByUserIds: post.likedBy.map((l) => l.userId),
+        likedByCurrentUser: post.likedBy.length > 0,
         author: {
           id: post.user.id,
           name: post.user.name || "Anonymous",

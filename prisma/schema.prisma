@@ -53,12 +53,12 @@ model User {
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
 
-  conversations Conversation[]
-  usageRecords  UsageRecord[]
-  dailyUsages   DailyUsage[]
-  upgradeOffers UpgradeOffer[]
-  apiKeys       ApiKey[]
-  agentMemories AgentMemory[]
+  conversations  Conversation[]
+  usageRecords   UsageRecord[]
+  dailyUsages    DailyUsage[]
+  upgradeOffers  UpgradeOffer[]
+  apiKeys        ApiKey[]
+  agentMemories  AgentMemory[]
   forumPosts     ForumPost[]
   forumReplies   ForumReply[]
   forumLikes     ForumLike[]
@@ -66,23 +66,27 @@ model User {
   notifications  Notification[]
   referrals      Referral[]     @relation("Referrer")
   referredUsers  Referral[]     @relation("ReferredUser")
+  bestieProfiles BestieProfile[]
 }
 
 model Conversation {
   id        String    @id @default(cuid())
   userId    String
   agentId   String?
+  bestieId  String?
   title     String    @default("New Chat")
   archived  Boolean   @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  agent    Agent?    @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  agent    Agent?         @relation(fields: [agentId], references: [id], onDelete: SetNull)
+  bestie   BestieProfile? @relation(fields: [bestieId], references: [id], onDelete: SetNull)
   messages Message[]
 
   @@index([userId, updatedAt])
   @@index([agentId])
+  @@index([bestieId])
 }
 
 model Message {
@@ -389,4 +393,25 @@ model Notification {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, read, createdAt(sort: Desc)])
+}
+
+// ═══════════════════════════════════════════
+// BESTIE COMPANION PROFILES
+// ═══════════════════════════════════════════
+
+model BestieProfile {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  personality Json
+  avatarEmoji String   @default("\uD83D\uDC9C")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversations Conversation[]
+
+  @@unique([userId, name])
+  @@index([userId])
 }

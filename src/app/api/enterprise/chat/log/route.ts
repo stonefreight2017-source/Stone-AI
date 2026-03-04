@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
-import { sanitizeUserInput } from "@/lib/security";
+import { sanitizeUserInput, getClientIp, validateOrigin } from "@/lib/security";
 import { getModel } from "@/lib/ai";
 import { generateText } from "ai";
 import { indexKnowledgeChunk } from "@/lib/embeddings";
@@ -23,10 +23,12 @@ const logSchema = z.object({
 });
 
 export async function POST(req: NextRequest) {
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown";
+  // CSRF: validate origin
+  if (!validateOrigin(req.headers)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const ip = getClientIp(req.headers);
   const rl = await checkRateLimitAsync(`enterprise-log:${ip}`, 3);
   if (!rl.allowed) {
     return NextResponse.json({ error: "Rate limited" }, { status: 429 });
@@ -40,19 +42,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  // Get or create system user
-  let systemUser = await db.user.findFirst({
+  // Get or create system user (atomic upsert to prevent race condition duplicates)
+  const systemUser = await db.user.upsert({
     where: { email: "enterprise@stone-ai.net" },
+    update: {},
+    create: {
+      clerkId: "system_enterprise",
+      email: "enterprise@stone-ai.net",
+      name: "Enterprise Inquiries",
+    },
   });
-  if (!systemUser) {
-    systemUser = await db.user.create({
-      data: {
-        clerkId: `system_enterprise_${Date.now()}`,
-        email: "enterprise@stone-ai.net",
-        name: "Enterprise Inquiries",
-      },
-    });
-  }
 
   // Store feedback record (sync)
   const logData = {
@@ -95,8 +94,9 @@ async function extractPatterns(
   });
   if (!agent) return;
 
+  // Sanitize every transcript message to prevent RAG poisoning via prompt injection
   const conversationText = transcript
-    .map((m) => `${m.role}: ${m.content}`)
+    .map((m) => `${m.role}: ${sanitizeUserInput(m.content)}`)
     .join("\n");
 
   const { text } = await generateText({
@@ -114,12 +114,28 @@ Be concise. Each array should have 1-3 items max.`,
     prompt: `Conversation outcome: ${outcome}\n\nTranscript:\n${conversationText}`,
   });
 
+  // Validate LLM output is parseable JSON before storing
+  let validatedText = text;
+  try {
+    const parsed = JSON.parse(text);
+    // Ensure expected shape — reject if it contains suspicious content
+    if (typeof parsed !== "object" || parsed === null) throw new Error("Not an object");
+    const allowedKeys = ["objections_raised", "effective_responses", "trigger_topics", "outcome_factors", "recommended_improvements", "key_insight"];
+    const keys = Object.keys(parsed);
+    if (keys.some((k) => !allowedKeys.includes(k))) throw new Error("Unexpected keys");
+    // Re-serialize to strip any hidden content
+    validatedText = JSON.stringify(parsed);
+  } catch {
+    // If LLM output is not valid JSON, sanitize and store as plain text
+    validatedText = sanitizeUserInput(text).slice(0, 1000);
+  }
+
   // Create knowledge chunk from extraction
   const chunk = await db.agentKnowledgeChunk.create({
     data: {
       agentId: agent.id,
       title: `Sales Pattern: ${outcome} conversation (${sessionId.slice(0, 8)})`,
-      content: `Extracted from ${outcome} enterprise sales conversation.\n\n${text}`,
+      content: `Extracted from ${outcome} enterprise sales conversation.\n\n${validatedText}`,
       source: "sales-extraction",
     },
   });

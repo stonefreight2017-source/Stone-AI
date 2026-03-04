@@ -13,12 +13,7 @@ import {
   ArrowRight,
   Loader2,
   Crown,
-  Infinity,
-  Shield,
-  Code2,
-  Blocks,
-  Rocket,
-  Users,
+  ChevronDown,
   Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -76,12 +71,26 @@ export function BillingClient({
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
   const [loadingPortal, setLoadingPortal] = useState(false);
   const [billingPeriod, setBillingPeriod] = useState<"monthly" | "semiannual" | "annual">("monthly");
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  const [tierDropdownOpen, setTierDropdownOpen] = useState(false);
 
   const PERIOD_INFO = {
     monthly: { label: "Monthly", discount: 0, months: 1 },
     semiannual: { label: "6 Months", discount: 10, months: 6 },
     annual: { label: "Annual", discount: 20, months: 12 },
   } as const;
+
+  const upgradeTiers = tiers.filter((t) => t.key !== "FREE");
+
+  // Default to the first tier above current, or the most popular
+  useEffect(() => {
+    if (!selectedTier) {
+      const firstUpgrade = upgradeTiers.find(
+        (t) => TIER_RANK[t.key] > TIER_RANK[currentTier]
+      );
+      setSelectedTier(firstUpgrade?.key ?? upgradeTiers[0]?.key ?? "STARTER");
+    }
+  }, [currentTier]);
 
   useEffect(() => {
     fetch("/api/user/usage")
@@ -132,33 +141,62 @@ export function BillingClient({
     FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
   };
 
-  const TIER_FEATURES: Record<string, string[]> = {
-    STARTER: [
-      "150 messages/day",
-      "Local AI model",
-      "20-message context",
-    ],
-    PLUS: [
-      "490 messages/day",
-      "Conversation export",
-      "40-message context",
-    ],
-    SMART: [
-      "980 messages/day",
-      "GPT-4o cloud model",
-      "Auto model routing",
-      "60-message context",
-    ],
-    PRO: [
-      "Unlimited messages",
-      "Priority queue",
-      "API access & keys",
-      "Custom Agent Builder",
-      "Commercial license",
-      "Early access to new agents",
-      "2x referral rewards",
-      "100-message context",
-    ],
+  const TIER_DETAILS: Record<string, { tagline: string; features: string[]; highlight?: string }> = {
+    STARTER: {
+      tagline: "Get started with AI-powered assistance",
+      features: [
+        "150 messages/day",
+        "Local AI model (Llama 3.1 70B)",
+        "20-message context window",
+        "1 AI Bestie companion",
+        "Access to 30+ AI agents",
+      ],
+    },
+    PLUS: {
+      tagline: "More power for daily use",
+      features: [
+        "490 messages/day",
+        "Conversation export",
+        "40-message context window",
+        "2 AI Bestie companions",
+        "Everything in Starter",
+      ],
+    },
+    SMART: {
+      tagline: "Cloud AI with GPT-4o intelligence",
+      highlight: "Most Popular",
+      features: [
+        "980 messages/day",
+        "GPT-4o cloud model access",
+        "Auto model routing (local + cloud)",
+        "60-message context window",
+        "3 AI Bestie companions",
+        "Everything in Plus",
+      ],
+    },
+    PRO: {
+      tagline: "Unlimited access. No limits. Full power.",
+      highlight: "Founding Member — price locked forever",
+      features: [
+        "Unlimited messages",
+        "Priority processing queue",
+        "API access & developer keys",
+        "Custom Agent Builder",
+        "Commercial license",
+        "Early access to new agents",
+        "2x referral rewards",
+        "100-message context window",
+        "5 AI Bestie companions",
+        "Everything in Smart",
+      ],
+    },
+  };
+
+  const TIER_COLORS: Record<string, { border: string; accent: string; bg: string }> = {
+    STARTER: { border: "border-blue-600", accent: "text-blue-400", bg: "bg-blue-500" },
+    PLUS: { border: "border-purple-600", accent: "text-purple-400", bg: "bg-purple-500" },
+    SMART: { border: "border-amber-500", accent: "text-amber-400", bg: "bg-amber-500" },
+    PRO: { border: "border-amber-400", accent: "text-amber-300", bg: "bg-amber-400" },
   };
 
   function formatTokens(n: number): string {
@@ -172,8 +210,16 @@ export function BillingClient({
     return Math.min(Math.round((used / limit) * 100), 100);
   }
 
+  const activeTier = upgradeTiers.find((t) => t.key === selectedTier) ?? upgradeTiers[0];
+  const tierDetail = activeTier ? TIER_DETAILS[activeTier.key] : null;
+  const tierColor = activeTier ? TIER_COLORS[activeTier.key] : null;
+  const isCurrentPlan = activeTier?.key === currentTier;
+  const isDowngrade = activeTier ? TIER_RANK[activeTier.key] < TIER_RANK[currentTier] : false;
+  const isUpgrade = activeTier ? TIER_RANK[activeTier.key] > TIER_RANK[currentTier] : false;
+  const isPro = activeTier?.key === "PRO";
+
   return (
-    <div className="max-w-5xl mx-auto p-6 space-y-8">
+    <div className="max-w-3xl mx-auto p-6 space-y-8">
       {/* Success/cancel banners */}
       {success && (
         <div className="bg-emerald-900/40 border border-emerald-700 rounded-lg p-4 flex items-center gap-3">
@@ -196,7 +242,7 @@ export function BillingClient({
         </div>
       )}
 
-      {/* Current Plan */}
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-white mb-1">Billing</h1>
         <p className="text-zinc-400">Manage your subscription and usage</p>
@@ -269,7 +315,6 @@ export function BillingClient({
           <CardContent className="space-y-4">
             {usageData ? (
               <>
-                {/* Messages today */}
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-zinc-400 flex items-center gap-1">
@@ -290,7 +335,6 @@ export function BillingClient({
                   </div>
                 </div>
 
-                {/* Tokens this month */}
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-zinc-400 flex items-center gap-1">
@@ -312,7 +356,6 @@ export function BillingClient({
                   </div>
                 </div>
 
-                {/* Quick stats */}
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
                     <p className="text-lg font-bold text-white">{usageData.stats.conversations}</p>
@@ -333,7 +376,7 @@ export function BillingClient({
         </Card>
       </div>
 
-      {/* Plan Comparison */}
+      {/* Upgrade Section — Dropdown + Detail Card */}
       <div>
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
           <Zap className="h-5 w-5 text-amber-400" />
@@ -341,7 +384,7 @@ export function BillingClient({
         </h2>
 
         {/* Billing Period Toggle */}
-        <div className="flex items-center justify-center gap-1 mb-6 bg-zinc-800 rounded-lg p-1 max-w-md mx-auto">
+        <div className="flex items-center justify-center gap-1 mb-5 bg-zinc-800 rounded-lg p-1 max-w-sm mx-auto">
           {(["monthly", "semiannual", "annual"] as const).map((p) => (
             <button
               key={p}
@@ -362,144 +405,214 @@ export function BillingClient({
           ))}
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {tiers
-            .filter((t) => t.key !== "FREE")
-            .map((t) => {
-              const isCurrentPlan = t.key === currentTier;
-              const isDowngrade = TIER_RANK[t.key] < TIER_RANK[currentTier];
-              const isUpgrade = TIER_RANK[t.key] > TIER_RANK[currentTier];
-              const isPro = t.key === "PRO";
-              const features = TIER_FEATURES[t.key] || [];
+        {/* Tier Dropdown Selector */}
+        <div className="relative max-w-sm mx-auto mb-5">
+          <button
+            onClick={() => setTierDropdownOpen(!tierDropdownOpen)}
+            className={`w-full flex items-center justify-between px-4 py-3 rounded-lg border ${
+              tierColor?.border ?? "border-zinc-700"
+            } bg-zinc-900 hover:bg-zinc-800/80 transition-colors`}
+          >
+            <div className="flex items-center gap-3">
+              {isPro && <Crown className="h-4 w-4 text-amber-400" />}
+              <span className="text-white font-semibold">{activeTier?.name}</span>
+              {activeTier && (
+                <span className="text-zinc-400 text-sm">
+                  ${billingPeriod === "monthly"
+                    ? activeTier.price
+                    : (activeTier.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}/mo
+                </span>
+              )}
+              {isCurrentPlan && (
+                <Badge className="bg-emerald-900 text-emerald-300 text-xs ml-1">Current</Badge>
+              )}
+            </div>
+            <ChevronDown className={`h-4 w-4 text-zinc-400 transition-transform ${tierDropdownOpen ? "rotate-180" : ""}`} />
+          </button>
 
-              return (
-                <Card
-                  key={t.key}
-                  className={`bg-zinc-900 border transition-colors relative ${
-                    isCurrentPlan
-                      ? "border-emerald-600"
-                      : t.popular
-                      ? "border-amber-500 ring-1 ring-amber-500/30"
-                      : "border-zinc-800"
-                  }`}
-                >
-                  {t.popular && !isCurrentPlan && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                      <Badge className="bg-amber-500 text-black text-xs font-bold px-3 py-0.5">
-                        <Crown className="h-3 w-3 mr-1" />
-                        Most Popular
-                      </Badge>
+          {tierDropdownOpen && (
+            <div className="absolute z-20 top-full mt-1 w-full bg-zinc-900 border border-zinc-700 rounded-lg overflow-hidden shadow-xl">
+              {upgradeTiers.map((t) => {
+                const isCurrent = t.key === currentTier;
+                const isSelected = t.key === selectedTier;
+                const tPro = t.key === "PRO";
+                return (
+                  <button
+                    key={t.key}
+                    onClick={() => {
+                      setSelectedTier(t.key);
+                      setTierDropdownOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-4 py-3 text-left hover:bg-zinc-800 transition-colors ${
+                      isSelected ? "bg-zinc-800" : ""
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      {tPro && <Crown className="h-4 w-4 text-amber-400" />}
+                      <span className={`font-medium ${tPro ? "text-amber-400" : "text-white"}`}>{t.name}</span>
+                      {t.popular && !isCurrent && (
+                        <Badge className="bg-amber-500/20 text-amber-400 text-[10px] px-1.5 py-0">Popular</Badge>
+                      )}
+                      {isCurrent && (
+                        <Badge className="bg-emerald-900 text-emerald-300 text-[10px] px-1.5 py-0">Current</Badge>
+                      )}
                     </div>
+                    <span className="text-zinc-400 text-sm">
+                      ${billingPeriod === "monthly"
+                        ? t.price
+                        : (t.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}/mo
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Selected Tier Detail Card */}
+        {activeTier && tierDetail && tierColor && (
+          <Card className={`bg-zinc-900 ${tierColor.border} border transition-all`}>
+            <CardContent className="pt-6 space-y-5">
+              {/* Header row: name + price */}
+              <div className="flex items-start justify-between">
+                <div>
+                  <h3 className={`text-xl font-bold ${isPro ? "text-amber-400" : "text-white"} flex items-center gap-2`}>
+                    {isPro && <Crown className="h-5 w-5" />}
+                    {activeTier.name}
+                  </h3>
+                  <p className="text-zinc-400 text-sm mt-0.5">{tierDetail.tagline}</p>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-bold text-white">
+                      ${billingPeriod === "monthly"
+                        ? activeTier.price
+                        : (activeTier.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}
+                    </span>
+                    <span className="text-zinc-500 text-sm">/mo</span>
+                  </div>
+                  {billingPeriod !== "monthly" && (
+                    <p className="text-xs text-zinc-500 mt-0.5">
+                      <span className="line-through text-zinc-600 mr-1">${activeTier.price}/mo</span>
+                      {PERIOD_INFO[billingPeriod].months === 6
+                        ? `$${(activeTier.price * 6 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)} / 6 mo`
+                        : `$${(activeTier.price * 12 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)} / yr`}
+                    </p>
                   )}
-                  <CardContent className="pt-6 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className={`font-semibold ${isPro ? "text-amber-400" : "text-white"}`}>
-                        {isPro && <Crown className="h-4 w-4 inline mr-1.5 -mt-0.5" />}
-                        {t.name}
-                      </h3>
-                      {isCurrentPlan && (
-                        <Badge className="bg-emerald-900 text-emerald-300 text-xs">
-                          Current
-                        </Badge>
-                      )}
-                    </div>
+                </div>
+              </div>
 
-                    <div>
-                      <span className="text-3xl font-bold text-white">
-                        ${billingPeriod === "monthly"
-                          ? t.price
-                          : (t.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}
-                      </span>
-                      <span className="text-zinc-500 text-sm">/mo</span>
-                      {billingPeriod !== "monthly" && (
-                        <div className="text-xs text-zinc-500 mt-1">
-                          <span className="text-emerald-400 line-through mr-1">${t.price}/mo</span>
-                          billed ${
-                            PERIOD_INFO[billingPeriod].months === 6
-                              ? `$${(t.price * 6 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)} every 6 months`
-                              : `$${(t.price * 12 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}/year`
-                          }
-                        </div>
-                      )}
-                    </div>
+              {/* Highlight badge */}
+              {tierDetail.highlight && (
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold ${
+                  isPro
+                    ? "bg-amber-950/40 border border-amber-800/50 text-amber-300"
+                    : "bg-amber-500/15 border border-amber-500/30 text-amber-400"
+                }`}>
+                  <Star className="h-3 w-3" />
+                  {tierDetail.highlight}
+                </div>
+              )}
 
-                    {/* Feature list */}
-                    <ul className="space-y-1.5 text-sm">
-                      {features.map((f) => (
-                        <li key={f} className="flex items-start gap-2">
-                          <Check className={`h-4 w-4 shrink-0 mt-0.5 ${isPro ? "text-amber-400" : "text-emerald-400"}`} />
-                          <span className={f === "Unlimited messages" ? "text-white font-medium" : "text-zinc-400"}>
-                            {f}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+              {/* Features — 2-column grid for compactness */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                {tierDetail.features.map((f) => (
+                  <div key={f} className="flex items-center gap-2 text-sm">
+                    <Check className={`h-4 w-4 shrink-0 ${isPro ? "text-amber-400" : tierColor.accent}`} />
+                    <span className={f.startsWith("Unlimited") || f.startsWith("Everything") ? "text-white font-medium" : "text-zinc-300"}>
+                      {f}
+                    </span>
+                  </div>
+                ))}
+              </div>
 
-                    {/* Founding Member callout — PRO only */}
-                    {isPro && (
-                      <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-2.5">
-                        <p className="text-xs text-amber-300 font-medium flex items-center gap-1.5">
-                          <Star className="h-3 w-3" />
-                          Founding Member — price locked forever
-                        </p>
-                      </div>
+              {/* Action button */}
+              <div className="pt-1">
+                {isCurrentPlan ? (
+                  <Button disabled className="w-full" variant="outline">
+                    <Check className="h-4 w-4 mr-2" />
+                    Current Plan
+                  </Button>
+                ) : isDowngrade ? (
+                  <Button
+                    variant="outline"
+                    className="w-full border-zinc-700 text-zinc-400 hover:text-white"
+                    onClick={handleManageBilling}
+                    disabled={!hasStripeCustomer}
+                  >
+                    Downgrade via Billing Portal
+                  </Button>
+                ) : isUpgrade ? (
+                  <Button
+                    className={`w-full text-base py-5 ${
+                      isPro
+                        ? "bg-amber-500 text-black hover:bg-amber-400 font-semibold"
+                        : "bg-white text-black hover:bg-zinc-200 font-medium"
+                    }`}
+                    onClick={() => handleUpgrade(activeTier.key)}
+                    disabled={loadingCheckout === activeTier.key}
+                  >
+                    {loadingCheckout === activeTier.key ? (
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                    ) : isPro ? (
+                      <Crown className="h-4 w-4 mr-2" />
+                    ) : (
+                      <ArrowRight className="h-4 w-4 mr-2" />
                     )}
+                    {isPro ? "Go Pro" : `Upgrade to ${activeTier.name}`}
+                  </Button>
+                ) : null}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
-                    {isCurrentPlan ? (
-                      <Button disabled className="w-full" variant="outline">
-                        <Check className="h-4 w-4 mr-2" />
-                        Current Plan
-                      </Button>
-                    ) : isDowngrade ? (
-                      <Button
-                        variant="outline"
-                        className="w-full border-zinc-700 text-zinc-500"
-                        onClick={handleManageBilling}
-                        disabled={!hasStripeCustomer}
-                      >
-                        Manage via Portal
-                      </Button>
-                    ) : isUpgrade ? (
-                      <Button
-                        className={`w-full ${
-                          isPro
-                            ? "bg-amber-500 text-black hover:bg-amber-400 font-semibold"
-                            : "bg-white text-black hover:bg-zinc-200"
-                        }`}
-                        onClick={() => handleUpgrade(t.key)}
-                        disabled={loadingCheckout === t.key}
-                      >
-                        {loadingCheckout === t.key ? (
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                        ) : isPro ? (
-                          <Crown className="h-4 w-4 mr-2" />
-                        ) : (
-                          <ArrowRight className="h-4 w-4 mr-2" />
-                        )}
-                        {isPro ? "Go Pro" : "Upgrade"}
-                      </Button>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              );
-            })}
+        {/* Quick tier comparison strip */}
+        <div className="mt-4 grid grid-cols-4 gap-2">
+          {upgradeTiers.map((t) => {
+            const isCurrent = t.key === currentTier;
+            const isSelected = t.key === selectedTier;
+            const tColor = TIER_COLORS[t.key];
+            return (
+              <button
+                key={t.key}
+                onClick={() => setSelectedTier(t.key)}
+                className={`text-center py-2 px-1 rounded-lg border transition-all text-xs ${
+                  isSelected
+                    ? `${tColor?.border} bg-zinc-800`
+                    : "border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/50"
+                }`}
+              >
+                <p className={`font-semibold ${isSelected ? (t.key === "PRO" ? "text-amber-400" : "text-white") : "text-zinc-500"}`}>
+                  {t.name}
+                </p>
+                <p className={`${isSelected ? "text-zinc-300" : "text-zinc-600"}`}>
+                  ${billingPeriod === "monthly"
+                    ? t.price
+                    : (t.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(0)}/mo
+                </p>
+                {isCurrent && (
+                  <p className="text-emerald-500 text-[10px] font-medium mt-0.5">Current</p>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* FAQ / Info */}
+      {/* FAQ */}
       <Card className="bg-zinc-900 border-zinc-800">
         <CardContent className="pt-6 space-y-3">
           <h3 className="text-sm font-semibold text-zinc-300">Billing FAQ</h3>
           <div className="space-y-2 text-sm text-zinc-400">
             <p>
               <strong className="text-zinc-300">When am I charged?</strong>{" "}
-              Subscriptions are billed monthly. Your first charge happens at
-              checkout.
+              Your first charge happens at checkout. Renewals are automatic.
             </p>
             <p>
               <strong className="text-zinc-300">Can I cancel anytime?</strong>{" "}
-              Yes. Click "Manage Billing" to cancel through Stripe. You keep
-              access until the end of the billing period.
+              Yes. Click &quot;Manage Billing&quot; to cancel through Stripe. You keep
+              access until the end of your billing period.
             </p>
             <p>
               <strong className="text-zinc-300">What happens if I downgrade?</strong>{" "}

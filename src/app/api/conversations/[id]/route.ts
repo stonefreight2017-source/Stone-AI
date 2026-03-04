@@ -36,6 +36,14 @@ export async function GET(
             createdAt: true,
           },
         },
+        bestie: {
+          select: {
+            id: true,
+            name: true,
+            avatarEmoji: true,
+            personality: true,
+          },
+        },
       },
     });
 
@@ -50,6 +58,7 @@ export async function GET(
       conversation: {
         id: conversation.id,
         title: conversation.title,
+        bestie: conversation.bestie ?? null,
         createdAt: conversation.createdAt.toISOString(),
         updatedAt: conversation.updatedAt.toISOString(),
       },

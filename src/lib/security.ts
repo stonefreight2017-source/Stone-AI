@@ -2,6 +2,39 @@
  * Security hardening for Stone AI.
  * Defenses against prompt injection, system prompt extraction,
  * memory poisoning, and conversation manipulation.
+ *
+ * ═══ SECURITY AUDIT CHECKLIST ═══
+ * Run periodically (monthly minimum, weekly if actively growing):
+ *
+ * 1. INJECTION PATTERNS: Review /api/admin/health → security.injection_attempts.
+ *    If spiking, add new patterns to INJECTION_PATTERNS array below.
+ *
+ * 2. MEMORY POISONING: Check security.memory_poisoning in health endpoint.
+ *    If attempts detected, review MEMORY_INJECTION_PATTERNS and the
+ *    MEMORY_BLOCKED_KEYS in chat/route.ts and bestie/chat/route.ts.
+ *
+ * 3. SYSTEM PROMPT LEAKAGE: Test by asking agents/besties to reveal their prompts.
+ *    detectSystemPromptLeakage() catches output-side leaks.
+ *    wrapSystemPrompt() prevents instruction-side leaks.
+ *
+ * 4. IDOR (Insecure Direct Object Reference):
+ *    All conversation/bestie endpoints check userId ownership.
+ *    Test: try accessing another user's conversationId via API.
+ *
+ * 5. RATE LIMIT BYPASS:
+ *    Ensure Redis is available in production (not in-memory fallback).
+ *    Test: rapid-fire requests from same user should get 429.
+ *
+ * 6. CSRF: validateOrigin() checks Sec-Fetch-Site + Origin headers.
+ *    Only needed for public POST endpoints (webhook already has Stripe sig check).
+ *
+ * 7. DEPENDENCY AUDIT: Run `npm audit` monthly. Check for CVEs in:
+ *    - ai (Vercel AI SDK), @clerk/nextjs, ioredis, prisma, zod
+ *
+ * ═══ DEBUG ═══
+ * - All injection detections: flagged=true in sanitizeUserInput, logged via audit.
+ * - Prompt leakage: detectSystemPromptLeakage() returns boolean, log if true.
+ * - CSRF failures: validateOrigin() returns false — log in calling route.
  */
 
 // Known prompt injection patterns to detect and neutralize
@@ -121,6 +154,64 @@ export function validateConversationOwnership(
   requestingUserId: string
 ): boolean {
   return conversationUserId === requestingUserId;
+}
+
+/**
+ * Extract reliable client IP from request headers.
+ * On Vercel, x-vercel-forwarded-for is set by the edge and cannot be spoofed.
+ * Falls back to x-real-ip, then x-forwarded-for (less reliable).
+ * Never returns "unknown" — uses a deterministic fallback to prevent
+ * all anonymous users sharing one rate-limit bucket.
+ */
+export function getClientIp(headers: Headers): string {
+  // Vercel-set header (trustworthy — can't be spoofed by client)
+  const vercelIp = headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim();
+  if (vercelIp) return vercelIp;
+
+  // Next best: x-real-ip (set by most reverse proxies)
+  const realIp = headers.get("x-real-ip")?.trim();
+  if (realIp) return realIp;
+
+  // Fallback: x-forwarded-for (can be spoofed if not behind a trusted proxy)
+  const forwarded = headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  if (forwarded) return forwarded;
+
+  // Last resort: hash-like fallback to avoid sharing a single bucket
+  return "anon-" + (headers.get("user-agent") || "").slice(0, 32).replace(/\s/g, "");
+}
+
+/**
+ * Validate request origin for CSRF protection on public POST endpoints.
+ * Returns true if the origin is allowed.
+ */
+export function validateOrigin(headers: Headers): boolean {
+  const origin = headers.get("origin");
+  const referer = headers.get("referer");
+  const secFetchSite = headers.get("sec-fetch-site");
+
+  // Allow same-origin requests
+  if (secFetchSite === "same-origin" || secFetchSite === "none") return true;
+
+  // Check origin/referer against allowed domains
+  const allowed = [
+    "https://stone-ai.net",
+    "https://www.stone-ai.net",
+    "https://app.stone-ai.net",
+    "http://localhost:3000",
+    "http://localhost:3001",
+  ];
+
+  if (origin && allowed.some((a) => origin.startsWith(a))) return true;
+  if (referer && allowed.some((a) => referer.startsWith(a))) return true;
+
+  // sendBeacon requests may not have origin in some browsers
+  const contentType = headers.get("content-type");
+  if (contentType === "text/plain;charset=UTF-8" && !origin && !referer) {
+    // Likely sendBeacon — allow only if sec-fetch-site explicitly confirms same-origin
+    return secFetchSite === "same-origin" || secFetchSite === "same-site";
+  }
+
+  return false;
 }
 
 /**

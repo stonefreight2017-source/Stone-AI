@@ -1,59 +1,43 @@
 /**
- * ═══ PERFORMANCE HOT PATH ═══
- * This is the most-called route in the entire app.
- * Every chat message (agents + general) goes through here.
+ * ═══ BESTIE CHAT — PERFORMANCE & SECURITY NOTES ═══
+ * Mirrors /api/chat with bestie-specific personality prompts.
+ * Same scaling concerns apply — see /api/chat/route.ts header.
  *
- * SCALING CHECKPOINTS:
- * - Rate limiting (step 5): Redis-backed. If Redis is down, falls back to in-memory.
- *   At multi-instance deployment, in-memory fallback won't work — ensure Redis is managed.
- * - Concurrency slots (step 5b): Redis INCR/DECR with 2-min TTL safety net.
- *   If slots leak (crash without release), TTL auto-cleans after 120s.
- * - Model inference (step 11): Bottleneck at scale. See src/lib/ai.ts for scaling notes.
- * - Memory extraction (onFinish): Async, non-blocking, fire-and-forget.
- *   At high load, consider: MEMORY_EXTRACT_FREQUENCY env var to reduce frequency.
+ * ADDITIONAL BESTIE CONCERNS:
+ * - Memory extraction fires on every 100+ char response (same as agents).
+ *   Set MEMORY_EXTRACT_FREQUENCY=3 to reduce at scale.
+ * - Bestie system prompts are ~800-1200 tokens (personality + memory context).
+ *   These are rebuilt per request. If this becomes slow, cache them in Redis
+ *   with a 5-minute TTL keyed by bestieId:userId.
+ * - AgentMemory table stores bestie memories using bestieId as the agentId.
+ *   At 5000+ besties, consider a cleanup job to prune old memories.
  *
- * SECURITY CHECKPOINTS:
- * - Input sanitization (step 2b): Strips XML-like injection tags. Does NOT block.
- * - System prompt wrapper (step 10): Anti-extraction directives.
- * - Memory sanitization (extractAgentMemory): Blocks tier/role/admin key injection.
- * - Conversation ownership (step 3): IDOR protection via userId check.
- * - Agent tier enforcement (step 3b): Users can't access agents above their tier.
- *
- * DEBUG:
- * - Latency: X-Latency-Ms header on response.
- * - Errors: Logged to console + audit log.
- * - Quota: Returned in 429 response body.
+ * EXPLOIT PREVENTION:
+ * - Bestie ownership verified before chat (step 3).
+ * - Input sanitized (step 2b). System prompt wrapped with security directives.
+ * - Memory extraction sanitized (blocked keys: tier, role, admin, etc.).
+ * - Users cannot chat with inactive/deleted besties.
  */
 import { NextRequest } from "next/server";
 import { streamText } from "ai";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { chatMessageSchema } from "@/lib/validators";
+import { bestieChatSchema } from "@/lib/bestie-validators";
 import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode } from "@/lib/tier-config";
 import { checkRateLimit, acquireConcurrencySlot } from "@/lib/rate-limiter";
 import { checkQuota, incrementDailyUsage, recordTokenUsage } from "@/lib/quota";
-import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
-import { buildRagContext } from "@/lib/embeddings";
-import { buildMemoryContext } from "@/lib/agent-memory";
-import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
-import { logAuditEvent, getClientIp } from "@/lib/audit";
+import { getModel } from "@/lib/ai";
+import { buildBestiePrompt } from "@/lib/bestie-prompt";
+import { sanitizeUserInput } from "@/lib/security";
+import { buildMemoryExtractionPrompt, storeExtractedMemories } from "@/lib/agent-memory";
 import type { Tier } from "@/lib/tier-config";
 import type { Role, Mode } from "@/generated/prisma/enums";
-
-const TIER_RANK: Record<string, number> = {
-  FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
-};
 
 export async function POST(req: NextRequest) {
   try {
     // 1. Authenticate
     const user = await getOrCreateUser();
     if (user.banned) {
-      logAuditEvent({
-        event: "auth.banned_access",
-        userId: user.id,
-        ip: getClientIp(req.headers),
-      });
       return Response.json({ error: "Account suspended" }, { status: 403 });
     }
     const tier = user.tier as Tier;
@@ -67,30 +51,30 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Invalid JSON" }, { status: 400 });
     }
 
-    const parsed = chatMessageSchema.safeParse(body);
+    const parsed = bestieChatSchema.safeParse(body);
     if (!parsed.success) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
     const { message: rawMessage, conversationId, mode } = parsed.data;
 
-    // 2b. Sanitize user input (strip prompt injection patterns)
+    // 2b. Sanitize user input
     const message = sanitizeUserInput(rawMessage);
 
-    // 3. Verify conversation ownership
+    // 3. Verify conversation ownership + load bestie
     const conversation = await db.conversation.findFirst({
       where: { id: conversationId, userId: user.id },
       select: {
         id: true,
         title: true,
-        agentId: true,
-        agent: {
+        bestieId: true,
+        bestie: {
           select: {
             id: true,
-            slug: true,
             name: true,
-            systemPrompt: true,
-            requiredTier: true,
+            personality: true,
+            avatarEmoji: true,
+            isActive: true,
           },
         },
         messages: {
@@ -104,29 +88,8 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Conversation not found" }, { status: 404 });
     }
 
-    // 3b. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
-    if (conversation.agent) {
-      const agentTierRank = TIER_RANK[conversation.agent.requiredTier] ?? 0;
-      const userTierRank = TIER_RANK[tier] ?? 0;
-      if (userTierRank < agentTierRank) {
-        logAuditEvent({
-          event: "agent.access_denied",
-          userId: user.id,
-          metadata: {
-            agentSlug: conversation.agent.slug,
-            requiredTier: conversation.agent.requiredTier,
-          },
-        });
-        return Response.json(
-          {
-            code: "AGENT_TIER_REQUIRED",
-            message: `This agent requires ${conversation.agent.requiredTier} tier or higher`,
-            currentTier: tier,
-            requiredTier: conversation.agent.requiredTier,
-          },
-          { status: 403 }
-        );
-      }
+    if (!conversation.bestie || !conversation.bestie.isActive) {
+      return Response.json({ error: "Bestie not found or inactive" }, { status: 404 });
     }
 
     // 4. Check mode access
@@ -160,15 +123,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 5b. Concurrent request enforcement — prevent flooding
+    // 5b. Concurrent request enforcement
     const maxConcurrent = tierConfig.limits.concurrentRequests;
     const concurrency = await acquireConcurrencySlot(user.id, maxConcurrent);
     if (!concurrency.acquired) {
-      logAuditEvent({
-        event: "concurrent.blocked",
-        userId: user.id,
-        metadata: { maxConcurrent },
-      });
       return Response.json(
         {
           code: "TOO_MANY_CONCURRENT",
@@ -195,7 +153,6 @@ export async function POST(req: NextRequest) {
             messagesPerDay: quota.messagesPerDay,
             tokensPerMonth: quota.tokensPerMonth,
           },
-          nextResetDate: getNextResetDate(),
           offer: nextTier ? { targetTier: nextTier } : null,
         },
         { status: 429 }
@@ -215,7 +172,7 @@ export async function POST(req: NextRequest) {
     // 8. Increment daily usage
     await incrementDailyUsage(user.id);
 
-    // 9. Build message history — ENFORCE context window limit per tier
+    // 9. Build message history
     const contextLimit = tierConfig.perks.contextMessages;
     const allMessages = conversation.messages;
     const recentMessages = allMessages.slice(-contextLimit);
@@ -225,33 +182,16 @@ export async function POST(req: NextRequest) {
       content: m.content,
     }));
 
-    // Add the new user message
     history.push({ role: "user", content: message });
 
-    // 10. Build system prompt (agent-aware with RAG + memory + security wrapper)
-    let basePrompt = SYSTEM_PROMPT;
+    // 10. Build bestie system prompt (with memory + security wrapper)
+    const systemPrompt = await buildBestiePrompt(
+      conversation.bestie,
+      user.id,
+      user.name ?? undefined
+    );
 
-    if (conversation.agent) {
-      const agent = conversation.agent;
-      basePrompt = agent.systemPrompt;
-
-      // Inject RAG knowledge context
-      const ragContext = await buildRagContext(agent.id, message);
-      if (ragContext) {
-        basePrompt += ragContext;
-      }
-
-      // Inject user-specific memory
-      const memoryContext = await buildMemoryContext(agent.id, user.id);
-      if (memoryContext) {
-        basePrompt += memoryContext;
-      }
-    }
-
-    // Wrap with anti-injection security directives
-    const systemPrompt = wrapSystemPrompt(basePrompt);
-
-    // 11. Stream response from model
+    // 11. Stream response
     const startTime = Date.now();
     const model = getModel(mode as "LOCAL" | "SMART");
 
@@ -268,9 +208,10 @@ export async function POST(req: NextRequest) {
             role: "ASSISTANT" as Role,
             content: text,
             mode: mode as Mode,
-            model: mode === "SMART"
-              ? (process.env.OPENAI_MODEL ?? "gpt-4o")
-              : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
+            model:
+              mode === "SMART"
+                ? (process.env.OPENAI_MODEL ?? "gpt-4o")
+                : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
             tokensIn: tokenUsage?.inputTokens ?? 0,
             tokensOut: tokenUsage?.outputTokens ?? 0,
           },
@@ -286,7 +227,7 @@ export async function POST(req: NextRequest) {
 
         // Auto-title after first exchange
         if (conversation.title === "New Chat" && conversation.messages.length === 0) {
-          const title = generateTitle(message, text);
+          const title = `Chat with ${conversation.bestie!.name}`;
           await db.conversation.update({
             where: { id: conversation.id },
             data: { title },
@@ -302,11 +243,10 @@ export async function POST(req: NextRequest) {
         // Release concurrency slot
         await concurrency.release();
 
-        // Agent memory extraction (async, non-blocking, sanitized)
-        // ═══ SCALING: At high load, set MEMORY_EXTRACT_FREQUENCY=3 to extract every 3rd message ═══
-        if (conversation.agent && text.length > 100) {
-          extractAgentMemory(
-            conversation.agent.id,
+        // Bestie memory extraction (async, non-blocking)
+        if (text.length > 100) {
+          extractBestieMemory(
+            conversation.bestie!.id,
             user.id,
             message,
             text
@@ -315,7 +255,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // 12. Return streaming response — only safe headers
+    // 12. Return streaming response
     const firstTokenTime = Date.now() - startTime;
     return result.toTextStreamResponse({
       headers: {
@@ -326,21 +266,12 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("POST /api/chat:", error instanceof Error ? error.message : "Unknown error");
+    console.error("POST /api/bestie/chat:", error instanceof Error ? error.message : "Unknown error");
     return Response.json(
-      {
-        code: "SERVICE_UNAVAILABLE",
-        message: "Something went wrong. Please try again.",
-      },
+      { code: "SERVICE_UNAVAILABLE", message: "Something went wrong. Please try again." },
       { status: 500 }
     );
   }
-}
-
-function getNextResetDate(): string {
-  const now = new Date();
-  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-  return tomorrow.toISOString();
 }
 
 const MEMORY_BLOCKED_KEYS = new Set([
@@ -348,8 +279,8 @@ const MEMORY_BLOCKED_KEYS = new Set([
   "system_prompt", "instructions", "override", "privilege",
 ]);
 
-async function extractAgentMemory(
-  agentId: string,
+async function extractBestieMemory(
+  bestieId: string,
   userId: string,
   userMessage: string,
   assistantResponse: string
@@ -357,11 +288,9 @@ async function extractAgentMemory(
   try {
     const { streamText: st } = await import("ai");
     const { getModel: gm } = await import("@/lib/ai");
-    const { buildMemoryExtractionPrompt: buildPrompt, storeExtractedMemories: store } =
-      await import("@/lib/agent-memory");
 
-    const conversationSummary = `User: ${userMessage.slice(0, 500)}\n\nAssistant: ${assistantResponse.slice(0, 1000)}`;
-    const prompt = buildPrompt(conversationSummary);
+    const conversationSummary = `User: ${userMessage.slice(0, 500)}\n\nBestie: ${assistantResponse.slice(0, 1000)}`;
+    const prompt = buildMemoryExtractionPrompt(conversationSummary);
 
     const model = gm("LOCAL");
     const result = await st({
@@ -378,10 +307,9 @@ async function extractAgentMemory(
     if (fullText.trim()) {
       const jsonMatch = fullText.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
-        // Sanitize extracted memories before storage
         const sanitized = sanitizeExtractedMemories(jsonMatch[0]);
         if (sanitized) {
-          await store(agentId, userId, sanitized);
+          await storeExtractedMemories(bestieId, userId, sanitized);
         }
       }
     }
@@ -403,12 +331,10 @@ function sanitizeExtractedMemories(json: string): string | null {
         if (typeof value !== "string") continue;
         const lowerKey = key.toLowerCase();
 
-        // Block dangerous memory keys
         if (MEMORY_BLOCKED_KEYS.has(lowerKey)) continue;
         if (lowerKey.includes("prompt") || lowerKey.includes("instruction")) continue;
         if (lowerKey.includes("override") || lowerKey.includes("privilege")) continue;
 
-        // Limit value length
         clean[category][key] = value.slice(0, 500);
       }
 
@@ -420,10 +346,4 @@ function sanitizeExtractedMemories(json: string): string | null {
   } catch {
     return null;
   }
-}
-
-function generateTitle(userMessage: string, assistantResponse: string): string {
-  const cleaned = userMessage.replace(/\n/g, " ").trim();
-  if (cleaned.length <= 40) return cleaned;
-  return cleaned.slice(0, 37) + "...";
 }

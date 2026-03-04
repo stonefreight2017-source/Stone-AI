@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
-import { sanitizeUserInput } from "@/lib/security";
+import { sanitizeUserInput, getClientIp, validateOrigin } from "@/lib/security";
 import { z } from "zod";
 
 const enterpriseSchema = z.object({
@@ -25,13 +25,66 @@ const enterpriseSchema = z.object({
   billingPeriod: z.string(),
 });
 
+// Server-side price calculation to prevent client-side manipulation
+function calculateServerPrice(config: z.infer<typeof enterpriseSchema>["config"]): {
+  monthly: number;
+  total: number;
+} {
+  let monthly = 0;
+
+  // Base: $8/seat/mo
+  monthly += config.seats * 8;
+
+  // API tier pricing
+  if (config.apiRequests > 50000) monthly += 200;
+  else if (config.apiRequests > 20000) monthly += 100;
+  else if (config.apiRequests > 10000) monthly += 50;
+
+  // Support
+  if (config.support === "dedicated") monthly += 300;
+  else if (config.support === "priority") monthly += 100;
+
+  // SLA
+  if (config.sla === "99.99") monthly += 500;
+  else if (config.sla === "99.9") monthly += 150;
+
+  // Add-ons
+  if (config.auditLogExport) monthly += 50;
+  if (config.complianceReports) monthly += 100;
+
+  // Model
+  if (config.model === "dedicated-gpu") monthly += 400;
+  else if (config.model === "fine-tuning") monthly += 200;
+
+  // Tokens
+  if (config.responseTokens > 64000) monthly += 100;
+
+  // Concurrent
+  if (config.concurrent > 50) monthly += 150;
+  else if (config.concurrent > 20) monthly += 75;
+
+  // Billing period discount
+  const periods: Record<string, { months: number; discount: number }> = {
+    monthly: { months: 1, discount: 0 },
+    semiannual: { months: 6, discount: 0.1 },
+    annual: { months: 12, discount: 0.2 },
+  };
+  const period = periods[config.billingPeriod] || periods.monthly;
+  const discounted = monthly * (1 - period.discount);
+  const total = discounted * period.months;
+
+  return { monthly: Math.round(discounted), total: Math.round(total) };
+}
+
 export async function POST(req: NextRequest) {
   try {
-    // Rate limit by IP — public endpoint, no auth required
-    const ip =
-      req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-      req.headers.get("x-real-ip") ||
-      "unknown";
+    // CSRF: validate origin
+    if (!validateOrigin(req.headers)) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    // Rate limit by IP (Vercel-trusted headers)
+    const ip = getClientIp(req.headers);
     const { allowed } = await checkRateLimitAsync(
       `enterprise:${ip}`,
       3
@@ -52,8 +105,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { config, estimatedMonthly, estimatedTotal, billingPeriod } =
-      parsed.data;
+    const { config, billingPeriod } = parsed.data;
+
+    // Server-side price calculation (never trust client-sent prices)
+    const serverPrice = calculateServerPrice(config);
 
     const referenceId = `ENT-${Date.now().toString(36).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
 
@@ -74,29 +129,24 @@ export async function POST(req: NextRequest) {
         responseTokens: config.responseTokens,
         billingPeriod,
         financing: config.financing,
-        estimatedMonthly,
-        estimatedTotal,
+        estimatedMonthly: serverPrice.monthly,
+        estimatedTotal: serverPrice.total,
       },
       null,
       2
     );
 
-    // Try to store as Feedback if we can find/create a system user
-    // Enterprise inquiries use FEATURE type with [ENTERPRISE] prefix
+    // Store as Feedback using atomic upsert for system user (prevents race condition)
     try {
-      // Find or use a system user for unauthenticated submissions
-      let systemUser = await db.user.findFirst({
+      const systemUser = await db.user.upsert({
         where: { email: "enterprise@stone-ai.net" },
+        update: {},
+        create: {
+          clerkId: "system_enterprise",
+          email: "enterprise@stone-ai.net",
+          name: "Enterprise Inquiries",
+        },
       });
-      if (!systemUser) {
-        systemUser = await db.user.create({
-          data: {
-            clerkId: `system_enterprise_${Date.now()}`,
-            email: "enterprise@stone-ai.net",
-            name: "Enterprise Inquiries",
-          },
-        });
-      }
 
       await db.feedback.create({
         data: {
@@ -113,8 +163,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      estimatedMonthly,
-      estimatedTotal,
+      estimatedMonthly: serverPrice.monthly,
+      estimatedTotal: serverPrice.total,
       referenceId,
     });
   } catch {

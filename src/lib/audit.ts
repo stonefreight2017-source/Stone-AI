@@ -94,17 +94,6 @@ async function ensureAuditTable(): Promise<void> {
 
 /**
  * Extract client IP from request headers.
- * Handles X-Forwarded-For (behind proxy/CDN) and direct connections.
+ * Re-exports from security.ts for consistent IP extraction.
  */
-export function getClientIp(headers: Headers): string {
-  // X-Forwarded-For can be spoofed — take the LAST entry (closest to server)
-  // or the first if behind a trusted reverse proxy
-  const forwarded = headers.get("x-forwarded-for");
-  if (forwarded) {
-    const ips = forwarded.split(",").map((ip) => ip.trim());
-    // Take the rightmost non-private IP, or first if all are private
-    return ips[0] ?? "unknown";
-  }
-
-  return headers.get("x-real-ip") ?? "unknown";
-}
+export { getClientIp } from "@/lib/security";

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { nanoid } from "nanoid";
-import { checkRateLimit } from "@/lib/rate-limiter";
+import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { getTierConfig } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
 
@@ -12,7 +12,7 @@ export async function GET() {
     const user = await getOrCreateUser();
 
     // Rate limit: 10 reads per minute
-    const rateCheck = checkRateLimit(`referral:${user.id}`, 10);
+    const rateCheck = await checkRateLimitAsync(`referral:${user.id}`, 10);
     if (!rateCheck.allowed) {
       return NextResponse.json({ error: "Too many requests" }, { status: 429 });
     }

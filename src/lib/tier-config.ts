@@ -28,6 +28,7 @@ export interface TierPerks {
   earlyAccess: boolean;       // New agents 30 days early
   agentBuilder: boolean;      // Create custom agents with own prompts + knowledge
   referralMultiplier: number; // Referral credit multiplier (1 = normal, 2 = double)
+  maxBesties: number;         // Max AI Bestie companions per user
 }
 
 export interface TierConfig {
@@ -63,6 +64,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       earlyAccess: false,
       agentBuilder: false,
       referralMultiplier: 1,
+      maxBesties: 1,
     },
     allowedModes: ["LOCAL"],
     priority: 0,
@@ -89,6 +91,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       earlyAccess: false,
       agentBuilder: false,
       referralMultiplier: 1,
+      maxBesties: 1,
     },
     allowedModes: ["LOCAL"],
     priority: 1,
@@ -115,6 +118,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       earlyAccess: false,
       agentBuilder: false,
       referralMultiplier: 1,
+      maxBesties: 2,
     },
     allowedModes: ["LOCAL"],
     priority: 2,
@@ -141,6 +145,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       earlyAccess: false,
       agentBuilder: false,
       referralMultiplier: 1,
+      maxBesties: 3,
     },
     allowedModes: ["LOCAL", "SMART"],
     priority: 3,
@@ -167,6 +172,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       earlyAccess: true,
       agentBuilder: true,
       referralMultiplier: 2,
+      maxBesties: 5,
     },
     allowedModes: ["LOCAL", "SMART", "PRIORITY"],
     priority: 4,
@@ -196,6 +202,10 @@ export function getRequiredTierForMode(mode: RequestMode): Tier {
     if (TIER_CONFIG[tier].allowedModes.includes(mode)) return tier;
   }
   return "PRO"; // fallback
+}
+
+export function getMaxBesties(tier: Tier): number {
+  return TIER_CONFIG[tier].perks.maxBesties;
 }
 
 export type BillingPeriod = "monthly" | "semiannual" | "annual";

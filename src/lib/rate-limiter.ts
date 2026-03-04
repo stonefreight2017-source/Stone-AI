@@ -2,6 +2,27 @@
  * Redis-backed sliding window rate limiter.
  * Falls back to in-memory Map if Redis is unavailable.
  * Survives restarts, works across multiple instances.
+ *
+ * ═══ SCALING REMINDER ═══
+ * Current: Redis on localhost:6379 (Windows service).
+ * At multi-instance deployment (Vercel serverless), localhost Redis won't work.
+ * Switch to managed Redis:
+ *   - Upstash (serverless, pay-per-request): REDIS_HOST=your-endpoint.upstash.io
+ *   - Railway Redis: REDIS_HOST=your-host.railway.app
+ * Set REDIS_HOST and REDIS_PORT env vars. Code already supports this.
+ *
+ * ═══ SECURITY ═══
+ * - In-memory fallback: rate limits are per-instance only. A determined
+ *   attacker could hit different serverless instances to bypass limits.
+ *   Always ensure Redis is available in production.
+ * - Concurrency TTL (120s): If a request crashes without releasing its slot,
+ *   the slot auto-frees after 2 minutes. Watch for "stale concurrency slots"
+ *   in /api/admin/health security report.
+ *
+ * ═══ DEBUG ═══
+ * - Rate limit hits are logged to AuditLog (event: rate_limit.hit).
+ * - Concurrency blocks logged as concurrent.blocked.
+ * - Redis connection errors logged to console.warn.
  */
 
 import Redis from "ioredis";

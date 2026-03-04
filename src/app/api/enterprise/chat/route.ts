@@ -5,19 +5,19 @@ import { db } from "@/lib/db";
 import { getModel } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
-import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
+import { sanitizeUserInput, wrapSystemPrompt, getClientIp, validateOrigin } from "@/lib/security";
 
 const messageSchema = z.object({
   messages: z
     .array(
       z.object({
         role: z.enum(["user", "assistant"]),
-        content: z.string().max(4000),
+        content: z.string().max(2000),
       })
     )
-    .max(50),
+    .max(30),
   sessionId: z.string().uuid(),
-  configSnapshot: z.string().max(5000).optional(),
+  configSnapshot: z.string().max(2000).optional(),
 });
 
 // Cache agent ID at module level
@@ -34,11 +34,16 @@ async function getAgentId(): Promise<string | null> {
 }
 
 export async function POST(req: NextRequest) {
-  // Rate limit by IP
-  const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
-    req.headers.get("x-real-ip") ||
-    "unknown";
+  // CSRF: validate origin on public endpoint
+  if (!validateOrigin(req.headers)) {
+    return new Response(JSON.stringify({ error: "Forbidden" }), {
+      status: 403,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // Rate limit by IP (uses Vercel-trusted headers, not spoofable x-forwarded-for)
+  const ip = getClientIp(req.headers);
   const rl = await checkRateLimitAsync(`enterprise-chat:${ip}`, 10);
   if (!rl.allowed) {
     return new Response(
@@ -100,7 +105,7 @@ export async function POST(req: NextRequest) {
   const basePrompt = agent?.systemPrompt || FALLBACK_SYSTEM_PROMPT;
 
   const configSection = body.configSnapshot
-    ? `\n\n<current_configuration>\nThe prospect has currently configured:\n${body.configSnapshot}\n</current_configuration>`
+    ? `\n\n<current_configuration>\nThe prospect has currently configured:\n${sanitizeUserInput(body.configSnapshot)}\n</current_configuration>`
     : "";
 
   const systemPrompt = wrapSystemPrompt(

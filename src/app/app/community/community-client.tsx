@@ -58,7 +58,7 @@ interface Reply {
 }
 
 interface PostDetail extends PostSummary {
-  likedByUserIds: string[];
+  likedByCurrentUser: boolean;
   replies: Reply[];
 }
 
@@ -255,9 +255,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
           setSelectedPost({
             ...selectedPost,
             likes: selectedPost.likes + (data.liked ? 1 : -1),
-            likedByUserIds: data.liked
-              ? [...selectedPost.likedByUserIds, userId]
-              : selectedPost.likedByUserIds.filter((id) => id !== userId),
+            likedByCurrentUser: data.liked,
           });
         }
       }
@@ -375,7 +373,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
 
   // --- DETAIL VIEW ---
   if (view === "detail" && selectedPost) {
-    const hasLiked = selectedPost.likedByUserIds.includes(userId);
+    const hasLiked = selectedPost.likedByCurrentUser;
     return (
       <div className="max-w-3xl mx-auto p-6 space-y-6">
         <Button

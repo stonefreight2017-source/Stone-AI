@@ -3,16 +3,32 @@ import { createOpenAI } from "@ai-sdk/openai";
 /**
  * vLLM provider — OpenAI-compatible API running locally.
  * Points to localhost:8000 where vLLM serves the model.
+ *
+ * ═══ SCALING REMINDER ═══
+ * When daily active users exceed ~50, switch to a cloud endpoint:
+ *   VLLM_BASE_URL=https://api.together.xyz/v1    (Together AI)
+ *   VLLM_BASE_URL=https://api.fireworks.ai/inference/v1  (Fireworks)
+ *   VLLM_BASE_URL=https://api.groq.com/openai/v1  (Groq)
+ * Also set VLLM_API_KEY to your provider's API key.
+ * No code changes needed — the OpenAI-compatible interface works the same.
+ *
+ * Monitor: GET /api/admin/health → scaling.alerts
  */
 export const vllm = createOpenAI({
   baseURL: process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1",
-  apiKey: "not-needed", // vLLM doesn't require an API key locally
+  apiKey: process.env.VLLM_API_KEY ?? "not-needed",
   name: "vllm",
 });
 
 /**
  * Cloud fallback provider — OpenAI GPT for SMART mode.
- * Only available to Smart ($39) and Pro ($79) tiers.
+ * Only available to Smart and Pro tiers.
+ *
+ * ═══ SCALING REMINDER ═══
+ * At 500+ SMART mode users, check your OpenAI usage tier.
+ * Default rate limit is 500 RPM. Request tier 3+ at:
+ * https://platform.openai.com/account/limits
+ * At 2000+ users, consider adding a second cloud provider as fallback.
  */
 export const cloud = createOpenAI({
   apiKey: process.env.OPENAI_API_KEY ?? "",

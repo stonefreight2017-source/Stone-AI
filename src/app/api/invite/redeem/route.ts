@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { checkRateLimit } from "@/lib/rate-limiter";
+import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 
 const TIER_RANK: Record<string, number> = {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     const user = await getOrCreateUser();
 
     // Rate limit: 5 attempts per minute to prevent brute force
-    const rateCheck = checkRateLimit(`invite:${user.id}`, 5);
+    const rateCheck = await checkRateLimitAsync(`invite:${user.id}`, 5);
     if (!rateCheck.allowed) {
       return NextResponse.json(
         { error: "Too many attempts. Please wait before trying again." },

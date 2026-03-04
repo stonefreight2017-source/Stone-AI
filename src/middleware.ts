@@ -14,6 +14,8 @@ const isPublicRoute = createRouteMatcher([
   "/api/stripe/webhook",
   "/api/health",
   "/api/v1/(.*)", // API key auth handled separately
+  "/api/enterprise/(.*)", // Public enterprise endpoints (sales widget)
+  "/enterprise",
 ]);
 
 // Security headers applied to every response

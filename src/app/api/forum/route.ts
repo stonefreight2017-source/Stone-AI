@@ -6,9 +6,14 @@ import { sanitizeUserInput } from "@/lib/security";
 import { checkContentModeration, getViolationTitle, POLICY_VIOLATION_MESSAGE } from "@/lib/content-moderation";
 import { z } from "zod";
 
+const VALID_CATEGORIES = ["GENERAL", "TIPS", "SHOWCASE", "AGENTS", "BUSINESS", "TECHNICAL", "FEEDBACK"];
+
 // GET /api/forum — list posts with pagination + filtering
 export async function GET(req: NextRequest) {
   try {
+    // Require authentication for forum access
+    await getOrCreateUser();
+
     const url = new URL(req.url);
     const category = url.searchParams.get("category");
     const page = Math.max(1, parseInt(url.searchParams.get("page") || "1"));
@@ -17,6 +22,10 @@ export async function GET(req: NextRequest) {
 
     const where: Record<string, unknown> = {};
     if (category && category !== "ALL") {
+      // Validate category against allowed values
+      if (!VALID_CATEGORIES.includes(category)) {
+        return NextResponse.json({ error: "Invalid category" }, { status: 400 });
+      }
       where.category = category;
     }
 

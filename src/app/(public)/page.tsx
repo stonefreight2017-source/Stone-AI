@@ -24,120 +24,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TIER_DISPLAY, TIER_CONFIG } from "@/lib/tier-config";
+import { PricingSection } from "./pricing-section";
 
-interface PricingFeature {
-  text: string;
-  highlight?: boolean;
-}
-
-interface PricingTier {
-  key: string;
-  name: string;
-  tagline: string;
-  price: number;
-  priceDisplay: string;
-  popular: boolean;
-  enterprise?: boolean;
-  features: PricingFeature[];
-}
-
-const PRICING_FEATURES: PricingTier[] = [
-  {
-    key: "FREE",
-    name: "Free",
-    tagline: "Try the speed for yourself",
-    price: 0,
-    priceDisplay: "$0",
-    popular: false,
-    features: [
-      { text: "Local AI chat" },
-      { text: "Sub-100ms responses", highlight: true },
-      { text: "Full conversation history" },
-      { text: "Complete data privacy" },
-      { text: "No credit card required" },
-    ],
-  },
-  {
-    key: "STARTER",
-    name: "Starter",
-    tagline: "For daily AI users",
-    price: 9.99,
-    priceDisplay: "$9.99",
-    popular: false,
-    features: [
-      { text: "Everything in Free" },
-      { text: "4x faster throughput", highlight: true },
-      { text: "5x more daily capacity" },
-      { text: "Longer, more detailed responses" },
-      { text: "Extended conversation memory" },
-    ],
-  },
-  {
-    key: "PLUS",
-    name: "Plus",
-    tagline: "Unlock AI Expert Agents",
-    price: 29.99,
-    priceDisplay: "$29.99",
-    popular: false,
-    features: [
-      { text: "Everything in Starter" },
-      { text: "11 AI Expert Agents", highlight: true },
-      { text: "16x Free plan capacity" },
-      { text: "2 concurrent chats" },
-      { text: "Conversation export" },
-    ],
-  },
-  {
-    key: "SMART",
-    name: "Smart",
-    tagline: "Full agency toolkit + cloud AI",
-    price: 69.99,
-    priceDisplay: "$69.99",
-    popular: true,
-    features: [
-      { text: "Everything in Plus" },
-      { text: "26 AI Expert Agents", highlight: true },
-      { text: "GPT-4o Smart mode", highlight: true },
-      { text: "Cloud fallback (never goes down)" },
-      { text: "Auto-routing + 3 concurrent chats" },
-    ],
-  },
-  {
-    key: "PRO",
-    name: "Pro",
-    tagline: "All 30 agents + API + priority",
-    price: 199,
-    priceDisplay: "$199",
-    popular: false,
-    features: [
-      { text: "Everything in Smart" },
-      { text: "All 30 AI Expert Agents", highlight: true },
-      { text: "API access (build on Stone AI)", highlight: true },
-      { text: "Priority inference queue", highlight: true },
-      { text: "100x Free plan capacity" },
-      { text: "10 concurrent chats + 32K responses" },
-    ],
-  },
-  {
-    key: "ENTERPRISE",
-    name: "Enterprise",
-    tagline: "Dedicated infrastructure for teams",
-    price: 500,
-    priceDisplay: "From $500",
-    popular: false,
-    enterprise: true,
-    features: [
-      { text: "Everything in Pro" },
-      { text: "Multiple seats & API keys", highlight: true },
-      { text: "Dedicated inference priority", highlight: true },
-      { text: "99.9% uptime SLA", highlight: true },
-      { text: "SSO/SAML + audit logging" },
-      { text: "50K+ requests/day + custom limits" },
-      { text: "Dedicated support channel" },
-    ],
-  },
-];
 
 export default function LandingPage() {
   return (
@@ -147,7 +35,7 @@ export default function LandingPage() {
         <span className="text-xl font-bold">Stone AI™</span>
         <div className="flex items-center gap-4">
           <Link
-            href="/pricing"
+            href="/#pricing"
             className="text-sm text-zinc-400 hover:text-white transition-colors"
           >
             Pricing
@@ -406,76 +294,7 @@ export default function LandingPage() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="px-6 pb-24 max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-4">
-          More speed. More intelligence. Your call.
-        </h2>
-        <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-          Every tier unlocks faster responses and smarter capabilities.
-          Start free, scale when you're ready. Cancel anytime.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-          {(PRICING_FEATURES as PricingTier[]).map((tier) => (
-            <Card
-              key={tier.key}
-              className={`bg-zinc-900 border-zinc-800 p-5 flex flex-col relative ${
-                tier.popular ? "ring-2 ring-purple-500" : ""
-              } ${tier.enterprise ? "ring-2 ring-emerald-500" : ""}`}
-            >
-              {tier.popular && (
-                <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px]">
-                  <Star className="h-3 w-3 mr-1" /> Most Popular
-                </Badge>
-              )}
-              {tier.enterprise && (
-                <Badge className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[10px]">
-                  Teams & Business
-                </Badge>
-              )}
-              <h3 className="font-semibold text-lg mb-1">{tier.name}</h3>
-              <p className="text-xs text-zinc-500 mb-3">{tier.tagline}</p>
-              <div className="mb-4">
-                <span className="text-3xl font-bold">
-                  {tier.priceDisplay}
-                </span>
-                {tier.price > 0 && (
-                  <span className="text-sm text-zinc-500">/mo</span>
-                )}
-              </div>
-
-              <ul className="space-y-2 text-sm text-zinc-400 flex-1 mb-5">
-                {tier.features.map((f, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <Check
-                      className={`h-4 w-4 shrink-0 mt-0.5 ${
-                        f.highlight ? "text-amber-400" : "text-green-400"
-                      }`}
-                    />
-                    {f.text}
-                  </li>
-                ))}
-              </ul>
-
-              <Button
-                asChild
-                variant={tier.popular ? "default" : "outline"}
-                className={
-                  tier.popular
-                    ? "bg-purple-600 hover:bg-purple-500 w-full"
-                    : tier.enterprise
-                    ? "border-emerald-700 text-emerald-400 hover:bg-emerald-900/30 w-full"
-                    : "border-zinc-700 w-full"
-                }
-              >
-                <Link href={tier.enterprise ? "/app/support" : "/sign-up"}>
-                  {tier.price === 0 ? "Start Free" : tier.enterprise ? "Contact Sales" : "Get Started"}
-                </Link>
-              </Button>
-            </Card>
-          ))}
-        </div>
-      </section>
+      <PricingSection />
 
       {/* AI Agents Section — Outcome-Driven */}
       <section className="px-6 pb-24 max-w-6xl mx-auto">
@@ -906,10 +725,4 @@ export default function LandingPage() {
       </footer>
     </div>
   );
-}
-
-function formatTokens(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(0)}M`;
-  if (n >= 1_000) return `${Math.round(n / 1_000)}K`;
-  return n.toString();
 }

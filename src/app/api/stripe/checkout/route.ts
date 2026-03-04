@@ -3,7 +3,7 @@ import { z } from "zod";
 import Stripe from "stripe";
 import { getOrCreateUser } from "@/lib/auth";
 import { getStripePriceId } from "@/lib/tier-config";
-import { checkRateLimit } from "@/lib/rate-limiter";
+import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import type { Tier, BillingPeriod } from "@/lib/tier-config";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const user = await getOrCreateUser();
 
     // Rate limit: 5 checkout attempts per minute
-    const rateCheck = checkRateLimit(`checkout:${user.id}`, 5);
+    const rateCheck = await checkRateLimitAsync(`checkout:${user.id}`, 5);
     if (!rateCheck.allowed) {
       return NextResponse.json(
         { error: "Too many requests. Slow down." },
@@ -48,11 +48,24 @@ export async function POST(req: NextRequest) {
     const priceId = getStripePriceId(targetTier, billingPeriod);
 
     // Enhanced trial: one per account, requires credit card, 7-day free then auto-charges
-    if (wantsTrial && user.enhancedTrialUsed) {
-      return NextResponse.json(
-        { error: "Enhanced trial already used. Each account gets one enhanced trial." },
-        { status: 400 }
-      );
+    if (wantsTrial) {
+      if (user.enhancedTrialUsed) {
+        return NextResponse.json(
+          { error: "Enhanced trial already used. Each account gets one enhanced trial." },
+          { status: 400 }
+        );
+      }
+      // Atomically claim trial to prevent race condition (two simultaneous requests)
+      const claimed = await (await import("@/lib/db")).db.user.updateMany({
+        where: { id: user.id, enhancedTrialUsed: false },
+        data: { enhancedTrialUsed: true },
+      });
+      if (claimed.count === 0) {
+        return NextResponse.json(
+          { error: "Enhanced trial already used. Each account gets one enhanced trial." },
+          { status: 400 }
+        );
+      }
     }
 
     if (!priceId || priceId === "price_PASTE_LATER") {
@@ -97,13 +110,7 @@ export async function POST(req: NextRequest) {
 
     const session = await stripe.checkout.sessions.create(sessionConfig);
 
-    // Mark enhanced trial as used after successful session creation
-    if (wantsTrial) {
-      await (await import("@/lib/db")).db.user.update({
-        where: { id: user.id },
-        data: { enhancedTrialUsed: true },
-      });
-    }
+    // Trial flag already set atomically above via updateMany
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
