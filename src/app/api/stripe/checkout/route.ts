@@ -13,6 +13,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 const checkoutSchema = z.object({
   tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]),
   period: z.enum(["monthly", "semiannual", "annual"]).optional().default("monthly"),
+  trial: z.boolean().optional().default(false),
 });
 
 // POST /api/stripe/checkout — create a Stripe checkout session
@@ -43,7 +44,16 @@ export async function POST(req: NextRequest) {
 
     const targetTier = parsed.data.tier as Tier;
     const billingPeriod = parsed.data.period as BillingPeriod;
+    const wantsTrial = parsed.data.trial;
     const priceId = getStripePriceId(targetTier, billingPeriod);
+
+    // Enhanced trial: one per account, requires credit card, 7-day free then auto-charges
+    if (wantsTrial && user.enhancedTrialUsed) {
+      return NextResponse.json(
+        { error: "Enhanced trial already used. Each account gets one enhanced trial." },
+        { status: 400 }
+      );
+    }
 
     if (!priceId || priceId === "price_PASTE_LATER") {
       return NextResponse.json(
@@ -71,18 +81,29 @@ export async function POST(req: NextRequest) {
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig: Stripe.Checkout.SessionCreateParams = {
       customer: customerId,
       mode: "subscription",
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${appUrl}/app/billing?success=true&tier=${targetTier}`,
+      success_url: `${appUrl}/app/billing?success=true&tier=${targetTier}${wantsTrial ? "&trial=true" : ""}`,
       cancel_url: `${appUrl}/app/billing?canceled=true`,
-      metadata: { userId: user.id, targetTier, billingPeriod },
+      metadata: { userId: user.id, targetTier, billingPeriod, trial: wantsTrial ? "true" : "false" },
       subscription_data: {
         metadata: { userId: user.id },
+        ...(wantsTrial ? { trial_period_days: 7 } : {}),
       },
-      allow_promotion_codes: true,
-    });
+      allow_promotion_codes: !wantsTrial, // No promo codes during trial
+    };
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
+
+    // Mark enhanced trial as used after successful session creation
+    if (wantsTrial) {
+      await (await import("@/lib/db")).db.user.update({
+        where: { id: user.id },
+        data: { enhancedTrialUsed: true },
+      });
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (error) {

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
-import { Plus, Settings, CreditCard, PanelLeftClose, Bot, Users, HelpCircle, Bell, Gift } from "lucide-react";
+import { Plus, Settings, CreditCard, PanelLeftClose, Bot, Users, HelpCircle, Bell, Gift, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
@@ -123,11 +123,11 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-emerald-400 hover:text-emerald-300 hover:bg-emerald-900/20 h-9"
-          onClick={() => router.push("/app/settings#referral")}
+          className="w-full justify-start gap-2 text-amber-400 hover:text-amber-300 hover:bg-amber-900/20 h-9"
+          onClick={() => router.push("/app/promotions")}
         >
-          <Gift className="h-4 w-4" />
-          Refer & Earn
+          <Sparkles className="h-4 w-4" />
+          Deals & Trials
         </Button>
         <Button
           variant="ghost"

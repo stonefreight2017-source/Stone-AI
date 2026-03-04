@@ -1,11 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rate-limiter";
 
 // POST /api/referral/track — track that current user was referred by a code
 export async function POST(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
+
+    // Rate limit: 3 track attempts per minute
+    const rateCheck = checkRateLimit(`referral-track:${user.id}`, 3);
+    if (!rateCheck.allowed) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
 
     const body = await req.json().catch(() => null);
     const refCode = body?.referralCode;

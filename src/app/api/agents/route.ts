@@ -38,9 +38,26 @@ export async function GET() {
       const requiredRank = TIER_RANK[agent.requiredTier] ?? 0;
       const unlocked = userTierRank >= requiredRank;
 
+      // Locked agents: show only name, category, tier requirement — no details
+      if (!unlocked) {
+        return {
+          id: agent.id,
+          slug: agent.slug,
+          name: agent.name,
+          description: `Upgrade to ${agent.requiredTier} to unlock this agent.`,
+          category: agent.category,
+          icon: agent.icon,
+          requiredTier: agent.requiredTier,
+          sortOrder: agent.sortOrder,
+          unlocked: false,
+          capabilities: [],
+          businessUse: "",
+        };
+      }
+
       return {
         ...agent,
-        unlocked,
+        unlocked: true,
         capabilities: caps?.capabilities ?? [],
         businessUse: caps?.businessUse ?? "",
       };

@@ -2,11 +2,18 @@ import { NextResponse } from "next/server";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { nanoid } from "nanoid";
+import { checkRateLimit } from "@/lib/rate-limiter";
 
 // GET /api/referral — get user's referral code, stats, and referral list
 export async function GET() {
   try {
     const user = await getOrCreateUser();
+
+    // Rate limit: 10 reads per minute
+    const rateCheck = checkRateLimit(`referral:${user.id}`, 10);
+    if (!rateCheck.allowed) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
 
     // Generate referral code if user doesn't have one
     let referralCode = user.referralCode;

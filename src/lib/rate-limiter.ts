@@ -24,8 +24,8 @@ function getRedis(): Redis | null {
       enableOfflineQueue: false,
     });
 
-    redis.on("error", () => {
-      // Silently fall back to in-memory
+    redis.on("error", (err) => {
+      console.warn("[rate-limiter] Redis unavailable, falling back to in-memory:", err.message);
       redisAvailable = false;
       redis?.disconnect();
       redis = null;
@@ -49,6 +49,7 @@ interface RateEntry {
 }
 
 const memoryStore = new Map<string, RateEntry>();
+const memoryConcurrency = new Map<string, number>();
 
 // Clean up old in-memory entries every 5 minutes
 setInterval(() => {
@@ -184,6 +185,19 @@ export async function acquireConcurrencySlot(
     }
   }
 
-  // In-memory fallback: no concurrent limiting (single instance approximation)
-  return { acquired: true, release: async () => {} };
+  // In-memory fallback: track concurrency locally
+  console.warn("[rate-limiter] Redis unavailable — using in-memory concurrency tracking");
+  const count = (memoryConcurrency.get(key) ?? 0) + 1;
+  if (count > maxConcurrent) {
+    return { acquired: false, release: async () => {} };
+  }
+  memoryConcurrency.set(key, count);
+  return {
+    acquired: true,
+    release: async () => {
+      const cur = memoryConcurrency.get(key) ?? 1;
+      if (cur <= 1) memoryConcurrency.delete(key);
+      else memoryConcurrency.set(key, cur - 1);
+    },
+  };
 }

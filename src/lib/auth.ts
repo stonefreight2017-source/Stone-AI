@@ -41,6 +41,24 @@ export async function getOrCreateUser(): Promise<User> {
     },
   });
 
+  // Auto-expire free trial: revert to FREE if trial has ended and no active subscription
+  if (
+    user.freeTrialEndsAt &&
+    user.freeTrialEndsAt < new Date() &&
+    user.subscriptionStatus !== "ACTIVE" &&
+    user.tier !== "FREE"
+  ) {
+    const updated = await db.user.update({
+      where: { id: user.id },
+      data: {
+        tier: "FREE",
+        freeTrialTier: null,
+        freeTrialEndsAt: null,
+      },
+    });
+    return updated;
+  }
+
   return user;
 }
 

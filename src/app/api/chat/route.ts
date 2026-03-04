@@ -135,7 +135,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 5b. Concurrent request enforcement — prevent flooding
-    const maxConcurrent = tier === "PRO" ? 5 : tier === "SMART" ? 3 : 2;
+    const maxConcurrent = tierConfig.limits.concurrentRequests;
     const concurrency = await acquireConcurrencySlot(user.id, maxConcurrent);
     if (!concurrency.acquired) {
       logAuditEvent({
