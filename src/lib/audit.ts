@@ -23,7 +23,8 @@ export type AuditEvent =
   | "injection.detected"
   | "admin.action"
   | "conversation.deleted"
-  | "concurrent.blocked";
+  | "concurrent.blocked"
+  | "smart.quota_exceeded";
 
 interface AuditLogEntry {
   event: AuditEvent;

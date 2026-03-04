@@ -28,7 +28,7 @@ function formatLatency(ms: number): string {
 export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieChatProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
-  const { selectedMode, setTierError } = useAppStore();
+  const { selectedMode, setSelectedMode, setTierError } = useAppStore();
   const { data: userData } = useUser();
 
   // Input state
@@ -60,6 +60,11 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
         const parsed = JSON.parse(error.message) as ChatError;
         if (parsed.code === "TIER_MISMATCH" || parsed.code === "QUOTA_EXCEEDED") {
           setTierError(parsed);
+          return;
+        }
+        if (parsed.code === "SMART_QUOTA_EXCEEDED") {
+          setSelectedMode("LOCAL");
+          toast.error(parsed.message || "Smart mode limit reached. Switched to Local mode.");
           return;
         }
         if (parsed.code === "RATE_LIMITED") {

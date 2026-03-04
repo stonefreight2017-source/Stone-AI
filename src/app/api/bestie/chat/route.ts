@@ -25,7 +25,7 @@ import { db } from "@/lib/db";
 import { bestieChatSchema } from "@/lib/bestie-validators";
 import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode } from "@/lib/tier-config";
 import { checkRateLimit, acquireConcurrencySlot } from "@/lib/rate-limiter";
-import { checkQuota, incrementDailyUsage, recordTokenUsage } from "@/lib/quota";
+import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
 import { getModel } from "@/lib/ai";
 import { buildBestiePrompt } from "@/lib/bestie-prompt";
 import { sanitizeUserInput } from "@/lib/security";
@@ -125,6 +125,25 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // 4b. SMART mode hard cap — protect company margins
+    if (mode === "SMART") {
+      const smartQuota = await checkSmartQuota(user.id, tier);
+      if (!smartQuota.allowed) {
+        return Response.json(
+          {
+            code: "SMART_QUOTA_EXCEEDED",
+            message: `You've used all ${smartQuota.smartMessagesPerDay} Smart mode messages for today. Switch to Local mode for unlimited fast responses.`,
+            smartUsage: {
+              sent: smartQuota.smartMessagesSentToday,
+              limit: smartQuota.smartMessagesPerDay,
+            },
+            suggestion: "LOCAL",
+          },
+          { status: 429 }
+        );
+      }
+    }
+
     // 5. Rate limit check
     const rateCheck = checkRateLimit(user.id, tierConfig.limits.requestsPerMinute);
     if (!rateCheck.allowed) {
@@ -184,8 +203,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // 8. Increment daily usage
-    await incrementDailyUsage(user.id);
+    // 8. Increment daily usage (SMART costs 3x to protect margins)
+    if (mode === "SMART") {
+      await incrementSmartUsage(user.id);
+    } else {
+      await incrementDailyUsage(user.id);
+    }
 
     // 9. Build message history
     const contextLimit = tierConfig.perks.contextMessages;

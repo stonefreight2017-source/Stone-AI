@@ -16,7 +16,15 @@ export interface TierLimits {
   maxResponseTokens: number;
   concurrentRequests: number;
   requestsPerMinute: number;
+  smartMessagesPerDay: number; // Hard cap on cloud (SMART) messages per day
 }
+
+/**
+ * SMART mode costs the company real money (OpenAI API).
+ * Each SMART message counts as this many messages against daily quota.
+ * This protects margins and nudges users toward Local mode.
+ */
+export const SMART_COST_MULTIPLIER = 3;
 
 export interface TierPerks {
   contextMessages: number;   // How many past messages sent to model as context
@@ -53,6 +61,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 500,
       concurrentRequests: 1,
       requestsPerMinute: 2,
+      smartMessagesPerDay: 0, // No SMART access
     },
     perks: {
       contextMessages: 10,
@@ -80,6 +89,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 2_000,
       concurrentRequests: 1,
       requestsPerMinute: 8,
+      smartMessagesPerDay: 0, // No SMART access
     },
     perks: {
       contextMessages: 20,
@@ -107,6 +117,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 3_920,
       concurrentRequests: 2,
       requestsPerMinute: 15,
+      smartMessagesPerDay: 0, // No SMART access
     },
     perks: {
       contextMessages: 40,
@@ -134,6 +145,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 7_840,
       concurrentRequests: 3,
       requestsPerMinute: 29,
+      smartMessagesPerDay: 30, // Hard cap: 30 cloud calls/day (costs ~$1.80/day max)
     },
     perks: {
       contextMessages: 60,
@@ -161,6 +173,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 32_060,
       concurrentRequests: 10,
       requestsPerMinute: 60,
+      smartMessagesPerDay: 100, // Hard cap: 100 cloud calls/day (costs ~$6/day max)
     },
     perks: {
       contextMessages: 100,

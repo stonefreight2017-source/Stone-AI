@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getOrCreateUser } from "@/lib/auth";
-import { checkQuota } from "@/lib/quota";
+import { checkQuota, checkSmartQuota } from "@/lib/quota";
 import { db } from "@/lib/db";
 import { getTierConfig } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
@@ -12,6 +12,7 @@ export async function GET() {
     const tier = user.tier as Tier;
     const config = getTierConfig(tier);
     const quota = await checkQuota(user.id, tier);
+    const smartQuota = await checkSmartQuota(user.id, tier);
 
     // Get this month's usage record for detailed stats
     const now = new Date();
@@ -40,6 +41,9 @@ export async function GET() {
         localRequests: usageRecord?.localRequests ?? 0,
         smartRequests: usageRecord?.smartRequests ?? 0,
         totalMessages: usageRecord?.messagesSent ?? 0,
+        smartToday: smartQuota.smartMessagesSentToday,
+        smartDailyLimit: smartQuota.smartMessagesPerDay,
+        smartCostMultiplier: smartQuota.costMultiplier,
       },
       stats: {
         conversations: conversationCount,

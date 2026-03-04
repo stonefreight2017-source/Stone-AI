@@ -33,6 +33,13 @@ export interface RateLimitedError {
   retryAfterMs: number;
 }
 
+export interface SmartQuotaExceededError {
+  code: "SMART_QUOTA_EXCEEDED";
+  message: string;
+  smartUsage: { sent: number; limit: number };
+  suggestion: string;
+}
+
 export interface ServiceUnavailableError {
   code: "SERVICE_UNAVAILABLE";
   message: string;
@@ -42,6 +49,7 @@ export interface ServiceUnavailableError {
 export type ChatError =
   | TierMismatchError
   | QuotaExceededError
+  | SmartQuotaExceededError
   | RateLimitedError
   | ServiceUnavailableError;
 

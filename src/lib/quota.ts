@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { getTierConfig } from "./tier-config";
+import { getTierConfig, SMART_COST_MULTIPLIER } from "./tier-config";
 import type { Tier } from "./tier-config";
 
 interface QuotaCheck {
@@ -8,6 +8,13 @@ interface QuotaCheck {
   tokensUsedThisMonth: number;
   messagesPerDay: number;
   tokensPerMonth: number;
+}
+
+interface SmartQuotaCheck {
+  allowed: boolean;
+  smartMessagesSentToday: number;
+  smartMessagesPerDay: number;
+  costMultiplier: number;
 }
 
 /**
@@ -91,6 +98,67 @@ export async function incrementDailyUsage(userId: string): Promise<void> {
 /**
  * Record token usage for billing cycle tracking.
  */
+/**
+ * Check if a user has remaining SMART (cloud) quota for the day.
+ * SMART mode has a separate hard cap to protect company margins.
+ */
+export async function checkSmartQuota(
+  userId: string,
+  tier: Tier
+): Promise<SmartQuotaCheck> {
+  const config = getTierConfig(tier);
+  const smartLimit = config.limits.smartMessagesPerDay;
+
+  // If tier has no SMART access, deny
+  if (smartLimit === 0) {
+    return {
+      allowed: false,
+      smartMessagesSentToday: 0,
+      smartMessagesPerDay: 0,
+      costMultiplier: SMART_COST_MULTIPLIER,
+    };
+  }
+
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  const dailyUsage = await db.dailyUsage.findUnique({
+    where: { userId_date: { userId, date: todayStart } },
+  });
+
+  const smartSentToday = dailyUsage?.smartMessagesSent ?? 0;
+
+  return {
+    allowed: smartSentToday < smartLimit,
+    smartMessagesSentToday: smartSentToday,
+    smartMessagesPerDay: smartLimit,
+    costMultiplier: SMART_COST_MULTIPLIER,
+  };
+}
+
+/**
+ * Increment SMART daily usage. Also increments total messagesSent
+ * by SMART_COST_MULTIPLIER (3x) to reflect real cloud costs.
+ */
+export async function incrementSmartUsage(userId: string): Promise<void> {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  await db.dailyUsage.upsert({
+    where: { userId_date: { userId, date: todayStart } },
+    update: {
+      messagesSent: { increment: SMART_COST_MULTIPLIER },
+      smartMessagesSent: { increment: 1 },
+    },
+    create: {
+      userId,
+      date: todayStart,
+      messagesSent: SMART_COST_MULTIPLIER,
+      smartMessagesSent: 1,
+    },
+  });
+}
+
 export async function recordTokenUsage(
   userId: string,
   tokensIn: number,

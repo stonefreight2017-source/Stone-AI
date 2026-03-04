@@ -124,10 +124,11 @@ model UsageRecord {
 }
 
 model DailyUsage {
-  id           String   @id @default(cuid())
-  userId       String
-  date         DateTime @db.Date
-  messagesSent Int      @default(0)
+  id                String   @id @default(cuid())
+  userId            String
+  date              DateTime @db.Date
+  messagesSent      Int      @default(0)
+  smartMessagesSent Int      @default(0)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
