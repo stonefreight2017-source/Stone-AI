@@ -2,10 +2,27 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, Star, Crown, ArrowRight, Building2 } from "lucide-react";
+import { Check, Star, Crown, ArrowRight, Building2, ChevronDown, MessageSquare, Brain, Zap, Users as UsersIcon, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+
+interface TierDetails {
+  messagesPerDay: string;
+  tokensPerMonth: string;
+  maxResponse: string;
+  concurrentChats: string;
+  requestsPerMinute: string;
+  contextMemory: string;
+  aiModes: string;
+  autoRouting: boolean;
+  conversationExport: boolean;
+  priorityQueue: boolean;
+  apiAccess: boolean;
+  besties: string;
+  agents: string;
+  billingOptions: string;
+}
 
 interface TierInfo {
   key: string;
@@ -18,6 +35,7 @@ interface TierInfo {
   color: string;
   accentText: string;
   features: { text: string; highlight?: boolean }[];
+  details: TierDetails;
 }
 
 const TIERS: TierInfo[] = [
@@ -36,6 +54,22 @@ const TIERS: TierInfo[] = [
       { text: "Complete data privacy" },
       { text: "No credit card required" },
     ],
+    details: {
+      messagesPerDay: "30",
+      tokensPerMonth: "100K",
+      maxResponse: "500 tokens",
+      concurrentChats: "1",
+      requestsPerMinute: "2",
+      contextMemory: "10 messages",
+      aiModes: "Local only",
+      autoRouting: false,
+      conversationExport: false,
+      priorityQueue: false,
+      apiAccess: false,
+      besties: "1 AI Bestie",
+      agents: "General chat only",
+      billingOptions: "Free forever",
+    },
   },
   {
     key: "STARTER",
@@ -53,6 +87,22 @@ const TIERS: TierInfo[] = [
       { text: "Extended conversation memory" },
       { text: "1 AI Bestie companion" },
     ],
+    details: {
+      messagesPerDay: "150",
+      tokensPerMonth: "2M",
+      maxResponse: "2,000 tokens",
+      concurrentChats: "1",
+      requestsPerMinute: "8",
+      contextMemory: "20 messages",
+      aiModes: "Local only",
+      autoRouting: false,
+      conversationExport: false,
+      priorityQueue: false,
+      apiAccess: false,
+      besties: "1 AI Bestie",
+      agents: "General chat only",
+      billingOptions: "$9.99/mo · $8.99/mo (6-month) · $7.99/mo (annual)",
+    },
   },
   {
     key: "PLUS",
@@ -70,6 +120,22 @@ const TIERS: TierInfo[] = [
       { text: "Conversation export" },
       { text: "2 AI Bestie companions" },
     ],
+    details: {
+      messagesPerDay: "490",
+      tokensPerMonth: "9.8M",
+      maxResponse: "3,920 tokens",
+      concurrentChats: "2",
+      requestsPerMinute: "15",
+      contextMemory: "40 messages",
+      aiModes: "Local + Smart (GPT-4o)",
+      autoRouting: false,
+      conversationExport: true,
+      priorityQueue: false,
+      apiAccess: false,
+      besties: "2 AI Besties",
+      agents: "11 Expert Agents (Business, Content, Marketing)",
+      billingOptions: "$29.99/mo · $26.99/mo (6-month) · $23.99/mo (annual)",
+    },
   },
   {
     key: "SMART",
@@ -88,6 +154,22 @@ const TIERS: TierInfo[] = [
       { text: "Auto-routing + 3 concurrent chats" },
       { text: "3 AI Bestie companions" },
     ],
+    details: {
+      messagesPerDay: "980",
+      tokensPerMonth: "29.4M",
+      maxResponse: "7,840 tokens",
+      concurrentChats: "3",
+      requestsPerMinute: "29",
+      contextMemory: "60 messages",
+      aiModes: "Local + Smart (GPT-4o) with auto-routing",
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: false,
+      apiAccess: false,
+      besties: "3 AI Besties",
+      agents: "26 Expert Agents (all categories)",
+      billingOptions: "$69.99/mo · $62.99/mo (6-month) · $55.99/mo (annual)",
+    },
   },
   {
     key: "PRO",
@@ -107,6 +189,22 @@ const TIERS: TierInfo[] = [
       { text: "5 AI Bestie companions" },
       { text: "Commercial license" },
     ],
+    details: {
+      messagesPerDay: "Unlimited (99,999)",
+      tokensPerMonth: "Unlimited",
+      maxResponse: "32,060 tokens",
+      concurrentChats: "10",
+      requestsPerMinute: "60",
+      contextMemory: "100 messages",
+      aiModes: "Local + Smart (GPT-4o) with auto-routing",
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: true,
+      apiAccess: true,
+      besties: "5 AI Besties",
+      agents: "All 30 Expert Agents + Enterprise agent",
+      billingOptions: "$199/mo · $179.10/mo (6-month) · $159.20/mo (annual)",
+    },
   },
   {
     key: "ENTERPRISE",
@@ -126,11 +224,28 @@ const TIERS: TierInfo[] = [
       { text: "50K+ requests/day + custom limits" },
       { text: "Dedicated support channel" },
     ],
+    details: {
+      messagesPerDay: "50,000+ (custom)",
+      tokensPerMonth: "Custom",
+      maxResponse: "Custom",
+      concurrentChats: "Custom",
+      requestsPerMinute: "Custom",
+      contextMemory: "100+ messages",
+      aiModes: "All modes + dedicated infrastructure",
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: true,
+      apiAccess: true,
+      besties: "Custom",
+      agents: "All 30 + custom agent development",
+      billingOptions: "Custom pricing · Net 30/60/90 available",
+    },
   },
 ];
 
 export function PricingSection() {
   const [selected, setSelected] = useState("SMART");
+  const [showDetails, setShowDetails] = useState(false);
 
   const tier = TIERS.find((t) => t.key === selected)!;
   const isPro = tier.key === "PRO";
@@ -153,7 +268,7 @@ export function PricingSection() {
           return (
             <button
               key={t.key}
-              onClick={() => setSelected(t.key)}
+              onClick={() => { setSelected(t.key); setShowDetails(false); }}
               className={`relative px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 isActive
                   ? `bg-zinc-800 ${t.accentText} ring-1 ring-current`
@@ -217,6 +332,110 @@ export function PricingSection() {
           ))}
         </div>
 
+        {/* Full Details Toggle */}
+        <button
+          onClick={() => setShowDetails(!showDetails)}
+          className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors mb-4 group"
+        >
+          <ChevronDown className={`h-4 w-4 transition-transform ${showDetails ? "rotate-180" : ""}`} />
+          <span>{showDetails ? "Hide" : "Show"} full details</span>
+        </button>
+
+        {/* Expandable Details Panel */}
+        {showDetails && (
+          <div className="border-t border-zinc-800 pt-5 mb-6 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
+            {/* Capacity & Performance */}
+            <div>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <Zap className="h-3 w-3" /> Capacity & Performance
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Messages / Day</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.messagesPerDay}</p>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Tokens / Month</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.tokensPerMonth}</p>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Max Response</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.maxResponse}</p>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Concurrent Chats</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.concurrentChats}</p>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Requests / Minute</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.requestsPerMinute}</p>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Context Memory</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.contextMemory}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* AI & Agents */}
+            <div>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <Brain className="h-3 w-3" /> AI & Agents
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">AI Modes</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.aiModes}</p>
+                </div>
+                <div className="bg-zinc-800/50 rounded-lg p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Expert Agents</p>
+                  <p className="text-sm font-semibold text-white mt-0.5">{tier.details.agents}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Features Grid */}
+            <div>
+              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                <MessageSquare className="h-3 w-3" /> Features
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {[
+                  { label: "Auto-Routing", enabled: tier.details.autoRouting },
+                  { label: "Export Chats", enabled: tier.details.conversationExport },
+                  { label: "Priority Queue", enabled: tier.details.priorityQueue },
+                  { label: "API Access", enabled: tier.details.apiAccess },
+                ].map((feat) => (
+                  <div key={feat.label} className="flex items-center gap-2 bg-zinc-800/50 rounded-lg p-2.5">
+                    {feat.enabled ? (
+                      <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                    ) : (
+                      <span className="h-3.5 w-3.5 text-zinc-600 shrink-0 text-center leading-none">&mdash;</span>
+                    )}
+                    <span className={`text-xs ${feat.enabled ? "text-zinc-200" : "text-zinc-600"}`}>
+                      {feat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bestie & Billing */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="bg-zinc-800/50 rounded-lg p-3">
+                <p className="text-[10px] text-zinc-500 uppercase flex items-center gap-1">
+                  <Heart className="h-2.5 w-2.5" /> AI Bestie Companions
+                </p>
+                <p className="text-sm font-semibold text-white mt-0.5">{tier.details.besties}</p>
+              </div>
+              <div className="bg-zinc-800/50 rounded-lg p-3">
+                <p className="text-[10px] text-zinc-500 uppercase">Billing Options</p>
+                <p className="text-sm font-semibold text-white mt-0.5">{tier.details.billingOptions}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Pro founding member callout */}
         {isPro && (
           <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-3 mb-6">
@@ -255,7 +474,7 @@ export function PricingSection() {
           return (
             <button
               key={t.key}
-              onClick={() => setSelected(t.key)}
+              onClick={() => { setSelected(t.key); setShowDetails(false); }}
               className={`text-center py-2 rounded-lg border transition-all text-xs ${
                 isActive
                   ? `${t.color} bg-zinc-800/80`
