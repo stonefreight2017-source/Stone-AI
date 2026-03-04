@@ -47,6 +47,11 @@ interface SettingsClientProps {
     autoRouting: boolean;
     conversationExport: boolean;
     priorityQueue: boolean;
+    apiAccess: boolean;
+    commercialLicense: boolean;
+    earlyAccess: boolean;
+    agentBuilder: boolean;
+    referralMultiplier: number;
   };
   allowedModes: string[];
   apiKeys: {
@@ -194,14 +199,18 @@ export function SettingsClient({
                 <MessageSquare className="h-3 w-3" />
                 Messages/Day
               </div>
-              <p className="text-white font-semibold">{limits.messagesPerDay.toLocaleString()}</p>
+              <p className="text-white font-semibold">
+                {limits.messagesPerDay >= 99_999 ? "Unlimited" : limits.messagesPerDay.toLocaleString()}
+              </p>
             </div>
             <div className="bg-zinc-800/50 rounded-lg p-3">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
                 <Brain className="h-3 w-3" />
                 Tokens/Month
               </div>
-              <p className="text-white font-semibold">{formatTokens(limits.tokensPerMonth)}</p>
+              <p className="text-white font-semibold">
+                {limits.tokensPerMonth >= 999_999_999 ? "Unlimited" : formatTokens(limits.tokensPerMonth)}
+              </p>
             </div>
             <div className="bg-zinc-800/50 rounded-lg p-3">
               <div className="flex items-center gap-2 text-zinc-400 text-xs mb-1">
@@ -251,6 +260,31 @@ export function SettingsClient({
             {perks.priorityQueue && (
               <Badge className="bg-amber-900/50 text-amber-300">
                 <Check className="h-3 w-3 mr-1" /> Priority Queue
+              </Badge>
+            )}
+            {perks.apiAccess && (
+              <Badge className="bg-amber-900/50 text-amber-300">
+                <Check className="h-3 w-3 mr-1" /> API Access
+              </Badge>
+            )}
+            {perks.commercialLicense && (
+              <Badge className="bg-amber-900/50 text-amber-300">
+                <Check className="h-3 w-3 mr-1" /> Commercial License
+              </Badge>
+            )}
+            {perks.earlyAccess && (
+              <Badge className="bg-amber-900/50 text-amber-300">
+                <Check className="h-3 w-3 mr-1" /> Early Access
+              </Badge>
+            )}
+            {perks.agentBuilder && (
+              <Badge className="bg-amber-900/50 text-amber-300">
+                <Check className="h-3 w-3 mr-1" /> Agent Builder
+              </Badge>
+            )}
+            {perks.referralMultiplier > 1 && (
+              <Badge className="bg-amber-900/50 text-amber-300">
+                <Check className="h-3 w-3 mr-1" /> {perks.referralMultiplier}x Referral Rewards
               </Badge>
             )}
           </div>
@@ -444,6 +478,7 @@ export function SettingsClient({
 interface ReferralData {
   referralCode: string;
   referralLink: string;
+  referralMultiplier?: number;
   stats: { total: number; pending: number; qualified: number; rewarded: number };
   referrals: {
     id: string;
@@ -485,6 +520,11 @@ function ReferralCard() {
           <Badge className="bg-emerald-900/50 text-emerald-300 text-xs ml-2">
             Earn Rewards
           </Badge>
+          {data?.referralMultiplier && data.referralMultiplier > 1 && (
+            <Badge className="bg-amber-900/50 text-amber-300 text-xs">
+              {data.referralMultiplier}x PRO Bonus
+            </Badge>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">

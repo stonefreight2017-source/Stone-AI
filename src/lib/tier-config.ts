@@ -23,6 +23,11 @@ export interface TierPerks {
   autoRouting: boolean;       // Auto-pick best model per question
   conversationExport: boolean;
   priorityQueue: boolean;
+  apiAccess: boolean;         // Can generate API keys
+  commercialLicense: boolean; // Clean commercial use rights (no attribution)
+  earlyAccess: boolean;       // New agents 30 days early
+  agentBuilder: boolean;      // Create custom agents with own prompts + knowledge
+  referralMultiplier: number; // Referral credit multiplier (1 = normal, 2 = double)
 }
 
 export interface TierConfig {
@@ -53,6 +58,11 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       autoRouting: false,
       conversationExport: false,
       priorityQueue: false,
+      apiAccess: false,
+      commercialLicense: false,
+      earlyAccess: false,
+      agentBuilder: false,
+      referralMultiplier: 1,
     },
     allowedModes: ["LOCAL"],
     priority: 0,
@@ -74,6 +84,11 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       autoRouting: false,
       conversationExport: false,
       priorityQueue: false,
+      apiAccess: false,
+      commercialLicense: false,
+      earlyAccess: false,
+      agentBuilder: false,
+      referralMultiplier: 1,
     },
     allowedModes: ["LOCAL"],
     priority: 1,
@@ -95,6 +110,11 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       autoRouting: false,
       conversationExport: true,
       priorityQueue: false,
+      apiAccess: false,
+      commercialLicense: false,
+      earlyAccess: false,
+      agentBuilder: false,
+      referralMultiplier: 1,
     },
     allowedModes: ["LOCAL"],
     priority: 2,
@@ -116,6 +136,11 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       autoRouting: true,
       conversationExport: true,
       priorityQueue: false,
+      apiAccess: false,
+      commercialLicense: false,
+      earlyAccess: false,
+      agentBuilder: false,
+      referralMultiplier: 1,
     },
     allowedModes: ["LOCAL", "SMART"],
     priority: 3,
@@ -126,8 +151,8 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 199,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
     limits: {
-      messagesPerDay: 3_008,
-      tokensPerMonth: 100_200_000,
+      messagesPerDay: 99_999,
+      tokensPerMonth: 999_999_999,
       maxResponseTokens: 32_060,
       concurrentRequests: 10,
       requestsPerMinute: 60,
@@ -137,6 +162,11 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       autoRouting: true,
       conversationExport: true,
       priorityQueue: true,
+      apiAccess: true,
+      commercialLicense: true,
+      earlyAccess: true,
+      agentBuilder: true,
+      referralMultiplier: 2,
     },
     allowedModes: ["LOCAL", "SMART", "PRIORITY"],
     priority: 4,
@@ -211,6 +241,6 @@ export const TIER_DISPLAY = [
   { key: "FREE" as Tier, name: "Free", price: 0, badge: "zinc", popular: false },
   { key: "STARTER" as Tier, name: "Starter", price: 9.99, badge: "blue", popular: false },
   { key: "PLUS" as Tier, name: "Plus", price: 29.99, badge: "indigo", popular: false },
-  { key: "SMART" as Tier, name: "Smart", price: 69.99, badge: "purple", popular: true },
-  { key: "PRO" as Tier, name: "Pro", price: 199, badge: "amber", popular: false },
+  { key: "SMART" as Tier, name: "Smart", price: 69.99, badge: "purple", popular: false },
+  { key: "PRO" as Tier, name: "Pro", price: 199, badge: "amber", popular: true },
 ] as const;

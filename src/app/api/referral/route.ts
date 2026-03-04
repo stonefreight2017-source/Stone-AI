@@ -3,6 +3,8 @@ import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { nanoid } from "nanoid";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import { getTierConfig } from "@/lib/tier-config";
+import type { Tier } from "@/lib/tier-config";
 
 // GET /api/referral — get user's referral code, stats, and referral list
 export async function GET() {
@@ -43,9 +45,12 @@ export async function GET() {
       rewarded: referrals.filter((r) => r.status === "REWARDED").length,
     };
 
+    const tierConfig = getTierConfig(user.tier as Tier);
+
     return NextResponse.json({
       referralCode,
       referralLink: `${process.env.NEXT_PUBLIC_APP_URL}/sign-up?ref=${referralCode}`,
+      referralMultiplier: tierConfig.perks.referralMultiplier,
       stats,
       referrals: referrals.map((r) => ({
         id: r.id,

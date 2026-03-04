@@ -12,6 +12,14 @@ import {
   Check,
   ArrowRight,
   Loader2,
+  Crown,
+  Infinity,
+  Shield,
+  Code2,
+  Blocks,
+  Rocket,
+  Users,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -122,6 +130,35 @@ export function BillingClient({
 
   const TIER_RANK: Record<string, number> = {
     FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
+  };
+
+  const TIER_FEATURES: Record<string, string[]> = {
+    STARTER: [
+      "150 messages/day",
+      "Local AI model",
+      "20-message context",
+    ],
+    PLUS: [
+      "490 messages/day",
+      "Conversation export",
+      "40-message context",
+    ],
+    SMART: [
+      "980 messages/day",
+      "GPT-4o cloud model",
+      "Auto model routing",
+      "60-message context",
+    ],
+    PRO: [
+      "Unlimited messages",
+      "Priority queue",
+      "API access & keys",
+      "Custom Agent Builder",
+      "Commercial license",
+      "Early access to new agents",
+      "2x referral rewards",
+      "100-message context",
+    ],
   };
 
   function formatTokens(n: number): string {
@@ -332,29 +369,37 @@ export function BillingClient({
               const isCurrentPlan = t.key === currentTier;
               const isDowngrade = TIER_RANK[t.key] < TIER_RANK[currentTier];
               const isUpgrade = TIER_RANK[t.key] > TIER_RANK[currentTier];
+              const isPro = t.key === "PRO";
+              const features = TIER_FEATURES[t.key] || [];
 
               return (
                 <Card
                   key={t.key}
-                  className={`bg-zinc-900 border transition-colors ${
+                  className={`bg-zinc-900 border transition-colors relative ${
                     isCurrentPlan
                       ? "border-emerald-600"
                       : t.popular
-                      ? "border-purple-600"
+                      ? "border-amber-500 ring-1 ring-amber-500/30"
                       : "border-zinc-800"
                   }`}
                 >
+                  {t.popular && !isCurrentPlan && (
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                      <Badge className="bg-amber-500 text-black text-xs font-bold px-3 py-0.5">
+                        <Crown className="h-3 w-3 mr-1" />
+                        Most Popular
+                      </Badge>
+                    </div>
+                  )}
                   <CardContent className="pt-6 space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-semibold text-white">{t.name}</h3>
+                      <h3 className={`font-semibold ${isPro ? "text-amber-400" : "text-white"}`}>
+                        {isPro && <Crown className="h-4 w-4 inline mr-1.5 -mt-0.5" />}
+                        {t.name}
+                      </h3>
                       {isCurrentPlan && (
                         <Badge className="bg-emerald-900 text-emerald-300 text-xs">
                           Current
-                        </Badge>
-                      )}
-                      {t.popular && !isCurrentPlan && (
-                        <Badge className="bg-purple-900 text-purple-300 text-xs">
-                          Popular
                         </Badge>
                       )}
                     </div>
@@ -378,6 +423,28 @@ export function BillingClient({
                       )}
                     </div>
 
+                    {/* Feature list */}
+                    <ul className="space-y-1.5 text-sm">
+                      {features.map((f) => (
+                        <li key={f} className="flex items-start gap-2">
+                          <Check className={`h-4 w-4 shrink-0 mt-0.5 ${isPro ? "text-amber-400" : "text-emerald-400"}`} />
+                          <span className={f === "Unlimited messages" ? "text-white font-medium" : "text-zinc-400"}>
+                            {f}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Founding Member callout — PRO only */}
+                    {isPro && (
+                      <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-2.5">
+                        <p className="text-xs text-amber-300 font-medium flex items-center gap-1.5">
+                          <Star className="h-3 w-3" />
+                          Founding Member — price locked forever
+                        </p>
+                      </div>
+                    )}
+
                     {isCurrentPlan ? (
                       <Button disabled className="w-full" variant="outline">
                         <Check className="h-4 w-4 mr-2" />
@@ -394,16 +461,22 @@ export function BillingClient({
                       </Button>
                     ) : isUpgrade ? (
                       <Button
-                        className="w-full bg-white text-black hover:bg-zinc-200"
+                        className={`w-full ${
+                          isPro
+                            ? "bg-amber-500 text-black hover:bg-amber-400 font-semibold"
+                            : "bg-white text-black hover:bg-zinc-200"
+                        }`}
                         onClick={() => handleUpgrade(t.key)}
                         disabled={loadingCheckout === t.key}
                       >
                         {loadingCheckout === t.key ? (
                           <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        ) : isPro ? (
+                          <Crown className="h-4 w-4 mr-2" />
                         ) : (
                           <ArrowRight className="h-4 w-4 mr-2" />
                         )}
-                        Upgrade
+                        {isPro ? "Go Pro" : "Upgrade"}
                       </Button>
                     ) : null}
                   </CardContent>
