@@ -5,6 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
 import { Loader2, StopCircle, Zap, Brain } from "lucide-react";
+import { ThinkingIndicator } from "@/components/chat/ThinkingIndicator";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -228,19 +229,13 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
               );
             })}
 
-            {/* Streaming indicator */}
+            {/* Thinking indicator with escalating bestie emojis */}
             {isSubmitted && (
               <div className="flex gap-3 px-4 py-3">
-                <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center">
-                  <Loader2 className="h-4 w-4 animate-spin text-pink-400" />
+                <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-sm">
+                  {bestieEmoji}
                 </div>
-                <div className="bg-zinc-800 rounded-lg px-4 py-2.5">
-                  <div className="flex gap-1">
-                    <span className="h-2 w-2 bg-pink-500 rounded-full animate-bounce" />
-                    <span className="h-2 w-2 bg-pink-500 rounded-full animate-bounce [animation-delay:0.1s]" />
-                    <span className="h-2 w-2 bg-pink-500 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  </div>
-                </div>
+                <ThinkingIndicator variant="bestie" />
               </div>
             )}
           </div>

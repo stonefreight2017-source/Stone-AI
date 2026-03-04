@@ -8,6 +8,7 @@ import { Loader2, StopCircle, Zap, Download } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ChatInput } from "./ChatInput";
+import { ThinkingIndicator } from "./ThinkingIndicator";
 import { useConversation } from "@/hooks/use-conversation";
 import { useAppStore } from "@/store/app-store";
 import { ModeSelector } from "./ModeSelector";
@@ -256,19 +257,13 @@ export function ChatView({ conversationId }: ChatViewProps) {
               );
             })}
 
-            {/* Streaming indicator */}
+            {/* Thinking indicator with escalating emojis */}
             {isSubmitted && (
               <div className="flex gap-3 px-4 py-3">
-                <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-800 flex items-center justify-center">
-                  <Loader2 className="h-4 w-4 animate-spin text-zinc-400" />
+                <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-300">
+                  S
                 </div>
-                <div className="bg-zinc-800 rounded-lg px-4 py-2.5">
-                  <div className="flex gap-1">
-                    <span className="h-2 w-2 bg-zinc-500 rounded-full animate-bounce" />
-                    <span className="h-2 w-2 bg-zinc-500 rounded-full animate-bounce [animation-delay:0.1s]" />
-                    <span className="h-2 w-2 bg-zinc-500 rounded-full animate-bounce [animation-delay:0.2s]" />
-                  </div>
-                </div>
+                <ThinkingIndicator />
               </div>
             )}
           </div>

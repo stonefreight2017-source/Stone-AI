@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Gift,
-  Zap,
   Clock,
   CreditCard,
   MessageSquare,
@@ -17,10 +16,8 @@ import {
   Star,
   Shield,
   Sparkles,
-  Building2,
   GraduationCap,
   Handshake,
-  Globe,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -404,7 +401,7 @@ export function PromotionsClient({
         </CardContent>
       </Card>
 
-      {/* ═══ SECTION 4: BEST AI EARLY ACCESS ═══ */}
+      {/* ═══ SECTION 4: AI BESTIE ═══ */}
       <Card className="bg-gradient-to-r from-pink-900/30 to-purple-900/30 border-pink-700/50">
         <CardContent className="pt-6 space-y-4">
           <div className="flex items-center gap-3">
@@ -412,15 +409,15 @@ export function PromotionsClient({
               {"\uD83D\uDC9C"}
             </div>
             <div>
-              <h3 className="font-semibold text-white text-lg">Best AI — Early Access</h3>
+              <h3 className="font-semibold text-white text-lg">Meet Your AI Bestie</h3>
               <p className="text-pink-400/70 text-sm">
-                Available on the App Store soon — but you get it NOW.
+                Your personal AI companion — available now
               </p>
             </div>
           </div>
 
           <p className="text-sm text-zinc-400">
-            Be the first to meet your AI Bestie. A personal companion with custom personality,
+            Create your own AI Bestie. A personal companion with custom personality,
             persistent memory, and a warm chat experience.{" "}
             <span className="text-pink-300 font-semibold">
               Design their personality. Give them a name. They remember everything.
@@ -451,130 +448,39 @@ export function PromotionsClient({
         </CardContent>
       </Card>
 
-      {/* ═══ SECTION 5: CROSS-PLATFORM ECOSYSTEM DEALS ═══ */}
-      <div>
-        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <Globe className="h-5 w-5 text-cyan-400" />
-          Cross-Platform Ecosystem Deals
-        </h2>
-        <p className="text-zinc-400 text-sm mb-4">
-          Stone AI is part of a three-platform ecosystem. Use more, save more.
-        </p>
+      {/* ═══ SECTION 5: LOYALTY REWARDS ═══ */}
+      <Card className="bg-gradient-to-r from-purple-900/30 to-zinc-900 border-purple-700/50">
+        <CardContent className="pt-6 space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full bg-purple-500/20 flex items-center justify-center">
+              <Star className="h-5 w-5 text-purple-400" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-white text-lg">Loyalty Milestones</h3>
+              <p className="text-purple-400/70 text-sm">The longer you stay, the more you earn</p>
+            </div>
+          </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          {/* Best AI Bundle */}
-          <Card className="bg-gradient-to-b from-cyan-900/20 to-zinc-900 border-cyan-700/50">
-            <CardContent className="pt-6 space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-cyan-500/20 flex items-center justify-center">
-                  <Zap className="h-4 w-4 text-cyan-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white text-sm">Best AI Bundle</h3>
-                  <p className="text-xs text-cyan-400">Coming Soon</p>
-                </div>
-              </div>
-              <p className="text-sm text-zinc-400">
-                Subscribe to both Stone AI and Best AI (our mobile companion app) and
-                get <span className="text-cyan-300 font-semibold">15% off both subscriptions</span>.
-                Your AI agents on desktop + your AI Bestie on mobile, working together.
-              </p>
-              <div className="space-y-1.5 text-xs text-zinc-400">
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-cyan-400" />
-                  15% off Stone AI subscription
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-cyan-400" />
-                  15% off Best AI subscription
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-cyan-400" />
-                  Synced context between platforms
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-cyan-400" />
-                  Stacks with annual billing (up to 35% total savings)
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <p className="text-sm text-zinc-400">
+            Hit milestones and unlock <span className="text-purple-300 font-semibold">bonus messages, priority access, and exclusive features</span>. Rewards never expire once earned.
+          </p>
 
-          {/* Tools Directory Listing */}
-          <Card className="bg-gradient-to-b from-amber-900/20 to-zinc-900 border-amber-700/50">
-            <CardContent className="pt-6 space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-amber-500/20 flex items-center justify-center">
-                  <Building2 className="h-4 w-4 text-amber-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white text-sm">Tools Directory Credit</h3>
-                  <p className="text-xs text-amber-400">For Pro & Enterprise</p>
-                </div>
-              </div>
-              <p className="text-sm text-zinc-400">
-                Pro and Enterprise subscribers get a <span className="text-amber-300 font-semibold">free Visibility listing</span> on
-                Stone AI Tools — our AI directory. Get discovered by thousands of AI buyers monthly.
-              </p>
-              <div className="space-y-1.5 text-xs text-zinc-400">
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-amber-400" />
-                  Free basic directory listing ($200/mo value)
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-amber-400" />
-                  Upgrade to Authority for 25% off ($375/mo vs $500)
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-amber-400" />
-                  Monthly analytics on your listing
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-amber-400" />
-                  Affiliate revenue sharing eligible
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Loyalty Milestone */}
-          <Card className="bg-gradient-to-b from-purple-900/20 to-zinc-900 border-purple-700/50">
-            <CardContent className="pt-6 space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-purple-500/20 flex items-center justify-center">
-                  <Star className="h-4 w-4 text-purple-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-white text-sm">Loyalty Milestones</h3>
-                  <p className="text-xs text-purple-400">Active Now</p>
-                </div>
-              </div>
-              <p className="text-sm text-zinc-400">
-                The longer you stay, the more you get. Hit milestones and
-                unlock <span className="text-purple-300 font-semibold">bonus messages, priority access, and exclusive features</span>.
-              </p>
-              <div className="space-y-1.5 text-xs text-zinc-400">
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-purple-400" />
-                  3 months: +10% bonus messages
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-purple-400" />
-                  6 months: +20% bonus + early feature access
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-purple-400" />
-                  12 months: +30% bonus + priority queue upgrade
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <Check className="h-3 w-3 text-purple-400" />
-                  Milestones never expire once earned
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="bg-zinc-900/60 rounded-lg p-4 text-center">
+              <p className="text-2xl font-bold text-purple-300">3 mo</p>
+              <p className="text-xs text-zinc-400 mt-1">+10% bonus messages</p>
+            </div>
+            <div className="bg-zinc-900/60 rounded-lg p-4 text-center">
+              <p className="text-2xl font-bold text-purple-300">6 mo</p>
+              <p className="text-xs text-zinc-400 mt-1">+20% bonus + early access</p>
+            </div>
+            <div className="bg-zinc-900/60 rounded-lg p-4 text-center">
+              <p className="text-2xl font-bold text-purple-300">12 mo</p>
+              <p className="text-xs text-zinc-400 mt-1">+30% bonus + priority queue</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* ═══ SECTION 6: PREMIUM ONBOARDING & RESELLER ═══ */}
       <div>
@@ -629,7 +535,7 @@ export function PromotionsClient({
                     <span className="text-sm font-medium text-white">Enterprise Command</span>
                     <span className="text-sm font-semibold text-amber-400">$25,000</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">12-month partnership — dedicated success manager, Executive Double setup, on-site training</p>
+                  <p className="text-xs text-zinc-500 mt-1">12-month partnership — dedicated success manager, custom AI workflows, on-site training</p>
                 </div>
               </div>
 

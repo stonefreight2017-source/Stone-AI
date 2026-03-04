@@ -19,7 +19,7 @@ import {
   MessageSquare,
   Rocket,
   Target,
-  Smartphone,
+  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -679,31 +679,28 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Get Best AI App */}
+      {/* Mobile App Coming Soon */}
       <section className="px-6 py-16 bg-gradient-to-b from-zinc-950 to-zinc-900 border-t border-zinc-800">
         <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium mb-6">
+            <Clock className="h-3.5 w-3.5" />
+            Coming Soon
+          </div>
           <h2 className="text-3xl font-bold mb-4">
             Take Stone AI™ everywhere.
           </h2>
           <p className="text-zinc-400 max-w-xl mx-auto mb-3">
-            Download <span className="text-amber-400 font-semibold">Best AI™</span> — the mobile companion app with all 30 agents, your personal AI bestie, and everything you need to plan, start, and run your business from your phone.
+            <span className="text-amber-400 font-semibold">Best AI™</span> — the mobile companion app — is coming to iOS and Android.
+            All your agents, your AI Bestie, and your business tools in your pocket.
           </p>
-          <p className="text-zinc-500 text-sm mb-8">
-            Your subscription works on both platforms. One account, everywhere.
+          <p className="text-zinc-500 text-sm mb-6">
+            Get started on the web today. Your account will carry over seamlessly when the app launches.
           </p>
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <Button size="lg" className="bg-white text-black hover:bg-zinc-200 gap-2 px-6">
-              <Smartphone className="h-5 w-5" />
-              App Store
-            </Button>
-            <Button size="lg" className="bg-white text-black hover:bg-zinc-200 gap-2 px-6">
-              <Smartphone className="h-5 w-5" />
-              Google Play
-            </Button>
-          </div>
-          <p className="text-[11px] text-zinc-600">
-            Available on iOS and Android. Free to download. Subscription unlocks premium features.
-          </p>
+          <Button asChild size="lg" className="bg-white text-black hover:bg-zinc-200 gap-2 px-8">
+            <Link href="/sign-up">
+              Start Free on Web <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </section>
 
