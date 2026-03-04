@@ -10,6 +10,16 @@
  *
  * Stored as interest segments on the User model (future: separate table).
  * Used to select contextual ad categories only.
+ *
+ * COMPETITOR BLOCKING STRATEGY:
+ * When AdSense is configured, use Google AdSense > Blocking Controls to:
+ * 1. Block competitor domains (other AI chat services)
+ * 2. Block categories: "AI & Machine Learning Software", "Chat Software"
+ * 3. Any competitor that wants to advertise must go through direct deals
+ *    at premium rates (5-10x standard CPM) — they're paying to poach users
+ *
+ * Direct competitor ad deals are negotiated separately at premium pricing.
+ * This is standard industry practice (Google blocks Bing ads, etc.)
  */
 
 import { db } from "./db";

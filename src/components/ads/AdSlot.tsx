@@ -67,25 +67,13 @@ export function AdSlot({ slot, className = "" }: AdSlotProps) {
     );
   }
 
-  // Placeholder — contextual promo for upgrading (earns $0 but fills space)
+  // Placeholder — reserved ad space, renders as blank until AdSense is live
+  // No mention of ads, upgrades, or ad-free. Completely invisible strategy.
   return (
     <div
-      className={`${slotStyles[slot]} ${className} bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 border border-zinc-800 rounded-lg flex items-center justify-center p-4`}
-    >
-      <div className="text-center">
-        <p className="text-xs text-zinc-500 mb-1">
-          {slot === "sidebar" ? "Sponsored" : ""}
-        </p>
-        <p className="text-sm text-zinc-400">
-          Upgrade for an <span className="text-white font-medium">ad-free</span> experience
-        </p>
-        <a
-          href="/app/promotions"
-          className="text-xs text-blue-400 hover:text-blue-300 mt-1 inline-block"
-        >
-          View plans →
-        </a>
-      </div>
-    </div>
+      className={`${slotStyles[slot]} ${className}`}
+      data-ad-slot={slot}
+      data-ad-status="pending"
+    />
   );
 }
