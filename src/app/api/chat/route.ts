@@ -30,7 +30,7 @@ import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { chatMessageSchema } from "@/lib/validators";
 import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode } from "@/lib/tier-config";
-import { checkRateLimit, acquireConcurrencySlot } from "@/lib/rate-limiter";
+import { checkRateLimitAsync, acquireConcurrencySlot } from "@/lib/rate-limiter";
 import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
@@ -190,7 +190,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 5. Rate limit check
-    const rateCheck = checkRateLimit(user.id, tierConfig.limits.requestsPerMinute);
+    const rateCheck = await checkRateLimitAsync(user.id, tierConfig.limits.requestsPerMinute);
     if (!rateCheck.allowed) {
       return Response.json(
         {
@@ -220,9 +220,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 6. Quota check
+    // 6. Quota check (release concurrency slot if quota exceeded)
     const quota = await checkQuota(user.id, tier);
     if (!quota.allowed) {
+      await concurrency.release();
       const nextTier = getNextTier(tier);
       return Response.json(
         {
@@ -243,6 +244,10 @@ export async function POST(req: NextRequest) {
         { status: 429 }
       );
     }
+
+    // Steps 7-11 wrapped in try/catch to ensure concurrency slot release on error
+    let result;
+    try {
 
     // 7. Save user message to DB
     await db.message.create({
@@ -368,6 +373,12 @@ export async function POST(req: NextRequest) {
         "X-Latency-Ms": String(firstTokenTime),
       },
     });
+
+    } catch (innerError) {
+      // Release concurrency slot on any error between acquire and stream
+      await concurrency.release();
+      throw innerError;
+    }
   } catch (error) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });

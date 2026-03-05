@@ -17,6 +17,7 @@ export type AuditEvent =
   | "invite.redeemed"
   | "invite.failed"
   | "tier.upgraded"
+  | "tier.downgraded"
   | "tier.downgrade_blocked"
   | "agent.access_denied"
   | "rate_limit.hit"

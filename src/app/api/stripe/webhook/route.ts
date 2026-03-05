@@ -175,7 +175,7 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
   });
 
   logAuditEvent({
-    event: "tier.upgraded",
+    event: "tier.downgraded",
     userId: user.id,
     metadata: { newTier: "FREE", reason: "subscription_deleted" },
   });

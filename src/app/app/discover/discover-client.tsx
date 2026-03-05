@@ -97,7 +97,7 @@ const TIER_WORLDS: TierWorld[] = [
   {
     key: "STARTER",
     name: "Starter",
-    price: "$19/mo",
+    price: "$9.99/mo",
     tagline: "The door opens",
     description:
       "You step through the first door. The room gets bigger. Your Bestie is still with you, but now there are desks, whiteboards, and tools on the walls. This is a workspace — your workspace. The agents here handle the basics, and they handle them well.",
@@ -166,7 +166,7 @@ const TIER_WORLDS: TierWorld[] = [
   {
     key: "SMART",
     name: "Smart",
-    price: "$49/mo",
+    price: "$69.99/mo",
     tagline: "Every door opens",
     description:
       "The walls come down. Fifteen more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. And for the first time, SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. This is the full platform.",
@@ -202,7 +202,7 @@ const TIER_WORLDS: TierWorld[] = [
   {
     key: "PRO",
     name: "Pro",
-    price: "$99/mo",
+    price: "$199/mo",
     tagline: "No ceiling",
     description:
       "Priority queue. Unlimited messages. Every agent on the platform, including the ones that require real expertise to use — cybersecurity, structural engineering, dispatch logistics, insurance claims, professional sales. Plus API access to build Stone AI into your own workflows. This is the full arsenal.",

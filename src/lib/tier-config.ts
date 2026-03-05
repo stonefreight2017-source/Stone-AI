@@ -250,11 +250,19 @@ export function getMonthlyEquivalent(monthlyPrice: number, period: BillingPeriod
   return Math.round(monthlyPrice * (1 - info.discount / 100) * 100) / 100;
 }
 
-// Map a Stripe price ID back to a tier
+// Map a Stripe price ID back to a tier (checks monthly, 6-month, and annual prices)
 export function mapPriceToTier(priceId: string): Tier | null {
   for (const tier of TIER_ORDER) {
-    const envKey = TIER_CONFIG[tier].stripePriceEnvKey;
-    if (envKey && process.env[envKey] === priceId) return tier;
+    const baseKey = TIER_CONFIG[tier].stripePriceEnvKey;
+    if (!baseKey) continue;
+    // Check monthly price
+    if (process.env[baseKey] === priceId) return tier;
+    // Check 6-month price (e.g., STRIPE_PRICE_STARTER_6MO)
+    const sixMoKey = `STRIPE_PRICE_${tier}_6MO`;
+    if (process.env[sixMoKey] === priceId) return tier;
+    // Check annual price (e.g., STRIPE_PRICE_STARTER_ANNUAL)
+    const annualKey = `STRIPE_PRICE_${tier}_ANNUAL`;
+    if (process.env[annualKey] === priceId) return tier;
   }
   return null;
 }
