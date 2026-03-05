@@ -36,12 +36,13 @@ const SECURITY_HEADERS: Record<string, string> = {
   // Content Security Policy — defense-in-depth against XSS, data injection
   "Content-Security-Policy": [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.stone-ai.net https://*.clerk.accounts.dev",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
-    "connect-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://api.stripe.com wss:",
-    "frame-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://js.stripe.com",
+    "connect-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://api.stripe.com https://challenges.cloudflare.com wss:",
+    "frame-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://js.stripe.com https://challenges.cloudflare.com",
+    "worker-src 'self' blob:",
     "form-action 'self'",
     "base-uri 'self'",
     "object-src 'none'",
