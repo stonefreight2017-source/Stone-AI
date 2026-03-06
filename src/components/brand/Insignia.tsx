@@ -1,16 +1,17 @@
 /**
  * Stone Intelligence — #4 "Block Fluid" wordmark
  * Raleway 300, uppercase, wide letter-spacing, gold gradient line.
+ * Sub-brand pills: Stone AI | Best AI | Tools
  * Selected from Stone Intelligence Logos page.
  */
 
 interface InsigniaProps {
   size?: number;
-  variant?: "primary" | "mono" | "warm";
+  showPills?: boolean;
   className?: string;
 }
 
-export function Insignia({ size = 16, className = "" }: InsigniaProps) {
+export function Insignia({ size = 16, showPills = true, className = "" }: InsigniaProps) {
   const scale = size / 16;
 
   return (
@@ -41,6 +42,33 @@ export function Insignia({ size = 16, className = "" }: InsigniaProps) {
           borderRadius: `${1 * scale}px`,
         }}
       />
+      {showPills && (
+        <div
+          style={{
+            display: "flex",
+            gap: `${6 * scale}px`,
+            marginTop: `${8 * scale}px`,
+          }}
+        >
+          {["Stone AI", "Best AI", "Tools"].map((label, i) => (
+            <span
+              key={label}
+              style={{
+                fontSize: `${5 * scale}px`,
+                letterSpacing: `${0.5 * scale}px`,
+                textTransform: "uppercase" as const,
+                color: i === 0 ? "rgba(212,175,55,0.5)" : "rgba(255,255,255,0.25)",
+                padding: `${1.5 * scale}px ${4 * scale}px`,
+                border: `1px solid ${i === 0 ? "rgba(212,175,55,0.25)" : "rgba(255,255,255,0.1)"}`,
+                borderRadius: `${2 * scale}px`,
+                whiteSpace: "nowrap" as const,
+              }}
+            >
+              {label}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

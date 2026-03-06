@@ -73,11 +73,15 @@ export default function LandingPage() {
         </svg>
       </div>
       <div className="relative z-10">
+      {/* Insignia — centered */}
+      <div className="flex justify-center pt-8 pb-4">
+        <Insignia size={18} />
+      </div>
+
       {/* Nav */}
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-4 max-w-6xl mx-auto">
+      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 max-w-6xl mx-auto">
         <div className="flex items-center gap-3">
           <LandingLanguageToggle />
-          <Insignia size={14} />
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
           <Link href="#promotions" className="text-sm text-zinc-400 hover:text-white transition-colors hidden sm:inline">
@@ -835,7 +839,7 @@ export default function LandingPage() {
       <footer className="border-t border-zinc-800 px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <Insignia size={11} />
+            <Insignia size={11} showPills={false} />
             <p className="text-sm text-zinc-500 mt-2 leading-relaxed">
               Local-first AI for businesses that move.
             </p>
