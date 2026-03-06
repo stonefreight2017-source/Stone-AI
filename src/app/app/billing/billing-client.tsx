@@ -141,71 +141,73 @@ export function BillingClient({
     FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
   };
 
-  const TIER_DETAILS: Record<string, { tagline: string; features: string[]; highlight?: string }> = {
+  const TIER_DETAILS: Record<string, { tagline: string; features: string[]; whyUpgrade: string; highlight?: string }> = {
     STARTER: {
-      tagline: "Plan and start your business",
+      tagline: "Everything you need to plan and launch your first business",
+      whyUpgrade: "Perfect if you have an idea and need help turning it into a real business. You get a team of 16 AI specialists that can write your business plan, research your market, and help you launch.",
       features: [
-        "16 specialized AI agents",
-        "200 messages/day",
-        "10 Smart (GPT-4o) messages/day",
-        "Cloud fallback protection",
-        "File upload & analysis",
-        "10 web searches/day",
-        "5 document uploads",
-        "1 AI Bestie companion",
-        "Mobile app access",
+        "16 AI agents — like having a small team (marketing, finance, strategy, content, and more)",
+        "250 messages a day — enough to have real working sessions with your AI team",
+        "10 premium answers/day — powered by GPT-4o for complex questions that need deeper thinking",
+        "Upload files for analysis — drop in spreadsheets, PDFs, or images and get instant insights",
+        "10 web lookups/day — your agents can search the internet to give you current, real answers",
+        "Store 10 documents — save your business plan, brand guide, or research so agents remember them",
+        "1 AI Bestie — your personal companion that knows you and remembers every conversation",
+        "Works on your phone — full access from any device, anywhere",
       ],
     },
     PLUS: {
-      tagline: "Plan, start, and maintain your business",
+      tagline: "For businesses that are growing and need more firepower",
       highlight: "Most Popular",
+      whyUpgrade: "You've launched and now you need to grow. More agents, more daily capacity, plus powerful tools like AI image creation, voice chat, and app connections to automate your workflow.",
       features: [
-        "30 specialized AI agents",
-        "500 messages/day",
-        "30 Smart (GPT-4o) messages/day",
-        "Image generation",
-        "Voice interaction",
-        "50 web searches/day",
-        "Code execution sandbox",
-        "25 document uploads",
-        "3 integrations (Zapier, Google)",
-        "3 AI Bestie companions",
-        "Everything in Builder",
+        "30 AI agents — nearly the full team, covering every business function",
+        "600 messages a day — enough for heavy daily use across multiple projects",
+        "25 premium answers/day — more complex analysis, longer responses, deeper research",
+        "AI image creation — generate product mockups, social media graphics, logos, and more",
+        "Voice chat — talk to your agents out loud instead of typing (great for brainstorming)",
+        "40 web lookups/day — agents check real-time data, competitor prices, trending topics",
+        "Run code — test ideas, analyze data, or build prototypes right inside conversations",
+        "30 saved documents — your agents remember your brand, products, and past research",
+        "5 app connections — link Google, Zapier, or other tools so your AI team can work with your existing apps",
+        "2 AI Besties — create different companions for different parts of your life",
+        "Everything in Builder, plus commercial rights — use AI-generated content in your business",
       ],
     },
     SMART: {
-      tagline: "Plan, start, maintain, and run your business",
+      tagline: "Your full AI-powered business command center",
+      whyUpgrade: "This is the executive suite. Every agent unlocked, priority speed, your own custom agents, team collaboration, and enterprise-grade security. Built for people who run real businesses.",
       features: [
-        "All 42 specialized AI agents",
-        "1,500 messages/day",
-        "80 Smart (GPT-4o) messages/day",
-        "Priority processing queue",
-        "Custom Agent Builder",
-        "200 web searches/day",
-        "200 code executions/day",
-        "100 document uploads",
-        "10 integrations",
-        "Team workspace",
-        "SOC 2 compliance",
-        "5 AI Bestie companions",
-        "Everything in Growth",
+        "All 42 AI agents — the complete team, zero restrictions",
+        "1,500 messages a day — run your entire business through AI without hitting limits",
+        "60 premium answers/day — deep strategy sessions, long-form content, complex analysis",
+        "Priority speed — your requests go to the front of the line, every time",
+        "Build your own agents — create custom AI specialists trained on your specific business needs",
+        "150 web lookups + 150 code runs/day — serious research and development capacity",
+        "100 saved documents — your AI team has deep knowledge of your entire business",
+        "10 app connections — connect your CRM, email, project tools, and more",
+        "Team workspace — invite your team to collaborate with shared agents and conversations",
+        "SOC 2 compliance — enterprise security standards for regulated industries",
+        "3 AI Besties — personal, business, and learning companions all at once",
+        "Early access — try new agents and features 30 days before everyone else",
       ],
     },
     PRO: {
-      tagline: "Full platform access with reseller capabilities",
-      highlight: "Reseller — earn from Stone AI",
+      tagline: "Full platform access + earn money reselling Stone AI",
+      highlight: "Reseller — build a business on top of Stone AI",
+      whyUpgrade: "Everything in Executive, plus the ability to resell Stone AI under your own brand. API access to build your own apps. HIPAA compliance for healthcare. Custom AI training. This is for entrepreneurs who want to build on top of our platform.",
       features: [
-        "Unlimited messages",
-        "150 Smart (GPT-4o) messages/day",
-        "API access & developer keys",
-        "Commercial license & white-label",
-        "Custom model fine-tuning",
-        "Unlimited integrations",
-        "HIPAA compliance",
-        "500 document uploads",
-        "2x referral rewards",
-        "10 AI Bestie companions",
-        "Everything in Executive",
+        "Unlimited messages — no daily cap, no throttling, use it as much as you need",
+        "125 premium answers/day — the highest allocation for the most demanding workflows",
+        "API access — build your own apps, websites, or tools powered by Stone AI",
+        "White-label & commercial license — rebrand and resell to your own clients",
+        "Custom model training — teach the AI about your specific industry, products, or processes",
+        "Unlimited app connections — connect every tool in your stack",
+        "HIPAA compliance — handle sensitive health data within legal requirements",
+        "500 saved documents — a complete business knowledge library for your AI team",
+        "2x referral rewards — earn double when you bring others to Stone AI",
+        "5 AI Besties — one for every role in your life",
+        "Everything in Executive, plus dedicated support",
       ],
     },
   };
@@ -357,7 +359,7 @@ export function BillingClient({
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-zinc-400 flex items-center gap-1">
                       <Brain className="h-3 w-3" />
-                      Tokens this month
+                      Monthly capacity used
                     </span>
                     <span className="text-zinc-300">
                       {formatTokens(usageData.usage.tokensThisMonth)} /{" "}
@@ -532,16 +534,25 @@ export function BillingClient({
                 </div>
               )}
 
-              {/* Features — 2-column grid for compactness */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                {tierDetail.features.map((f) => (
-                  <div key={f} className="flex items-center gap-2 text-sm">
-                    <Check className={`h-4 w-4 shrink-0 ${isPro ? "text-amber-400" : tierColor.accent}`} />
-                    <span className={f.startsWith("Unlimited") || f.startsWith("Everything") ? "text-white font-medium" : "text-zinc-300"}>
-                      {f}
-                    </span>
-                  </div>
-                ))}
+              {/* Why upgrade — plain English explanation */}
+              <div className="bg-zinc-800/40 rounded-lg p-4 border border-zinc-700/50">
+                <p className="text-sm text-zinc-300 leading-relaxed">{tierDetail.whyUpgrade}</p>
+              </div>
+
+              {/* Features — plain English, single column for readability */}
+              <div className="space-y-2.5">
+                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">What you get:</p>
+                {tierDetail.features.map((f) => {
+                  const isBold = f.startsWith("Unlimited") || f.startsWith("Everything") || f.startsWith("All 42");
+                  return (
+                    <div key={f} className="flex items-start gap-2.5 text-sm">
+                      <Check className={`h-4 w-4 shrink-0 mt-0.5 ${isPro ? "text-amber-400" : tierColor.accent}`} />
+                      <span className={isBold ? "text-white font-medium" : "text-zinc-300"}>
+                        {f}
+                      </span>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* Action button */}
@@ -622,24 +633,42 @@ export function BillingClient({
       <Card className="bg-zinc-900 border-zinc-800">
         <CardContent className="pt-6 space-y-3">
           <h3 className="text-sm font-semibold text-zinc-300">Billing FAQ</h3>
-          <div className="space-y-2 text-sm text-zinc-400">
+          <div className="space-y-3 text-sm text-zinc-400">
             <p>
               <strong className="text-zinc-300">When am I charged?</strong>{" "}
-              Your first charge happens at checkout. Renewals are automatic.
+              Your first charge happens at checkout. Renewals are automatic on the same date each month (or period).
             </p>
             <p>
               <strong className="text-zinc-300">Can I cancel anytime?</strong>{" "}
-              Yes. Click &quot;Manage Billing&quot; to cancel through Stripe. You keep
-              access until the end of your billing period.
+              Yes. Click &quot;Manage Billing&quot; above. You keep full access until the end of what you already paid for.
+            </p>
+            <p>
+              <strong className="text-zinc-300">What if I run out of messages for the day?</strong>{" "}
+              Your daily count resets at midnight. If you need more right now, you can grab a small credit pack from the Deals page — they start at $1.99 for 10 extra premium messages.
+            </p>
+            <p>
+              <strong className="text-zinc-300">What are &quot;premium answers&quot;?</strong>{" "}
+              These are powered by GPT-4o — a more advanced AI that gives deeper, longer, and more accurate responses. Regular messages use our fast local AI (unlimited). Premium is for when you need the best possible answer.
+            </p>
+            <p>
+              <strong className="text-zinc-300">What are &quot;app connections&quot;?</strong>{" "}
+              These let your AI agents talk to other apps you already use — like Google Docs, Zapier, Slack, or your CRM. More connections = more automation.
+            </p>
+            <p>
+              <strong className="text-zinc-300">What are &quot;saved documents&quot;?</strong>{" "}
+              Upload your business plan, product catalog, brand guidelines, or any reference material. Your AI agents will remember and reference these in every conversation — like giving your team a shared brain.
             </p>
             <p>
               <strong className="text-zinc-300">What happens if I downgrade?</strong>{" "}
-              Your current plan stays active until the end of the billing cycle,
-              then switches to the new plan.
+              Your current plan stays active until the end of your billing cycle, then switches to the new plan. You won&apos;t lose any saved conversations.
             </p>
             <p>
-              <strong className="text-zinc-300">Need help?</strong>{" "}
-              Contact support at support@stone-ai.net
+              <strong className="text-zinc-300">I&apos;m not sure which plan is right for me.</strong>{" "}
+              Start with Builder ($19.99/mo). It gives you everything you need to get going. You can always upgrade later and your conversations, documents, and bestie carry over.
+            </p>
+            <p>
+              <strong className="text-zinc-300">Need help choosing or setting up?</strong>{" "}
+              We&apos;re here. Email support@stone-ai.net or use the Help &amp; Support page. If you&apos;re on a paid plan, we&apos;ll walk you through everything personally — that&apos;s our promise.
             </p>
           </div>
         </CardContent>

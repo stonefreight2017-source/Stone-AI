@@ -524,11 +524,76 @@ export function PromotionsClient({
         </CardContent>
       </Card>
 
+      {/* ═══ OUR PROMISE: 100% SUCCESS GUARANTEE ═══ */}
+      <Card className="bg-gradient-to-r from-emerald-900/30 to-cyan-900/20 border-emerald-600/50">
+        <CardContent className="pt-6 space-y-5">
+          <div className="flex items-center gap-3">
+            <div className="h-12 w-12 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <Shield className="h-6 w-6 text-emerald-400" />
+            </div>
+            <div>
+              <h3 className="font-bold text-white text-lg">Our Promise: We Get You There. Period.</h3>
+              <p className="text-emerald-400/70 text-sm">
+                If you pay for a plan, we personally make sure you succeed with it.
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-zinc-900/60 rounded-lg p-4 border border-emerald-800/30 space-y-3">
+            <p className="text-sm text-zinc-300 leading-relaxed">
+              We don&apos;t just hand you the keys and walk away. <strong className="text-white">Every paying customer</strong> gets
+              real human support to make sure they&apos;re actually getting value from what they paid for.
+              Whether you bought the $19.99 Builder plan or the $200 Reseller plan — if you need help,
+              we help. No ticket queues. No &quot;check the FAQ.&quot; Real guidance until you&apos;re running.
+            </p>
+
+            <div className="grid gap-2 sm:grid-cols-2">
+              <div className="flex items-start gap-2 text-sm">
+                <Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
+                <span className="text-zinc-300">Stuck on setup? We walk you through it step by step</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm">
+                <Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
+                <span className="text-zinc-300">Not sure which agents to use? We recommend based on your goals</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm">
+                <Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
+                <span className="text-zinc-300">Need help with your Bestie? We&apos;ll guide the whole creation process</span>
+              </div>
+              <div className="flex items-start gap-2 text-sm">
+                <Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
+                <span className="text-zinc-300">Business questions? Our team helps you get actual results</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-emerald-400/80 font-medium pt-1 border-t border-emerald-800/30">
+              This is not optional. If you paid for Stone AI, you get our full support until you&apos;re successful. That&apos;s the deal.
+            </p>
+          </div>
+
+          <div className="flex gap-3">
+            <Button
+              className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white"
+              onClick={() => router.push("/app/support")}
+            >
+              Get Help Now
+            </Button>
+            <Button
+              variant="outline"
+              className="flex-1 border-emerald-700 text-emerald-300 hover:bg-emerald-900/30"
+              onClick={() => window.location.href = "mailto:support@stone-ai.net"}
+            >
+              Email Us Directly
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* ═══ SECTION 6: PREMIUM ONBOARDING & RESELLER ═══ */}
       <div>
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
           <Handshake className="h-5 w-5 text-emerald-400" />
-          Make Money with Stone AI
+          Premium Services & Reseller Program
         </h2>
 
         <div className="grid gap-4 md:grid-cols-2">
@@ -540,54 +605,75 @@ export function PromotionsClient({
                   <GraduationCap className="h-5 w-5 text-blue-400" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white">Premium Onboarding</h3>
-                  <p className="text-xs text-zinc-400">We set everything up for you</p>
+                  <h3 className="font-semibold text-white">Premium Setup Service</h3>
+                  <p className="text-xs text-zinc-400">We do the work. You get the results.</p>
                 </div>
               </div>
 
               <p className="text-sm text-zinc-400">
-                Don&apos;t just get the tools — get a team of AI experts who study your business,
-                design custom workflows, and train your people until everyone&apos;s up and running.
+                Want us to set everything up for you? Just request the service, pay once, and our team
+                handles the rest. We study your business, build your workflows, train your team, and
+                stay with you until everyone is confident and productive. <strong className="text-white">100% of the way.</strong>
               </p>
 
               <div className="space-y-3">
                 <div className="bg-zinc-800/50 rounded-lg p-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-white">Free Guide</span>
-                    <Badge className="bg-emerald-900/50 text-emerald-300 text-xs">Included</Badge>
+                    <span className="text-sm font-medium text-white">Self-Guided (Free)</span>
+                    <Badge className="bg-emerald-900/50 text-emerald-300 text-xs">Included with any plan</Badge>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">AI coach that walks you through everything at your pace</p>
+                  <p className="text-xs text-zinc-500 mt-1">Our built-in AI guide walks you through everything at your own pace. Available 24/7.</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-white">Essentials</span>
-                    <span className="text-sm font-semibold text-blue-400">$2,500</span>
+                    <span className="text-sm font-semibold text-blue-400">$2,500 one-time</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">4-week setup for small teams — custom workflows, live training, adoption tracking</p>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Best for small teams (1-10 people). We set up your agents, create custom workflows
+                    for your specific business, do live training calls, and check in weekly for 4 weeks
+                    until everyone is fully up and running.
+                  </p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-white">Professional</span>
-                    <span className="text-sm font-semibold text-purple-400">$7,500</span>
+                    <span className="text-sm font-semibold text-purple-400">$7,500 one-time</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">8-week company-wide rollout — department-by-department, ROI measurement</p>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Best for growing companies (10-50 people). We roll out Stone AI department by
+                    department over 8 weeks. Custom agent configurations per team, group training
+                    sessions, usage analytics, and measurable ROI tracking so you can see the impact.
+                  </p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-white">Enterprise Command</span>
-                    <span className="text-sm font-semibold text-amber-400">$25,000</span>
+                    <span className="text-sm font-semibold text-amber-400">$25,000 one-time</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">12-month partnership — dedicated success manager, custom AI workflows, on-site training</p>
+                  <p className="text-xs text-zinc-500 mt-1">
+                    Best for large organizations (50+ people). 12-month partnership with a dedicated
+                    success manager, custom AI workflows built for your industry, on-site training
+                    (or virtual), executive reporting, and ongoing optimization.
+                  </p>
                 </div>
+              </div>
+
+              <div className="bg-blue-900/20 border border-blue-800/40 rounded-lg p-3">
+                <p className="text-xs text-blue-300">
+                  <strong>How it works:</strong> Email support@stone-ai.net or use the Help page to request any
+                  premium service. We&apos;ll schedule a call to understand your needs, send you a simple
+                  invoice, and get started as soon as payment clears. No contracts. No surprises.
+                </p>
               </div>
 
               <Button
                 variant="outline"
                 className="w-full border-blue-700 text-blue-300 hover:bg-blue-900/30"
-                onClick={() => router.push("/enterprise")}
+                onClick={() => router.push("/app/support")}
               >
                 <ArrowRight className="h-4 w-4 mr-2" />
-                Learn More — Enterprise Page
+                Request Premium Setup
               </Button>
             </CardContent>
           </Card>
@@ -656,18 +742,18 @@ export function PromotionsClient({
         </div>
       </div>
 
-      {/* ═══ SECTION 7: TIER COMPARISON ═══ */}
+      {/* ═══ SECTION 7: TIER COMPARISON (Plain English) ═══ */}
       <div>
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
           <Star className="h-5 w-5 text-amber-400" />
-          Tier Comparison
+          Compare Plans — What You Actually Get
         </h2>
 
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-zinc-800">
-                <th className="text-left text-zinc-400 py-3 px-2 font-medium">Feature</th>
+                <th className="text-left text-zinc-400 py-3 px-2 font-medium min-w-[180px]">What it means</th>
                 {tiers.map((t) => (
                   <th key={t.key} className="text-center text-zinc-300 py-3 px-2 font-medium">
                     <div className="flex flex-col items-center gap-1">
@@ -680,112 +766,133 @@ export function PromotionsClient({
             </thead>
             <tbody className="text-zinc-400">
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2 flex items-center gap-1">
-                  <MessageSquare className="h-3 w-3" /> Messages/Day
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">How many times you can talk to AI per day</p>
+                  <p className="text-[10px] text-zinc-500">Each message you send counts as 1</p>
                 </td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2 text-zinc-300">
-                    {t.limits.messagesPerDay.toLocaleString()}
-                  </td>
-                ))}
+                <td className="text-center py-3 px-2 text-zinc-300">50</td>
+                <td className="text-center py-3 px-2 text-zinc-300">250</td>
+                <td className="text-center py-3 px-2 text-zinc-300">600</td>
+                <td className="text-center py-3 px-2 text-zinc-300">1,500</td>
+                <td className="text-center py-3 px-2 text-white font-medium">Unlimited</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2 flex items-center gap-1">
-                  <Brain className="h-3 w-3" /> Tokens/Month
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">Premium answers (GPT-4o) per day</p>
+                  <p className="text-[10px] text-zinc-500">Smarter AI for complex questions — regular AI is always unlimited</p>
                 </td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2 text-zinc-300">
-                    {formatTokens(t.limits.tokensPerMonth)}
-                  </td>
-                ))}
+                <td className="text-center py-3 px-2 text-zinc-300">5 total*</td>
+                <td className="text-center py-3 px-2 text-zinc-300">10/day</td>
+                <td className="text-center py-3 px-2 text-zinc-300">25/day</td>
+                <td className="text-center py-3 px-2 text-zinc-300">60/day</td>
+                <td className="text-center py-3 px-2 text-zinc-300">125/day</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">Max Response</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2 text-zinc-300">
-                    {formatTokens(t.limits.maxResponseTokens)}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">AI specialists available to you</p>
+                  <p className="text-[10px] text-zinc-500">Marketing, finance, coding, writing, strategy, etc.</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-300">4</td>
+                <td className="text-center py-3 px-2 text-zinc-300">16</td>
+                <td className="text-center py-3 px-2 text-zinc-300">30</td>
+                <td className="text-center py-3 px-2 text-zinc-300">All 42</td>
+                <td className="text-center py-3 px-2 text-white font-medium">All 42</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">Concurrent Requests</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2 text-zinc-300">
-                    {t.limits.concurrentRequests}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">How long AI remembers your conversation</p>
+                  <p className="text-[10px] text-zinc-500">More memory = better, more relevant answers</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-300">15 msgs</td>
+                <td className="text-center py-3 px-2 text-zinc-300">25 msgs</td>
+                <td className="text-center py-3 px-2 text-zinc-300">50 msgs</td>
+                <td className="text-center py-3 px-2 text-zinc-300">80 msgs</td>
+                <td className="text-center py-3 px-2 text-zinc-300">100 msgs</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">Context Window</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2 text-zinc-300">
-                    {t.perks.contextMessages} msgs
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">AI Bestie companions</p>
+                  <p className="text-[10px] text-zinc-500">Personal AI friends that remember everything about you</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-300">1</td>
+                <td className="text-center py-3 px-2 text-zinc-300">1</td>
+                <td className="text-center py-3 px-2 text-zinc-300">2</td>
+                <td className="text-center py-3 px-2 text-zinc-300">3</td>
+                <td className="text-center py-3 px-2 text-zinc-300">5</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">AI Modes</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2">
-                    {t.allowedModes.map((m) => (
-                      <Badge key={m} variant="outline" className="text-[10px] border-zinc-700 text-zinc-400 mx-0.5">
-                        {m}
-                      </Badge>
-                    ))}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">Upload documents for AI to reference</p>
+                  <p className="text-[10px] text-zinc-500">Business plans, catalogs, guides — AI remembers them</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-300">10</td>
+                <td className="text-center py-3 px-2 text-zinc-300">30</td>
+                <td className="text-center py-3 px-2 text-zinc-300">100</td>
+                <td className="text-center py-3 px-2 text-zinc-300">500</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">Auto-Routing</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2">
-                    {t.perks.autoRouting ? (
-                      <Check className="h-4 w-4 text-emerald-400 mx-auto" />
-                    ) : (
-                      <span className="text-zinc-600">—</span>
-                    )}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">App connections (Zapier, Google, etc.)</p>
+                  <p className="text-[10px] text-zinc-500">Let AI work with tools you already use</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-300">5</td>
+                <td className="text-center py-3 px-2 text-zinc-300">10</td>
+                <td className="text-center py-3 px-2 text-white font-medium">Unlimited</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">Export Conversations</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2">
-                    {t.perks.conversationExport ? (
-                      <Check className="h-4 w-4 text-emerald-400 mx-auto" />
-                    ) : (
-                      <span className="text-zinc-600">—</span>
-                    )}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">AI image creation</p>
+                  <p className="text-[10px] text-zinc-500">Generate product mockups, social graphics, logos</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
               </tr>
               <tr className="border-b border-zinc-800/50">
-                <td className="py-2 px-2">Priority Queue</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2">
-                    {t.perks.priorityQueue ? (
-                      <Check className="h-4 w-4 text-amber-400 mx-auto" />
-                    ) : (
-                      <span className="text-zinc-600">—</span>
-                    )}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">Voice chat with AI</p>
+                  <p className="text-[10px] text-zinc-500">Talk out loud instead of typing</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
+              </tr>
+              <tr className="border-b border-zinc-800/50">
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">Skip the line (faster responses)</p>
+                  <p className="text-[10px] text-zinc-500">Your requests get processed first</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-amber-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-amber-400 mx-auto" /></td>
               </tr>
               <tr>
-                <td className="py-2 px-2">API Access</td>
-                {tiers.map((t) => (
-                  <td key={t.key} className="text-center py-2 px-2">
-                    {t.key === "PRO" ? (
-                      <Check className="h-4 w-4 text-amber-400 mx-auto" />
-                    ) : (
-                      <span className="text-zinc-600">—</span>
-                    )}
-                  </td>
-                ))}
+                <td className="py-3 px-2">
+                  <p className="text-zinc-300 font-medium text-xs">Build your own custom AI agents</p>
+                  <p className="text-[10px] text-zinc-500">Create specialists trained on your specific business</p>
+                </td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2 text-zinc-600">—</td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-amber-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-amber-400 mx-auto" /></td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <p className="text-[10px] text-zinc-600 mt-2 text-center">
+          * Free tier gets 5 premium answers total (lifetime), not daily. All plans include unlimited regular AI messages via our local engine.
+        </p>
       </div>
 
       {/* ═══ SECTION 8: SECURITY & TRUST ═══ */}

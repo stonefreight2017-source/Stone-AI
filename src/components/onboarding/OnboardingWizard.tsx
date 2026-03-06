@@ -298,12 +298,12 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-950 px-4">
         <div className="max-w-xl w-full text-center space-y-8">
-          {/* Skip button */}
+          {/* Skip — less prominent, tucked away */}
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-600 hover:text-zinc-400 text-sm flex items-center gap-1"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
           >
-            Skip <X className="h-3.5 w-3.5" />
+            skip for now
           </button>
 
           {/* Progress */}
@@ -320,16 +320,17 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
               Welcome to Stone AI, {firstName}!
             </h1>
             <p className="text-zinc-400 text-lg max-w-md mx-auto">
-              Your AI-powered business command center. Let&apos;s set you up in under 2 minutes.
+              Let&apos;s get you set up. This takes about 2 minutes and makes everything
+              work better for you from day one.
             </p>
           </div>
 
-          {/* What you get */}
+          {/* What you get — plain English */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
             {[
-              { icon: Bot, label: "42 AI Agents", desc: "Specialists for every business need" },
-              { icon: Heart, label: "AI Bestie", desc: "Your personal companion that remembers you" },
-              { icon: Briefcase, label: "Full Business Suite", desc: "Plan, build, market, and scale" },
+              { icon: Bot, label: "Your AI Team", desc: "42 specialists that handle marketing, finance, writing, strategy, coding, and more — like having a team on call 24/7" },
+              { icon: Heart, label: "Your AI Bestie", desc: "A personal companion with its own personality that remembers everything you tell it and grows with you" },
+              { icon: Briefcase, label: "Your Business Hub", desc: "Plan, build, market, and scale your business — all from one place, no switching between apps" },
             ].map((item) => (
               <div key={item.label} className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 space-y-2">
                 <item.icon className="h-5 w-5 text-amber-400" />
@@ -344,8 +345,12 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
             disabled={saving}
             className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-8 py-3 rounded-full text-base"
           >
-            Let&apos;s Go <ArrowRight className="h-4 w-4 ml-2" />
+            Let&apos;s Get Started <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
+
+          <p className="text-[10px] text-zinc-600">
+            Need help? Email support@stone-ai.net anytime — we&apos;ll walk you through everything.
+          </p>
         </div>
       </div>
     );
@@ -358,9 +363,9 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="max-w-2xl w-full text-center space-y-8">
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-600 hover:text-zinc-400 text-sm flex items-center gap-1"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
           >
-            Skip <X className="h-3.5 w-3.5" />
+            skip for now
           </button>
 
           <div className="flex justify-center gap-2">
@@ -371,7 +376,10 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
 
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-white">What brings you here?</h2>
-            <p className="text-zinc-400">Pick up to 3 goals. We&apos;ll match you with the right AI agents.</p>
+            <p className="text-zinc-400">
+              Pick up to 3 goals so we can set you up with the right tools.
+              Don&apos;t worry — you can change these anytime.
+            </p>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -434,9 +442,9 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="max-w-2xl w-full text-center space-y-8">
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-600 hover:text-zinc-400 text-sm flex items-center gap-1"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
           >
-            Skip <X className="h-3.5 w-3.5" />
+            skip for now
           </button>
 
           <div className="flex justify-center gap-2">
@@ -505,9 +513,9 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="max-w-xl w-full text-center space-y-8">
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-600 hover:text-zinc-400 text-sm flex items-center gap-1"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
           >
-            Skip <X className="h-3.5 w-3.5" />
+            skip for now
           </button>
 
           <div className="flex justify-center gap-2">
@@ -582,20 +590,20 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
 
         <div className="space-y-3">
           <div className="text-5xl">{"\u{1F680}"}</div>
-          <h2 className="text-2xl font-bold text-white">You&apos;re all set, {firstName}!</h2>
+          <h2 className="text-2xl font-bold text-white">You&apos;re ready, {firstName}!</h2>
           <p className="text-zinc-400">
-            Your AI command center is ready. Here&apos;s how to get the most out of Stone AI:
+            Everything is set up. Here&apos;s where to start:
           </p>
         </div>
 
         <div className="space-y-3 text-left">
           {[
-            { icon: Bot, label: "Chat with any agent", desc: "Click \"New Chat\" and pick an agent from the sidebar or start typing" },
-            { icon: Heart, label: "Talk to your Bestie", desc: "Your AI companion remembers you and grows with every conversation" },
-            { icon: Sparkles, label: "Explore Discover", desc: "Find agents by category, see what's popular, unlock new ones" },
-            { icon: Briefcase, label: "Build your business", desc: "Use agents together to plan, create, market, and scale" },
+            { icon: Bot, label: "Start a conversation", desc: "Click \"New Chat\" in the sidebar, pick any agent, and just start talking. Ask it anything about your business, your idea, or what you need help with." },
+            { icon: Heart, label: "Meet your Bestie", desc: "Go to \"My Bestie\" in the sidebar to create your personal AI companion. It remembers everything and gets to know you over time." },
+            { icon: Sparkles, label: "Browse all agents", desc: "Click \"Discover\" to see all 42 AI specialists organized by category. Try a few — each one is trained for different tasks." },
+            { icon: Briefcase, label: "Use agents together", desc: "Start with the Business Strategist for your plan, then the Marketing Strategist for promotion, then the Content Writer for copy. They work together through you." },
           ].map((tip) => (
-            <div key={tip.label} className="flex items-start gap-3 p-3 rounded-lg">
+            <div key={tip.label} className="flex items-start gap-3 p-3 rounded-lg bg-zinc-900/40">
               <tip.icon className="h-5 w-5 text-amber-400 mt-0.5 shrink-0" />
               <div>
                 <p className="text-sm font-medium text-white">{tip.label}</p>
@@ -605,12 +613,25 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           ))}
         </div>
 
+        {/* Support promise */}
+        <div className="bg-emerald-900/20 border border-emerald-800/40 rounded-lg p-4 text-center space-y-2">
+          <p className="text-sm text-emerald-300 font-medium">
+            Stuck? Confused? Not sure where to start?
+          </p>
+          <p className="text-xs text-zinc-400">
+            Our onboarding guide can walk you through everything step by step — just click the
+            button below. Or email <strong className="text-white">support@stone-ai.net</strong> and
+            a real person will help you. If you&apos;re on a paid plan, we guarantee we&apos;ll get
+            you up and running. That&apos;s our promise.
+          </p>
+        </div>
+
         <div className="flex flex-col gap-3">
           <Button
             onClick={() => handleStartChat("platform-onboarding")}
             className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-8 py-3 rounded-full text-base"
           >
-            Chat with Onboarding Guide <ArrowRight className="h-4 w-4 ml-2" />
+            Walk Me Through Everything <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
           <Button
             variant="ghost"
@@ -618,7 +639,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
             disabled={saving}
             className="text-zinc-400 hover:text-white"
           >
-            Go to Dashboard
+            I&apos;m good — take me to the dashboard
           </Button>
         </div>
       </div>
