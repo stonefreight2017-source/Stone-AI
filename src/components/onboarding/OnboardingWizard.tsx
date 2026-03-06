@@ -81,12 +81,36 @@ const GOALS: Goal[] = [
     agents: ["financial-advisor", "tax-strategy", "bookkeeper"],
   },
   {
-    id: "meet-bestie",
-    label: "I Want a Bestie",
-    description: "A personal AI companion that knows you and grows with you",
+    id: "bestie-friend",
+    label: "AI Best Friend",
+    description: "A personal companion that knows you, remembers everything, and grows with you",
     icon: Heart,
     color: "text-pink-400 bg-pink-900/20 border-pink-800/40",
     agents: [],
+  },
+  {
+    id: "bestie-partner",
+    label: "AI Business Partner",
+    description: "A co-pilot who knows your business inside out and thinks alongside you",
+    icon: Briefcase,
+    color: "text-orange-400 bg-orange-900/20 border-orange-800/40",
+    agents: ["business-strategy", "project-management-coach"],
+  },
+  {
+    id: "bestie-both",
+    label: "Best Friend + Business Partner",
+    description: "The full package — your ride-or-die who also helps you build your empire",
+    icon: Sparkles,
+    color: "text-amber-400 bg-amber-900/20 border-amber-800/40",
+    agents: ["business-strategy"],
+  },
+  {
+    id: "bestie-tutor",
+    label: "AI Tutor & Mentor",
+    description: "A patient teacher who adapts to how you learn and pushes you to grow",
+    icon: GraduationCap,
+    color: "text-indigo-400 bg-indigo-900/20 border-indigo-800/40",
+    agents: ["academic-tutor", "platform-onboarding"],
   },
 ];
 
@@ -125,7 +149,19 @@ const AGENT_RECOMMENDATIONS: Record<string, { name: string; slug: string; desc: 
     { name: "Tax Strategist", slug: "tax-strategy", desc: "Deductions, business structure, tax planning" },
     { name: "Bookkeeper", slug: "bookkeeper", desc: "Record-keeping, invoicing, expense tracking" },
   ],
-  "meet-bestie": [],
+  "bestie-friend": [],
+  "bestie-partner": [
+    { name: "Business Strategist", slug: "business-strategy", desc: "Your co-pilot for planning, decisions, and growth" },
+    { name: "Project Manager", slug: "project-management-coach", desc: "Keep your projects on track and your team aligned" },
+  ],
+  "bestie-both": [
+    { name: "Business Strategist", slug: "business-strategy", desc: "Strategy, planning, and growth — your right hand" },
+    { name: "Marketing Strategist", slug: "marketing-strategist", desc: "Get your business seen by the right people" },
+  ],
+  "bestie-tutor": [
+    { name: "Academic Tutor", slug: "academic-tutor", desc: "Learn anything — adapted to your pace and style" },
+    { name: "Onboarding Guide", slug: "platform-onboarding", desc: "Master every Stone AI feature" },
+  ],
 };
 
 /* ------------------------------------------------------------------ */
@@ -186,8 +222,9 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
   async function handleNext() {
     if (step === 1) await saveGoals();
     let next = step + 1;
-    // If the only goal is "meet-bestie", skip agent recommendations (step 2) → go to bestie (step 3)
-    if (next === 2 && selectedGoals.length === 1 && selectedGoals[0] === "meet-bestie") {
+    // If the only goal is a bestie-only path with no agent recs, skip to bestie step
+    const bestieOnlyGoals = ["bestie-friend"];
+    if (next === 2 && selectedGoals.length === 1 && bestieOnlyGoals.includes(selectedGoals[0])) {
       next = 3;
     }
     await saveStep(next);
@@ -337,7 +374,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
             <p className="text-zinc-400">Pick up to 3 goals. We&apos;ll match you with the right AI agents.</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {GOALS.map((goal) => {
               const selected = selectedGoals.includes(goal.id);
               return (
@@ -517,7 +554,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           )}
 
           <div className="flex items-center justify-between">
-            <Button variant="ghost" onClick={() => setStep(selectedGoals.length === 1 && selectedGoals[0] === "meet-bestie" ? 1 : 2)} className="text-zinc-400">
+            <Button variant="ghost" onClick={() => setStep(selectedGoals.length === 1 && selectedGoals[0] === "bestie-friend" ? 1 : 2)} className="text-zinc-400">
               <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </Button>
             <Button
