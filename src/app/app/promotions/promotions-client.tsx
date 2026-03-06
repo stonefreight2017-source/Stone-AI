@@ -482,6 +482,48 @@ export function PromotionsClient({
         </CardContent>
       </Card>
 
+      {/* ═══ HIDDEN EASTER EGGS TEASER ═══ */}
+      <Card className="bg-gradient-to-r from-amber-900/20 to-yellow-900/10 border-amber-700/40">
+        <CardContent className="pt-6 space-y-3">
+          <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center text-xl">
+              {"\uD83E\uDD5A"}
+            </div>
+            <div>
+              <h3 className="font-semibold text-white text-lg">Hidden Easter Eggs</h3>
+              <p className="text-amber-400/70 text-sm">
+                Rare discoveries hidden throughout the platform
+              </p>
+            </div>
+          </div>
+
+          <p className="text-sm text-zinc-400">
+            Certain combinations of choices throughout Stone AI unlock{" "}
+            <span className="text-amber-300 font-semibold">hidden Easter eggs</span> with bonus credits and exclusive profile badges.
+            The rarest combos are out there — can you find them?
+          </p>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="bg-zinc-900/60 rounded-lg p-3 text-center">
+              <p className="text-lg">{"\uD83C\uDFC6"}</p>
+              <p className="text-xs text-zinc-400 mt-1">Exclusive badges</p>
+            </div>
+            <div className="bg-zinc-900/60 rounded-lg p-3 text-center">
+              <p className="text-lg">{"\uD83D\uDCB0"}</p>
+              <p className="text-xs text-zinc-400 mt-1">Bonus credits (50-100)</p>
+            </div>
+            <div className="bg-zinc-900/60 rounded-lg p-3 text-center">
+              <p className="text-lg">{"\uD83D\uDD12"}</p>
+              <p className="text-xs text-zinc-400 mt-1">One-time claim only</p>
+            </div>
+          </div>
+
+          <p className="text-[10px] text-zinc-600 text-center">
+            Easter egg rewards are one-time claims. Each egg can only be discovered once per account.
+          </p>
+        </CardContent>
+      </Card>
+
       {/* ═══ SECTION 6: PREMIUM ONBOARDING & RESELLER ═══ */}
       <div>
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">

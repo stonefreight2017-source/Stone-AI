@@ -322,7 +322,15 @@ export default function CreateBestiePage() {
       });
       const data = await res.json();
       if (res.ok && data.bestie) {
-        toast.success(`${name} is ready! Let's chat!`);
+        // Check for Easter egg (server-side validated)
+        if (data.easterEgg) {
+          setEasterEgg(data.easterEgg);
+          toast.success(`Easter Egg Discovered! ${data.easterEgg.reward}`);
+          // Delay redirect so user sees the egg
+          await new Promise((r) => setTimeout(r, 3000));
+        } else {
+          toast.success(`${name} is ready! Let's chat!`);
+        }
         // Create first conversation and redirect to chat
         const convRes = await fetch(`/api/bestie/${data.bestie.id}/conversations`, {
           method: "POST",
@@ -343,21 +351,8 @@ export default function CreateBestiePage() {
     }
   }
 
-  // ── Easter Egg Detection ──
-  // Rare combos = unique background + purpose blend that statistically few users will hit
-  const EASTER_EGGS: { purposes: string[]; bg: string; reward: string; message: string }[] = [
-    { purposes: ["tech", "wellness"], bg: "matrix", reward: "Zen Hacker", message: "You found the Zen Hacker egg! +50 bonus credits on your next billing cycle." },
-    { purposes: ["creative", "business"], bg: "aurora", reward: "Visionary", message: "The Visionary egg! Creators who mean business. +50 bonus credits." },
-    { purposes: ["fitness", "creative"], bg: "cyber", reward: "Neon Athlete", message: "Neon Athlete unlocked! Art meets muscle. +50 bonus credits." },
-    { purposes: ["learning", "parenting"], bg: "warm-amber", reward: "Wise Parent", message: "Wise Parent discovered! Teaching the teachers. +50 bonus credits." },
-    { purposes: ["friendship", "tech"], bg: "terminal", reward: "Digital Bestie", message: "Digital Bestie found! Friendship through code. +50 bonus credits." },
-    { purposes: ["business", "wellness", "fitness"], bg: "forest", reward: "Executive Zen", message: "Executive Zen! The rarest combo. +100 bonus credits." },
-  ];
-
-  const discoveredEgg = EASTER_EGGS.find((egg) => {
-    const hasPurposes = egg.purposes.every((p) => selectedPurposes.includes(p));
-    return hasPurposes && bgTheme === egg.bg;
-  });
+  // Easter egg state — checked server-side only after creation
+  const [easterEgg, setEasterEgg] = useState<{ reward: string; message: string } | null>(null);
 
   const TOTAL_STEPS = 6;
 
@@ -718,12 +713,12 @@ export default function CreateBestiePage() {
               </div>
             )}
 
-            {/* Easter Egg */}
-            {discoveredEgg && (
-              <div className="bg-gradient-to-r from-amber-900/30 to-yellow-900/20 rounded-lg p-4 border border-amber-500/40 backdrop-blur-sm text-center space-y-1">
+            {/* Easter egg result (only shown after server-side creation) */}
+            {easterEgg && (
+              <div className="bg-gradient-to-r from-amber-900/30 to-yellow-900/20 rounded-lg p-4 border border-amber-500/40 backdrop-blur-sm text-center space-y-1 animate-pulse">
                 <p className="text-amber-300 font-bold text-sm">Easter Egg Discovered!</p>
-                <p className="text-amber-400/80 text-xs">{discoveredEgg.message}</p>
-                <p className="text-[10px] text-amber-500/60">Badge: &quot;{discoveredEgg.reward}&quot; — applied to your profile</p>
+                <p className="text-amber-400/80 text-xs">{easterEgg.message}</p>
+                <p className="text-[10px] text-amber-500/60">Badge: &quot;{easterEgg.reward}&quot; — applied to your profile</p>
               </div>
             )}
 

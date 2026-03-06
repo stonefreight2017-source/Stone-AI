@@ -20,6 +20,7 @@ import { createBestieSchema, updateBestieSchema } from "@/lib/bestie-validators"
 import { checkRateLimit } from "@/lib/rate-limiter";
 import { getTierConfig, getMaxBesties } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
+import { checkEasterEgg } from "@/lib/easter-eggs";
 
 // GET — List user's besties
 export async function GET() {
@@ -95,6 +96,10 @@ export async function POST(req: NextRequest) {
     }
 
     const { name, traits, style, expertise, avatarEmoji, language, aboutMe } = parsed.data;
+    // Extra fields not in zod schema but passed through
+    const rawBody = body as Record<string, unknown>;
+    const purposes = Array.isArray(rawBody.purposes) ? (rawBody.purposes as string[]).filter((p) => typeof p === "string").slice(0, 3) : [];
+    const bgTheme = typeof rawBody.bgTheme === "string" ? rawBody.bgTheme.slice(0, 30) : "pure-dark";
 
     // Check bestie limit
     const activeCount = await db.bestieProfile.count({
@@ -127,7 +132,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create or reactivate
-    const personalityData = { traits, style, expertise, language: language || "en" };
+    const personalityData = { traits, style, expertise, language: language || "en", purposes, bgTheme };
     const bestie = existing
       ? await db.bestieProfile.update({
           where: { id: existing.id },
@@ -169,7 +174,31 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    return Response.json({ bestie }, { status: 201 });
+    // Server-side Easter egg check — one-time per user
+    let easterEgg: { reward: string; message: string; credits: number } | null = null;
+    if (purposes.length > 0) {
+      const egg = checkEasterEgg(purposes, bgTheme);
+      if (egg) {
+        // Check if user already claimed this egg (stored in metadata)
+        const existingClaim = await db.bestieMemory.findFirst({
+          where: { userId: user.id, key: `easter_egg_${egg.reward}` },
+        });
+        if (!existingClaim) {
+          // Claim the egg — one-time only
+          await db.bestieMemory.create({
+            data: {
+              bestieId: bestie.id,
+              userId: user.id,
+              key: `easter_egg_${egg.reward}`,
+              value: JSON.stringify({ credits: egg.credits, claimedAt: new Date().toISOString() }),
+            },
+          });
+          easterEgg = egg;
+        }
+      }
+    }
+
+    return Response.json({ bestie, easterEgg }, { status: 201 });
   } catch (error) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
