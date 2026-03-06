@@ -54,6 +54,9 @@ export default function LandingPage() {
           <span className="text-xl font-bold tracking-tight">Stone AI&#8482;</span>
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
+          <Link href="#promotions" className="text-sm text-zinc-400 hover:text-white transition-colors hidden sm:inline">
+            Deals
+          </Link>
           <Link href="#pricing" className="text-sm text-zinc-400 hover:text-white transition-colors hidden sm:inline">
             Pricing
           </Link>
@@ -725,6 +728,82 @@ export default function LandingPage() {
             </div>
             <p className="text-xs text-zinc-600">No credit card. No trial. No catch.</p>
           </AnimateOnScroll>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════
+          Promotions — What's new, deals, and what you get
+         ═══════════════════════════════════════════════════════════════ */}
+      <section id="promotions" className="px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-b from-zinc-900 to-zinc-950">
+        <div className="max-w-5xl mx-auto">
+          <ScrollSection>
+            <div className="text-center mb-12">
+              <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">Limited Time</Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">What You Get — Right Now</h2>
+              <p className="text-zinc-400 max-w-xl mx-auto">No credit card. No trial countdown. Just start.</p>
+            </div>
+          </ScrollSection>
+
+          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {/* Free Forever */}
+            <StaggerCard>
+              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
+                <div className="flex items-center gap-2 mb-3">
+                  <Sparkles className="h-5 w-5 text-amber-400" />
+                  <h3 className="text-lg font-semibold text-white">Free Forever</h3>
+                </div>
+                <ul className="space-y-2 text-sm text-zinc-400">
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 4 AI agents — business, content, code, education</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 5 SMART credits for GPT-4o conversations</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> Community forum access</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> Install to home screen (PWA)</li>
+                </ul>
+              </div>
+            </StaggerCard>
+
+            {/* AI Bestie */}
+            <StaggerCard>
+              <div className="p-6 rounded-2xl bg-gradient-to-br from-pink-950/30 to-purple-950/30 border border-pink-800/30 h-full">
+                <div className="flex items-center gap-2 mb-3">
+                  <Heart className="h-5 w-5 text-pink-400" />
+                  <h3 className="text-lg font-semibold text-white">AI Bestie</h3>
+                </div>
+                <p className="text-sm text-zinc-400 mb-3">Your AI companion — best friend, business partner, tutor, or all three. They remember you, learn your style, and grow with every conversation.</p>
+                <ul className="space-y-2 text-sm text-zinc-400">
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-pink-400 mt-0.5 shrink-0" /> Persistent memory across sessions</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-pink-400 mt-0.5 shrink-0" /> Voice chat in 6 languages</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-pink-400 mt-0.5 shrink-0" /> Customizable personality & appearance</li>
+                </ul>
+              </div>
+            </StaggerCard>
+
+            {/* Coming Soon */}
+            <StaggerCard>
+              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
+                <div className="flex items-center gap-2 mb-3">
+                  <Cpu className="h-5 w-5 text-cyan-400" />
+                  <h3 className="text-lg font-semibold text-white">Coming Soon</h3>
+                </div>
+                <ul className="space-y-2 text-sm text-zinc-400">
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Mobile app (iOS & Android)</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like you</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> AI Tools Directory (tools.stone-ai.net)</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Robot-transfer ready (PRO tier)</li>
+                </ul>
+              </div>
+            </StaggerCard>
+          </StaggerGrid>
+
+          {/* Upgrade incentive */}
+          <ScrollSection>
+            <div className="mt-12 text-center p-8 rounded-2xl bg-gradient-to-r from-amber-950/40 via-zinc-900/60 to-amber-950/40 border border-amber-800/30">
+              <h3 className="text-xl font-bold text-white mb-2">Save up to 20% with annual billing</h3>
+              <p className="text-sm text-zinc-400 mb-4">All paid plans include multi-period discounts. Lock in your rate — prices only go up from here.</p>
+              <Button asChild className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 rounded-full">
+                <Link href="#pricing">See All Plans <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              </Button>
+            </div>
+          </ScrollSection>
         </div>
       </section>
 
