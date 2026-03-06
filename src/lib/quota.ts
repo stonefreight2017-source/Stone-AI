@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { getTierConfig, SMART_COST_MULTIPLIER } from "./tier-config";
+import { getTierConfig, SMART_COST_MULTIPLIER, FREE_SMART_CREDITS } from "./tier-config";
 import type { Tier } from "./tier-config";
 
 interface QuotaCheck {
@@ -15,6 +15,8 @@ interface SmartQuotaCheck {
   smartMessagesSentToday: number;
   smartMessagesPerDay: number;
   costMultiplier: number;
+  /** For FREE tier: remaining lifetime credits */
+  lifetimeCreditsRemaining?: number;
 }
 
 /**
@@ -109,6 +111,22 @@ export async function checkSmartQuota(
   const config = getTierConfig(tier);
   const smartLimit = config.limits.smartMessagesPerDay;
 
+  // FREE tier: uses one-time lifetime credits instead of daily cap
+  if (tier === "FREE") {
+    const user = await db.user.findUnique({
+      where: { id: userId },
+      select: { smartCreditsRemaining: true },
+    });
+    const remaining = user?.smartCreditsRemaining ?? 0;
+    return {
+      allowed: remaining > 0,
+      smartMessagesSentToday: FREE_SMART_CREDITS - remaining,
+      smartMessagesPerDay: 0,
+      costMultiplier: SMART_COST_MULTIPLIER,
+      lifetimeCreditsRemaining: remaining,
+    };
+  }
+
   // If tier has no SMART access, deny
   if (smartLimit === 0) {
     return {
@@ -139,9 +157,7 @@ export async function checkSmartQuota(
         billingCycleStart: { gte: monthStart },
       },
     });
-    // Smart tokens = approximate based on smart requests × avg tokens
-    // We track smartRequests in usageRecord — use a conservative estimate
-    const smartTokensUsed = (usageRecord?.smartRequests ?? 0) * 3000; // ~3K tokens avg per Smart msg
+    const smartTokensUsed = (usageRecord?.smartRequests ?? 0) * 3000;
     withinTokenBudget = smartTokensUsed < smartTokenCap;
   }
 
@@ -151,6 +167,19 @@ export async function checkSmartQuota(
     smartMessagesPerDay: smartLimit,
     costMultiplier: SMART_COST_MULTIPLIER,
   };
+}
+
+/**
+ * Decrement a FREE user's lifetime SMART credits.
+ * Returns the new remaining count.
+ */
+export async function decrementFreeSmartCredits(userId: string): Promise<number> {
+  const user = await db.user.update({
+    where: { id: userId },
+    data: { smartCreditsRemaining: { decrement: 1 } },
+    select: { smartCreditsRemaining: true },
+  });
+  return user.smartCreditsRemaining;
 }
 
 /**

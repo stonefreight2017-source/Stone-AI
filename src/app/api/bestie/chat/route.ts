@@ -25,7 +25,7 @@ import { db } from "@/lib/db";
 import { bestieChatSchema } from "@/lib/bestie-validators";
 import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode } from "@/lib/tier-config";
 import { checkRateLimitAsync, acquireConcurrencySlot } from "@/lib/rate-limiter";
-import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
+import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, decrementFreeSmartCredits, recordTokenUsage } from "@/lib/quota";
 import { getModel } from "@/lib/ai";
 import { buildBestiePrompt } from "@/lib/bestie-prompt";
 import { sanitizeUserInput } from "@/lib/security";
@@ -131,15 +131,21 @@ export async function POST(req: NextRequest) {
     if (mode === "SMART") {
       const smartQuota = await checkSmartQuota(user.id, tier);
       if (!smartQuota.allowed) {
+        const isFree = tier === "FREE";
         return Response.json(
           {
-            code: "SMART_QUOTA_EXCEEDED",
-            message: `You've used all ${smartQuota.smartMessagesPerDay} Smart mode messages for today. Switch to Local mode for unlimited fast responses.`,
-            smartUsage: {
-              sent: smartQuota.smartMessagesSentToday,
-              limit: smartQuota.smartMessagesPerDay,
-            },
+            code: isFree ? "SMART_CREDITS_EXHAUSTED" : "SMART_QUOTA_EXCEEDED",
+            message: isFree
+              ? "You've used all your Cloud AI trial credits. Your Stone Engine (unlimited) is still available, or upgrade for daily Cloud AI access."
+              : `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue.`,
             suggestion: "LOCAL",
+            ...(!isFree && {
+              creditPacks: [
+                { credits: 10, price: 1.99 },
+                { credits: 25, price: 3.99 },
+                { credits: 50, price: 6.99 },
+              ],
+            }),
           },
           { status: 429 }
         );
@@ -211,6 +217,9 @@ export async function POST(req: NextRequest) {
 
     // 8. Increment daily usage (SMART costs 3x to protect margins)
     if (mode === "SMART") {
+      if (tier === "FREE") {
+        await decrementFreeSmartCredits(user.id);
+      }
       await incrementSmartUsage(user.id);
     } else {
       await incrementDailyUsage(user.id);

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { chatMessageSchema } from "@/lib/validators";
 import { getTierConfig, canAccessAgent, isModeAllowed } from "@/lib/tier-config";
 import { checkRateLimit } from "@/lib/rate-limiter";
-import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
+import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, decrementFreeSmartCredits, recordTokenUsage } from "@/lib/quota";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
 import { buildMemoryContext } from "@/lib/agent-memory";
@@ -133,6 +133,11 @@ export async function POST(req: NextRequest) {
           {
             error: "Smart mode quota exceeded",
             smartUsage: { sent: smartQuota.smartMessagesSentToday, limit: smartQuota.smartMessagesPerDay },
+            creditPacks: [
+              { credits: 10, price: 1.99 },
+              { credits: 25, price: 3.99 },
+              { credits: 50, price: 6.99 },
+            ],
           },
           { status: 429 }
         );

@@ -75,44 +75,56 @@ export interface TierConfig {
 
 /**
  * ═══════════════════════════════════════════════════════════
- * STONE AI PRICING — Option A (March 2026)
+ * STONE AI PRICING — Final (March 2026)
  * ═══════════════════════════════════════════════════════════
  *
- * DB Enum  | Display Name | Monthly | Agents | Smart/day
- * FREE     | Free         | $0      | 5      | 0
- * STARTER  | Builder      | $19.99  | 14     | 10
- * PLUS     | Growth       | $49.99  | 26     | 30
- * SMART    | Executive    | $99.99  | 38     | 80
- * PRO      | Reseller     | $200    | 38     | 150
+ * DB Enum  | Display Name | Monthly | Agents | Cloud AI         | Margin
+ * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.10 once
+ * STARTER  | Builder      | $19.99  | 16     | 10/day           | 85%
+ * PLUS     | Growth       | $49.99  | 30     | 25/day           | 85%
+ * SMART    | Executive    | $99.99  | 42     | 60/day           | 82%
+ * PRO      | Reseller     | $200    | 42     | 125/day          | 81%
  *
- * PROMOTIONAL PRICES (one-time, signup only):
- * - Trial: STARTER tier at $14.99/mo (CC required, signup only)
- * - Growth Signup Special: PLUS tier at $39.99/mo (signup only)
- * These are separate Stripe prices mapped to the same tiers.
+ * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
+ *
+ * PROMOTIONAL PRICES (one-time, signup only, non-renewable):
+ * - Launch Trial: STARTER tier at $14.99/mo (same Bestie as Builder)
+ * - Growth Early Adopter: PLUS tier at $39.99/mo (7-day free trial, full Bestie)
+ *
+ * OVERAGE CREDITS (all tiers, when cap is hit):
+ * - 10 Cloud AI credits: $1.99 (90% margin)
+ * - 25 Cloud AI credits: $3.99 (88% margin)
+ * - 50 Cloud AI credits: $6.99 (86% margin)
+ * Credits expire at end of billing cycle.
+ *
+ * FREE tier uses lifetime credits (smartCreditsRemaining on User model).
+ * Paid tiers use daily caps (smartMessagesPerDay).
  *
  * Enterprise: $500+/mo — custom engagement, not self-service.
  */
+export const FREE_SMART_CREDITS = 5; // One-time lifetime credits for free users
+
 export const TIER_CONFIG: Record<Tier, TierConfig> = {
   FREE: {
     name: "Free",
     price: 0,
     stripePriceEnvKey: null,
-    localModel: "meta-llama/Llama-3.1-8B-Instruct",
+    localModel: "meta-llama/Llama-3.1-70B-Instruct",
     agentCount: 4,
     tagline: "Explore AI with essential tools",
     limits: {
-      messagesPerDay: 30,
-      tokensPerMonth: 100_000,
-      maxResponseTokens: 500,
+      messagesPerDay: 50,
+      tokensPerMonth: 200_000,
+      maxResponseTokens: 1_200,
       concurrentRequests: 1,
-      requestsPerMinute: 2,
-      smartMessagesPerDay: 0,
-      smartMaxResponseTokens: 0,
-      smartContextMessages: 0,
-      smartTokensPerMonth: 0,
+      requestsPerMinute: 3,
+      smartMessagesPerDay: 0,              // FREE uses lifetime credits, not daily cap
+      smartMaxResponseTokens: 800,
+      smartContextMessages: 5,
+      smartTokensPerMonth: 50_000,
     },
     perks: {
-      contextMessages: 10,
+      contextMessages: 15,
       autoRouting: false,
       conversationExport: false,
       priorityQueue: false,
@@ -133,9 +145,9 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       customModelFineTuning: false,
       soc2Compliance: false,
       hipaaCompliance: false,
-      mobileApp: false,
+      mobileApp: true,
     },
-    allowedModes: ["LOCAL"],
+    allowedModes: ["LOCAL", "SMART"],    // SMART allowed for 5 lifetime trial credits
     priority: 0,
     cloudFallback: false,
   },
@@ -147,15 +159,15 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     agentCount: 16,
     tagline: "Plan and start your business",
     limits: {
-      messagesPerDay: 200,
-      tokensPerMonth: 5_000_000,
-      maxResponseTokens: 2_000,
+      messagesPerDay: 250,
+      tokensPerMonth: 6_000_000,
+      maxResponseTokens: 2_500,
       concurrentRequests: 2,
       requestsPerMinute: 10,
-      smartMessagesPerDay: 10,
-      smartMaxResponseTokens: 1_500,     // ~$6/mo max Smart cost → $14 margin
-      smartContextMessages: 10,
-      smartTokensPerMonth: 500_000,
+      smartMessagesPerDay: 10,             // 10/day × 30 × $0.02 = $6/mo max → 85% margin
+      smartMaxResponseTokens: 2_000,
+      smartContextMessages: 12,
+      smartTokensPerMonth: 600_000,
     },
     perks: {
       contextMessages: 25,
@@ -168,9 +180,9 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       agentBuilder: false,
       referralMultiplier: 1,
       maxBesties: 1,
-      maxDocuments: 5,
+      maxDocuments: 10,
       webSearchesPerDay: 10,
-      codeExecutionsPerDay: 0,
+      codeExecutionsPerDay: 10,
       fileUploadAnalysis: true,
       imageGeneration: false,
       voiceInteraction: false,
@@ -193,15 +205,15 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     agentCount: 30,
     tagline: "Plan, start, and maintain your business",
     limits: {
-      messagesPerDay: 500,
-      tokensPerMonth: 15_000_000,
+      messagesPerDay: 600,
+      tokensPerMonth: 18_000_000,
       maxResponseTokens: 4_000,
       concurrentRequests: 3,
       requestsPerMinute: 20,
-      smartMessagesPerDay: 20,             // Reduced from 30 → ~$19/mo max Smart cost → $31 margin
-      smartMaxResponseTokens: 2_500,
+      smartMessagesPerDay: 25,             // 25/day × 30 × $0.02 = $15/mo max → 85% margin
+      smartMaxResponseTokens: 3_000,
       smartContextMessages: 20,
-      smartTokensPerMonth: 2_000_000,
+      smartTokensPerMonth: 2_500_000,
     },
     perks: {
       contextMessages: 50,
@@ -209,18 +221,18 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       conversationExport: true,
       priorityQueue: false,
       apiAccess: false,
-      commercialLicense: false,
+      commercialLicense: true,
       earlyAccess: false,
       agentBuilder: false,
       referralMultiplier: 1,
-      maxBesties: 3,
-      maxDocuments: 25,
-      webSearchesPerDay: 50,
-      codeExecutionsPerDay: 50,
+      maxBesties: 2,
+      maxDocuments: 30,
+      webSearchesPerDay: 40,
+      codeExecutionsPerDay: 40,
       fileUploadAnalysis: true,
       imageGeneration: true,
       voiceInteraction: true,
-      pluginIntegrations: 3,
+      pluginIntegrations: 5,
       teamWorkspace: false,
       customModelFineTuning: false,
       soc2Compliance: false,
@@ -240,14 +252,14 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_500,
-      tokensPerMonth: 50_000_000,
+      tokensPerMonth: 60_000_000,
       maxResponseTokens: 8_000,
       concurrentRequests: 5,
       requestsPerMinute: 40,
-      smartMessagesPerDay: 40,             // Reduced from 80 → ~$45/mo max Smart cost → $55 margin
-      smartMaxResponseTokens: 3_000,
-      smartContextMessages: 25,
-      smartTokensPerMonth: 5_000_000,
+      smartMessagesPerDay: 60,             // 60/day × 30 × $0.02 = $36/mo max → 82% margin
+      smartMaxResponseTokens: 4_000,
+      smartContextMessages: 30,
+      smartTokensPerMonth: 6_000_000,
     },
     perks: {
       contextMessages: 80,
@@ -255,14 +267,14 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       conversationExport: true,
       priorityQueue: true,
       apiAccess: false,
-      commercialLicense: false,
+      commercialLicense: true,
       earlyAccess: true,
       agentBuilder: true,
-      referralMultiplier: 1,
-      maxBesties: 5,
+      referralMultiplier: 1.5,
+      maxBesties: 3,
       maxDocuments: 100,
-      webSearchesPerDay: 200,
-      codeExecutionsPerDay: 200,
+      webSearchesPerDay: 150,
+      codeExecutionsPerDay: 150,
       fileUploadAnalysis: true,
       imageGeneration: true,
       voiceInteraction: true,
@@ -290,10 +302,10 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 32_000,
       concurrentRequests: 10,
       requestsPerMinute: 60,
-      smartMessagesPerDay: 60,             // Reduced from 150 → ~$92/mo max Smart cost → $108 margin
-      smartMaxResponseTokens: 4_000,
+      smartMessagesPerDay: 125,            // 125/day × 30 × $0.02 = $75/mo max → 81% margin
+      smartMaxResponseTokens: 6_000,
       smartContextMessages: 40,
-      smartTokensPerMonth: 10_000_000,
+      smartTokensPerMonth: 12_000_000,
     },
     perks: {
       contextMessages: 100,
@@ -305,7 +317,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       earlyAccess: true,
       agentBuilder: true,
       referralMultiplier: 2,
-      maxBesties: 10,
+      maxBesties: 5,
       maxDocuments: 500,
       webSearchesPerDay: 999,
       codeExecutionsPerDay: 999,
@@ -371,22 +383,22 @@ export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: num
  * Once a user cancels, they cannot re-subscribe at the promo price.
  */
 export const PROMO_PRICES = {
-  /** Trial: Builder tier at $14.99/mo — CC required at signup */
+  /** Launch Trial: Builder tier at $14.99/mo — CC required, one-time, non-renewable */
   TRIAL: {
     tier: "STARTER" as Tier,
     price: 14.99,
     stripePriceEnvKey: "STRIPE_PRICE_TRIAL",
     label: "Launch Trial",
-    description: "Builder plan at an exclusive signup price. Credit card required.",
+    description: "Builder plan at an exclusive signup price. If you cancel, this deal is gone forever.",
     signupOnly: true,
   },
-  /** Growth Signup Special: Growth tier at $39.99/mo — only during initial signup */
+  /** Growth Early Adopter: Growth tier at $39.99/mo + 7-day free trial — one-time, non-renewable */
   GROWTH_SIGNUP: {
     tier: "PLUS" as Tier,
     price: 39.99,
     stripePriceEnvKey: "STRIPE_PRICE_GROWTH_SIGNUP",
     label: "Growth — Early Adopter",
-    description: "Growth plan at an exclusive signup price. One-time offer.",
+    description: "Growth plan with 7-day free trial at an exclusive signup price. If you cancel, this deal is gone forever.",
     signupOnly: true,
   },
 } as const;

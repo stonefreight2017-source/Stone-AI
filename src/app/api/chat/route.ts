@@ -31,7 +31,7 @@ import { db } from "@/lib/db";
 import { chatMessageSchema } from "@/lib/validators";
 import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode, canAccessAgent } from "@/lib/tier-config";
 import { checkRateLimitAsync, acquireConcurrencySlot } from "@/lib/rate-limiter";
-import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
+import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, decrementFreeSmartCredits, recordTokenUsage } from "@/lib/quota";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
 import { buildMemoryContext } from "@/lib/agent-memory";
@@ -160,28 +160,68 @@ export async function POST(req: NextRequest) {
 
     // 4b. SMART mode hard cap — protect company margins from cloud API abuse
     if (mode === "SMART") {
-      const smartQuota = await checkSmartQuota(user.id, tier);
-      if (!smartQuota.allowed) {
-        logAuditEvent({
-          event: "smart.quota_exceeded",
-          userId: user.id,
-          metadata: {
-            smartSentToday: smartQuota.smartMessagesSentToday,
-            smartLimit: smartQuota.smartMessagesPerDay,
-          },
-        });
-        return Response.json(
-          {
-            code: "SMART_QUOTA_EXCEEDED",
-            message: `You've used all ${smartQuota.smartMessagesPerDay} Smart mode messages for today. Switch to Local mode for unlimited fast responses.`,
-            smartUsage: {
-              sent: smartQuota.smartMessagesSentToday,
-              limit: smartQuota.smartMessagesPerDay,
+      // FREE tier: check lifetime credits instead of daily cap
+      if (tier === "FREE") {
+        const smartQuota = await checkSmartQuota(user.id, tier);
+        if (!smartQuota.allowed) {
+          logAuditEvent({
+            event: "smart.quota_exceeded",
+            userId: user.id,
+            metadata: { lifetimeCreditsRemaining: 0, tier: "FREE" },
+          });
+          return Response.json(
+            {
+              code: "SMART_CREDITS_EXHAUSTED",
+              message: "You've used all your Cloud AI trial credits. Your Stone Engine (unlimited) is still available, or upgrade for daily Cloud AI access.",
+              lifetimeCreditsRemaining: 0,
+              suggestion: "LOCAL",
+              upgrade: {
+                nextTier: "STARTER",
+                nextTierName: "Builder",
+                nextTierPrice: 19.99,
+                smartPerDay: 10,
+              },
             },
-            suggestion: "LOCAL",
-          },
-          { status: 429 }
-        );
+            { status: 429 }
+          );
+        }
+      } else {
+        const smartQuota = await checkSmartQuota(user.id, tier);
+        if (!smartQuota.allowed) {
+          const nextTier = getNextTier(tier);
+          const nextConfig = nextTier ? getTierConfig(nextTier) : null;
+          logAuditEvent({
+            event: "smart.quota_exceeded",
+            userId: user.id,
+            metadata: {
+              smartSentToday: smartQuota.smartMessagesSentToday,
+              smartLimit: smartQuota.smartMessagesPerDay,
+            },
+          });
+          return Response.json(
+            {
+              code: "SMART_QUOTA_EXCEEDED",
+              message: `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue with Cloud AI.`,
+              smartUsage: {
+                sent: smartQuota.smartMessagesSentToday,
+                limit: smartQuota.smartMessagesPerDay,
+              },
+              suggestion: "LOCAL",
+              creditPacks: [
+                { credits: 10, price: 1.99 },
+                { credits: 25, price: 3.99 },
+                { credits: 50, price: 6.99 },
+              ],
+              upgrade: nextTier && nextConfig ? {
+                nextTier,
+                nextTierName: nextConfig.name,
+                nextTierPrice: nextConfig.price,
+                smartPerDay: nextConfig.limits.smartMessagesPerDay,
+              } : null,
+            },
+            { status: 429 }
+          );
+        }
       }
     }
 
@@ -257,6 +297,9 @@ export async function POST(req: NextRequest) {
 
     // 8. Increment daily usage (SMART costs 3x to protect margins)
     if (mode === "SMART") {
+      if (tier === "FREE") {
+        await decrementFreeSmartCredits(user.id);
+      }
       await incrementSmartUsage(user.id);
     } else {
       await incrementDailyUsage(user.id);

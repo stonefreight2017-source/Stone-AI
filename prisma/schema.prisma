@@ -50,6 +50,7 @@ model User {
   freeTrialStartedAt   DateTime?
   freeTrialEndsAt      DateTime?
   enhancedTrialUsed    Boolean            @default(false)
+  smartCreditsRemaining Int               @default(5)
   onboardingCompleted  Boolean            @default(false)
   onboardingStep       Int                @default(0)
   onboardingGoals      String[]           @default([])
