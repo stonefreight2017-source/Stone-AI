@@ -1,7 +1,7 @@
 /**
- * Umbrella Brand Insignia — Concept D "Meridian"
- * Cyan circle with "M" monogram, Meridian by Stone.
- * Selected from Three-Headed Monster umbrella brand system.
+ * Stone Intelligence — #4 "Block Fluid" wordmark
+ * Raleway 300, uppercase, wide letter-spacing, gold gradient line.
+ * Selected from Stone Intelligence Logos page.
  */
 
 interface InsigniaProps {
@@ -10,43 +10,37 @@ interface InsigniaProps {
   className?: string;
 }
 
-export function Insignia({ size = 40, variant = "primary", className = "" }: InsigniaProps) {
-  const ringColor =
-    variant === "primary" ? "#22d3ee" :
-    variant === "warm" ? "#C9A84C" :
-    "#FFFFFF";
-
-  const letterColor = ringColor;
-  const strokeWidth = size > 30 ? 1.5 : 1.2;
+export function Insignia({ size = 16, className = "" }: InsigniaProps) {
+  const scale = size / 16;
 
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 48 48"
-      className={`shrink-0 ${className}`}
-      aria-label="Meridian insignia"
+    <div
+      className={`shrink-0 flex flex-col items-center ${className}`}
+      aria-label="Stone Intelligence"
     >
-      <circle
-        cx="24"
-        cy="24"
-        r="22"
-        fill="none"
-        stroke={ringColor}
-        strokeWidth={strokeWidth * (48 / size)}
-      />
-      <text
-        x="24"
-        y="25"
-        textAnchor="middle"
-        dominantBaseline="central"
-        fill={letterColor}
-        fontFamily="'JetBrains Mono', monospace"
-        fontWeight="700"
-        fontSize="18"
+      <span
+        style={{
+          fontFamily: "'Raleway', sans-serif",
+          fontWeight: 300,
+          fontSize: `${size}px`,
+          letterSpacing: `${0.3 * scale}em`,
+          textTransform: "uppercase" as const,
+          color: "#fff",
+          lineHeight: 1,
+          whiteSpace: "nowrap",
+        }}
       >
-        M
-      </text>
-    </svg>
+        Stone Intelligence
+      </span>
+      <span
+        style={{
+          width: `${32 * scale}px`,
+          height: `${1.5 * scale}px`,
+          background: "linear-gradient(90deg, #d4af37, #888)",
+          marginTop: `${4 * scale}px`,
+          borderRadius: `${1 * scale}px`,
+        }}
+      />
+    </div>
   );
 }
