@@ -100,7 +100,7 @@ export function Sidebar({ userTier }: SidebarProps) {
       <div className="p-3 space-y-1">
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-900/20 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/discover")}
         >
           <Compass className="h-4 w-4" />
@@ -116,7 +116,7 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-amber-400 hover:text-amber-300 hover:bg-amber-900/20 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/agents")}
         >
           <Bot className="h-4 w-4" />
@@ -124,7 +124,7 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/community")}
         >
           <Users className="h-4 w-4" />
@@ -132,7 +132,7 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-400 hover:text-white hover:bg-zinc-800 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/billing")}
         >
           <CreditCard className="h-4 w-4" />
@@ -148,7 +148,7 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-400 hover:text-white hover:bg-zinc-800 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/settings")}
         >
           <Settings className="h-4 w-4" />
@@ -156,7 +156,7 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-400 hover:text-white hover:bg-zinc-800 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/support")}
         >
           <HelpCircle className="h-4 w-4" />

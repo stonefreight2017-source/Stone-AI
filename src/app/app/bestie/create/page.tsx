@@ -25,11 +25,30 @@ function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], styl
   return greetings[style](bestieName);
 }
 
-const EMOJI_OPTIONS = [
-  "\uD83D\uDC9C", "\uD83D\uDC96", "\u2764\uFE0F", "\uD83D\uDC99",
-  "\uD83E\uDD70", "\u2728", "\uD83C\uDF1F", "\uD83E\uDD8B",
-  "\uD83C\uDF38", "\uD83C\uDF19", "\u2600\uFE0F", "\uD83C\uDF3F",
-  "\uD83D\uDD25", "\uD83D\uDCAB", "\uD83C\uDF08", "\uD83E\uDDE1",
+const AVATAR_SECTIONS = [
+  {
+    label: "Professional",
+    emojis: [
+      "\uD83D\uDC68\u200D\uD83D\uDCBC", "\uD83D\uDC69\u200D\uD83D\uDCBC", "\uD83E\uDDD1\u200D\uD83D\uDCBB", "\uD83D\uDC69\u200D\uD83D\uDCBB",
+      "\uD83D\uDC68\u200D\uD83D\uDCBB", "\uD83E\uDDD1\u200D\uD83C\uDF93", "\uD83D\uDC69\u200D\uD83C\uDFEB", "\uD83D\uDC68\u200D\uD83C\uDFEB",
+    ],
+  },
+  {
+    label: "Lifestyle",
+    emojis: [
+      "\uD83E\uDDD8", "\uD83C\uDFCB\uFE0F", "\uD83C\uDFA4", "\uD83C\uDFB8",
+      "\uD83D\uDE0E", "\uD83E\uDD13", "\uD83E\uDDD1\u200D\uD83C\uDFA8", "\u2615",
+      "\uD83C\uDF1F", "\uD83D\uDD25", "\uD83C\uDF19", "\u2728",
+    ],
+  },
+  {
+    label: "Fun",
+    emojis: [
+      "\uD83D\uDC9C", "\uD83D\uDC96", "\u2764\uFE0F", "\uD83D\uDC99",
+      "\uD83E\uDD70", "\uD83E\uDD8B", "\uD83C\uDF38", "\uD83C\uDF3F",
+      "\uD83D\uDCAB", "\uD83C\uDF08", "\uD83E\uDDE1", "\u2600\uFE0F",
+    ],
+  },
 ];
 
 export default function CreateBestiePage() {
@@ -39,7 +58,7 @@ export default function CreateBestiePage() {
 
   // Step 1: Name, Avatar & Language
   const [name, setName] = useState("");
-  const [avatarEmoji, setAvatarEmoji] = useState("\uD83D\uDC9C");
+  const [avatarEmoji, setAvatarEmoji] = useState("\uD83D\uDC68\u200D\uD83D\uDCBC");
   const [language, setLanguage] = useState<BestieLanguage>("en");
 
   // Step 2: Personality
@@ -56,7 +75,7 @@ export default function CreateBestiePage() {
   const [aboutOther, setAboutOther] = useState("");
 
   const canNext1 = name.trim().length >= 2 && name.trim().length <= 20;
-  const canNext2 = traits.length === 3 && style !== null && expertise.length >= 1;
+  const canNext2 = traits.length >= 3 && traits.length <= 5 && style !== null && expertise.length >= 1;
 
   async function handleCreate() {
     if (!canNext2 || !style) return;
@@ -159,20 +178,27 @@ export default function CreateBestiePage() {
 
           <div>
             <p className="text-sm text-zinc-400 mb-3 text-center">Pick an avatar</p>
-            <div className="grid grid-cols-8 gap-2 max-w-sm mx-auto">
-              {EMOJI_OPTIONS.map((emoji) => (
-                <button
-                  key={emoji}
-                  type="button"
-                  onClick={() => setAvatarEmoji(emoji)}
-                  className={`h-10 w-10 rounded-lg flex items-center justify-center text-xl transition-all ${
-                    avatarEmoji === emoji
-                      ? "bg-pink-500/20 border-2 border-pink-500 scale-110"
-                      : "bg-zinc-800 border border-zinc-700 hover:border-pink-700"
-                  }`}
-                >
-                  {emoji}
-                </button>
+            <div className="space-y-4 max-w-sm mx-auto">
+              {AVATAR_SECTIONS.map((section) => (
+                <div key={section.label}>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1.5">{section.label}</p>
+                  <div className="grid grid-cols-8 gap-2">
+                    {section.emojis.map((emoji) => (
+                      <button
+                        key={emoji}
+                        type="button"
+                        onClick={() => setAvatarEmoji(emoji)}
+                        className={`h-10 w-10 rounded-lg flex items-center justify-center text-xl transition-all ${
+                          avatarEmoji === emoji
+                            ? "bg-pink-500/20 border-2 border-pink-500 scale-110"
+                            : "bg-zinc-800 border border-zinc-700 hover:border-pink-700"
+                        }`}
+                      >
+                        {emoji}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
           </div>
