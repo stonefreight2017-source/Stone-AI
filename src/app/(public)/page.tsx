@@ -46,7 +46,32 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-zinc-900 text-white scroll-smooth">
+    <div className="min-h-screen bg-zinc-900 text-white scroll-smooth relative">
+      {/* ── Themed backdrop: dot grid + radial glows + noise ── */}
+      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
+        {/* Dot grid pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
+            backgroundSize: "32px 32px",
+          }}
+        />
+        {/* Hero glow — cool cyan */}
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[120px]" />
+        {/* Mid-page glow — warm amber (aligns with Bestie section) */}
+        <div className="absolute top-[45%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-500/[0.03] blur-[150px]" />
+        {/* Bottom glow — subtle purple (pricing/closer area) */}
+        <div className="absolute bottom-[5%] left-[-5%] w-[700px] h-[500px] rounded-full bg-purple-500/[0.03] blur-[130px]" />
+        {/* Noise texture overlay */}
+        <svg className="absolute inset-0 w-full h-full opacity-[0.03]">
+          <filter id="noiseFilter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+        </svg>
+      </div>
+      <div className="relative z-10">
       {/* Nav */}
       <nav className="flex items-center justify-between px-4 sm:px-6 py-4 max-w-6xl mx-auto">
         <div className="flex items-center gap-3">
@@ -73,8 +98,6 @@ export default function LandingPage() {
           Hero — Clean, Tesla-inspired, premium feel
          ═══════════════════════════════════════════════════════════════ */}
       <section className="relative px-4 sm:px-6 pt-16 sm:pt-24 pb-16 max-w-5xl mx-auto text-center overflow-hidden">
-        {/* Subtle ambient light */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
         <HeroSection>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
@@ -847,6 +870,7 @@ export default function LandingPage() {
           <span className="text-xs text-zinc-600">Local-first AI infrastructure</span>
         </div>
       </footer>
+      </div>{/* close z-10 content wrapper */}
     </div>
   );
 }
