@@ -28,6 +28,10 @@ const STYLE_LABELS: Record<string, string> = {
   supportive: "Life Coach",
   intellectual: "Mentor",
   hype: "Hype Squad",
+  blunt: "Straight Shooter",
+  gentle: "Soft & Gentle",
+  professional: "All Business",
+  storyteller: "Storyteller",
 };
 
 export function BestieCard({ bestie, onDelete }: BestieCardProps) {
@@ -77,9 +81,13 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
       <CardContent className="pt-6 space-y-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-2xl">
-              {bestie.avatarEmoji}
-            </div>
+            {bestie.avatarEmoji.startsWith("data:") || bestie.avatarEmoji.startsWith("http") ? (
+              <img src={bestie.avatarEmoji} alt={bestie.name} className="h-12 w-12 rounded-full object-cover ring-1 ring-white/10 shadow-sm" />
+            ) : (
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-2xl">
+                {bestie.avatarEmoji}
+              </div>
+            )}
             <div>
               <h3 className="font-semibold text-white text-lg">{bestie.name}</h3>
               <p className="text-xs text-pink-400">

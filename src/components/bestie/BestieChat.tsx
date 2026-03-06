@@ -133,6 +133,23 @@ function formatLatency(ms: number): string {
   return `${(ms / 1000).toFixed(1)}s`;
 }
 
+// Render avatar — handles both emoji strings and data URI images
+function AvatarDisplay({ avatar, size = "sm" }: { avatar: string; size?: "sm" | "md" | "lg" }) {
+  const isImage = avatar.startsWith("data:") || avatar.startsWith("http");
+  const sizeClasses = size === "lg" ? "h-14 w-14" : size === "md" ? "h-9 w-9" : "h-8 w-8";
+  if (isImage) {
+    return (
+      <img
+        src={avatar}
+        alt=""
+        className={`${sizeClasses} rounded-full object-cover ring-1 ring-white/10 shadow-sm`}
+      />
+    );
+  }
+  const textSize = size === "lg" ? "text-3xl" : size === "md" ? "text-xl" : "text-sm";
+  return <span className={textSize}>{avatar}</span>;
+}
+
 export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath = "friend", bgTheme, bestieTraits = [] }: BestieChatProps) {
   const theme = PATH_THEMES[bestiePath];
   const personalityEmojis = getPersonalityEmojis(bestieTraits);
@@ -430,8 +447,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
       {/* Header */}
       <div className={cn("flex items-center justify-between px-4 py-3 border-b", theme.headerAccent, theme.headerBg)}>
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-zinc-700/30 to-zinc-600/20 flex items-center justify-center text-xl">
-            {bestieEmoji}
+          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-zinc-700/30 to-zinc-600/20 flex items-center justify-center overflow-hidden">
+            <AvatarDisplay avatar={bestieEmoji} size="md" />
           </div>
           <div>
             <h1 className="text-sm font-semibold text-white">{bestieName}</h1>
@@ -511,7 +528,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         {allMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-8">
-            <div className="text-5xl">{bestieEmoji}</div>
+            <div className="flex items-center justify-center"><AvatarDisplay avatar={bestieEmoji} size="lg" /></div>
             <p className="text-zinc-400 text-sm max-w-md">
               Say hi to <span className={cn("font-medium", theme.accentText)}>{bestieName}</span>! They&apos;re excited to chat with you.
             </p>
@@ -531,8 +548,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
                   )}
                 >
                   {msg.role !== "user" && (
-                    <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-sm">
-                      {bestieEmoji}
+                    <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center overflow-hidden">
+                      <AvatarDisplay avatar={bestieEmoji} />
                     </div>
                   )}
                   <div className="flex flex-col gap-1 max-w-[75%]">
@@ -573,8 +590,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
             {/* Thinking indicator with escalating bestie emojis */}
             {isSubmitted && (
               <div className="flex gap-3 px-4 py-3">
-                <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-sm">
-                  {bestieEmoji}
+                <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center overflow-hidden">
+                  <AvatarDisplay avatar={bestieEmoji} />
                 </div>
                 <ThinkingIndicator variant="bestie" />
               </div>

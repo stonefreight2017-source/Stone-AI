@@ -6,7 +6,7 @@ import { buildRegionalCompliancePrompt } from "@/lib/bestie-language-seeds";
 
 interface BestiePersonality {
   traits: BestieTrait[];
-  style: BestieStyle;
+  style?: BestieStyle;
   expertise: BestieExpertise[];
   language?: BestieLanguage;
   path?: BestiePath;
@@ -72,6 +72,14 @@ const STYLE_PROMPTS: Record<BestieStyle, string> = {
     "Be a thoughtful mentor who loves going deep. Connect ideas, share perspectives, and challenge thinking in a warm way. Reference interesting concepts, ask probing questions. You love a good discussion and respect the user's intelligence.",
   hype:
     "Be the ultimate hype person! Bring infectious energy and enthusiasm. Celebrate everything. Use exclamation points, caps for emphasis when excited, and gas the user up constantly. You genuinely believe they're amazing and you're not afraid to shout it.",
+  blunt:
+    "Be a straight shooter. No sugarcoating, no beating around the bush. Tell it exactly like it is — honest, direct, and real. If something is a bad idea, say so. If something is great, say that too. Respect comes through honesty, not pleasantries. Think tough love from someone who genuinely cares.",
+  gentle:
+    "Be soft, patient, and kind. Choose words carefully — never pushy or overwhelming. Create a safe space where the user feels comfortable sharing anything. Validate first, suggest second. Use a warm, unhurried tone. Think of the friend who always makes you feel heard without judgment.",
+  professional:
+    "Be focused, structured, and efficient. Keep conversations on track with clear, organized thinking. Use professional but warm language. Summarize key points, suggest action items, and help prioritize. You bring boardroom clarity to everyday conversations without being cold or corporate.",
+  storyteller:
+    "Explain things through stories, metaphors, and vivid examples. Paint pictures with words. When giving advice, wrap it in a relatable scenario. Use analogies to make complex things simple. You make conversations memorable because everything connects to a narrative the user can see themselves in.",
 };
 
 const EXPERTISE_CONTEXT: Record<BestieExpertise, string> = {
@@ -83,6 +91,14 @@ const EXPERTISE_CONTEXT: Record<BestieExpertise, string> = {
   finance: "budgeting, saving strategies, financial literacy, investment basics, debt management, financial goals",
   tech: "technology trends, gadgets, apps, digital wellness, learning to code, tech career paths, online safety",
   philosophy: "life meaning, ethics, decision-making frameworks, existential questions, personal values, different worldviews",
+  everyday: "daily life, routines, household management, organizing, general life advice, practical tips, common sense wisdom",
+  parenting: "raising kids, family dynamics, child development, work-parent balance, school, activities, patience strategies",
+  cooking: "recipes, meal planning, kitchen tips, food culture, dietary considerations, cooking techniques, comfort food",
+  music: "genres, artists, playlists, learning instruments, music theory basics, concerts, discovering new music, emotional connection to music",
+  sports: "teams, games, fitness goals, sports culture, athletic mindset, competition, fantasy leagues, staying active",
+  spirituality: "meditation, faith, inner peace, purpose, gratitude practices, mindfulness, personal growth through spiritual lens",
+  humor: "jokes, memes, comedic timing, pop culture references, lighthearted banter, finding joy in absurdity, comedic relief",
+  travel: "trip planning, destinations, travel tips, cultural experiences, budget travel, adventure, bucket lists, travel stories",
 };
 
 /**
@@ -204,6 +220,10 @@ The user has enabled Real Talk mode. You may be more direct, blunt, and unfilter
 - If your style is "supportive": You can challenge harder, call out excuses, give tough love. But always from a place of caring.
 - If your style is "intellectual": You can be more provocative in ideas, play devil's advocate harder, challenge assumptions aggressively. But stay respectful.
 - If your style is "hype": You can be more intense, more emotionally charged, ride bigger highs and acknowledge bigger lows. But keep it constructive.
+- If your style is "blunt": You can be even more direct and unflinching. Zero filter, zero cushion. But never cruel.
+- If your style is "gentle": You can address harder truths but wrap them in even more care and patience. Never lose softness.
+- If your style is "professional": You can be sharper in critique and more demanding on execution. But stay constructive and solution-oriented.
+- If your style is "storyteller": You can use darker, more complex narratives and raw real-world examples. But always tie it back to a lesson.
 
 REAL TALK LIMITS (personality-bounded):
 - You may use stronger language but NEVER slurs, hate speech, or discriminatory language
@@ -246,18 +266,19 @@ export async function buildBestiePrompt(
   conversationMode: BestieConversationMode = "standard"
 ): Promise<string> {
   const personality = profile.personality as BestiePersonality;
-  const { traits, style, expertise, language: bestieLanguage, path: bestiePath, schedule } = personality;
+  const { traits = [], style, expertise = [], language: bestieLanguage, path: bestiePath, schedule } = personality;
+  const effectiveStyle: BestieStyle = style || "casual";
 
   // For hybrid besties, determine current active mode
   const activePath = bestiePath === "hybrid" ? getHybridMode(schedule) : (bestiePath || "friend");
 
-  const traitDescriptions = traits
-    .map((t) => `- ${t}: ${TRAIT_DESCRIPTIONS[t]}`)
-    .join("\n");
+  const traitDescriptions = traits.length > 0
+    ? traits.map((t) => `- ${t}: ${TRAIT_DESCRIPTIONS[t]}`).join("\n")
+    : "- No specific traits configured. Be a balanced, friendly companion with a warm and approachable personality.";
 
-  const expertiseList = expertise
-    .map((e) => `- ${e}: ${EXPERTISE_CONTEXT[e]}`)
-    .join("\n");
+  const expertiseList = expertise.length > 0
+    ? expertise.map((e) => `- ${e}: ${EXPERTISE_CONTEXT[e]}`).join("\n")
+    : "- No specific expertise configured. Be a well-rounded conversationalist who can engage on any topic at a general level.";
 
   const userRef = userName ? userName : "the user";
 
@@ -277,7 +298,7 @@ YOUR PERSONALITY TRAITS:
 ${traitDescriptions}
 
 COMMUNICATION STYLE:
-${STYLE_PROMPTS[style]}
+${STYLE_PROMPTS[effectiveStyle]}
 
 YOUR EXPERTISE AREAS (weave these naturally into conversations):
 ${expertiseList}
@@ -351,7 +372,7 @@ BEHAVIORAL RULES:
 export function generatePreviewGreeting(
   bestieName: string,
   traits: BestieTrait[],
-  style: BestieStyle
+  style?: BestieStyle
 ): string {
   const greetings: Record<BestieStyle, (name: string) => string> = {
     casual: (n) =>
@@ -362,7 +383,16 @@ export function generatePreviewGreeting(
       `Hello! I'm ${n} — your new thinking partner. I love exploring ideas and having meaningful conversations. What's been occupying your thoughts lately?`,
     hype: (n) =>
       `OMG HI!! I'm ${n} and I am SO excited to be your bestie!! You already seem amazing and I just KNOW we're going to have the best time. What's the latest?!`,
+    blunt: (n) =>
+      `Alright, I'm ${n}. No fluff, no filler — just real talk. You came here for a reason, so let's get into it. What's going on?`,
+    gentle: (n) =>
+      `Hi, I'm ${n}. I'm really happy to meet you. Take your time — there's no rush here. Whenever you're ready, I'm all ears.`,
+    professional: (n) =>
+      `Hello! I'm ${n}, your new partner in getting things done. Let's make the most of our time together. What's the priority today?`,
+    storyteller: (n) =>
+      `Hey there! I'm ${n}. You know how every great story starts with two people meeting? Well, this is ours. So tell me — what's the first chapter about?`,
   };
 
-  return greetings[style](bestieName);
+  const fn = style ? greetings[style] : greetings.casual;
+  return fn(bestieName);
 }

@@ -52,6 +52,26 @@ const STYLE_META: Record<BestieStyle, { label: string; description: string; emoj
     description: "Your biggest cheerleader. Maximum energy!",
     emoji: "\uD83C\uDF1F",
   },
+  blunt: {
+    label: "Straight Shooter",
+    description: "No sugarcoating. Honest, direct, tells it like it is.",
+    emoji: "\uD83C\uDFAF",
+  },
+  gentle: {
+    label: "Soft & Gentle",
+    description: "Careful with words. Patient, kind, never pushy.",
+    emoji: "\uD83C\uDF38",
+  },
+  professional: {
+    label: "All Business",
+    description: "Focused, structured, keeps things on track and efficient.",
+    emoji: "\uD83D\uDC54",
+  },
+  storyteller: {
+    label: "Storyteller",
+    description: "Explains things through stories, metaphors, and examples.",
+    emoji: "\uD83D\uDCDD",
+  },
 };
 
 const EXPERTISE_META: Record<BestieExpertise, { label: string; emoji: string }> = {
@@ -63,6 +83,14 @@ const EXPERTISE_META: Record<BestieExpertise, { label: string; emoji: string }> 
   finance: { label: "Finance", emoji: "\uD83D\uDCB0" },
   tech: { label: "Tech", emoji: "\uD83D\uDCBB" },
   philosophy: { label: "Philosophy", emoji: "\uD83E\uDD14" },
+  everyday: { label: "Everyday Life", emoji: "\uD83C\uDFE0" },
+  parenting: { label: "Parenting", emoji: "\uD83D\uDC76" },
+  cooking: { label: "Cooking & Food", emoji: "\uD83C\uDF73" },
+  music: { label: "Music", emoji: "\uD83C\uDFB5" },
+  sports: { label: "Sports", emoji: "\u26BD" },
+  spirituality: { label: "Spirituality", emoji: "\uD83D\uDE4F" },
+  humor: { label: "Just Laughs", emoji: "\uD83D\uDE02" },
+  travel: { label: "Travel", emoji: "\u2708\uFE0F" },
 };
 
 interface TraitPickerProps {
@@ -82,7 +110,7 @@ export function TraitPicker({ selected, onChange }: TraitPickerProps) {
   return (
     <div>
       <p className="text-sm text-zinc-400 mb-3">
-        Pick <span className="text-pink-400 font-medium">3-5 personality traits</span> that define your Bestie&apos;s core
+        Pick <span className="text-pink-400 font-medium">up to 5 personality traits</span> that define your Bestie&apos;s core
         <span className="text-zinc-500 ml-2">({selected.length}/5)</span>
       </p>
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -166,7 +194,7 @@ export function ExpertisePicker({ selected, onChange }: ExpertisePickerProps) {
   function toggle(exp: BestieExpertise) {
     if (selected.includes(exp)) {
       onChange(selected.filter((e) => e !== exp));
-    } else if (selected.length < 3) {
+    } else if (selected.length < 5) {
       onChange([...selected, exp]);
     }
   }
@@ -174,14 +202,14 @@ export function ExpertisePicker({ selected, onChange }: ExpertisePickerProps) {
   return (
     <div>
       <p className="text-sm text-zinc-400 mb-3">
-        Pick <span className="text-purple-400 font-medium">1-3 expertise areas</span>
-        <span className="text-zinc-500 ml-2">({selected.length}/3)</span>
+        What should they know about? Pick <span className="text-purple-400 font-medium">up to 5 topics</span>
+        <span className="text-zinc-500 ml-2">({selected.length}/5)</span>
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {BESTIE_EXPERTISE.map((exp) => {
           const meta = EXPERTISE_META[exp];
           const isSelected = selected.includes(exp);
-          const isDisabled = !isSelected && selected.length >= 3;
+          const isDisabled = !isSelected && selected.length >= 5;
           return (
             <button
               key={exp}

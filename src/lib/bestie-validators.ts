@@ -46,6 +46,10 @@ export const BESTIE_STYLES = [
   "supportive",
   "intellectual",
   "hype",
+  "blunt",
+  "gentle",
+  "professional",
+  "storyteller",
 ] as const;
 
 export const BESTIE_EXPERTISE = [
@@ -57,6 +61,14 @@ export const BESTIE_EXPERTISE = [
   "finance",
   "tech",
   "philosophy",
+  "everyday",
+  "parenting",
+  "cooking",
+  "music",
+  "sports",
+  "spirituality",
+  "humor",
+  "travel",
 ] as const;
 
 export type BestieTrait = (typeof BESTIE_TRAITS)[number];
@@ -102,14 +114,14 @@ export const createBestieSchema = z.object({
   path: z.enum(BESTIE_PATHS).default("friend"),
   traits: z
     .array(z.enum(BESTIE_TRAITS))
-    .min(3, "Pick at least 3 personality traits")
-    .max(5, "Pick at most 5 personality traits"),
-  style: z.enum(BESTIE_STYLES),
+    .max(5, "Pick at most 5 personality traits")
+    .default([]),
+  style: z.enum(BESTIE_STYLES).optional(),
   expertise: z
     .array(z.enum(BESTIE_EXPERTISE))
-    .min(1, "Pick at least 1 expertise area")
-    .max(3, "Pick at most 3 expertise areas"),
-  avatarEmoji: z.string().min(1).max(4).default("\uD83D\uDC9C"),
+    .max(5, "Pick at most 5 topics")
+    .default([]),
+  avatarEmoji: z.string().min(1).max(50000).default("\uD83D\uDC9C"), // supports emoji (4 chars) or data URI (base64 ~30KB)
   language: z.enum(BESTIE_LANGUAGES).default("en"),
   schedule: scheduleSchema.optional(),
   aboutMe: z.object({

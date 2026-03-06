@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Heart, Loader2, Sparkles, Globe, Monitor, Palette, Target } from "lucide-react";
+import { ArrowLeft, ArrowRight, Heart, Loader2, Sparkles, Globe, Monitor, Palette, Target, Camera, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import type { BestieTrait, BestieStyle, BestieExpertise, BestieLanguage } from "@/lib/bestie-validators";
 import { BESTIE_LANGUAGES, BESTIE_LANGUAGE_LABELS } from "@/lib/bestie-validators";
 
-function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], style: BestieStyle): string {
+function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], style: BestieStyle | null): string {
   const greetings: Record<BestieStyle, (n: string) => string> = {
     casual: (n) =>
       `Hey! I'm ${n}, your new bestie! I'm so ready to hang out and chat about literally anything. What's on your mind today?`,
@@ -21,8 +21,17 @@ function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], styl
       `Hello! I'm ${n} — your new thinking partner. I love exploring ideas and having meaningful conversations. What's been occupying your thoughts lately?`,
     hype: (n) =>
       `OMG HI!! I'm ${n} and I am SO excited to be your bestie!! You already seem amazing and I just KNOW we're going to have the best time. What's the latest?!`,
+    blunt: (n) =>
+      `Alright, I'm ${n}. No fluff, no filler — just real talk. You came here for a reason, so let's get into it. What's going on?`,
+    gentle: (n) =>
+      `Hi, I'm ${n}. I'm really happy to meet you. Take your time — there's no rush here. Whenever you're ready, I'm all ears.`,
+    professional: (n) =>
+      `Hello! I'm ${n}, your new partner in getting things done. Let's make the most of our time together. What's the priority today?`,
+    storyteller: (n) =>
+      `Hey there! I'm ${n}. You know how every great story starts with two people meeting? Well, this is ours. So tell me — what's the first chapter about?`,
   };
-  return greetings[style](bestieName);
+  const fn = style ? greetings[style] : greetings.casual;
+  return fn(bestieName);
 }
 
 /* ── Purpose / Intent — the #1 question that drives everything ── */
@@ -160,72 +169,114 @@ const AVATAR_SECTIONS = [
   },
 ];
 
-/* ── Background themes ── */
+/* ── Background themes — rich, textured, purpose-filtered ── */
 type BgTheme = {
   id: string;
   label: string;
-  preview: string; // small CSS gradient/pattern for the picker card
-  bg: string; // full-page CSS background
+  preview: string;
+  bg: string;
+  forPurposes: string[]; // which purposes this bg is available for
 };
 
-type BgCategory = { label: string; themes: BgTheme[] };
+// All backgrounds use layered gradients, radial glows, and subtle patterns
+// for an immersive feel — not flat/plain. Filtered by user's chosen purposes.
+const ALL_BG_THEMES: BgTheme[] = [
+  // ── Business / Professional ──
+  { id: "exec-suite", label: "Executive Suite", forPurposes: ["business", "learning"],
+    preview: "linear-gradient(135deg,#0f172a,#1e293b)",
+    bg: "radial-gradient(ellipse at 20% 50%,#1e3a5f33 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,#0f3460aa 0%,transparent 40%),linear-gradient(135deg,#0f172a 0%,#1e293b 40%,#0f172a 100%)" },
+  { id: "mahogany-office", label: "Mahogany Office", forPurposes: ["business"],
+    preview: "linear-gradient(135deg,#1a0a00,#3e1a00)",
+    bg: "radial-gradient(ellipse at 30% 70%,#5c2d0033 0%,transparent 50%),radial-gradient(ellipse at 70% 30%,#3e1a0055 0%,transparent 40%),linear-gradient(135deg,#1a0a00 0%,#2d1500 40%,#3e1a00 70%,#1a0a00 100%)" },
+  { id: "carbon-boardroom", label: "Carbon Boardroom", forPurposes: ["business", "tech"],
+    preview: "linear-gradient(135deg,#111,#1a1a2e)",
+    bg: "repeating-linear-gradient(45deg,#11111180 0px,#11111180 2px,transparent 2px,transparent 12px),radial-gradient(ellipse at 50% 0%,#1a1a3e55 0%,transparent 60%),linear-gradient(180deg,#111 0%,#1a1a2e 100%)" },
+  { id: "slate-leather", label: "Slate & Leather", forPurposes: ["business", "wellness"],
+    preview: "linear-gradient(180deg,#1e293b,#334155)",
+    bg: "radial-gradient(ellipse at 50% 80%,#47556933 0%,transparent 50%),linear-gradient(180deg,#1e293b 0%,#2a3a4e 30%,#334155 60%,#1e293b 100%)" },
+  { id: "blueprint", label: "Architect Blueprint", forPurposes: ["business", "tech", "learning"],
+    preview: "linear-gradient(135deg,#0c1445,#1a237e)",
+    bg: "repeating-linear-gradient(0deg,transparent,transparent 39px,#1a237e15 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,#1a237e15 40px),radial-gradient(ellipse at 50% 50%,#28359333 0%,transparent 70%),linear-gradient(135deg,#0c1445 0%,#1a237e 50%,#0c1445 100%)" },
 
-const BG_CATEGORIES: BgCategory[] = [
-  {
-    label: "Office & Professional",
-    themes: [
-      { id: "exec-dark", label: "Executive Dark", preview: "linear-gradient(135deg,#1a1a2e,#16213e)", bg: "linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)" },
-      { id: "slate-desk", label: "Slate Desk", preview: "linear-gradient(180deg,#1e293b,#334155)", bg: "linear-gradient(180deg,#1e293b 0%,#334155 60%,#475569 100%)" },
-      { id: "blueprint", label: "Blueprint", preview: "linear-gradient(135deg,#0c1445,#1a237e)", bg: "linear-gradient(135deg,#0c1445 0%,#1a237e 50%,#283593 100%)" },
-      { id: "boardroom", label: "Boardroom", preview: "linear-gradient(180deg,#1c1c1c,#2d2d2d)", bg: "linear-gradient(180deg,#1c1c1c 0%,#2d2d2d 40%,#3a3a3a 100%)" },
-      { id: "mahogany", label: "Mahogany", preview: "linear-gradient(135deg,#1a0a00,#3e1a00)", bg: "linear-gradient(135deg,#1a0a00 0%,#3e1a00 50%,#5c2d00 100%)" },
-      { id: "carbon", label: "Carbon Fiber", preview: "linear-gradient(135deg,#111,#222)", bg: "repeating-linear-gradient(45deg,#111 0px,#111 10px,#1a1a1a 10px,#1a1a1a 20px)" },
-    ],
-  },
-  {
-    label: "Tech & Developer",
-    themes: [
-      { id: "terminal", label: "Terminal", preview: "linear-gradient(180deg,#0a0a0a,#0d1117)", bg: "linear-gradient(180deg,#0a0a0a 0%,#0d1117 50%,#161b22 100%)" },
-      { id: "matrix", label: "Matrix", preview: "linear-gradient(180deg,#000,#001a00)", bg: "linear-gradient(180deg,#000000 0%,#001a00 50%,#003300 100%)" },
-      { id: "cyber", label: "Cyberpunk", preview: "linear-gradient(135deg,#0a0015,#1a0030)", bg: "linear-gradient(135deg,#0a0015 0%,#1a0030 40%,#2d0050 70%,#0a0015 100%)" },
-      { id: "neon-grid", label: "Neon Grid", preview: "linear-gradient(180deg,#0f0f23,#1a1a3e)", bg: "linear-gradient(180deg,#0f0f23 0%,#1a1a3e 100%)" },
-      { id: "dark-ide", label: "Dark IDE", preview: "linear-gradient(180deg,#1e1e1e,#252526)", bg: "linear-gradient(180deg,#1e1e1e 0%,#252526 50%,#2d2d30 100%)" },
-    ],
-  },
-  {
-    label: "Casual & Lifestyle",
-    themes: [
-      { id: "sunset", label: "Sunset Chill", preview: "linear-gradient(135deg,#2d1b4e,#4a1942)", bg: "linear-gradient(135deg,#2d1b4e 0%,#4a1942 40%,#6b2048 70%,#2d1b4e 100%)" },
-      { id: "ocean", label: "Ocean Breeze", preview: "linear-gradient(180deg,#0a1628,#132e4a)", bg: "linear-gradient(180deg,#0a1628 0%,#132e4a 50%,#1a4a6e 100%)" },
-      { id: "midnight", label: "Midnight Sky", preview: "linear-gradient(180deg,#0f0c29,#302b63)", bg: "linear-gradient(180deg,#0f0c29 0%,#302b63 50%,#24243e 100%)" },
-      { id: "warm-amber", label: "Warm Amber", preview: "linear-gradient(135deg,#1a1000,#2d1a00)", bg: "linear-gradient(135deg,#1a1000 0%,#2d1a00 40%,#3d2400 70%,#1a1000 100%)" },
-      { id: "forest", label: "Forest Night", preview: "linear-gradient(135deg,#0a1a0a,#1a2e1a)", bg: "linear-gradient(135deg,#0a1a0a 0%,#1a2e1a 50%,#2a422a 100%)" },
-      { id: "coffee", label: "Coffee Shop", preview: "linear-gradient(180deg,#1a120a,#2d1f14)", bg: "linear-gradient(180deg,#1a120a 0%,#2d1f14 50%,#3d2c1e 100%)" },
-    ],
-  },
-  {
-    label: "Creative & Artsy",
-    themes: [
-      { id: "aurora", label: "Aurora", preview: "linear-gradient(135deg,#0f0c29,#1a3a2a)", bg: "linear-gradient(135deg,#0f0c29 0%,#1a3a2a 30%,#302b63 60%,#24243e 100%)" },
-      { id: "galaxy", label: "Galaxy", preview: "linear-gradient(135deg,#0d0221,#150734)", bg: "linear-gradient(135deg,#0d0221 0%,#150734 30%,#0a1647 60%,#1a0533 100%)" },
-      { id: "canvas", label: "Artist Canvas", preview: "linear-gradient(180deg,#1a1a17,#2a2a24)", bg: "linear-gradient(180deg,#1a1a17 0%,#2a2a24 50%,#3a3a30 100%)" },
-      { id: "neon-pink", label: "Neon Pink", preview: "linear-gradient(135deg,#1a0011,#2d001f)", bg: "linear-gradient(135deg,#1a0011 0%,#2d001f 50%,#3d002d 100%)" },
-    ],
-  },
-  {
-    label: "Minimal & Clean",
-    themes: [
-      { id: "pure-dark", label: "Pure Dark", preview: "linear-gradient(180deg,#09090b,#18181b)", bg: "linear-gradient(180deg,#09090b 0%,#18181b 100%)" },
-      { id: "charcoal", label: "Charcoal", preview: "linear-gradient(180deg,#1a1a1a,#262626)", bg: "linear-gradient(180deg,#1a1a1a 0%,#262626 100%)" },
-      { id: "soft-black", label: "Soft Black", preview: "linear-gradient(180deg,#111,#1a1a1a)", bg: "linear-gradient(180deg,#111111 0%,#1a1a1a 50%,#222222 100%)" },
-    ],
-  },
+  // ── Tech / Developer ──
+  { id: "terminal", label: "Terminal Night", forPurposes: ["tech", "learning"],
+    preview: "linear-gradient(180deg,#0a0a0a,#0d1117)",
+    bg: "repeating-linear-gradient(0deg,transparent,transparent 23px,#00ff0008 24px),radial-gradient(ellipse at 50% 0%,#0d111744 0%,transparent 70%),linear-gradient(180deg,#0a0a0a 0%,#0d1117 50%,#161b22 100%)" },
+  { id: "matrix", label: "Digital Rain", forPurposes: ["tech"],
+    preview: "linear-gradient(180deg,#000,#001a00)",
+    bg: "repeating-linear-gradient(90deg,#00110022 0px,transparent 1px,transparent 20px),radial-gradient(ellipse at 50% 30%,#003300aa 0%,transparent 50%),linear-gradient(180deg,#000 0%,#001a00 50%,#002200 100%)" },
+  { id: "cyber-neon", label: "Cyberpunk Neon", forPurposes: ["tech", "creative"],
+    preview: "linear-gradient(135deg,#0a0015,#1a0030)",
+    bg: "radial-gradient(ellipse at 20% 80%,#ff006622 0%,transparent 40%),radial-gradient(ellipse at 80% 20%,#6600ff33 0%,transparent 40%),linear-gradient(135deg,#0a0015 0%,#1a0030 40%,#2d0050 70%,#0a0015 100%)" },
+  { id: "neon-grid", label: "Neon Grid", forPurposes: ["tech", "creative"],
+    preview: "linear-gradient(180deg,#0f0f23,#1a1a3e)",
+    bg: "repeating-linear-gradient(0deg,transparent,transparent 49px,#4444ff08 50px),repeating-linear-gradient(90deg,transparent,transparent 49px,#4444ff08 50px),radial-gradient(ellipse at 50% 50%,#2a2a6633 0%,transparent 70%),linear-gradient(180deg,#0f0f23 0%,#1a1a3e 100%)" },
+  { id: "dark-ide", label: "Code Editor", forPurposes: ["tech", "learning"],
+    preview: "linear-gradient(180deg,#1e1e1e,#252526)",
+    bg: "linear-gradient(90deg,#2d2d3088 0px,transparent 1px),radial-gradient(ellipse at 0% 50%,#333346aa 0%,transparent 30%),linear-gradient(180deg,#1e1e1e 0%,#252526 50%,#2d2d30 100%)" },
+
+  // ── Friendship / Casual ──
+  { id: "sunset-lounge", label: "Sunset Lounge", forPurposes: ["friendship", "wellness"],
+    preview: "linear-gradient(135deg,#2d1b4e,#4a1942)",
+    bg: "radial-gradient(ellipse at 30% 80%,#ff668833 0%,transparent 40%),radial-gradient(ellipse at 70% 20%,#8b5cf622 0%,transparent 50%),linear-gradient(135deg,#2d1b4e 0%,#4a1942 40%,#6b2048 70%,#2d1b4e 100%)" },
+  { id: "ocean-breeze", label: "Ocean Breeze", forPurposes: ["friendship", "wellness", "fitness"],
+    preview: "linear-gradient(180deg,#0a1628,#132e4a)",
+    bg: "radial-gradient(ellipse at 50% 100%,#1a4a6e55 0%,transparent 50%),radial-gradient(ellipse at 20% 30%,#0ea5e922 0%,transparent 40%),linear-gradient(180deg,#0a1628 0%,#132e4a 50%,#1a4a6e 100%)" },
+  { id: "midnight-sky", label: "Midnight Sky", forPurposes: ["friendship", "creative", "wellness"],
+    preview: "linear-gradient(180deg,#0f0c29,#302b63)",
+    bg: "radial-gradient(circle at 30% 20%,#ffffff08 0%,transparent 3%),radial-gradient(circle at 70% 40%,#ffffff06 0%,transparent 2%),radial-gradient(circle at 50% 60%,#ffffff05 0%,transparent 2.5%),radial-gradient(ellipse at 50% 50%,#302b6355 0%,transparent 70%),linear-gradient(180deg,#0f0c29 0%,#302b63 50%,#24243e 100%)" },
+  { id: "warm-den", label: "Warm Den", forPurposes: ["friendship", "parenting", "wellness"],
+    preview: "linear-gradient(135deg,#1a1000,#2d1a00)",
+    bg: "radial-gradient(ellipse at 40% 60%,#f59e0b11 0%,transparent 50%),radial-gradient(ellipse at 60% 30%,#92400e22 0%,transparent 40%),linear-gradient(135deg,#1a1000 0%,#2d1a00 40%,#3d2400 70%,#1a1000 100%)" },
+  { id: "coffee-corner", label: "Coffee Corner", forPurposes: ["friendship", "business", "creative"],
+    preview: "linear-gradient(180deg,#1a120a,#2d1f14)",
+    bg: "radial-gradient(ellipse at 30% 70%,#78350f33 0%,transparent 40%),radial-gradient(ellipse at 70% 30%,#451a0322 0%,transparent 50%),linear-gradient(180deg,#1a120a 0%,#2d1f14 50%,#3d2c1e 100%)" },
+
+  // ── Creative / Artsy ──
+  { id: "aurora", label: "Northern Lights", forPurposes: ["creative", "wellness"],
+    preview: "linear-gradient(135deg,#0f0c29,#1a3a2a)",
+    bg: "radial-gradient(ellipse at 20% 30%,#10b98133 0%,transparent 40%),radial-gradient(ellipse at 80% 60%,#8b5cf633 0%,transparent 40%),radial-gradient(ellipse at 50% 80%,#06b6d422 0%,transparent 50%),linear-gradient(135deg,#0f0c29 0%,#1a3a2a 30%,#302b63 60%,#24243e 100%)" },
+  { id: "galaxy", label: "Deep Galaxy", forPurposes: ["creative", "learning"],
+    preview: "linear-gradient(135deg,#0d0221,#150734)",
+    bg: "radial-gradient(circle at 25% 25%,#ffffff0a 0%,transparent 3%),radial-gradient(circle at 75% 55%,#ffffff08 0%,transparent 2%),radial-gradient(circle at 45% 75%,#ffffff06 0%,transparent 2.5%),radial-gradient(ellipse at 50% 50%,#1a063388 0%,transparent 70%),linear-gradient(135deg,#0d0221 0%,#150734 30%,#0a1647 60%,#1a0533 100%)" },
+  { id: "neon-studio", label: "Neon Studio", forPurposes: ["creative", "tech"],
+    preview: "linear-gradient(135deg,#1a0011,#2d001f)",
+    bg: "radial-gradient(ellipse at 20% 80%,#ec489955 0%,transparent 30%),radial-gradient(ellipse at 80% 20%,#a855f733 0%,transparent 35%),linear-gradient(135deg,#1a0011 0%,#2d001f 50%,#3d002d 100%)" },
+  { id: "canvas-loft", label: "Canvas Loft", forPurposes: ["creative", "friendship"],
+    preview: "linear-gradient(180deg,#1a1a17,#2a2a24)",
+    bg: "radial-gradient(ellipse at 30% 50%,#f59e0b0d 0%,transparent 50%),linear-gradient(180deg,#1a1a17 0%,#2a2a24 50%,#3a3a30 100%)" },
+
+  // ── Wellness / Support ──
+  { id: "forest-retreat", label: "Forest Retreat", forPurposes: ["wellness", "fitness", "parenting"],
+    preview: "linear-gradient(135deg,#0a1a0a,#1a2e1a)",
+    bg: "radial-gradient(ellipse at 40% 70%,#10b98122 0%,transparent 40%),radial-gradient(ellipse at 60% 20%,#06543311 0%,transparent 50%),linear-gradient(135deg,#0a1a0a 0%,#1a2e1a 50%,#2a422a 100%)" },
+  { id: "zen-garden", label: "Zen Garden", forPurposes: ["wellness", "learning"],
+    preview: "linear-gradient(180deg,#1a1a17,#2a2e24)",
+    bg: "radial-gradient(ellipse at 50% 50%,#d4d4cc08 0%,transparent 60%),linear-gradient(180deg,#1a1a17 0%,#222620 30%,#2a2e24 60%,#1a1a17 100%)" },
+
+  // ── Fitness / Health ──
+  { id: "iron-gym", label: "Iron Gym", forPurposes: ["fitness"],
+    preview: "linear-gradient(180deg,#1a1a1a,#2a2a2a)",
+    bg: "repeating-linear-gradient(90deg,#ffffff05 0px,transparent 1px,transparent 60px),radial-gradient(ellipse at 50% 0%,#ef444422 0%,transparent 40%),linear-gradient(180deg,#1a1a1a 0%,#252525 50%,#2a2a2a 100%)" },
+  { id: "outdoor-trail", label: "Trail Run", forPurposes: ["fitness", "wellness"],
+    preview: "linear-gradient(135deg,#0a1a10,#1a3020)",
+    bg: "radial-gradient(ellipse at 60% 80%,#16a34a22 0%,transparent 40%),radial-gradient(ellipse at 30% 20%,#0ea5e911 0%,transparent 50%),linear-gradient(135deg,#0a1a10 0%,#1a3020 50%,#0a1a10 100%)" },
+
+  // ── Parenting / Family ──
+  { id: "playroom", label: "Cozy Playroom", forPurposes: ["parenting"],
+    preview: "linear-gradient(135deg,#2d1a00,#1a2a3a)",
+    bg: "radial-gradient(ellipse at 30% 70%,#f59e0b11 0%,transparent 40%),radial-gradient(ellipse at 70% 30%,#3b82f611 0%,transparent 40%),linear-gradient(135deg,#1a1208 0%,#1e2028 50%,#1a1208 100%)" },
+  { id: "storybook", label: "Storybook Night", forPurposes: ["parenting", "friendship"],
+    preview: "linear-gradient(180deg,#1a1030,#2a1a40)",
+    bg: "radial-gradient(circle at 20% 30%,#ffffff06 0%,transparent 2%),radial-gradient(circle at 70% 50%,#ffffff05 0%,transparent 2%),radial-gradient(ellipse at 50% 70%,#8b5cf622 0%,transparent 40%),linear-gradient(180deg,#1a1030 0%,#2a1a40 50%,#1a1030 100%)" },
 ];
 
 export default function CreateBestiePage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [isCreating, setIsCreating] = useState(false);
+  const [isGeneratingAvatar, setIsGeneratingAvatar] = useState(false);
+  const [generatedAvatar, setGeneratedAvatar] = useState<string | null>(null);
 
   // Step 1: Purpose — WHY are you here?
   const [selectedPurposes, setSelectedPurposes] = useState<string[]>([]);
@@ -233,6 +284,9 @@ export default function CreateBestiePage() {
   // Step 2: Name, Avatar & Language
   const [name, setName] = useState("");
   const [avatarEmoji, setAvatarEmoji] = useState("\uD83D\uDC68\u200D\uD83D\uDCBC");
+  const [customAvatar, setCustomAvatar] = useState<string | null>(null); // data URI
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [language, setLanguage] = useState<BestieLanguage>("en");
 
   // Step 3: Background theme
@@ -258,21 +312,40 @@ export default function CreateBestiePage() {
 
   const canNextPurpose = selectedPurposes.length >= 1;
   const canNextName = name.trim().length >= 2 && name.trim().length <= 20;
-  const canNextPersonality = traits.length >= 3 && traits.length <= 5 && style !== null && expertise.length >= 1;
+  const canNextPersonality = true; // no minimums — user can skip, reminded at preview
 
   // Resolve active background CSS
-  const allBgThemes = BG_CATEGORIES.flatMap((c) => c.themes);
-  const activeBg = allBgThemes.find((t) => t.id === bgTheme);
+  const activeBg = ALL_BG_THEMES.find((t) => t.id === bgTheme);
 
-  // Sort backgrounds: suggested ones first based on purpose
-  const sortedBgCategories = BG_CATEGORIES.map((cat) => ({
-    ...cat,
-    themes: [...cat.themes].sort((a, b) => {
-      const aMatch = suggestedBgIds.includes(a.id) ? 0 : 1;
-      const bMatch = suggestedBgIds.includes(b.id) ? 0 : 1;
-      return aMatch - bMatch;
-    }),
-  }));
+  // Filter backgrounds based on selected purposes — only show relevant ones
+  const filteredBgThemes = selectedPurposes.length > 0
+    ? ALL_BG_THEMES.filter((t) => t.forPurposes.some((p) => selectedPurposes.includes(p)))
+    : ALL_BG_THEMES;
+
+  async function handleAvatarUpload(file: File) {
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be under 5MB");
+      return;
+    }
+    setUploadingAvatar(true);
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+      const res = await fetch("/api/bestie/avatar", { method: "POST", body: formData });
+      const data = await res.json();
+      if (res.ok && data.avatarDataUri) {
+        setCustomAvatar(data.avatarDataUri);
+        setAvatarEmoji(""); // clear emoji when custom photo is set
+        toast.success("Photo approved!");
+      } else {
+        toast.error(data.error || "Upload failed");
+      }
+    } catch {
+      toast.error("Upload failed. Try again.");
+    } finally {
+      setUploadingAvatar(false);
+    }
+  }
 
   // When purpose changes, auto-set defaults
   function handlePurposeToggle(purposeId: string) {
@@ -295,7 +368,7 @@ export default function CreateBestiePage() {
   }
 
   async function handleCreate() {
-    if (!canNextPersonality || !style) return;
+    if (!name.trim()) return;
     setIsCreating(true);
     try {
       const res = await fetch("/api/bestie", {
@@ -305,9 +378,9 @@ export default function CreateBestiePage() {
           name: name.trim(),
           purposes: selectedPurposes,
           traits,
-          style,
+          ...(style ? { style } : {}),
           expertise,
-          avatarEmoji,
+          avatarEmoji: customAvatar || avatarEmoji,
           language,
           bgTheme,
           aboutMe: {
@@ -326,11 +399,30 @@ export default function CreateBestiePage() {
         if (data.easterEgg) {
           setEasterEgg(data.easterEgg);
           toast.success(`Easter Egg Discovered! ${data.easterEgg.reward}`);
-          // Delay redirect so user sees the egg
-          await new Promise((r) => setTimeout(r, 3000));
-        } else {
-          toast.success(`${name} is ready! Let's chat!`);
         }
+
+        // Generate anime avatar from personality (non-blocking — user sees progress)
+        setIsGeneratingAvatar(true);
+        try {
+          const avatarRes = await fetch("/api/bestie/avatar/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ bestieId: data.bestie.id }),
+          });
+          const avatarData = await avatarRes.json();
+          if (avatarRes.ok && avatarData.avatarDataUri) {
+            setGeneratedAvatar(avatarData.avatarDataUri);
+            toast.success(`${name}'s look has been created!`);
+            // Let user see the avatar for a moment
+            await new Promise((r) => setTimeout(r, 2500));
+          }
+        } catch {
+          // Avatar generation is optional — don't block the flow
+          console.warn("Avatar generation failed, continuing with emoji/photo avatar");
+        } finally {
+          setIsGeneratingAvatar(false);
+        }
+
         // Create first conversation and redirect to chat
         const convRes = await fetch(`/api/bestie/${data.bestie.id}/conversations`, {
           method: "POST",
@@ -474,34 +566,98 @@ export default function CreateBestiePage() {
 
             <div>
               <p className="text-sm text-zinc-400 mb-3 text-center">Pick an avatar</p>
-              <div className="space-y-4 max-w-md mx-auto">
-                {AVATAR_SECTIONS.map((section, idx) => (
-                  <div key={section.label}>
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1.5">
-                      {section.label}
-                      {highlightedAvatarSections.includes(idx) && (
-                        <span className="ml-2 text-pink-400 normal-case tracking-normal">- Recommended</span>
-                      )}
-                    </p>
-                    <div className="grid grid-cols-8 gap-2">
-                      {section.emojis.map((emoji) => (
-                        <button
-                          key={emoji}
-                          type="button"
-                          onClick={() => setAvatarEmoji(emoji)}
-                          className={`h-10 w-10 rounded-lg flex items-center justify-center text-xl transition-all ${
-                            avatarEmoji === emoji
-                              ? "bg-pink-500/20 border-2 border-pink-500 scale-110"
-                              : "bg-zinc-800/60 border border-zinc-700/60 hover:border-pink-700 backdrop-blur-sm"
-                          }`}
-                        >
-                          {emoji}
-                        </button>
-                      ))}
+
+              {/* Custom photo upload */}
+              <div className="mb-4 max-w-md mx-auto">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1.5">
+                  Custom Photo
+                  <span className="ml-2 text-purple-400 normal-case tracking-normal">- Upload your own</span>
+                </p>
+                <div className="flex items-center gap-3">
+                  {customAvatar ? (
+                    <div className="relative">
+                      <img
+                        src={customAvatar}
+                        alt="Custom avatar"
+                        className="h-14 w-14 rounded-xl object-cover border-2 border-pink-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => { setCustomAvatar(null); if (!avatarEmoji) setAvatarEmoji("\uD83D\uDC68\u200D\uD83D\uDCBC"); }}
+                        className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-red-600 rounded-full flex items-center justify-center"
+                      >
+                        <X className="h-3 w-3 text-white" />
+                      </button>
                     </div>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploadingAvatar}
+                      className="h-14 w-14 rounded-xl border-2 border-dashed border-zinc-600 hover:border-purple-500 flex items-center justify-center transition-colors bg-zinc-800/40 backdrop-blur-sm"
+                    >
+                      {uploadingAvatar ? (
+                        <Loader2 className="h-5 w-5 animate-spin text-purple-400" />
+                      ) : (
+                        <Camera className="h-5 w-5 text-zinc-500" />
+                      )}
+                    </button>
+                  )}
+                  <div className="text-xs text-zinc-500">
+                    {uploadingAvatar ? (
+                      <span className="text-purple-400">Checking image...</span>
+                    ) : customAvatar ? (
+                      <span className="text-emerald-400">Photo approved and set as avatar</span>
+                    ) : (
+                      <span>Upload a photo of anything — pet, scenery, art, you.<br />Images are reviewed for safety before use.</span>
+                    )}
                   </div>
-                ))}
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp,image/gif"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleAvatarUpload(file);
+                      e.target.value = "";
+                    }}
+                  />
+                </div>
               </div>
+
+              {/* Emoji avatars */}
+              {!customAvatar && (
+                <div className="space-y-4 max-w-md mx-auto">
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-500">Or choose an emoji</p>
+                  {AVATAR_SECTIONS.map((section, idx) => (
+                    <div key={section.label}>
+                      <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1.5">
+                        {section.label}
+                        {highlightedAvatarSections.includes(idx) && (
+                          <span className="ml-2 text-pink-400 normal-case tracking-normal">- Recommended</span>
+                        )}
+                      </p>
+                      <div className="grid grid-cols-8 gap-2">
+                        {section.emojis.map((emoji) => (
+                          <button
+                            key={emoji}
+                            type="button"
+                            onClick={() => { setAvatarEmoji(emoji); setCustomAvatar(null); }}
+                            className={`h-10 w-10 rounded-lg flex items-center justify-center text-xl transition-all ${
+                              avatarEmoji === emoji && !customAvatar
+                                ? "bg-pink-500/20 border-2 border-pink-500 scale-110"
+                                : "bg-zinc-800/60 border border-zinc-700/60 hover:border-pink-700 backdrop-blur-sm"
+                            }`}
+                          >
+                            {emoji}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Language picker */}
@@ -549,53 +705,40 @@ export default function CreateBestiePage() {
               <p className="text-sm text-zinc-500">Pick a backdrop that feels like {name || "your Bestie"}&apos;s world</p>
             </div>
 
-            <div className="space-y-5">
-              {sortedBgCategories.map((cat) => (
-                <div key={cat.label}>
-                  <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2">{cat.label}</p>
-                  <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                    {cat.themes.map((theme) => {
-                      const isSuggested = suggestedBgIds.includes(theme.id);
-                      return (
-                        <button
-                          key={theme.id}
-                          type="button"
-                          onClick={() => setBgTheme(theme.id)}
-                          className={`group relative rounded-xl overflow-hidden transition-all h-20 ${
-                            bgTheme === theme.id
-                              ? "ring-2 ring-pink-500 scale-[1.03]"
-                              : isSuggested
-                                ? "ring-2 ring-purple-500/40 hover:ring-purple-400"
-                                : "ring-1 ring-zinc-700/50 hover:ring-zinc-500"
-                          }`}
-                          style={{ background: theme.preview }}
-                        >
-                          {isSuggested && bgTheme !== theme.id && (
-                            <div className="absolute top-1 left-1.5 text-[8px] text-purple-300 bg-purple-500/20 px-1.5 py-0.5 rounded-full backdrop-blur-sm">
-                              For you
-                            </div>
-                          )}
-                          <div className="absolute inset-0 flex items-end justify-center pb-2">
-                            <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full backdrop-blur-sm ${
-                              bgTheme === theme.id
-                                ? "bg-pink-500/30 text-pink-200"
-                                : "bg-black/40 text-zinc-300 group-hover:text-white"
-                            }`}>
-                              {theme.label}
-                            </span>
-                          </div>
-                          {bgTheme === theme.id && (
-                            <div className="absolute top-1.5 right-1.5 h-4 w-4 bg-pink-500 rounded-full flex items-center justify-center">
-                              <Monitor className="h-2.5 w-2.5 text-white" />
-                            </div>
-                          )}
-                        </button>
-                      );
-                    })}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {filteredBgThemes.map((theme) => (
+                <button
+                  key={theme.id}
+                  type="button"
+                  onClick={() => setBgTheme(theme.id)}
+                  className={`group relative rounded-xl overflow-hidden transition-all h-24 ${
+                    bgTheme === theme.id
+                      ? "ring-2 ring-pink-500 scale-[1.03]"
+                      : "ring-1 ring-zinc-700/50 hover:ring-zinc-400"
+                  }`}
+                  style={{ background: theme.bg }}
+                >
+                  <div className="absolute inset-0 flex items-end justify-center pb-2">
+                    <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full backdrop-blur-sm ${
+                      bgTheme === theme.id
+                        ? "bg-pink-500/30 text-pink-200"
+                        : "bg-black/40 text-zinc-300 group-hover:text-white"
+                    }`}>
+                      {theme.label}
+                    </span>
                   </div>
-                </div>
+                  {bgTheme === theme.id && (
+                    <div className="absolute top-1.5 right-1.5 h-4 w-4 bg-pink-500 rounded-full flex items-center justify-center">
+                      <Monitor className="h-2.5 w-2.5 text-white" />
+                    </div>
+                  )}
+                </button>
               ))}
             </div>
+
+            <p className="text-center text-[10px] text-zinc-600">
+              Showing {filteredBgThemes.length} environments based on your vibe
+            </p>
 
             <Button
               onClick={() => setStep(4)}
@@ -671,10 +814,16 @@ export default function CreateBestiePage() {
         )}
 
         {/* Step 6: Preview & Confirm */}
-        {step === 6 && style && (
+        {step === 6 && (
           <div className="space-y-6">
             <div className="text-center space-y-2">
-              <div className="text-5xl">{avatarEmoji}</div>
+              {generatedAvatar ? (
+                <img src={generatedAvatar} alt={name} className="h-20 w-20 rounded-2xl object-cover mx-auto border-2 border-pink-500/50 shadow-lg shadow-pink-500/20" />
+              ) : customAvatar ? (
+                <img src={customAvatar} alt={name} className="h-20 w-20 rounded-2xl object-cover mx-auto border-2 border-pink-500/50" />
+              ) : (
+                <div className="text-5xl">{avatarEmoji}</div>
+              )}
               <h2 className="text-2xl font-bold text-white">{name}</h2>
               <div className="flex flex-wrap justify-center gap-1.5">
                 {traits.map((t) => (
@@ -684,7 +833,7 @@ export default function CreateBestiePage() {
                 ))}
               </div>
               <p className="text-sm text-purple-400">
-                {style === "casual" ? "BFF Vibes" : style === "supportive" ? "Life Coach" : style === "intellectual" ? "Mentor" : "Hype Squad"}
+                {style ? ({ casual: "BFF Vibes", supportive: "Life Coach", intellectual: "Mentor", hype: "Hype Squad", blunt: "Straight Shooter", gentle: "Soft & Gentle", professional: "All Business", storyteller: "Storyteller" } as Record<string, string>)[style] ?? style : "No style selected"}
               </p>
               <p className="text-xs text-zinc-500 flex items-center justify-center gap-1">
                 <Globe className="h-3 w-3" />
@@ -751,20 +900,63 @@ export default function CreateBestiePage() {
               </p>
             </div>
 
+            {/* Skipped category reminders */}
+            {(traits.length === 0 || !style || expertise.length === 0) && (
+              <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-700/40 backdrop-blur-sm space-y-1.5">
+                <p className="text-amber-400 text-xs font-medium">Heads up — you skipped some options:</p>
+                {traits.length === 0 && (
+                  <p className="text-amber-300/70 text-xs">• No personality traits selected — {name} will use a balanced default</p>
+                )}
+                {!style && (
+                  <p className="text-amber-300/70 text-xs">• No communication style chosen — {name} will default to casual</p>
+                )}
+                {expertise.length === 0 && (
+                  <p className="text-amber-300/70 text-xs">• No topics picked — {name} will be a general conversationalist</p>
+                )}
+                <p className="text-amber-500/50 text-[10px] mt-1">You can always change these later in settings.</p>
+              </div>
+            )}
+
             <div className="space-y-2 text-xs text-zinc-500 text-center">
               <p>Your Bestie will remember your conversations and learn about you over time.</p>
               <p>You can always edit their personality later.</p>
             </div>
 
+            {/* Generated avatar reveal */}
+            {generatedAvatar && (
+              <div className="text-center space-y-3 animate-in fade-in duration-700">
+                <p className="text-xs text-pink-400 font-medium">Meet {name}!</p>
+                <img
+                  src={generatedAvatar}
+                  alt={name}
+                  className="h-32 w-32 rounded-2xl object-cover mx-auto border-2 border-pink-500/50 shadow-lg shadow-pink-500/20"
+                />
+              </div>
+            )}
+
+            {/* Avatar generation progress */}
+            {isGeneratingAvatar && !generatedAvatar && (
+              <div className="text-center space-y-3 py-4">
+                <Loader2 className="h-8 w-8 animate-spin text-pink-400 mx-auto" />
+                <p className="text-sm text-pink-300 animate-pulse">Bringing {name} to life...</p>
+                <p className="text-[10px] text-zinc-500">Creating a unique look based on their personality</p>
+              </div>
+            )}
+
             <Button
               onClick={handleCreate}
-              disabled={isCreating}
+              disabled={isCreating || isGeneratingAvatar}
               className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white h-14 text-lg"
             >
-              {isCreating ? (
+              {isCreating && !isGeneratingAvatar ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin mr-2" />
                   Creating...
+                </>
+              ) : isGeneratingAvatar ? (
+                <>
+                  <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                  Designing {name}&apos;s look...
                 </>
               ) : (
                 <>
