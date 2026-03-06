@@ -80,6 +80,14 @@ const GOALS: Goal[] = [
     color: "text-green-400 bg-green-900/20 border-green-800/40",
     agents: ["financial-advisor", "tax-strategy", "bookkeeper"],
   },
+  {
+    id: "meet-bestie",
+    label: "I Want a Bestie",
+    description: "A personal AI companion that knows you and grows with you",
+    icon: Heart,
+    color: "text-pink-400 bg-pink-900/20 border-pink-800/40",
+    agents: [],
+  },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -117,6 +125,7 @@ const AGENT_RECOMMENDATIONS: Record<string, { name: string; slug: string; desc: 
     { name: "Tax Strategist", slug: "tax-strategy", desc: "Deductions, business structure, tax planning" },
     { name: "Bookkeeper", slug: "bookkeeper", desc: "Record-keeping, invoicing, expense tracking" },
   ],
+  "meet-bestie": [],
 };
 
 /* ------------------------------------------------------------------ */
@@ -176,7 +185,11 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
 
   async function handleNext() {
     if (step === 1) await saveGoals();
-    const next = step + 1;
+    let next = step + 1;
+    // If the only goal is "meet-bestie", skip agent recommendations (step 2) → go to bestie (step 3)
+    if (next === 2 && selectedGoals.length === 1 && selectedGoals[0] === "meet-bestie") {
+      next = 3;
+    }
     await saveStep(next);
     setStep(next);
   }
@@ -504,7 +517,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           )}
 
           <div className="flex items-center justify-between">
-            <Button variant="ghost" onClick={() => setStep(2)} className="text-zinc-400">
+            <Button variant="ghost" onClick={() => setStep(selectedGoals.length === 1 && selectedGoals[0] === "meet-bestie" ? 1 : 2)} className="text-zinc-400">
               <ArrowLeft className="h-4 w-4 mr-2" /> Back
             </Button>
             <Button
