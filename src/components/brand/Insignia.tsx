@@ -1,10 +1,7 @@
 /**
- * Stone AI Insignia — Concept E "The Meridian Mark"
- * 8 converging lines at 45° intervals with a gap before center.
- * Center dot = "The Stone" in gold (#C9A84C).
- * Lines = Cyan (#00D4AA) for Stone AI, Gold for Best AI.
- *
- * Selected from Three-Headed Monster brand system, March 3 2026.
+ * Umbrella Brand Insignia — Concept D "Meridian"
+ * Cyan circle with "M" monogram, Meridian by Stone.
+ * Selected from Three-Headed Monster umbrella brand system.
  */
 
 interface InsigniaProps {
@@ -14,38 +11,42 @@ interface InsigniaProps {
 }
 
 export function Insignia({ size = 40, variant = "primary", className = "" }: InsigniaProps) {
-  const lineColor =
-    variant === "primary" ? "#00D4AA" :
+  const ringColor =
+    variant === "primary" ? "#22d3ee" :
     variant === "warm" ? "#C9A84C" :
     "#FFFFFF";
 
-  const dotColor = "#C9A84C";
-  const strokeWidth = size > 30 ? 1.8 : 1.4;
+  const letterColor = ringColor;
+  const strokeWidth = size > 30 ? 1.5 : 1.2;
 
   return (
     <svg
       width={size}
       height={size}
-      viewBox="0 0 250 250"
+      viewBox="0 0 48 48"
       className={`shrink-0 ${className}`}
-      aria-label="Stone AI insignia"
+      aria-label="Meridian insignia"
     >
-      {/* 8 meridian lines — stop short of center (the gap creates tension) */}
-      <g stroke={lineColor} strokeWidth={strokeWidth * (250 / size)} strokeLinecap="round">
-        {/* Vertical */}
-        <line x1="125" y1="15" x2="125" y2="95" />
-        <line x1="125" y1="155" x2="125" y2="235" />
-        {/* Horizontal */}
-        <line x1="15" y1="125" x2="95" y2="125" />
-        <line x1="155" y1="125" x2="235" y2="125" />
-        {/* Diagonals */}
-        <line x1="47" y1="47" x2="99" y2="99" />
-        <line x1="203" y1="203" x2="151" y2="151" />
-        <line x1="203" y1="47" x2="151" y2="99" />
-        <line x1="47" y1="203" x2="99" y2="151" />
-      </g>
-      {/* The Stone — center dot */}
-      <circle cx="125" cy="125" r={size > 30 ? 7 : 10} fill={dotColor} />
+      <circle
+        cx="24"
+        cy="24"
+        r="22"
+        fill="none"
+        stroke={ringColor}
+        strokeWidth={strokeWidth * (48 / size)}
+      />
+      <text
+        x="24"
+        y="25"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fill={letterColor}
+        fontFamily="'JetBrains Mono', monospace"
+        fontWeight="700"
+        fontSize="18"
+      >
+        M
+      </text>
     </svg>
   );
 }
