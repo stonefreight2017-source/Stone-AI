@@ -435,15 +435,12 @@ export function SettingsClient({
       {/* Referral Program */}
       <ReferralCard />
 
-      {/* Privacy Choices (CCPA Compliance) */}
-      <PrivacyChoicesCard />
-
-      {/* Security */}
+      {/* Security & Privacy */}
       <Card className="bg-zinc-900 border-zinc-800">
         <CardHeader className="pb-3">
           <CardTitle className="text-zinc-300 text-sm font-medium flex items-center gap-2">
             <Shield className="h-4 w-4" />
-            Security
+            Security &amp; Privacy
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3 text-sm text-zinc-400">
@@ -467,6 +464,7 @@ export function SettingsClient({
             <Check className="h-4 w-4 text-emerald-400" />
             <span>Full audit logging for security events</span>
           </div>
+          <PrivacyChoicesInline />
         </CardContent>
       </Card>
     </div>
@@ -615,10 +613,11 @@ function ReferralCard() {
   );
 }
 
-// ─── Privacy Choices (CCPA Compliance) ───────────────────
+// ─── Privacy Choices (inline within Security card) ───────
 
-function PrivacyChoicesCard() {
+function PrivacyChoicesInline() {
   const [optedOut, setOptedOut] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     setOptedOut(localStorage.getItem("stone_ccpa_optout") === "true");
@@ -635,45 +634,40 @@ function PrivacyChoicesCard() {
   }
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800">
-      <CardHeader className="pb-3">
-        <CardTitle className="text-zinc-300 text-sm font-medium flex items-center gap-2">
-          <Shield className="h-4 w-4" />
-          Privacy Choices
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3 text-sm text-zinc-400">
-        <p>
-          We use anonymized interest segments to display relevant content on ad-supported tiers.
-          Your conversation content is never shared with advertisers.
-        </p>
-        <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg p-3">
-          <div>
-            <p className="text-zinc-300 font-medium">Personalized Ads</p>
-            <p className="text-xs text-zinc-500">
-              {optedOut
-                ? "You have opted out of personalized advertising."
-                : "Contextual ads based on usage patterns."}
-            </p>
+    <div className="pt-2 mt-2 border-t border-zinc-800">
+      <button
+        type="button"
+        onClick={() => setExpanded(!expanded)}
+        className="flex items-center gap-2 text-xs text-zinc-500 hover:text-zinc-400 transition-colors w-full"
+      >
+        <span>{expanded ? "\u25BC" : "\u25B6"}</span>
+        <span>Data &amp; Privacy Preferences</span>
+      </button>
+      {expanded && (
+        <div className="mt-3 space-y-2">
+          <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg p-3">
+            <div>
+              <p className="text-zinc-300 font-medium text-xs">Ad Personalization</p>
+              <p className="text-[10px] text-zinc-600">
+                {optedOut ? "Opted out." : "Contextual relevance enabled."}
+              </p>
+            </div>
+            {optedOut ? (
+              <Button size="sm" variant="outline" onClick={handleOptIn} className="text-[10px] h-7 px-2">
+                Re-enable
+              </Button>
+            ) : (
+              <Button size="sm" variant="outline" onClick={handleOptOut} className="text-[10px] h-7 px-2 text-zinc-600">
+                Opt Out
+              </Button>
+            )}
           </div>
-          {optedOut ? (
-            <Button size="sm" variant="outline" onClick={handleOptIn} className="text-xs">
-              Opt Back In
-            </Button>
-          ) : (
-            <Button size="sm" variant="outline" onClick={handleOptOut} className="text-xs text-zinc-500">
-              Do Not Sell My Info
-            </Button>
-          )}
+          <p className="text-[10px] text-zinc-700">
+            Per CCPA/CPRA, you may opt out of personalized advertising.{" "}
+            <a href="/privacy" className="text-zinc-600 hover:text-zinc-500 underline">Privacy Policy</a>
+          </p>
         </div>
-        <p className="text-xs text-zinc-600">
-          Under the California Consumer Privacy Act (CCPA), you have the right to opt out of the
-          sale or sharing of personal information.{" "}
-          <a href="/privacy" className="text-zinc-500 hover:text-zinc-400 underline">
-            Read our Privacy Policy
-          </a>
-        </p>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 }
