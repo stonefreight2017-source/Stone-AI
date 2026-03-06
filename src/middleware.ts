@@ -10,6 +10,9 @@ const isPublicRoute = createRouteMatcher([
   "/acceptable-use",
   "/refund",
   "/reseller-agreement",
+  "/about",
+  "/blog",
+  "/security",
   "/sign-in(.*)",
   "/sign-up(.*)",
   "/api/stripe/webhook",
@@ -36,11 +39,11 @@ const SECURITY_HEADERS: Record<string, string> = {
   // Content Security Policy — defense-in-depth against XSS, data injection
   "Content-Security-Policy": [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com https://static.cloudflareinsights.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
-    "connect-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://api.stripe.com https://challenges.cloudflare.com wss:",
+    "connect-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://api.stripe.com https://challenges.cloudflare.com https://clerk-telemetry.com wss:",
     "frame-src 'self' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://js.stripe.com https://challenges.cloudflare.com",
     "worker-src 'self' blob:",
     "form-action 'self'",
