@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { Loader2, StopCircle, Zap, Brain, Info, X } from "lucide-react";
+import { Loader2, StopCircle, Zap, Brain, Info, X, Mic, MicOff, Volume2, VolumeX } from "lucide-react";
 import { ThinkingIndicator } from "@/components/chat/ThinkingIndicator";
 import { MessageRenderer } from "@/components/chat/MessageRenderer";
 import { toast } from "sonner";
@@ -77,6 +77,26 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
   const [inputValue, setInputValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  // Voice chat state
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const [voiceLang, setVoiceLang] = useState("en-US");
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  const recognitionRef = useRef<any>(null);
+  const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const sendMessageRef = useRef<((msg: { text: string }) => void) | null>(null);
+
+  const VOICE_LANGUAGES = [
+    { code: "en-US", label: "English", flag: "EN" },
+    { code: "zh-CN", label: "Chinese", flag: "ZH" },
+    { code: "es-ES", label: "Spanish", flag: "ES" },
+    { code: "hi-IN", label: "Hindi", flag: "HI" },
+    { code: "fr-FR", label: "French", flag: "FR" },
+    { code: "ar-SA", label: "Arabic", flag: "AR" },
+  ];
+
   // Latency tracking
   const sendTimeRef = useRef<number>(0);
   const [latencyMap, setLatencyMap] = useState<Record<string, number>>({});
@@ -131,6 +151,122 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
   const isStreaming = status === "streaming";
   const isSubmitted = status === "submitted";
   const isBusy = isStreaming || isSubmitted;
+
+  // Keep sendMessageRef in sync so voice callbacks can use it
+  useEffect(() => { sendMessageRef.current = sendMessage; }, [sendMessage]);
+
+  // Check browser speech support
+  useEffect(() => {
+    const w = window as any;
+    if ((w.SpeechRecognition || w.webkitSpeechRecognition) && w.speechSynthesis) {
+      setSpeechSupported(true);
+    }
+  }, []);
+
+  // Toggle microphone listening
+  const toggleListening = useCallback(() => {
+    if (isListening) {
+      // Stop
+      recognitionRef.current?.stop();
+      setIsListening(false);
+      return;
+    }
+
+    const w = window as any;
+    const SpeechRecognition = w.SpeechRecognition || w.webkitSpeechRecognition;
+    if (!SpeechRecognition) return;
+
+    const recognition = new SpeechRecognition();
+    recognition.lang = voiceLang;
+    recognition.interimResults = false;
+    recognition.continuous = false;
+    recognition.maxAlternatives = 1;
+
+    recognition.onresult = (event: any) => {
+      const transcript = event.results[0]?.[0]?.transcript;
+      if (transcript && sendMessageRef.current) {
+        sendTimeRef.current = Date.now();
+        firstTokenCaptured.current = false;
+        sendMessageRef.current({ text: transcript });
+      }
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error:", event.error);
+      if (event.error !== "aborted") {
+        toast.error(`Voice error: ${event.error}`);
+      }
+      setIsListening(false);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsListening(true);
+  }, [isListening, voiceLang]);
+
+  // Speak text aloud using SpeechSynthesis
+  const speakText = useCallback((text: string) => {
+    if (!voiceEnabled) return;
+    const synth = window.speechSynthesis;
+    synth.cancel(); // stop any current speech
+
+    // Strip markdown formatting for cleaner speech
+    const cleanText = text
+      .replace(/\*\*(.+?)\*\*/g, "$1")
+      .replace(/\*(.+?)\*/g, "$1")
+      .replace(/`(.+?)`/g, "$1")
+      .replace(/#{1,6}\s/g, "")
+      .replace(/\[(.+?)\]\(.+?\)/g, "$1")
+      .replace(/[_~]/g, "");
+
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = voiceLang;
+
+    // Try to find a voice matching the language
+    const voices = synth.getVoices();
+    const langPrefix = voiceLang.split("-")[0];
+    const matchingVoice = voices.find((v) => v.lang.startsWith(langPrefix));
+    if (matchingVoice) utterance.voice = matchingVoice;
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    synthRef.current = utterance;
+    synth.speak(utterance);
+  }, [voiceEnabled, voiceLang]);
+
+  // Stop speaking
+  const stopSpeaking = useCallback(() => {
+    window.speechSynthesis.cancel();
+    setIsSpeaking(false);
+  }, []);
+
+  // Auto-speak assistant messages when voice is enabled
+  useEffect(() => {
+    if (!voiceEnabled || !messages.length || isBusy) return;
+    const last = messages[messages.length - 1];
+    if (last.role === "assistant" && last.parts) {
+      const text = last.parts
+        .filter((p): p is { type: "text"; text: string } => p.type === "text")
+        .map((p) => p.text)
+        .join("");
+      if (text) speakText(text);
+    }
+  }, [voiceEnabled, messages, isBusy, speakText]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      recognitionRef.current?.stop();
+      window.speechSynthesis.cancel();
+    };
+  }, []);
 
   // Capture first-token latency
   useEffect(() => {
@@ -201,6 +337,37 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
             <div className="flex items-center gap-1 text-[10px] text-purple-400/60">
               <Brain className="h-3 w-3" />
               <span>Remembers you</span>
+            </div>
+          )}
+          {speechSupported && (
+            <div className="flex items-center gap-1">
+              <select
+                value={voiceLang}
+                onChange={(e) => setVoiceLang(e.target.value)}
+                className="h-7 bg-transparent border border-zinc-700/50 rounded text-[10px] text-zinc-400 px-1 outline-none focus:border-pink-500 cursor-pointer"
+                title="Voice language"
+              >
+                {VOICE_LANGUAGES.map((l) => (
+                  <option key={l.code} value={l.code} className="bg-zinc-900">{l.flag}</option>
+                ))}
+              </select>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "h-7 w-7",
+                  voiceEnabled ? "text-pink-400 hover:text-pink-300" : "text-zinc-500 hover:text-zinc-300"
+                )}
+                onClick={() => {
+                  const next = !voiceEnabled;
+                  setVoiceEnabled(next);
+                  if (!next) stopSpeaking();
+                }}
+                aria-label={voiceEnabled ? "Disable voice mode" : "Enable voice mode"}
+                title={voiceEnabled ? "Voice mode on — Bestie will speak responses" : "Enable voice mode"}
+              >
+                {voiceEnabled ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+              </Button>
             </div>
           )}
           {isBusy && (
@@ -319,6 +486,30 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
 
       {/* Warm-themed input */}
       <div className="border-t border-pink-900/30 p-4 bg-gradient-to-r from-pink-950/10 to-purple-950/10">
+        {/* Voice status indicator */}
+        {(isListening || isSpeaking) && (
+          <div className="flex items-center justify-center gap-2 mb-2">
+            {isListening && (
+              <div className="flex items-center gap-1.5 text-xs text-red-400 animate-pulse">
+                <span className="h-2 w-2 rounded-full bg-red-500" />
+                Listening... speak now
+              </div>
+            )}
+            {isSpeaking && (
+              <div className="flex items-center gap-1.5 text-xs text-purple-400">
+                <Volume2 className="h-3 w-3 animate-pulse" />
+                {bestieName} is speaking...
+                <button
+                  onClick={stopSpeaking}
+                  className="text-zinc-500 hover:text-white text-[10px] underline ml-1"
+                >
+                  Stop
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         <div className="flex gap-2 max-w-3xl mx-auto">
           <Textarea
             ref={textareaRef}
@@ -326,11 +517,34 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={`Tell ${bestieName} anything...`}
-            disabled={isBusy}
-            className="min-h-[44px] max-h-[200px] resize-none bg-zinc-800 border-pink-800/30 text-white placeholder:text-pink-300/30 focus:border-pink-500"
+            placeholder={isListening ? "Listening..." : `Tell ${bestieName} anything...`}
+            disabled={isBusy || isListening}
+            className={cn(
+              "min-h-[44px] max-h-[200px] resize-none bg-zinc-800 border-pink-800/30 text-white placeholder:text-pink-300/30 focus:border-pink-500",
+              isListening && "border-red-500/50 placeholder:text-red-300/50"
+            )}
             rows={1}
           />
+
+          {/* Mic button */}
+          {speechSupported && (
+            <Button
+              onClick={toggleListening}
+              disabled={isBusy}
+              size="icon"
+              variant="ghost"
+              aria-label={isListening ? "Stop listening" : "Start voice input"}
+              className={cn(
+                "shrink-0 h-[44px] w-[44px] rounded-full transition-all",
+                isListening
+                  ? "bg-red-600 hover:bg-red-500 text-white animate-pulse"
+                  : "bg-zinc-800 hover:bg-zinc-700 text-pink-400 border border-pink-800/30"
+              )}
+            >
+              {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
+            </Button>
+          )}
+
           <Button
             onClick={handleSend}
             disabled={!inputValue.trim() || isBusy}

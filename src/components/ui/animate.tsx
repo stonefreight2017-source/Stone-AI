@@ -19,7 +19,7 @@ export function AnimateOnScroll({
   duration = 0.6,
 }: AnimateOnScrollProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
+  const isInView = useInView(ref, { once: true, margin: "100px" });
 
   const directionMap = {
     up: { y: 40, x: 0 },
@@ -56,7 +56,7 @@ export function StaggerChildren({
   staggerDelay = 0.1,
 }: StaggerChildrenProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
+  const isInView = useInView(ref, { once: true, margin: "100px" });
 
   return (
     <motion.div

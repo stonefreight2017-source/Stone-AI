@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Heart, Loader2, Sparkles } from "lucide-react";
+import { ArrowLeft, ArrowRight, Heart, Loader2, Sparkles, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { TraitPicker, StylePicker, ExpertisePicker } from "@/components/bestie/PersonalityPicker";
 import { toast } from "sonner";
-import type { BestieTrait, BestieStyle, BestieExpertise } from "@/lib/bestie-validators";
+import type { BestieTrait, BestieStyle, BestieExpertise, BestieLanguage } from "@/lib/bestie-validators";
+import { BESTIE_LANGUAGES, BESTIE_LANGUAGE_LABELS } from "@/lib/bestie-validators";
 
 function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], style: BestieStyle): string {
   const greetings: Record<BestieStyle, (n: string) => string> = {
@@ -35,14 +37,23 @@ export default function CreateBestiePage() {
   const [step, setStep] = useState(1);
   const [isCreating, setIsCreating] = useState(false);
 
-  // Step 1: Name & Avatar
+  // Step 1: Name, Avatar & Language
   const [name, setName] = useState("");
   const [avatarEmoji, setAvatarEmoji] = useState("\uD83D\uDC9C");
+  const [language, setLanguage] = useState<BestieLanguage>("en");
 
   // Step 2: Personality
   const [traits, setTraits] = useState<BestieTrait[]>([]);
   const [style, setStyle] = useState<BestieStyle | null>(null);
   const [expertise, setExpertise] = useState<BestieExpertise[]>([]);
+
+  // Step 3: About Me — things a friend should know
+  const [aboutName, setAboutName] = useState("");
+  const [aboutBirthday, setAboutBirthday] = useState("");
+  const [aboutSiblings, setAboutSiblings] = useState("");
+  const [aboutLocation, setAboutLocation] = useState("");
+  const [aboutFavorites, setAboutFavorites] = useState("");
+  const [aboutOther, setAboutOther] = useState("");
 
   const canNext1 = name.trim().length >= 2 && name.trim().length <= 20;
   const canNext2 = traits.length === 3 && style !== null && expertise.length >= 1;
@@ -60,6 +71,15 @@ export default function CreateBestiePage() {
           style,
           expertise,
           avatarEmoji,
+          language,
+          aboutMe: {
+            name: aboutName.trim() || undefined,
+            birthday: aboutBirthday.trim() || undefined,
+            siblings: aboutSiblings.trim() || undefined,
+            location: aboutLocation.trim() || undefined,
+            favorites: aboutFavorites.trim() || undefined,
+            other: aboutOther.trim() || undefined,
+          },
         }),
       });
       const data = await res.json();
@@ -99,13 +119,13 @@ export default function CreateBestiePage() {
         </Button>
         <div>
           <h1 className="text-xl font-bold text-white">Create Your Bestie</h1>
-          <p className="text-xs text-pink-400/70">Step {step} of 3</p>
+          <p className="text-xs text-pink-400/70">Step {step} of 4</p>
         </div>
       </div>
 
       {/* Progress bar */}
       <div className="flex gap-2">
-        {[1, 2, 3].map((s) => (
+        {[1, 2, 3, 4].map((s) => (
           <div
             key={s}
             className={`h-1 flex-1 rounded-full transition-colors ${
@@ -157,6 +177,31 @@ export default function CreateBestiePage() {
             </div>
           </div>
 
+          {/* Language picker */}
+          <div>
+            <p className="text-sm text-zinc-400 mb-3 text-center flex items-center justify-center gap-1.5">
+              <Globe className="h-4 w-4" />
+              What language should {name || "your Bestie"} speak?
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 max-w-md mx-auto">
+              {BESTIE_LANGUAGES.map((lang) => (
+                <button
+                  key={lang}
+                  type="button"
+                  onClick={() => setLanguage(lang)}
+                  className={`p-2.5 rounded-lg text-center transition-all ${
+                    language === lang
+                      ? "bg-pink-500/20 border-2 border-pink-500"
+                      : "bg-zinc-800 border border-zinc-700 hover:border-pink-700"
+                  }`}
+                >
+                  <p className="text-[10px] font-bold text-pink-400">{lang.toUpperCase()}</p>
+                  <p className="text-[10px] text-zinc-400 mt-0.5">{BESTIE_LANGUAGE_LABELS[lang]}</p>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <Button
             onClick={() => setStep(2)}
             disabled={!canNext1}
@@ -180,14 +225,96 @@ export default function CreateBestiePage() {
             disabled={!canNext2}
             className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white h-12"
           >
+            Next: About You
+            <ArrowRight className="h-4 w-4 ml-2" />
+          </Button>
+        </div>
+      )}
+
+      {/* Step 3: About Me — things a friend should know */}
+      {step === 3 && (
+        <div className="space-y-6">
+          <div className="text-center space-y-2">
+            <p className="text-lg text-zinc-300">Tell {name} about yourself</p>
+            <p className="text-sm text-zinc-500">Things a friend should know. All fields are optional.</p>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Your name</label>
+              <Input
+                value={aboutName}
+                onChange={(e) => setAboutName(e.target.value)}
+                placeholder="What should they call you?"
+                maxLength={50}
+                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Birthday</label>
+              <Input
+                value={aboutBirthday}
+                onChange={(e) => setAboutBirthday(e.target.value)}
+                placeholder="e.g. March 15, July 4th"
+                maxLength={20}
+                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Siblings</label>
+              <Input
+                value={aboutSiblings}
+                onChange={(e) => setAboutSiblings(e.target.value)}
+                placeholder="e.g. 2 brothers, 1 sister"
+                maxLength={100}
+                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Where you live</label>
+              <Input
+                value={aboutLocation}
+                onChange={(e) => setAboutLocation(e.target.value)}
+                placeholder="e.g. Austin, Texas"
+                maxLength={100}
+                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Favorites</label>
+              <Input
+                value={aboutFavorites}
+                onChange={(e) => setAboutFavorites(e.target.value)}
+                placeholder="e.g. Coffee, hip-hop, sci-fi movies"
+                maxLength={200}
+                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+              />
+            </div>
+            <div>
+              <label className="text-xs text-zinc-400 mb-1 block">Anything else they should know</label>
+              <Textarea
+                value={aboutOther}
+                onChange={(e) => setAboutOther(e.target.value)}
+                placeholder="Night owl, dog person, learning guitar..."
+                maxLength={500}
+                rows={3}
+                className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600 resize-none"
+              />
+            </div>
+          </div>
+
+          <Button
+            onClick={() => setStep(4)}
+            className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white h-12"
+          >
             Next: Preview
             <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </div>
       )}
 
-      {/* Step 3: Preview & Confirm */}
-      {step === 3 && style && (
+      {/* Step 4: Preview & Confirm */}
+      {step === 4 && style && (
         <div className="space-y-6">
           <div className="text-center space-y-2">
             <div className="text-5xl">{avatarEmoji}</div>
@@ -202,7 +329,26 @@ export default function CreateBestiePage() {
             <p className="text-sm text-purple-400">
               {style === "casual" ? "BFF Vibes" : style === "supportive" ? "Life Coach" : style === "intellectual" ? "Mentor" : "Hype Squad"}
             </p>
+            <p className="text-xs text-zinc-500 flex items-center justify-center gap-1">
+              <Globe className="h-3 w-3" />
+              Speaks {BESTIE_LANGUAGE_LABELS[language]}
+            </p>
           </div>
+
+          {/* About Me summary */}
+          {(aboutName || aboutBirthday || aboutSiblings || aboutLocation || aboutFavorites || aboutOther) && (
+            <div className="bg-zinc-800/50 rounded-lg p-4 border border-zinc-700/50">
+              <p className="text-xs text-pink-400 font-medium mb-2">What {name} knows about you:</p>
+              <div className="space-y-1 text-xs text-zinc-400">
+                {aboutName && <p>Name: <span className="text-zinc-300">{aboutName}</span></p>}
+                {aboutBirthday && <p>Birthday: <span className="text-zinc-300">{aboutBirthday}</span></p>}
+                {aboutSiblings && <p>Siblings: <span className="text-zinc-300">{aboutSiblings}</span></p>}
+                {aboutLocation && <p>Location: <span className="text-zinc-300">{aboutLocation}</span></p>}
+                {aboutFavorites && <p>Favorites: <span className="text-zinc-300">{aboutFavorites}</span></p>}
+                {aboutOther && <p>Other: <span className="text-zinc-300">{aboutOther}</span></p>}
+              </div>
+            </div>
+          )}
 
           {/* Preview greeting */}
           <div className="bg-zinc-800 rounded-lg p-4 border border-zinc-700">

@@ -28,7 +28,7 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   // Permissions policy — disable dangerous browser features
   "Permissions-Policy":
-    "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+    "camera=(), microphone=(self), geolocation=(), interest-cohort=()",
   // XSS protection (legacy browsers)
   "X-XSS-Protection": "1; mode=block",
   // Content Security Policy — defense-in-depth against XSS, data injection
@@ -60,9 +60,14 @@ const SECURITY_HEADERS: Record<string, string> = {
 const API_CACHE_HEADER = "no-store, no-cache, must-revalidate, private";
 
 export default clerkMiddleware(async (auth, req) => {
-  // Protect non-public routes
+  // Protect non-public routes — redirect unauthenticated users to sign-in
   if (!isPublicRoute(req)) {
-    await auth.protect();
+    const { userId } = await auth();
+    if (!userId) {
+      const signInUrl = new URL("/sign-in", req.url);
+      signInUrl.searchParams.set("redirect_url", req.url);
+      return NextResponse.redirect(signInUrl);
+    }
   }
 
   // Create response with security headers
@@ -71,6 +76,15 @@ export default clerkMiddleware(async (auth, req) => {
   // Apply all security headers
   for (const [key, value] of Object.entries(SECURITY_HEADERS)) {
     response.headers.set(key, value);
+  }
+
+  // Auth pages (sign-in/sign-up) need relaxed policies for Clerk to render
+  const pathname = req.nextUrl.pathname;
+  if (pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up")) {
+    response.headers.delete("Cross-Origin-Embedder-Policy");
+    response.headers.delete("Cross-Origin-Opener-Policy");
+    response.headers.delete("Cross-Origin-Resource-Policy");
+    response.headers.delete("Content-Security-Policy");
   }
 
   // API routes: ensure no caching, add CORS headers

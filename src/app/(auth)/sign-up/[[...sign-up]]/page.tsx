@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { SignUp } from "@clerk/nextjs";
 
-export default function SignUpPage() {
+function SignUpInner() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -15,4 +15,12 @@ export default function SignUpPage() {
   }, [searchParams]);
 
   return <SignUp />;
+}
+
+export default function SignUpPage() {
+  return (
+    <Suspense fallback={<div className="text-white">Loading...</div>}>
+      <SignUpInner />
+    </Suspense>
+  );
 }

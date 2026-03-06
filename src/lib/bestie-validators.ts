@@ -1,5 +1,25 @@
 import { z } from "zod";
 
+export const BESTIE_LANGUAGES = [
+  "en",
+  "zh",
+  "es",
+  "hi",
+  "fr",
+  "ar",
+] as const;
+
+export type BestieLanguage = (typeof BESTIE_LANGUAGES)[number];
+
+export const BESTIE_LANGUAGE_LABELS: Record<BestieLanguage, string> = {
+  en: "English",
+  zh: "Mandarin Chinese",
+  es: "Spanish",
+  hi: "Hindi",
+  fr: "French",
+  ar: "Arabic",
+};
+
 export const BESTIE_TRAITS = [
   "empathetic",
   "witty",
@@ -50,6 +70,15 @@ export const createBestieSchema = z.object({
     .min(1, "Pick at least 1 expertise area")
     .max(3, "Pick at most 3 expertise areas"),
   avatarEmoji: z.string().min(1).max(4).default("\uD83D\uDC9C"),
+  language: z.enum(BESTIE_LANGUAGES).default("en"),
+  aboutMe: z.object({
+    name: z.string().max(50).optional(),
+    birthday: z.string().max(20).optional(),
+    siblings: z.string().max(100).optional(),
+    location: z.string().max(100).optional(),
+    favorites: z.string().max(200).optional(),
+    other: z.string().max(500).optional(),
+  }).optional(),
 });
 
 export const updateBestieSchema = createBestieSchema.partial();

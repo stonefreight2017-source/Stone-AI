@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, traits, style, expertise, avatarEmoji } = parsed.data;
+    const { name, traits, style, expertise, avatarEmoji, language, aboutMe } = parsed.data;
 
     // Check bestie limit
     const activeCount = await db.bestieProfile.count({
@@ -127,11 +127,12 @@ export async function POST(req: NextRequest) {
     }
 
     // Create or reactivate
+    const personalityData = { traits, style, expertise, language: language || "en" };
     const bestie = existing
       ? await db.bestieProfile.update({
           where: { id: existing.id },
           data: {
-            personality: { traits, style, expertise },
+            personality: personalityData,
             avatarEmoji,
             isActive: true,
           },
@@ -140,10 +141,33 @@ export async function POST(req: NextRequest) {
           data: {
             userId: user.id,
             name,
-            personality: { traits, style, expertise },
+            personality: personalityData,
             avatarEmoji,
           },
         });
+
+    // Save "About Me" as bestie memories so the bestie knows the user
+    if (aboutMe) {
+      const memoryEntries: { key: string; value: string }[] = [];
+      if (aboutMe.name) memoryEntries.push({ key: "user_name", value: aboutMe.name });
+      if (aboutMe.birthday) memoryEntries.push({ key: "user_birthday", value: aboutMe.birthday });
+      if (aboutMe.siblings) memoryEntries.push({ key: "user_siblings", value: aboutMe.siblings });
+      if (aboutMe.location) memoryEntries.push({ key: "user_location", value: aboutMe.location });
+      if (aboutMe.favorites) memoryEntries.push({ key: "user_favorites", value: aboutMe.favorites });
+      if (aboutMe.other) memoryEntries.push({ key: "user_other", value: aboutMe.other });
+
+      if (memoryEntries.length > 0) {
+        await db.bestieMemory.createMany({
+          data: memoryEntries.map((m) => ({
+            bestieId: bestie.id,
+            userId: user.id,
+            key: m.key,
+            value: m.value,
+          })),
+          skipDuplicates: true,
+        });
+      }
+    }
 
     return Response.json({ bestie }, { status: 201 });
   } catch (error) {
