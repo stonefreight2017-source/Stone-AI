@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI - Concept C: Circuit Flow</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: #080c10;
+    color: #e0e0e8;
+    overflow-x: hidden;
+  }
+
+  /* Circuit pattern background */
+  .circuit-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    opacity: 0.06;
+    background-image:
+      linear-gradient(rgba(0, 255, 200, 0.3) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 200, 0.3) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Central glowing node (N-S axis) */
+  .central-node {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(0,255,200,0.15) 0%, rgba(0,255,200,0.02) 30%, rgba(0,255,200,0.02) 70%, rgba(212,175,55,0.15) 100%);
+    transform: translateX(-50%);
+    z-index: 0;
+  }
+  .central-node::before {
+    content: 'N';
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(0,255,200,0.3);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .central-node::after {
+    content: 'S';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(212,175,55,0.3);
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Nav */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 22px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 36px; height: 36px;
+    border: 2px solid #00ffc8;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .logo-mark::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 2px; bottom: 2px;
+    width: 1px;
+    background: linear-gradient(180deg, #00ffc8, #d4af37);
+    transform: translateX(-50%);
+  }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    color: #556; text-decoration: none; font-size: 14px;
+    font-weight: 500; transition: color 0.2s;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .nav-links a:hover { color: #00ffc8; }
+
+  .btn-neon {
+    background: transparent;
+    color: #00ffc8;
+    border: 1px solid #00ffc8;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .btn-neon:hover {
+    background: rgba(0,255,200,0.1);
+    box-shadow: 0 0 20px rgba(0,255,200,0.2);
+  }
+  .btn-filled {
+    background: #00ffc8;
+    color: #080c10;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .btn-filled:hover {
+    box-shadow: 0 0 30px rgba(0,255,200,0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 160px 48px 100px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid rgba(0,255,200,0.3);
+    color: #00ffc8;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    padding: 6px 16px;
+    margin-bottom: 40px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -4px;
+    margin-bottom: 32px;
+  }
+  .hero h1 .accent {
+    background: linear-gradient(90deg, #00ffc8, #00b4d8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 18px;
+    color: #667;
+    line-height: 1.7;
+    max-width: 550px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+  }
+  .hero-buttons { display: flex; gap: 16px; justify-content: center; }
+
+  /* Data stream visualization */
+  .data-stream {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px 100px;
+    display: grid;
+    grid-template-columns: 1fr 2px 1fr;
+    gap: 0;
+  }
+  .stream-col { padding: 40px; }
+  .stream-divider {
+    background: linear-gradient(180deg, rgba(0,255,200,0.3), rgba(212,175,55,0.3));
+    position: relative;
+  }
+  .stream-divider .node {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #00ffc8;
+    box-shadow: 0 0 16px rgba(0,255,200,0.5);
+  }
+  .stream-divider .node:nth-child(1) { top: 20%; }
+  .stream-divider .node:nth-child(2) { top: 50%; background: #d4af37; box-shadow: 0 0 16px rgba(212,175,55,0.5); }
+  .stream-divider .node:nth-child(3) { top: 80%; }
+
+  .stream-item {
+    margin-bottom: 36px;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.01);
+    transition: all 0.2s;
+  }
+  .stream-item:hover {
+    border-color: rgba(0,255,200,0.15);
+    background: rgba(0,255,200,0.02);
+  }
+  .stream-item h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #e0e0e8;
+  }
+  .stream-item p { font-size: 13px; color: #556; line-height: 1.6; }
+  .stream-item .tag {
+    display: inline-block;
+    background: rgba(0,255,200,0.1);
+    color: #00ffc8;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  /* Terminal-style CTA */
+  .terminal-cta {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 80px 48px;
+    text-align: center;
+  }
+  .terminal-box {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(0,255,200,0.15);
+    border-radius: 8px;
+    padding: 32px;
+    font-family: 'Space Grotesk', monospace;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+  .terminal-box .prompt {
+    color: #00ffc8;
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+  .terminal-box .output {
+    color: #556;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .terminal-box .highlight { color: #d4af37; }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 24px 48px;
+    text-align: center;
+    color: #334;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .concept-label {
+    position: fixed; bottom: 16px; right: 16px;
+    background: rgba(0,255,200,0.1); color: #00ffc8;
+    padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: 600;
+    z-index: 999; border: 1px solid rgba(0,255,200,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="circuit-bg"></div>
+<div class="central-node"></div>
+
+<div class="content">
+  <nav>
+    <div class="logo">
+      <div class="logo-mark"></div>
+      Stone AI
+    </div>
+    <div class="nav-links">
+      <a href="#">Platform</a>
+      <a href="#">Agents</a>
+      <a href="#">API</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="btn-neon">Launch</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Local Inference &middot; Sub-100ms</div>
+    <h1>
+      <span class="accent">Raw</span><br>
+      Intelligence
+    </h1>
+    <p>
+      30 AI agents running on bare metal. No cloud dependency, no latency tax,
+      no data leaks. GPU-native intelligence that thinks faster than you type.
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-filled">Deploy Now &rarr;</a>
+      <a href="#" class="btn-neon">Documentation</a>
+    </div>
+  </section>
+
+  <section class="data-stream">
+    <div class="stream-col">
+      <div class="stream-item">
+        <div class="tag">Speed</div>
+        <h3>&lt;100ms First Token</h3>
+        <p>Direct GPU inference bypasses the entire internet stack. Your query hits silicon before cloud AI receives the HTTP request.</p>
+      </div>
+      <div class="stream-item">
+        <div class="tag">Intelligence</div>
+        <h3>70B Parameters</h3>
+        <p>Running the latest open-weight frontier models. Smart mode adds GPT-4o for tasks that need the absolute cutting edge.</p>
+      </div>
+      <div class="stream-item">
+        <div class="tag">Scale</div>
+        <h3>API + White Label</h3>
+        <p>Build AI products on Stone AI infrastructure. Fixed monthly cost, no per-token surprises. Your brand, our engine.</p>
+      </div>
+    </div>
+
+    <div class="stream-divider">
+      <div class="node"></div>
+      <div class="node"></div>
+      <div class="node"></div>
+    </div>
+
+    <div class="stream-col">
+      <div class="stream-item">
+        <div class="tag" style="background:rgba(212,175,55,0.1);color:#d4af37;">Privacy</div>
+        <h3>Zero External Calls</h3>
+        <p>Free tier: zero API calls leave your network. Not "privacy-focused" — actually private. HIPAA, GDPR, SOC 2 architecture.</p>
+      </div>
+      <div class="stream-item">
+        <div class="tag" style="background:rgba(212,175,55,0.1);color:#d4af37;">Agents</div>
+        <h3>30 Domain Experts</h3>
+        <p>Not chatbots. Each agent has RAG knowledge, persistent memory, and produces client-ready deliverables you can sell.</p>
+      </div>
+      <div class="stream-item">
+        <div class="tag" style="background:rgba(212,175,55,0.1);color:#d4af37;">Community</div>
+        <h3>Builders Network</h3>
+        <p>Share strategies, showcase wins, learn from real users. A community of entrepreneurs building with AI.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="terminal-cta">
+    <div class="terminal-box">
+      <div class="prompt">$ stone-ai status</div>
+      <div class="output">
+        Model: <span class="highlight">Llama 3.1 70B</span><br>
+        Inference: <span class="highlight">Local GPU</span><br>
+        Latency: <span class="highlight">62ms avg</span><br>
+        Agents: <span class="highlight">30 active</span><br>
+        Data privacy: <span class="highlight">100% on-premise</span><br>
+        Status: <span style="color:#00ffc8;">&#9679; ONLINE</span>
+      </div>
+    </div>
+    <a href="#" class="btn-filled" style="font-size:16px;padding:16px 40px;">Start Building &rarr;</a>
+  </section>
+
+  <footer>Stone AI &copy; 2026 &mdash; Local-First Intelligence</footer>
+</div>
+
+<div class="concept-label">Concept C: Circuit Flow</div>
+</body>
+</html>

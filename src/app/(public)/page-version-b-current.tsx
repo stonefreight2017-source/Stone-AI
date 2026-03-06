@@ -32,10 +32,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Insignia } from "@/components/brand/Insignia";
 import { PricingSection } from "./pricing-section";
 import { LandingTabs } from "./landing-tabs";
-import { LandingLanguageToggle } from "./landing-language-toggle";
 import {
   HeroSection,
   ScrollSection,
@@ -47,46 +45,11 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-zinc-900 text-white scroll-smooth relative">
-      {/* ── Themed backdrop: dot grid + radial glows + noise ── */}
-      <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
-        {/* Dot grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-            backgroundSize: "32px 32px",
-          }}
-        />
-        {/* Hero glow — cool cyan */}
-        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[120px]" />
-        {/* Mid-page glow — warm amber (aligns with Bestie section) */}
-        <div className="absolute top-[45%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-500/[0.03] blur-[150px]" />
-        {/* Bottom glow — subtle purple (pricing/closer area) */}
-        <div className="absolute bottom-[5%] left-[-5%] w-[700px] h-[500px] rounded-full bg-purple-500/[0.03] blur-[130px]" />
-        {/* Noise texture overlay */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.03]">
-          <filter id="noiseFilter">
-            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-        </svg>
-      </div>
-      <div className="relative z-10">
-      {/* Insignia — centered */}
-      <div className="flex justify-center pt-8 pb-4">
-        <Insignia size={18} />
-      </div>
-
+    <div className="min-h-screen bg-zinc-900 text-white scroll-smooth">
       {/* Nav */}
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 max-w-6xl mx-auto">
-        <div className="flex items-center gap-3">
-          <LandingLanguageToggle />
-        </div>
+      <nav className="flex items-center justify-between px-4 sm:px-6 py-4 max-w-6xl mx-auto">
+        <span className="text-xl font-bold tracking-tight">Stone AI&#8482;</span>
         <div className="flex items-center gap-3 sm:gap-6">
-          <Link href="#promotions" className="text-sm text-zinc-400 hover:text-white transition-colors hidden sm:inline">
-            Deals
-          </Link>
           <Link href="#pricing" className="text-sm text-zinc-400 hover:text-white transition-colors hidden sm:inline">
             Pricing
           </Link>
@@ -103,6 +66,8 @@ export default function LandingPage() {
           Hero — Clean, Tesla-inspired, premium feel
          ═══════════════════════════════════════════════════════════════ */}
       <section className="relative px-4 sm:px-6 pt-16 sm:pt-24 pb-16 max-w-5xl mx-auto text-center overflow-hidden">
+        {/* Subtle ambient light */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/[0.02] rounded-full blur-[100px] pointer-events-none" />
 
         <HeroSection>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
@@ -114,7 +79,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-            42 AI specialists that think so you don't have to. Your data stays yours.
+            42 AI specialists. Local GPU inference. Your data stays yours.
           </p>
           <p className="text-base text-zinc-500 max-w-md mx-auto mb-10">
             One platform. Instant responses. Starting at $0.
@@ -145,7 +110,7 @@ export default function LandingPage() {
             { value: "<100ms", label: "Response time", sub: "Local mode" },
             { value: "70B", label: "Parameters", sub: "Open-weight model" },
             { value: "$0", label: "Local messages", sub: "Unlimited" },
-            { value: "42", label: "AI thinkers", sub: "So you don't have to" },
+            { value: "42", label: "AI specialists", sub: "Every department" },
           ].map((s) => (
             <StaggerCard key={s.label}>
               <div className="text-center p-4 sm:p-5 rounded-xl bg-zinc-800/50 border border-zinc-700/50">
@@ -178,8 +143,8 @@ export default function LandingPage() {
               Two engines. <span className="text-zinc-400">You choose.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-              Local mode answers before you finish reading the question — fast, free, and completely private.
-              Smart mode brings in GPT-4o when you hit something complex — you choose when, every time.
+              Local mode runs on our GPU — fast, free, and private.
+              Smart mode adds GPT-4o when you need it — opt-in, clearly labeled.
             </p>
           </ScrollSection>
 
@@ -199,23 +164,23 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Answers in under 100ms — faster than switching to a Google tab</span>
+                    <span>Sub-100ms response time</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Your financials, client names, and strategy stay on our servers — never shared</span>
+                    <span>Data never leaves your network</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Unlimited messages — no surprise bill at the end of the month</span>
+                    <span>Unlimited messages (no per-token cost)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>70B parameter model — the same class of AI that powers enterprise tools</span>
+                    <span>70B parameter open-weight model</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 rounded-lg bg-zinc-700/30">
-                  <p className="text-xs text-zinc-400">Best for: daily brainstorming, sensitive client work, running up the score without watching the meter</p>
+                  <p className="text-xs text-zinc-400">Best for: everyday work, sensitive data, unlimited usage</p>
                 </div>
               </Card>
             </AnimateOnScroll>
@@ -234,23 +199,23 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>GPT-4o for the questions that stump everything else — contracts, analysis, strategy</span>
+                    <span>GPT-4o for complex reasoning</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>You choose per message — cloud only fires when you pull the trigger</span>
+                    <span>Data sent to OpenAI (you opt in per message)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>Daily cap means no runaway costs — your budget stays exactly where you set it</span>
+                    <span>Daily cap protects your budget</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>Credit packs for crunch time — big pitch week, product launch, tax season</span>
+                    <span>Credit packs for extra when you need it</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20">
-                  <p className="text-xs text-zinc-400">Best for: investor decks, legal reviews, competitive analysis, anything that needs the sharpest mind in the room</p>
+                  <p className="text-xs text-zinc-400">Best for: complex analysis, creative tasks, cutting-edge reasoning</p>
                 </div>
               </Card>
             </AnimateOnScroll>
@@ -259,9 +224,9 @@ export default function LandingPage() {
           {/* 3 steps */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { step: "1", title: "Sign up free", desc: "Takes 30 seconds. No credit card. You're chatting with 4 AI agents before your coffee gets cold." },
-              { step: "2", title: "Chat locally", desc: "Ask anything — the agent thinks through angles, weighs options, and delivers the answer before you finish the thought. Your data never leaves our network." },
-              { step: "3", title: "Add Smart mode", desc: "Hit a wall? Flip on GPT-4o for the heavy stuff. You pick when. You control the cost." },
+              { step: "1", title: "Sign up free", desc: "No credit card. Instant access to 4 agents and unlimited local AI." },
+              { step: "2", title: "Chat locally", desc: "Messages go to our GPU. Sub-100ms responses. Your data stays private." },
+              { step: "3", title: "Add Smart mode", desc: "Upgrade to unlock GPT-4o, more agents, and cloud AI when you choose." },
             ].map((s) => (
               <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5">
@@ -279,10 +244,10 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="flex-1">
                   <Badge className="mb-2 bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Enterprise</Badge>
-                  <h3 className="text-xl font-bold mb-1">Healthcare, finance, legal — we built for you</h3>
+                  <h3 className="text-xl font-bold mb-1">Regulated industries welcome</h3>
                   <p className="text-sm text-zinc-400">
-                    Patient records, financial models, case files — they stay on our network by default.
-                    Cloud mode only activates when you say so. Your compliance team will love the audit trail.
+                    Local mode keeps sensitive data on-network by default. Smart mode is opt-in — you
+                    control exactly when and if data touches the cloud.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 shrink-0">
@@ -299,12 +264,9 @@ export default function LandingPage() {
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
               42 specialists. <span className="text-zinc-400">Zero salaries.</span>
             </h2>
-            <p className="text-center text-zinc-400 mb-4 max-w-2xl mx-auto">
-              Imagine walking into an office where every desk is staffed — marketing, legal, finance,
-              dev, HR, sales — and they already know your business. That's what this feels like.
-            </p>
-            <p className="text-center text-emerald-400/80 text-sm mb-12 max-w-lg mx-auto">
-              Most of this runs on local AI — so you're getting pro-level output without paying per question.
+            <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
+              Each agent is a domain expert with persistent memory and industry frameworks.
+              They produce client-ready deliverables — not generic AI output.
             </p>
           </ScrollSection>
 
@@ -384,12 +346,11 @@ export default function LandingPage() {
 
           {/* What makes them different — compact */}
           <AnimateOnScroll>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: Zap, title: "Deep Reasoning", desc: "Each agent doesn't just retrieve info — it thinks in your domain. Financial Agent reasons in cashflow models. Marketing Agent thinks in conversion funnels. You get expert analysis, not generic guesses.", color: "text-amber-400" },
-                { icon: Clock, title: "Saves Thinking Time", desc: "The hardest part isn't typing — it's figuring out what to say. Our agents handle strategy, angle selection, prioritization, and analysis. You just review and ship.", color: "text-cyan-400" },
-                { icon: Brain, title: "Persistent Memory", desc: "Tell your Marketing Agent your brand voice once. Three months later, it still nails the tone. Tell your Bestie your goals — she remembers months later. No re-explaining, ever.", color: "text-blue-400" },
-                { icon: Terminal, title: "Production Output", desc: "Proposals, contracts, ad copy, code — hand it to the client or ship it to production. Done.", color: "text-green-400" },
+                { icon: Zap, title: "RAG Knowledge", desc: "Domain-specific frameworks and real data — not hallucinations.", color: "text-amber-400" },
+                { icon: Brain, title: "Persistent Memory", desc: "They remember your business. Session 50 is smarter than session 1.", color: "text-blue-400" },
+                { icon: Terminal, title: "Production Output", desc: "Client-ready deliverables you can ship or sell directly.", color: "text-green-400" },
               ].map((item) => (
                 <div key={item.title} className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
                   <item.icon className={`h-5 w-5 ${item.color} mb-2`} />
@@ -405,36 +366,30 @@ export default function LandingPage() {
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
           <ScrollSection>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-medium mb-6">
                 <Heart className="h-3.5 w-3.5" />
-                AI Right Hand
+                AI Companion
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Not a chatbot. <span className="text-amber-400">Up to 42 experts in one best friend.</span>
+                Not an assistant. <span className="text-pink-400">A presence.</span>
               </h2>
-              <p className="text-zinc-400 max-w-xl mx-auto mb-3">
-                Powered by up to 42 specialized AI agents — career strategist,
-                financial advisor, fitness coach, creative director, and more. Your Bestie{`'`}s knowledge scales with your plan —
-                from 4 expert agents on Free to the full roster of 42 on Executive. Upgrade your plan, upgrade your Bestie{`'`}s brain.
-              </p>
-              <p className="text-zinc-500 max-w-lg mx-auto text-sm">
-                Pick 2 communication styles and she blends them into someone uniquely yours.
-                Casual + intellectual? She texts like a smart friend. Hype + blunt? An energized straight-shooter.
-                Customize your chat with animated backdrops — cosmic nebulas, glass auroras, prismatic light — zero performance cost, pure atmosphere.
+              <p className="text-zinc-400 max-w-xl mx-auto">
+                Your Bestie is a personal AI companion that remembers who you are — your personality,
+                your life, your preferences. Every device. Every session.
               </p>
             </div>
           </ScrollSection>
 
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {[
-              { icon: Laptop, title: "Desktop & Laptop", desc: "Open a tab, start talking. Your Bestie is always one click away while you work.", status: "Live" },
-              { icon: Smartphone, title: "Home Screen", desc: "Waiting in line? Tap and ask. It lives on your phone like any other app — no app store needed.", status: "Live" },
-              { icon: Globe, title: "Cross-Device Memory", desc: "Start a game plan on your laptop at the office, refine it on your phone at dinner. It remembers everything.", status: "Live" },
-              { icon: Mic, title: "Voice Chat", desc: "Speak naturally in 6 languages — perfect for founders serving international clients or thinking out loud on a walk.", status: "Live" },
+              { icon: Laptop, title: "Desktop & Laptop", desc: "Full chat experience in your browser — always one tab away.", status: "Live" },
+              { icon: Smartphone, title: "Home Screen", desc: "Add to your phone's home screen. One tap, no app store.", status: "Live" },
+              { icon: Globe, title: "Cross-Device Memory", desc: "Start on laptop, continue on phone. Same memories.", status: "Live" },
+              { icon: Mic, title: "Voice Chat", desc: "Talk to your Bestie. Built on Web Speech API — no extra app needed.", status: "Coming Soon" },
             ].map((item) => (
               <StaggerCard key={item.title}>
-                <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-amber-500/20 transition-colors">
-                  <item.icon className="h-8 w-8 text-amber-400 mx-auto mb-3" />
+                <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-pink-500/20 transition-colors">
+                  <item.icon className="h-8 w-8 text-pink-400 mx-auto mb-3" />
                   <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
                   <p className="text-xs text-zinc-400 leading-relaxed mb-3">{item.desc}</p>
                   <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium ${
@@ -450,71 +405,14 @@ export default function LandingPage() {
             ))}
           </StaggerGrid>
 
-          {/* Bestie speaks 6 languages */}
-          <AnimateOnScroll>
-            <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 sm:p-6 mb-10">
-              <div className="flex items-center gap-3 mb-2">
-                <Globe className="h-5 w-5 text-amber-400" />
-                <h3 className="font-bold text-white text-sm">Texts Like a Native in 6 Languages</h3>
-              </div>
-              <p className="text-xs text-zinc-500 mb-4">Not Google Translate. Real slang. Real cultural context. Real connection.</p>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                {[
-                  { lang: "English", code: "EN", slang: "\"no cap\"" },
-                  { lang: "Mandarin", code: "ZH", slang: "\"666\"" },
-                  { lang: "Spanish", code: "ES", slang: "\"no mames\"" },
-                  { lang: "Hindi", code: "HI", slang: "\"yaar\"" },
-                  { lang: "French", code: "FR", slang: "\"wesh\"" },
-                  { lang: "Arabic", code: "AR", slang: "\"yalla\"" },
-                ].map((l) => (
-                  <div key={l.code} className="text-center p-2.5 rounded-lg bg-zinc-700/30 border border-zinc-700/30">
-                    <p className="text-[10px] font-bold text-amber-400">{l.code}</p>
-                    <p className="text-[11px] text-zinc-400 mt-0.5">{l.lang}</p>
-                    <p className="text-[10px] text-zinc-600 mt-0.5">{l.slang}</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
-          {/* Compact feature highlights */}
-          <AnimateOnScroll delay={0.1}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
-              <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">2 Communication Styles</p>
-                <p className="text-xs text-zinc-500 leading-relaxed">
-                  Pick 2 styles that blend: casual + intellectual = a smart friend.
-                  Hype + blunt = an energized straight-shooter. Your bestie, your vibe.
-                </p>
-              </div>
-              <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">Custom Environments</p>
-                <p className="text-xs text-zinc-500 leading-relaxed">
-                  Animated backdrops from cosmic nebulas to glass auroras.
-                  Zero performance cost, pure atmosphere.
-                </p>
-              </div>
-              <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">Real Cultural Fluency</p>
-                <p className="text-xs text-zinc-500 leading-relaxed">
-                  Not Google Translate. Your bestie knows {`"`}no cap{`"`} in English, {`"`}666{`"`} in Mandarin,
-                  {`"`}wesh{`"`} in French, {`"`}yaar{`"`} in Hindi. Real slang. Real connection.
-                </p>
-              </div>
-            </div>
-          </AnimateOnScroll>
-
           <AnimateOnScroll>
             <div className="text-center">
-              <p className="text-sm text-zinc-500 mb-2">
-                Three steps and you have a genius best friend — powered by up to 42 expert agents — who knows your name, your goals, and your standards.
+              <p className="text-sm text-zinc-500 mb-4">
+                Create yours in 3 steps. Choose a personality, pick a name, start talking.
               </p>
-              <p className="text-xs text-zinc-600 mb-4">
-                Built on ICF coaching ethics, crisis protocol, and anti-dependency guardrails. She{`'`}ll push you toward real human connections — not more screen time. Trust you can feel.
-              </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-lg px-8 font-semibold">
-                <Link href="/app/bestie">
-                  Build Your Bestie <ArrowRight className="ml-2 h-4 w-4" />
+              <Button asChild size="lg" className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-lg px-8 font-semibold">
+                <Link href="/sign-up">
+                  Meet Your Bestie <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -525,11 +423,11 @@ export default function LandingPage() {
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
           <ScrollSection>
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              It{`'`}s not just task time. <span className="text-zinc-400">It{`'`}s thinking time.</span>
+              Your Monday. <span className="text-zinc-400">Reimagined.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-              Stone AI doesn{`'`}t just DO work faster — it THINKS faster.
-              Strategy, analysis, planning, research — the cognitive heavy-lifting that exhausts you by 2pm.
+              The same tasks. A fraction of the time. Here&apos;s what changes
+              when 42 specialists handle the heavy lifting.
             </p>
           </ScrollSection>
 
@@ -538,14 +436,14 @@ export default function LandingPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Before */}
                 <div>
-                  <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-4">Your brain doing all the work</p>
+                  <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-4">Without Stone AI</p>
                   <div className="space-y-3">
                     {[
-                      { task: "Client proposal (thinking + writing)", time: "2.0 hours" },
-                      { task: "Competitor research (reading + analyzing)", time: "45 min" },
-                      { task: "Social media (brainstorming + drafting)", time: "1 hour" },
+                      { task: "Client proposal", time: "2.0 hours" },
+                      { task: "Competitor research", time: "45 min" },
+                      { task: "Social media content", time: "1 hour" },
                       { task: "Report formatting", time: "30 min" },
-                      { task: "Email follow-ups (crafting each one)", time: "1 hour" },
+                      { task: "Email follow-ups", time: "1 hour" },
                     ].map((t) => (
                       <div key={t.task} className="flex items-center justify-between py-2 border-b border-zinc-700/30">
                         <span className="text-sm text-zinc-400">{t.task}</span>
@@ -563,7 +461,7 @@ export default function LandingPage() {
 
                 {/* After */}
                 <div>
-                  <p className="text-xs text-emerald-400 uppercase tracking-wider font-semibold mb-4">Agents do the thinking</p>
+                  <p className="text-xs text-emerald-400 uppercase tracking-wider font-semibold mb-4">With Stone AI</p>
                   <div className="space-y-3">
                     {[
                       { task: "Proposal Agent", time: "8 min" },
@@ -589,49 +487,13 @@ export default function LandingPage() {
             </Card>
           </AnimateOnScroll>
 
-          {/* Mental Load — the STAR section */}
-          <AnimateOnScroll delay={0.1}>
-            <Card className="bg-gradient-to-r from-cyan-950/30 via-zinc-800/30 to-cyan-950/30 border-cyan-800/20 p-6 sm:p-8 mb-8">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-10 w-10 rounded-xl bg-cyan-900/30 flex items-center justify-center">
-                  <Brain className="h-5 w-5 text-cyan-400" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold">The real time drain isn{`'`}t typing. It{`'`}s thinking.</h3>
-                  <p className="text-xs text-zinc-500">Hours of mental labor — eliminated</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[
-                  { scenario: "Client proposal", before: "45 min staring at a blank page, figuring out the angle", after: "Proposal Agent already drafted 3 angles before you sat down" },
-                  { scenario: "Career strategy", before: "Hours of research, weighing options, second-guessing", after: "Career Agent considered 12 angles before you finished your sentence" },
-                  { scenario: "Financial planning", before: "Spreadsheets, calculators, YouTube rabbit holes", after: "Finance Agent ran the numbers while you were still framing the question" },
-                ].map((s) => (
-                  <div key={s.scenario} className="rounded-xl bg-zinc-800/50 border border-zinc-700/30 p-4">
-                    <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">{s.scenario}</p>
-                    <div className="space-y-2">
-                      <div>
-                        <p className="text-[10px] text-zinc-600 uppercase">You used to:</p>
-                        <p className="text-xs text-zinc-500">{s.before}</p>
-                      </div>
-                      <div>
-                        <p className="text-[10px] text-emerald-500 uppercase">Now:</p>
-                        <p className="text-xs text-zinc-300">{s.after}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
           {/* Impact summary */}
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { value: "88%", label: "Time saved", sub: "back in your week" },
-              { value: "42", label: "AI thinkers", sub: "cognitive heavy-lifting handled" },
-              { value: "$0", label: "Local cost", sub: "ask all day, pay nothing" },
-              { value: "24/7", label: "Available", sub: "3am ideas welcome" },
+              { value: "88%", label: "Time saved", sub: "on routine tasks" },
+              { value: "42", label: "Specialists", sub: "across departments" },
+              { value: "$0", label: "Local cost", sub: "per message" },
+              { value: "24/7", label: "Available", sub: "no sick days" },
             ].map((s) => (
               <StaggerCard key={s.label}>
                 <div className="text-center p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30">
@@ -651,8 +513,8 @@ export default function LandingPage() {
               The builders are <span className="text-zinc-400">already here.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              People are landing clients, shipping products, and saving hours every week.
-              They're showing each other exactly how. You're one sign-up from the playbook.
+              Founders, freelancers, and operators sharing what works.
+              Real strategies from real users — no fluff.
             </p>
           </ScrollSection>
 
@@ -662,11 +524,11 @@ export default function LandingPage() {
                 <MessageSquare className="h-6 w-6 text-blue-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">Agent Strategies</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Steal the exact agent combos and prompts that are working for other founders right now.
+                  Prompt templates, workflow combos, and agent setups from daily users.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 italic">
-                    &quot;Chained Proposal + Sales Agent for a cold lead. He signed a $12K retainer in 3 days.&quot;
+                    &quot;Chained Proposal + Sales Agent. Closed $12K in 3 days.&quot;
                   </p>
                 </div>
               </Card>
@@ -676,11 +538,11 @@ export default function LandingPage() {
                 <Trophy className="h-6 w-6 text-amber-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">Wall of Wins</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Real people posting real receipts — launches, closed deals, first customers.
+                  Businesses launched, deals closed, products shipped. Real results.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 italic">
-                    &quot;Went from idea to paying customer in 16 days. The agents wrote 80% of the copy.&quot;
+                    &quot;Built my SaaS MVP in 2 weeks. First customer on day 16.&quot;
                   </p>
                 </div>
               </Card>
@@ -690,11 +552,11 @@ export default function LandingPage() {
                 <Users className="h-6 w-6 text-green-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">Open Help</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Stuck at 2am? Post the question. By morning, someone who solved it is walking you through it.
+                  No gatekeeping. Ask a question, get answers from people who&apos;ve done it.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 italic">
-                    &quot;Asked how to automate onboarding. Got 4 agent combos with screenshots in an hour.&quot;
+                    &quot;Asked about onboarding automation. Got 4 detailed agent combos.&quot;
                   </p>
                 </div>
               </Card>
@@ -721,20 +583,6 @@ export default function LandingPage() {
             </div>
           </AnimateOnScroll>
 
-          <AnimateOnScroll>
-            <Card className="bg-gradient-to-r from-amber-950/30 via-zinc-800/30 to-amber-950/30 border-amber-800/20 p-5 mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <Trophy className="h-5 w-5 text-amber-400" />
-                <h3 className="font-bold text-sm text-white">OG Badge & Golden Egg</h3>
-              </div>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                Join during launch and earn the <span className="text-amber-400 font-medium">OG founding member badge</span> — visible across the entire ecosystem.
-                Stay one year and unlock the legendary <span className="text-amber-400 font-medium">Golden Egg</span> — a badge that proves you were here from day one.
-                These aren{`'`}t coming back. Once the window closes, it{`'`}s closed.
-              </p>
-            </Card>
-          </AnimateOnScroll>
-
           <div className="text-center">
             <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-500 text-lg px-8">
               <Link href="/sign-up">
@@ -751,16 +599,16 @@ export default function LandingPage() {
               Build with it. <span className="text-emerald-400">Sell it.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              Plug our API into your product, slap your brand on it, charge what you want.
-              You just became an AI company for $200/mo.
+              Pro tier unlocks full REST API access. Build SaaS products, serve clients,
+              and sell AI solutions under your own brand.
             </p>
           </ScrollSection>
 
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             {[
-              { icon: Terminal, title: "REST API", desc: "Drop a few lines of code and your app is powered by 42 AI agents. Any language, any framework.", color: "text-emerald-400" },
-              { icon: Shield, title: "White-Label", desc: "Your clients see your brand, your logo, your pricing. We stay invisible.", color: "text-amber-400" },
-              { icon: Target, title: "$200/mo Flat", desc: "Charge your clients $500. Pay us $200. Keep the difference. No per-token surprises.", color: "text-blue-400" },
+              { icon: Terminal, title: "REST API", desc: "Simple key auth. 3,000+ requests/day. Any language.", color: "text-emerald-400" },
+              { icon: Shield, title: "White-Label", desc: "No 'Powered by' requirement. Your brand, your pricing.", color: "text-amber-400" },
+              { icon: Target, title: "$200/mo Flat", desc: "No per-token billing. No overage charges. Predictable costs.", color: "text-blue-400" },
             ].map((item) => (
               <StaggerCard key={item.title}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5 h-full">
@@ -804,8 +652,8 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">
-              42 agents that think so you don{`'`}t have to. A bestie who speaks your language — literally.
-              A community that has your back. And it starts at $0.
+              42 agents. A companion that knows you. A community that has your back.
+              And it starts at $0.
             </p>
           </AnimateOnScroll>
 
@@ -819,7 +667,7 @@ export default function LandingPage() {
                 { label: "API Access", live: true },
                 { label: "Cross-Device Sync", live: true },
                 { label: "Home Screen Widget", live: true },
-                { label: "Voice Chat", live: true },
+                { label: "Voice Chat", live: false },
                 { label: "Mobile App", live: false },
               ].map((item) => (
                 <div key={item.label} className="text-center p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30">
@@ -848,87 +696,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          Promotions — What's new, deals, and what you get
-         ═══════════════════════════════════════════════════════════════ */}
-      <section id="promotions" className="px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-b from-zinc-900 to-zinc-950">
-        <div className="max-w-5xl mx-auto">
-          <ScrollSection>
-            <div className="text-center mb-12">
-              <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">Limited Time</Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">What You Get — Right Now</h2>
-              <p className="text-zinc-400 max-w-xl mx-auto">No credit card. No trial countdown. Just start.</p>
-            </div>
-          </ScrollSection>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {/* Free Forever */}
-            <StaggerCard>
-              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="h-5 w-5 text-amber-400" />
-                  <h3 className="text-lg font-semibold text-white">Free Forever</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 4 AI agents — business, content, code, education</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 5 SMART credits for GPT-4o conversations</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> Community forum access</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> Install to home screen (PWA)</li>
-                </ul>
-              </div>
-            </StaggerCard>
-
-            {/* AI Bestie */}
-            <StaggerCard>
-              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-amber-800/30 h-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <Heart className="h-5 w-5 text-amber-400" />
-                  <h3 className="text-lg font-semibold text-white">AI Bestie</h3>
-                </div>
-                <p className="text-sm text-zinc-400 mb-3">Powered by up to 42 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 42 on Executive.</p>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Persistent memory across sessions</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice chat in 6 languages</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Customizable personality & behavior</li>
-                </ul>
-              </div>
-            </StaggerCard>
-
-            {/* Coming Soon */}
-            <StaggerCard>
-              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <Cpu className="h-5 w-5 text-cyan-400" />
-                  <h3 className="text-lg font-semibold text-white">Coming Soon</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Mobile app (iOS & Android)</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like you</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> AI Tools Directory (tools.stone-ai.net)</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Robot-transfer ready (PRO tier)</li>
-                </ul>
-              </div>
-            </StaggerCard>
-          </StaggerGrid>
-
-          {/* Upgrade incentive */}
-          <ScrollSection>
-            <div className="mt-12 text-center p-8 rounded-2xl bg-gradient-to-r from-amber-950/40 via-zinc-900/60 to-amber-950/40 border border-amber-800/30">
-              <h3 className="text-xl font-bold text-white mb-2">Save up to 20% with annual billing</h3>
-              <p className="text-sm text-zinc-400 mb-4">All paid plans include multi-period discounts. Lock in your rate — prices only go up from here.</p>
-              <Button asChild className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 rounded-full">
-                <Link href="#pricing">See All Plans <ArrowRight className="ml-2 h-4 w-4" /></Link>
-              </Button>
-            </div>
-          </ScrollSection>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="border-t border-zinc-800 px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <Insignia size={11} showPills={false} />
+            <span className="text-lg font-bold">Stone AI&#8482;</span>
             <p className="text-sm text-zinc-500 mt-2 leading-relaxed">
               Local-first AI for businesses that move.
             </p>
@@ -964,7 +736,6 @@ export default function LandingPage() {
           <span className="text-xs text-zinc-600">Local-first AI infrastructure</span>
         </div>
       </footer>
-      </div>{/* close z-10 content wrapper */}
     </div>
   );
 }

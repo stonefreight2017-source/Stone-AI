@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import type { BestieTrait, BestieStyle, BestieExpertise, BestieLanguage } from "@/lib/bestie-validators";
 import { BESTIE_LANGUAGES, BESTIE_LANGUAGE_LABELS } from "@/lib/bestie-validators";
 
-function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], style: BestieStyle | null): string {
+function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], styles: BestieStyle[]): string {
   const greetings: Record<BestieStyle, (n: string) => string> = {
     casual: (n) =>
       `Hey! I'm ${n}, your new bestie! I'm so ready to hang out and chat about literally anything. What's on your mind today?`,
@@ -30,7 +30,7 @@ function generatePreviewGreeting(bestieName: string, traits: BestieTrait[], styl
     storyteller: (n) =>
       `Hey there! I'm ${n}. You know how every great story starts with two people meeting? Well, this is ours. So tell me — what's the first chapter about?`,
   };
-  const fn = style ? greetings[style] : greetings.casual;
+  const fn = styles.length > 0 ? greetings[styles[0]] : greetings.casual;
   return fn(bestieName);
 }
 
@@ -299,7 +299,7 @@ export default function CreateBestiePage() {
 
   // Step 2: Personality
   const [traits, setTraits] = useState<BestieTrait[]>([]);
-  const [style, setStyle] = useState<BestieStyle | null>(null);
+  const [styles, setStyles] = useState<BestieStyle[]>([]);
   const [expertise, setExpertise] = useState<BestieExpertise[]>([]);
 
   // Step 3: About Me — context for your Bestie
@@ -353,10 +353,10 @@ export default function CreateBestiePage() {
       const next = prev.includes(purposeId)
         ? prev.filter((p) => p !== purposeId)
         : prev.length < 3 ? [...prev, purposeId] : prev;
-      // Auto-set style from first purpose if not yet chosen
-      if (!style && next.length > 0) {
+      // Auto-set styles from first purpose if not yet chosen
+      if (styles.length === 0 && next.length > 0) {
         const first = PURPOSES.find((p) => p.id === next[0]);
-        if (first) setStyle(first.defaultStyle);
+        if (first) setStyles([first.defaultStyle]);
       }
       // Auto-set background from first purpose
       if (next.length > 0) {
@@ -378,7 +378,7 @@ export default function CreateBestiePage() {
           name: name.trim(),
           purposes: selectedPurposes,
           traits,
-          ...(style ? { style } : {}),
+          styles,
           expertise,
           avatarEmoji: customAvatar || avatarEmoji,
           language,
@@ -450,7 +450,7 @@ export default function CreateBestiePage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-xl font-bold text-white">Create Your Bestie</h1>
+            <h1 className="text-xl font-bold text-white">Create Your Bestie <span className="text-sm font-normal text-amber-400/80">— up to 42 experts, one friend</span></h1>
             <p className="text-xs text-pink-400/70">Step {step} of {TOTAL_STEPS}</p>
           </div>
         </div>
@@ -475,7 +475,7 @@ export default function CreateBestiePage() {
             <div className="text-center space-y-2">
               <Target className="h-8 w-8 mx-auto text-purple-400" />
               <p className="text-lg text-zinc-300">What brings you here?</p>
-              <p className="text-sm text-zinc-500">Pick 1-3 reasons. This shapes your entire experience.</p>
+              <p className="text-sm text-zinc-500">Your Bestie inherits knowledge from your tier&apos;s full roster of expert agents. Pick 1-3 reasons and she&apos;ll know exactly how to help.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -734,7 +734,7 @@ export default function CreateBestiePage() {
         {step === 4 && (
           <div className="space-y-6">
             <TraitPicker selected={traits} onChange={setTraits} />
-            <StylePicker selected={style} onChange={setStyle} />
+            <StylePicker selected={styles} onChange={setStyles} />
             <ExpertisePicker selected={expertise} onChange={setExpertise} />
 
             <Button
@@ -813,7 +813,7 @@ export default function CreateBestiePage() {
                 ))}
               </div>
               <p className="text-sm text-purple-400">
-                {style ? ({ casual: "BFF Vibes", supportive: "Life Coach", intellectual: "Mentor", hype: "Hype Squad", blunt: "Straight Shooter", gentle: "Soft & Gentle", professional: "All Business", storyteller: "Storyteller" } as Record<string, string>)[style] ?? style : "No style selected"}
+                {styles.length > 0 ? styles.map((s) => ({ casual: "BFF Vibes", supportive: "Life Coach", intellectual: "Mentor", hype: "Hype Squad", blunt: "Straight Shooter", gentle: "Soft & Gentle", professional: "All Business", storyteller: "Storyteller" } as Record<string, string>)[s] ?? s).join(" + ") : "No style selected"}
               </p>
               <p className="text-xs text-zinc-500 flex items-center justify-center gap-1">
                 <Globe className="h-3 w-3" />
@@ -876,18 +876,18 @@ export default function CreateBestiePage() {
                 <Sparkles className="h-3 w-3" /> Preview greeting
               </p>
               <p className="text-zinc-200 text-sm leading-relaxed">
-                {generatePreviewGreeting(name, traits, style)}
+                {generatePreviewGreeting(name, traits, styles)}
               </p>
             </div>
 
             {/* Skipped category reminders */}
-            {(traits.length === 0 || !style || expertise.length === 0) && (
+            {(traits.length === 0 || styles.length === 0 || expertise.length === 0) && (
               <div className="bg-amber-900/20 rounded-lg p-4 border border-amber-700/40 backdrop-blur-sm space-y-1.5">
                 <p className="text-amber-400 text-xs font-medium">Heads up — you skipped some options:</p>
                 {traits.length === 0 && (
                   <p className="text-amber-300/70 text-xs">• No personality traits selected — {name} will use a balanced default</p>
                 )}
-                {!style && (
+                {styles.length === 0 && (
                   <p className="text-amber-300/70 text-xs">• No communication style chosen — {name} will default to casual</p>
                 )}
                 {expertise.length === 0 && (

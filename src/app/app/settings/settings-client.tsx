@@ -20,6 +20,9 @@ import {
   Users,
   Palette,
   Lock,
+  Unlock,
+  Sparkles,
+  Diamond,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +41,7 @@ interface SettingsClientProps {
     tierName: string;
     createdAt: string;
     backdropTheme: string;
+    nameKey: string;
     badges: string[];
   };
   limits: {
@@ -300,6 +304,7 @@ export function SettingsClient({
       {/* Backdrop Theme */}
       <BackdropPicker
         currentTheme={user.backdropTheme}
+        initialNameKey={user.nameKey}
       />
 
       {/* API Keys — Pro only */}
@@ -630,6 +635,8 @@ import {
   BACKDROP_PRESETS,
   type BackdropCategory,
 } from "@/components/backdrops/backdrop-presets";
+import { getUnlockedBackdrops, validateNameKey } from "@/lib/backdrop-seed";
+import type { PoolBackdrop } from "@/components/backdrops/backdrop-pool";
 
 const CATEGORY_LABELS: Record<BackdropCategory, string> = {
   css: "Gradients",
@@ -639,10 +646,77 @@ const CATEGORY_LABELS: Record<BackdropCategory, string> = {
 
 const CATEGORY_ORDER: BackdropCategory[] = ["css", "particles", "vanta"];
 
-function BackdropPicker({ currentTheme }: { currentTheme: string }) {
+function BackdropPicker({
+  currentTheme,
+  initialNameKey,
+}: {
+  currentTheme: string;
+  initialNameKey: string;
+}) {
   const [selected, setSelected] = useState(currentTheme || "none");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [nameKey, setNameKey] = useState(initialNameKey || "");
+  const [nameKeyInput, setNameKeyInput] = useState(initialNameKey || "");
+  const [unlockedBackdrops, setUnlockedBackdrops] = useState<PoolBackdrop[]>([]);
+  const [nameKeySaving, setNameKeySaving] = useState(false);
+  const [nameKeySaved, setNameKeySaved] = useState(false);
+  const [nameKeyError, setNameKeyError] = useState("");
+
+  // Compute unlocked backdrops whenever nameKey changes
+  useEffect(() => {
+    if (nameKey) {
+      try {
+        const unlocked = getUnlockedBackdrops(nameKey);
+        setUnlockedBackdrops(unlocked);
+      } catch {
+        setUnlockedBackdrops([]);
+      }
+    } else {
+      setUnlockedBackdrops([]);
+    }
+  }, [nameKey]);
+
+  function handleNameKeyInput(value: string) {
+    // Strip non-alpha and enforce max 8
+    const cleaned = value.toLowerCase().replace(/[^a-z]/g, "").slice(0, 8);
+    setNameKeyInput(cleaned);
+    setNameKeyError("");
+
+    if (cleaned) {
+      const validation = validateNameKey(cleaned);
+      if (validation.valid) {
+        setNameKey(validation.normalized);
+      } else {
+        setNameKeyError(validation.error || "Invalid key");
+      }
+    } else {
+      setNameKey("");
+    }
+  }
+
+  async function handleSaveNameKey() {
+    if (!nameKey && !nameKeyInput) return;
+    setNameKeySaving(true);
+    setNameKeySaved(false);
+
+    try {
+      const res = await fetch("/api/settings/backdrop", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nameKey: nameKey }),
+      });
+
+      if (res.ok) {
+        setNameKeySaved(true);
+        setTimeout(() => setNameKeySaved(false), 2000);
+      }
+    } catch {
+      // silent fail
+    } finally {
+      setNameKeySaving(false);
+    }
+  }
 
   async function handleSelect(themeId: string) {
     if (themeId === selected) return;
@@ -681,6 +755,8 @@ function BackdropPicker({ currentTheme }: { currentTheme: string }) {
     ),
   }));
 
+  const isUnlocked = nameKey.length > 0 && unlockedBackdrops.length > 0;
+
   return (
     <Card className="bg-zinc-900 border-zinc-800">
       <CardHeader className="pb-3">
@@ -696,6 +772,79 @@ function BackdropPicker({ currentTheme }: { currentTheme: string }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-5">
+        {/* ── Name Key Unlock Section ──────────────────────── */}
+        <div className="relative rounded-xl border border-zinc-700/50 bg-gradient-to-br from-zinc-800/80 via-zinc-900 to-zinc-800/80 p-4 overflow-hidden">
+          {/* Subtle gradient border glow */}
+          <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-purple-500/5 via-transparent to-cyan-500/5 pointer-events-none" />
+
+          <div className="relative space-y-3">
+            <div className="flex items-center gap-2">
+              <div className={`transition-all duration-300 ${isUnlocked ? "text-cyan-400" : "text-zinc-500"}`}>
+                {isUnlocked ? (
+                  <Unlock className="h-4 w-4" />
+                ) : (
+                  <Lock className="h-4 w-4" />
+                )}
+              </div>
+              <h3 className="text-sm font-medium text-zinc-200">Unlock Your Backdrops</h3>
+              {isUnlocked && (
+                <Badge className="bg-cyan-900/40 text-cyan-300 text-[10px] px-1.5 py-0 ml-auto">
+                  <Sparkles className="h-2.5 w-2.5 mr-0.5" />
+                  {unlockedBackdrops.length} unlocked
+                </Badge>
+              )}
+            </div>
+
+            <p className="text-xs text-zinc-500">
+              Enter 1-8 characters from your name to unlock your personal backdrop collection
+            </p>
+
+            <div className="flex items-center gap-2">
+              <div className="relative flex-1">
+                <Input
+                  value={nameKeyInput}
+                  onChange={(e) => handleNameKeyInput(e.target.value)}
+                  onBlur={handleSaveNameKey}
+                  placeholder="e.g. alex, jm, stone"
+                  maxLength={8}
+                  className="bg-zinc-800/80 border-zinc-700 text-white font-mono tracking-widest uppercase placeholder:normal-case placeholder:tracking-normal placeholder:font-sans h-9"
+                />
+                {nameKeyInput && (
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-zinc-600">
+                    {nameKeyInput.length}/8
+                  </span>
+                )}
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleSaveNameKey}
+                disabled={nameKeySaving || !nameKeyInput}
+                className="h-9 border-zinc-700 text-zinc-300"
+              >
+                {nameKeySaving ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : nameKeySaved ? (
+                  <Check className="h-3 w-3 text-emerald-400" />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+            </div>
+
+            {nameKeyError && (
+              <p className="text-xs text-red-400">{nameKeyError}</p>
+            )}
+
+            {nameKey && !nameKeyError && (
+              <p className="text-[11px] text-zinc-500">
+                Key: <span className="text-zinc-300 font-mono">{nameKey.toUpperCase()}</span>
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* ── Standard Presets ─────────────────────────────── */}
         {grouped.map(({ category, label, presets }) => (
           <div key={category}>
             <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
@@ -745,6 +894,75 @@ function BackdropPicker({ currentTheme }: { currentTheme: string }) {
             </div>
           </div>
         ))}
+
+        {/* ── Personal Collection (Name-Unlocked) ─────────── */}
+        <Separator className="bg-zinc-800" />
+
+        <div>
+          <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+            <Sparkles className="h-3 w-3 text-purple-400" />
+            Your Personal Collection
+            {isUnlocked && (
+              <span className="text-zinc-400 normal-case">
+                ({unlockedBackdrops.length} backdrops)
+              </span>
+            )}
+          </p>
+
+          {isUnlocked ? (
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+              {unlockedBackdrops.map((backdrop) => (
+                <button
+                  key={backdrop.id}
+                  type="button"
+                  onClick={() => handleSelect(backdrop.id)}
+                  disabled={saving}
+                  className={`group relative rounded-lg aspect-[4/3] transition-all duration-150 ${
+                    backdrop.previewClass
+                  } ${
+                    selected === backdrop.id
+                      ? "ring-2 ring-purple-400 ring-offset-1 ring-offset-zinc-900"
+                      : "ring-1 ring-zinc-700/50 hover:ring-zinc-500"
+                  }`}
+                  title={backdrop.name}
+                >
+                  {/* Shimmer overlay for personal backdrops */}
+                  <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-transparent via-white/[0.03] to-transparent pointer-events-none" />
+                  {/* Diamond icon overlay */}
+                  <div className="absolute top-0.5 right-0.5">
+                    <Diamond className="h-2.5 w-2.5 text-purple-400/60" />
+                  </div>
+                  {/* Theme name label */}
+                  <span className="absolute inset-x-0 bottom-0 text-[10px] text-zinc-300 text-center pb-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/60 to-transparent rounded-b-lg">
+                    {backdrop.name}
+                  </span>
+                  {/* Selected checkmark */}
+                  {selected === backdrop.id && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-purple-400/90 rounded-full p-0.5">
+                        <Check className="h-3 w-3 text-zinc-900" />
+                      </div>
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="relative rounded-lg border border-zinc-800/50 bg-zinc-800/20 p-8 text-center overflow-hidden">
+              {/* Blurred backdrop preview */}
+              <div className="absolute inset-0 opacity-20 blur-md bg-gradient-to-br from-purple-900/30 via-zinc-900 to-cyan-900/30 pointer-events-none" />
+              <div className="relative">
+                <Lock className="h-6 w-6 text-zinc-600 mx-auto mb-2" />
+                <p className="text-sm text-zinc-500">
+                  Enter your name key above to unlock personal backdrops
+                </p>
+                <p className="text-[11px] text-zinc-600 mt-1">
+                  Each name key reveals a unique set of backdrops from a pool of 100
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
 
         <p className="text-[11px] text-zinc-600">
           Choose a backdrop that appears behind your workspace. All backdrops respect reduced-motion preferences.

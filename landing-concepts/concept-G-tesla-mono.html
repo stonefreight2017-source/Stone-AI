@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI - Concept G: Tesla Mono</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #0e0e0e;
+    color: #fafafa;
+    overflow-x: hidden;
+  }
+
+  /* Single subtle background element — the Stone AI insignia as a massive watermark */
+  .watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    opacity: 0.02;
+  }
+  .watermark svg { width: 900px; height: 900px; }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Nav — Tesla-like ultra minimal */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 80px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .logo-bar {
+    width: 32px; height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #d4af37);
+    border-radius: 2px;
+  }
+
+  .nav-links { display: flex; gap: 36px; align-items: center; }
+  .nav-links a {
+    color: #555;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: #fff; }
+  .nav-links .cta {
+    background: #fff;
+    color: #0e0e0e;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .nav-links .cta:hover { background: #e5e5e5; }
+
+  /* Hero — massive typography, Tesla style */
+  .hero {
+    text-align: center;
+    padding: 200px 80px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .hero h1 {
+    font-size: 140px;
+    font-weight: 900;
+    line-height: 0.85;
+    letter-spacing: -8px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  /* The "S" in Stone styled with N-S axis colors */
+  .hero h1 .s-char {
+    position: relative;
+    display: inline-block;
+  }
+  .hero h1 .s-char::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -20px;
+    bottom: -10px;
+    width: 3px;
+    background: linear-gradient(180deg, #3b82f6, transparent 20%, transparent 80%, #d4af37);
+    transform: translateX(-50%);
+    opacity: 0.4;
+    z-index: -1;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: #666;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    max-width: 420px;
+    margin: 0 auto 60px;
+    line-height: 1.8;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: transparent;
+    color: #fff;
+    border: 2px solid #333;
+    padding: 16px 48px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .hero-cta:hover {
+    border-color: #fff;
+    box-shadow: 0 0 40px rgba(255,255,255,0.05);
+  }
+
+  /* Horizontal divider with insignia */
+  .divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 80px;
+    gap: 40px;
+  }
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #222, transparent);
+  }
+  .divider-mark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+  }
+  .divider-mark .n { color: #3b82f6; }
+  .divider-mark .s { color: #d4af37; }
+  .divider-mark .bar { width: 2px; height: 20px; background: linear-gradient(180deg, #3b82f6, #d4af37); }
+
+  /* Minimal feature list */
+  .features {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 80px 120px;
+  }
+  .feature-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid #1a1a1a;
+  }
+  .feature-row:last-child { border-bottom: none; }
+  .feature-row .label {
+    font-size: 14px;
+    font-weight: 300;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .feature-row .value {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .feature-row .value.blue { color: #3b82f6; }
+  .feature-row .value.gold { color: #d4af37; }
+  .feature-row .value.green { color: #22c55e; }
+  .feature-row .value.white { color: #fff; }
+
+  /* Price — single dramatic number */
+  .price-section {
+    text-align: center;
+    padding: 80px 80px 120px;
+  }
+  .price-section .free-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    color: #555;
+    margin-bottom: 16px;
+  }
+  .price-section .price {
+    font-size: 120px;
+    font-weight: 100;
+    letter-spacing: -6px;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .price-section .sub {
+    font-size: 14px;
+    color: #444;
+    font-weight: 400;
+  }
+  .price-section .upgrade-note {
+    margin-top: 40px;
+    font-size: 13px;
+    color: #555;
+  }
+  .price-section .tiers {
+    display: inline-flex;
+    gap: 24px;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #666;
+  }
+  .price-section .tiers span { font-weight: 500; }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    padding: 60px 80px 100px;
+  }
+  .final-cta a {
+    display: inline-block;
+    background: #fff;
+    color: #0e0e0e;
+    padding: 18px 60px;
+    font-size: 14px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .final-cta a:hover {
+    box-shadow: 0 0 60px rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+  }
+
+  footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 24px 80px;
+    display: flex;
+    justify-content: space-between;
+    color: #333;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  footer a { color: #444; text-decoration: none; margin-left: 24px; }
+  footer a:hover { color: #fff; }
+
+  .concept-label {
+    position: fixed; bottom: 16px; right: 16px;
+    background: rgba(255,255,255,0.04); color: #666;
+    padding: 8px 16px; border-radius: 4px; font-size: 11px; font-weight: 600;
+    z-index: 999; border: 1px solid rgba(255,255,255,0.08);
+    text-transform: uppercase; letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+<!-- Massive watermark insignia -->
+<div class="watermark">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <line x1="200" y1="20" x2="200" y2="380" stroke="#ffffff" stroke-width="3"/>
+    <circle cx="200" cy="20" r="12" fill="none" stroke="#3b82f6" stroke-width="2"/>
+    <circle cx="200" cy="380" r="12" fill="none" stroke="#d4af37" stroke-width="2"/>
+    <circle cx="200" cy="200" r="6" fill="#ffffff"/>
+    <text x="200" y="15" text-anchor="middle" fill="#3b82f6" font-size="14" font-weight="700" font-family="Inter">N</text>
+    <text x="200" y="400" text-anchor="middle" fill="#d4af37" font-size="14" font-weight="700" font-family="Inter">S</text>
+  </svg>
+</div>
+
+<div class="content">
+  <nav>
+    <div class="logo">
+      <div class="logo-bar"></div>
+      STONE AI
+    </div>
+    <div class="nav-links">
+      <a href="#">Features</a>
+      <a href="#">Agents</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="cta">Begin</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>
+      <span class="s-char">S</span>tone
+    </h1>
+    <p>
+      Local AI inference at GPU speed. 30 expert agents.
+      Total data sovereignty. The intelligence platform
+      that never compromises.
+    </p>
+    <a href="#" class="hero-cta">Experience &rarr;</a>
+  </section>
+
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-mark">
+      <span class="n">N</span>
+      <div class="bar"></div>
+      <span class="s">S</span>
+    </div>
+    <div class="divider-line"></div>
+  </div>
+
+  <section class="features">
+    <div class="feature-row">
+      <span class="label">Latency</span>
+      <span class="value blue">&lt; 100ms</span>
+    </div>
+    <div class="feature-row">
+      <span class="label">Model</span>
+      <span class="value white">Llama 3.1 70B</span>
+    </div>
+    <div class="feature-row">
+      <span class="label">Expert Agents</span>
+      <span class="value gold">30</span>
+    </div>
+    <div class="feature-row">
+      <span class="label">Data Privacy</span>
+      <span class="value green">100% Local</span>
+    </div>
+    <div class="feature-row">
+      <span class="label">Smart Mode</span>
+      <span class="value white">GPT-4o</span>
+    </div>
+    <div class="feature-row">
+      <span class="label">API Access</span>
+      <span class="value blue">REST + White Label</span>
+    </div>
+  </section>
+
+  <section class="price-section">
+    <div class="free-label">Start at</div>
+    <div class="price">$0</div>
+    <div class="sub">No credit card. No trial. No catch.</div>
+    <div class="upgrade-note">Scale when you're ready</div>
+    <div class="tiers">
+      <span>Starter $9.99</span>
+      <span>Plus $29.99</span>
+      <span>Smart $69.99</span>
+      <span>Pro $199</span>
+    </div>
+  </section>
+
+  <section class="final-cta">
+    <a href="#">Get Started</a>
+  </section>
+
+  <footer>
+    <span>Stone AI &copy; 2026</span>
+    <div><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Support</a></div>
+  </footer>
+</div>
+
+<div class="concept-label">Concept G: Tesla Mono</div>
+</body>
+</html>

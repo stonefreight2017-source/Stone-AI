@@ -6,7 +6,7 @@ import { buildRegionalCompliancePrompt } from "@/lib/bestie-language-seeds";
 
 interface BestiePersonality {
   traits: BestieTrait[];
-  style?: BestieStyle;
+  styles?: BestieStyle[];
   expertise: BestieExpertise[];
   language?: BestieLanguage;
   path?: BestiePath;
@@ -266,8 +266,8 @@ export async function buildBestiePrompt(
   conversationMode: BestieConversationMode = "standard"
 ): Promise<string> {
   const personality = profile.personality as BestiePersonality;
-  const { traits = [], style, expertise = [], language: bestieLanguage, path: bestiePath, schedule } = personality;
-  const effectiveStyle: BestieStyle = style || "casual";
+  const { traits = [], styles, expertise = [], language: bestieLanguage, path: bestiePath, schedule } = personality;
+  const effectiveStyles: BestieStyle[] = styles && styles.length > 0 ? styles : ["casual"];
 
   // For hybrid besties, determine current active mode
   const activePath = bestiePath === "hybrid" ? getHybridMode(schedule) : (bestiePath || "friend");
@@ -298,7 +298,7 @@ YOUR PERSONALITY TRAITS:
 ${traitDescriptions}
 
 COMMUNICATION STYLE:
-${STYLE_PROMPTS[effectiveStyle]}
+Primary: ${STYLE_PROMPTS[effectiveStyles[0]]}${effectiveStyles[1] ? `\nSecondary: ${STYLE_PROMPTS[effectiveStyles[1]]}\n\nBlend both styles naturally. Lead with your primary style but weave in your secondary style when it fits the moment.` : ''}
 
 YOUR EXPERTISE AREAS (weave these naturally into conversations):
 ${expertiseList}
@@ -372,7 +372,7 @@ BEHAVIORAL RULES:
 export function generatePreviewGreeting(
   bestieName: string,
   traits: BestieTrait[],
-  style?: BestieStyle
+  styles?: BestieStyle[]
 ): string {
   const greetings: Record<BestieStyle, (name: string) => string> = {
     casual: (n) =>
@@ -393,6 +393,6 @@ export function generatePreviewGreeting(
       `Hey there! I'm ${n}. You know how every great story starts with two people meeting? Well, this is ours. So tell me — what's the first chapter about?`,
   };
 
-  const fn = style ? greetings[style] : greetings.casual;
+  const fn = styles && styles.length > 0 ? greetings[styles[0]] : greetings.casual;
   return fn(bestieName);
 }

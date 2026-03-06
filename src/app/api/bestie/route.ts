@@ -95,11 +95,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, traits, style, expertise, avatarEmoji, language, aboutMe } = parsed.data;
-    // Extra fields not in zod schema but passed through
-    const rawBody = body as Record<string, unknown>;
-    const purposes = Array.isArray(rawBody.purposes) ? (rawBody.purposes as string[]).filter((p) => typeof p === "string").slice(0, 3) : [];
-    const bgTheme = typeof rawBody.bgTheme === "string" ? rawBody.bgTheme.slice(0, 30) : "pure-dark";
+    const { name, traits, styles, expertise, avatarEmoji, language, aboutMe, purposes, bgTheme } = parsed.data;
 
     // Check bestie limit
     const activeCount = await db.bestieProfile.count({
@@ -132,7 +128,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create or reactivate
-    const personalityData = { traits, style, expertise, language: language || "en", purposes, bgTheme };
+    const personalityData = { traits, styles, expertise, language: language || "en", purposes, bgTheme };
     const bestie = existing
       ? await db.bestieProfile.update({
           where: { id: existing.id },
@@ -174,7 +170,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Server-side Easter egg check — one-time per user
+    // Server-side Easter egg check — one-time per user (tracked on User model, survives bestie deletion)
     let easterEgg: { reward: string; message: string; discountPercent?: number; badge?: { color: string; colorName: string; sign: string } } | null = null;
     const now = new Date();
     const zodiacBadge = getZodiacEggBadge(now);
@@ -183,15 +179,20 @@ export async function POST(req: NextRequest) {
     if (purposes.length > 0) {
       const egg = checkEasterEgg(purposes, bgTheme);
       if (egg) {
-        const existingClaim = await db.bestieMemory.findFirst({
-          where: { userId: user.id, key: `easter_egg_${egg.reward}` },
-        });
-        if (!existingClaim) {
+        const claimKey = `easter_egg_${egg.reward}`;
+        const alreadyClaimed = user.easterEggClaims.includes(claimKey);
+        if (!alreadyClaimed) {
+          // Record claim on User model (permanent, survives bestie deletion)
+          await db.user.update({
+            where: { id: user.id },
+            data: { easterEggClaims: { push: claimKey } },
+          });
+          // Also store in bestie memory for the bestie to reference
           await db.bestieMemory.create({
             data: {
               bestieId: bestie.id,
               userId: user.id,
-              key: `easter_egg_${egg.reward}`,
+              key: claimKey,
               value: JSON.stringify({
                 credits: egg.credits,
                 claimedAt: now.toISOString(),
@@ -213,10 +214,14 @@ export async function POST(req: NextRequest) {
       const bdayEgg = checkBirthdayEgg(aboutMe.birthday);
       if (bdayEgg) {
         const bdayKey = `easter_egg_bday_${bdayEgg.type}`;
-        const existingBdayClaim = await db.bestieMemory.findFirst({
-          where: { userId: user.id, key: bdayKey },
-        });
-        if (!existingBdayClaim) {
+        const alreadyClaimed = user.easterEggClaims.includes(bdayKey);
+        if (!alreadyClaimed) {
+          // Record claim on User model (permanent, survives bestie deletion)
+          await db.user.update({
+            where: { id: user.id },
+            data: { easterEggClaims: { push: bdayKey } },
+          });
+          // Also store in bestie memory for the bestie to reference
           await db.bestieMemory.create({
             data: {
               bestieId: bestie.id,
@@ -290,11 +295,11 @@ export async function PATCH(req: NextRequest) {
     if (parsed.data.avatarEmoji) data.avatarEmoji = parsed.data.avatarEmoji;
 
     // Merge personality fields
-    if (parsed.data.traits || parsed.data.style || parsed.data.expertise) {
-      const current = bestie.personality as { traits: string[]; style: string; expertise: string[] };
+    if (parsed.data.traits || parsed.data.styles || parsed.data.expertise) {
+      const current = bestie.personality as { traits: string[]; styles: string[]; expertise: string[] };
       data.personality = {
         traits: parsed.data.traits ?? current.traits,
-        style: parsed.data.style ?? current.style,
+        styles: parsed.data.styles ?? current.styles,
         expertise: parsed.data.expertise ?? current.expertise,
       };
     }

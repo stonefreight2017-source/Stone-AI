@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI - Concept H: Neon Meridian</title>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Chakra Petch', sans-serif;
+    background: #09090b;
+    color: #f0f0f5;
+    overflow-x: hidden;
+  }
+
+  /* Neon vertical line — the N-S meridian */
+  .meridian-line {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    z-index: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(0, 200, 255, 0.6) 0%,
+      rgba(0, 200, 255, 0.1) 15%,
+      rgba(0, 200, 255, 0.02) 30%,
+      rgba(255, 170, 0, 0.02) 70%,
+      rgba(255, 170, 0, 0.1) 85%,
+      rgba(255, 170, 0, 0.6) 100%
+    );
+  }
+  .meridian-line::before {
+    content: 'N';
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #00c8ff;
+    text-shadow: 0 0 10px #00c8ff;
+    letter-spacing: 2px;
+  }
+  .meridian-line::after {
+    content: 'S';
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffaa00;
+    text-shadow: 0 0 10px #ffaa00;
+    letter-spacing: 2px;
+  }
+
+  /* Glow effects */
+  .glow-top {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(0, 200, 255, 0.15) 0%, transparent 70%);
+    z-index: 0;
+  }
+  .glow-bottom {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 400px;
+    height: 300px;
+    background: radial-gradient(ellipse, rgba(255, 170, 0, 0.12) 0%, transparent 70%);
+    z-index: 0;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-glyph {
+    width: 36px; height: 36px;
+    border: 2px solid;
+    border-image: linear-gradient(180deg, #00c8ff, #ffaa00) 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 700;
+    gap: 2px;
+    line-height: 1;
+  }
+  .logo-glyph .top { color: #00c8ff; }
+  .logo-glyph .bot { color: #ffaa00; }
+  .logo-glyph .mid { width: 12px; height: 1px; background: linear-gradient(90deg, #00c8ff, #ffaa00); }
+
+  .nav-links { display: flex; gap: 24px; align-items: center; }
+  .nav-links a { color: #555; text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 1px; transition: color 0.2s; }
+  .nav-links a:hover { color: #00c8ff; text-shadow: 0 0 8px rgba(0,200,255,0.3); }
+
+  .btn-neon-blue {
+    background: transparent;
+    color: #00c8ff;
+    border: 1px solid #00c8ff;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-neon-blue::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,200,255,0.05);
+    transition: background 0.2s;
+  }
+  .btn-neon-blue:hover::before { background: rgba(0,200,255,0.1); }
+  .btn-neon-blue:hover { box-shadow: 0 0 20px rgba(0,200,255,0.2), inset 0 0 20px rgba(0,200,255,0.05); }
+
+  .btn-neon-gold {
+    background: transparent;
+    color: #ffaa00;
+    border: 1px solid #ffaa00;
+    padding: 12px 32px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-neon-gold:hover {
+    background: rgba(255,170,0,0.1);
+    box-shadow: 0 0 30px rgba(255,170,0,0.2);
+  }
+
+  /* Hero — dramatic split */
+  .hero {
+    padding: 160px 48px 80px;
+    max-width: 1300px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px;
+    align-items: center;
+  }
+  .hero-left { text-align: right; padding-right: 40px; }
+  .hero-right { text-align: left; padding-left: 40px; }
+
+  .hero h1 {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -1px;
+  }
+  .hero-left h1 { color: #00c8ff; text-shadow: 0 0 40px rgba(0,200,255,0.15); }
+  .hero-right h1 { color: #ffaa00; text-shadow: 0 0 40px rgba(255,170,0,0.15); }
+  .hero p {
+    font-size: 15px;
+    color: #666;
+    line-height: 1.7;
+    margin-top: 20px;
+    font-weight: 400;
+  }
+
+  /* Central CTA between the two halves */
+  .hero-center {
+    text-align: center;
+    padding: 0 48px 100px;
+  }
+  .hero-center p { color: #444; font-size: 14px; margin-bottom: 24px; letter-spacing: 1px; }
+
+  /* Split feature panels */
+  .split-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+  .split-panel {
+    padding: 48px 40px;
+    transition: all 0.3s;
+  }
+  .split-panel.left {
+    text-align: right;
+    background: rgba(0, 200, 255, 0.02);
+    border-right: 1px solid rgba(0,200,255,0.1);
+  }
+  .split-panel.right {
+    text-align: left;
+    background: rgba(255, 170, 0, 0.02);
+    border-left: 1px solid rgba(255,170,0,0.1);
+  }
+  .split-panel:hover { background: rgba(255,255,255,0.02); }
+  .split-panel .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .split-panel.left .label { color: #00c8ff; }
+  .split-panel.right .label { color: #ffaa00; }
+  .split-panel h3 { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .split-panel p { font-size: 13px; color: #555; line-height: 1.6; }
+
+  /* Final CTA */
+  .final-section {
+    text-align: center;
+    padding: 120px 48px;
+  }
+  .final-section h2 {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+  }
+  .final-section h2 .cyan { color: #00c8ff; }
+  .final-section h2 .gold { color: #ffaa00; }
+  .final-section p { color: #555; font-size: 14px; margin-bottom: 36px; letter-spacing: 1px; }
+
+  footer {
+    border-top: 1px solid #1a1a1a;
+    padding: 24px 48px;
+    text-align: center;
+    color: #333;
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+  footer a { color: #444; text-decoration: none; margin: 0 12px; }
+  footer a:hover { color: #00c8ff; }
+
+  .concept-label {
+    position: fixed; bottom: 16px; right: 16px;
+    background: linear-gradient(135deg, rgba(0,200,255,0.1), rgba(255,170,0,0.1));
+    color: #00c8ff;
+    padding: 8px 16px; border-radius: 4px; font-size: 12px; font-weight: 600;
+    z-index: 999; border: 1px solid rgba(0,200,255,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="meridian-line"></div>
+<div class="glow-top"></div>
+<div class="glow-bottom"></div>
+
+<div class="content">
+  <nav>
+    <div class="logo">
+      <div class="logo-glyph">
+        <span class="top">N</span>
+        <div class="mid"></div>
+        <span class="bot">S</span>
+      </div>
+      STONE AI
+    </div>
+    <div class="nav-links">
+      <a href="#">Platform</a>
+      <a href="#">Agents</a>
+      <a href="#">API</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="btn-neon-blue">Launch</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <h1>Speed<br>defines<br>the edge</h1>
+      <p>Sub-100ms local inference. Zero network dependency. Your queries hit raw GPU silicon before cloud AI even processes the HTTP handshake.</p>
+    </div>
+    <div class="hero-right">
+      <h1>Privacy<br>defines<br>the trust</h1>
+      <p>Your data never leaves your network. Not "privacy-first" marketing — actually private. HIPAA-friendly. GDPR-ready. Zero external API calls.</p>
+    </div>
+  </section>
+
+  <div class="hero-center">
+    <p>30 expert agents. Persistent memory. Client-ready output.</p>
+    <a href="#" class="btn-neon-gold">Enter Stone AI &rarr;</a>
+  </div>
+
+  <section class="split-features">
+    <div class="split-panel left">
+      <div class="label">Performance</div>
+      <h3>&lt;100ms First Token</h3>
+      <p>Local GPU eliminates network latency entirely. Answers arrive before cloud providers finish the TLS handshake.</p>
+    </div>
+    <div class="split-panel right">
+      <div class="label">Intelligence</div>
+      <h3>70B + GPT-4o Hybrid</h3>
+      <p>Latest open-weight models locally, with cloud fallback for frontier tasks. Best of both worlds, automatically routed.</p>
+    </div>
+    <div class="split-panel left">
+      <div class="label">Agents</div>
+      <h3>30 Domain Specialists</h3>
+      <p>Not generic chatbots. Each agent has RAG knowledge, persistent memory, and produces deliverables you can sell to clients.</p>
+    </div>
+    <div class="split-panel right">
+      <div class="label">Scale</div>
+      <h3>API & White Label</h3>
+      <p>Build AI-powered products on Stone AI infrastructure. Fixed cost, no per-token billing. Your brand, our silicon.</p>
+    </div>
+    <div class="split-panel left">
+      <div class="label">Security</div>
+      <h3>Enterprise-Grade</h3>
+      <p>AES-256-GCM encryption, CSP headers, rate limiting, audit logging. Built for regulated industries from day one.</p>
+    </div>
+    <div class="split-panel right">
+      <div class="label">Community</div>
+      <h3>Builders Network</h3>
+      <p>Share strategies, showcase results, learn from users building real businesses. Tips, templates, and collective intelligence.</p>
+    </div>
+  </section>
+
+  <section class="final-section">
+    <h2>
+      <span class="cyan">North</span> star.<br>
+      <span class="gold">South</span> bound.
+    </h2>
+    <p>Free to start. No credit card required. No limits on ambition.</p>
+    <a href="#" class="btn-neon-gold" style="font-size:16px;padding:16px 48px;">Get Started Free &rarr;</a>
+  </section>
+
+  <footer>
+    Stone AI &copy; 2026 <a href="#">Terms</a> <a href="#">Privacy</a> <a href="#">Support</a>
+  </footer>
+</div>
+
+<div class="concept-label">Concept H: Neon Meridian</div>
+</body>
+</html>

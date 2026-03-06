@@ -40,6 +40,7 @@ export default async function SettingsPage() {
         tierName: config.name,
         createdAt: user.createdAt.toISOString(),
         backdropTheme: user.backdropTheme,
+        nameKey: user.nameKey,
         badges: activeBadges,
       }}
       limits={config.limits}

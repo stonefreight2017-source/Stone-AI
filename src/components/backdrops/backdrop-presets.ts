@@ -62,6 +62,29 @@ export const BACKDROP_PRESETS: BackdropPreset[] = [
     previewClass: "bg-gradient-to-br from-red-950/60 via-orange-950/40 to-zinc-950",
   },
 
+  // ── Premium CSS Themes ─────────────────────────────────
+  {
+    id: "nebula",
+    name: "Nebula",
+    category: "css",
+    description: "Multi-layered cosmic nebula — our richest CSS effect",
+    previewClass: "bg-gradient-to-br from-purple-950/60 via-pink-900/30 to-cyan-950/40",
+  },
+  {
+    id: "glass-aurora",
+    name: "Glass Aurora",
+    category: "css",
+    description: "Aurora borealis with glass morphism depth",
+    previewClass: "bg-gradient-to-br from-emerald-950/50 via-cyan-900/30 to-purple-950/40",
+  },
+  {
+    id: "prismatic",
+    name: "Prismatic",
+    category: "css",
+    description: "Slow-shifting holographic rainbow mesh",
+    previewClass: "bg-gradient-to-br from-red-950/30 via-yellow-900/20 to-blue-950/30",
+  },
+
   // ── Particle Themes (placeholder — built by another agent) ──
   {
     id: "stars",
@@ -140,5 +163,14 @@ export function getPreset(id: string): BackdropPreset | undefined {
 }
 
 export function getCategory(id: string): BackdropCategory | null {
-  return getPreset(id)?.category ?? null;
+  const preset = getPreset(id);
+  if (preset) return preset.category;
+  if (isPoolBackdrop(id)) return "css";
+  return null;
+}
+
+import { BACKDROP_POOL } from "./backdrop-pool";
+
+export function isPoolBackdrop(id: string): boolean {
+  return id.startsWith("pool-") && BACKDROP_POOL.some(b => b.id === id);
 }

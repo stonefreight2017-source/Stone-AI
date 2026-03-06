@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI - Concept B: Meridian Glass</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #07091a;
+    color: #e8e8f0;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Central radial glow */
+  .glow-bg {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 50% 30%, rgba(59, 130, 246, 0.12) 0%, transparent 60%),
+      radial-gradient(circle at 30% 70%, rgba(212, 175, 55, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 70% 60%, rgba(147, 51, 234, 0.04) 0%, transparent 40%);
+  }
+
+  /* Large compass rose / insignia in background */
+  .compass-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    opacity: 0.03;
+    z-index: 0;
+  }
+  .compass-bg svg { width: 100%; height: 100%; }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Nav */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    backdrop-filter: blur(12px);
+    background: rgba(7, 9, 26, 0.5);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #3b82f6 0%, #d4af37 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    color: #fff;
+    position: relative;
+  }
+  .logo-icon::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 4px;
+    bottom: 4px;
+    width: 1.5px;
+    background: rgba(255,255,255,0.6);
+    transform: translateX(-50%);
+  }
+  .nav-right { display: flex; gap: 24px; align-items: center; }
+  .nav-right a { color: #7a7a90; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-right a:hover { color: #fff; }
+
+  .btn-glass {
+    background: rgba(255,255,255,0.06);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-glass:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  .btn-solid {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+  }
+  .btn-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.4); }
+
+  /* Hero — left-aligned */
+  .hero {
+    padding: 140px 48px 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .hero-text h1 {
+    font-size: 60px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+  .hero-text h1 .blue { color: #3b82f6; }
+  .hero-text h1 .gold { color: #d4af37; }
+  .hero-text p {
+    font-size: 18px;
+    color: #7a7a90;
+    line-height: 1.7;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+  .hero-cta { display: flex; gap: 12px; }
+
+  /* Glass card on the right */
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.03);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 40px;
+    width: 380px;
+    position: relative;
+  }
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 30%; right: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(59,130,246,0.5), transparent);
+  }
+  .glass-card .chat-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+  .chat-avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .chat-bubble {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #b0b0c0;
+  }
+  .chat-meta {
+    font-size: 10px;
+    color: #444;
+    margin-top: 4px;
+  }
+  .latency-tag {
+    color: #22c55e;
+    font-weight: 600;
+  }
+
+  /* Bento grid */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 48px;
+  }
+  .bento-card {
+    background: rgba(255,255,255,0.02);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 28px;
+    transition: all 0.3s;
+  }
+  .bento-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.1);
+  }
+  .bento-card.span-2 { grid-column: span 2; }
+  .bento-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .bento-card p { font-size: 13px; color: #666; line-height: 1.6; }
+  .bento-card .big-num {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 4px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 32px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    color: #444;
+    font-size: 13px;
+  }
+  footer a { color: #555; text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  .concept-label {
+    position: fixed; bottom: 16px; right: 16px;
+    background: rgba(59,130,246,0.15); color: #3b82f6;
+    padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    z-index: 999; border: 1px solid rgba(59,130,246,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="glow-bg"></div>
+
+<!-- Large compass insignia in background -->
+<div class="compass-bg">
+  <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+    <line x1="200" y1="20" x2="200" y2="380" stroke="#3b82f6" stroke-width="2"/>
+    <line x1="20" y1="200" x2="380" y2="200" stroke="#d4af37" stroke-width="1"/>
+    <polygon points="200,20 210,60 190,60" fill="#3b82f6"/>
+    <polygon points="200,380 210,340 190,340" fill="#d4af37"/>
+    <circle cx="200" cy="200" r="80" fill="none" stroke="#3b82f6" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="160" fill="none" stroke="#d4af37" stroke-width="0.3"/>
+    <text x="200" y="16" text-anchor="middle" fill="#3b82f6" font-size="16" font-weight="700">N</text>
+    <text x="200" y="398" text-anchor="middle" fill="#d4af37" font-size="16" font-weight="700">S</text>
+  </svg>
+</div>
+
+<div class="content">
+  <nav>
+    <div class="logo">
+      <div class="logo-icon">
+        <span style="position:relative;z-index:1;font-size:10px;">NS</span>
+      </div>
+      Stone AI&trade;
+    </div>
+    <div class="nav-right">
+      <a href="#">Features</a>
+      <a href="#">Agents</a>
+      <a href="#">Pricing</a>
+      <a href="#">Sign In</a>
+      <a href="#" class="btn-glass">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-text">
+      <h1>
+        Intelligence<br>
+        without<br>
+        <span class="blue">boundaries</span>
+      </h1>
+      <p>
+        Stone AI runs on your local GPU. No cloud latency, no data leaks,
+        no compromises. 30 expert agents that remember your business and
+        deliver real work in under 100ms.
+      </p>
+      <div class="hero-cta">
+        <a href="#" class="btn-solid">Start Free &rarr;</a>
+        <a href="#" class="btn-glass">Watch Demo</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="glass-card">
+        <div class="chat-line">
+          <div class="chat-avatar" style="background:rgba(59,130,246,0.2);color:#3b82f6;">You</div>
+          <div>
+            <div class="chat-bubble">Write a go-to-market strategy for my SaaS product targeting SMBs</div>
+          </div>
+        </div>
+        <div class="chat-line">
+          <div class="chat-avatar" style="background:rgba(212,175,55,0.2);color:#d4af37;">AI</div>
+          <div>
+            <div class="chat-bubble" style="border-left: 2px solid rgba(212,175,55,0.3);">
+              Here's a phased GTM strategy for your SMB SaaS product:
+              <br><br>
+              <strong>Phase 1: Foundation (Weeks 1-4)</strong><br>
+              Define ICP: 10-50 employee companies...
+            </div>
+            <div class="chat-meta">
+              Startup Launcher Agent &middot; <span class="latency-tag">62ms</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bento">
+    <div class="bento-card">
+      <div class="big-num" style="color:#3b82f6;">&lt;100ms</div>
+      <h3>Response Time</h3>
+      <p>Local GPU inference. Faster than any cloud API.</p>
+    </div>
+    <div class="bento-card">
+      <div class="big-num" style="color:#d4af37;">30</div>
+      <h3>Expert Agents</h3>
+      <p>Domain specialists with persistent memory.</p>
+    </div>
+    <div class="bento-card span-2">
+      <h3>Enterprise-Grade Security</h3>
+      <p>AES-256-GCM encryption, CSP headers, rate limiting, audit logging. Your conversations never leave your network. HIPAA-friendly, GDPR-ready, SOC 2 compliant architecture. Built for regulated industries.</p>
+    </div>
+    <div class="bento-card span-2">
+      <h3>Plan it. Start it. Run it.</h3>
+      <p>From validating your first idea to managing multiple companies. Each agent produces client-ready deliverables you can use immediately or sell to clients. Proposals, strategies, code, copy, analytics.</p>
+    </div>
+    <div class="bento-card">
+      <div class="big-num" style="color:#22c55e;">$0</div>
+      <h3>Free Tier</h3>
+      <p>No credit card. No trial. No catch.</p>
+    </div>
+    <div class="bento-card">
+      <div class="big-num" style="color:#a855f7;">API</div>
+      <h3>Build & Resell</h3>
+      <p>White-label AI for your own products.</p>
+    </div>
+  </section>
+
+  <footer>
+    <span>Stone AI&trade; &copy; 2026</span>
+    <div style="display:flex;gap:24px;">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Support</a>
+    </div>
+  </footer>
+</div>
+
+<div class="concept-label">Concept B: Meridian Glass</div>
+</body>
+</html>

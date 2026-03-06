@@ -116,13 +116,15 @@ export const createBestieSchema = z.object({
     .array(z.enum(BESTIE_TRAITS))
     .max(5, "Pick at most 5 personality traits")
     .default([]),
-  style: z.enum(BESTIE_STYLES).optional(),
+  styles: z.array(z.enum(BESTIE_STYLES)).min(1).max(2),
   expertise: z
     .array(z.enum(BESTIE_EXPERTISE))
     .max(5, "Pick at most 5 topics")
     .default([]),
-  avatarEmoji: z.string().min(1).max(50000).default("\uD83D\uDC9C"), // supports emoji (4 chars) or data URI (base64 ~30KB)
+  avatarEmoji: z.string().min(1).max(100000).refine(val => val.length <= 10 || /^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(val), "Invalid avatar format").default("\uD83D\uDC9C"),
   language: z.enum(BESTIE_LANGUAGES).default("en"),
+  purposes: z.array(z.string().max(30)).max(3).default([]),
+  bgTheme: z.string().max(30).default("pure-dark"),
   schedule: scheduleSchema.optional(),
   aboutMe: z.object({
     name: z.string().max(50).optional(),
@@ -132,9 +134,9 @@ export const createBestieSchema = z.object({
     favorites: z.string().max(200).optional(),
     other: z.string().max(500).optional(),
   }).optional(),
-});
+}).strict();
 
-export const updateBestieSchema = createBestieSchema.partial();
+export const updateBestieSchema = createBestieSchema.partial().strict();
 
 export const bestieChatSchema = z.object({
   conversationId: z.string().cuid(),

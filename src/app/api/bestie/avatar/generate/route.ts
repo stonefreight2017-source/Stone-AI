@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
 
     const personality = bestie.personality as {
       traits?: BestieTrait[];
-      style?: BestieStyle;
+      styles?: BestieStyle[];
       expertise?: BestieExpertise[];
       path?: BestiePath;
       purposes?: string[];
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     // Build the DALL-E prompt from personality
     const { prompt, attributes } = generateAvatarPrompt({
       traits: personality.traits || [],
-      style: personality.style,
+      style: personality.styles?.[0],
       expertise: personality.expertise || [],
       path: personality.path,
       purposes: personality.purposes,

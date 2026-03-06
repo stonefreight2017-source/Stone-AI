@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI - Concept D: Obsidian Glow</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #0c0a09;
+    color: #f5f0e8;
+    overflow-x: hidden;
+  }
+
+  /* Warm ambient glows */
+  .ambient {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(212, 175, 55, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(245, 158, 11, 0.02) 0%, transparent 60%);
+  }
+
+  /* Subtle embossed N-S insignia texture */
+  .texture {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='160' viewBox='0 0 80 160'%3E%3Cline x1='40' y1='20' x2='40' y2='140' stroke='%23d4af37' stroke-width='0.5'/%3E%3Ccircle cx='40' cy='20' r='3' fill='none' stroke='%23d4af37' stroke-width='0.5'/%3E%3Ccircle cx='40' cy='140' r='3' fill='none' stroke='%23d4af37' stroke-width='0.5'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  /* Nav — ultra minimal */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 60px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .logo-insignia {
+    width: 40px; height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-insignia::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #d4af37, #8b6914);
+    transform: translateX(-50%);
+    border-radius: 1px;
+  }
+  .logo-insignia .n-mark {
+    position: absolute; top: -2px; left: 50%; transform: translateX(-50%);
+    font-size: 9px; font-weight: 700; color: #d4af37; letter-spacing: 0;
+  }
+  .logo-insignia .s-mark {
+    position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
+    font-size: 9px; font-weight: 700; color: #8b6914; letter-spacing: 0;
+  }
+  .logo-insignia .diamond {
+    width: 8px; height: 8px;
+    background: #d4af37;
+    transform: rotate(45deg);
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+  .nav-links a { color: #786a53; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.3s; }
+  .nav-links a:hover { color: #d4af37; }
+
+  .btn-gold {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0c0a09;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .btn-gold:hover {
+    box-shadow: 0 4px 24px rgba(212, 175, 55, 0.3);
+    transform: translateY(-1px);
+  }
+  .btn-dark {
+    background: rgba(255,255,255,0.04);
+    color: #c8b88a;
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  .btn-dark:hover { background: rgba(212,175,55,0.08); border-color: rgba(212,175,55,0.3); }
+
+  /* Hero — luxury feel */
+  .hero {
+    text-align: center;
+    padding: 180px 48px 120px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .hero-sup {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: #d4af37;
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+  .hero h1 {
+    font-size: 68px;
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -3px;
+    margin-bottom: 28px;
+    color: #f5f0e8;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: #d4af37;
+  }
+  .hero p {
+    font-size: 18px;
+    color: #786a53;
+    line-height: 1.8;
+    margin-bottom: 48px;
+    font-weight: 400;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; }
+
+  /* Horizontal scroll features */
+  .features-strip {
+    padding: 80px 0;
+    border-top: 1px solid rgba(212,175,55,0.06);
+    border-bottom: 1px solid rgba(212,175,55,0.06);
+  }
+  .features-inner {
+    display: flex;
+    gap: 1px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 60px;
+  }
+  .feature-panel {
+    flex: 1;
+    padding: 48px 40px;
+    background: rgba(255,255,255,0.01);
+    border-left: 1px solid rgba(212,175,55,0.06);
+    transition: all 0.3s;
+  }
+  .feature-panel:first-child { border-left: none; }
+  .feature-panel:hover { background: rgba(212,175,55,0.03); }
+  .feature-panel .num {
+    font-size: 11px;
+    color: #d4af37;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+  .feature-panel h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #f5f0e8;
+    letter-spacing: -0.5px;
+  }
+  .feature-panel p {
+    font-size: 14px;
+    color: #665c4a;
+    line-height: 1.7;
+  }
+
+  /* Quote / testimonial style */
+  .quote-section {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 100px 48px;
+    text-align: center;
+  }
+  .quote-section blockquote {
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #c8b88a;
+    letter-spacing: -0.5px;
+    margin-bottom: 24px;
+  }
+  .quote-section cite {
+    font-style: normal;
+    color: #786a53;
+    font-size: 14px;
+  }
+
+  /* Final CTA */
+  .final-cta {
+    text-align: center;
+    padding: 100px 48px 120px;
+    position: relative;
+  }
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0;
+    transform: translateX(-50%);
+    width: 1px; height: 60px;
+    background: linear-gradient(180deg, transparent, #d4af37);
+  }
+  .final-cta h2 {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+  .final-cta p { color: #665c4a; font-size: 16px; margin-bottom: 36px; }
+
+  footer {
+    border-top: 1px solid rgba(212,175,55,0.06);
+    padding: 28px 60px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    color: #443c2e;
+    font-size: 12px;
+  }
+  footer a { color: #665c4a; text-decoration: none; }
+  footer a:hover { color: #d4af37; }
+
+  .concept-label {
+    position: fixed; bottom: 16px; right: 16px;
+    background: rgba(212,175,55,0.1); color: #d4af37;
+    padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    z-index: 999; border: 1px solid rgba(212,175,55,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="ambient"></div>
+<div class="texture"></div>
+
+<div class="content">
+  <nav>
+    <div class="logo">
+      <div class="logo-insignia">
+        <span class="n-mark">N</span>
+        <div class="diamond"></div>
+        <span class="s-mark">S</span>
+      </div>
+      Stone AI<span style="font-size:11px;color:#786a53;margin-left:-4px;font-weight:400;">&trade;</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Platform</a>
+      <a href="#">Agents</a>
+      <a href="#">Enterprise</a>
+      <a href="#">Pricing</a>
+      <a href="#" class="btn-gold">Begin</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-sup">Private Intelligence</div>
+    <h1>
+      Think <em>faster</em><br>
+      than the cloud
+    </h1>
+    <p>
+      Stone AI delivers frontier-class intelligence at GPU speed.
+      No network latency. No data exposure. No compromises.
+      Just raw, local power.
+    </p>
+    <div class="hero-btns">
+      <a href="#" class="btn-gold">Start free</a>
+      <a href="#" class="btn-dark">Explore agents</a>
+    </div>
+  </section>
+
+  <section class="features-strip">
+    <div class="features-inner">
+      <div class="feature-panel">
+        <div class="num">01 &mdash; Speed</div>
+        <h3>&lt;100ms</h3>
+        <p>Local GPU inference eliminates the network entirely. Answers arrive before you finish reading the question.</p>
+      </div>
+      <div class="feature-panel">
+        <div class="num">02 &mdash; Intelligence</div>
+        <h3>70B + GPT-4o</h3>
+        <p>Latest open-weight models locally, with GPT-4o Smart mode for tasks requiring the absolute frontier.</p>
+      </div>
+      <div class="feature-panel">
+        <div class="num">03 &mdash; Privacy</div>
+        <h3>Zero Exposure</h3>
+        <p>Conversations never leave your network. HIPAA-friendly, GDPR-ready, SOC 2 architecture. Compliance by design.</p>
+      </div>
+      <div class="feature-panel">
+        <div class="num">04 &mdash; Agents</div>
+        <h3>30 Specialists</h3>
+        <p>Business partners, not chatbots. Persistent memory, RAG knowledge, client-ready deliverables.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <blockquote>
+      "The fastest AI is the one that doesn't wait for permission to think."
+    </blockquote>
+    <cite>&mdash; The Stone AI Manifesto</cite>
+  </section>
+
+  <section class="final-cta">
+    <h2>Own your intelligence.</h2>
+    <p>Free to start. No credit card. No trial. No compromise.</p>
+    <a href="#" class="btn-gold" style="font-size:16px;padding:16px 40px;">Get Started &rarr;</a>
+  </section>
+
+  <footer>
+    <span>Stone AI&trade; &copy; 2026</span>
+    <div style="display:flex;gap:24px;">
+      <a href="#">Terms</a>
+      <a href="#">Privacy</a>
+      <a href="#">Support</a>
+    </div>
+  </footer>
+</div>
+
+<div class="concept-label">Concept D: Obsidian Glow</div>
+</body>
+</html>

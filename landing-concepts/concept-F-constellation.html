@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI - Concept F: Constellation Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: #030712;
+    color: #e5e7eb;
+    overflow-x: hidden;
+  }
+
+  /* Constellation dots and lines */
+  .constellation {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+  }
+  .constellation canvas { width: 100%; height: 100%; }
+
+  /* Inline constellation SVG pattern */
+  .star-field {
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0;
+    opacity: 0.4;
+    background-image:
+      radial-gradient(1px 1px at 5% 10%, #fff 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 12% 35%, rgba(255,255,255,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 60%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(2px 2px at 30% 15%, rgba(59,130,246,0.8) 0%, transparent 100%),
+      radial-gradient(1px 1px at 38% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 45%, rgba(212,175,55,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 55% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 62% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 70% 40%, rgba(59,130,246,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 85% 25%, rgba(212,175,55,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 65%, rgba(255,255,255,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 90%, rgba(255,255,255,0.2) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 5%, rgba(255,255,255,0.7) 0%, transparent 100%),
+      radial-gradient(1px 1px at 68% 88%, rgba(59,130,246,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 8%, rgba(255,255,255,0.5) 0%, transparent 100%);
+  }
+
+  /* Constellation lines (N-S insignia as constellation) */
+  .insignia-constellation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    opacity: 0.04;
+    width: 600px;
+    height: 800px;
+  }
+
+  .content { position: relative; z-index: 1; }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .logo {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-star {
+    width: 32px; height: 32px;
+    position: relative;
+  }
+  .logo-star::before {
+    content: '';
+    position: absolute;
+    left: 50%; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, #3b82f6, #d4af37);
+    transform: translateX(-50%);
+  }
+  .logo-star .dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    left: 50%; transform: translateX(-50%);
+  }
+  .logo-star .dot.top { top: -1px; background: #3b82f6; box-shadow: 0 0 8px #3b82f6; }
+  .logo-star .dot.mid { top: 50%; margin-top: -3px; background: #fff; box-shadow: 0 0 8px #fff; }
+  .logo-star .dot.bot { bottom: -1px; background: #d4af37; box-shadow: 0 0 8px #d4af37; }
+
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { color: #6b7280; text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: #fff; }
+
+  .btn-bright {
+    background: #fff;
+    color: #030712;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-bright:hover {
+    box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
+
+  /* Hero — large, centered, impactful */
+  .hero {
+    text-align: center;
+    padding: 180px 48px 100px;
+    max-width: 850px;
+    margin: 0 auto;
+  }
+  .hero .tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 36px;
+    font-weight: 500;
+  }
+  .hero .tagline .dot { width: 6px; height: 6px; border-radius: 50%; background: #22c55e; }
+
+  .hero h1 {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -4px;
+    margin-bottom: 32px;
+  }
+  .glow-text {
+    background: linear-gradient(90deg, #e5e7eb 0%, #fff 50%, #e5e7eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 18px;
+    color: #6b7280;
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto 48px;
+    font-weight: 400;
+  }
+  .hero-btns { display: flex; gap: 12px; justify-content: center; }
+  .btn-dim {
+    background: rgba(255,255,255,0.06);
+    color: #9ca3af;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-dim:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+  /* Agent constellation grid */
+  .agent-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 48px;
+  }
+  .agent-grid h2 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    margin-bottom: 12px;
+  }
+  .agent-grid .subtitle {
+    text-align: center;
+    color: #6b7280;
+    font-size: 15px;
+    margin-bottom: 48px;
+  }
+  .agent-nodes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 32px;
+  }
+  .agent-node {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #9ca3af;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .agent-node:hover {
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    border-color: rgba(255,255,255,0.12);
+  }
+  .agent-node .node-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+  }
+  .agent-node .node-dot.blue { background: #3b82f6; }
+  .agent-node .node-dot.gold { background: #d4af37; }
+  .agent-node .node-dot.green { background: #22c55e; }
+  .agent-node .node-dot.purple { background: #a855f7; }
+
+  /* Metrics bar */
+  .metrics {
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    padding: 60px 48px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .metric { text-align: center; }
+  .metric-val {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -3px;
+    margin-bottom: 4px;
+  }
+  .metric-label { font-size: 12px; color: #4b5563; text-transform: uppercase; letter-spacing: 2px; font-weight: 500; }
+
+  /* Bottom CTA */
+  .bottom-cta {
+    text-align: center;
+    padding: 80px 48px 120px;
+  }
+  .bottom-cta h2 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+  }
+  .bottom-cta p { color: #6b7280; margin-bottom: 32px; }
+
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #374151;
+    font-size: 12px;
+  }
+  footer a { color: #4b5563; text-decoration: none; margin-left: 20px; }
+  footer a:hover { color: #fff; }
+
+  .concept-label {
+    position: fixed; bottom: 16px; right: 16px;
+    background: rgba(255,255,255,0.06); color: #9ca3af;
+    padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+    z-index: 999; border: 1px solid rgba(255,255,255,0.1);
+  }
+</style>
+</head>
+<body>
+<div class="star-field"></div>
+
+<!-- Constellation insignia in background -->
+<div class="insignia-constellation">
+  <svg viewBox="0 0 300 400" xmlns="http://www.w3.org/2000/svg">
+    <line x1="150" y1="20" x2="150" y2="380" stroke="#3b82f6" stroke-width="1"/>
+    <circle cx="150" cy="20" r="8" fill="#3b82f6"/>
+    <circle cx="150" cy="200" r="12" fill="#fff"/>
+    <circle cx="150" cy="380" r="8" fill="#d4af37"/>
+    <!-- Cross connections -->
+    <line x1="150" y1="20" x2="80" y2="100" stroke="#3b82f6" stroke-width="0.5"/>
+    <line x1="150" y1="20" x2="220" y2="100" stroke="#3b82f6" stroke-width="0.5"/>
+    <circle cx="80" cy="100" r="4" fill="#3b82f6"/>
+    <circle cx="220" cy="100" r="4" fill="#3b82f6"/>
+    <line x1="80" y1="100" x2="150" y2="200" stroke="#fff" stroke-width="0.3"/>
+    <line x1="220" y1="100" x2="150" y2="200" stroke="#fff" stroke-width="0.3"/>
+    <line x1="150" y1="200" x2="80" y2="300" stroke="#d4af37" stroke-width="0.5"/>
+    <line x1="150" y1="200" x2="220" y2="300" stroke="#d4af37" stroke-width="0.5"/>
+    <circle cx="80" cy="300" r="4" fill="#d4af37"/>
+    <circle cx="220" cy="300" r="4" fill="#d4af37"/>
+    <line x1="80" y1="300" x2="150" y2="380" stroke="#d4af37" stroke-width="0.5"/>
+    <line x1="220" y1="300" x2="150" y2="380" stroke="#d4af37" stroke-width="0.5"/>
+    <text x="150" y="14" text-anchor="middle" fill="#3b82f6" font-size="10" font-weight="700">N</text>
+    <text x="150" y="398" text-anchor="middle" fill="#d4af37" font-size="10" font-weight="700">S</text>
+  </svg>
+</div>
+
+<div class="content">
+  <nav>
+    <div class="logo">
+      <div class="logo-star">
+        <div class="dot top"></div>
+        <div class="dot mid"></div>
+        <div class="dot bot"></div>
+      </div>
+      Stone AI
+    </div>
+    <div class="nav-links">
+      <a href="#">Features</a>
+      <a href="#">Agents</a>
+      <a href="#">Pricing</a>
+      <a href="#">Sign In</a>
+      <a href="#" class="btn-bright">Get Started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="tagline">
+      <span class="dot"></span> Sub-100ms local AI inference
+    </div>
+    <h1>
+      <span class="glow-text">Navigate the</span><br>
+      <span class="glow-text">future of AI</span>
+    </h1>
+    <p>
+      Stone AI maps your business across 30 expert agents, all running
+      on local GPU at speeds the cloud can't match. Your data never
+      leaves your network.
+    </p>
+    <div class="hero-btns">
+      <a href="#" class="btn-bright">Start free &rarr;</a>
+      <a href="#" class="btn-dim">View pricing</a>
+    </div>
+  </section>
+
+  <section class="agent-grid">
+    <h2>30 Expert Agents</h2>
+    <p class="subtitle">Each one a specialist with persistent memory and domain expertise</p>
+    <div class="agent-nodes">
+      <div class="agent-node"><span class="node-dot blue"></span>Startup Launcher</div>
+      <div class="agent-node"><span class="node-dot gold"></span>Business Plan</div>
+      <div class="agent-node"><span class="node-dot green"></span>Sales Agent</div>
+      <div class="agent-node"><span class="node-dot purple"></span>Content Studio</div>
+      <div class="agent-node"><span class="node-dot blue"></span>Web Developer</div>
+      <div class="agent-node"><span class="node-dot gold"></span>Copywriter</div>
+      <div class="agent-node"><span class="node-dot green"></span>Data Analytics</div>
+      <div class="agent-node"><span class="node-dot purple"></span>YouTube Agent</div>
+      <div class="agent-node"><span class="node-dot blue"></span>Funnel Builder</div>
+      <div class="agent-node"><span class="node-dot gold"></span>Social Media</div>
+      <div class="agent-node"><span class="node-dot green"></span>Paid Ads</div>
+      <div class="agent-node"><span class="node-dot purple"></span>Compliance</div>
+      <div class="agent-node"><span class="node-dot blue"></span>Cybersecurity</div>
+      <div class="agent-node"><span class="node-dot gold"></span>Trading Signals</div>
+      <div class="agent-node"><span class="node-dot green"></span>AI Agency</div>
+      <div class="agent-node"><span class="node-dot purple"></span>SaaS Builder</div>
+    </div>
+  </section>
+
+  <section class="metrics">
+    <div class="metric">
+      <div class="metric-val" style="color:#3b82f6;">&lt;100ms</div>
+      <div class="metric-label">Latency</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:#d4af37;">70B</div>
+      <div class="metric-label">Parameters</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:#22c55e;">100%</div>
+      <div class="metric-label">Private</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val" style="color:#a855f7;">$0</div>
+      <div class="metric-label">To Start</div>
+    </div>
+  </section>
+
+  <section class="bottom-cta">
+    <h2>Chart your course.</h2>
+    <p>Free tier. No credit card. Unlimited conversations.</p>
+    <a href="#" class="btn-bright" style="font-size:16px;padding:14px 36px;">Begin &rarr;</a>
+  </section>
+
+  <footer>
+    <span>Stone AI &copy; 2026</span>
+    <div><a href="#">Terms</a><a href="#">Privacy</a><a href="#">Support</a></div>
+  </footer>
+</div>
+
+<div class="concept-label">Concept F: Constellation Grid</div>
+</body>
+</html>

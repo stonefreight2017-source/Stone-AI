@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stone AI — Product Screenshot Strategy</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #18181b; color: #e4e4e7; line-height: 1.6; }
+  .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+  h1 { font-size: 32px; font-weight: 700; margin-bottom: 8px; color: white; }
+  h2 { font-size: 24px; font-weight: 700; margin: 48px 0 16px; color: white; border-bottom: 1px solid #333; padding-bottom: 8px; }
+  h3 { font-size: 18px; font-weight: 600; margin: 24px 0 12px; color: #a1a1aa; }
+  p { color: #a1a1aa; margin-bottom: 12px; }
+  .highlight { color: #34d399; font-weight: 600; }
+  .warn { color: #fbbf24; font-weight: 600; }
+  .section { background: #27272a; border: 1px solid #3f3f46; border-radius: 12px; padding: 24px; margin: 20px 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  .card { background: #1f1f23; border: 1px solid #3f3f46; border-radius: 8px; padding: 16px; }
+  .card h4 { color: white; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .card p { font-size: 13px; color: #71717a; }
+  .mockup { background: #09090b; border: 2px solid #3f3f46; border-radius: 12px; overflow: hidden; margin: 16px 0; }
+  .mockup-bar { background: #27272a; padding: 8px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #3f3f46; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #ef4444; }
+  .dot-y { background: #eab308; }
+  .dot-g { background: #22c55e; }
+  .mockup-url { font-size: 11px; color: #71717a; background: #18181b; padding: 4px 12px; border-radius: 4px; flex: 1; }
+  .mockup-body { padding: 24px; min-height: 200px; }
+  .mock-sidebar { display: flex; gap: 0; }
+  .mock-sidebar-nav { width: 200px; background: #18181b; border-right: 1px solid #3f3f46; padding: 16px; min-height: 300px; }
+  .mock-sidebar-nav .nav-item { padding: 8px 12px; border-radius: 6px; font-size: 12px; color: #71717a; margin-bottom: 4px; cursor: default; }
+  .mock-sidebar-nav .nav-item.active { background: #3f3f46; color: white; }
+  .mock-main { flex: 1; padding: 24px; }
+  .mock-chat { display: flex; flex-direction: column; gap: 12px; }
+  .mock-msg { padding: 10px 14px; border-radius: 12px; font-size: 12px; max-width: 70%; }
+  .mock-msg-user { background: #db2777; color: white; align-self: flex-end; margin-left: auto; }
+  .mock-msg-bot { background: #27272a; color: #e4e4e7; }
+  .mock-input { display: flex; gap: 8px; margin-top: 16px; }
+  .mock-input input { flex: 1; background: #27272a; border: 1px solid #3f3f46; border-radius: 20px; padding: 8px 16px; color: #71717a; font-size: 12px; outline: none; }
+  .mock-input button { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #db2777, #7c3aed); border: none; color: white; font-size: 14px; cursor: default; }
+  .mock-agent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .mock-agent-card { background: #27272a; border: 1px solid #3f3f46; border-radius: 8px; padding: 12px; text-align: center; }
+  .mock-agent-icon { font-size: 24px; margin-bottom: 4px; }
+  .mock-agent-name { font-size: 11px; color: white; font-weight: 600; }
+  .mock-agent-desc { font-size: 10px; color: #71717a; }
+  .mock-stat { display: inline-block; padding: 4px 10px; background: #18181b; border-radius: 6px; font-size: 11px; color: #34d399; margin: 2px; }
+  .arrow { text-align: center; font-size: 32px; color: #3f3f46; margin: 16px 0; }
+  .example-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #a78bfa; margin-bottom: 8px; }
+  .vs { display: flex; align-items: center; gap: 16px; margin: 24px 0; }
+  .vs-line { flex: 1; height: 1px; background: #3f3f46; }
+  .vs-text { color: #71717a; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #3f3f46; font-size: 13px; }
+  th { color: #a1a1aa; font-weight: 600; font-size: 11px; text-transform: uppercase; }
+  td { color: #d4d4d8; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+  .badge-live { background: #064e3b; color: #34d399; }
+  .badge-yours { background: #4c1d95; color: #a78bfa; }
+  .mic-demo { display: flex; align-items: center; gap: 12px; padding: 16px; background: #1f1f23; border-radius: 8px; margin: 12px 0; }
+  .mic-btn { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, #db2777, #7c3aed); border: none; color: white; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+  .mic-btn.listening { animation: pulse 1.5s infinite; background: #ef4444; }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0.4); } 50% { box-shadow: 0 0 0 12px rgba(239,68,68,0); } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>Your Product IS the Screenshot</h1>
+<p>You said you don't believe you have a product to screenshot. <span class="highlight">You absolutely do.</span> Here's what you've built and exactly how it becomes landing page content.</p>
+
+<h2>Your Existing Pages = Product Screenshots</h2>
+<p>Every one of these is a page a user sees after signing up. These ARE your product.</p>
+
+<table>
+  <thead>
+    <tr><th>Page</th><th>Route</th><th>What It Shows</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Dashboard</td><td>/app</td><td>"What can I help with?" + 4 suggestion chips</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Agent Chat</td><td>/app/chat/[id]</td><td>ChatGPT-style flat messages, pill input, streaming</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Agent Marketplace</td><td>/app/agents</td><td>42 agents with categories, search, tier badges</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Bestie Hub</td><td>/app/bestie</td><td>Your AI companions, warm pink/purple theme</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Bestie Chat</td><td>/app/bestie/chat/[id]</td><td>Personal companion chat with emoji avatar</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Bestie Creator</td><td>/app/bestie/create</td><td>3-step wizard: personality, name, launch</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Community Forum</td><td>/app/community</td><td>Posts, categories, likes, replies</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Billing</td><td>/app/billing</td><td>Plan selector, Stripe integration</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Settings</td><td>/app/settings</td><td>Profile, referrals, preferences</td><td><span class="badge badge-live">BUILT</span></td></tr>
+    <tr><td>Discover</td><td>/app/discover</td><td>Agent discovery with descriptions</td><td><span class="badge badge-live">BUILT</span></td></tr>
+  </tbody>
+</table>
+
+<h2>How Top SaaS Companies Use Product Screenshots</h2>
+<p>Here's the pattern every successful SaaS landing page follows:</p>
+
+<div class="section">
+  <p class="example-label">Pattern 1: Hero Screenshot</p>
+  <h3>Show the product right below the headline</h3>
+  <p>The #1 most effective placement. User reads the headline, immediately sees the product. No guesswork.</p>
+
+  <div class="mockup">
+    <div class="mockup-bar">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="mockup-url">stone-ai.net</div>
+    </div>
+    <div class="mockup-body" style="text-align: center; padding: 40px 24px;">
+      <div style="font-size: 36px; font-weight: 700; color: white; margin-bottom: 8px;">The workforce of the future is here.</div>
+      <div style="color: #71717a; margin-bottom: 24px;">42 AI specialists. Local GPU inference. Your data stays yours.</div>
+      <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 32px;">
+        <div style="padding: 8px 20px; background: white; color: black; border-radius: 8px; font-size: 13px; font-weight: 600;">Start for Free</div>
+        <div style="padding: 8px 20px; border: 1px solid #3f3f46; color: #a1a1aa; border-radius: 8px; font-size: 13px;">See Plans</div>
+      </div>
+
+      <div class="arrow">&#8595;</div>
+      <div style="font-size: 11px; color: #a78bfa; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">YOUR ACTUAL APP SCREENSHOT GOES HERE</div>
+
+      <!-- Mock of your dashboard -->
+      <div class="mockup" style="margin: 0; text-align: left;">
+        <div class="mockup-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <div class="mockup-url">stone-ai.net/app</div>
+        </div>
+        <div class="mock-sidebar">
+          <div class="mock-sidebar-nav">
+            <div class="nav-item active">Dashboard</div>
+            <div class="nav-item">Agents</div>
+            <div class="nav-item">My Bestie</div>
+            <div class="nav-item">Community</div>
+            <div class="nav-item">Billing</div>
+            <div class="nav-item">Settings</div>
+          </div>
+          <div class="mock-main">
+            <div style="font-size: 20px; font-weight: 600; color: white; margin-bottom: 4px;">What can I help with?</div>
+            <div style="font-size: 12px; color: #71717a; margin-bottom: 16px;">Choose a suggestion or start typing below.</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="card"><h4>Plan a business</h4><p>Help me plan a new business from scratch...</p></div>
+              <div class="card"><h4>Write content</h4><p>I need help writing professional content...</p></div>
+              <div class="card"><h4>Build something</h4><p>I want to build a web application...</p></div>
+              <div class="card"><h4>Grow my brand</h4><p>Help me create a marketing strategy...</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p style="color: #34d399; font-size: 13px;"><strong>This is YOUR /app page.</strong> You just need to log in, take a screenshot, and put it on the landing page. That's it.</p>
+</div>
+
+<div class="section">
+  <p class="example-label">Pattern 2: Feature Section Screenshot</p>
+  <h3>Show the specific feature next to its description</h3>
+  <p>When you describe "42 AI agents" — show the agent marketplace. When you describe "Bestie" — show the Bestie chat.</p>
+
+  <div class="grid">
+    <div>
+      <h4 style="color: white; margin-bottom: 8px;">Agents Tab Copy:</h4>
+      <p style="font-size: 13px;">"42 specialists. Zero salaries. Each agent is a domain expert with persistent memory."</p>
+      <p style="font-size: 11px; color: #fbbf24;">Right now this is just TEXT. No one can see what the agents look like.</p>
+    </div>
+    <div>
+      <!-- Mock agent marketplace -->
+      <div class="mockup" style="margin: 0;">
+        <div class="mockup-bar">
+          <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+          <div class="mockup-url">stone-ai.net/app/agents</div>
+        </div>
+        <div style="padding: 16px;">
+          <div class="mock-agent-grid">
+            <div class="mock-agent-card"><div class="mock-agent-icon">&#128640;</div><div class="mock-agent-name">Startup Launcher</div><div class="mock-agent-desc">Business</div></div>
+            <div class="mock-agent-card"><div class="mock-agent-icon">&#128187;</div><div class="mock-agent-name">Web Dev</div><div class="mock-agent-desc">Technical</div></div>
+            <div class="mock-agent-card"><div class="mock-agent-icon">&#128200;</div><div class="mock-agent-name">Marketing</div><div class="mock-agent-desc">Marketing</div></div>
+            <div class="mock-agent-card"><div class="mock-agent-icon">&#9997;</div><div class="mock-agent-name">Copywriting</div><div class="mock-agent-desc">Content</div></div>
+            <div class="mock-agent-card"><div class="mock-agent-icon">&#128176;</div><div class="mock-agent-name">Finance</div><div class="mock-agent-desc">Finance</div></div>
+            <div class="mock-agent-card"><div class="mock-agent-icon">&#129302;</div><div class="mock-agent-name">Code Agent</div><div class="mock-agent-desc">Technical</div></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: #34d399; margin-top: 4px;"><strong>Screenshot of YOUR /app/agents page goes here</strong></p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <p class="example-label">Pattern 3: Bestie Chat Screenshot</p>
+  <h3>Show a real conversation with the Bestie</h3>
+
+  <div class="mockup">
+    <div class="mockup-bar">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="mockup-url">stone-ai.net/app/bestie/chat/abc123</div>
+    </div>
+    <div style="padding: 16px; background: linear-gradient(180deg, rgba(219,39,119,0.05), rgba(124,58,237,0.05));">
+      <!-- Header -->
+      <div style="display: flex; align-items: center; gap: 8px; padding-bottom: 12px; border-bottom: 1px solid rgba(219,39,119,0.2); margin-bottom: 16px;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: rgba(219,39,119,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px;">&#128153;</div>
+        <div><div style="font-size: 13px; font-weight: 600; color: white;">Luna</div><div style="font-size: 10px; color: rgba(219,39,119,0.6);">Your AI Bestie</div></div>
+        <div style="margin-left: auto; font-size: 10px; color: rgba(124,58,237,0.5);">&#129504; Remembers you</div>
+      </div>
+
+      <div class="mock-chat">
+        <div class="mock-msg mock-msg-user">Hey Luna, I've been stressed about my startup pitch next week</div>
+        <div class="mock-msg mock-msg-bot">I remember you mentioned the pitch was coming up! You were working on the financials last time we talked. How's that going? And tell me what's stressing you most — is it the presentation itself, the numbers, or something else? &#128156;</div>
+        <div class="mock-msg mock-msg-user">It's the presentation. I'm not great at public speaking</div>
+        <div class="mock-msg mock-msg-bot">That makes total sense. You know what though? You explained your SaaS idea to me so clearly last week — the way you broke down the problem and solution was really compelling. What if we practice? Tell me your opening line and I'll give you honest feedback. We can run through it as many times as you want. &#127908;</div>
+      </div>
+
+      <div class="mock-input" style="margin-top: 20px;">
+        <input value="Thanks Luna, okay here goes..." disabled>
+        <button>&#10084;&#65039;</button>
+      </div>
+      <div style="font-size: 10px; color: #71717a; text-align: center; margin-top: 8px;">&#9889; First token: 47ms | Total: 1.2s</div>
+    </div>
+  </div>
+  <p style="color: #34d399; font-size: 13px;"><strong>This is YOUR /app/bestie/chat page.</strong> Log in, have a conversation with your Bestie, screenshot it. The warm pink/purple theme already looks great.</p>
+</div>
+
+<h2>What to Screenshot (Action Plan)</h2>
+<div class="section">
+  <table>
+    <thead><tr><th>#</th><th>Screenshot</th><th>Where to Use on Landing Page</th><th>How to Take It</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Dashboard (/app)</strong></td><td>Hero section — right below the headline</td><td>Log in, screenshot the "What can I help with?" page</td></tr>
+      <tr><td>2</td><td><strong>Agent Chat (/app/chat)</strong></td><td>Agents tab — show a real conversation with an agent</td><td>Start a chat with Startup Launcher, ask it to help plan a business, screenshot the back-and-forth</td></tr>
+      <tr><td>3</td><td><strong>Agent Marketplace (/app/agents)</strong></td><td>Agents tab — show the grid of 42 agents</td><td>Go to /app/agents, screenshot the full grid</td></tr>
+      <tr><td>4</td><td><strong>Bestie Chat</strong></td><td>Bestie tab — show the companion experience</td><td>Create a Bestie, have a warm conversation, screenshot</td></tr>
+      <tr><td>5</td><td><strong>Community (/app/community)</strong></td><td>Community tab — show the forum is real</td><td>Post a couple sample posts, screenshot the feed</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top: 12px;"><span class="highlight">Shortcut:</span> Use your browser's dev tools (F12 > Toggle Device Toolbar) to screenshot at 1280x800 for a clean desktop view, or 390x844 for a mobile view.</p>
+  <p><span class="highlight">Pro tip:</span> Use a tool like <strong>CleanShot</strong> (Mac), <strong>ShareX</strong> (Windows), or <strong>Greenshot</strong> (Windows) to add a subtle drop shadow and rounded corners to your screenshots. This makes them look polished.</p>
+</div>
+
+<h2>Voice Chat Preview (Being Built Now)</h2>
+<div class="section">
+  <p>Here's what the voice chat feature will look like in your Bestie chat:</p>
+
+  <div class="mockup">
+    <div class="mockup-bar">
+      <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+      <div class="mockup-url">stone-ai.net/app/bestie/chat — Voice Mode</div>
+    </div>
+    <div style="padding: 24px; background: linear-gradient(180deg, rgba(219,39,119,0.05), rgba(124,58,237,0.05));">
+
+      <div class="mock-chat" style="margin-bottom: 16px;">
+        <div class="mock-msg mock-msg-bot">Hey! I'm listening... just talk to me like you normally would. &#127908;</div>
+        <div class="mock-msg mock-msg-user" style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 10px; background: rgba(255,255,255,0.2); padding: 2px 6px; border-radius: 4px;">&#127908; Voice</span>
+          Tell me about my schedule for tomorrow
+        </div>
+        <div class="mock-msg mock-msg-bot">
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+            <span style="font-size: 10px; background: rgba(124,58,237,0.3); padding: 2px 6px; border-radius: 4px;">&#128264; Speaking</span>
+          </div>
+          Based on what you told me last week, you have the client presentation at 10 AM and your team standup at 2 PM. Want me to help you prep for either of those?
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input style="flex: 1; background: #27272a; border: 1px solid #3f3f46; border-radius: 20px; padding: 8px 16px; color: #71717a; font-size: 12px; outline: none;" value="Or type here..." disabled>
+        <div class="mic-btn listening" title="Listening...">&#127908;</div>
+        <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #db2777, #7c3aed); display: flex; align-items: center; justify-content: center; font-size: 14px; color: white;">&#10084;&#65039;</div>
+      </div>
+      <div style="text-align: center; margin-top: 8px; font-size: 11px; color: #ef4444;">&#9679; Listening... speak now</div>
+    </div>
+  </div>
+
+  <h3>How Voice Chat Works</h3>
+  <div class="grid">
+    <div class="card">
+      <h4>&#127908; Speech-to-Text (Input)</h4>
+      <p>User taps the mic button. Browser's SpeechRecognition API captures audio and converts to text. The text appears in the chat input and auto-sends.</p>
+      <p style="color: #34d399;">Works in: Chrome, Edge, Safari 14.1+</p>
+    </div>
+    <div class="card">
+      <h4>&#128264; Text-to-Speech (Output)</h4>
+      <p>When Bestie responds, SpeechSynthesis API reads the response aloud. User hears the Bestie's words. A "Speaking..." indicator shows it's active.</p>
+      <p style="color: #34d399;">Works in: All modern browsers</p>
+    </div>
+  </div>
+</div>
+
+<h2>Summary</h2>
+<div class="section">
+  <p><span class="highlight">You have a full product.</span> 10+ pages are built and working. The landing page just doesn't SHOW them yet.</p>
+  <p><span class="warn">Next step:</span> Log into your app at <code style="background: #18181b; padding: 2px 6px; border-radius: 4px;">localhost:3000/app</code>, take screenshots of 5 key pages, and we'll embed them into the landing page.</p>
+  <p>The voice chat feature is being built right now and will be live in the Bestie chat UI.</p>
+</div>
+
+</div>
+</body>
+</html>

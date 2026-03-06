@@ -297,6 +297,43 @@
   animation: backdrop-fire 10s ease-in-out infinite;
 }
 
+/* ── Premium CSS Backdrop Animations ───────────────────── */
+
+@keyframes backdrop-nebula {
+  0% { background-position: 0% 0%; filter: hue-rotate(0deg); }
+  25% { background-position: 50% 25%; }
+  50% { background-position: 100% 50%; filter: hue-rotate(15deg); }
+  75% { background-position: 50% 75%; }
+  100% { background-position: 0% 0%; filter: hue-rotate(0deg); }
+}
+
+@keyframes backdrop-glass-aurora {
+  0% { background-position: 0% 50%; opacity: 0.8; }
+  33% { background-position: 100% 50%; opacity: 1; }
+  66% { background-position: 50% 100%; opacity: 0.9; }
+  100% { background-position: 0% 50%; opacity: 0.8; }
+}
+
+@keyframes backdrop-prismatic {
+  0% { filter: hue-rotate(0deg); background-position: 0% 0%; }
+  100% { filter: hue-rotate(360deg); background-position: 100% 100%; }
+}
+
+.animate-backdrop-nebula {
+  background-size: 200% 200%;
+  animation: backdrop-nebula 30s ease-in-out infinite;
+}
+
+.animate-backdrop-glass-aurora {
+  background-size: 200% 200%;
+  animation: backdrop-glass-aurora 25s ease-in-out infinite;
+}
+
+.animate-backdrop-prismatic {
+  background-size: 200% 200%;
+  animation: backdrop-prismatic 40s linear infinite;
+}
+
 /* ═══════════════════════════════════════════════════════
    Golden Egg Badge — Legendary shimmer animation
    ═══════════════════════════════════════════════════════ */
@@ -331,4 +368,191 @@
   animation: golden-egg-shimmer 3s ease-in-out infinite;
   pointer-events: none;
   border-radius: inherit;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Emote Reaction System — CSS-only animations
+   24 emotes, ~20 keyframes, zero external deps.
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes emote-bounce {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-6px); }
+  60% { transform: translateY(-3px); }
+}
+
+@keyframes emote-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(1); }
+}
+
+@keyframes emote-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.85; }
+}
+
+@keyframes emote-launch {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes emote-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-3px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(2px); }
+}
+
+@keyframes emote-peek {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-4px); }
+  50% { transform: translateY(0); }
+  70% { transform: translateY(-2px); }
+}
+
+@keyframes emote-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes emote-tilt {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+@keyframes emote-heartbeat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.25); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.15); }
+  60% { transform: scale(1); }
+}
+
+@keyframes emote-explode {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.4); }
+  50% { transform: scale(0.9); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes emote-squeeze {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.15, 0.9); }
+  60% { transform: scale(0.95, 1.05); }
+}
+
+@keyframes emote-confetti {
+  0% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-5deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(-3px) rotate(5deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+@keyframes emote-shine {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.4); }
+}
+
+@keyframes emote-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes emote-sparkle {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  25% { transform: scale(1.1); filter: brightness(1.3); }
+  50% { transform: scale(0.95); filter: brightness(1); }
+  75% { transform: scale(1.05); filter: brightness(1.2); }
+}
+
+@keyframes emote-pump {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.2); }
+  60% { transform: scale(0.95); }
+}
+
+@keyframes emote-nod {
+  0%, 100% { transform: translateY(0); }
+  30% { transform: translateY(3px); }
+  60% { transform: translateY(-2px); }
+}
+
+@keyframes emote-kiss {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(6deg); }
+}
+
+@keyframes emote-fade {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes emote-wave {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(14deg); }
+  40% { transform: rotate(-8deg); }
+  60% { transform: rotate(10deg); }
+  80% { transform: rotate(-4deg); }
+}
+
+@keyframes emote-bow {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(4px) rotate(-10deg); }
+}
+
+/* Utility classes — one per animation */
+.emote-bounce   { animation: emote-bounce 0.5s ease; }
+.emote-pop      { animation: emote-pop 0.4s ease; }
+.emote-pulse    { animation: emote-pulse 0.6s ease; }
+.emote-launch   { animation: emote-launch 0.6s ease; }
+.emote-shake    { animation: emote-shake 0.5s ease; }
+.emote-peek     { animation: emote-peek 0.5s ease; }
+.emote-float    { animation: emote-float 0.8s ease; }
+.emote-tilt     { animation: emote-tilt 0.6s ease; }
+.emote-heartbeat { animation: emote-heartbeat 0.6s ease; }
+.emote-explode  { animation: emote-explode 0.5s ease; }
+.emote-squeeze  { animation: emote-squeeze 0.5s ease; }
+.emote-confetti { animation: emote-confetti 0.7s ease; }
+.emote-shine    { animation: emote-shine 0.6s ease; }
+.emote-spin     { animation: emote-spin 0.5s linear; }
+.emote-sparkle  { animation: emote-sparkle 0.6s ease; }
+.emote-pump     { animation: emote-pump 0.4s ease; }
+.emote-nod      { animation: emote-nod 0.5s ease; }
+.emote-kiss     { animation: emote-kiss 0.5s ease; }
+.emote-fade     { animation: emote-fade 0.6s ease; }
+.emote-wave     { animation: emote-wave 0.6s ease; }
+.emote-bow      { animation: emote-bow 0.5s ease; }
+
+/* Accessibility — disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .emote-bounce,
+  .emote-pop,
+  .emote-pulse,
+  .emote-launch,
+  .emote-shake,
+  .emote-peek,
+  .emote-float,
+  .emote-tilt,
+  .emote-heartbeat,
+  .emote-explode,
+  .emote-squeeze,
+  .emote-confetti,
+  .emote-shine,
+  .emote-spin,
+  .emote-sparkle,
+  .emote-pump,
+  .emote-nod,
+  .emote-kiss,
+  .emote-fade,
+  .emote-wave,
+  .emote-bow {
+    animation: none !important;
+  }
 }

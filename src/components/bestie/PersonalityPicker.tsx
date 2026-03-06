@@ -144,30 +144,43 @@ export function TraitPicker({ selected, onChange }: TraitPickerProps) {
 }
 
 interface StylePickerProps {
-  selected: BestieStyle | null;
-  onChange: (style: BestieStyle) => void;
+  selected: BestieStyle[];
+  onChange: (styles: BestieStyle[]) => void;
 }
 
 export function StylePicker({ selected, onChange }: StylePickerProps) {
+  function toggle(style: BestieStyle) {
+    if (selected.includes(style)) {
+      onChange(selected.filter((s) => s !== style));
+    } else if (selected.length < 2) {
+      onChange([...selected, style]);
+    }
+  }
+
   return (
     <div>
       <p className="text-sm text-zinc-400 mb-3">
-        Choose a <span className="text-purple-400 font-medium">communication style</span>
+        Pick <span className="text-purple-400 font-medium">up to 2 communication styles</span>
+        <span className="text-zinc-500 ml-2">({selected.length}/2)</span>
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {BESTIE_STYLES.map((style) => {
           const meta = STYLE_META[style];
-          const isSelected = selected === style;
+          const isSelected = selected.includes(style);
+          const isDisabled = !isSelected && selected.length >= 2;
           return (
             <button
               key={style}
               type="button"
-              onClick={() => onChange(style)}
+              onClick={() => toggle(style)}
+              disabled={isDisabled}
               className={cn(
                 "flex items-start gap-3 p-4 rounded-lg border text-left transition-all",
                 isSelected
                   ? "border-purple-500 bg-purple-500/10"
-                  : "border-zinc-700 bg-zinc-900 hover:border-purple-700 hover:bg-purple-900/10"
+                  : isDisabled
+                    ? "border-zinc-800 bg-zinc-900 text-zinc-600 cursor-not-allowed opacity-50"
+                    : "border-zinc-700 bg-zinc-900 hover:border-purple-700 hover:bg-purple-900/10"
               )}
             >
               <span className="text-2xl shrink-0">{meta.emoji}</span>

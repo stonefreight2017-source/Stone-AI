@@ -56,9 +56,11 @@ model User {
   onboardingGoals      String[]           @default([])
   onboardingSkippedAt  DateTime?
   backdropTheme        String             @default("none")
+  nameKey              String             @default("")
   promoSubscribedAt    DateTime?
   promoKey             String?
   badges               String[]           @default([])
+  easterEggClaims      String[]           @default([])
   createdAt            DateTime           @default(now())
   updatedAt            DateTime           @updatedAt
 

@@ -82,7 +82,7 @@ export default function BestieHubPage() {
             My Bestie
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
-            Your AI right hand. Thinks with you, remembers everything, gets things done.
+            Up to 42 expert agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
           </p>
         </div>
         {canCreate && besties.length > 0 && (
@@ -103,10 +103,10 @@ export default function BestieHubPage() {
             {"\u2728"}
           </div>
           <div className="text-center space-y-2">
-            <h2 className="text-xl font-semibold text-white">Build Your AI Right Hand</h2>
+            <h2 className="text-xl font-semibold text-white">Build Your Genius Best Friend</h2>
             <p className="text-zinc-400 max-w-md">
-              Create a powerful AI operator with a custom personality, communication style,
-              and expertise. It remembers everything, holds you accountable, and gets things done.
+              Your Bestie carries the combined knowledge of up to 42 specialized AI agents — career coach,
+              financial advisor, creative director, wellness guide, and more. Upgrade your plan to unlock even more brilliance.
             </p>
           </div>
           <Button
