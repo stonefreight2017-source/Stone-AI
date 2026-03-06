@@ -32,6 +32,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Insignia } from "@/components/brand/Insignia";
 import { PricingSection } from "./pricing-section";
 import { LandingTabs } from "./landing-tabs";
 import { LandingLanguageToggle } from "./landing-language-toggle";
@@ -76,7 +77,7 @@ export default function LandingPage() {
       <nav className="flex items-center justify-between px-4 sm:px-6 py-4 max-w-6xl mx-auto">
         <div className="flex items-center gap-3">
           <LandingLanguageToggle />
-          <span className="text-xl font-bold tracking-tight">Stone AI&#8482;</span>
+          <Insignia size={14} />
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
           <Link href="#promotions" className="text-sm text-zinc-400 hover:text-white transition-colors hidden sm:inline">
@@ -834,7 +835,7 @@ export default function LandingPage() {
       <footer className="border-t border-zinc-800 px-4 sm:px-6 py-12 sm:py-16">
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-lg font-bold">Stone AI&#8482;</span>
+            <Insignia size={11} />
             <p className="text-sm text-zinc-500 mt-2 leading-relaxed">
               Local-first AI for businesses that move.
             </p>

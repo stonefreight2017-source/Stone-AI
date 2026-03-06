@@ -11,6 +11,7 @@ import { TierGatedAd } from "@/components/ads/TierGatedAd";
 import { useCreateConversation } from "@/hooks/use-conversations";
 import { useAppStore } from "@/store/app-store";
 import { useQuery } from "@tanstack/react-query";
+import { Insignia } from "@/components/brand/Insignia";
 
 interface SidebarProps {
   userTier: string;
@@ -45,7 +46,7 @@ export function Sidebar({ userTier }: SidebarProps) {
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3">
         <div className="flex items-center gap-2">
-          <span className="font-semibold text-white text-lg">Stone AI™</span>
+          <Insignia size={10} />
           <TierBadge tier={userTier} />
         </div>
         <div className="flex items-center gap-1">
