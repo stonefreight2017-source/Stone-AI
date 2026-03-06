@@ -62,14 +62,14 @@ export default function BestieHubPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       {/* Early access banner */}
-      <div className="bg-gradient-to-r from-pink-900/30 to-purple-900/30 border border-pink-700/30 rounded-lg p-4 flex items-center gap-3">
-        <Sparkles className="h-5 w-5 text-pink-400 shrink-0" />
+      <div className="bg-zinc-900/80 border border-zinc-700 rounded-lg p-4 flex items-center gap-3">
+        <Sparkles className="h-5 w-5 text-amber-400 shrink-0" />
         <div>
-          <p className="text-pink-300 text-sm font-medium">
-            You&apos;re using Best AI before it hits the App Store!
+          <p className="text-zinc-300 text-sm font-medium">
+            Early Access — Best AI is live on web
           </p>
-          <p className="text-pink-400/60 text-xs">
-            Tell your friends they can get their AI Bestie at stone-ai.net
+          <p className="text-zinc-500 text-xs">
+            Mobile app coming soon. Share stone-ai.net with friends.
           </p>
         </div>
       </div>
@@ -99,22 +99,22 @@ export default function BestieHubPage() {
       {/* Bestie list or empty state */}
       {besties.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 gap-6">
-          <div className="h-24 w-24 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-5xl">
-            \uD83D\uDC9C
+          <div className="h-20 w-20 rounded-2xl bg-zinc-800 flex items-center justify-center text-4xl">
+            {"\u2728"}
           </div>
           <div className="text-center space-y-2">
-            <h2 className="text-xl font-semibold text-white">Create Your Bestie</h2>
+            <h2 className="text-xl font-semibold text-white">Create Your AI Companion</h2>
             <p className="text-zinc-400 max-w-md">
-              Design a personal AI companion with a unique personality, communication style,
-              and expertise. They&apos;ll remember you across every conversation.
+              Build a personal AI companion with a custom personality, communication style,
+              and area of expertise. It remembers you and grows with every conversation.
             </p>
           </div>
           <Button
             onClick={() => router.push("/app/bestie/create")}
-            className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white text-lg px-8 py-6"
+            className="bg-white text-black hover:bg-zinc-200 font-semibold text-lg px-8 py-6"
           >
             <Heart className="h-5 w-5 mr-2" />
-            Create My Bestie
+            Get Started
           </Button>
         </div>
       ) : (
@@ -143,7 +143,7 @@ export default function BestieHubPage() {
           <Button
             variant="outline"
             size="sm"
-            className="border-pink-700 text-pink-300 hover:bg-pink-900/30"
+            className="border-zinc-600 text-zinc-300 hover:bg-zinc-800"
             onClick={() => router.push("/app/billing")}
           >
             <ArrowUp className="h-3 w-3 mr-1" />

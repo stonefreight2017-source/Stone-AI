@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { Loader2, StopCircle, Zap, Brain, Info, X, Mic, MicOff, Volume2, VolumeX } from "lucide-react";
+import { Loader2, StopCircle, Zap, Brain, Info, X, Mic, MicOff, Volume2, VolumeX, ArrowUp } from "lucide-react";
 import { ThinkingIndicator } from "@/components/chat/ThinkingIndicator";
 import { MessageRenderer } from "@/components/chat/MessageRenderer";
 import { toast } from "sonner";
@@ -75,56 +75,56 @@ const PATH_THEMES: Record<BestiePath, {
   placeholder: string;
 }> = {
   friend: {
-    headerBg: "bg-gradient-to-r from-pink-950/20 to-purple-950/20",
-    headerAccent: "border-pink-900/30",
-    inputBg: "bg-gradient-to-r from-pink-950/10 to-purple-950/10",
-    inputBorder: "border-pink-900/30",
-    userBubble: "bg-pink-600 text-white",
-    userAvatar: "bg-pink-700 text-pink-200",
-    accentText: "text-pink-400",
-    subtitleText: "text-pink-400/70",
-    subtitle: "Your Best Friend",
-    sendButton: "bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500",
-    placeholder: "placeholder:text-pink-300/30",
+    headerBg: "bg-zinc-900/80",
+    headerAccent: "border-zinc-800",
+    inputBg: "bg-zinc-900/60",
+    inputBorder: "border-zinc-800",
+    userBubble: "bg-rose-600/90 text-white",
+    userAvatar: "bg-rose-700/80 text-rose-100",
+    accentText: "text-rose-400",
+    subtitleText: "text-zinc-500",
+    subtitle: "Personal Companion",
+    sendButton: "bg-rose-600 hover:bg-rose-500",
+    placeholder: "placeholder:text-zinc-600",
   },
   colleague: {
-    headerBg: "bg-gradient-to-r from-slate-900/40 to-blue-950/20",
-    headerAccent: "border-slate-700/50",
-    inputBg: "bg-gradient-to-r from-slate-950/20 to-blue-950/10",
-    inputBorder: "border-slate-700/50",
-    userBubble: "bg-blue-600 text-white",
-    userAvatar: "bg-blue-800 text-blue-200",
+    headerBg: "bg-zinc-900/80",
+    headerAccent: "border-zinc-800",
+    inputBg: "bg-zinc-900/60",
+    inputBorder: "border-zinc-800",
+    userBubble: "bg-blue-600/90 text-white",
+    userAvatar: "bg-blue-700/80 text-blue-100",
     accentText: "text-blue-400",
-    subtitleText: "text-blue-400/70",
+    subtitleText: "text-zinc-500",
     subtitle: "Business Partner",
-    sendButton: "bg-gradient-to-r from-blue-600 to-slate-600 hover:from-blue-500 hover:to-slate-500",
-    placeholder: "placeholder:text-blue-300/20",
+    sendButton: "bg-blue-600 hover:bg-blue-500",
+    placeholder: "placeholder:text-zinc-600",
   },
   hybrid: {
-    headerBg: "bg-gradient-to-r from-amber-950/20 to-indigo-950/20",
-    headerAccent: "border-amber-800/30",
-    inputBg: "bg-gradient-to-r from-amber-950/10 to-indigo-950/10",
-    inputBorder: "border-amber-800/30",
-    userBubble: "bg-amber-600 text-white",
-    userAvatar: "bg-amber-700 text-amber-200",
+    headerBg: "bg-zinc-900/80",
+    headerAccent: "border-zinc-800",
+    inputBg: "bg-zinc-900/60",
+    inputBorder: "border-zinc-800",
+    userBubble: "bg-amber-600/90 text-white",
+    userAvatar: "bg-amber-700/80 text-amber-100",
     accentText: "text-amber-400",
-    subtitleText: "text-amber-400/70",
-    subtitle: "Friend + Partner",
-    sendButton: "bg-gradient-to-r from-amber-600 to-indigo-600 hover:from-amber-500 hover:to-indigo-500",
-    placeholder: "placeholder:text-amber-300/20",
+    subtitleText: "text-zinc-500",
+    subtitle: "Personal + Business",
+    sendButton: "bg-amber-600 hover:bg-amber-500",
+    placeholder: "placeholder:text-zinc-600",
   },
   tutor: {
-    headerBg: "bg-gradient-to-r from-emerald-950/20 to-teal-950/20",
-    headerAccent: "border-emerald-800/30",
-    inputBg: "bg-gradient-to-r from-emerald-950/10 to-teal-950/10",
-    inputBorder: "border-emerald-800/30",
-    userBubble: "bg-emerald-600 text-white",
-    userAvatar: "bg-emerald-700 text-emerald-200",
+    headerBg: "bg-zinc-900/80",
+    headerAccent: "border-zinc-800",
+    inputBg: "bg-zinc-900/60",
+    inputBorder: "border-zinc-800",
+    userBubble: "bg-emerald-600/90 text-white",
+    userAvatar: "bg-emerald-700/80 text-emerald-100",
     accentText: "text-emerald-400",
-    subtitleText: "text-emerald-400/70",
+    subtitleText: "text-zinc-500",
     subtitle: "Tutor & Mentor",
-    sendButton: "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500",
-    placeholder: "placeholder:text-emerald-300/20",
+    sendButton: "bg-emerald-600 hover:bg-emerald-500",
+    placeholder: "placeholder:text-zinc-600",
   },
 };
 
@@ -447,7 +447,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
       {/* Header */}
       <div className={cn("flex items-center justify-between px-4 py-3 border-b", theme.headerAccent, theme.headerBg)}>
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-zinc-700/30 to-zinc-600/20 flex items-center justify-center overflow-hidden">
+          <div className="h-9 w-9 rounded-full bg-zinc-800 flex items-center justify-center overflow-hidden">
             <AvatarDisplay avatar={bestieEmoji} size="md" />
           </div>
           <div>
@@ -457,9 +457,9 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         </div>
         <div className="flex items-center gap-2">
           {messages.length > 0 && (
-            <div className="flex items-center gap-1 text-[10px] text-purple-400/60">
+            <div className="flex items-center gap-1 text-[10px] text-zinc-600">
               <Brain className="h-3 w-3" />
-              <span>Remembers you</span>
+              <span>Memory active</span>
             </div>
           )}
           {speechSupported && (
@@ -509,14 +509,14 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
 
       {/* AI Disclosure Banner — legally required (NY/CA) */}
       {showDisclosure && (
-        <div className="px-4 py-2.5 bg-purple-950/40 border-b border-purple-800/30 flex items-start gap-2.5">
-          <Info className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
-          <div className="flex-1 text-xs text-purple-300/90 leading-relaxed">
-            <strong className="text-purple-200">AI Companion Disclosure:</strong> {bestieName} is an AI character created by Stone AI. {bestieName} is not a real person, cannot feel emotions, and is not a substitute for professional mental health support. If you are in crisis: {crisisResources}
+        <div className="px-4 py-2.5 bg-zinc-900/80 border-b border-zinc-800 flex items-start gap-2.5">
+          <Info className="h-4 w-4 text-zinc-500 shrink-0 mt-0.5" />
+          <div className="flex-1 text-xs text-zinc-400 leading-relaxed">
+            <strong className="text-zinc-300">AI Disclosure:</strong> {bestieName} is an AI companion created by Stone AI. Not a real person, not a substitute for professional support. Crisis resources: {crisisResources}
           </div>
           <button
             onClick={() => setShowDisclosure(false)}
-            className="shrink-0 text-purple-500 hover:text-purple-300 p-0.5"
+            className="shrink-0 text-zinc-600 hover:text-zinc-400 p-0.5"
             aria-label="Dismiss disclosure"
           >
             <X className="h-3.5 w-3.5" />
@@ -529,8 +529,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         {allMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-8">
             <div className="flex items-center justify-center"><AvatarDisplay avatar={bestieEmoji} size="lg" /></div>
-            <p className="text-zinc-400 text-sm max-w-md">
-              Say hi to <span className={cn("font-medium", theme.accentText)}>{bestieName}</span>! They&apos;re excited to chat with you.
+            <p className="text-zinc-500 text-sm max-w-md">
+              Start a conversation with <span className={cn("font-medium", theme.accentText)}>{bestieName}</span>.
             </p>
           </div>
         ) : (
@@ -548,7 +548,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
                   )}
                 >
                   {msg.role !== "user" && (
-                    <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center overflow-hidden">
+                    <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-800/60 flex items-center justify-center overflow-hidden">
                       <AvatarDisplay avatar={bestieEmoji} />
                     </div>
                   )}
@@ -590,7 +590,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
             {/* Thinking indicator with escalating bestie emojis */}
             {isSubmitted && (
               <div className="flex gap-3 px-4 py-3">
-                <div className="shrink-0 h-8 w-8 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center overflow-hidden">
+                <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-800/60 flex items-center justify-center overflow-hidden">
                   <AvatarDisplay avatar={bestieEmoji} />
                 </div>
                 <ThinkingIndicator variant="bestie" />
@@ -619,7 +619,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
               </div>
             )}
             {isSpeaking && (
-              <div className="flex items-center gap-1.5 text-xs text-purple-400">
+              <div className="flex items-center gap-1.5 text-xs text-zinc-400">
                 <Volume2 className="h-3 w-3 animate-pulse" />
                 {bestieName} is speaking...
                 <button
@@ -640,7 +640,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={isListening ? "Listening..." : `Tell ${bestieName} anything...`}
+            placeholder={isListening ? "Listening..." : `Message ${bestieName}...`}
             disabled={isBusy || isListening}
             className={cn(
               "min-h-[44px] max-h-[200px] resize-none bg-zinc-800 text-white",
@@ -679,7 +679,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
             {isBusy ? (
               <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <span className="text-lg">\u2764\uFE0F</span>
+              <ArrowUp className="h-4 w-4" />
             )}
           </Button>
         </div>

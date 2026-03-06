@@ -77,20 +77,20 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
   }
 
   return (
-    <Card className="bg-zinc-900 border-zinc-800 hover:border-pink-800/50 transition-colors">
+    <Card className="bg-zinc-900 border-zinc-800 hover:border-zinc-600 transition-colors">
       <CardContent className="pt-6 space-y-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
             {bestie.avatarEmoji.startsWith("data:") || bestie.avatarEmoji.startsWith("http") ? (
               <img src={bestie.avatarEmoji} alt={bestie.name} className="h-12 w-12 rounded-full object-cover ring-1 ring-white/10 shadow-sm" />
             ) : (
-              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-2xl">
+              <div className="h-12 w-12 rounded-full bg-zinc-800 flex items-center justify-center text-2xl">
                 {bestie.avatarEmoji}
               </div>
             )}
             <div>
               <h3 className="font-semibold text-white text-lg">{bestie.name}</h3>
-              <p className="text-xs text-pink-400">
+              <p className="text-xs text-zinc-500">
                 {STYLE_LABELS[bestie.personality.style] ?? bestie.personality.style}
               </p>
             </div>
@@ -119,7 +119,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
             <Badge
               key={trait}
               variant="outline"
-              className="text-[10px] border-pink-800/50 text-pink-300 bg-pink-900/10"
+              className="text-[10px] border-zinc-700 text-zinc-400 bg-zinc-800/50"
             >
               {trait}
             </Badge>
@@ -128,7 +128,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
             <Badge
               key={exp}
               variant="outline"
-              className="text-[10px] border-purple-800/50 text-purple-300 bg-purple-900/10"
+              className="text-[10px] border-zinc-700 text-zinc-500 bg-zinc-800/30"
             >
               {exp}
             </Badge>
@@ -143,7 +143,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
           <Button
             onClick={handleChat}
             disabled={isCreatingChat}
-            className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white"
+            className="bg-white text-black hover:bg-zinc-200 font-medium"
             size="sm"
           >
             {isCreatingChat ? (
