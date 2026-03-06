@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
       "react-hooks/set-state-in-effect": "off",
       // Allow quotes/apostrophes in JSX text (common in English content)
       "react/no-unescaped-entities": "off",
+      // Allow explicit any for pragmatic typing (window APIs, dynamic data)
+      "@typescript-eslint/no-explicit-any": "off",
     },
   },
   // Override default ignores of eslint-config-next.
