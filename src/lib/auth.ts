@@ -1,5 +1,6 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { db } from "./db";
+import { shouldAwardGoldenEgg } from "./badges";
 import type { User } from "@/generated/prisma/client";
 
 /**
@@ -54,6 +55,17 @@ export async function getOrCreateUser(): Promise<User> {
         tier: "FREE",
         freeTrialTier: null,
         freeTrialEndsAt: null,
+      },
+    });
+    return updated;
+  }
+
+  // Auto-award Golden Egg badge: 365+ days on promo price and still active
+  if (shouldAwardGoldenEgg(user)) {
+    const updated = await db.user.update({
+      where: { id: user.id },
+      data: {
+        badges: { push: "golden-egg" },
       },
     });
     return updated;

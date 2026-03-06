@@ -8,10 +8,12 @@ import { TierErrorModal } from "@/components/modals/TierErrorModal";
 interface AppShellWrapperProps {
   children: React.ReactNode;
   userTier: string;
+  userBadges: string[];
   onboardingCompleted: boolean;
+  backdropTheme: string;
 }
 
-export function AppShellWrapper({ children, userTier, onboardingCompleted }: AppShellWrapperProps) {
+export function AppShellWrapper({ children, userTier, userBadges, onboardingCompleted, backdropTheme }: AppShellWrapperProps) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -41,7 +43,7 @@ export function AppShellWrapper({ children, userTier, onboardingCompleted }: App
   }
 
   return (
-    <AppShell userTier={userTier}>
+    <AppShell userTier={userTier} userBadges={userBadges} backdropTheme={backdropTheme}>
       {children}
       <TierErrorModal />
     </AppShell>

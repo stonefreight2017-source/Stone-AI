@@ -5,31 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Sidebar } from "./Sidebar";
 import { useAppStore } from "@/store/app-store";
 import { cn } from "@/lib/utils";
+import { BackdropManager } from "@/components/backdrops/BackdropManager";
 
 interface AppShellProps {
   children: React.ReactNode;
   userTier: string;
+  userBadges?: string[];
+  backdropTheme?: string;
 }
 
-export function AppShell({ children, userTier }: AppShellProps) {
+export function AppShell({ children, userTier, userBadges = [], backdropTheme = "none" }: AppShellProps) {
   const { sidebarOpen, toggleSidebar } = useAppStore();
 
   return (
-    <div className="flex h-screen bg-zinc-950 text-white">
+    <div className="relative flex h-screen bg-zinc-950 text-white">
+      {/* Backdrop layer */}
+      <BackdropManager theme={backdropTheme} />
       {/* Sidebar */}
       <div
         className={cn(
-          "shrink-0 transition-all duration-200 ease-in-out overflow-hidden",
+          "relative z-10 shrink-0 transition-all duration-200 ease-in-out overflow-hidden",
           sidebarOpen ? "w-[280px]" : "w-0"
         )}
       >
         <div className="w-[280px] h-full">
-          <Sidebar userTier={userTier} />
+          <Sidebar userTier={userTier} userBadges={userBadges} />
         </div>
       </div>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="relative z-10 flex-1 flex flex-col min-w-0">
         {/* Top bar when sidebar is closed */}
         {!sidebarOpen && (
           <div className="flex items-center px-4 py-2 border-b border-zinc-800">

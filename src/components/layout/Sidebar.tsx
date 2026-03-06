@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
 import { TierBadge } from "@/components/billing/TierBadge";
 import { TierGatedAd } from "@/components/ads/TierGatedAd";
+import { GoldenEggDot } from "@/components/badges/UserBadges";
 import { useCreateConversation } from "@/hooks/use-conversations";
 import { useAppStore } from "@/store/app-store";
 import { useQuery } from "@tanstack/react-query";
@@ -15,9 +16,10 @@ import { Insignia } from "@/components/brand/Insignia";
 
 interface SidebarProps {
   userTier: string;
+  userBadges?: string[];
 }
 
-export function Sidebar({ userTier }: SidebarProps) {
+export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
   const router = useRouter();
   const createConversation = useCreateConversation();
   const { toggleSidebar } = useAppStore();
@@ -170,7 +172,10 @@ export function Sidebar({ userTier }: SidebarProps) {
               },
             }}
           />
-          <span className="text-sm text-zinc-400 truncate">Account</span>
+          <span className="text-sm text-zinc-400 truncate flex items-center gap-1.5">
+            Account
+            <GoldenEggDot badges={userBadges} />
+          </span>
         </div>
       </div>
     </div>

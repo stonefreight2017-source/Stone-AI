@@ -160,3 +160,175 @@
 .animate-fade-in-up {
   animation: fade-in-up 0.6s ease-out forwards;
 }
+
+/* ═══════════════════════════════════════════════════════
+   Backdrop System — CSS Gradient Animations (Phase 1)
+   All animations are intentionally subtle for a business tool.
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes backdrop-aurora {
+  0% {
+    background-position: 0% 0%;
+    opacity: 0.85;
+  }
+  33% {
+    background-position: 30% 70%;
+    opacity: 1;
+  }
+  66% {
+    background-position: 70% 30%;
+    opacity: 0.9;
+  }
+  100% {
+    background-position: 0% 0%;
+    opacity: 0.85;
+  }
+}
+
+@keyframes backdrop-sunset {
+  0% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: hue-rotate(8deg);
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: hue-rotate(0deg);
+  }
+}
+
+@keyframes backdrop-ocean {
+  0% {
+    background-position: 0% 100%;
+    transform: scale(1);
+  }
+  50% {
+    background-position: 50% 0%;
+    transform: scale(1.02);
+  }
+  100% {
+    background-position: 0% 100%;
+    transform: scale(1);
+  }
+}
+
+@keyframes backdrop-cosmic {
+  0% {
+    opacity: 0.8;
+    background-position: 50% 50%;
+  }
+  50% {
+    opacity: 1;
+    background-position: 60% 40%;
+  }
+  100% {
+    opacity: 0.8;
+    background-position: 50% 50%;
+  }
+}
+
+@keyframes backdrop-emerald {
+  0% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.01);
+  }
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+}
+
+@keyframes backdrop-fire {
+  0% {
+    opacity: 0.8;
+    background-position: 50% 100%;
+  }
+  25% {
+    opacity: 0.95;
+    background-position: 45% 95%;
+  }
+  50% {
+    opacity: 0.85;
+    background-position: 55% 100%;
+  }
+  75% {
+    opacity: 1;
+    background-position: 50% 90%;
+  }
+  100% {
+    opacity: 0.8;
+    background-position: 50% 100%;
+  }
+}
+
+.animate-backdrop-aurora {
+  background-size: 200% 200%;
+  animation: backdrop-aurora 20s ease-in-out infinite;
+}
+
+.animate-backdrop-sunset {
+  background-size: 200% 200%;
+  animation: backdrop-sunset 18s ease-in-out infinite;
+}
+
+.animate-backdrop-ocean {
+  background-size: 200% 200%;
+  animation: backdrop-ocean 22s ease-in-out infinite;
+}
+
+.animate-backdrop-cosmic {
+  background-size: 150% 150%;
+  animation: backdrop-cosmic 15s ease-in-out infinite;
+}
+
+.animate-backdrop-emerald {
+  animation: backdrop-emerald 12s ease-in-out infinite;
+}
+
+.animate-backdrop-fire {
+  background-size: 150% 150%;
+  animation: backdrop-fire 10s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Golden Egg Badge — Legendary shimmer animation
+   ═══════════════════════════════════════════════════════ */
+
+@keyframes golden-egg-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.badge-golden-egg-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-golden-egg-shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(251, 191, 36, 0.15) 40%,
+    rgba(251, 191, 36, 0.35) 50%,
+    rgba(251, 191, 36, 0.15) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: golden-egg-shimmer 3s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}

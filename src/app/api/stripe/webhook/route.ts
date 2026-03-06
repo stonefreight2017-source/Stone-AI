@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import Stripe from "stripe";
 import { db } from "@/lib/db";
-import { mapPriceToTier } from "@/lib/tier-config";
+import { mapPriceToTier, PROMO_PRICES, type PromoKey } from "@/lib/tier-config";
 import { logAuditEvent } from "@/lib/audit";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -66,6 +66,16 @@ export async function POST(req: NextRequest) {
   }
 }
 
+/** Check if a Stripe price ID matches a promotional price. Returns the promo key or null. */
+function matchPromoKey(priceId: string): PromoKey | null {
+  for (const [key, promo] of Object.entries(PROMO_PRICES)) {
+    if (process.env[promo.stripePriceEnvKey] === priceId) {
+      return key as PromoKey;
+    }
+  }
+  return null;
+}
+
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
   if (!userId) return;
@@ -89,6 +99,19 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const newTier = mapPriceToTier(priceId);
   if (!newTier) return;
 
+  // Check if this is a promotional price — award OG badge
+  const promoKey = matchPromoKey(priceId);
+  const promoData: Record<string, unknown> = {};
+  if (promoKey) {
+    promoData.promoSubscribedAt = new Date();
+    promoData.promoKey = promoKey;
+    // Fetch existing user to check if "og" is already in badges
+    const existing = await db.user.findUnique({ where: { id: userId }, select: { badges: true } });
+    if (existing && !existing.badges.includes("og")) {
+      promoData.badges = { push: "og" };
+    }
+  }
+
   await db.user.update({
     where: { id: userId },
     data: {
@@ -96,13 +119,14 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       stripeCustomerId: customerId,
       stripeSubscriptionId: subscriptionId,
       subscriptionStatus: "ACTIVE",
+      ...promoData,
     },
   });
 
   logAuditEvent({
     event: "tier.upgraded",
     userId,
-    metadata: { newTier, priceId, source: "checkout" },
+    metadata: { newTier, priceId, promoKey: promoKey ?? "none", source: "checkout" },
   });
 }
 

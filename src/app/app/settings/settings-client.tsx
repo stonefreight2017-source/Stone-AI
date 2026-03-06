@@ -18,6 +18,8 @@ import {
   Gift,
   Share2,
   Users,
+  Palette,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,6 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
 import { TierBadge } from "@/components/billing/TierBadge";
+import { UserBadges } from "@/components/badges/UserBadges";
 
 interface SettingsClientProps {
   user: {
@@ -34,6 +37,8 @@ interface SettingsClientProps {
     tier: string;
     tierName: string;
     createdAt: string;
+    backdropTheme: string;
+    badges: string[];
   };
   limits: {
     messagesPerDay: number;
@@ -168,6 +173,7 @@ export function SettingsClient({
               <div className="mt-1 flex items-center gap-2">
                 <TierBadge tier={user.tier} />
                 <span className="text-zinc-400 text-sm">{user.tierName}</span>
+                <UserBadges badges={user.badges} />
               </div>
             </div>
             <div>
@@ -290,6 +296,11 @@ export function SettingsClient({
           </div>
         </CardContent>
       </Card>
+
+      {/* Backdrop Theme */}
+      <BackdropPicker
+        currentTheme={user.backdropTheme}
+      />
 
       {/* API Keys — Pro only */}
       <Card className="bg-zinc-900 border-zinc-800">
@@ -608,6 +619,136 @@ function ReferralCard() {
             Unable to load referral data. Please try again later.
           </p>
         )}
+      </CardContent>
+    </Card>
+  );
+}
+
+// ─── Backdrop Theme Picker ─────────────────────────────────
+
+import {
+  BACKDROP_PRESETS,
+  type BackdropCategory,
+} from "@/components/backdrops/backdrop-presets";
+
+const CATEGORY_LABELS: Record<BackdropCategory, string> = {
+  css: "Gradients",
+  particles: "Particles",
+  vanta: "3D Effects",
+};
+
+const CATEGORY_ORDER: BackdropCategory[] = ["css", "particles", "vanta"];
+
+function BackdropPicker({ currentTheme }: { currentTheme: string }) {
+  const [selected, setSelected] = useState(currentTheme || "none");
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  async function handleSelect(themeId: string) {
+    if (themeId === selected) return;
+    setSelected(themeId);
+    setSaving(true);
+    setSaved(false);
+
+    try {
+      const res = await fetch("/api/settings/backdrop", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ backdropTheme: themeId }),
+      });
+
+      if (res.ok) {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 2000);
+        // Reload to apply new backdrop in AppShell
+        window.location.reload();
+      } else {
+        setSelected(currentTheme || "none");
+      }
+    } catch {
+      setSelected(currentTheme || "none");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  // Group presets by category, with "none" at the start of the css group
+  const grouped = CATEGORY_ORDER.map((cat) => ({
+    category: cat,
+    label: CATEGORY_LABELS[cat],
+    presets: BACKDROP_PRESETS.filter((p) =>
+      cat === "css" ? p.category === "css" : p.category === cat
+    ),
+  }));
+
+  return (
+    <Card className="bg-zinc-900 border-zinc-800">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-zinc-300 text-sm font-medium flex items-center gap-2">
+          <Palette className="h-4 w-4" />
+          Backdrop Theme
+          {saving && <Loader2 className="h-3 w-3 animate-spin text-zinc-500 ml-2" />}
+          {saved && (
+            <span className="text-xs text-emerald-400 ml-2 flex items-center gap-1">
+              <Check className="h-3 w-3" /> Saved
+            </span>
+          )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-5">
+        {grouped.map(({ category, label, presets }) => (
+          <div key={category}>
+            <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+              {label}
+              {category === "vanta" && (
+                <Badge className="bg-amber-900/40 text-amber-400 text-[10px] px-1.5 py-0">
+                  Premium
+                </Badge>
+              )}
+            </p>
+            <div className="grid grid-cols-4 sm:grid-cols-7 gap-2">
+              {presets.map((preset) => (
+                <button
+                  key={preset.id}
+                  type="button"
+                  onClick={() => handleSelect(preset.id)}
+                  disabled={saving}
+                  className={`group relative rounded-lg aspect-[4/3] transition-all duration-150 ${
+                    preset.previewClass
+                  } ${
+                    selected === preset.id
+                      ? "ring-2 ring-cyan-400 ring-offset-1 ring-offset-zinc-900"
+                      : "ring-1 ring-zinc-700 hover:ring-zinc-500"
+                  }`}
+                  title={preset.description}
+                >
+                  {/* Theme name label */}
+                  <span className="absolute inset-x-0 bottom-0 text-[10px] text-zinc-300 text-center pb-0.5 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/60 to-transparent rounded-b-lg">
+                    {preset.name}
+                  </span>
+                  {/* Selected checkmark */}
+                  {selected === preset.id && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-cyan-400/90 rounded-full p-0.5">
+                        <Check className="h-3 w-3 text-zinc-900" />
+                      </div>
+                    </div>
+                  )}
+                  {/* Lock icon for particle/vanta placeholders */}
+                  {category === "vanta" && (
+                    <div className="absolute top-0.5 right-0.5">
+                      <Lock className="h-2.5 w-2.5 text-amber-400/60" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <p className="text-[11px] text-zinc-600">
+          Choose a backdrop that appears behind your workspace. All backdrops respect reduced-motion preferences.
+        </p>
       </CardContent>
     </Card>
   );

@@ -264,7 +264,7 @@ export async function POST(req: NextRequest) {
             mode: mode as Mode,
             model:
               mode === "SMART"
-                ? (process.env.OPENAI_MODEL ?? "gpt-4o")
+                ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
                 : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
             tokensIn: tokenUsage?.inputTokens ?? 0,
             tokensOut: tokenUsage?.outputTokens ?? 0,

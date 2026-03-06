@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, Star, Crown, ArrowRight, Building2, ChevronDown, MessageSquare, Brain, Zap, Users as UsersIcon, Heart } from "lucide-react";
+import { Check, Star, Crown, ArrowRight, Building2, ChevronDown, MessageSquare, Brain, Zap, Users as UsersIcon, Heart, Sparkles, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -46,7 +46,7 @@ const TIERS: TierInfo[] = [
   {
     key: "FREE",
     name: "Free",
-    tagline: "Try the speed for yourself",
+    tagline: "Ask a question at 10pm and get an answer before your finger leaves the key",
     price: 0,
     price6month: 0,
     priceAnnual: 0,
@@ -54,12 +54,12 @@ const TIERS: TierInfo[] = [
     color: "border-zinc-600",
     accentText: "text-zinc-300",
     features: [
-      { text: "Local AI chat — sub-100ms responses" },
-      { text: "4 AI agents included", highlight: true },
-      { text: "1 AI Bestie" },
-      { text: "Full conversation history" },
-      { text: "Complete data privacy" },
-      { text: "No credit card required" },
+      { text: "Answers faster than you can switch tabs — under 100ms" },
+      { text: "4 AI agents to plan, write, learn, and stay on track", highlight: true },
+      { text: "1 AI Bestie that remembers you tomorrow" },
+      { text: "Every conversation saved — pick up right where you left off" },
+      { text: "Your data stays on our servers, never sold or shared" },
+      { text: "No credit card, no trial clock — just go" },
     ],
     details: {
       messagesPerDay: "50",
@@ -81,7 +81,7 @@ const TIERS: TierInfo[] = [
   {
     key: "STARTER",
     name: "Builder",
-    tagline: "Plan and start your business",
+    tagline: "Go from napkin sketch to first revenue — your AI co-founder never sleeps",
     price: 19.99,
     price6month: 17.99,
     priceAnnual: 15.99,
@@ -90,11 +90,11 @@ const TIERS: TierInfo[] = [
     accentText: "text-blue-400",
     features: [
       { text: "Everything in Free" },
-      { text: "16 AI Expert Agents", highlight: true },
-      { text: "Local + 10 premium answers/day (GPT-4o)", highlight: true },
-      { text: "250 messages/day + file uploads" },
-      { text: "Conversation export + 10 saved docs" },
-      { text: "1 AI Bestie" },
+      { text: "16 agents: your copywriter, strategist, developer, and 13 more", highlight: true },
+      { text: "10 GPT-4o answers/day for the hard questions that need genius-level thinking", highlight: true },
+      { text: "250 messages/day — enough to draft a full business plan before lunch" },
+      { text: "Export conversations as docs — hand them straight to clients or partners" },
+      { text: "1 AI Bestie that learns your voice and goals over time" },
     ],
     details: {
       messagesPerDay: "250",
@@ -116,7 +116,7 @@ const TIERS: TierInfo[] = [
   {
     key: "PLUS",
     name: "Growth",
-    tagline: "Plan, start, and maintain your business",
+    tagline: "The moment your side hustle starts feeling like a real company",
     price: 49.99,
     price6month: 44.99,
     priceAnnual: 39.99,
@@ -125,11 +125,11 @@ const TIERS: TierInfo[] = [
     accentText: "text-purple-400",
     features: [
       { text: "Everything in Builder" },
-      { text: "30 AI Expert Agents", highlight: true },
-      { text: "15 premium answers/day + auto-routing", highlight: true },
-      { text: "500 messages/day + 25 web lookups" },
-      { text: "Voice chat in 6 languages", highlight: true },
-      { text: "2 AI Besties + 5 app connections" },
+      { text: "30 agents covering marketing, legal, finance, dev, HR, and sales", highlight: true },
+      { text: "15 GPT-4o answers/day — auto-routed so the right brain handles each question", highlight: true },
+      { text: "500 messages/day + live web research to keep your market intel fresh" },
+      { text: "Talk out loud in 6 languages — serve clients from Tokyo to Buenos Aires", highlight: true },
+      { text: "1 AI Bestie connected to 5 apps — it checks your calendar so you don't have to" },
     ],
     details: {
       messagesPerDay: "500",
@@ -143,7 +143,7 @@ const TIERS: TierInfo[] = [
       conversationExport: true,
       priorityQueue: false,
       apiAccess: false,
-      besties: "2 AI Besties",
+      besties: "1 AI Bestie",
       agents: "30 Expert Agents (all categories)",
       billingOptions: "$49.99/mo · $44.99/mo (6-mo, 10% off) · $39.99/mo (yearly, 20% off)",
     },
@@ -151,7 +151,7 @@ const TIERS: TierInfo[] = [
   {
     key: "SMART",
     name: "Executive",
-    tagline: "Plan, start, maintain, and run your business",
+    tagline: "Run your entire operation like a CEO with a full AI executive team",
     price: 99.99,
     price6month: 89.99,
     priceAnnual: 79.99,
@@ -161,11 +161,11 @@ const TIERS: TierInfo[] = [
     accentText: "text-amber-400",
     features: [
       { text: "Everything in Growth" },
-      { text: "All 42 AI Expert Agents", highlight: true },
-      { text: "1,000 messages/day + priority queue", highlight: true },
-      { text: "30 premium answers/day + agent builder" },
-      { text: "Team workspace + SOC 2 compliance" },
-      { text: "3 AI Besties + 10 app connections" },
+      { text: "All 42 agents — every department staffed, every skill covered", highlight: true },
+      { text: "1,000 messages/day with priority queue — your team never hits a wall", highlight: true },
+      { text: "30 GPT-4o answers/day + build custom agents tailored to your workflow" },
+      { text: "Team workspace with SOC 2 compliance — bring your people in safely" },
+      { text: "1 AI Bestie wired into 10 apps — it runs your day so you run the business" },
     ],
     details: {
       messagesPerDay: "1,000",
@@ -179,7 +179,7 @@ const TIERS: TierInfo[] = [
       conversationExport: true,
       priorityQueue: true,
       apiAccess: false,
-      besties: "3 AI Besties",
+      besties: "1 AI Bestie",
       agents: "All 42 Expert Agents (every category)",
       billingOptions: "$99.99/mo · $89.99/mo (6-mo, 10% off) · $79.99/mo (yearly, 20% off)",
     },
@@ -187,7 +187,7 @@ const TIERS: TierInfo[] = [
   {
     key: "PRO",
     name: "Reseller",
-    tagline: "Full platform access with reseller capabilities",
+    tagline: "White-label it, resell it, build your own AI agency on top of ours",
     price: 200,
     price6month: 200,
     priceAnnual: 190,
@@ -196,12 +196,12 @@ const TIERS: TierInfo[] = [
     accentText: "text-amber-300",
     features: [
       { text: "Everything in Executive" },
-      { text: "All 42 AI Agents + API access", highlight: true },
-      { text: "Commercial license + reseller rights", highlight: true },
-      { text: "3,000 messages/day + 50 premium/day" },
-      { text: "Custom model fine-tuning", highlight: true },
-      { text: "5 AI Besties + 50 app connections" },
-      { text: "HIPAA + SOC 2 compliance" },
+      { text: "All 42 agents + full API — plug AI into your own products overnight", highlight: true },
+      { text: "Commercial license + reseller rights — charge your clients, keep the margin", highlight: true },
+      { text: "3,000 messages/day + 50 GPT-4o — enough firepower to serve a client roster" },
+      { text: "Fine-tune models on your data — your AI gets smarter the more you use it", highlight: true },
+      { text: "1 AI Bestie + 50 app connections — an operator that runs across your entire stack" },
+      { text: "HIPAA + SOC 2 — serve healthcare, finance, and regulated clients with confidence" },
     ],
     details: {
       messagesPerDay: "3,000",
@@ -215,7 +215,7 @@ const TIERS: TierInfo[] = [
       conversationExport: true,
       priorityQueue: true,
       apiAccess: true,
-      besties: "5 AI Besties",
+      besties: "1 AI Bestie",
       agents: "All 42 Expert Agents + API + reseller",
       billingOptions: "$200/mo · $190/mo (yearly, 5% off)",
     },
@@ -223,7 +223,7 @@ const TIERS: TierInfo[] = [
   {
     key: "ENTERPRISE",
     name: "Enterprise",
-    tagline: "Dedicated infrastructure for teams",
+    tagline: "Replace six-figure software contracts with one platform your whole team shares",
     price: 500,
     price6month: 500,
     priceAnnual: 475,
@@ -233,12 +233,12 @@ const TIERS: TierInfo[] = [
     accentText: "text-emerald-400",
     features: [
       { text: "Everything in Reseller" },
-      { text: "Multiple seats & API keys", highlight: true },
-      { text: "Dedicated inference infrastructure", highlight: true },
-      { text: "99.9% uptime SLA", highlight: true },
-      { text: "SSO/SAML + audit logging" },
-      { text: "50K+ requests/day + custom limits" },
-      { text: "Dedicated support channel" },
+      { text: "Seats for your whole team — everyone gets their own agents and API keys", highlight: true },
+      { text: "Dedicated GPU infrastructure — your workloads never compete for resources", highlight: true },
+      { text: "99.9% uptime SLA — as reliable as the tools it replaces", highlight: true },
+      { text: "SSO/SAML + audit logging — IT signs off on day one" },
+      { text: "50K+ requests/day — enough for department-wide rollouts across the org" },
+      { text: "Dedicated support channel — real humans, same-day responses" },
     ],
     details: {
       messagesPerDay: "50,000+ (custom)",
@@ -252,7 +252,7 @@ const TIERS: TierInfo[] = [
       conversationExport: true,
       priorityQueue: true,
       apiAccess: true,
-      besties: "Custom",
+      besties: "2 AI Besties",
       agents: "All 42 + custom agent development",
       billingOptions: "From $500/mo · $475/mo (yearly, 5% off) · Net 30/60/90",
     },
@@ -288,8 +288,8 @@ export function PricingSection() {
         More speed. More intelligence. Your call.
       </h2>
       <p className="text-center text-zinc-400 mb-8 max-w-lg mx-auto">
-        Every tier unlocks faster responses and smarter capabilities.
-        Start free, scale when you&apos;re ready. Cancel anytime.
+        Every tier puts more specialists in your corner and more hours back in your week.
+        Start free, scale when the results speak for themselves.
       </p>
 
       {/* Billing period toggle */}
@@ -560,6 +560,89 @@ export function PricingSection() {
             </button>
           );
         })}
+      </div>
+
+      {/* Limited Sign-On Deals */}
+      <div className="mt-10">
+        <div className="flex items-center justify-center gap-2 mb-5">
+          <Sparkles className="h-5 w-5 text-amber-400" />
+          <h3 className="text-lg font-bold text-white">Limited Sign-On Deals</h3>
+          <Sparkles className="h-5 w-5 text-amber-400" />
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+          {/* Launch Trial — Builder at $14.99 */}
+          <div className="relative bg-zinc-900 border border-emerald-800/60 rounded-xl p-5 flex flex-col">
+            <div className="absolute -top-2.5 left-4">
+              <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                Launch Trial
+              </span>
+            </div>
+            <p className="text-sm text-zinc-400 mt-2 mb-3">Builder plan</p>
+            <div className="flex items-baseline gap-2 mb-3">
+              <span className="text-zinc-500 line-through text-lg">$19.99</span>
+              <span className="text-3xl font-bold text-emerald-400">$14.99</span>
+              <span className="text-zinc-500 text-sm">/mo</span>
+            </div>
+            <div className="flex items-center gap-1.5 mb-2">
+              <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
+              <span className="text-xs text-zinc-400 font-medium">Credit card required</span>
+            </div>
+            <p className="text-xs text-amber-400/90 mb-2 leading-relaxed">
+              One-time offer — if you cancel, this price is gone forever
+            </p>
+            <p className="text-[11px] text-zinc-500 mb-4 leading-relaxed">
+              Lock in this price and join the OG founders. Keep it for a year — unlock the <span className="text-amber-400 font-medium">Golden Egg</span>, the rarest badge on Stone AI.
+            </p>
+            <div className="mt-auto">
+              <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
+                <Link href="/sign-up">
+                  Claim This Deal
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+
+          {/* Growth Early Adopter — Growth at $39.99 + 7-day trial */}
+          <div className="relative bg-zinc-900 border border-amber-700/60 rounded-xl p-5 flex flex-col">
+            <div className="absolute -top-2.5 left-4">
+              <span className="bg-amber-600 text-black text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                Early Adopter
+              </span>
+            </div>
+            <p className="text-sm text-zinc-400 mt-2 mb-1">Growth plan</p>
+            <p className="text-[11px] text-emerald-400 font-medium mb-2">+ 7-day free trial</p>
+            <div className="flex items-baseline gap-2 mb-3">
+              <span className="text-zinc-500 line-through text-lg">$49.99</span>
+              <span className="text-3xl font-bold text-amber-400">$39.99</span>
+              <span className="text-zinc-500 text-sm">/mo</span>
+            </div>
+            <div className="flex items-center gap-1.5 mb-2">
+              <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
+              <span className="text-xs text-zinc-400 font-medium">Credit card required</span>
+            </div>
+            <p className="text-xs text-amber-400/90 mb-2 leading-relaxed">
+              One-time offer — if you cancel, this price is gone forever
+            </p>
+            <p className="text-[11px] text-zinc-500 mb-4 leading-relaxed">
+              Lock in this price and join the OG founders. Keep it for a year — unlock the <span className="text-amber-400 font-medium">Golden Egg</span>, the rarest badge on Stone AI.
+            </p>
+            <div className="mt-auto">
+              <Button asChild size="sm" className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold">
+                <Link href="/sign-up">
+                  Claim This Deal
+                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* OG program callout */}
+        <p className="text-center text-xs text-zinc-600 mt-5 max-w-lg mx-auto">
+          OG and Golden Egg badges are visible across the entire Stone AI ecosystem — in the community forum, your profile, and every app in the platform.
+          Founding member status that everyone can see.
+        </p>
       </div>
     </section>
   );

@@ -1,4 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
+import { createAnthropic } from "@ai-sdk/anthropic";
 
 /**
  * vLLM provider — OpenAI-compatible API running locally.
@@ -21,19 +22,16 @@ export const vllm = createOpenAI({
 });
 
 /**
- * Cloud fallback provider — OpenAI GPT for SMART mode.
+ * Cloud provider — Anthropic Claude for SMART mode and Vercel fallback.
  * Available to all paid tiers (Builder and above).
  * Also used as emergency fallback when local model is down.
  *
  * ═══ SCALING REMINDER ═══
- * At 500+ SMART mode users, check your OpenAI usage tier.
- * Default rate limit is 500 RPM. Request tier 3+ at:
- * https://platform.openai.com/account/limits
+ * At 500+ SMART mode users, check your Anthropic usage tier.
  * At 2000+ users, consider adding a second cloud provider as fallback.
  */
-export const cloud = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY ?? "",
-  name: "openai",
+export const cloud = createAnthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY ?? "",
 });
 
 /**
@@ -43,25 +41,25 @@ export const cloud = createOpenAI({
  *   - Free tier: Llama 3.1 8B (fast, good for basics)
  *   - Paid tiers: Llama 3.1 70B (full capability)
  *
- * SMART mode: Uses cloud model (GPT-4o) for all paid tiers
+ * SMART mode: Uses cloud model (Claude Sonnet) for all paid tiers
  *
  * Cloud fallback: When local model is unavailable, paid tiers
  * automatically fall back to cloud. This counts against Smart quota.
  */
 export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
   if (mode === "SMART") {
-    return cloud(process.env.OPENAI_MODEL ?? "gpt-4o");
+    return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
   }
 
   // In production (Vercel), vLLM at localhost isn't available.
-  // Fall back to OpenAI gpt-4o-mini for LOCAL mode until a cloud
+  // Fall back to Claude Haiku for LOCAL mode until a cloud
   // inference provider (Groq, Together, Fireworks) is configured.
   const vllmUrl = process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1";
   const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
   const isVercel = !!process.env.VERCEL;
 
   if (isLocalhost && isVercel) {
-    return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "gpt-4o-mini");
+    return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
   const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct";

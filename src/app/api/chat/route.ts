@@ -305,7 +305,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 9. Build message history — ENFORCE context window limit per tier
-    // Smart mode gets a SMALLER context window to control OpenAI input token costs
+    // Smart mode gets a SMALLER context window to control cloud API input token costs
     const contextLimit = mode === "SMART" && tierConfig.limits.smartContextMessages > 0
       ? tierConfig.limits.smartContextMessages
       : tierConfig.perks.contextMessages;
@@ -389,7 +389,7 @@ export async function POST(req: NextRequest) {
               content: text,
               mode: mode as Mode,
               model: mode === "SMART"
-                ? (process.env.OPENAI_MODEL ?? "gpt-4o")
+                ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
                 : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
               tokensIn: tokenUsage?.inputTokens ?? 0,
               tokensOut: tokenUsage?.outputTokens ?? 0,

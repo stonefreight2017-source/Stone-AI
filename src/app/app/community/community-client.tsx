@@ -22,11 +22,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TierBadge } from "@/components/billing/TierBadge";
+import { UserBadges } from "@/components/badges/UserBadges";
 
 interface Author {
   id: string;
   name: string;
   tier: string;
+  badges?: string[];
   postCount?: number;
 }
 
@@ -415,6 +417,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                 </div>
                 <span className="text-zinc-300 font-medium">{selectedPost.author.name}</span>
                 <TierBadge tier={selectedPost.author.tier} />
+                <UserBadges badges={selectedPost.author.badges ?? []} compact />
                 {selectedPost.author.postCount != null && (
                   <RankBadge postCount={selectedPost.author.postCount} />
                 )}
@@ -465,6 +468,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                   </div>
                   <span className="text-zinc-300 font-medium text-sm">{reply.author.name}</span>
                   <TierBadge tier={reply.author.tier} />
+                  <UserBadges badges={reply.author.badges ?? []} compact />
                   {reply.author.postCount != null && (
                     <RankBadge postCount={reply.author.postCount} />
                   )}
@@ -682,6 +686,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                           <span className="text-zinc-300">{post.author.name}</span>
                         </span>
                         <TierBadge tier={post.author.tier} />
+                        <UserBadges badges={post.author.badges ?? []} compact />
                         {post.author.postCount != null && (
                           <RankBadge postCount={post.author.postCount} />
                         )}

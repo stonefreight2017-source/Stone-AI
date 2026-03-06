@@ -2,6 +2,7 @@ import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { getTierConfig } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
+import { getUserBadges } from "@/lib/badges";
 import { SettingsClient } from "./settings-client";
 
 export default async function SettingsPage() {
@@ -26,6 +27,9 @@ export default async function SettingsPage() {
     }));
   }
 
+  // Compute active badges (persisted + dynamically qualified)
+  const activeBadges = getUserBadges(user).map((b) => b.slug);
+
   return (
     <SettingsClient
       user={{
@@ -35,6 +39,8 @@ export default async function SettingsPage() {
         tier,
         tierName: config.name,
         createdAt: user.createdAt.toISOString(),
+        backdropTheme: user.backdropTheme,
+        badges: activeBadges,
       }}
       limits={config.limits}
       perks={config.perks}

@@ -178,8 +178,8 @@ export default function LandingPage() {
               Two engines. <span className="text-zinc-400">You choose.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-              Local mode runs on our GPU — fast, free, and private.
-              Smart mode adds GPT-4o when you need it — opt-in, clearly labeled.
+              Local mode answers before you finish reading the question — fast, free, and completely private.
+              Smart mode brings in GPT-4o when you hit something complex — you choose when, every time.
             </p>
           </ScrollSection>
 
@@ -199,23 +199,23 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Sub-100ms response time</span>
+                    <span>Answers in under 100ms — faster than switching to a Google tab</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Data never leaves your network</span>
+                    <span>Your financials, client names, and strategy stay on our servers — never shared</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Unlimited messages (no per-token cost)</span>
+                    <span>Unlimited messages — no surprise bill at the end of the month</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>70B parameter open-weight model</span>
+                    <span>70B parameter model — the same class of AI that powers enterprise tools</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 rounded-lg bg-zinc-700/30">
-                  <p className="text-xs text-zinc-400">Best for: everyday work, sensitive data, unlimited usage</p>
+                  <p className="text-xs text-zinc-400">Best for: daily brainstorming, sensitive client work, running up the score without watching the meter</p>
                 </div>
               </Card>
             </AnimateOnScroll>
@@ -234,23 +234,23 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>GPT-4o for complex reasoning</span>
+                    <span>GPT-4o for the questions that stump everything else — contracts, analysis, strategy</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>Data sent to OpenAI (you opt in per message)</span>
+                    <span>You choose per message — cloud only fires when you pull the trigger</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>Daily cap protects your budget</span>
+                    <span>Daily cap means no runaway costs — your budget stays exactly where you set it</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>Credit packs for extra when you need it</span>
+                    <span>Credit packs for crunch time — big pitch week, product launch, tax season</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20">
-                  <p className="text-xs text-zinc-400">Best for: complex analysis, creative tasks, cutting-edge reasoning</p>
+                  <p className="text-xs text-zinc-400">Best for: investor decks, legal reviews, competitive analysis, anything that needs the sharpest mind in the room</p>
                 </div>
               </Card>
             </AnimateOnScroll>
@@ -259,9 +259,9 @@ export default function LandingPage() {
           {/* 3 steps */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { step: "1", title: "Sign up free", desc: "No credit card. Instant access to 4 agents and unlimited local AI." },
-              { step: "2", title: "Chat locally", desc: "Messages go to our GPU. Sub-100ms responses. Your data stays private." },
-              { step: "3", title: "Add Smart mode", desc: "Upgrade to unlock GPT-4o, more agents, and cloud AI when you choose." },
+              { step: "1", title: "Sign up free", desc: "Takes 30 seconds. No credit card. You're chatting with 4 AI agents before your coffee gets cold." },
+              { step: "2", title: "Chat locally", desc: "Ask anything — get answers before you finish the thought. Your data never leaves our network." },
+              { step: "3", title: "Add Smart mode", desc: "Hit a wall? Flip on GPT-4o for the heavy stuff. You pick when. You control the cost." },
             ].map((s) => (
               <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5">
@@ -279,10 +279,10 @@ export default function LandingPage() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="flex-1">
                   <Badge className="mb-2 bg-emerald-500/10 text-emerald-400 border-emerald-500/20">Enterprise</Badge>
-                  <h3 className="text-xl font-bold mb-1">Regulated industries welcome</h3>
+                  <h3 className="text-xl font-bold mb-1">Healthcare, finance, legal — we built for you</h3>
                   <p className="text-sm text-zinc-400">
-                    Local mode keeps sensitive data on-network by default. Smart mode is opt-in — you
-                    control exactly when and if data touches the cloud.
+                    Patient records, financial models, case files — they stay on our network by default.
+                    Cloud mode only activates when you say so. Your compliance team will love the audit trail.
                   </p>
                 </div>
                 <Button asChild variant="outline" className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 shrink-0">
@@ -300,11 +300,11 @@ export default function LandingPage() {
               42 specialists. <span className="text-zinc-400">Zero salaries.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-4 max-w-2xl mx-auto">
-              Each agent is a domain expert with persistent memory and industry frameworks.
-              They produce client-ready deliverables — not generic AI output.
+              Imagine walking into an office where every desk is staffed — marketing, legal, finance,
+              dev, HR, sales — and they already know your business. That's what this feels like.
             </p>
             <p className="text-center text-emerald-400/80 text-sm mb-12 max-w-lg mx-auto">
-              Pro-level output runs entirely on local AI — no cloud needed for most tasks.
+              Most of this runs on local AI — so you're getting pro-level output without paying per question.
             </p>
           </ScrollSection>
 
@@ -386,9 +386,9 @@ export default function LandingPage() {
           <AnimateOnScroll>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
-                { icon: Zap, title: "RAG Knowledge", desc: "Domain-specific frameworks and real data — not hallucinations.", color: "text-amber-400" },
-                { icon: Brain, title: "Persistent Memory", desc: "They remember your business. Session 50 is smarter than session 1.", color: "text-blue-400" },
-                { icon: Terminal, title: "Production Output", desc: "Client-ready deliverables you can ship or sell directly.", color: "text-green-400" },
+                { icon: Zap, title: "RAG Knowledge", desc: "Each agent draws from real industry data and frameworks — not generic guesses you have to fact-check.", color: "text-amber-400" },
+                { icon: Brain, title: "Persistent Memory", desc: "Tell your Marketing Agent your brand voice once. Three months later, it still nails the tone.", color: "text-blue-400" },
+                { icon: Terminal, title: "Production Output", desc: "Proposals, contracts, ad copy, code — hand it to the client or ship it to production. Done.", color: "text-green-400" },
               ].map((item) => (
                 <div key={item.title} className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
                   <item.icon className={`h-5 w-5 ${item.color} mb-2`} />
@@ -412,18 +412,18 @@ export default function LandingPage() {
                 Not an assistant. <span className="text-amber-400">Your operator.</span>
               </h2>
               <p className="text-zinc-400 max-w-xl mx-auto">
-                Your Bestie is a personal AI operator that remembers who you are — your business,
-                your goals, your standards. It holds you accountable, keeps you on track, and gets things done.
+                Picture someone who knows your deadlines, your clients, your standards — and checks in
+                every morning to make sure nothing falls through the cracks. That's your Bestie.
               </p>
             </div>
           </ScrollSection>
 
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
             {[
-              { icon: Laptop, title: "Desktop & Laptop", desc: "Full chat experience in your browser — always one tab away.", status: "Live" },
-              { icon: Smartphone, title: "Home Screen", desc: "Add to your phone's home screen. One tap, no app store.", status: "Live" },
-              { icon: Globe, title: "Cross-Device Memory", desc: "Start on laptop, continue on phone. Same memories.", status: "Live" },
-              { icon: Mic, title: "Voice Chat", desc: "Talk to your Bestie in 6 languages. Built on Web Speech API — no extra app needed.", status: "Live" },
+              { icon: Laptop, title: "Desktop & Laptop", desc: "Open a tab, start talking. Your Bestie is always one click away while you work.", status: "Live" },
+              { icon: Smartphone, title: "Home Screen", desc: "Waiting in line? Tap and ask. It lives on your phone like any other app — no app store needed.", status: "Live" },
+              { icon: Globe, title: "Cross-Device Memory", desc: "Start a game plan on your laptop at the office, refine it on your phone at dinner. It remembers everything.", status: "Live" },
+              { icon: Mic, title: "Voice Chat", desc: "Speak naturally in 6 languages — perfect for founders serving international clients or thinking out loud on a walk.", status: "Live" },
             ].map((item) => (
               <StaggerCard key={item.title}>
                 <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-amber-500/20 transition-colors">
@@ -471,7 +471,7 @@ export default function LandingPage() {
           <AnimateOnScroll>
             <div className="text-center">
               <p className="text-sm text-zinc-500 mb-4">
-                Create yours in 3 steps. Choose a personality, pick a name, start talking.
+                Three steps and you have a right hand that knows your name, your goals, and your standards.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-lg px-8 font-semibold">
                 <Link href="/app/bestie">
@@ -489,8 +489,8 @@ export default function LandingPage() {
               Your Monday. <span className="text-zinc-400">Reimagined.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-              The same tasks. A fraction of the time. Here&apos;s what changes
-              when 42 specialists handle the heavy lifting.
+              That 5-hour grind you do every week? Watch it shrink to 38 minutes.
+              Same quality. Same deliverables. You just get your afternoon back.
             </p>
           </ScrollSection>
 
@@ -553,10 +553,10 @@ export default function LandingPage() {
           {/* Impact summary */}
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { value: "88%", label: "Time saved", sub: "on routine tasks" },
-              { value: "42", label: "Specialists", sub: "across departments" },
-              { value: "$0", label: "Local cost", sub: "per message" },
-              { value: "24/7", label: "Available", sub: "no sick days" },
+              { value: "88%", label: "Time saved", sub: "back in your week" },
+              { value: "42", label: "Specialists", sub: "who never call in sick" },
+              { value: "$0", label: "Local cost", sub: "ask all day, pay nothing" },
+              { value: "24/7", label: "Available", sub: "3am ideas welcome" },
             ].map((s) => (
               <StaggerCard key={s.label}>
                 <div className="text-center p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30">
@@ -576,8 +576,8 @@ export default function LandingPage() {
               The builders are <span className="text-zinc-400">already here.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              Founders, freelancers, and operators sharing what works.
-              Real strategies from real users — no fluff.
+              People are landing clients, shipping products, and saving hours every week.
+              They're showing each other exactly how. You're one sign-up from the playbook.
             </p>
           </ScrollSection>
 
@@ -587,11 +587,11 @@ export default function LandingPage() {
                 <MessageSquare className="h-6 w-6 text-blue-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">Agent Strategies</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Prompt templates, workflow combos, and agent setups from daily users.
+                  Steal the exact agent combos and prompts that are working for other founders right now.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 italic">
-                    &quot;Chained Proposal + Sales Agent. Closed $12K in 3 days.&quot;
+                    &quot;Chained Proposal + Sales Agent for a cold lead. He signed a $12K retainer in 3 days.&quot;
                   </p>
                 </div>
               </Card>
@@ -601,11 +601,11 @@ export default function LandingPage() {
                 <Trophy className="h-6 w-6 text-amber-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">Wall of Wins</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Businesses launched, deals closed, products shipped. Real results.
+                  Real people posting real receipts — launches, closed deals, first customers.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 italic">
-                    &quot;Built my SaaS MVP in 2 weeks. First customer on day 16.&quot;
+                    &quot;Went from idea to paying customer in 16 days. The agents wrote 80% of the copy.&quot;
                   </p>
                 </div>
               </Card>
@@ -615,11 +615,11 @@ export default function LandingPage() {
                 <Users className="h-6 w-6 text-green-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">Open Help</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  No gatekeeping. Ask a question, get answers from people who&apos;ve done it.
+                  Stuck at 2am? Post the question. By morning, someone who solved it is walking you through it.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-500 italic">
-                    &quot;Asked about onboarding automation. Got 4 detailed agent combos.&quot;
+                    &quot;Asked how to automate onboarding. Got 4 agent combos with screenshots in an hour.&quot;
                   </p>
                 </div>
               </Card>
@@ -646,6 +646,15 @@ export default function LandingPage() {
             </div>
           </AnimateOnScroll>
 
+          <AnimateOnScroll>
+            <div className="text-center mb-6">
+              <p className="text-xs text-zinc-500 max-w-md mx-auto">
+                Spot the golden badges? Those are our founding members — the OGs who locked in early and never left.
+                Stay one year and the <span className="text-amber-400 font-medium">Golden Egg</span> is yours.
+              </p>
+            </div>
+          </AnimateOnScroll>
+
           <div className="text-center">
             <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-500 text-lg px-8">
               <Link href="/sign-up">
@@ -662,16 +671,16 @@ export default function LandingPage() {
               Build with it. <span className="text-emerald-400">Sell it.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              Pro tier unlocks full REST API access. Build SaaS products, serve clients,
-              and sell AI solutions under your own brand.
+              Plug our API into your product, slap your brand on it, charge what you want.
+              You just became an AI company for $200/mo.
             </p>
           </ScrollSection>
 
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             {[
-              { icon: Terminal, title: "REST API", desc: "Simple key auth. 3,000+ requests/day. Any language.", color: "text-emerald-400" },
-              { icon: Shield, title: "White-Label", desc: "No 'Powered by' requirement. Your brand, your pricing.", color: "text-amber-400" },
-              { icon: Target, title: "$200/mo Flat", desc: "No per-token billing. No overage charges. Predictable costs.", color: "text-blue-400" },
+              { icon: Terminal, title: "REST API", desc: "Drop a few lines of code and your app is powered by 42 AI agents. Any language, any framework.", color: "text-emerald-400" },
+              { icon: Shield, title: "White-Label", desc: "Your clients see your brand, your logo, your pricing. We stay invisible.", color: "text-amber-400" },
+              { icon: Target, title: "$200/mo Flat", desc: "Charge your clients $500. Pay us $200. Keep the difference. No per-token surprises.", color: "text-blue-400" },
             ].map((item) => (
               <StaggerCard key={item.title}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5 h-full">

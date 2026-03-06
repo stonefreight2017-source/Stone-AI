@@ -48,6 +48,7 @@ export async function GET(req: NextRequest) {
               id: true,
               name: true,
               tier: true,
+              badges: true,
               _count: { select: { forumPosts: true } },
             },
           },
@@ -73,6 +74,7 @@ export async function GET(req: NextRequest) {
           id: p.user.id,
           name: p.user.name || "Anonymous",
           tier: p.user.tier,
+          badges: p.user.badges ?? [],
           postCount: p.user._count.forumPosts,
         },
         createdAt: p.createdAt,
@@ -156,7 +158,7 @@ export async function POST(req: NextRequest) {
         category,
       },
       include: {
-        user: { select: { id: true, name: true, tier: true } },
+        user: { select: { id: true, name: true, tier: true, badges: true } },
       },
     });
 
@@ -172,6 +174,7 @@ export async function POST(req: NextRequest) {
           id: post.user.id,
           name: post.user.name || "Anonymous",
           tier: post.user.tier,
+          badges: post.user.badges ?? [],
         },
         createdAt: post.createdAt,
       },
