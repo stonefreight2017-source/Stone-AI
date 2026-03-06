@@ -282,7 +282,6 @@ export async function POST(req: NextRequest) {
     }
 
     // Steps 7-11 wrapped in try/catch to ensure concurrency slot release on error
-    let result;
     try {
 
     // 7. Save user message to DB
@@ -360,71 +359,94 @@ export async function POST(req: NextRequest) {
     const startTime = Date.now();
     const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
 
-    const result = streamText({
-      model,
-      system: systemPrompt,
-      messages: history,
-      maxOutputTokens: mode === "SMART" && tierConfig.limits.smartMaxResponseTokens > 0
-        ? tierConfig.limits.smartMaxResponseTokens
-        : tierConfig.limits.maxResponseTokens,
-      onFinish: async ({ text, usage: tokenUsage }) => {
-        // Save assistant message
-        await db.message.create({
-          data: {
-            conversationId: conversation.id,
-            role: "ASSISTANT" as Role,
-            content: text,
-            mode: mode as Mode,
-            model: mode === "SMART"
-              ? (process.env.OPENAI_MODEL ?? "gpt-4o")
-              : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
-            tokensIn: tokenUsage?.inputTokens ?? 0,
-            tokensOut: tokenUsage?.outputTokens ?? 0,
-          },
-        });
+    const AI_ERROR_MESSAGE = "I'm having trouble connecting to the AI service right now. Please try again in a moment.";
 
-        // Record usage
-        await recordTokenUsage(
-          user.id,
-          tokenUsage?.inputTokens ?? 0,
-          tokenUsage?.outputTokens ?? 0,
-          mode as "LOCAL" | "SMART"
-        );
+    let streamResult;
+    try {
+      streamResult = streamText({
+        model,
+        system: systemPrompt,
+        messages: history,
+        maxOutputTokens: mode === "SMART" && tierConfig.limits.smartMaxResponseTokens > 0
+          ? tierConfig.limits.smartMaxResponseTokens
+          : tierConfig.limits.maxResponseTokens,
+        onFinish: async ({ text, usage: tokenUsage }) => {
+          // Don't save empty assistant messages (e.g. quota exhausted, empty stream)
+          if (!text || !text.trim()) {
+            console.warn("POST /api/chat: Empty response from model — skipping DB save", {
+              conversationId: conversation.id,
+              mode,
+            });
+            await concurrency.release();
+            return;
+          }
 
-        // Auto-title after first exchange
-        if (conversation.title === "New Chat" && conversation.messages.length === 0) {
-          const title = generateTitle(message, text);
+          // Save assistant message
+          await db.message.create({
+            data: {
+              conversationId: conversation.id,
+              role: "ASSISTANT" as Role,
+              content: text,
+              mode: mode as Mode,
+              model: mode === "SMART"
+                ? (process.env.OPENAI_MODEL ?? "gpt-4o")
+                : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
+              tokensIn: tokenUsage?.inputTokens ?? 0,
+              tokensOut: tokenUsage?.outputTokens ?? 0,
+            },
+          });
+
+          // Record usage
+          await recordTokenUsage(
+            user.id,
+            tokenUsage?.inputTokens ?? 0,
+            tokenUsage?.outputTokens ?? 0,
+            mode as "LOCAL" | "SMART"
+          );
+
+          // Auto-title after first exchange
+          if (conversation.title === "New Chat" && conversation.messages.length === 0) {
+            const title = generateTitle(message, text);
+            await db.conversation.update({
+              where: { id: conversation.id },
+              data: { title },
+            });
+          }
+
+          // Update conversation timestamp
           await db.conversation.update({
             where: { id: conversation.id },
-            data: { title },
+            data: { updatedAt: new Date() },
           });
-        }
 
-        // Update conversation timestamp
-        await db.conversation.update({
-          where: { id: conversation.id },
-          data: { updatedAt: new Date() },
-        });
+          // Release concurrency slot
+          await concurrency.release();
 
-        // Release concurrency slot
-        await concurrency.release();
-
-        // Agent memory extraction (async, non-blocking, sanitized)
-        // ═══ SCALING: At high load, set MEMORY_EXTRACT_FREQUENCY=3 to extract every 3rd message ═══
-        if (conversation.agent && text.length > 100) {
-          extractAgentMemory(
-            conversation.agent.id,
-            user.id,
-            message,
-            text
-          ).catch(() => {});
-        }
-      },
-    });
+          // Agent memory extraction (async, non-blocking, sanitized)
+          // ═══ SCALING: At high load, set MEMORY_EXTRACT_FREQUENCY=3 to extract every 3rd message ═══
+          if (conversation.agent && text.length > 100) {
+            extractAgentMemory(
+              conversation.agent.id,
+              user.id,
+              message,
+              text
+            ).catch(() => {});
+          }
+        },
+      });
+    } catch (streamError) {
+      console.error("POST /api/chat: streamText() failed:", streamError instanceof Error ? streamError.message : streamError);
+      await concurrency.release();
+      // Return error as a readable text stream so it appears in the chat bubble
+      return new Response(AI_ERROR_MESSAGE, {
+        status: 200,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      });
+    }
 
     // 12. Return streaming response — only safe headers
     const firstTokenTime = Date.now() - startTime;
-    return result.toTextStreamResponse({
+    return streamResult.toTextStreamResponse({
       headers: {
         "X-Latency-Ms": String(firstTokenTime),
       },
