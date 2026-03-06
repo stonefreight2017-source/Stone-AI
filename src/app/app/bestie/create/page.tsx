@@ -352,7 +352,12 @@ export default function CreateBestiePage() {
   }
 
   // Easter egg state — checked server-side only after creation
-  const [easterEgg, setEasterEgg] = useState<{ reward: string; message: string } | null>(null);
+  const [easterEgg, setEasterEgg] = useState<{
+    reward: string;
+    message: string;
+    discountPercent?: number;
+    badge?: { color: string; colorName: string; sign: string };
+  } | null>(null);
 
   const TOTAL_STEPS = 6;
 
@@ -715,10 +720,24 @@ export default function CreateBestiePage() {
 
             {/* Easter egg result (only shown after server-side creation) */}
             {easterEgg && (
-              <div className="bg-gradient-to-r from-amber-900/30 to-yellow-900/20 rounded-lg p-4 border border-amber-500/40 backdrop-blur-sm text-center space-y-1 animate-pulse">
-                <p className="text-amber-300 font-bold text-sm">Easter Egg Discovered!</p>
+              <div className="bg-gradient-to-r from-amber-900/30 to-yellow-900/20 rounded-lg p-4 border border-amber-500/40 backdrop-blur-sm text-center space-y-2">
+                <p className="text-amber-300 font-bold text-sm animate-pulse">Easter Egg Discovered!</p>
                 <p className="text-amber-400/80 text-xs">{easterEgg.message}</p>
-                <p className="text-[10px] text-amber-500/60">Badge: &quot;{easterEgg.reward}&quot; — applied to your profile</p>
+                {easterEgg.discountPercent && (
+                  <p className="text-emerald-400 text-xs font-medium">{easterEgg.discountPercent}% off your next purchase or renewal (one-time use)</p>
+                )}
+                {easterEgg.badge && (
+                  <div className="flex items-center justify-center gap-2 mt-1">
+                    <span
+                      className="inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full border"
+                      style={{ color: easterEgg.badge.color, borderColor: easterEgg.badge.color + "60" }}
+                    >
+                      <span style={{ color: easterEgg.badge.color }}>&#x1F95A;</span>
+                      {easterEgg.badge.colorName} Egg &middot; {easterEgg.badge.sign}
+                    </span>
+                  </div>
+                )}
+                <p className="text-[10px] text-amber-500/60">Badge: &quot;{easterEgg.reward}&quot; — added to your community profile</p>
               </div>
             )}
 

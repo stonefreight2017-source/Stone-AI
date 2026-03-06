@@ -20,7 +20,7 @@ import { createBestieSchema, updateBestieSchema } from "@/lib/bestie-validators"
 import { checkRateLimit } from "@/lib/rate-limiter";
 import { getTierConfig, getMaxBesties } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
-import { checkEasterEgg } from "@/lib/easter-eggs";
+import { checkEasterEgg, checkBirthdayEgg, getZodiacEggBadge } from "@/lib/easter-eggs";
 
 // GET — List user's besties
 export async function GET() {
@@ -175,25 +175,67 @@ export async function POST(req: NextRequest) {
     }
 
     // Server-side Easter egg check — one-time per user
-    let easterEgg: { reward: string; message: string; credits: number } | null = null;
+    let easterEgg: { reward: string; message: string; discountPercent?: number; badge?: { color: string; colorName: string; sign: string } } | null = null;
+    const now = new Date();
+    const zodiacBadge = getZodiacEggBadge(now);
+
+    // 1. Combo Easter eggs (purpose + background)
     if (purposes.length > 0) {
       const egg = checkEasterEgg(purposes, bgTheme);
       if (egg) {
-        // Check if user already claimed this egg (stored in metadata)
         const existingClaim = await db.bestieMemory.findFirst({
           where: { userId: user.id, key: `easter_egg_${egg.reward}` },
         });
         if (!existingClaim) {
-          // Claim the egg — one-time only
           await db.bestieMemory.create({
             data: {
               bestieId: bestie.id,
               userId: user.id,
               key: `easter_egg_${egg.reward}`,
-              value: JSON.stringify({ credits: egg.credits, claimedAt: new Date().toISOString() }),
+              value: JSON.stringify({
+                credits: egg.credits,
+                claimedAt: now.toISOString(),
+                badge: zodiacBadge,
+              }),
             },
           });
-          easterEgg = egg;
+          easterEgg = {
+            reward: egg.reward,
+            message: egg.message,
+            badge: { color: zodiacBadge.color, colorName: zodiacBadge.colorName, sign: zodiacBadge.sign },
+          };
+        }
+      }
+    }
+
+    // 2. Birthday Easter egg (checked from About Me birthday field)
+    if (!easterEgg && aboutMe?.birthday) {
+      const bdayEgg = checkBirthdayEgg(aboutMe.birthday);
+      if (bdayEgg) {
+        const bdayKey = `easter_egg_bday_${bdayEgg.type}`;
+        const existingBdayClaim = await db.bestieMemory.findFirst({
+          where: { userId: user.id, key: bdayKey },
+        });
+        if (!existingBdayClaim) {
+          await db.bestieMemory.create({
+            data: {
+              bestieId: bestie.id,
+              userId: user.id,
+              key: bdayKey,
+              value: JSON.stringify({
+                discountPercent: bdayEgg.discountPercent,
+                claimedAt: now.toISOString(),
+                used: false,
+                badge: zodiacBadge,
+              }),
+            },
+          });
+          easterEgg = {
+            reward: bdayEgg.reward,
+            message: bdayEgg.message,
+            discountPercent: bdayEgg.discountPercent,
+            badge: { color: zodiacBadge.color, colorName: zodiacBadge.colorName, sign: zodiacBadge.sign },
+          };
         }
       }
     }
