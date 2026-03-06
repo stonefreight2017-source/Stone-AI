@@ -2,6 +2,7 @@ import { wrapSystemPrompt } from "@/lib/security";
 import { buildBestieMemoryContext } from "@/lib/bestie-memory";
 import type { BestieTrait, BestieStyle, BestieExpertise, BestieLanguage } from "@/lib/bestie-validators";
 import { BESTIE_LANGUAGE_LABELS } from "@/lib/bestie-validators";
+import { buildRegionalCompliancePrompt } from "@/lib/bestie-language-seeds";
 
 interface BestiePersonality {
   traits: BestieTrait[];
@@ -277,6 +278,10 @@ BEHAVIORAL RULES:
 
   // ALWAYS inject the inviolable safety standard LAST (overrides everything above)
   basePrompt += "\n" + BESTIE_SAFETY_STANDARD;
+
+  // Inject regional compliance rules based on the Bestie's language
+  const bestieLanguageCode = bestieLanguage || "en";
+  basePrompt += "\n" + buildRegionalCompliancePrompt(bestieLanguageCode);
 
   // Inject persistent bestie memory
   const memoryContext = await buildBestieMemoryContext(profile.id, userId);
