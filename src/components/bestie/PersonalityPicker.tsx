@@ -21,6 +21,14 @@ const TRAIT_META: Record<BestieTrait, { label: string; emoji: string }> = {
   calm: { label: "Calm", emoji: "\uD83C\uDF3F" },
   motivating: { label: "Motivating", emoji: "\uD83D\uDD25" },
   creative: { label: "Creative", emoji: "\uD83C\uDFA8" },
+  loyal: { label: "Loyal", emoji: "\uD83D\uDC3A" },
+  sarcastic: { label: "Sarcastic", emoji: "\uD83D\uDE0F" },
+  analytical: { label: "Analytical", emoji: "\uD83D\uDD2C" },
+  spontaneous: { label: "Spontaneous", emoji: "\u26A1" },
+  protective: { label: "Protective", emoji: "\uD83D\uDEE1\uFE0F" },
+  philosophical: { label: "Deep Thinker", emoji: "\uD83C\uDF0C" },
+  competitive: { label: "Competitive", emoji: "\uD83C\uDFC6" },
+  chill: { label: "Chill", emoji: "\uD83C\uDF0A" },
 };
 
 const STYLE_META: Record<BestieStyle, { label: string; description: string; emoji: string }> = {
@@ -66,7 +74,7 @@ export function TraitPicker({ selected, onChange }: TraitPickerProps) {
   function toggle(trait: BestieTrait) {
     if (selected.includes(trait)) {
       onChange(selected.filter((t) => t !== trait));
-    } else if (selected.length < 3) {
+    } else if (selected.length < 5) {
       onChange([...selected, trait]);
     }
   }
@@ -74,14 +82,14 @@ export function TraitPicker({ selected, onChange }: TraitPickerProps) {
   return (
     <div>
       <p className="text-sm text-zinc-400 mb-3">
-        Pick <span className="text-pink-400 font-medium">3 personality traits</span> for your Bestie
-        <span className="text-zinc-500 ml-2">({selected.length}/3)</span>
+        Pick <span className="text-pink-400 font-medium">3-5 personality traits</span> that define your Bestie&apos;s core
+        <span className="text-zinc-500 ml-2">({selected.length}/5)</span>
       </p>
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
         {BESTIE_TRAITS.map((trait) => {
           const meta = TRAIT_META[trait];
           const isSelected = selected.includes(trait);
-          const isDisabled = !isSelected && selected.length >= 3;
+          const isDisabled = !isSelected && selected.length >= 5;
           return (
             <button
               key={trait}

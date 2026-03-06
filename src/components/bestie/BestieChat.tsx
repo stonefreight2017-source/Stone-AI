@@ -18,18 +18,90 @@ import type { ChatError } from "@/types";
 const DEFAULT_REDISCLOSURE_MS = 3 * 60 * 60 * 1000; // 3 hours fallback (NY law)
 const DEFAULT_CRISIS_RESOURCES = "988 Suicide & Crisis Lifeline (call or text 988), Crisis Text Line (text HOME to 741741), or call 911";
 
+type BestiePath = "friend" | "colleague" | "hybrid" | "tutor";
+
 interface BestieChatProps {
   conversationId: string;
   bestieName: string;
   bestieEmoji: string;
+  bestiePath?: BestiePath;
 }
+
+/** Path-based UI themes — colors, gradients, and labels */
+const PATH_THEMES: Record<BestiePath, {
+  headerBg: string;
+  headerAccent: string;
+  inputBg: string;
+  inputBorder: string;
+  userBubble: string;
+  userAvatar: string;
+  accentText: string;
+  subtitleText: string;
+  subtitle: string;
+  sendButton: string;
+  placeholder: string;
+}> = {
+  friend: {
+    headerBg: "bg-gradient-to-r from-pink-950/20 to-purple-950/20",
+    headerAccent: "border-pink-900/30",
+    inputBg: "bg-gradient-to-r from-pink-950/10 to-purple-950/10",
+    inputBorder: "border-pink-900/30",
+    userBubble: "bg-pink-600 text-white",
+    userAvatar: "bg-pink-700 text-pink-200",
+    accentText: "text-pink-400",
+    subtitleText: "text-pink-400/70",
+    subtitle: "Your Best Friend",
+    sendButton: "bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500",
+    placeholder: "placeholder:text-pink-300/30",
+  },
+  colleague: {
+    headerBg: "bg-gradient-to-r from-slate-900/40 to-blue-950/20",
+    headerAccent: "border-slate-700/50",
+    inputBg: "bg-gradient-to-r from-slate-950/20 to-blue-950/10",
+    inputBorder: "border-slate-700/50",
+    userBubble: "bg-blue-600 text-white",
+    userAvatar: "bg-blue-800 text-blue-200",
+    accentText: "text-blue-400",
+    subtitleText: "text-blue-400/70",
+    subtitle: "Business Partner",
+    sendButton: "bg-gradient-to-r from-blue-600 to-slate-600 hover:from-blue-500 hover:to-slate-500",
+    placeholder: "placeholder:text-blue-300/20",
+  },
+  hybrid: {
+    headerBg: "bg-gradient-to-r from-amber-950/20 to-indigo-950/20",
+    headerAccent: "border-amber-800/30",
+    inputBg: "bg-gradient-to-r from-amber-950/10 to-indigo-950/10",
+    inputBorder: "border-amber-800/30",
+    userBubble: "bg-amber-600 text-white",
+    userAvatar: "bg-amber-700 text-amber-200",
+    accentText: "text-amber-400",
+    subtitleText: "text-amber-400/70",
+    subtitle: "Friend + Partner",
+    sendButton: "bg-gradient-to-r from-amber-600 to-indigo-600 hover:from-amber-500 hover:to-indigo-500",
+    placeholder: "placeholder:text-amber-300/20",
+  },
+  tutor: {
+    headerBg: "bg-gradient-to-r from-emerald-950/20 to-teal-950/20",
+    headerAccent: "border-emerald-800/30",
+    inputBg: "bg-gradient-to-r from-emerald-950/10 to-teal-950/10",
+    inputBorder: "border-emerald-800/30",
+    userBubble: "bg-emerald-600 text-white",
+    userAvatar: "bg-emerald-700 text-emerald-200",
+    accentText: "text-emerald-400",
+    subtitleText: "text-emerald-400/70",
+    subtitle: "Tutor & Mentor",
+    sendButton: "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500",
+    placeholder: "placeholder:text-emerald-300/20",
+  },
+};
 
 function formatLatency(ms: number): string {
   if (ms < 1000) return `${ms}ms`;
   return `${(ms / 1000).toFixed(1)}s`;
 }
 
-export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieChatProps) {
+export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath = "friend" }: BestieChatProps) {
+  const theme = PATH_THEMES[bestiePath];
   const scrollRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const { selectedMode, setSelectedMode, setTierError } = useAppStore();
@@ -322,14 +394,14 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
   return (
     <div className="flex flex-col h-full">
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-pink-900/30 bg-gradient-to-r from-pink-950/20 to-purple-950/20">
+      <div className={cn("flex items-center justify-between px-4 py-3 border-b", theme.headerAccent, theme.headerBg)}>
         <div className="flex items-center gap-3">
-          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-pink-500/20 to-purple-500/20 flex items-center justify-center text-xl">
+          <div className="h-9 w-9 rounded-full bg-gradient-to-br from-zinc-700/30 to-zinc-600/20 flex items-center justify-center text-xl">
             {bestieEmoji}
           </div>
           <div>
             <h1 className="text-sm font-semibold text-white">{bestieName}</h1>
-            <p className="text-[10px] text-pink-400/70">Your AI Bestie</p>
+            <p className={cn("text-[10px]", theme.subtitleText)}>{theme.subtitle}</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
@@ -407,7 +479,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
           <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-8">
             <div className="text-5xl">{bestieEmoji}</div>
             <p className="text-zinc-400 text-sm max-w-md">
-              Say hi to <span className="text-pink-400 font-medium">{bestieName}</span>! They&apos;re excited to chat with you.
+              Say hi to <span className={cn("font-medium", theme.accentText)}>{bestieName}</span>! They&apos;re excited to chat with you.
             </p>
           </div>
         ) : (
@@ -434,7 +506,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
                       className={cn(
                         "rounded-lg px-4 py-2.5 text-sm leading-relaxed",
                         msg.role === "user"
-                          ? "bg-pink-600 text-white"
+                          ? theme.userBubble
                           : "bg-zinc-800 text-zinc-200"
                       )}
                     >
@@ -456,7 +528,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
                     )}
                   </div>
                   {msg.role === "user" && (
-                    <div className="shrink-0 h-8 w-8 rounded-full bg-pink-700 flex items-center justify-center text-xs font-bold text-pink-200">
+                    <div className={cn("shrink-0 h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold", theme.userAvatar)}>
                       U
                     </div>
                   )}
@@ -484,8 +556,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
         </div>
       )}
 
-      {/* Warm-themed input */}
-      <div className="border-t border-pink-900/30 p-4 bg-gradient-to-r from-pink-950/10 to-purple-950/10">
+      {/* Themed input */}
+      <div className={cn("border-t p-4", theme.inputBorder, theme.inputBg)}>
         {/* Voice status indicator */}
         {(isListening || isSpeaking) && (
           <div className="flex items-center justify-center gap-2 mb-2">
@@ -520,7 +592,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
             placeholder={isListening ? "Listening..." : `Tell ${bestieName} anything...`}
             disabled={isBusy || isListening}
             className={cn(
-              "min-h-[44px] max-h-[200px] resize-none bg-zinc-800 border-pink-800/30 text-white placeholder:text-pink-300/30 focus:border-pink-500",
+              "min-h-[44px] max-h-[200px] resize-none bg-zinc-800 text-white",
+              theme.inputBorder, theme.placeholder,
               isListening && "border-red-500/50 placeholder:text-red-300/50"
             )}
             rows={1}
@@ -538,7 +611,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
                 "shrink-0 h-[44px] w-[44px] rounded-full transition-all",
                 isListening
                   ? "bg-red-600 hover:bg-red-500 text-white animate-pulse"
-                  : "bg-zinc-800 hover:bg-zinc-700 text-pink-400 border border-pink-800/30"
+                  : cn("bg-zinc-800 hover:bg-zinc-700 border", theme.accentText, theme.inputBorder)
               )}
             >
               {isListening ? <MicOff className="h-5 w-5" /> : <Mic className="h-5 w-5" />}
@@ -550,7 +623,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
             disabled={!inputValue.trim() || isBusy}
             size="icon"
             aria-label={isBusy ? "Sending message" : "Send message"}
-            className="shrink-0 h-[44px] w-[44px] bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500"
+            className={cn("shrink-0 h-[44px] w-[44px]", theme.sendButton)}
           >
             {isBusy ? (
               <Loader2 className="h-4 w-4 animate-spin" />

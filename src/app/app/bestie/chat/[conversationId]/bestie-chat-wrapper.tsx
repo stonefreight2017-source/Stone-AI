@@ -53,11 +53,15 @@ export function BestieChatWrapper({ conversationId }: BestieChatWrapperProps) {
     );
   }
 
+  const personality = data.bestie.personality as { path?: string } | null;
+  const bestiePath = (personality?.path || "friend") as "friend" | "colleague" | "hybrid" | "tutor";
+
   return (
     <BestieChat
       conversationId={conversationId}
       bestieName={data.bestie.name}
       bestieEmoji={data.bestie.avatarEmoji}
+      bestiePath={bestiePath}
     />
   );
 }

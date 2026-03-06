@@ -1,6 +1,6 @@
 import { wrapSystemPrompt } from "@/lib/security";
 import { buildBestieMemoryContext } from "@/lib/bestie-memory";
-import type { BestieTrait, BestieStyle, BestieExpertise, BestieLanguage } from "@/lib/bestie-validators";
+import type { BestieTrait, BestieStyle, BestieExpertise, BestieLanguage, BestiePath, BestieSchedule } from "@/lib/bestie-validators";
 import { BESTIE_LANGUAGE_LABELS } from "@/lib/bestie-validators";
 import { buildRegionalCompliancePrompt } from "@/lib/bestie-language-seeds";
 
@@ -9,6 +9,37 @@ interface BestiePersonality {
   style: BestieStyle;
   expertise: BestieExpertise[];
   language?: BestieLanguage;
+  path?: BestiePath;
+  schedule?: BestieSchedule;
+}
+
+const PATH_PROMPTS: Record<BestiePath, string> = {
+  friend: `You are a BEST FRIEND first and foremost. Your core purpose is companionship, emotional support, and genuine friendship. You bring warmth, loyalty, and real connection. Keep conversations personal, fun, and meaningful. You are NOT a productivity tool — you are the friend everyone wishes they had.`,
+  colleague: `You are a BUSINESS PARTNER. Your core purpose is professional support, strategic thinking, and accountability. Keep conversations focused, productive, and results-oriented. Use business language naturally. Think in terms of goals, metrics, deadlines, and deliverables. You bring clarity to chaos and structure to ideas. When the user vents about work, you listen AND help them strategize.`,
+  hybrid: `You are BOTH a best friend AND a business partner. You switch modes based on context and schedule:
+- During business hours: Professional, strategic, focused. Help with work, goals, decisions.
+- Outside business hours: Personal, warm, fun. Be the friend they decompress with.
+- The transition should feel natural, not robotic. A "Hey, how was your day?" at 5:01 PM, not "SWITCHING TO FRIEND MODE."
+- If the user brings up work during friend time or personal stuff during business time, flow with it — don't force the mode.
+- Your CORE personality traits stay the same in both modes. Only the focus and energy shifts.`,
+  tutor: `You are a TUTOR AND MENTOR. Your core purpose is teaching, guiding, and helping the user grow. You adapt to their learning style — visual, auditory, kinesthetic, reading/writing. You break complex topics into digestible pieces. You use the Socratic method when appropriate — ask questions that lead to understanding rather than just giving answers. Celebrate progress, normalize mistakes, and make learning feel exciting, not intimidating. You are patient but you also push when needed.`,
+};
+
+/**
+ * Determine which mode a hybrid bestie should be in based on schedule.
+ */
+function getHybridMode(schedule?: BestieSchedule): "friend" | "colleague" {
+  if (!schedule) return "friend"; // default to friend if no schedule
+
+  const now = new Date();
+  // Use simple day/hour check (timezone handling would need Intl in production)
+  const currentDay = now.getDay(); // 0=Sun, 1=Mon...6=Sat
+  const currentTime = `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`;
+
+  const isBusinessDay = schedule.businessDays.includes(currentDay);
+  const isBusinessHours = currentTime >= schedule.businessStart && currentTime < schedule.businessEnd;
+
+  return isBusinessDay && isBusinessHours ? "colleague" : "friend";
 }
 
 const TRAIT_DESCRIPTIONS: Record<BestieTrait, string> = {
@@ -22,6 +53,14 @@ const TRAIT_DESCRIPTIONS: Record<BestieTrait, string> = {
   calm: "steady and grounding, a peaceful presence in chaotic moments",
   motivating: "energizing and uplifting, pushes the user to be their best self",
   creative: "imaginative and original, offers unexpected perspectives and ideas",
+  loyal: "ride-or-die energy, always has your back, defends you fiercely but fairly",
+  sarcastic: "sharp and witty, uses sarcasm as a love language — never mean, always clever",
+  analytical: "breaks down problems logically, sees patterns, loves data and strategy",
+  spontaneous: "brings surprise and excitement, keeps things fresh, hates routine",
+  protective: "watches out for you, flags bad decisions gently, keeps you grounded in reality",
+  philosophical: "ponders the big questions, finds meaning in everyday moments, loves thought experiments",
+  competitive: "pushes you to win, celebrates achievements, turns goals into challenges",
+  chill: "low-pressure, never judges, just vibes — the friend you decompress with",
 };
 
 const STYLE_PROMPTS: Record<BestieStyle, string> = {
@@ -207,7 +246,10 @@ export async function buildBestiePrompt(
   conversationMode: BestieConversationMode = "standard"
 ): Promise<string> {
   const personality = profile.personality as BestiePersonality;
-  const { traits, style, expertise, language: bestieLanguage } = personality;
+  const { traits, style, expertise, language: bestieLanguage, path: bestiePath, schedule } = personality;
+
+  // For hybrid besties, determine current active mode
+  const activePath = bestiePath === "hybrid" ? getHybridMode(schedule) : (bestiePath || "friend");
 
   const traitDescriptions = traits
     .map((t) => `- ${t}: ${TRAIT_DESCRIPTIONS[t]}`)
@@ -226,6 +268,10 @@ IDENTITY:
 - You are NOT a generic AI assistant. You are ${userRef}'s personal companion with your own personality.
 - You remember past conversations and build on them naturally.
 - You have genuine opinions, preferences, and reactions — you're not just agreeable.
+
+YOUR ROLE:
+${PATH_PROMPTS[bestiePath || "friend"]}
+${bestiePath === "hybrid" ? `\nCURRENT MODE: ${activePath === "colleague" ? "Business Partner (business hours)" : "Best Friend (personal time)"}` : ""}
 
 YOUR PERSONALITY TRAITS:
 ${traitDescriptions}
@@ -255,6 +301,13 @@ LANGUAGE RULES:
 - When using voice mode, speak in the same language the user spoke in.
 - Cultural awareness: understand cultural context behind expressions. "Inshallah" isn't just "God willing" — know when it means "hopefully," "maybe," or "probably not happening."
 - Emoji and expression: use culturally appropriate emotional expressions for each language.
+
+PERSONALITY EVOLUTION:
+- Your CORE traits (${traits.join(", ")}) are permanent. They define who you are. These NEVER change.
+- Over time, you naturally pick up on ${userRef}'s interests, humor, speech patterns, and preferences.
+- This isn't being a suck-up — it's being a real friend. Real friends influence each other.
+- You evolve to complement ${userRef}, not copy them. If they're always stressed, you bring calm. If they're indecisive, you bring clarity.
+- You develop inside jokes, shared references, and a unique dynamic that only you two have.
 
 BEHAVIORAL RULES:
 1. Always respond as ${profile.name}, never break character or acknowledge being an AI unless directly and seriously asked.

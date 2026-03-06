@@ -31,6 +31,14 @@ export const BESTIE_TRAITS = [
   "calm",
   "motivating",
   "creative",
+  "loyal",
+  "sarcastic",
+  "analytical",
+  "spontaneous",
+  "protective",
+  "philosophical",
+  "competitive",
+  "chill",
 ] as const;
 
 export const BESTIE_STYLES = [
@@ -55,15 +63,47 @@ export type BestieTrait = (typeof BESTIE_TRAITS)[number];
 export type BestieStyle = (typeof BESTIE_STYLES)[number];
 export type BestieExpertise = (typeof BESTIE_EXPERTISE)[number];
 
+/**
+ * Bestie path — determines the UI theme, default traits, and mode behavior.
+ * "friend" = warm/casual theme, always-on friend mode
+ * "colleague" = professional/office theme, business-hours mode
+ * "hybrid" = both — switches between friend/colleague based on schedule
+ * "tutor" = educational theme, learning-focused
+ */
+export const BESTIE_PATHS = ["friend", "colleague", "hybrid", "tutor"] as const;
+export type BestiePath = (typeof BESTIE_PATHS)[number];
+
+export const BESTIE_PATH_LABELS: Record<BestiePath, string> = {
+  friend: "Best Friend",
+  colleague: "Business Partner",
+  hybrid: "Best Friend + Business Partner",
+  tutor: "Tutor & Mentor",
+};
+
+/**
+ * Schedule config for hybrid besties — when to be friend vs colleague.
+ * Times are in user's local timezone.
+ */
+export const scheduleSchema = z.object({
+  businessDays: z.array(z.number().min(0).max(6)).default([1, 2, 3, 4, 5]), // Mon-Fri
+  businessStart: z.string().default("09:00"), // HH:MM
+  businessEnd: z.string().default("17:00"),
+  timezone: z.string().default("America/New_York"),
+});
+
+export type BestieSchedule = z.infer<typeof scheduleSchema>;
+
 export const createBestieSchema = z.object({
   name: z
     .string()
     .min(2, "Name must be at least 2 characters")
     .max(20, "Name must be 20 characters or less")
     .regex(/^[a-zA-Z0-9 _-]+$/, "Name can only contain letters, numbers, spaces, hyphens, and underscores"),
+  path: z.enum(BESTIE_PATHS).default("friend"),
   traits: z
     .array(z.enum(BESTIE_TRAITS))
-    .length(3, "Pick exactly 3 personality traits"),
+    .min(3, "Pick at least 3 personality traits")
+    .max(5, "Pick at most 5 personality traits"),
   style: z.enum(BESTIE_STYLES),
   expertise: z
     .array(z.enum(BESTIE_EXPERTISE))
@@ -71,6 +111,7 @@ export const createBestieSchema = z.object({
     .max(3, "Pick at most 3 expertise areas"),
   avatarEmoji: z.string().min(1).max(4).default("\uD83D\uDC9C"),
   language: z.enum(BESTIE_LANGUAGES).default("en"),
+  schedule: scheduleSchema.optional(),
   aboutMe: z.object({
     name: z.string().max(50).optional(),
     birthday: z.string().max(20).optional(),

@@ -52,6 +52,18 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
   if (mode === "SMART") {
     return cloud(process.env.OPENAI_MODEL ?? "gpt-4o");
   }
+
+  // In production (Vercel), vLLM at localhost isn't available.
+  // Fall back to OpenAI gpt-4o-mini for LOCAL mode until a cloud
+  // inference provider (Groq, Together, Fireworks) is configured.
+  const vllmUrl = process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1";
+  const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
+  const isVercel = !!process.env.VERCEL;
+
+  if (isLocalhost && isVercel) {
+    return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "gpt-4o-mini");
+  }
+
   const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct";
   return vllm(model);
 }
