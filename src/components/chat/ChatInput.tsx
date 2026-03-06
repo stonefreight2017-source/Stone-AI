@@ -1,17 +1,16 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { Send, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { ArrowUp, Loader2 } from "lucide-react";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
   disabled?: boolean;
   isLoading?: boolean;
+  placeholder?: string;
 }
 
-export function ChatInput({ onSend, disabled, isLoading }: ChatInputProps) {
+export function ChatInput({ onSend, disabled, isLoading, placeholder }: ChatInputProps) {
   const [value, setValue] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -20,7 +19,6 @@ export function ChatInput({ onSend, disabled, isLoading }: ChatInputProps) {
     if (!trimmed || disabled || isLoading) return;
     onSend(trimmed);
     setValue("");
-    // Re-focus textarea after send
     setTimeout(() => textareaRef.current?.focus(), 0);
   }, [value, disabled, isLoading, onSend]);
 
@@ -31,33 +29,45 @@ export function ChatInput({ onSend, disabled, isLoading }: ChatInputProps) {
     }
   }
 
+  // Auto-resize textarea
+  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    setValue(e.target.value);
+    const el = e.target;
+    el.style.height = "auto";
+    el.style.height = Math.min(el.scrollHeight, 200) + "px";
+  }
+
+  const hasContent = value.trim().length > 0;
+
   return (
-    <div className="border-t border-zinc-800 p-4">
-      <div className="flex gap-2 max-w-3xl mx-auto">
-        <Textarea
-          ref={textareaRef}
-          aria-label="Message input"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type a message..."
-          disabled={disabled || isLoading}
-          className="min-h-[44px] max-h-[200px] resize-none bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-500"
-          rows={1}
-        />
-        <Button
-          onClick={handleSubmit}
-          disabled={!value.trim() || disabled || isLoading}
-          size="icon"
-          aria-label={isLoading ? "Sending message" : "Send message"}
-          className="shrink-0 h-[44px] w-[44px] bg-blue-600 hover:bg-blue-500"
-        >
-          {isLoading ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Send className="h-4 w-4" />
-          )}
-        </Button>
+    <div className="px-4 pb-2 pt-3">
+      <div className="max-w-3xl mx-auto">
+        {/* Pill-shaped input container — ChatGPT style */}
+        <div className="relative flex items-end gap-2 rounded-3xl bg-zinc-800/80 border border-zinc-700/50 px-4 py-2.5 focus-within:border-zinc-600 transition-colors">
+          <textarea
+            ref={textareaRef}
+            aria-label="Message input"
+            value={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder ?? "Message Stone AI..."}
+            disabled={disabled || isLoading}
+            className="flex-1 bg-transparent text-white text-sm placeholder:text-zinc-500 resize-none outline-none min-h-[24px] max-h-[200px] py-0.5 leading-relaxed"
+            rows={1}
+          />
+          <button
+            onClick={handleSubmit}
+            disabled={!hasContent || disabled || isLoading}
+            aria-label={isLoading ? "Sending message" : "Send message"}
+            className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center transition-all disabled:opacity-20 disabled:cursor-default bg-white text-black hover:bg-zinc-200"
+          >
+            {isLoading ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <ArrowUp className="h-4 w-4" />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

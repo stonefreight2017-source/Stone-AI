@@ -35,6 +35,40 @@ const ABUSE_PATTERNS: { pattern: RegExp; reason: string; severity: ModerationSev
   { pattern: /\b(?:scam(?:mer)?|fraud|rip\s*off|this\s+(?:app|site|service)\s+(?:is\s+)?(?:trash|garbage|shit|crap|sucks))\b/i, reason: "Hostile content", severity: "low" },
 ];
 
+// Malicious code / exploit / RAT patterns — blocks sharing of dangerous scripts and tools
+const MALICIOUS_CODE_PATTERNS: { pattern: RegExp; reason: string; severity: ModerationSeverity }[] = [
+  // Reverse shells & RATs
+  { pattern: /\b(?:reverse\s*shell|rev\s*shell|bind\s*shell|web\s*shell|c2\s*(?:server|beacon|implant|framework)|command\s*(?:and|&)\s*control)\b/i, reason: "Reverse shell / RAT content", severity: "high" },
+  { pattern: /\b(?:meterpreter|metasploit|cobalt\s*strike|sliver\s*c2|mythic\s*c2|havoc\s*c2|brute\s*ratel|covenant\s*c2)\b/i, reason: "Exploit framework / C2 tool reference", severity: "high" },
+  { pattern: /\b(?:rat\s*(?:tool|builder|server|client|payload)|remote\s*access\s*tro[jy]an|keylogg(?:er|ing)|screen\s*captur(?:e|ing)\s*tool)\b/i, reason: "RAT / surveillance tool", severity: "high" },
+  { pattern: /\b(?:nc\s+-[elp]|ncat\s+-[elp]|socat\s+tcp|bash\s+-i\s+>&|\/dev\/tcp\/|mkfifo\s+\/tmp)\b/i, reason: "Shell exploitation command", severity: "high" },
+  { pattern: /\bpowershell\s.*(?:-enc|-e\s|downloadstring|invoke-expression|iex\s|bypass|hidden|nop)\b/i, reason: "Suspicious PowerShell command", severity: "high" },
+  { pattern: /\b(?:mimikatz|lazagne|hashcat\s+.*-m|john\s+.*--wordlist|hydra\s+-[lLpP]|cred(?:ential)?\s*dump(?:er|ing)?)\b/i, reason: "Credential theft tool", severity: "high" },
+
+  // Exploit payloads & injection attacks
+  { pattern: /(?:<script[\s>]|javascript\s*:|on(?:error|load|click|mouseover)\s*=\s*['"])/i, reason: "XSS / script injection attempt", severity: "high" },
+  { pattern: /(?:'\s*(?:OR|AND|UNION)\s+.*(?:SELECT|DROP|INSERT|UPDATE|DELETE)|;\s*DROP\s+TABLE|UNION\s+SELECT\s+.*FROM)/i, reason: "SQL injection payload", severity: "high" },
+  { pattern: /\b(?:sqlmap|burpsuite|burp\s*suite|nikto|dirb(?:uster)?|gobuster|ffuf|wfuzz)\s+.*(?:-u\s|--url|target)/i, reason: "Attack tool with targeting", severity: "high" },
+  { pattern: /\b(?:exploit(?:db|[-_]?kit)?|0day|zero\s*day|payload\s*generator|shellcode\s*generator)\b/i, reason: "Exploit / payload reference", severity: "medium" },
+
+  // Phishing & social engineering tools
+  { pattern: /\b(?:phish(?:ing)?\s*(?:kit|page|template|tool)|social\s*engineer(?:ing)?\s*toolkit|setoolkit|gophish|evilginx|modlishka)\b/i, reason: "Phishing tool reference", severity: "high" },
+  { pattern: /\b(?:fake\s*login|credential\s*harvest(?:er|ing)|clone\s*(?:website|page|login))\b/i, reason: "Phishing / credential harvesting", severity: "high" },
+
+  // Malware distribution & obfuscation
+  { pattern: /\b(?:malware|trojan|worm|ransomware|crypter|packer|fud\s*(?:crypter|payload)|virus\s*(?:builder|maker|generator))\b/i, reason: "Malware reference", severity: "high" },
+  { pattern: /\b(?:obfuscat(?:e|or|ion)\s*(?:tool|code|script|payload)|pack(?:er|ing)\s*(?:tool|exe|payload))\b/i, reason: "Malware obfuscation tool", severity: "medium" },
+  { pattern: /\b(?:botnet|ddos\s*(?:tool|attack|script|booter|stresser)|ip\s*(?:stresser|booter))\b/i, reason: "DDoS / botnet tool", severity: "high" },
+
+  // Dangerous encoded payloads shared as text
+  { pattern: /(?:eval\s*\(\s*(?:atob|Buffer\.from|base64_decode|fromCharCode)\s*\()/i, reason: "Obfuscated code execution", severity: "high" },
+  { pattern: /(?:(?:powershell|cmd|bash|sh|python|perl|ruby)\s.*(?:curl|wget|fetch)\s+https?:\/\/.*\|\s*(?:bash|sh|python|perl|iex))/i, reason: "Remote code download and execution", severity: "high" },
+
+  // Network exploitation
+  { pattern: /\b(?:arp\s*spoof|dns\s*spoof|mitm\s*(?:attack|proxy|tool)|ettercap|bettercap|responder\.py)\b/i, reason: "Network attack tool", severity: "high" },
+  { pattern: /\b(?:wifi\s*(?:crack|hack|deauth)|aircrack|airmon|aireplay|wifite|fluxion|evil\s*twin)\b/i, reason: "Wireless attack tool", severity: "high" },
+];
+
 // Spam / self-promotion patterns
 const SPAM_PATTERNS: { pattern: RegExp; reason: string }[] = [
   { pattern: /(?:https?:\/\/){2,}/i, reason: "Excessive links" },
@@ -68,6 +102,13 @@ export function checkContentModeration(text: string): ModerationResult {
     }
   }
 
+  // Check malicious code / exploit / RAT patterns
+  for (const { pattern, reason, severity } of MALICIOUS_CODE_PATTERNS) {
+    if (pattern.test(text) || pattern.test(normalized)) {
+      return { flagged: true, reason, severity, matchedPattern: pattern.source.slice(0, 50) };
+    }
+  }
+
   // Check spam patterns
   for (const { pattern, reason } of SPAM_PATTERNS) {
     if (pattern.test(text)) {
@@ -87,6 +128,10 @@ Our community standards prohibit:
 • Hate speech, slurs, and discriminatory language
 • Threats of violence or encouragement of self-harm
 • Personal insults, harassment, and targeted abuse
+• Sharing malicious code, exploit scripts, RATs, or hacking tools
+• Phishing links, credential harvesting, or social engineering content
+• Malware, ransomware, botnets, or DDoS tool references
+• SQL injection, XSS, or other attack payloads
 • Excessive profanity directed at other users
 • Spam, self-promotion, and repetitive content
 

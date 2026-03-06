@@ -128,8 +128,25 @@ export async function checkSmartQuota(
 
   const smartSentToday = dailyUsage?.smartMessagesSent ?? 0;
 
+  // Check monthly Smart token budget (prevents runaway API costs)
+  const smartTokenCap = config.limits.smartTokensPerMonth;
+  let withinTokenBudget = true;
+  if (smartTokenCap > 0) {
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const usageRecord = await db.usageRecord.findFirst({
+      where: {
+        userId,
+        billingCycleStart: { gte: monthStart },
+      },
+    });
+    // Smart tokens = approximate based on smart requests × avg tokens
+    // We track smartRequests in usageRecord — use a conservative estimate
+    const smartTokensUsed = (usageRecord?.smartRequests ?? 0) * 3000; // ~3K tokens avg per Smart msg
+    withinTokenBudget = smartTokensUsed < smartTokenCap;
+  }
+
   return {
-    allowed: smartSentToday < smartLimit,
+    allowed: smartSentToday < smartLimit && withinTokenBudget,
     smartMessagesSentToday: smartSentToday,
     smartMessagesPerDay: smartLimit,
     costMultiplier: SMART_COST_MULTIPLIER,

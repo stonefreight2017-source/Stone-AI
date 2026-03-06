@@ -2,24 +2,27 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { AGENT_CAPABILITIES } from "@/lib/agent-capabilities";
+import { canAccessAgent, TIER_CONFIG } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
-
-const TIER_RANK: Record<string, number> = {
-  FREE: 0,
-  STARTER: 1,
-  PLUS: 2,
-  SMART: 3,
-  PRO: 4,
-};
 
 // GET /api/agents — list all available agents with tier access info
 export async function GET() {
   try {
     const user = await getOrCreateUser();
-    const userTierRank = TIER_RANK[user.tier] ?? 0;
+    const userTier = user.tier as Tier;
+
+    // Hidden agent slugs — internal use only, not shown in marketplace
+    const HIDDEN_AGENTS = ["stone"];
+
+    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
+    const isAdmin = adminEmails.includes(user.email.toLowerCase());
 
     const agents = await db.agent.findMany({
-      where: { isActive: true },
+      where: {
+        isActive: true,
+        // Hide internal agents from non-admin users
+        ...(!isAdmin && { slug: { notIn: HIDDEN_AGENTS } }),
+      },
       orderBy: { sortOrder: "asc" },
       select: {
         id: true,
@@ -35,8 +38,7 @@ export async function GET() {
 
     const enriched = agents.map((agent) => {
       const caps = AGENT_CAPABILITIES[agent.slug];
-      const requiredRank = TIER_RANK[agent.requiredTier] ?? 0;
-      const unlocked = userTierRank >= requiredRank;
+      const unlocked = canAccessAgent(userTier, agent.requiredTier as Tier);
 
       // Locked agents: show only name, category, tier requirement — no details
       if (!unlocked) {
@@ -44,7 +46,7 @@ export async function GET() {
           id: agent.id,
           slug: agent.slug,
           name: agent.name,
-          description: `Upgrade to ${agent.requiredTier} to unlock this agent.`,
+          description: `Upgrade to ${TIER_CONFIG[agent.requiredTier as Tier]?.name ?? agent.requiredTier} to unlock this agent.`,
           category: agent.category,
           icon: agent.icon,
           requiredTier: agent.requiredTier,

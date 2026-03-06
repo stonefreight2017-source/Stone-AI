@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
+import { z } from "zod";
+
+const markReadSchema = z.union([
+  z.object({ markAllRead: z.literal(true) }),
+  z.object({ id: z.string().min(1).max(100) }),
+]);
 
 // GET /api/notifications — get user's notifications
 export async function GET(req: NextRequest) {
@@ -32,8 +38,12 @@ export async function PATCH(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
     const body = await req.json();
+    const parsed = markReadSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    }
 
-    if (body.markAllRead) {
+    if ("markAllRead" in parsed.data) {
       await db.notification.updateMany({
         where: { userId: user.id, read: false },
         data: { read: true },
@@ -41,15 +51,11 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
-    if (body.id) {
-      await db.notification.updateMany({
-        where: { id: body.id, userId: user.id },
-        data: { read: true },
-      });
-      return NextResponse.json({ success: true });
-    }
-
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    await db.notification.updateMany({
+      where: { id: parsed.data.id, userId: user.id },
+      data: { read: true },
+    });
+    return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: "Failed to update notifications" }, { status: 500 });
   }

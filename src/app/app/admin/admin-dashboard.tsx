@@ -15,6 +15,10 @@ import {
   Brain,
   Gauge,
   Shield,
+  Bot,
+  TrendingUp,
+  TrendingDown,
+  BarChart2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -74,7 +78,33 @@ export function AdminDashboard() {
       if (!res.ok) throw new Error("Failed to fetch status");
       return res.json();
     },
-    refetchInterval: 10_000, // Poll every 10s
+    refetchInterval: 10_000,
+  });
+
+  const { data: agentData } = useQuery<{
+    totalAgentConversations: number;
+    totalAgents: number;
+    activeAgents: number;
+    unusedAgents: number;
+    agentUsage: {
+      agentId: string;
+      slug: string;
+      name: string;
+      tier: string;
+      category: string;
+      totalConversations: number;
+      last7dConversations: number;
+      last30dConversations: number;
+      uniqueUsers: number;
+    }[];
+  }>({
+    queryKey: ["admin-agent-analytics"],
+    queryFn: async () => {
+      const res = await fetch("/api/admin/agents");
+      if (!res.ok) throw new Error("Failed to fetch agent analytics");
+      return res.json();
+    },
+    refetchInterval: 60_000, // Poll every 60s
   });
 
   const deployModel = useMutation({
@@ -359,6 +389,111 @@ export function AdminDashboard() {
               })}
           </div>
         </div>
+
+        {/* Agent Usage Analytics */}
+        {agentData && (
+          <>
+            <Separator className="bg-zinc-800" />
+            <div>
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="text-lg font-semibold flex items-center gap-2">
+                  <BarChart2 className="h-5 w-5 text-amber-400" />
+                  Agent Usage Analytics
+                </h2>
+                <div className="flex gap-3 text-xs text-zinc-500">
+                  <span>{agentData.totalAgents} total</span>
+                  <span className="text-green-400">{agentData.activeAgents} active</span>
+                  <span className="text-zinc-600">{agentData.unusedAgents} unused</span>
+                </div>
+              </div>
+
+              {/* Top stats */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+                <Card className="bg-zinc-900 border-zinc-800 p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Total Agent Conversations</p>
+                  <p className="text-xl font-bold">{agentData.totalAgentConversations}</p>
+                </Card>
+                <Card className="bg-zinc-900 border-zinc-800 p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Active Agents (1+ convos)</p>
+                  <p className="text-xl font-bold text-green-400">{agentData.activeAgents}</p>
+                </Card>
+                <Card className="bg-zinc-900 border-zinc-800 p-3">
+                  <p className="text-[10px] text-zinc-500 uppercase">Unused Agents</p>
+                  <p className="text-xl font-bold text-zinc-600">{agentData.unusedAgents}</p>
+                </Card>
+              </div>
+
+              {/* Agent table */}
+              <Card className="bg-zinc-900 border-zinc-800 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-zinc-800 text-xs text-zinc-500">
+                        <th className="text-left p-3 font-medium">Agent</th>
+                        <th className="text-left p-3 font-medium">Tier</th>
+                        <th className="text-right p-3 font-medium">Total</th>
+                        <th className="text-right p-3 font-medium">7d</th>
+                        <th className="text-right p-3 font-medium">30d</th>
+                        <th className="text-right p-3 font-medium">Users</th>
+                        <th className="text-right p-3 font-medium">Trend</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {agentData.agentUsage
+                        .sort((a, b) => b.totalConversations - a.totalConversations)
+                        .map((agent) => {
+                          const trend = agent.last30dConversations > 0
+                            ? ((agent.last7dConversations / (agent.last30dConversations / 4.3)) * 100 - 100)
+                            : 0;
+                          return (
+                            <tr key={agent.agentId} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
+                              <td className="p-3">
+                                <div className="flex items-center gap-2">
+                                  <Bot className="h-3.5 w-3.5 text-zinc-600 shrink-0" />
+                                  <span className={agent.totalConversations === 0 ? "text-zinc-600" : "text-zinc-200"}>
+                                    {agent.name}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="p-3">
+                                <Badge className={cn("text-[10px] px-1.5 py-0", {
+                                  "bg-zinc-700 text-zinc-300": agent.tier === "FREE",
+                                  "bg-blue-900/50 text-blue-300": agent.tier === "STARTER",
+                                  "bg-purple-900/50 text-purple-300": agent.tier === "PLUS",
+                                  "bg-amber-900/50 text-amber-300": agent.tier === "SMART",
+                                  "bg-red-900/50 text-red-300": agent.tier === "PRO",
+                                })}>
+                                  {agent.tier}
+                                </Badge>
+                              </td>
+                              <td className="p-3 text-right font-mono">{agent.totalConversations}</td>
+                              <td className="p-3 text-right font-mono">{agent.last7dConversations}</td>
+                              <td className="p-3 text-right font-mono">{agent.last30dConversations}</td>
+                              <td className="p-3 text-right font-mono">{agent.uniqueUsers}</td>
+                              <td className="p-3 text-right">
+                                {agent.totalConversations > 0 ? (
+                                  <span className={cn("flex items-center justify-end gap-1 text-xs", {
+                                    "text-green-400": trend > 0,
+                                    "text-red-400": trend < 0,
+                                    "text-zinc-500": trend === 0,
+                                  })}>
+                                    {trend > 0 ? <TrendingUp className="h-3 w-3" /> : trend < 0 ? <TrendingDown className="h-3 w-3" /> : null}
+                                    {trend > 0 ? "+" : ""}{trend.toFixed(0)}%
+                                  </span>
+                                ) : (
+                                  <span className="text-zinc-700 text-xs">—</span>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                    </tbody>
+                  </table>
+                </div>
+              </Card>
+            </div>
+          </>
+        )}
 
         {/* Guide Section */}
         <Separator className="bg-zinc-800" />

@@ -13,7 +13,7 @@ export default function TermsPage() {
 
       <main className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Terms of Service</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 4, 2026</p>
+        <p className="text-zinc-500 text-sm mb-10">Last updated: March 5, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
@@ -101,6 +101,48 @@ export default function TermsPage() {
               for qualified professional counsel in legal, medical, financial, engineering, or compliance matters.
               Stone AI is not liable for any actions taken based on AI-generated advice.
             </p>
+            <p>
+              <strong className="text-white">AI Companion (Bestie) Specific Disclosures:</strong>
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-zinc-400">
+              <li>
+                <strong className="text-zinc-300">Not a Real Person:</strong> AI Besties are computer-generated characters.
+                They are not real people, do not have consciousness, emotions, or feelings, and cannot form genuine
+                personal relationships. Any expressions of emotion or personality are simulated responses generated
+                by artificial intelligence algorithms.
+              </li>
+              <li>
+                <strong className="text-zinc-300">Not Therapy or Medical Advice:</strong> AI Besties are NOT therapists,
+                counselors, psychologists, psychiatrists, social workers, or medical professionals of any kind. Bestie
+                conversations are for entertainment, general information, and companionship purposes only. They do NOT
+                constitute medical advice, mental health treatment, psychological counseling, crisis intervention, or any
+                form of healthcare service. <strong className="text-white">If you are experiencing a mental health crisis,
+                contact the 988 Suicide &amp; Crisis Lifeline (call or text 988) or text HOME to 741741.</strong>
+              </li>
+              <li>
+                <strong className="text-zinc-300">Not Legal, Financial, or Professional Advice:</strong> Nothing said by an
+                AI Bestie constitutes legal counsel, financial advice, investment recommendations, or any other form of
+                professional guidance. Consult a licensed professional for such matters.
+              </li>
+              <li>
+                <strong className="text-zinc-300">HIPAA Exclusion:</strong> Stone AI is NOT a covered entity under HIPAA.
+                AI Bestie conversations are NOT protected health information (PHI). Do NOT share sensitive health
+                information, diagnoses, treatment details, or medical records in Bestie conversations. Stone AI makes no
+                guarantees of medical data confidentiality beyond its standard Privacy Policy.
+              </li>
+              <li>
+                <strong className="text-zinc-300">Real Talk Mode:</strong> Certain subscription tiers may access &quot;Real Talk&quot;
+                mode, which allows edgier conversational tone. Real Talk mode does not remove safety guardrails, crisis
+                intervention protocols, or legal compliance requirements. Users acknowledge that Real Talk mode content
+                reflects simulated personality, not professional guidance, and Stone AI bears no liability for user
+                reactions to direct or blunt AI-generated responses.
+              </li>
+              <li>
+                <strong className="text-zinc-300">Memory and Personalization:</strong> Besties may store conversation
+                memories to personalize future interactions. These memories are AI-generated summaries, may be inaccurate,
+                and are subject to deletion at any time. You may request deletion of Bestie memory data through Settings.
+              </li>
+            </ul>
           </section>
 
           <section>
@@ -263,7 +305,18 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">18. Governing Law</h2>
+            <h2 className="text-lg font-semibold text-white">18. Time Limitation on Claims</h2>
+            <p>
+              <strong className="text-white">Any claim or cause of action arising out of or related to your use of the Service
+              or these Terms must be filed within one (1) year after such claim or cause of action arose.</strong> Failure
+              to file within this period constitutes a permanent waiver of such claim. This limitation applies to the
+              fullest extent permitted by applicable law, regardless of whether the claim sounds in contract, tort,
+              strict liability, or any other legal theory.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">19. Governing Law</h2>
             <p>
               These Terms shall be governed by and construed in accordance with the laws of the United States
               and the state where Stone AI is headquartered, without regard to conflict of law principles.
@@ -273,19 +326,19 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">19. Account Termination</h2>
+            <h2 className="text-lg font-semibold text-white">20. Account Termination</h2>
             <p>
               We may suspend or terminate your account immediately and without notice for violations of these Terms,
               abusive behavior, suspected fraud, or non-payment. You may delete your account at any time by
               contacting support. Upon termination: (a) all licenses granted to you under these Terms immediately cease;
               (b) you must immediately stop using the Service and any Stone AI materials; (c) your data will be
               deleted within 30 days, except as required by law or for legitimate business purposes; (d) any
-              outstanding fees become immediately due and payable; (e) Sections 11-18 survive termination.
+              outstanding fees become immediately due and payable; (e) Sections 11-19 survive termination.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">20. Non-Circumvention</h2>
+            <h2 className="text-lg font-semibold text-white">21. Non-Circumvention</h2>
             <p>
               You agree not to circumvent, avoid, or bypass Stone AI in any business relationship or transaction
               introduced or facilitated through the Service. This includes but is not limited to: directly contacting
@@ -296,7 +349,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">21. Audit Rights</h2>
+            <h2 className="text-lg font-semibold text-white">22. Audit Rights</h2>
             <p>
               Stone AI reserves the right to audit your use of the Service, API, and any reselling activity to
               ensure compliance with these Terms. You agree to cooperate with any such audit and to provide
@@ -306,7 +359,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">22. Force Majeure</h2>
+            <h2 className="text-lg font-semibold text-white">23. Force Majeure</h2>
             <p>
               Stone AI shall not be liable for any failure or delay in performance resulting from causes beyond
               its reasonable control, including but not limited to acts of God, natural disasters, pandemic,
@@ -316,7 +369,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">23. Severability</h2>
+            <h2 className="text-lg font-semibold text-white">24. Severability</h2>
             <p>
               If any provision of these Terms is found to be unenforceable or invalid, that provision shall be
               limited or eliminated to the minimum extent necessary so that these Terms shall otherwise remain
@@ -326,7 +379,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">24. Entire Agreement</h2>
+            <h2 className="text-lg font-semibold text-white">25. Entire Agreement</h2>
             <p>
               These Terms, together with the Privacy Policy and any applicable Reseller Agreement, constitute the
               entire agreement between you and Stone AI regarding the Service and supersede all prior agreements,
@@ -336,7 +389,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">25. Changes to Terms</h2>
+            <h2 className="text-lg font-semibold text-white">26. Changes to Terms</h2>
             <p>
               We may update these Terms at any time. Material changes will be communicated via email or
               in-app notification at least 14 days before taking effect. Continued use of the Service after
@@ -346,7 +399,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">26. Contact</h2>
+            <h2 className="text-lg font-semibold text-white">27. Contact</h2>
             <p>
               For questions about these Terms, contact us at legal@stone-ai.net or support@stone-ai.net.
             </p>

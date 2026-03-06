@@ -13,7 +13,7 @@ export default function PrivacyPage() {
 
       <main className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 4, 2026</p>
+        <p className="text-zinc-500 text-sm mb-10">Last updated: March 5, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
@@ -35,6 +35,7 @@ export default function PrivacyPage() {
             <p><strong className="text-white">Forum Content:</strong> Posts, replies, and likes you create in the community forum.</p>
             <p><strong className="text-white">Feedback:</strong> Messages you submit through the Help & Support feedback form.</p>
             <p><strong className="text-white">Agent Memory:</strong> Key-value pairs that AI agents store to remember your preferences across sessions.</p>
+            <p><strong className="text-white">Bestie Companion Data:</strong> AI Bestie personality configurations (traits, communication style, expertise areas), Bestie conversation memories (AI-generated summaries of past interactions), and Bestie usage statistics. Bestie memories are stored as key-value data linked to your Bestie profile and may be inaccurate. You can delete Bestie memories at any time through Settings.</p>
           </section>
 
           <section>
@@ -118,7 +119,33 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">8. Third-Party Services</h2>
+            <h2 className="text-lg font-semibold text-white">8. AI Companion (Bestie) Data</h2>
+            <p>
+              AI Bestie companions store personalization data to improve your experience. This includes:
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-zinc-400">
+              <li>Personality configuration (traits, communication style, expertise areas) — stored as structured JSON</li>
+              <li>Conversation memories — AI-generated summaries extracted from your conversations to enable continuity across sessions</li>
+              <li>Conversation history — full message logs stored the same way as standard chat conversations</li>
+            </ul>
+            <p>
+              <strong className="text-white">HIPAA Exclusion:</strong> Stone AI is NOT a &quot;covered entity&quot; or &quot;business associate&quot; as
+              defined under the Health Insurance Portability and Accountability Act (HIPAA). AI Bestie conversations are
+              NOT protected health information (PHI). We do NOT provide healthcare services, medical treatment, therapy,
+              counseling, or any form of clinical care. Do NOT share sensitive health information, medical records, diagnoses,
+              treatment plans, or prescription details in Bestie conversations. Stone AI assumes no responsibility for the
+              confidentiality of health-related information voluntarily shared in conversations beyond the protections described
+              in this Privacy Policy.
+            </p>
+            <p>
+              <strong className="text-white">Bestie Memory Accuracy:</strong> Bestie memories are AI-generated and may contain
+              inaccuracies or misinterpretations. They do not constitute a factual record of your conversations. You may
+              delete Bestie memory data at any time through your account Settings or by deleting the Bestie profile.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">9. Third-Party Services</h2>
             <p>We use the following third-party services:</p>
             <ul className="list-disc pl-6 space-y-1 text-zinc-400">
               <li><strong className="text-zinc-300">Clerk</strong> — authentication and user management</li>
@@ -130,7 +157,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">9. Data Retention</h2>
+            <h2 className="text-lg font-semibold text-white">10. Data Retention</h2>
             <p>
               Conversation data is retained as long as your account is active. You can delete individual
               conversations at any time. Forum posts remain visible unless deleted by you or a moderator.
@@ -140,7 +167,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">10. Your Rights</h2>
+            <h2 className="text-lg font-semibold text-white">11. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc pl-6 space-y-1 text-zinc-400">
               <li>Access your data (available in Settings and through conversation export)</li>
@@ -153,7 +180,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">11. Cookies and Tracking Technologies</h2>
+            <h2 className="text-lg font-semibold text-white">12. Cookies and Tracking Technologies</h2>
             <p>
               We use essential cookies required for authentication and session management (provided by Clerk).
               On ad-supported tiers, third-party advertising services may set additional cookies to deliver
@@ -164,7 +191,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">12. Children's Privacy</h2>
+            <h2 className="text-lg font-semibold text-white">13. Children&apos;s Privacy</h2>
             <p>
               Stone AI is not intended for users under 18 years of age. We do not knowingly collect data
               from minors. If we learn that we have collected data from a minor, we will delete it promptly.
@@ -172,7 +199,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">13. California Privacy Rights (CCPA)</h2>
+            <h2 className="text-lg font-semibold text-white">14. California Privacy Rights (CCPA)</h2>
             <p>
               If you are a California resident, you have the right to request disclosure of the categories of
               personal information we collect, the purposes for which it is used, and the categories of third
@@ -184,7 +211,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">14. Changes to This Policy</h2>
+            <h2 className="text-lg font-semibold text-white">15. Changes to This Policy</h2>
             <p>
               We may update this privacy policy from time to time. Material changes will be communicated
               via email at least 14 days before taking effect. The "last updated" date at the top of this
@@ -193,7 +220,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">15. Contact</h2>
+            <h2 className="text-lg font-semibold text-white">16. Contact</h2>
             <p>
               For privacy-related questions or data requests, contact us at support@stone-ai.net.
             </p>

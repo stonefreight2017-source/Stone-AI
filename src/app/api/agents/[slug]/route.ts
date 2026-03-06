@@ -2,14 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { AGENT_CAPABILITIES } from "@/lib/agent-capabilities";
-
-const TIER_RANK: Record<string, number> = {
-  FREE: 0,
-  STARTER: 1,
-  PLUS: 2,
-  SMART: 3,
-  PRO: 4,
-};
+import { canAccessAgent } from "@/lib/tier-config";
+import type { Tier } from "@/lib/tier-config";
 
 // GET /api/agents/[slug] — get agent details
 export async function GET(
@@ -39,9 +33,7 @@ export async function GET(
       return NextResponse.json({ error: "Agent not found" }, { status: 404 });
     }
 
-    const userTierRank = TIER_RANK[user.tier] ?? 0;
-    const requiredRank = TIER_RANK[agent.requiredTier] ?? 0;
-    const unlocked = userTierRank >= requiredRank;
+    const unlocked = canAccessAgent(user.tier as Tier, agent.requiredTier as Tier);
 
     const caps = AGENT_CAPABILITIES[agent.slug];
 

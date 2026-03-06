@@ -3,20 +3,18 @@ import { streamText } from "ai";
 import { authenticateApiKey } from "@/lib/api-keys";
 import { db } from "@/lib/db";
 import { chatMessageSchema } from "@/lib/validators";
-import { getTierConfig } from "@/lib/tier-config";
+import { getTierConfig, canAccessAgent, isModeAllowed } from "@/lib/tier-config";
 import { checkRateLimit } from "@/lib/rate-limiter";
-import { checkQuota, incrementDailyUsage, recordTokenUsage } from "@/lib/quota";
+import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
 import { buildMemoryContext } from "@/lib/agent-memory";
 import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
+import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
+import { VERIFICATION_BLOCK } from "@/lib/agent-shared-prompts";
 import type { Tier } from "@/lib/tier-config";
 import type { Role, Mode } from "@/generated/prisma/enums";
-
-const TIER_RANK: Record<string, number> = {
-  FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
-};
 
 // POST /api/v1/chat — API key authenticated chat endpoint
 export async function POST(req: NextRequest) {
@@ -98,9 +96,7 @@ export async function POST(req: NextRequest) {
 
     // 3b. Agent tier enforcement
     if (conversation.agent) {
-      const agentTierRank = TIER_RANK[conversation.agent.requiredTier] ?? 0;
-      const userTierRank = TIER_RANK[tier] ?? 0;
-      if (userTierRank < agentTierRank) {
+      if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier)) {
         logAuditEvent({
           event: "agent.access_denied",
           userId: user.id,
@@ -112,6 +108,33 @@ export async function POST(req: NextRequest) {
         return Response.json(
           { error: `This agent requires ${conversation.agent.requiredTier} tier or higher` },
           { status: 403 }
+        );
+      }
+    }
+
+    // 3c. Mode access check
+    if (!isModeAllowed(tier, mode)) {
+      return Response.json(
+        { error: `${mode} mode not available on your plan` },
+        { status: 403 }
+      );
+    }
+
+    // 3d. SMART mode hard cap — protect margins from cloud API abuse
+    if (mode === "SMART") {
+      const smartQuota = await checkSmartQuota(user.id, tier);
+      if (!smartQuota.allowed) {
+        logAuditEvent({
+          event: "smart.quota_exceeded",
+          userId: user.id,
+          metadata: { endpoint: "v1/chat", smartSentToday: smartQuota.smartMessagesSentToday },
+        });
+        return Response.json(
+          {
+            error: "Smart mode quota exceeded",
+            smartUsage: { sent: smartQuota.smartMessagesSentToday, limit: smartQuota.smartMessagesPerDay },
+          },
+          { status: 429 }
         );
       }
     }
@@ -146,7 +169,11 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    await incrementDailyUsage(user.id);
+    if (mode === "SMART") {
+      await incrementSmartUsage(user.id);
+    } else {
+      await incrementDailyUsage(user.id);
+    }
 
     // 7. Build history — enforce context window limit
     const contextLimit = tierConfig.perks.contextMessages;
@@ -171,12 +198,19 @@ export async function POST(req: NextRequest) {
 
       const memoryContext = await buildMemoryContext(agent.id, user.id);
       if (memoryContext) basePrompt += memoryContext;
+
+      // Inject professional disclaimers for regulated domains
+      const disclaimers = getDisclaimerPrompts(agent.slug);
+      if (disclaimers) basePrompt += disclaimers;
     }
+
+    // Inject verification protocol (applies to all agents)
+    basePrompt += "\n\n" + VERIFICATION_BLOCK;
 
     const systemPrompt = wrapSystemPrompt(basePrompt);
 
     // 9. Stream
-    const model = getModel(mode as "LOCAL" | "SMART");
+    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
 
     const result = streamText({
       model,

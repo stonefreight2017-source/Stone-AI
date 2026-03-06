@@ -4,11 +4,12 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { Loader2, StopCircle, Zap, Download } from "lucide-react";
+import { Loader2, StopCircle, Zap, Download, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ChatInput } from "./ChatInput";
 import { ThinkingIndicator } from "./ThinkingIndicator";
+import { MessageRenderer } from "./MessageRenderer";
 import { useConversation } from "@/hooks/use-conversation";
 import { useAppStore } from "@/store/app-store";
 import { ModeSelector } from "./ModeSelector";
@@ -32,6 +33,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
   const queryClient = useQueryClient();
   const { selectedMode, setSelectedMode, setTierError } = useAppStore();
   const { data: userData } = useUser();
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Latency tracking
   const sendTimeRef = useRef<number>(0);
@@ -75,7 +77,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
       toast.error("Failed to send message. Please try again.");
     },
     onFinish: ({ message }) => {
-      // Record final latency for this message
       if (sendTimeRef.current > 0) {
         const totalMs = Date.now() - sendTimeRef.current;
         setLatencyMap((prev) => ({ ...prev, [message.id]: totalMs }));
@@ -90,11 +91,10 @@ export function ChatView({ conversationId }: ChatViewProps) {
   const isSubmitted = status === "submitted";
   const isBusy = isStreaming || isSubmitted;
 
-  // Capture first-token latency when streaming starts
+  // Capture first-token latency
   useEffect(() => {
     if (isStreaming && !firstTokenCaptured.current && sendTimeRef.current > 0) {
       firstTokenCaptured.current = true;
-      // Find the last assistant message being streamed
       const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
       if (lastAssistant) {
         const firstTokenMs = Date.now() - sendTimeRef.current;
@@ -103,7 +103,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
     }
   }, [isStreaming, messages]);
 
-  // Auto-scroll to bottom
+  // Auto-scroll
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -118,6 +118,12 @@ export function ChatView({ conversationId }: ChatViewProps) {
     },
     [sendMessage]
   );
+
+  const handleCopy = useCallback((text: string, id: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  }, []);
 
   if (isLoadingConversation) {
     return (
@@ -146,7 +152,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
     );
   }
 
-  // Merge DB messages with streaming messages
   type DisplayMessage = {
     id: string;
     role: string;
@@ -170,32 +175,34 @@ export function ChatView({ conversationId }: ChatViewProps) {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-zinc-800">
-        <h1 className="text-sm font-medium text-zinc-300 truncate">
-          {data.conversation.title}
-        </h1>
-        <div className="flex items-center gap-2">
+      {/* Header — clean, minimal like ChatGPT */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800/50">
+        <div className="flex items-center gap-3">
+          <ModeSelector allowedModes={userData?.user.allowedModes ?? ["LOCAL"]} />
+          <span className="text-sm text-zinc-500 truncate max-w-[200px] hidden sm:inline">
+            {data.conversation.title}
+          </span>
+        </div>
+        <div className="flex items-center gap-1.5">
           {userData?.user.canExport && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-7 w-7 text-zinc-500 hover:text-white"
+              className="h-8 w-8 text-zinc-500 hover:text-white"
               onClick={() => {
                 window.open(`/api/conversations/${conversationId}/export?format=json`, "_blank");
               }}
               aria-label="Export conversation"
               title="Export conversation"
             >
-              <Download className="h-3.5 w-3.5" />
+              <Download className="h-4 w-4" />
             </Button>
           )}
-          <ModeSelector allowedModes={userData?.user.allowedModes ?? ["LOCAL"]} />
           {isBusy && (
             <Button
               variant="ghost"
               size="icon"
-              className="h-6 w-6 text-zinc-400 hover:text-white"
+              className="h-8 w-8 text-zinc-400 hover:text-white"
               onClick={stop}
               aria-label="Stop generating"
             >
@@ -205,70 +212,95 @@ export function ChatView({ conversationId }: ChatViewProps) {
         </div>
       </div>
 
-      {/* Messages */}
+      {/* Messages — flat layout like ChatGPT/Claude */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         {allMessages.length === 0 ? (
           <div className="flex items-center justify-center h-full text-zinc-500 text-sm">
             Send a message to start the conversation
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto py-4">
+          <div className="max-w-3xl mx-auto py-6 space-y-1">
             {allMessages.map((msg) => {
               const ttft = latencyMap[`${msg.id}-ttft`];
               const totalLatency = latencyMap[msg.id];
+              const messageText = msg.parts.map((p) => p.text).join("");
 
               return (
                 <div
                   key={msg.id}
                   className={cn(
-                    "flex gap-3 px-4 py-3",
-                    msg.role === "user" ? "justify-end" : ""
+                    "group px-4 py-4",
+                    msg.role === "user" ? "bg-transparent" : "bg-transparent"
                   )}
                 >
-                  {msg.role !== "user" && (
-                    <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-300">
-                      S
+                  <div className="flex gap-4">
+                    {/* Avatar */}
+                    <div className={cn(
+                      "shrink-0 h-7 w-7 rounded-full flex items-center justify-center text-xs font-semibold mt-0.5",
+                      msg.role === "user"
+                        ? "bg-zinc-700 text-zinc-300"
+                        : "bg-gradient-to-br from-amber-600 to-amber-800 text-white"
+                    )}>
+                      {msg.role === "user" ? "Y" : "S"}
                     </div>
-                  )}
-                  <div className="flex flex-col gap-1 max-w-[75%]">
-                    <div
-                      className={cn(
-                        "rounded-lg px-4 py-2.5 text-sm leading-relaxed",
-                        msg.role === "user"
-                          ? "bg-blue-600 text-white"
-                          : "bg-zinc-800 text-zinc-200"
+
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      {/* Role label */}
+                      <p className="text-xs font-semibold text-zinc-400 mb-1.5">
+                        {msg.role === "user" ? "You" : "Stone AI"}
+                      </p>
+
+                      {/* Message text */}
+                      {msg.role === "user" ? (
+                        <div className="text-sm text-zinc-200 leading-relaxed whitespace-pre-wrap break-words">
+                          {messageText}
+                        </div>
+                      ) : (
+                        <MessageRenderer content={messageText} />
                       )}
-                    >
-                      <div className="whitespace-pre-wrap break-words">
-                        {msg.parts.map((p) => p.text).join("")}
-                      </div>
+
+                      {/* Actions + latency for assistant */}
+                      {msg.role === "assistant" && (
+                        <div className="flex items-center gap-3 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={() => handleCopy(messageText, msg.id)}
+                            className="flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
+                          >
+                            {copiedId === msg.id ? (
+                              <><Check className="h-3 w-3" /> Copied</>
+                            ) : (
+                              <><Copy className="h-3 w-3" /> Copy</>
+                            )}
+                          </button>
+                          {(ttft || totalLatency) && (
+                            <span className="flex items-center gap-1 text-[11px] text-zinc-600">
+                              <Zap className="h-2.5 w-2.5" />
+                              {ttft && <span>{formatLatency(ttft)}</span>}
+                              {ttft && totalLatency && <span>/</span>}
+                              {totalLatency && <span>{formatLatency(totalLatency)}</span>}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    {/* Speed badge for assistant messages */}
-                    {msg.role === "assistant" && (ttft || totalLatency) && (
-                      <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">
-                        <Zap className="h-2.5 w-2.5" />
-                        {ttft && <span>First token: {formatLatency(ttft)}</span>}
-                        {ttft && totalLatency && <span className="text-zinc-700">|</span>}
-                        {totalLatency && <span>Total: {formatLatency(totalLatency)}</span>}
-                      </div>
-                    )}
                   </div>
-                  {msg.role === "user" && (
-                    <div className="shrink-0 h-8 w-8 rounded-full bg-blue-700 flex items-center justify-center text-xs font-bold text-blue-200">
-                      U
-                    </div>
-                  )}
                 </div>
               );
             })}
 
-            {/* Thinking indicator with escalating emojis */}
+            {/* Thinking indicator */}
             {isSubmitted && (
-              <div className="flex gap-3 px-4 py-3">
-                <div className="shrink-0 h-8 w-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-300">
-                  S
+              <div className="px-4 py-4">
+                <div className="flex gap-4">
+                  <div className="shrink-0 h-7 w-7 rounded-full bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center text-xs font-semibold text-white mt-0.5">
+                    S
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold text-zinc-400 mb-1.5">Stone AI</p>
+                    <ThinkingIndicator />
+                  </div>
                 </div>
-                <ThinkingIndicator />
               </div>
             )}
           </div>
@@ -282,8 +314,13 @@ export function ChatView({ conversationId }: ChatViewProps) {
         </div>
       )}
 
-      {/* Input */}
+      {/* Input area */}
       <ChatInput onSend={handleSend} disabled={isBusy} isLoading={isBusy} />
+
+      {/* Disclaimer */}
+      <p className="text-center text-[11px] text-zinc-600 pb-2">
+        Stone AI can make mistakes. Verify important information.
+      </p>
     </div>
   );
 }

@@ -197,8 +197,9 @@ export function validateOrigin(headers: Headers): boolean {
     "https://stone-ai.net",
     "https://www.stone-ai.net",
     "https://app.stone-ai.net",
-    "http://localhost:3000",
-    "http://localhost:3001",
+    ...(process.env.NODE_ENV === "development"
+      ? ["http://localhost:3000", "http://localhost:3001"]
+      : []),
   ];
 
   if (origin && allowed.some((a) => origin.startsWith(a))) return true;

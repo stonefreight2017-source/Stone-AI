@@ -24,11 +24,15 @@ interface TierDetails {
   billingOptions: string;
 }
 
+type BillingPeriod = "monthly" | "6month" | "annual";
+
 interface TierInfo {
   key: string;
   name: string;
   tagline: string;
   price: number;
+  price6Month: number;
+  priceAnnual: number;
   priceDisplay: string;
   popular?: boolean;
   enterprise?: boolean;
@@ -44,12 +48,15 @@ const TIERS: TierInfo[] = [
     name: "Free",
     tagline: "Try the speed for yourself",
     price: 0,
+    price6Month: 0,
+    priceAnnual: 0,
     priceDisplay: "$0",
     color: "border-zinc-600",
     accentText: "text-zinc-300",
     features: [
-      { text: "Local AI chat" },
-      { text: "Sub-100ms responses", highlight: true },
+      { text: "Local AI chat — sub-100ms responses" },
+      { text: "4 AI agents included", highlight: true },
+      { text: "1 AI Bestie companion" },
       { text: "Full conversation history" },
       { text: "Complete data privacy" },
       { text: "No credit card required" },
@@ -67,143 +74,151 @@ const TIERS: TierInfo[] = [
       priorityQueue: false,
       apiAccess: false,
       besties: "1 AI Bestie",
-      agents: "General chat only",
+      agents: "4 AI Agents (Onboarding, Bestie, Wellness, Tutor)",
       billingOptions: "Free forever",
     },
   },
   {
     key: "STARTER",
-    name: "Starter",
-    tagline: "For daily AI users",
-    price: 9.99,
-    priceDisplay: "$9.99",
+    name: "Builder",
+    tagline: "Plan and start your business",
+    price: 19.99,
+    price6Month: 17.99,
+    priceAnnual: 15.99,
+    priceDisplay: "$19.99",
     color: "border-blue-600",
     accentText: "text-blue-400",
     features: [
       { text: "Everything in Free" },
-      { text: "4x faster throughput", highlight: true },
-      { text: "5x more daily capacity" },
-      { text: "Longer, more detailed responses" },
-      { text: "Extended conversation memory" },
+      { text: "16 AI Expert Agents", highlight: true },
+      { text: "Local + Smart mode (GPT-4o)", highlight: true },
+      { text: "200 messages/day + 2 concurrent chats" },
+      { text: "Conversation export" },
       { text: "1 AI Bestie companion" },
     ],
     details: {
-      messagesPerDay: "150",
-      tokensPerMonth: "2M",
+      messagesPerDay: "200",
+      tokensPerMonth: "5M",
       maxResponse: "2,000 tokens",
-      concurrentChats: "1",
-      requestsPerMinute: "8",
-      contextMemory: "20 messages",
-      aiModes: "Local only",
-      autoRouting: false,
-      conversationExport: false,
-      priorityQueue: false,
-      apiAccess: false,
-      besties: "1 AI Bestie",
-      agents: "General chat only",
-      billingOptions: "$9.99/mo · $8.99/mo (6-month) · $7.99/mo (annual)",
-    },
-  },
-  {
-    key: "PLUS",
-    name: "Plus",
-    tagline: "Unlock AI Expert Agents",
-    price: 29.99,
-    priceDisplay: "$29.99",
-    color: "border-purple-600",
-    accentText: "text-purple-400",
-    features: [
-      { text: "Everything in Starter" },
-      { text: "11 AI Expert Agents", highlight: true },
-      { text: "16x Free plan capacity" },
-      { text: "2 concurrent chats" },
-      { text: "Conversation export" },
-      { text: "2 AI Bestie companions" },
-    ],
-    details: {
-      messagesPerDay: "490",
-      tokensPerMonth: "9.8M",
-      maxResponse: "3,920 tokens",
       concurrentChats: "2",
-      requestsPerMinute: "15",
-      contextMemory: "40 messages",
+      requestsPerMinute: "10",
+      contextMemory: "25 messages",
       aiModes: "Local + Smart (GPT-4o)",
       autoRouting: false,
       conversationExport: true,
       priorityQueue: false,
       apiAccess: false,
-      besties: "2 AI Besties",
-      agents: "11 Expert Agents (Business, Content, Marketing)",
-      billingOptions: "$29.99/mo · $26.99/mo (6-month) · $23.99/mo (annual)",
+      besties: "1 AI Bestie",
+      agents: "16 Expert Agents (Business, Content, Marketing)",
+      billingOptions: "$19.99/mo · $17.99/mo (6-month) · $15.99/mo (annual)",
     },
   },
   {
-    key: "SMART",
-    name: "Smart",
-    tagline: "Full agency toolkit + cloud AI",
-    price: 69.99,
-    priceDisplay: "$69.99",
-    popular: true,
-    color: "border-amber-500",
-    accentText: "text-amber-400",
+    key: "PLUS",
+    name: "Growth",
+    tagline: "Plan, start, and maintain your business",
+    price: 49.99,
+    price6Month: 44.99,
+    priceAnnual: 39.99,
+    priceDisplay: "$49.99",
+    color: "border-purple-600",
+    accentText: "text-purple-400",
     features: [
-      { text: "Everything in Plus" },
-      { text: "26 AI Expert Agents", highlight: true },
-      { text: "GPT-4o Smart mode", highlight: true },
-      { text: "Cloud fallback (never goes down)" },
+      { text: "Everything in Builder" },
+      { text: "30 AI Expert Agents", highlight: true },
       { text: "Auto-routing + 3 concurrent chats" },
+      { text: "500 messages/day + 50M context" },
+      { text: "Image generation + voice", highlight: true },
       { text: "3 AI Bestie companions" },
     ],
     details: {
-      messagesPerDay: "980",
-      tokensPerMonth: "29.4M",
-      maxResponse: "7,840 tokens",
+      messagesPerDay: "500",
+      tokensPerMonth: "15M",
+      maxResponse: "4,000 tokens",
       concurrentChats: "3",
-      requestsPerMinute: "29",
-      contextMemory: "60 messages",
+      requestsPerMinute: "20",
+      contextMemory: "50 messages",
       aiModes: "Local + Smart (GPT-4o) with auto-routing",
       autoRouting: true,
       conversationExport: true,
       priorityQueue: false,
       apiAccess: false,
       besties: "3 AI Besties",
-      agents: "26 Expert Agents (all categories)",
-      billingOptions: "$69.99/mo · $62.99/mo (6-month) · $55.99/mo (annual)",
+      agents: "30 Expert Agents (all categories)",
+      billingOptions: "$49.99/mo · $44.99/mo (6-month) · $39.99/mo (annual)",
     },
   },
   {
-    key: "PRO",
-    name: "Pro",
-    tagline: "All 30 agents + API + priority",
-    price: 199,
-    priceDisplay: "$199",
-    color: "border-amber-400",
-    accentText: "text-amber-300",
+    key: "SMART",
+    name: "Executive",
+    tagline: "Plan, start, maintain, and run your business",
+    price: 99.99,
+    price6Month: 89.99,
+    priceAnnual: 79.99,
+    priceDisplay: "$99.99",
+    popular: true,
+    color: "border-amber-500",
+    accentText: "text-amber-400",
     features: [
-      { text: "Everything in Smart" },
-      { text: "All 30 AI Expert Agents", highlight: true },
-      { text: "API access (build on Stone AI)", highlight: true },
-      { text: "Priority inference queue", highlight: true },
-      { text: "100x Free plan capacity" },
-      { text: "10 concurrent chats + 32K responses" },
+      { text: "Everything in Growth" },
+      { text: "All 42 AI Expert Agents", highlight: true },
+      { text: "1,500 messages/day + priority queue", highlight: true },
+      { text: "Agent builder + early access features" },
+      { text: "Team workspace + SOC 2 compliance" },
       { text: "5 AI Bestie companions" },
-      { text: "Commercial license" },
     ],
     details: {
-      messagesPerDay: "Unlimited (99,999)",
-      tokensPerMonth: "Unlimited",
-      maxResponse: "32,060 tokens",
-      concurrentChats: "10",
-      requestsPerMinute: "60",
-      contextMemory: "100 messages",
+      messagesPerDay: "1,500",
+      tokensPerMonth: "50M",
+      maxResponse: "8,000 tokens",
+      concurrentChats: "5",
+      requestsPerMinute: "40",
+      contextMemory: "80 messages",
       aiModes: "Local + Smart (GPT-4o) with auto-routing",
       autoRouting: true,
       conversationExport: true,
       priorityQueue: true,
-      apiAccess: true,
+      apiAccess: false,
       besties: "5 AI Besties",
-      agents: "All 30 Expert Agents + Enterprise agent",
-      billingOptions: "$199/mo · $179.10/mo (6-month) · $159.20/mo (annual)",
+      agents: "All 42 Expert Agents (every category)",
+      billingOptions: "$99.99/mo · $89.99/mo (6-month) · $79.99/mo (annual)",
+    },
+  },
+  {
+    key: "PRO",
+    name: "Reseller",
+    tagline: "Full platform access with reseller capabilities",
+    price: 200,
+    price6Month: 180,
+    priceAnnual: 160,
+    priceDisplay: "$200",
+    color: "border-amber-400",
+    accentText: "text-amber-300",
+    features: [
+      { text: "Everything in Executive" },
+      { text: "All 42 AI Agents + API access", highlight: true },
+      { text: "Commercial license + reseller rights", highlight: true },
+      { text: "Unlimited messages (99,999/day)" },
+      { text: "10 concurrent chats + 32K responses" },
+      { text: "10 AI Bestie companions" },
+      { text: "Custom model fine-tuning", highlight: true },
+      { text: "HIPAA + SOC 2 compliance" },
+    ],
+    details: {
+      messagesPerDay: "Unlimited (99,999)",
+      tokensPerMonth: "Unlimited",
+      maxResponse: "32,000 tokens",
+      concurrentChats: "10",
+      requestsPerMinute: "60",
+      contextMemory: "100 messages",
+      aiModes: "Local + Smart + Priority with auto-routing",
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: true,
+      apiAccess: true,
+      besties: "10 AI Besties",
+      agents: "All 42 Expert Agents + API + reseller",
+      billingOptions: "$200/mo · $180/mo (6-month) · $160/mo (annual)",
     },
   },
   {
@@ -211,14 +226,16 @@ const TIERS: TierInfo[] = [
     name: "Enterprise",
     tagline: "Dedicated infrastructure for teams",
     price: 500,
+    price6Month: 500,
+    priceAnnual: 500,
     priceDisplay: "From $500",
     enterprise: true,
     color: "border-emerald-500",
     accentText: "text-emerald-400",
     features: [
-      { text: "Everything in Pro" },
+      { text: "Everything in Reseller" },
       { text: "Multiple seats & API keys", highlight: true },
-      { text: "Dedicated inference priority", highlight: true },
+      { text: "Dedicated inference infrastructure", highlight: true },
       { text: "99.9% uptime SLA", highlight: true },
       { text: "SSO/SAML + audit logging" },
       { text: "50K+ requests/day + custom limits" },
@@ -237,7 +254,7 @@ const TIERS: TierInfo[] = [
       priorityQueue: true,
       apiAccess: true,
       besties: "Custom",
-      agents: "All 30 + custom agent development",
+      agents: "All 42 + custom agent development",
       billingOptions: "Custom pricing · Net 30/60/90 available",
     },
   },
@@ -246,20 +263,62 @@ const TIERS: TierInfo[] = [
 export function PricingSection() {
   const [selected, setSelected] = useState("SMART");
   const [showDetails, setShowDetails] = useState(false);
+  const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
 
   const tier = TIERS.find((t) => t.key === selected)!;
   const isPro = tier.key === "PRO";
   const isEnterprise = tier.key === "ENTERPRISE";
+
+  const getCurrentPrice = (t: TierInfo) => {
+    if (t.price === 0 || t.enterprise) return t.price;
+    if (billingPeriod === "6month") return t.price6Month;
+    if (billingPeriod === "annual") return t.priceAnnual;
+    return t.price;
+  };
+
+  const formatPrice = (t: TierInfo) => {
+    const p = getCurrentPrice(t);
+    if (p === 0) return "$0";
+    if (t.enterprise) return "From $500";
+    return `$${p % 1 === 0 ? p : p.toFixed(2)}`;
+  };
 
   return (
     <section id="pricing" className="px-6 pb-24 max-w-4xl mx-auto">
       <h2 className="text-3xl font-bold text-center mb-4">
         More speed. More intelligence. Your call.
       </h2>
-      <p className="text-center text-zinc-400 mb-10 max-w-lg mx-auto">
+      <p className="text-center text-zinc-400 mb-8 max-w-lg mx-auto">
         Every tier unlocks faster responses and smarter capabilities.
         Start free, scale when you&apos;re ready. Cancel anytime.
       </p>
+
+      {/* Billing period toggle */}
+      <div className="flex items-center justify-center gap-1 mb-8 bg-zinc-900 rounded-lg p-1 max-w-sm mx-auto">
+        {(["monthly", "6month", "annual"] as const).map((period) => {
+          const labels: Record<BillingPeriod, string> = { monthly: "Monthly", "6month": "6-Month", annual: "Annual" };
+          const savings: Record<BillingPeriod, string> = { monthly: "", "6month": "10% off", annual: "20% off" };
+          const isActive = billingPeriod === period;
+          return (
+            <button
+              key={period}
+              onClick={() => setBillingPeriod(period)}
+              className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                isActive
+                  ? "bg-white text-black shadow-sm"
+                  : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              {labels[period]}
+              {savings[period] && (
+                <span className={`ml-1 text-[10px] font-semibold ${isActive ? "text-emerald-600" : "text-emerald-400"}`}>
+                  {savings[period]}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
 
       {/* Tier selector pills */}
       <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
@@ -309,12 +368,14 @@ export function PricingSection() {
           </div>
           <div className="text-left sm:text-right">
             <div className="flex items-baseline gap-1">
-              <span className="text-4xl font-bold text-white">{tier.priceDisplay}</span>
+              <span className="text-4xl font-bold text-white">{formatPrice(tier)}</span>
               {tier.price > 0 && <span className="text-zinc-500">/mo</span>}
             </div>
-            {tier.price > 0 && !isEnterprise && (
-              <p className="text-xs text-zinc-500 mt-1">
-                Save 10% with 6-month &bull; 20% with annual billing
+            {tier.price > 0 && !isEnterprise && billingPeriod !== "monthly" && (
+              <p className="text-xs text-emerald-400 mt-1">
+                {billingPeriod === "6month"
+                  ? `Billed $${(getCurrentPrice(tier) * 6).toFixed(2)} every 6 months`
+                  : `Billed $${(getCurrentPrice(tier) * 12).toFixed(2)} per year`}
               </p>
             )}
           </div>
@@ -436,7 +497,7 @@ export function PricingSection() {
           </div>
         )}
 
-        {/* Pro founding member callout */}
+        {/* Reseller founding member callout */}
         {isPro && (
           <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-3 mb-6">
             <p className="text-sm text-amber-300 font-medium flex items-center gap-2">
@@ -485,7 +546,7 @@ export function PricingSection() {
                 {t.name}
               </p>
               <p className={isActive ? "text-zinc-300" : "text-zinc-700"}>
-                {t.priceDisplay}{t.price > 0 && !t.enterprise ? "/mo" : ""}
+                {formatPrice(t)}{t.price > 0 && !t.enterprise ? "/mo" : ""}
               </p>
             </button>
           );

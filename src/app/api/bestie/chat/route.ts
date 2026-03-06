@@ -29,8 +29,10 @@ import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, 
 import { getModel } from "@/lib/ai";
 import { buildBestiePrompt } from "@/lib/bestie-prompt";
 import { sanitizeUserInput } from "@/lib/security";
+import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK } from "@/lib/agent-shared-prompts";
 import { buildMemoryExtractionPrompt } from "@/lib/agent-memory";
 import { storeBestieMemories } from "@/lib/bestie-memory";
+import { getComplianceRules } from "@/lib/geo-compliance";
 import type { Tier } from "@/lib/tier-config";
 import type { Role, Mode } from "@/generated/prisma/enums";
 
@@ -227,15 +229,16 @@ export async function POST(req: NextRequest) {
     history.push({ role: "user", content: message });
 
     // 10. Build bestie system prompt (with memory + security wrapper)
-    const systemPrompt = await buildBestiePrompt(
+    const bestiePrompt = await buildBestiePrompt(
       conversation.bestie,
       user.id,
       user.name ?? undefined
     );
+    const systemPrompt = bestiePrompt + "\n\n" + OUTPUT_CAPABILITIES_BLOCK + "\n\n" + VERIFICATION_BLOCK;
 
     // 11. Stream response
     const startTime = Date.now();
-    const model = getModel(mode as "LOCAL" | "SMART");
+    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
 
     const result = streamText({
       model,

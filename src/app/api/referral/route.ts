@@ -56,7 +56,7 @@ export async function GET() {
         id: r.id,
         status: r.status,
         name: r.referredUser.name,
-        email: r.referredUser.email?.replace(/(.{2}).*(@.*)/, "$1***$2"),
+        email: r.referredUser.email?.replace(/^(.).*(@.).*(\..+)$/, "$1****$2****$3"),
         tier: r.referredUser.tier,
         joinedAt: r.referredUser.createdAt,
         rewardType: r.rewardType,

@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { checkRateLimit } from "@/lib/rate-limiter";
-
-const TIER_RANK: Record<string, number> = {
-  FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
-};
+import { canAccessAgent } from "@/lib/tier-config";
+import type { Tier } from "@/lib/tier-config";
 
 // GET /api/conversations — list user's conversations (latest 50)
 export async function GET() {
@@ -65,9 +63,7 @@ export async function POST(req: NextRequest) {
         });
         if (agent) {
           // ENFORCE AGENT TIER CHECK at conversation creation
-          const agentTierRank = TIER_RANK[agent.requiredTier] ?? 0;
-          const userTierRank = TIER_RANK[user.tier] ?? 0;
-          if (userTierRank < agentTierRank) {
+          if (!canAccessAgent(user.tier as Tier, agent.requiredTier as Tier)) {
             return NextResponse.json(
               {
                 error: `This agent requires ${agent.requiredTier} tier or higher`,

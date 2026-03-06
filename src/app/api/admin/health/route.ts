@@ -80,34 +80,19 @@ export async function GET() {
       }),
 
       // Recent errors (from audit log) - wrapped in try/catch since table may not exist
-      safeAuditQuery(`
-        SELECT COUNT(*) as count FROM "AuditLog"
-        WHERE event LIKE '%error%' AND "createdAt" > $1
-      `, [last24h]),
+      safeAuditCountSince("error", last24h, true),
 
       // Security: injection attempts
-      safeAuditQuery(`
-        SELECT COUNT(*) as count FROM "AuditLog"
-        WHERE event = 'injection.detected' AND "createdAt" > $1
-      `, [last24h]),
+      safeAuditCountSince("injection.detected", last24h),
 
       // Security: banned access
-      safeAuditQuery(`
-        SELECT COUNT(*) as count FROM "AuditLog"
-        WHERE event = 'auth.banned_access' AND "createdAt" > $1
-      `, [last24h]),
+      safeAuditCountSince("auth.banned_access", last24h),
 
       // Security: rate limit hits
-      safeAuditQuery(`
-        SELECT COUNT(*) as count FROM "AuditLog"
-        WHERE event = 'rate_limit.hit' AND "createdAt" > $1
-      `, [last24h]),
+      safeAuditCountSince("rate_limit.hit", last24h),
 
       // Security: concurrency blocks
-      safeAuditQuery(`
-        SELECT COUNT(*) as count FROM "AuditLog"
-        WHERE event = 'concurrent.blocked' AND "createdAt" > $1
-      `, [last24h]),
+      safeAuditCountSince("concurrent.blocked", last24h),
     ]);
 
     // ═══ BUILD METRICS MAP ═══
@@ -257,9 +242,9 @@ export async function GET() {
       performance: {
         flags: performanceFlags,
         infraStatus: {
-          vllmEndpoint: process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1",
+          vllmConnected: !!(process.env.VLLM_BASE_URL),
           isLocalVllm: (process.env.VLLM_BASE_URL ?? "").includes("localhost") || !(process.env.VLLM_BASE_URL),
-          redisHost: process.env.REDIS_HOST ?? "127.0.0.1",
+          redisConnected: !!(process.env.REDIS_HOST),
           isLocalRedis: (process.env.REDIS_HOST ?? "127.0.0.1") === "127.0.0.1" || (process.env.REDIS_HOST ?? "localhost") === "localhost",
           clerkMode: (process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY ?? "").startsWith("pk_test_") ? "development" : "production",
           stripeMode: (process.env.STRIPE_SECRET_KEY ?? "").startsWith("sk_test_") ? "test" : "live",
@@ -282,9 +267,15 @@ export async function GET() {
 /**
  * Safely query the AuditLog table (may not exist yet).
  */
-async function safeAuditQuery(sql: string, params: unknown[]): Promise<number> {
+async function safeAuditCountSince(event: string, since: Date, useLike = false): Promise<number> {
   try {
-    const result = await db.$queryRawUnsafe(sql, ...params) as Array<{ count: bigint }>;
+    const result = useLike
+      ? await db.$queryRaw<Array<{ count: bigint }>>`
+          SELECT COUNT(*) as count FROM "AuditLog"
+          WHERE event LIKE ${`%${event}%`} AND "createdAt" > ${since}`
+      : await db.$queryRaw<Array<{ count: bigint }>>`
+          SELECT COUNT(*) as count FROM "AuditLog"
+          WHERE event = ${event} AND "createdAt" > ${since}`;
     return Number(result[0]?.count ?? 0);
   } catch {
     return 0;

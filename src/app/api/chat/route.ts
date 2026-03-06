@@ -29,7 +29,7 @@ import { streamText } from "ai";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { chatMessageSchema } from "@/lib/validators";
-import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode } from "@/lib/tier-config";
+import { getTierConfig, isModeAllowed, getNextTier, getRequiredTierForMode, canAccessAgent } from "@/lib/tier-config";
 import { checkRateLimitAsync, acquireConcurrencySlot } from "@/lib/rate-limiter";
 import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, recordTokenUsage } from "@/lib/quota";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
@@ -37,12 +37,10 @@ import { buildRagContext } from "@/lib/embeddings";
 import { buildMemoryContext } from "@/lib/agent-memory";
 import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
+import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
+import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK } from "@/lib/agent-shared-prompts";
 import type { Tier } from "@/lib/tier-config";
 import type { Role, Mode } from "@/generated/prisma/enums";
-
-const TIER_RANK: Record<string, number> = {
-  FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
-};
 
 export async function POST(req: NextRequest) {
   try {
@@ -121,9 +119,7 @@ export async function POST(req: NextRequest) {
 
     // 3b. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
     if (conversation.agent) {
-      const agentTierRank = TIER_RANK[conversation.agent.requiredTier] ?? 0;
-      const userTierRank = TIER_RANK[tier] ?? 0;
-      if (userTierRank < agentTierRank) {
+      if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier)) {
         logAuditEvent({
           event: "agent.access_denied",
           userId: user.id,
@@ -267,7 +263,10 @@ export async function POST(req: NextRequest) {
     }
 
     // 9. Build message history — ENFORCE context window limit per tier
-    const contextLimit = tierConfig.perks.contextMessages;
+    // Smart mode gets a SMALLER context window to control OpenAI input token costs
+    const contextLimit = mode === "SMART" && tierConfig.limits.smartContextMessages > 0
+      ? tierConfig.limits.smartContextMessages
+      : tierConfig.perks.contextMessages;
     const allMessages = conversation.messages;
     const recentMessages = allMessages.slice(-contextLimit);
 
@@ -297,20 +296,34 @@ export async function POST(req: NextRequest) {
       if (memoryContext) {
         basePrompt += memoryContext;
       }
+
+      // Inject professional disclaimers for regulated domains
+      const disclaimers = getDisclaimerPrompts(agent.slug);
+      if (disclaimers) {
+        basePrompt += disclaimers;
+      }
     }
+
+    // Inject output capabilities (charts, tables, code blocks, markdown)
+    basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
+
+    // Inject verification protocol (applies to all agents)
+    basePrompt += "\n\n" + VERIFICATION_BLOCK;
 
     // Wrap with anti-injection security directives
     const systemPrompt = wrapSystemPrompt(basePrompt);
 
     // 11. Stream response from model
     const startTime = Date.now();
-    const model = getModel(mode as "LOCAL" | "SMART");
+    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
 
     const result = streamText({
       model,
       system: systemPrompt,
       messages: history,
-      maxOutputTokens: tierConfig.limits.maxResponseTokens,
+      maxOutputTokens: mode === "SMART" && tierConfig.limits.smartMaxResponseTokens > 0
+        ? tierConfig.limits.smartMaxResponseTokens
+        : tierConfig.limits.maxResponseTokens,
       onFinish: async ({ text, usage: tokenUsage }) => {
         // Save assistant message
         await db.message.create({

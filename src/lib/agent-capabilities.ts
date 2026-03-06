@@ -293,4 +293,235 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent for preliminary structural analysis and documentation support. It handles calculations, generates checklists, and assists with material specifications. Ideal for contractors and project managers who need quick structural guidance. Note: Final engineering requires licensed PE review.",
   },
+  "general-coding-assistant": {
+    capabilities: [
+      "Write, debug, and refactor code in any major language",
+      "Explain complex code patterns and algorithms",
+      "Perform code reviews with actionable feedback",
+      "Generate unit tests and documentation",
+      "Help with architecture decisions and best practices",
+    ],
+    businessUse:
+      "Use this agent as your on-demand programming partner. It writes production-quality code, debugs issues, explains complex patterns, and handles code reviews. Perfect for freelance developers, bootcamp students, or anyone who codes.",
+  },
+  "writing-editing": {
+    capabilities: [
+      "Write articles, essays, emails, and reports",
+      "Edit and proofread for clarity, grammar, and style",
+      "Adapt writing tone for different audiences",
+      "Create outlines and content structures",
+      "Coach on writing improvement and technique",
+    ],
+    businessUse:
+      "Use this agent to run a writing or editing business. It drafts, edits, and polishes any format — from blog posts to executive reports. Charge for the deliverables; the agent does the heavy lifting.",
+  },
+  "health-wellness-coach": {
+    capabilities: [
+      "Design customized workout and fitness programs",
+      "Create nutrition plans and meal prep strategies",
+      "Guide sleep optimization and stress management",
+      "Build sustainable habit-formation roadmaps",
+      "Provide evidence-based wellness education",
+    ],
+    businessUse:
+      "Use this agent to support personal wellness coaching. It designs fitness programs, nutrition guides, and wellness plans. Great for health coaches who want AI-assisted client programs.",
+  },
+  "academic-tutor": {
+    capabilities: [
+      "Explain concepts across any academic subject",
+      "Create study plans and exam preparation strategies",
+      "Help with essay structure and writing technique",
+      "Break down complex problems step-by-step",
+      "Adapt teaching style to learning level",
+    ],
+    businessUse:
+      "Use this agent to offer tutoring services. It explains any subject at any level, creates study plans, and helps with essay writing. Ideal for tutoring businesses or parents helping kids.",
+  },
+  "ecommerce-store-builder": {
+    capabilities: [
+      "Build complete Shopify/WooCommerce store plans",
+      "Write high-converting product descriptions",
+      "Design email marketing flows and automations",
+      "Optimize product pages for conversion",
+      "Plan inventory and fulfillment strategies",
+    ],
+    businessUse:
+      "Use this agent to launch and optimize e-commerce stores. It handles store setup planning, product copy, email flows, and conversion optimization. Charge clients for complete store builds.",
+  },
+  "legal-basics-reviewer": {
+    capabilities: [
+      "Review contracts and highlight key terms and risks",
+      "Guide business formation decisions (LLC, Corp, etc.)",
+      "Explain employment law basics and compliance",
+      "Draft basic legal documents and templates",
+      "Break down intellectual property considerations",
+    ],
+    businessUse:
+      "Use this agent for preliminary legal document review and business formation guidance. It reviews contracts, explains legal concepts, and creates templates. Always recommend professional attorney review for final decisions.",
+  },
+  "real-estate-investing": {
+    capabilities: [
+      "Analyze rental property potential and ROI",
+      "Evaluate market conditions and trends",
+      "Guide financing and mortgage strategy decisions",
+      "Plan property management approaches",
+      "Break down tax implications of real estate investments",
+    ],
+    businessUse:
+      "Use this agent to evaluate real estate deals and build investment strategies. It runs property analysis, market comparisons, and ROI projections. Ideal for investors and real estate professionals.",
+  },
+  "podcast-production": {
+    capabilities: [
+      "Plan complete podcast launch strategy",
+      "Create episode outlines and show notes",
+      "Guide recording setup and editing workflow",
+      "Develop guest booking and outreach strategies",
+      "Build audience growth and monetization plans",
+    ],
+    businessUse:
+      "Use this agent to launch and grow podcasts. It handles everything from concept to monetization strategy. Offer podcast consulting services powered by this agent.",
+  },
+  "digital-marketing-strategist": {
+    capabilities: [
+      "Build comprehensive digital marketing strategies",
+      "Plan paid ad campaigns across Meta, Google, TikTok, LinkedIn",
+      "Design organic social media content calendars",
+      "Create SMMA client proposals and pricing",
+      "Analyze marketing metrics and optimize campaigns",
+    ],
+    businessUse:
+      "Use this agent to run a digital marketing agency. It creates strategies, plans campaigns, writes ad copy, and builds client proposals. The complete marketing brain for agency operators.",
+  },
+  "video-content-strategist": {
+    capabilities: [
+      "Develop YouTube channel strategies and content plans",
+      "Write video scripts and outline structures",
+      "Plan short-form content for TikTok, Reels, and Shorts",
+      "Optimize titles, thumbnails, and descriptions for discovery",
+      "Design monetization and brand deal strategies",
+    ],
+    businessUse:
+      "Use this agent to build a video production business or grow your own channel. It plans content, writes scripts, optimizes for algorithms, and develops monetization strategies.",
+  },
+  "personal-finance-advisor": {
+    capabilities: [
+      "Create personalized budgeting plans and savings strategies",
+      "Guide debt payoff strategy selection and execution",
+      "Explain investment basics and retirement account options",
+      "Build emergency fund and financial safety net roadmaps",
+      "Analyze spending patterns and suggest optimizations",
+    ],
+    businessUse:
+      "Use this agent to offer financial coaching services. It builds budgets, debt payoff plans, and investment education programs. Ideal for financial coaches who want AI-assisted client support.",
+  },
+  "hr-people-operations": {
+    capabilities: [
+      "Design hiring processes and interview frameworks",
+      "Create performance review templates and OKR systems",
+      "Build employee onboarding and retention programs",
+      "Guide HR compliance and employment law basics",
+      "Draft job descriptions, offer letters, and HR policies",
+    ],
+    businessUse:
+      "Use this agent to provide HR consulting services. It builds hiring frameworks, performance systems, and compliance checklists. Perfect for HR consultants or small business owners managing teams.",
+  },
+  "project-management-coach": {
+    capabilities: [
+      "Build project plans with timelines and milestones",
+      "Guide Agile/Scrum implementation and sprint planning",
+      "Create stakeholder communication and reporting templates",
+      "Design risk management and mitigation strategies",
+      "Optimize team productivity and meeting structures",
+    ],
+    businessUse:
+      "Use this agent to offer project management consulting. It builds project plans, implements Agile frameworks, and creates communication systems. Ideal for PMO consultants and team leads.",
+  },
+  "translation-localization": {
+    capabilities: [
+      "Translate content between languages with cultural adaptation",
+      "Guide website and app localization strategy",
+      "Create multilingual marketing and business communications",
+      "Advise on international expansion and market entry",
+      "Review translations for cultural sensitivity and accuracy",
+    ],
+    businessUse:
+      "Use this agent to offer translation and localization services. It handles multilingual content, cultural adaptation, and internationalization strategy. Charge for professional translation with AI assistance.",
+  },
+  "dispatch-agent": {
+    capabilities: [
+      "Design dispatch and logistics workflows for service businesses",
+      "Create scheduling systems and route optimization plans",
+      "Build driver/technician management SOPs",
+      "Generate customer communication templates for service updates",
+      "Analyze operational metrics and efficiency opportunities",
+    ],
+    businessUse:
+      "Use this agent to run dispatch operations for any service business — delivery, field service, transportation. It designs workflows, optimizes routes, and builds the SOPs that keep operations running smoothly at scale.",
+  },
+  "sales-agent": {
+    capabilities: [
+      "Write sales scripts and objection-handling frameworks",
+      "Design sales pipelines and CRM workflows",
+      "Create proposal templates with pricing strategies",
+      "Develop lead qualification criteria and scoring models",
+      "Build sales training materials and playbooks",
+    ],
+    businessUse:
+      "Use this agent to build and optimize your sales operation. It writes scripts, designs pipelines, creates proposals, and trains your approach. Whether you are a solo founder selling or building a sales team, this agent delivers ready-to-use sales assets.",
+  },
+  "claims-agent": {
+    capabilities: [
+      "Guide insurance claims filing and documentation",
+      "Analyze policy coverage and identify applicable provisions",
+      "Create claims status tracking and follow-up systems",
+      "Draft appeals for denied or underpaid claims",
+      "Build claims management SOPs for agencies",
+    ],
+    businessUse:
+      "Use this agent to navigate insurance claims efficiently. It guides documentation, analyzes coverage, drafts appeals, and builds management systems. Reduce processing time and improve claim outcomes.",
+  },
+  "compliance-agent": {
+    capabilities: [
+      "Audit business operations against regulatory requirements",
+      "Create compliance checklists and monitoring schedules",
+      "Draft policies and procedures for regulatory adherence",
+      "Analyze regulatory changes and assess business impact",
+      "Build compliance training materials for teams",
+    ],
+    businessUse:
+      "Use this agent to stay compliant without hiring a compliance team. It audits operations, creates policies, monitors regulatory changes, and builds training materials. Critical for businesses in regulated industries.",
+  },
+  "platform-onboarding": {
+    capabilities: [
+      "Guide new users through every Stone AI feature",
+      "Match user goals to the right AI agents",
+      "Teach prompt engineering for maximum agent effectiveness",
+      "Create personalized adoption roadmaps",
+      "Demonstrate how to use agents for complete business workflows",
+    ],
+    businessUse:
+      "Your personal guide to mastering Stone AI. This agent walks you through every feature, recommends the right agents for your goals, teaches you how to get the best results, and builds a custom plan for how to use AI in your business.",
+  },
+  "enterprise-implementation": {
+    capabilities: [
+      "Design enterprise deployment architectures for Stone AI",
+      "Create security and compliance documentation for enterprise buyers",
+      "Build change management and adoption plans",
+      "Design API integration strategies for existing business systems",
+      "Develop ROI models and business cases for enterprise AI adoption",
+    ],
+    businessUse:
+      "Use this agent to plan and execute enterprise-scale Stone AI deployments. It handles architecture, compliance documentation, change management, and integration strategy. The bridge between our platform and large organization requirements.",
+  },
+  "bestie-companion-base": {
+    capabilities: [
+      "Provide personalized emotional support and companionship",
+      "Remember user preferences, history, and conversation context",
+      "Adapt communication style to match user personality",
+      "Offer encouragement and accountability for personal goals",
+      "Create a safe space for thinking through ideas and challenges",
+    ],
+    businessUse:
+      "Your personal AI companion that remembers you and grows with every conversation. Unlike task-focused agents, your Bestie builds a relationship — offering support, accountability, and genuine conversation. The emotional anchor of Stone AI.",
+  },
 };

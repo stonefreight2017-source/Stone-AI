@@ -15,8 +15,6 @@ const isPublicRoute = createRouteMatcher([
   "/api/stripe/webhook",
   "/api/health",
   "/api/v1/(.*)", // API key auth handled separately
-  "/api/enterprise/(.*)", // Public enterprise endpoints (sales widget)
-  "/enterprise",
 ]);
 
 // Security headers applied to every response
@@ -79,11 +77,11 @@ export default clerkMiddleware(async (auth, req) => {
   if (req.nextUrl.pathname.startsWith("/api/")) {
     response.headers.set("Cache-Control", API_CACHE_HEADER);
 
-    // CORS for API v1 (external API access)
+    // CORS for API v1 (external API access) — allowlisted origins only
     if (req.nextUrl.pathname.startsWith("/api/v1/")) {
       const origin = req.headers.get("origin");
-      // Allow CORS for API key-authenticated endpoints
-      if (origin) {
+      const allowedOrigins = (process.env.CORS_ALLOWED_ORIGINS ?? "https://stone-ai.net,https://app.stone-ai.net,https://www.stone-ai.net").split(",");
+      if (origin && allowedOrigins.includes(origin)) {
         response.headers.set("Access-Control-Allow-Origin", origin);
         response.headers.set("Access-Control-Allow-Methods", "POST, OPTIONS");
         response.headers.set(

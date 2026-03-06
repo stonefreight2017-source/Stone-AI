@@ -4,8 +4,9 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { Loader2, StopCircle, Zap, Brain } from "lucide-react";
+import { Loader2, StopCircle, Zap, Brain, Info, X } from "lucide-react";
 import { ThinkingIndicator } from "@/components/chat/ThinkingIndicator";
+import { MessageRenderer } from "@/components/chat/MessageRenderer";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,6 +14,9 @@ import { useAppStore } from "@/store/app-store";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
 import type { ChatError } from "@/types";
+
+const DEFAULT_REDISCLOSURE_MS = 3 * 60 * 60 * 1000; // 3 hours fallback (NY law)
+const DEFAULT_CRISIS_RESOURCES = "988 Suicide & Crisis Lifeline (call or text 988), Crisis Text Line (text HOME to 741741), or call 911";
 
 interface BestieChatProps {
   conversationId: string;
@@ -30,6 +34,44 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
   const queryClient = useQueryClient();
   const { selectedMode, setSelectedMode, setTierError } = useAppStore();
   const { data: userData } = useUser();
+
+  // AI Disclosure banner — legally required (NY AI Companion Safeguards Act, CA SB 243)
+  const [showDisclosure, setShowDisclosure] = useState(true);
+  const [crisisResources, setCrisisResources] = useState(DEFAULT_CRISIS_RESOURCES);
+  const disclosureTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Fetch geo-compliance rules and set jurisdiction-specific values
+  useEffect(() => {
+    fetch("/api/geo")
+      .then((r) => r.json())
+      .then((geo: { crisisResources?: string; redisclosureIntervalMs?: number }) => {
+        if (geo.crisisResources) setCrisisResources(geo.crisisResources);
+
+        // Set re-disclosure timer based on jurisdiction (0 = not required, use default as safety net)
+        const interval = geo.redisclosureIntervalMs || DEFAULT_REDISCLOSURE_MS;
+        function scheduleRedisclosure() {
+          disclosureTimerRef.current = setTimeout(() => {
+            setShowDisclosure(true);
+            scheduleRedisclosure();
+          }, interval);
+        }
+        scheduleRedisclosure();
+      })
+      .catch(() => {
+        // Fallback: use US rules (strictest for disclosure timing)
+        function scheduleRedisclosure() {
+          disclosureTimerRef.current = setTimeout(() => {
+            setShowDisclosure(true);
+            scheduleRedisclosure();
+          }, DEFAULT_REDISCLOSURE_MS);
+        }
+        scheduleRedisclosure();
+      });
+
+    return () => {
+      if (disclosureTimerRef.current) clearTimeout(disclosureTimerRef.current);
+    };
+  }, []);
 
   // Input state
   const [inputValue, setInputValue] = useState("");
@@ -175,6 +217,23 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
         </div>
       </div>
 
+      {/* AI Disclosure Banner — legally required (NY/CA) */}
+      {showDisclosure && (
+        <div className="px-4 py-2.5 bg-purple-950/40 border-b border-purple-800/30 flex items-start gap-2.5">
+          <Info className="h-4 w-4 text-purple-400 shrink-0 mt-0.5" />
+          <div className="flex-1 text-xs text-purple-300/90 leading-relaxed">
+            <strong className="text-purple-200">AI Companion Disclosure:</strong> {bestieName} is an AI character created by Stone AI. {bestieName} is not a real person, cannot feel emotions, and is not a substitute for professional mental health support. If you are in crisis: {crisisResources}
+          </div>
+          <button
+            onClick={() => setShowDisclosure(false)}
+            className="shrink-0 text-purple-500 hover:text-purple-300 p-0.5"
+            aria-label="Dismiss disclosure"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         {allMessages.length === 0 ? (
@@ -212,9 +271,13 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji }: BestieCh
                           : "bg-zinc-800 text-zinc-200"
                       )}
                     >
-                      <div className="whitespace-pre-wrap break-words">
-                        {msg.parts.map((p) => p.text).join("")}
-                      </div>
+                      {msg.role === "user" ? (
+                        <div className="whitespace-pre-wrap break-words">
+                          {msg.parts.map((p) => p.text).join("")}
+                        </div>
+                      ) : (
+                        <MessageRenderer content={msg.parts.map((p) => p.text).join("")} />
+                      )}
                     </div>
                     {msg.role === "assistant" && (ttft || totalLatency) && (
                       <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">

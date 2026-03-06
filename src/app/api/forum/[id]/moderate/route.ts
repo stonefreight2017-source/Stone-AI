@@ -18,8 +18,8 @@ export async function POST(
     const user = await getOrCreateUser();
 
     // Admin check
-    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim());
-    if (!adminEmails.includes(user.email)) {
+    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
+    if (!adminEmails.includes(user.email.toLowerCase())) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

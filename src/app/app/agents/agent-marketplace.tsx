@@ -8,6 +8,8 @@ import {
   Share2, Type, GraduationCap, Code, Terminal, PieChart, ShieldCheck,
   TrendingUp, UserCheck, Rocket, Building2, HardHat, Bot,
   Lock, Zap, Brain, ArrowRight, Search, ChevronDown,
+  Heart, HeartPulse, PiggyBank, Kanban, Languages, Users,
+  PenLine, Code2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -25,6 +27,9 @@ const ICON_MAP: Record<string, React.ElementType> = {
   "shield-check": ShieldCheck, "trending-up": TrendingUp,
   "user-check": UserCheck, rocket: Rocket, "building-2": Building2,
   "hard-hat": HardHat, bot: Bot,
+  heart: Heart, "heart-pulse": HeartPulse, "piggy-bank": PiggyBank,
+  kanban: Kanban, languages: Languages, users: Users,
+  "pen-line": PenLine, "code-2": Code2,
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -219,7 +224,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
                       <h3 className="font-semibold text-sm truncate">{agent.name}</h3>
                       <div className="flex items-center gap-2 mt-0.5">
                         <Badge className={`text-[10px] px-1.5 py-0 ${TIER_BADGE_COLOR[agent.requiredTier]}`}>
-                          {agent.requiredTier === "FREE" ? "Free" : `${agent.requiredTier} — $${tierPrice}/mo`}
+                          {agent.requiredTier === "FREE" ? "Free" : `${TIER_CONFIG[agent.requiredTier as Tier]?.name ?? agent.requiredTier} — $${tierPrice}/mo`}
                         </Badge>
                       </div>
                     </div>
@@ -283,7 +288,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
                         onClick={() => router.push("/app/billing")}
                       >
                         <Lock className="mr-1.5 h-3 w-3" />
-                        Upgrade to {agent.requiredTier}
+                        Upgrade to {TIER_CONFIG[agent.requiredTier as Tier]?.name ?? agent.requiredTier}
                       </Button>
                     )}
                   </div>

@@ -22,7 +22,8 @@ export const vllm = createOpenAI({
 
 /**
  * Cloud fallback provider — OpenAI GPT for SMART mode.
- * Only available to Smart and Pro tiers.
+ * Available to all paid tiers (Builder and above).
+ * Also used as emergency fallback when local model is down.
  *
  * ═══ SCALING REMINDER ═══
  * At 500+ SMART mode users, check your OpenAI usage tier.
@@ -36,13 +37,23 @@ export const cloud = createOpenAI({
 });
 
 /**
- * Get the appropriate model based on request mode.
+ * Get the appropriate model based on request mode and user tier.
+ *
+ * LOCAL mode: Uses the tier's assigned local model
+ *   - Free tier: Llama 3.1 8B (fast, good for basics)
+ *   - Paid tiers: Llama 3.1 70B (full capability)
+ *
+ * SMART mode: Uses cloud model (GPT-4o) for all paid tiers
+ *
+ * Cloud fallback: When local model is unavailable, paid tiers
+ * automatically fall back to cloud. This counts against Smart quota.
  */
-export function getModel(mode: "LOCAL" | "SMART") {
+export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
   if (mode === "SMART") {
     return cloud(process.env.OPENAI_MODEL ?? "gpt-4o");
   }
-  return vllm(process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct");
+  const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct";
+  return vllm(model);
 }
 
 /**

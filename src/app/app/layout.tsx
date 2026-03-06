@@ -9,6 +9,11 @@ export default async function AppLayout({
   const user = await getOrCreateUser();
 
   return (
-    <AppShellWrapper userTier={user.tier}>{children}</AppShellWrapper>
+    <AppShellWrapper
+      userTier={user.tier}
+      onboardingCompleted={user.onboardingCompleted}
+    >
+      {children}
+    </AppShellWrapper>
   );
 }

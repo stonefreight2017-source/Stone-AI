@@ -95,11 +95,11 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
               onClick={() => handleModeClick(mode.key)}
               aria-label={`${mode.label} mode: ${mode.description}${!isAllowed ? " (upgrade required)" : ""}`}
               className={cn(
-                "flex items-center gap-1.5 h-7 px-3 text-xs rounded-md transition-colors",
+                "flex items-center gap-1.5 h-7 px-3 text-xs rounded-md transition-all",
                 isActive
                   ? mode.key === "SMART"
-                    ? "bg-amber-700/50 text-amber-200"
-                    : "bg-zinc-700 text-white"
+                    ? "bg-purple-700/50 text-purple-200 ring-1 ring-purple-500/50 shadow-[0_0_8px_rgba(168,85,247,0.3)]"
+                    : "bg-emerald-700/40 text-emerald-200 ring-1 ring-emerald-500/30"
                   : isAllowed
                     ? "text-zinc-400 hover:text-zinc-200"
                     : "text-zinc-600 cursor-not-allowed"
@@ -125,7 +125,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
       {selectedMode === "SMART" && smartUsage && smartUsage.smartDailyLimit > 0 && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-zinc-800 rounded-md p-1.5 z-10 shadow-lg border border-zinc-700">
           <div className="flex items-center justify-between text-[9px] mb-1">
-            <span className="text-amber-400 font-medium">Cloud messages today</span>
+            <span className="text-purple-400 font-medium">Smart mode messages today</span>
             <span className={cn(
               "font-mono",
               usagePercent >= 80 ? "text-red-400" : "text-zinc-400"
@@ -137,7 +137,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
             <div
               className={cn(
                 "h-full rounded-full transition-all",
-                usagePercent >= 80 ? "bg-red-500" : usagePercent >= 50 ? "bg-amber-500" : "bg-blue-500"
+                usagePercent >= 80 ? "bg-red-500" : usagePercent >= 50 ? "bg-amber-500" : "bg-purple-500"
               )}
               style={{ width: `${Math.min(usagePercent, 100)}%` }}
             />

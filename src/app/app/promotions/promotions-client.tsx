@@ -187,22 +187,22 @@ export function PromotionsClient({
               </div>
 
               <p className="text-sm text-zinc-400">
-                Try Starter features free for 7 days. No credit card needed.
+                Try Builder features free for 7 days. No credit card needed.
                 Get a taste of what Stone AI can really do.
               </p>
 
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
-                  150 messages/day (5x more than Free)
+                  200 messages/day (6x more than Free)
                 </div>
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
-                  2M tokens/month
+                  14 specialized agents
                 </div>
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
-                  Access to Starter-tier agents
+                  10 Smart (GPT-4o) messages/day
                 </div>
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Clock className="h-3 w-3 text-blue-400" />
@@ -327,10 +327,10 @@ export function PromotionsClient({
               <p className="text-3xl font-bold text-white">10% off</p>
               <p className="text-xs text-zinc-500">Billed every 6 months</p>
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
-                <p>Starter: $8.99/mo (save $6)</p>
-                <p>Plus: $26.99/mo (save $18)</p>
-                <p>Smart: $62.99/mo (save $42)</p>
-                <p>Pro: $179.10/mo (save $119)</p>
+                <p>Builder: $17.99/mo (save $12)</p>
+                <p>Growth: $44.99/mo (save $30)</p>
+                <p>Executive: $89.99/mo (save $60)</p>
+                <p>Reseller: $180/mo (save $120)</p>
               </div>
             </CardContent>
           </Card>
@@ -342,10 +342,10 @@ export function PromotionsClient({
               <p className="text-3xl font-bold text-white">20% off</p>
               <p className="text-xs text-zinc-500">Billed yearly</p>
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
-                <p>Starter: $7.99/mo (save $24/yr)</p>
-                <p>Plus: $23.99/mo (save $72/yr)</p>
-                <p>Smart: $55.99/mo (save $168/yr)</p>
-                <p>Pro: $159.20/mo (save $478/yr)</p>
+                <p>Builder: $15.99/mo (save $48/yr)</p>
+                <p>Growth: $39.99/mo (save $120/yr)</p>
+                <p>Executive: $79.99/mo (save $240/yr)</p>
+                <p>Reseller: $160/mo (save $480/yr)</p>
               </div>
             </CardContent>
           </Card>

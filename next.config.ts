@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Fix turbopack root detection when parent dirs have lockfiles
+  turbopack: {
+    root: process.cwd(),
+  },
+
   // Security headers — defense-in-depth layer alongside middleware
   async headers() {
     return [
