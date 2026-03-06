@@ -120,7 +120,7 @@ const PURPOSES: Purpose[] = [
   {
     id: "parenting",
     label: "Parenting & Family",
-    desc: "Parenting advice, family management, kid-friendly companion",
+    desc: "Parenting advice, family management, household coordination",
     icon: "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC67",
     suggestedBgs: ["warm-amber", "ocean", "forest", "coffee", "sunset"],
     suggestedAvatarSection: 3,
@@ -302,7 +302,7 @@ export default function CreateBestiePage() {
   const [style, setStyle] = useState<BestieStyle | null>(null);
   const [expertise, setExpertise] = useState<BestieExpertise[]>([]);
 
-  // Step 3: About Me — things a friend should know
+  // Step 3: About Me — context for your Bestie
   const [aboutName, setAboutName] = useState("");
   const [aboutBirthday, setAboutBirthday] = useState("");
   const [aboutSiblings, setAboutSiblings] = useState("");
@@ -401,27 +401,7 @@ export default function CreateBestiePage() {
           toast.success(`Easter Egg Discovered! ${data.easterEgg.reward}`);
         }
 
-        // Generate anime avatar from personality (non-blocking — user sees progress)
-        setIsGeneratingAvatar(true);
-        try {
-          const avatarRes = await fetch("/api/bestie/avatar/generate", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ bestieId: data.bestie.id }),
-          });
-          const avatarData = await avatarRes.json();
-          if (avatarRes.ok && avatarData.avatarDataUri) {
-            setGeneratedAvatar(avatarData.avatarDataUri);
-            toast.success(`${name}'s look has been created!`);
-            // Let user see the avatar for a moment
-            await new Promise((r) => setTimeout(r, 2500));
-          }
-        } catch {
-          // Avatar generation is optional — don't block the flow
-          console.warn("Avatar generation failed, continuing with emoji/photo avatar");
-        } finally {
-          setIsGeneratingAvatar(false);
-        }
+        // Avatar generation disabled — users can upload a photo or use emoji avatar
 
         // Create first conversation and redirect to chat
         const convRes = await fetch(`/api/bestie/${data.bestie.id}/conversations`, {
@@ -773,7 +753,7 @@ export default function CreateBestiePage() {
           <div className="space-y-6">
             <div className="text-center space-y-2">
               <p className="text-lg text-zinc-300">Tell {name} about yourself</p>
-              <p className="text-sm text-zinc-500">Things a friend should know. All fields are optional.</p>
+              <p className="text-sm text-zinc-500">Context that helps your Bestie operate better. All fields are optional.</p>
             </div>
 
             <div className="space-y-4">

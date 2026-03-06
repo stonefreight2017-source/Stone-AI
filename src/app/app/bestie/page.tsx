@@ -78,11 +78,11 @@ export default function BestieHubPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <Heart className="h-6 w-6 text-pink-400" />
+            <Heart className="h-6 w-6 text-rose-400" />
             My Bestie
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
-            Your personal AI companion. Your personality. Your rules.
+            Your AI right hand. Thinks with you, remembers everything, gets things done.
           </p>
         </div>
         {canCreate && besties.length > 0 && (
@@ -103,10 +103,10 @@ export default function BestieHubPage() {
             {"\u2728"}
           </div>
           <div className="text-center space-y-2">
-            <h2 className="text-xl font-semibold text-white">Create Your AI Companion</h2>
+            <h2 className="text-xl font-semibold text-white">Build Your AI Right Hand</h2>
             <p className="text-zinc-400 max-w-md">
-              Build a personal AI companion with a custom personality, communication style,
-              and area of expertise. It remembers you and grows with every conversation.
+              Create a powerful AI operator with a custom personality, communication style,
+              and expertise. It remembers everything, holds you accountable, and gets things done.
             </p>
           </div>
           <Button

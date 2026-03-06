@@ -82,32 +82,32 @@ const GOALS: Goal[] = [
   },
   {
     id: "bestie-friend",
-    label: "AI Best Friend",
-    description: "A personal companion that knows you, remembers everything, and grows with you",
+    label: "AI Right Hand",
+    description: "Remembers everything, holds you accountable, and handles what you throw at it",
     icon: Heart,
-    color: "text-pink-400 bg-pink-900/20 border-pink-800/40",
+    color: "text-rose-400 bg-rose-900/20 border-rose-800/40",
     agents: [],
   },
   {
     id: "bestie-partner",
-    label: "AI Business Partner",
-    description: "A co-pilot who knows your business inside out and thinks alongside you",
+    label: "AI Business Operator",
+    description: "Knows your business inside out — makes decisions, tracks goals, runs the show with you",
     icon: Briefcase,
     color: "text-orange-400 bg-orange-900/20 border-orange-800/40",
     agents: ["business-strategy", "project-management-coach"],
   },
   {
     id: "bestie-both",
-    label: "Best Friend + Business Partner",
-    description: "The full package — your ride-or-die who also helps you build your empire",
+    label: "Full-Stack AI Partner",
+    description: "The full package — runs your business and your life like a chief of staff",
     icon: Sparkles,
     color: "text-amber-400 bg-amber-900/20 border-amber-800/40",
     agents: ["business-strategy"],
   },
   {
     id: "bestie-tutor",
-    label: "AI Tutor & Mentor",
-    description: "A patient teacher who adapts to how you learn and pushes you to grow",
+    label: "AI Growth Advisor",
+    description: "Pushes you to level up — adapts to how you learn and holds you to your goals",
     icon: GraduationCap,
     color: "text-indigo-400 bg-indigo-900/20 border-indigo-800/40",
     agents: ["academic-tutor", "platform-onboarding"],
@@ -329,7 +329,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
             {[
               { icon: Bot, label: "Your AI Team", desc: "42 specialists that handle marketing, finance, writing, strategy, coding, and more — like having a team on call 24/7" },
-              { icon: Heart, label: "Your AI Bestie", desc: "A personal companion with its own personality that remembers everything you tell it and grows with you" },
+              { icon: Heart, label: "Your AI Bestie", desc: "Your AI right hand — custom personality, total memory, keeps you accountable and gets things done" },
               { icon: Briefcase, label: "Your Business Hub", desc: "Plan, build, market, and scale your business — all from one place, no switching between apps" },
             ].map((item) => (
               <div key={item.label} className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 space-y-2">
@@ -525,16 +525,16 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           </div>
 
           <div className="space-y-2">
-            <h2 className="text-2xl font-bold text-white">Meet Your AI Bestie</h2>
+            <h2 className="text-2xl font-bold text-white">Build Your AI Right Hand</h2>
             <p className="text-zinc-400">
-              Pick a personality and we&apos;ll create your personal AI companion. You can customize more later.
+              Pick a personality and we&apos;ll create your Bestie — an AI operator that remembers everything and gets things done. Customize more later.
             </p>
           </div>
 
           {bestieCreated ? (
-            <div className="p-8 rounded-2xl bg-gradient-to-br from-pink-950/40 to-purple-950/40 border border-pink-800/30 space-y-4">
+            <div className="p-8 rounded-2xl bg-zinc-900/60 border border-zinc-700 space-y-4">
               <div className="text-4xl">{"\u{1F389}"}</div>
-              <p className="text-lg font-medium text-white">Your Bestie is ready!</p>
+              <p className="text-lg font-medium text-white">Your Bestie is ready to work.</p>
               <p className="text-sm text-zinc-400">
                 Find them in &quot;My Bestie&quot; in the sidebar anytime.
               </p>
@@ -546,16 +546,16 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
                   key={preset.name}
                   disabled={creatingBestie}
                   onClick={() => handleCreateBestie(preset)}
-                  className="p-5 rounded-xl bg-gradient-to-br from-pink-950/30 to-purple-950/30 border border-pink-800/30 hover:border-pink-600/50 transition-all text-left group"
+                  className="p-5 rounded-xl bg-zinc-900/60 border border-zinc-800 hover:border-zinc-600 transition-all text-left group"
                 >
                   <div className="text-3xl mb-3">{preset.emoji}</div>
-                  <p className="text-base font-medium text-white group-hover:text-pink-300 transition-colors">
+                  <p className="text-base font-medium text-white group-hover:text-amber-300 transition-colors">
                     {preset.name}
                   </p>
                   <p className="text-xs text-zinc-500 mt-1 capitalize">
                     {preset.traits.join(", ")}
                   </p>
-                  <p className="text-[10px] text-pink-400/60 mt-1 capitalize">{preset.style} style</p>
+                  <p className="text-[10px] text-zinc-500/60 mt-1 capitalize">{preset.style} style</p>
                 </button>
               ))}
             </div>
@@ -599,7 +599,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="space-y-3 text-left">
           {[
             { icon: Bot, label: "Start a conversation", desc: "Click \"New Chat\" in the sidebar, pick any agent, and just start talking. Ask it anything about your business, your idea, or what you need help with." },
-            { icon: Heart, label: "Meet your Bestie", desc: "Go to \"My Bestie\" in the sidebar to create your personal AI companion. It remembers everything and gets to know you over time." },
+            { icon: Heart, label: "Build your Bestie", desc: "Go to \"My Bestie\" in the sidebar to create your AI right hand. It remembers everything, tracks your goals, and holds you accountable." },
             { icon: Sparkles, label: "Browse all agents", desc: "Click \"Discover\" to see all 42 AI specialists organized by category. Try a few — each one is trained for different tasks." },
             { icon: Briefcase, label: "Use agents together", desc: "Start with the Business Strategist for your plan, then the Marketing Strategist for promotion, then the Content Writer for copy. They work together through you." },
           ].map((tip) => (

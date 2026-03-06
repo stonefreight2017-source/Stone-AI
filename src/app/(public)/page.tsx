@@ -376,16 +376,16 @@ export default function LandingPage() {
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
           <ScrollSection>
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs font-medium mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium mb-6">
                 <Heart className="h-3.5 w-3.5" />
-                AI Companion
+                AI Right Hand
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Not an assistant. <span className="text-pink-400">A presence.</span>
+                Not an assistant. <span className="text-amber-400">Your operator.</span>
               </h2>
               <p className="text-zinc-400 max-w-xl mx-auto">
-                Your Bestie is a personal AI companion that remembers who you are — your personality,
-                your life, your preferences. Every device. Every session.
+                Your Bestie is a personal AI operator that remembers who you are — your business,
+                your goals, your standards. It holds you accountable, keeps you on track, and gets things done.
               </p>
             </div>
           </ScrollSection>
@@ -398,8 +398,8 @@ export default function LandingPage() {
               { icon: Mic, title: "Voice Chat", desc: "Talk to your Bestie in 6 languages. Built on Web Speech API — no extra app needed.", status: "Live" },
             ].map((item) => (
               <StaggerCard key={item.title}>
-                <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-pink-500/20 transition-colors">
-                  <item.icon className="h-8 w-8 text-pink-400 mx-auto mb-3" />
+                <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-amber-500/20 transition-colors">
+                  <item.icon className="h-8 w-8 text-amber-400 mx-auto mb-3" />
                   <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
                   <p className="text-xs text-zinc-400 leading-relaxed mb-3">{item.desc}</p>
                   <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium ${
@@ -419,7 +419,7 @@ export default function LandingPage() {
           <AnimateOnScroll>
             <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 sm:p-6 mb-10">
               <div className="flex items-center gap-3 mb-4">
-                <Globe className="h-5 w-5 text-pink-400" />
+                <Globe className="h-5 w-5 text-amber-400" />
                 <h3 className="font-bold text-white text-sm">Speaks 6 Languages</h3>
               </div>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
@@ -432,7 +432,7 @@ export default function LandingPage() {
                   { lang: "Arabic", code: "AR" },
                 ].map((l) => (
                   <div key={l.code} className="text-center p-2.5 rounded-lg bg-zinc-700/30 border border-zinc-700/30">
-                    <p className="text-[10px] font-bold text-pink-400">{l.code}</p>
+                    <p className="text-[10px] font-bold text-amber-400">{l.code}</p>
                     <p className="text-[11px] text-zinc-400 mt-0.5">{l.lang}</p>
                   </div>
                 ))}
@@ -445,9 +445,9 @@ export default function LandingPage() {
               <p className="text-sm text-zinc-500 mb-4">
                 Create yours in 3 steps. Choose a personality, pick a name, start talking.
               </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-lg px-8 font-semibold">
+              <Button asChild size="lg" className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-lg px-8 font-semibold">
                 <Link href="/app/bestie">
-                  Meet Your Bestie <ArrowRight className="ml-2 h-4 w-4" />
+                  Build Your Bestie <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -763,16 +763,16 @@ export default function LandingPage() {
 
             {/* AI Bestie */}
             <StaggerCard>
-              <div className="p-6 rounded-2xl bg-gradient-to-br from-pink-950/30 to-purple-950/30 border border-pink-800/30 h-full">
+              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-amber-800/30 h-full">
                 <div className="flex items-center gap-2 mb-3">
-                  <Heart className="h-5 w-5 text-pink-400" />
+                  <Heart className="h-5 w-5 text-amber-400" />
                   <h3 className="text-lg font-semibold text-white">AI Bestie</h3>
                 </div>
-                <p className="text-sm text-zinc-400 mb-3">Your AI companion — best friend, business partner, tutor, or all three. They remember you, learn your style, and grow with every conversation.</p>
+                <p className="text-sm text-zinc-400 mb-3">Your AI right hand — operator, accountability partner, growth advisor, or all three. It remembers your business, learns your standards, and levels up with every conversation.</p>
                 <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-pink-400 mt-0.5 shrink-0" /> Persistent memory across sessions</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-pink-400 mt-0.5 shrink-0" /> Voice chat in 6 languages</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-pink-400 mt-0.5 shrink-0" /> Customizable personality & appearance</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Persistent memory across sessions</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice chat in 6 languages</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Customizable personality & behavior</li>
                 </ul>
               </div>
             </StaggerCard>

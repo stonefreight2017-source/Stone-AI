@@ -45,7 +45,7 @@ export interface TierPerks {
   webSearchesPerDay: number;     // Web searches per day (0 = disabled)
   codeExecutionsPerDay: number;  // Code sandbox runs per day (0 = disabled)
   fileUploadAnalysis: boolean;   // Upload and analyze files (PDF, CSV, images)
-  imageGeneration: boolean;      // AI image generation (DALL-E / Stable Diffusion)
+
   voiceInteraction: boolean;     // Voice input/output and text-to-speech
   pluginIntegrations: number;    // Max connected integrations (Zapier, Google, etc.)
   teamWorkspace: boolean;        // Shared workspace for team collaboration
@@ -78,12 +78,12 @@ export interface TierConfig {
  * STONE AI PRICING — Final (March 2026)
  * ═══════════════════════════════════════════════════════════
  *
- * DB Enum  | Display Name | Monthly | Agents | Cloud AI         | Margin
- * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.10 once
- * STARTER  | Builder      | $19.99  | 16     | 10/day           | 85%
- * PLUS     | Growth       | $49.99  | 30     | 25/day           | 85%
- * SMART    | Executive    | $99.99  | 42     | 60/day           | 82%
- * PRO      | Reseller     | $200    | 42     | 125/day          | 81%
+ * DB Enum  | Display Name | Monthly | Agents | Cloud AI         | Max API Cost/mo | Margin @100%
+ * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
+ * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
+ * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
+ * SMART    | Executive    | $99.99  | 42     | 30/day           | ~$27            | 73%
+ * PRO      | Reseller     | $200    | 42     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
  *
@@ -138,7 +138,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       webSearchesPerDay: 0,
       codeExecutionsPerDay: 0,
       fileUploadAnalysis: false,
-      imageGeneration: false,
+
       voiceInteraction: false,
       pluginIntegrations: 0,
       teamWorkspace: false,
@@ -164,10 +164,10 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxResponseTokens: 2_500,
       concurrentRequests: 2,
       requestsPerMinute: 10,
-      smartMessagesPerDay: 10,             // 10/day × 30 × $0.02 = $6/mo max → 85% margin
-      smartMaxResponseTokens: 2_000,
-      smartContextMessages: 12,
-      smartTokensPerMonth: 600_000,
+      smartMessagesPerDay: 10,             // 10/day × 30 × ~$0.018 = ~$5.40/mo max → 73% margin
+      smartMaxResponseTokens: 1_500,
+      smartContextMessages: 10,
+      smartTokensPerMonth: 500_000,
     },
     perks: {
       contextMessages: 25,
@@ -184,7 +184,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       webSearchesPerDay: 10,
       codeExecutionsPerDay: 10,
       fileUploadAnalysis: true,
-      imageGeneration: false,
+
       voiceInteraction: false,
       pluginIntegrations: 0,
       teamWorkspace: false,
@@ -205,18 +205,18 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     agentCount: 30,
     tagline: "Plan, start, and maintain your business",
     limits: {
-      messagesPerDay: 600,
-      tokensPerMonth: 18_000_000,
-      maxResponseTokens: 4_000,
+      messagesPerDay: 500,
+      tokensPerMonth: 15_000_000,
+      maxResponseTokens: 3_500,
       concurrentRequests: 3,
-      requestsPerMinute: 20,
-      smartMessagesPerDay: 25,             // 25/day × 30 × $0.02 = $15/mo max → 85% margin
-      smartMaxResponseTokens: 3_000,
-      smartContextMessages: 20,
-      smartTokensPerMonth: 2_500_000,
+      requestsPerMinute: 15,
+      smartMessagesPerDay: 15,             // 15/day × 30 × ~$0.027 = ~$12/mo max → 76% margin
+      smartMaxResponseTokens: 2_000,
+      smartContextMessages: 15,
+      smartTokensPerMonth: 1_200_000,
     },
     perks: {
-      contextMessages: 50,
+      contextMessages: 40,
       autoRouting: true,
       conversationExport: true,
       priorityQueue: false,
@@ -227,10 +227,10 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1,
       maxBesties: 2,
       maxDocuments: 30,
-      webSearchesPerDay: 40,
-      codeExecutionsPerDay: 40,
+      webSearchesPerDay: 25,
+      codeExecutionsPerDay: 25,
       fileUploadAnalysis: true,
-      imageGeneration: true,
+
       voiceInteraction: true,
       pluginIntegrations: 5,
       teamWorkspace: false,
@@ -251,18 +251,18 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     agentCount: 42,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
-      messagesPerDay: 1_500,
-      tokensPerMonth: 60_000_000,
-      maxResponseTokens: 8_000,
-      concurrentRequests: 5,
-      requestsPerMinute: 40,
-      smartMessagesPerDay: 60,             // 60/day × 30 × $0.02 = $36/mo max → 82% margin
-      smartMaxResponseTokens: 4_000,
-      smartContextMessages: 30,
-      smartTokensPerMonth: 6_000_000,
+      messagesPerDay: 1_000,
+      tokensPerMonth: 40_000_000,
+      maxResponseTokens: 6_000,
+      concurrentRequests: 4,
+      requestsPerMinute: 25,
+      smartMessagesPerDay: 30,             // 30/day × 30 × ~$0.030 = ~$27/mo max → 73% margin
+      smartMaxResponseTokens: 2_500,
+      smartContextMessages: 20,
+      smartTokensPerMonth: 2_500_000,
     },
     perks: {
-      contextMessages: 80,
+      contextMessages: 60,
       autoRouting: true,
       conversationExport: true,
       priorityQueue: true,
@@ -273,10 +273,10 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1.5,
       maxBesties: 3,
       maxDocuments: 100,
-      webSearchesPerDay: 150,
-      codeExecutionsPerDay: 150,
+      webSearchesPerDay: 60,
+      codeExecutionsPerDay: 60,
       fileUploadAnalysis: true,
-      imageGeneration: true,
+
       voiceInteraction: true,
       pluginIntegrations: 10,
       teamWorkspace: true,
@@ -297,18 +297,18 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     agentCount: 42,
     tagline: "Full platform access with reseller capabilities",
     limits: {
-      messagesPerDay: 99_999,
-      tokensPerMonth: 999_999_999,
-      maxResponseTokens: 32_000,
-      concurrentRequests: 10,
-      requestsPerMinute: 60,
-      smartMessagesPerDay: 125,            // 125/day × 30 × $0.02 = $75/mo max → 81% margin
-      smartMaxResponseTokens: 6_000,
-      smartContextMessages: 40,
-      smartTokensPerMonth: 12_000_000,
+      messagesPerDay: 3_000,
+      tokensPerMonth: 100_000_000,
+      maxResponseTokens: 8_000,
+      concurrentRequests: 6,
+      requestsPerMinute: 30,
+      smartMessagesPerDay: 50,             // 50/day × 30 × ~$0.037 = ~$55/mo max → 73% margin
+      smartMaxResponseTokens: 3_000,
+      smartContextMessages: 25,
+      smartTokensPerMonth: 4_000_000,
     },
     perks: {
-      contextMessages: 100,
+      contextMessages: 80,
       autoRouting: true,
       conversationExport: true,
       priorityQueue: true,
@@ -319,12 +319,12 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 2,
       maxBesties: 5,
       maxDocuments: 500,
-      webSearchesPerDay: 999,
-      codeExecutionsPerDay: 999,
+      webSearchesPerDay: 150,
+      codeExecutionsPerDay: 150,
       fileUploadAnalysis: true,
-      imageGeneration: true,
+
       voiceInteraction: true,
-      pluginIntegrations: 999,
+      pluginIntegrations: 50,
       teamWorkspace: true,
       customModelFineTuning: true,
       soc2Compliance: true,

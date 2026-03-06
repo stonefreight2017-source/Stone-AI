@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
-import { Plus, Settings, CreditCard, PanelLeftClose, Bot, Users, HelpCircle, Bell, Sparkles, Heart, Compass } from "lucide-react";
+import { Plus, Settings, CreditCard, PanelLeftClose, Users, HelpCircle, Bell, Sparkles, Heart, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
@@ -108,19 +108,11 @@ export function Sidebar({ userTier }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-pink-400 hover:text-pink-300 hover:bg-pink-900/20 h-9"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
           onClick={() => router.push("/app/bestie")}
         >
           <Heart className="h-4 w-4" />
           My Bestie
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
-          onClick={() => router.push("/app/agents")}
-        >
-          <Bot className="h-4 w-4" />
-          AI Agents
         </Button>
         <Button
           variant="ghost"

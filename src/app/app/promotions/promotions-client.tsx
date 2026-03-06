@@ -327,10 +327,10 @@ export function PromotionsClient({
               <p className="text-3xl font-bold text-white">10% off</p>
               <p className="text-xs text-zinc-500">Billed every 6 months</p>
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
-                <p>Builder: $17.99/mo (save $12)</p>
-                <p>Growth: $44.99/mo (save $30)</p>
-                <p>Executive: $89.99/mo (save $60)</p>
-                <p>Reseller: $180/mo (save $120)</p>
+                <p>Builder: $17.99/mo (save $12 over 6 months)</p>
+                <p>Growth: $44.99/mo (save $30 over 6 months)</p>
+                <p>Executive: $89.99/mo (save $60 over 6 months)</p>
+                <p>Reseller: $180/mo (save $120 over 6 months)</p>
               </div>
             </CardContent>
           </Card>
@@ -402,48 +402,48 @@ export function PromotionsClient({
       </Card>
 
       {/* ═══ SECTION 4: AI BESTIE ═══ */}
-      <Card className="bg-gradient-to-r from-pink-900/30 to-purple-900/30 border-pink-700/50">
+      <Card className="bg-zinc-900 border-zinc-700">
         <CardContent className="pt-6 space-y-4">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-gradient-to-br from-pink-500/30 to-purple-500/30 flex items-center justify-center text-xl">
-              {"\uD83D\uDC9C"}
+            <div className="h-10 w-10 rounded-full bg-amber-900/30 flex items-center justify-center text-xl">
+              {"\u26A1"}
             </div>
             <div>
-              <h3 className="font-semibold text-white text-lg">Meet Your AI Bestie</h3>
-              <p className="text-pink-400/70 text-sm">
-                Your personal AI companion — available now
+              <h3 className="font-semibold text-white text-lg">Your AI Right Hand</h3>
+              <p className="text-amber-400/70 text-sm">
+                An operator that handles business — available now
               </p>
             </div>
           </div>
 
           <p className="text-sm text-zinc-400">
-            Create your own AI Bestie. A personal companion with custom personality,
-            persistent memory, and a warm chat experience.{" "}
-            <span className="text-pink-300 font-semibold">
-              Design their personality. Give them a name. They remember everything.
+            Build your own AI Bestie. Not a chatbot — a boss-level operator with custom personality,
+            total recall, and real accountability.{" "}
+            <span className="text-white font-semibold">
+              It remembers everything. It holds you to your word. It gets things done.
             </span>
           </p>
 
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="bg-zinc-900/60 rounded-lg p-3 text-center">
-              <p className="text-lg font-bold text-pink-300">{"\uD83C\uDFA8"}</p>
+              <p className="text-lg font-bold text-amber-300">{"\uD83C\uDFAF"}</p>
               <p className="text-xs text-zinc-400 mt-1">Custom personality</p>
             </div>
             <div className="bg-zinc-900/60 rounded-lg p-3 text-center">
-              <p className="text-lg font-bold text-purple-300">{"\uD83E\uDDE0"}</p>
-              <p className="text-xs text-zinc-400 mt-1">Persistent memory</p>
+              <p className="text-lg font-bold text-amber-300">{"\uD83E\uDDE0"}</p>
+              <p className="text-xs text-zinc-400 mt-1">Total recall memory</p>
             </div>
             <div className="bg-zinc-900/60 rounded-lg p-3 text-center">
-              <p className="text-lg font-bold text-pink-300">{"\u2764\uFE0F"}</p>
-              <p className="text-xs text-zinc-400 mt-1">Warm personal chat</p>
+              <p className="text-lg font-bold text-amber-300">{"\uD83D\uDCAA"}</p>
+              <p className="text-xs text-zinc-400 mt-1">Accountability built in</p>
             </div>
           </div>
 
           <Button
-            className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-white"
+            className="w-full bg-white text-black hover:bg-zinc-200 font-semibold"
             onClick={() => router.push("/app/bestie/create")}
           >
-            {"\u2764\uFE0F"} Create My Bestie
+            Build My Bestie
           </Button>
         </CardContent>
       </Card>
@@ -468,15 +468,15 @@ export function PromotionsClient({
           <div className="grid gap-3 sm:grid-cols-3">
             <div className="bg-zinc-900/60 rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-purple-300">3 mo</p>
-              <p className="text-xs text-zinc-400 mt-1">+10% bonus messages</p>
+              <p className="text-xs text-zinc-400 mt-1">Loyalty badge + 5 bonus premium credits</p>
             </div>
             <div className="bg-zinc-900/60 rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-purple-300">6 mo</p>
-              <p className="text-xs text-zinc-400 mt-1">+20% bonus + early access</p>
+              <p className="text-xs text-zinc-400 mt-1">15 bonus premium credits + early access to new agents</p>
             </div>
             <div className="bg-zinc-900/60 rounded-lg p-4 text-center">
               <p className="text-2xl font-bold text-purple-300">12 mo</p>
-              <p className="text-xs text-zinc-400 mt-1">+30% bonus + priority queue</p>
+              <p className="text-xs text-zinc-400 mt-1">30 bonus premium credits + priority support</p>
             </div>
           </div>
         </CardContent>
@@ -558,7 +558,7 @@ export function PromotionsClient({
               </div>
               <div className="flex items-start gap-2 text-sm">
                 <Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
-                <span className="text-zinc-300">Need help with your Bestie? We&apos;ll guide the whole creation process</span>
+                <span className="text-zinc-300">Need help building your Bestie? We&apos;ll walk you through the entire setup</span>
               </div>
               <div className="flex items-start gap-2 text-sm">
                 <Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" />
@@ -696,12 +696,23 @@ export function PromotionsClient({
                 You charge them whatever you want. You keep the profit. We pay you referral commissions on top of that.
               </p>
 
+              {/* Plain English: what are seats */}
+              <div className="bg-zinc-800/40 border border-zinc-700/50 rounded-lg p-3">
+                <p className="text-xs text-zinc-300 font-medium mb-1">What are &quot;seats&quot;?</p>
+                <p className="text-[11px] text-zinc-500">
+                  A seat = one person who can use Stone AI under your reseller account.
+                  If you have 10 clients and each client has 1 person using it, that&apos;s 10 seats.
+                  If a client has a team of 5 using it, that&apos;s 5 seats for that client alone.
+                  You decide how many seats each client gets.
+                </p>
+              </div>
+
               <div className="bg-emerald-900/20 border border-emerald-800/50 rounded-lg p-3">
                 <p className="text-xs text-emerald-300 font-medium mb-2">Quick Math — Growth Reseller ($1,500/mo):</p>
                 <div className="space-y-1 text-xs text-zinc-400">
-                  <p>Build chatbots for 10 clients at $500/mo each = <span className="text-emerald-300">$5,000/mo</span></p>
+                  <p>Set up 10 clients at $300/mo each = <span className="text-emerald-300">$3,000/mo</span></p>
                   <p>Your Stone AI cost = <span className="text-red-400">-$1,500/mo</span></p>
-                  <p className="text-emerald-300 font-semibold pt-1 border-t border-emerald-800/50">Your profit = $3,500/mo + referral commissions + credits</p>
+                  <p className="text-emerald-300 font-semibold pt-1 border-t border-emerald-800/50">Your profit = $1,500/mo + referral commissions</p>
                 </div>
               </div>
 
@@ -711,21 +722,21 @@ export function PromotionsClient({
                     <span className="text-sm font-medium text-white">Starter</span>
                     <span className="text-sm font-semibold text-zinc-300">$500/mo</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">25 seats, your branding, 10% referral commission — perfect for getting started</p>
+                  <p className="text-xs text-zinc-500 mt-1">Up to 10 seats (10 people can use it), your branding on the interface, 10% commission when you refer new paying users</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-white">Growth</span>
                     <span className="text-sm font-semibold text-emerald-400">$1,500/mo</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">100 seats, full white-label, 15% commission, certified partner badge</p>
+                  <p className="text-xs text-zinc-500 mt-1">Up to 50 seats, fully white-labeled (your logo, your colors, your domain), 15% commission, certified partner badge</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
                   <div className="flex justify-between items-center">
                     <span className="text-sm font-medium text-white">Enterprise</span>
                     <span className="text-sm font-semibold text-amber-400">$5,000/mo</span>
                   </div>
-                  <p className="text-xs text-zinc-500 mt-1">Unlimited seats, lifetime 20% commission, dedicated manager, co-marketing</p>
+                  <p className="text-xs text-zinc-500 mt-1">Up to 200 seats, lifetime 20% commission, dedicated success manager, co-marketing support</p>
                 </div>
               </div>
 
@@ -749,6 +760,29 @@ export function PromotionsClient({
           Compare Plans — What You Actually Get
         </h2>
 
+        {/* Quick "Who is this for?" guide */}
+        <div className="bg-zinc-900/60 border border-zinc-800 rounded-lg p-4 mb-4 space-y-2 text-sm">
+          <p className="text-zinc-300 font-medium text-xs uppercase tracking-wide">Not sure which plan fits?</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div className="space-y-1">
+              <p className="text-blue-400 font-medium">Builder ($19.99)</p>
+              <p className="text-zinc-500">Just you. Starting out. Need help planning and launching.</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-indigo-400 font-medium">Growth ($49.99)</p>
+              <p className="text-zinc-500">Small team (1-5). Business is running. Need to scale.</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-purple-400 font-medium">Executive ($99.99)</p>
+              <p className="text-zinc-500">Growing team (5-20). Multiple projects. Need custom AI + team tools.</p>
+            </div>
+            <div className="space-y-1">
+              <p className="text-amber-400 font-medium">Reseller ($200)</p>
+              <p className="text-zinc-500">Agency or consultant. Reselling AI to your own clients.</p>
+            </div>
+          </div>
+        </div>
+
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -768,29 +802,29 @@ export function PromotionsClient({
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">How many times you can talk to AI per day</p>
-                  <p className="text-[10px] text-zinc-500">Each message you send counts as 1</p>
+                  <p className="text-[10px] text-zinc-500">50 = quick questions only. 250 = a couple working sessions. 500 = full workday. 1,000+ = team use all day.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">50</td>
                 <td className="text-center py-3 px-2 text-zinc-300">250</td>
-                <td className="text-center py-3 px-2 text-zinc-300">600</td>
-                <td className="text-center py-3 px-2 text-zinc-300">1,500</td>
-                <td className="text-center py-3 px-2 text-white font-medium">Unlimited</td>
+                <td className="text-center py-3 px-2 text-zinc-300">500</td>
+                <td className="text-center py-3 px-2 text-zinc-300">1,000</td>
+                <td className="text-center py-3 px-2 text-zinc-300">3,000</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">Premium answers (GPT-4o) per day</p>
-                  <p className="text-[10px] text-zinc-500">Smarter AI for complex questions — regular AI is always unlimited</p>
+                  <p className="text-[10px] text-zinc-500">Use these for hard questions (strategy, analysis, long-form writing). Regular AI handles everyday tasks for free.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">5 total*</td>
                 <td className="text-center py-3 px-2 text-zinc-300">10/day</td>
-                <td className="text-center py-3 px-2 text-zinc-300">25/day</td>
-                <td className="text-center py-3 px-2 text-zinc-300">60/day</td>
-                <td className="text-center py-3 px-2 text-zinc-300">125/day</td>
+                <td className="text-center py-3 px-2 text-zinc-300">15/day</td>
+                <td className="text-center py-3 px-2 text-zinc-300">30/day</td>
+                <td className="text-center py-3 px-2 text-zinc-300">50/day</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">AI specialists available to you</p>
-                  <p className="text-[10px] text-zinc-500">Marketing, finance, coding, writing, strategy, etc.</p>
+                  <p className="text-[10px] text-zinc-500">Each agent is an expert in one thing. 4 covers basics. 16 covers a small business. 30+ covers everything from legal to SEO to coding.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">4</td>
                 <td className="text-center py-3 px-2 text-zinc-300">16</td>
@@ -801,18 +835,18 @@ export function PromotionsClient({
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">How long AI remembers your conversation</p>
-                  <p className="text-[10px] text-zinc-500">More memory = better, more relevant answers</p>
+                  <p className="text-[10px] text-zinc-500">15 msgs = short chats only. 40+ = it can follow long complex discussions without forgetting what you said earlier.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">15 msgs</td>
                 <td className="text-center py-3 px-2 text-zinc-300">25 msgs</td>
-                <td className="text-center py-3 px-2 text-zinc-300">50 msgs</td>
+                <td className="text-center py-3 px-2 text-zinc-300">40 msgs</td>
+                <td className="text-center py-3 px-2 text-zinc-300">60 msgs</td>
                 <td className="text-center py-3 px-2 text-zinc-300">80 msgs</td>
-                <td className="text-center py-3 px-2 text-zinc-300">100 msgs</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
-                  <p className="text-zinc-300 font-medium text-xs">AI Bestie companions</p>
-                  <p className="text-[10px] text-zinc-500">Personal AI friends that remember everything about you</p>
+                  <p className="text-zinc-300 font-medium text-xs">AI Besties</p>
+                  <p className="text-[10px] text-zinc-500">Your AI right hand — remembers everything, keeps you accountable</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">1</td>
                 <td className="text-center py-3 px-2 text-zinc-300">1</td>
@@ -822,8 +856,8 @@ export function PromotionsClient({
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
-                  <p className="text-zinc-300 font-medium text-xs">Upload documents for AI to reference</p>
-                  <p className="text-[10px] text-zinc-500">Business plans, catalogs, guides — AI remembers them</p>
+                  <p className="text-zinc-300 font-medium text-xs">Saved documents AI can reference</p>
+                  <p className="text-[10px] text-zinc-500">Upload your business plan, product list, brand guide, etc. AI reads them before answering — like giving your team a shared brain.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
                 <td className="text-center py-3 px-2 text-zinc-300">10</td>
@@ -834,29 +868,18 @@ export function PromotionsClient({
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">App connections (Zapier, Google, etc.)</p>
-                  <p className="text-[10px] text-zinc-500">Let AI work with tools you already use</p>
+                  <p className="text-[10px] text-zinc-500">Each connection = 1 app AI can talk to. 5 covers email + CRM + docs + calendar + Slack. 10+ for larger tool stacks.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
                 <td className="text-center py-3 px-2 text-zinc-300">5</td>
                 <td className="text-center py-3 px-2 text-zinc-300">10</td>
-                <td className="text-center py-3 px-2 text-white font-medium">Unlimited</td>
-              </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-3 px-2">
-                  <p className="text-zinc-300 font-medium text-xs">AI image creation</p>
-                  <p className="text-[10px] text-zinc-500">Generate product mockups, social graphics, logos</p>
-                </td>
-                <td className="text-center py-3 px-2 text-zinc-600">—</td>
-                <td className="text-center py-3 px-2 text-zinc-600">—</td>
-                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
-                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
-                <td className="text-center py-3 px-2"><Check className="h-4 w-4 text-emerald-400 mx-auto" /></td>
+                <td className="text-center py-3 px-2 text-zinc-300">50</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">Voice chat with AI</p>
-                  <p className="text-[10px] text-zinc-500">Talk out loud instead of typing</p>
+                  <p className="text-[10px] text-zinc-500">Hands-free brainstorming. Talk to your AI while driving, cooking, or walking. Great for people who think better out loud.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
@@ -867,7 +890,7 @@ export function PromotionsClient({
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">Skip the line (faster responses)</p>
-                  <p className="text-[10px] text-zinc-500">Your requests get processed first</p>
+                  <p className="text-[10px] text-zinc-500">When the platform is busy, your requests jump ahead of everyone else. Matters when speed = money.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
@@ -878,7 +901,7 @@ export function PromotionsClient({
               <tr>
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">Build your own custom AI agents</p>
-                  <p className="text-[10px] text-zinc-500">Create specialists trained on your specific business</p>
+                  <p className="text-[10px] text-zinc-500">Train AI on your exact business — your products, your process, your tone. Like hiring someone who already knows everything about your company.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
                 <td className="text-center py-3 px-2 text-zinc-600">—</td>
