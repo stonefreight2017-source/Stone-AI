@@ -9,6 +9,8 @@ const eslintConfig = defineConfig([
     rules: {
       // Allow setState in effects for localStorage/fetch-on-mount patterns
       "react-hooks/set-state-in-effect": "off",
+      // Allow quotes/apostrophes in JSX text (common in English content)
+      "react/no-unescaped-entities": "off",
     },
   },
   // Override default ignores of eslint-config-next.
