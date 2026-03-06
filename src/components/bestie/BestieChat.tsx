@@ -25,6 +25,39 @@ interface BestieChatProps {
   bestieName: string;
   bestieEmoji: string;
   bestiePath?: BestiePath;
+  bgTheme?: string;
+  bestieTraits?: string[];
+}
+
+/** Map personality traits to emoji sets for thinking/reactions */
+const TRAIT_EMOJIS: Record<string, string[]> = {
+  empathetic: ["\uD83E\uDD17", "\uD83D\uDC9B", "\uD83E\uDE77"],
+  witty: ["\uD83D\uDE0F", "\uD83D\uDE04", "\uD83C\uDFAD"],
+  direct: ["\uD83C\uDFAF", "\uD83D\uDCAA", "\u26A1"],
+  nurturing: ["\uD83C\uDF3B", "\uD83E\uDEF6", "\uD83C\uDF3F"],
+  adventurous: ["\uD83C\uDFD4\uFE0F", "\uD83D\uDE80", "\uD83C\uDF0D"],
+  intellectual: ["\uD83E\uDDD0", "\uD83D\uDCDA", "\uD83D\uDD2C"],
+  playful: ["\uD83C\uDF89", "\uD83D\uDE1C", "\uD83C\uDFAE"],
+  calm: ["\uD83E\uDDD8", "\u2615", "\uD83C\uDF19"],
+  motivating: ["\uD83D\uDD25", "\uD83D\uDCAA", "\uD83C\uDFC6"],
+  creative: ["\uD83C\uDFA8", "\u2728", "\uD83C\uDF08"],
+  loyal: ["\uD83D\uDC3A", "\uD83E\uDD1D", "\uD83D\uDEE1\uFE0F"],
+  sarcastic: ["\uD83D\uDE0F", "\uD83D\uDC40", "\u2615"],
+  analytical: ["\uD83D\uDD2C", "\uD83D\uDCC8", "\uD83E\uDDE0"],
+  spontaneous: ["\u26A1", "\uD83C\uDF89", "\uD83D\uDE80"],
+  protective: ["\uD83D\uDEE1\uFE0F", "\uD83D\uDCAA", "\uD83D\uDC3B"],
+  philosophical: ["\uD83C\uDF0C", "\uD83E\uDDD0", "\u267E\uFE0F"],
+  competitive: ["\uD83C\uDFC6", "\uD83D\uDD25", "\uD83D\uDCAF"],
+  chill: ["\uD83C\uDF0A", "\uD83D\uDE0E", "\u2615"],
+};
+
+function getPersonalityEmojis(traits: string[]): string[] {
+  const pool: string[] = [];
+  for (const t of traits) {
+    const emojis = TRAIT_EMOJIS[t];
+    if (emojis) pool.push(...emojis);
+  }
+  return pool.length > 0 ? [...new Set(pool)] : ["\u2728", "\uD83D\uDCAD", "\uD83D\uDC9C"];
 }
 
 /** Path-based UI themes — colors, gradients, and labels */
@@ -100,8 +133,9 @@ function formatLatency(ms: number): string {
   return `${(ms / 1000).toFixed(1)}s`;
 }
 
-export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath = "friend" }: BestieChatProps) {
+export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath = "friend", bgTheme, bestieTraits = [] }: BestieChatProps) {
   const theme = PATH_THEMES[bestiePath];
+  const personalityEmojis = getPersonalityEmojis(bestieTraits);
   const scrollRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const { selectedMode, setSelectedMode, setTierError } = useAppStore();
