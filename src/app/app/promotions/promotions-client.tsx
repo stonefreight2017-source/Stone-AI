@@ -194,7 +194,7 @@ export function PromotionsClient({
               <div className="space-y-2 text-sm">
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
-                  200 messages/day (6x more than Free)
+                  200 messages/day (2x more than Free)
                 </div>
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
@@ -329,7 +329,7 @@ export function PromotionsClient({
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
                 <p>Builder: $17.99/mo (save $12 over 6 months)</p>
                 <p>Growth: $44.99/mo (save $30 over 6 months)</p>
-                <p>Executive: $89.99/mo (save $60 over 6 months)</p>
+                <p>Executive: $99.99/mo (annual only — no 6-month discount)</p>
                 <p>Reseller: $200/mo (no 6-month discount)</p>
               </div>
             </CardContent>
@@ -344,8 +344,8 @@ export function PromotionsClient({
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
                 <p>Builder: $15.99/mo (save $48/yr)</p>
                 <p>Growth: $39.99/mo (save $120/yr)</p>
-                <p>Executive: $79.99/mo (save $240/yr)</p>
-                <p>Reseller: $190/mo (save $120/yr, 5% off)</p>
+                <p>Executive: $79.99/mo (save $240/yr, annual only)</p>
+                <p>Reseller: $170/mo (save $360/yr, 15% off)</p>
               </div>
             </CardContent>
           </Card>
@@ -829,9 +829,9 @@ export function PromotionsClient({
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
                   <p className="text-zinc-300 font-medium text-xs">How many times you can talk to AI per day</p>
-                  <p className="text-[10px] text-zinc-500">50 = quick questions only. 250 = a couple working sessions. 500 = full workday. 1,000+ = team use all day.</p>
+                  <p className="text-[10px] text-zinc-500">100 = quick questions & light use. 250 = a couple working sessions. 500 = full workday. 1,000+ = team use all day.</p>
                 </td>
-                <td className="text-center py-3 px-2 text-zinc-300">50</td>
+                <td className="text-center py-3 px-2 text-zinc-300">100</td>
                 <td className="text-center py-3 px-2 text-zinc-300">250</td>
                 <td className="text-center py-3 px-2 text-zinc-300">500</td>
                 <td className="text-center py-3 px-2 text-zinc-300">1,000</td>

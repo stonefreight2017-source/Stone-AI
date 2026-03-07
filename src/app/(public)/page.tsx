@@ -124,7 +124,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium animate-pulse">
               <Sparkles className="h-4 w-4" />
-              Launch Deals: Start at $14.99/mo — OG badge included
+              Launch Deals: Start at $9.99/mo — OG badge included
             </div>
           </div>
 

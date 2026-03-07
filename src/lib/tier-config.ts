@@ -113,7 +113,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     agentCount: 4,
     tagline: "Explore AI with essential tools",
     limits: {
-      messagesPerDay: 50,
+      messagesPerDay: 100,
       tokensPerMonth: 200_000,
       maxResponseTokens: 1_200,
       concurrentRequests: 1,
@@ -374,10 +374,11 @@ export type BillingPeriod = "monthly" | "semiannual" | "annual";
 /**
  * Standard billing discounts for FREE through SMART tiers.
  * NOTE: PRO (Reseller) and Enterprise use REDUCED discounts:
- *   - Monthly: full price
- *   - 6-month: NO discount (same as monthly)
- *   - Annual: 5% off only
+ *   - PRO (Reseller): Annual only, 15% off ($200 → $170/mo)
+ *   - Enterprise: Annual only, 5% off (custom engagement)
  * These special cases are defined in pricing-section.tsx (price6month / priceAnnual fields).
+ *
+ * SMART (Executive): Annual only, 20% off ($99.99 → $79.99/mo).
  */
 export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: number; months: number }[] = [
   { key: "monthly", label: "Monthly", discount: 0, months: 1 },

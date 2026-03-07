@@ -62,7 +62,7 @@ const TIERS: TierInfo[] = [
       { text: "No credit card, no trial clock — just go" },
     ],
     details: {
-      messagesPerDay: "50",
+      messagesPerDay: "100",
       tokensPerMonth: "200K",
       maxResponse: "1,200 tokens",
       concurrentChats: "1",
@@ -153,7 +153,7 @@ const TIERS: TierInfo[] = [
     name: "Executive",
     tagline: "Run your entire operation like a CEO with a full AI executive team",
     price: 99.99,
-    price6month: 89.99,
+    price6month: 99.99,
     priceAnnual: 79.99,
     priceDisplay: "$99.99",
     popular: true,
@@ -181,7 +181,7 @@ const TIERS: TierInfo[] = [
       apiAccess: false,
       besties: "1 AI Bestie (38-agent knowledge)",
       agents: "38 Expert Agents (nearly every category)",
-      billingOptions: "$99.99/mo · $89.99/mo (6-mo, 10% off) · $79.99/mo (yearly, 20% off)",
+      billingOptions: "$79.99/mo (yearly, 20% off) — annual commitment only",
     },
   },
   {
@@ -190,7 +190,7 @@ const TIERS: TierInfo[] = [
     tagline: "White-label it, resell it, build your own AI agency on top of ours",
     price: 200,
     price6month: 200,
-    priceAnnual: 190,
+    priceAnnual: 170,
     priceDisplay: "$200",
     color: "border-amber-400",
     accentText: "text-amber-300",
@@ -217,7 +217,7 @@ const TIERS: TierInfo[] = [
       apiAccess: true,
       besties: "1 AI Bestie (all 42-agent knowledge)",
       agents: "All 42 Expert Agents + API + reseller",
-      billingOptions: "$200/mo · $190/mo (yearly, 5% off)",
+      billingOptions: "$200/mo · $170/mo (yearly, 15% off)",
     },
   },
   {
@@ -311,8 +311,43 @@ export function PricingSection() {
                 Lock in founding member pricing — these one-time offers disappear once you leave.
               </p>
 
-              {/* Two promo cards side by side */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+              {/* Three promo cards side by side */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+                {/* Starter Deal — Builder at $9.99 */}
+                <div className="relative bg-zinc-800/60 border border-emerald-700/50 rounded-xl p-5 flex flex-col">
+                  <div className="absolute -top-2.5 left-4">
+                    <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                      First Month
+                    </span>
+                  </div>
+                  <p className="text-sm text-zinc-400 mt-2 mb-2">Builder plan</p>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-zinc-500 line-through text-base">$19.99</span>
+                    <span className="text-2xl font-bold text-emerald-400">$9.99</span>
+                    <span className="text-zinc-500 text-sm">/mo</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <span className="inline-block bg-emerald-500/20 text-emerald-400 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                      Save $10 first month
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <CreditCard className="h-3.5 w-3.5 text-zinc-500" />
+                    <span className="text-[11px] text-zinc-500">Credit card required</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
+                    One-time offer — $9.99 for your first 30 days, then $19.99/mo. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
+                  </p>
+                  <div className="mt-auto">
+                    <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
+                      <Link href="/sign-up">
+                        Claim $9.99 Deal
+                        <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+
                 {/* Launch Trial — Builder at $14.99 */}
                 <div className="relative bg-zinc-800/60 border border-emerald-700/50 rounded-xl p-5 flex flex-col">
                   <div className="absolute -top-2.5 left-4">
@@ -491,7 +526,7 @@ export function PricingSection() {
             {billingPeriod === "annual" && tier.priceAnnual < tier.price && (
               <p className="text-xs text-emerald-400 mt-1">
                 {(() => {
-                  const discount = isPro || isEnterprise ? "5% off" : "20% off";
+                  const discount = isEnterprise ? "5% off" : isPro ? "15% off" : "20% off";
                   return isEnterprise
                     ? `Billed $${(getCurrentPrice(tier) * 12).toFixed(0)} per year (${discount})`
                     : `Billed $${(getCurrentPrice(tier) * 12).toFixed(2)} per year (${discount})`;
@@ -501,7 +536,7 @@ export function PricingSection() {
             {tier.key === "STARTER" && (
               <p className="text-xs text-amber-400 mt-1 font-medium">
                 <Sparkles className="inline h-3 w-3 mr-1" />
-                Launch deal: $14.99/mo <span className="text-zinc-500 line-through">$19.99</span> — OG badge included
+                Launch deal: $9.99 first month <span className="text-zinc-500 line-through">$19.99</span> — OG badge included
               </p>
             )}
             {tier.key === "PLUS" && (
@@ -681,7 +716,7 @@ export function PricingSection() {
                 {formatPrice(t)}{t.price > 0 && !t.enterprise ? "/mo" : ""}
               </p>
               {t.key === "STARTER" && (
-                <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$14.99 deal</p>
+                <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$9.99 deal</p>
               )}
               {t.key === "PLUS" && (
                 <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$39.99 deal</p>
