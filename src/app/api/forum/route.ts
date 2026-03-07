@@ -101,7 +101,7 @@ const createPostSchema = z.object({
   title: z.string().min(3).max(200),
   content: z.string().min(10).max(10000),
   category: z.enum(["GENERAL", "TIPS", "SHOWCASE", "AGENTS", "BUSINESS", "TECHNICAL", "FEEDBACK"]),
-});
+}).strict();
 
 // POST /api/forum — create a new post
 export async function POST(req: NextRequest) {

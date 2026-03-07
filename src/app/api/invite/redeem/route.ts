@@ -11,7 +11,7 @@ const TIER_RANK: Record<string, number> = {
 
 const redeemSchema = z.object({
   code: z.string().min(1).max(50),
-});
+}).strict();
 
 // POST /api/invite/redeem — redeem an invite code
 export async function POST(req: NextRequest) {

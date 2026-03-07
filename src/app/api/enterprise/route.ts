@@ -23,7 +23,7 @@ const enterpriseSchema = z.object({
   estimatedMonthly: z.number().min(0),
   estimatedTotal: z.number().min(0),
   billingPeriod: z.string(),
-});
+}).strict();
 
 // Server-side price calculation to prevent client-side manipulation
 function calculateServerPrice(config: z.infer<typeof enterpriseSchema>["config"]): {

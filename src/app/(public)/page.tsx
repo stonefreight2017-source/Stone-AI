@@ -190,7 +190,7 @@ export default function LandingPage() {
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
               Local mode answers before you finish reading the question — fast, free, and completely private.
-              Smart mode brings in GPT-4o when you hit something complex — you choose when, every time.
+              Smart mode brings in cloud AI when you hit something complex — you choose when, every time.
             </p>
           </ScrollSection>
 
@@ -210,7 +210,7 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Answers in under 100ms — faster than switching to a Google tab</span>
+                    <span>Answers in under 100ms — faster than you can type the question</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
@@ -245,7 +245,7 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>GPT-4o for the questions that stump everything else — contracts, analysis, strategy</span>
+                    <span>Cloud AI for the questions that stump everything else — contracts, analysis, strategy</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
@@ -272,7 +272,7 @@ export default function LandingPage() {
             {[
               { step: "1", title: "Sign up free", desc: "Google, Apple, Outlook, Yahoo — pick your login. No credit card, no forms. You're chatting with 4 AI agents before your coffee gets cold." },
               { step: "2", title: "Chat locally", desc: "Ask anything — the agent thinks through angles, weighs options, and delivers the answer before you finish the thought. Your data never leaves our network." },
-              { step: "3", title: "Add Smart mode", desc: "Hit a wall? Flip on GPT-4o for the heavy stuff. You pick when. You control the cost." },
+              { step: "3", title: "Add Smart mode", desc: "Hit a wall? Flip on Smart Mode for the heavy stuff. You pick when. You control the cost." },
             ].map((s) => (
               <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5">
@@ -468,7 +468,7 @@ export default function LandingPage() {
                 <Globe className="h-5 w-5 text-amber-400" />
                 <h3 className="font-bold text-white text-sm">Texts Like a Native in 6 Languages</h3>
               </div>
-              <p className="text-xs text-zinc-500 mb-4">Not Google Translate. Real slang. Real cultural context. Real connection.</p>
+              <p className="text-xs text-zinc-500 mb-4">Not a generic translator. Real slang. Real cultural context. Real connection.</p>
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                 {[
                   { lang: "English", code: "EN", slang: "\"no cap\"" },
@@ -508,7 +508,7 @@ export default function LandingPage() {
               <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
                 <p className="text-xs font-bold text-amber-400 mb-1.5">Real Cultural Fluency</p>
                 <p className="text-xs text-zinc-500 leading-relaxed">
-                  Not Google Translate. Your bestie knows {`"`}no cap{`"`} in English, {`"`}666{`"`} in Mandarin,
+                  Not a phrasebook. Your bestie knows {`"`}no cap{`"`} in English, {`"`}666{`"`} in Mandarin,
                   {`"`}wesh{`"`} in French, {`"`}yaar{`"`} in Hindi. Real slang. Real connection.
                 </p>
               </div>
@@ -678,7 +678,7 @@ export default function LandingPage() {
           {/* Impact summary */}
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { value: "88%", label: "Time saved", sub: "back in your week" },
+              { value: "88%", label: "Time saved*", sub: "based on internal testing" },
               { value: "43", label: "AI thinkers", sub: "cognitive heavy-lifting handled" },
               { value: "$0", label: "Local cost", sub: "ask all day, pay nothing" },
               { value: "24/7", label: "Available", sub: "3am ideas welcome" },
@@ -715,8 +715,8 @@ export default function LandingPage() {
                   Steal the exact agent combos and prompts that are working for other founders right now.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-500 italic">
-                    &quot;Chained Proposal + Sales Agent for a cold lead. He signed a $12K retainer in 3 days.&quot;
+                  <p className="text-xs text-zinc-500">
+                    Chain your Proposal + Sales Agent for cold leads. Close retainers in days, not weeks.
                   </p>
                 </div>
               </Card>
@@ -729,8 +729,8 @@ export default function LandingPage() {
                   Real people posting real receipts — launches, closed deals, first customers.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-500 italic">
-                    &quot;Went from idea to paying customer in 16 days. The agents wrote 80% of the copy.&quot;
+                  <p className="text-xs text-zinc-500">
+                    Go from idea to paying customer in weeks. Let agents handle the copy so you can focus on closing.
                   </p>
                 </div>
               </Card>
@@ -743,8 +743,8 @@ export default function LandingPage() {
                   Stuck at 2am? Post the question. By morning, someone who solved it is walking you through it.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-500 italic">
-                    &quot;Asked how to automate onboarding. Got 4 agent combos with screenshots in an hour.&quot;
+                  <p className="text-xs text-zinc-500">
+                    Ask how to automate onboarding. Get agent combos with walkthroughs from people who already solved it.
                   </p>
                 </div>
               </Card>
@@ -921,7 +921,7 @@ export default function LandingPage() {
                 </div>
                 <ul className="space-y-2 text-sm text-zinc-400">
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 4 AI agents — business, content, code, education</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 5 SMART credits for GPT-4o conversations</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> 5 SMART credits for cloud AI conversations</li>
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> Community forum access</li>
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" /> Install to home screen (PWA)</li>
                 </ul>

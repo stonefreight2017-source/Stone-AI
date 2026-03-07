@@ -8,7 +8,7 @@ import { z } from "zod";
 const feedbackSchema = z.object({
   type: z.enum(["QUESTION", "BUG", "FEATURE"]),
   message: z.string().min(10).max(5000),
-});
+}).strict();
 
 // POST /api/feedback — submit feedback
 export async function POST(req: NextRequest) {

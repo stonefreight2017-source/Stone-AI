@@ -14,7 +14,7 @@ const checkoutSchema = z.object({
   tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]),
   period: z.enum(["monthly", "semiannual", "annual"]).optional().default("monthly"),
   trial: z.boolean().optional().default(false),
-});
+}).strict();
 
 // POST /api/stripe/checkout — create a Stripe checkout session
 export async function POST(req: NextRequest) {

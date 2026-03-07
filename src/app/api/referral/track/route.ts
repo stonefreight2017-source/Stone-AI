@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
         userId: referrer.id,
         type: "referral",
         title: "New Referral!",
-        body: `${user.name || "Someone"} just signed up using your referral link!`,
+        body: `A new user just signed up using your referral link!`,
         href: "/app/settings",
       },
     });

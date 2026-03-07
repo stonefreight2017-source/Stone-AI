@@ -50,10 +50,10 @@ export default function AboutPage() {
           <section>
             <h2 className="text-lg font-semibold text-white">Local-First AI</h2>
             <p>
-              By default, your conversations are processed on our own hardware using Llama 3.1 70B
-              running on local GPU inference. Your prompts and responses never leave our infrastructure
+              By default, your conversations are processed using local-first AI running on dedicated
+              hardware. Your prompts and responses never leave our infrastructure
               and are never sent to third-party AI providers. For teams that need the highest
-              capability, we also offer optional cloud AI powered by OpenAI GPT-4o — but the choice
+              capability, we also offer optional cloud AI from leading providers — but the choice
               is always yours.
             </p>
           </section>

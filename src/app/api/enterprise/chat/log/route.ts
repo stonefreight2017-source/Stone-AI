@@ -20,7 +20,7 @@ const logSchema = z.object({
     )
     .max(20),
   configSnapshot: z.string().max(5000).optional(),
-});
+}).strict();
 
 export async function POST(req: NextRequest) {
   // CSRF: validate origin

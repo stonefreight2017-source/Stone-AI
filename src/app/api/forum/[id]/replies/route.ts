@@ -8,7 +8,7 @@ import { z } from "zod";
 
 const replySchema = z.object({
   content: z.string().min(2).max(5000),
-});
+}).strict();
 
 // POST /api/forum/[id]/replies — add reply to a post
 export async function POST(

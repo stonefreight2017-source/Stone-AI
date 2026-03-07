@@ -18,7 +18,7 @@ const messageSchema = z.object({
     .max(30),
   sessionId: z.string().uuid(),
   configSnapshot: z.string().max(2000).optional(),
-});
+}).strict();
 
 // Cache agent ID at module level
 let cachedAgentId: string | null = null;

@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { BACKDROP_PRESETS } from "@/components/backdrops/backdrop-presets";
 import { BACKDROP_POOL } from "@/components/backdrops/backdrop-pool";
+
+const backdropSchema = z.object({
+  backdropTheme: z.string().optional(),
+  nameKey: z.string().optional(),
+}).strict();
 
 const VALID_IDS = new Set(BACKDROP_PRESETS.map((p) => p.id));
 const POOL_IDS = new Set(BACKDROP_POOL.map((p) => p.id));
@@ -32,8 +38,15 @@ export async function GET() {
 export async function PUT(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
-    const body = await req.json();
-    const { backdropTheme, nameKey } = body;
+    const body = await req.json().catch(() => null);
+    const parsed = backdropSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Invalid input", details: parsed.error.flatten() },
+        { status: 400 }
+      );
+    }
+    const { backdropTheme, nameKey } = parsed.data;
 
     const updateData: Record<string, string> = {};
 

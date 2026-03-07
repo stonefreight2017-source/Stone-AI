@@ -307,7 +307,7 @@ export async function PATCH(req: NextRequest) {
     }
 
     const updated = await db.bestieProfile.update({
-      where: { id },
+      where: { id: bestie.id },
       data,
     });
 

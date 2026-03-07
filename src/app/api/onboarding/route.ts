@@ -4,10 +4,10 @@ import { getOrCreateUser } from "@/lib/auth";
 import { z } from "zod";
 
 const onboardingSchema = z.discriminatedUnion("action", [
-  z.object({ action: z.literal("complete") }),
-  z.object({ action: z.literal("skip") }),
-  z.object({ action: z.literal("set-goals"), goals: z.array(z.string().max(200)).min(1).max(20) }),
-  z.object({ action: z.literal("update-step"), step: z.number().int().min(0).max(5) }),
+  z.object({ action: z.literal("complete") }).strict(),
+  z.object({ action: z.literal("skip") }).strict(),
+  z.object({ action: z.literal("set-goals"), goals: z.array(z.string().max(200)).min(1).max(20) }).strict(),
+  z.object({ action: z.literal("update-step"), step: z.number().int().min(0).max(5) }).strict(),
 ]);
 
 // GET /api/onboarding — get onboarding status

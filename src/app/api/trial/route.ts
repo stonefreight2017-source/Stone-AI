@@ -15,7 +15,7 @@ const BASIC_TRIAL_TIER = "STARTER" as Tier; // Give them a taste of STARTER
 const trialSchema = z.object({
   type: z.enum(["basic", "enhanced"]),
   tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]).optional(),
-});
+}).strict();
 
 // GET /api/trial — check trial eligibility and status
 export async function GET() {
@@ -69,6 +69,7 @@ export async function POST(req: NextRequest) {
     if (type === "basic") {
       // ─── BASIC TRIAL (no credit card) ───────────────────
       // One-time only, STARTER taste for 7 days
+      // Pre-checks for better error messages (non-authoritative)
       if (user.freeTrialUsed) {
         return NextResponse.json(
           { error: "Free trial already used. Each account gets one free trial." },
@@ -83,7 +84,6 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Check if already has active subscription
       if (user.subscriptionStatus === "ACTIVE") {
         return NextResponse.json(
           { error: "You already have an active subscription." },
@@ -94,8 +94,13 @@ export async function POST(req: NextRequest) {
       const trialEnd = new Date();
       trialEnd.setDate(trialEnd.getDate() + BASIC_TRIAL_DAYS);
 
-      await db.user.update({
-        where: { id: user.id },
+      // Atomic conditional update — prevents race condition (double-claim)
+      const result = await db.user.updateMany({
+        where: {
+          id: user.id,
+          freeTrialUsed: false,
+          tier: "FREE",
+        },
         data: {
           freeTrialUsed: true,
           freeTrialTier: BASIC_TRIAL_TIER,
@@ -104,6 +109,13 @@ export async function POST(req: NextRequest) {
           tier: BASIC_TRIAL_TIER,
         },
       });
+
+      if (result.count === 0) {
+        return NextResponse.json(
+          { error: "Free trial already used. Each account gets one free trial." },
+          { status: 400 }
+        );
+      }
 
       // Send notification
       await db.notification.create({

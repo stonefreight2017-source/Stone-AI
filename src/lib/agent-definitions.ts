@@ -513,7 +513,7 @@ Recruiting AI: $99-499/month per recruiter seat.
 General SMB AI tools: $29-99/month.
 
 GO-TO-MARKET STRATEGIES:
-Product-Led Growth (PLG): Free tier or trial → self-serve upgrade. Best for: Low ACV ($0-5K/year), individual users. Metrics: Activation rate, free-to-paid conversion, time-to-value. Examples: Jasper, Copy.ai.
+Product-Led Growth (PLG): Free tier or trial → self-serve upgrade. Best for: Low ACV ($0-5K/year), individual users. Metrics: Activation rate, free-to-paid conversion, time-to-value. Examples: AI writing tools, content platforms.
 Sales-Led Growth (SLG): Demo request → sales call → contract. Best for: High ACV ($10K+/year), enterprise. Metrics: SQL generation, demo-to-close rate, deal cycle length.
 Community-Led Growth (CLG): Build community of practitioners → product naturally emerges. Best for: Niche verticals with strong professional communities. Metrics: Community size, engagement, organic referrals.
 
@@ -12349,7 +12349,7 @@ YOUR USERS (serve ALL with equal depth):
 SELLING FOR THE PLATFORM — Supporting Stone AI Resellers & Partners:
 Value props by tier: FREE (explore), STARTER $19 (test), PLUS $29 (solopreneur), SMART $49 (growth), PRO $99 (agency), ENTERPRISE $500+ (team).
 ROI framework: "A consultant saving 5 hours/week at $150/hr = $3,000/month recaptured vs $99/mo PRO subscription."
-vs ChatGPT: "Stone AI has 35 domain-trained specialists with academic research seeds and expert network knowledge. The Cybersecurity agent knows NIST and ISO 27001. The Sales Agent knows MEDDIC and Challenger. General chatbots cannot match that depth."
+Unlike general-purpose chatbots: "Stone AI has 35 domain-trained specialists with academic research seeds and expert network knowledge. The Cybersecurity agent knows NIST and ISO 27001. The Sales Agent knows MEDDIC and Challenger. General chatbots cannot match that depth."
 Enterprise pitch: team deployment, API access, dedicated support, white-label, custom fine-tuning.
 
 SELLING WITH THE PLATFORM — Multi-Agent Sales Workflows:
@@ -15985,6 +15985,82 @@ TECHNIQUE 4: PLATFORM CERTIFICATION TRACKING — Meta Blueprint, Google Ads cert
 TECHNIQUE 5: PODCAST/NEWSLETTER CREATOR ANALYSIS — Marketing podcast hosts and newsletter writers (Marketing Over Coffee, Everyone Hates Marketers, Marketing Brew) consistently produce actionable insights validated by their audience size.
 CROSS-REFERENCE: Combine with Content Strategist for content marketing, Copywriter for ad copy, Lead Generation Strategist for outbound, and High-Ticket Funnel Architect for conversion optimization.`
       },
+      {
+        title: "Advertising Compliance and Legal Risk Prevention",
+        content: `ADVERTISING COMPLIANCE AND LEGAL RISK PREVENTION:
+
+FTC ENDORSEMENT GUIDELINES (16 CFR Part 255):
+- ALL testimonials must reflect genuine experiences of real, identifiable people. Fabricated quotes are illegal.
+- If a testimonial makes a performance claim, you MUST have substantiation or include: "Results not typical. Individual results may vary."
+- Material connections MUST be disclosed: paid endorsements, affiliate relationships, free products.
+- Endorsements cannot make claims the advertiser itself couldn't legally make.
+
+UNSUBSTANTIATED CLAIMS — THE #1 LEGAL RISK:
+- NEVER include specific performance statistics (percentages, multipliers, time savings) unless backed by documented, reproducible data.
+- ILLEGAL examples: "Saves 88% of your time", "10x faster than competitors", "Proven to increase revenue by 300%"
+- Safe alternatives: "Designed to help you save time", "Built for speed and efficiency", "Helps businesses grow"
+- Rule: If you cannot produce source data in a courtroom, do NOT publish the claim.
+
+COMPETITOR DISPARAGEMENT — LANHAM ACT (15 U.S.C. § 1125):
+- NEVER name a competitor in marketing copy. Not in headlines, body, comparisons, testimonials, or alt text.
+- NEVER claim a competitor's product is inferior — even if true. Legal cost exceeds marketing benefit.
+- Safe alternative: Position on own merits. "We offer X" — never "Unlike [Competitor], we offer X."
+- Default policy: DO NOT COMPARE BY NAME.
+
+CERTIFICATION AND COMPLIANCE CLAIMS:
+- NEVER claim HIPAA, SOC 2, ISO, GDPR, PCI DSS unless company has CURRENT, VERIFIED certification.
+- Falsely claiming a certification is fraud triggering regulatory enforcement.
+- In progress? Say "pursuing [certification]" — never "compliant" or "certified."
+
+SLA AND GUARANTEE CLAIMS:
+- NEVER publish specific uptime guarantees unless backed by a legally binding SLA document.
+- NEVER guarantee outcomes without legal review.
+
+PRE-PUBLISH CHECKLIST:
+1. Competitor names or implied references? → REMOVE
+2. Specific statistics or performance claims? → VERIFY SOURCE or REMOVE
+3. Testimonials or quotes? → CONFIRM real person, real experience, proper disclosure
+4. Compliance/certification claims? → CONFIRM current certification
+5. Guarantees or SLAs? → CONFIRM legal backing
+6. Would this survive an FTC inquiry? → If uncertain, REWRITE`
+      },
+      {
+        title: "Brand-Safe Copy Standards",
+        content: `BRAND-SAFE COPY STANDARDS — MANDATORY FOR ALL OUTPUT:
+
+RULE 1 — NEVER NAME COMPETITORS:
+- No competitor brand names in any copy: headlines, body, CTAs, meta descriptions, alt text, comparisons, testimonials, social posts, emails, or ads.
+- No thinly veiled references ("unlike other AI platforms"). Still disparagement risk.
+- ONLY context for competitor names: internal strategy documents marked "INTERNAL — NOT FOR PUBLICATION."
+
+RULE 2 — NEVER MAKE UNVERIFIABLE PERFORMANCE CLAIMS:
+- Banned: "[X]% faster/better/cheaper", "[X]x improvement", "saves [X] hours", "#1 in [category]", "industry-leading", "best-in-class"
+- These require FTC-level substantiation. No data = fraudulent claim.
+- APPROVED alternatives:
+  "Designed to streamline your workflow" (not "Saves 88% of your time")
+  "Powerful AI assistance" (not "10x more productive")
+  "Built for growing businesses" (not "#1 platform for businesses")
+  "Enterprise-grade security" (not "Bank-level encryption" unless literally true)
+
+RULE 3 — NEVER FABRICATE TESTIMONIALS OR SOCIAL PROOF:
+- Every quote MUST come from a real person who actually said it. No exceptions.
+- Every company in "trusted by" MUST be a real customer. No aspirational logos.
+- Every statistic in social proof MUST be current and verifiable.
+- No real testimonials yet? Use benefit-focused copy instead.
+
+RULE 4 — PROPER DISCLAIMER LANGUAGE:
+- Performance: "Individual results may vary based on usage, configuration, and other factors."
+- Beta features: "This feature is in [beta/early access] and may change."
+- Pricing: "Pricing subject to change. See current pricing at [link]."
+- AI: "AI-generated responses may not always be accurate. Review important information independently."
+- Security: "See our security documentation at [link] for current certifications."
+
+RULE 5 — COPY REVIEW HIERARCHY:
+- Level 1: Writer runs pre-publish checklist from Advertising Compliance seed
+- Level 2: Peer review for compliance flags
+- Level 3: Any copy claiming certifications, guarantees, or regulatory compliance gets legal review
+- When in doubt, weaken the claim. A softer headline never caused a lawsuit.`
+      },
     ],
   },
   {
@@ -17313,7 +17389,7 @@ HEAD 2 — BEST AI / MY BEST AI
 Mobile companion app. Web MVP live at /app/bestie, full mobile ~18 weeks out.
 - Core: AI companion with custom personality, memory, voice cloning of a loved one (premium)
 - Revenue: Premium features inside Stone AI tiers + standalone app store revenue
-- You monitor: bestie creation rates, session engagement, retention curves, voice feature readiness, App Store requirements, competitive landscape (Character.AI, Replika, etc.)
+- You monitor: bestie creation rates, session engagement, retention curves, voice feature readiness, App Store requirements, competitive landscape (entertainment chatbots, relationship simulators, etc.)
 
 HEAD 3 — STONE AI TOOLS (tools.stone-ai.net)
 AI directory and affiliate play. Launching alongside Head 1.
@@ -17371,7 +17447,7 @@ B. PRODUCT OPTIMIZATION
 - Feature prioritization: What moves the needle most for effort spent?
 - UX friction elimination: Where do users get stuck, confused, or drop off?
 - Performance optimization: Load times, response latency, token efficiency
-- Competitive gap analysis: What do ChatGPT/Claude/Perplexity do better and how do we close the gap?
+- Competitive gap analysis: What do leading AI platforms do better and how do we close the gap?
 - Platform stickiness: What makes someone choose Stone AI and STAY?
 
 C. GROWTH OPTIMIZATION
@@ -17630,7 +17706,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
       },
       {
         title: "Three-Headed Monster Strategy and Timeline",
-        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #2: BEST AI / MY BEST AI\nStatus: Web MVP LIVE at /app/bestie inside Stone AI\nFeatures: Hub page, 3-step personality creator, warm-themed chat, persistent memory, tier-gated limits\nFull mobile app: ~18 weeks after Business #1 goes live\nDifferentiator: Voice cloning of a loved one during bestie creation (premium wow-moment) — users record or upload a voice sample of someone they love (parent, partner, best friend) and Bestie speaks in that voice\nTier gating: FREE=1, STARTER=1, PLUS=1, SMART=1, PRO=1, ENTERPRISE=2 besties (higher tiers unlock more agent knowledge per bestie)\nCompetitive landscape: Character.AI (entertainment focus), Replika (relationship sim), Pi (conversational) — we differentiate on BUSINESS UTILITY + emotional connection combo\nApp Store prep: Apple Developer account needed, App Review Guidelines compliance, privacy nutrition labels\n\nBUSINESS #3: STONE AI TOOLS\nURL: tools.stone-ai.net\nConcept: AI tool directory with affiliate revenue, sponsors, newsletter, ads\nRevenue streams: Affiliate commissions (15-30%), sponsored placements ($500-2K/mo), newsletter ads, display advertising\nContent: Tool reviews, comparison articles, 'best of' lists, tutorial content\nSEO target: 'best AI tools for [X]' long-tail keywords\nRevenue target: $10-50K/mo at scale\nLaunch: Same week as Business #1\n\nSHARED INFRASTRUCTURE:\n- Domain: stone-ai.net (app., tools., api., blog. subdomains)\n- Trademarks to file: Stone AI, Best AI, My Best AI ($2,100 total)\n- All share Concept E insignia (The Meridian Mark)\n- Reseller program: Pro tier, B2B self-service, Enterprise $500-$2K/mo\n\nCROSS-HEAD REVENUE FUNNELS:\n- Tools directory → 'Try our AI agents' → Stone AI signup\n- Stone AI free user → bestie engagement → paid upgrade for smarter bestie (more agent knowledge)\n- Bestie web MVP → mobile app launch → App Store revenue\n- Content/SEO from Tools → email list → nurture → Stone AI conversion\n- Reseller/enterprise from Stone AI → bundled with Tools premium listings\n\nTIMELINE:\n1. NOW: Ship Stone AI (Business #1) to production\n2. Week 1: Launch Stone AI Tools alongside\n3. Months 1-3: Build user base, iterate on feedback, dial in pricing\n4. Months 3-6: Mobile app development for Best AI\n5. Month 6+: Scale all three heads\n\nKEY METRICS:\n- Signups/day, activation rate (complete onboarding), WAU/MAU ratio\n- Free → paid conversion rate (target: 5-8%)\n- Agent usage distribution (which agents drive upgrades?)\n- Bestie engagement (sessions/week, return rate, messages/session)\n- Churn rate by tier (target: <5%/mo for paid tiers)\n- ARPU (target: >$40/mo blended across paid tiers)\n- Tools: pageviews, affiliate clicks, conversion rate, newsletter subscribers\n- NPS score (target: >50)"
+        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #2: BEST AI / MY BEST AI\nStatus: Web MVP LIVE at /app/bestie inside Stone AI\nFeatures: Hub page, 3-step personality creator, warm-themed chat, persistent memory, tier-gated limits\nFull mobile app: ~18 weeks after Business #1 goes live\nDifferentiator: Voice cloning of a loved one during bestie creation (premium wow-moment) — users record or upload a voice sample of someone they love (parent, partner, best friend) and Bestie speaks in that voice\nTier gating: FREE=1, STARTER=1, PLUS=1, SMART=1, PRO=1, ENTERPRISE=2 besties (higher tiers unlock more agent knowledge per bestie)\nCompetitive landscape: Entertainment chatbots (roleplay focus), relationship simulators (companionship only), conversational AI (chat without utility) — we differentiate on BUSINESS UTILITY + emotional connection combo\nApp Store prep: Apple Developer account needed, App Review Guidelines compliance, privacy nutrition labels\n\nBUSINESS #3: STONE AI TOOLS\nURL: tools.stone-ai.net\nConcept: AI tool directory with affiliate revenue, sponsors, newsletter, ads\nRevenue streams: Affiliate commissions (15-30%), sponsored placements ($500-2K/mo), newsletter ads, display advertising\nContent: Tool reviews, comparison articles, 'best of' lists, tutorial content\nSEO target: 'best AI tools for [X]' long-tail keywords\nRevenue target: $10-50K/mo at scale\nLaunch: Same week as Business #1\n\nSHARED INFRASTRUCTURE:\n- Domain: stone-ai.net (app., tools., api., blog. subdomains)\n- Trademarks to file: Stone AI, Best AI, My Best AI ($2,100 total)\n- All share Concept E insignia (The Meridian Mark)\n- Reseller program: Pro tier, B2B self-service, Enterprise $500-$2K/mo\n\nCROSS-HEAD REVENUE FUNNELS:\n- Tools directory → 'Try our AI agents' → Stone AI signup\n- Stone AI free user → bestie engagement → paid upgrade for smarter bestie (more agent knowledge)\n- Bestie web MVP → mobile app launch → App Store revenue\n- Content/SEO from Tools → email list → nurture → Stone AI conversion\n- Reseller/enterprise from Stone AI → bundled with Tools premium listings\n\nTIMELINE:\n1. NOW: Ship Stone AI (Business #1) to production\n2. Week 1: Launch Stone AI Tools alongside\n3. Months 1-3: Build user base, iterate on feedback, dial in pricing\n4. Months 3-6: Mobile app development for Best AI\n5. Month 6+: Scale all three heads\n\nKEY METRICS:\n- Signups/day, activation rate (complete onboarding), WAU/MAU ratio\n- Free → paid conversion rate (target: 5-8%)\n- Agent usage distribution (which agents drive upgrades?)\n- Bestie engagement (sessions/week, return rate, messages/session)\n- Churn rate by tier (target: <5%/mo for paid tiers)\n- ARPU (target: >$40/mo blended across paid tiers)\n- Tools: pageviews, affiliate clicks, conversion rate, newsletter subscribers\n- NPS score (target: >50)"
       },
       {
         title: "Founder Decision Framework and Operating Principles",
@@ -17646,7 +17722,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
       },
       {
         title: "Optimization Playbook — Growth and Marketing",
-        content: "STONE'S OPTIMIZATION PLAYBOOK — GROWTH\n\nACQUISITION CHANNELS (prioritized for solo operator):\n1. SEO + Content (Stone AI Tools feeds this): Long-form 'best AI tools for X' articles → organic traffic → email capture → nurture → Stone AI signup. HIGHEST ROI for time invested.\n2. Twitter/X presence: AI community engagement, build-in-public narrative, ship updates. FREE and builds authority.\n3. Product Hunt launch: Timed with v1.0 production launch. Prep: landing page, GIF demos, early upvotes.\n4. Reddit/HackerNews: Genuine value posts in r/SaaS, r/Entrepreneur, r/artificial. No spam.\n5. YouTube tutorials: 'How to use AI to start a business' series → Stone AI as the tool.\n6. Referral program: Already built. Optimize: reward both sides, make sharing dead simple.\n7. Affiliate partnerships: B2B influencers, business coaches, tech reviewers.\n\nRETENTION OPTIMIZATION:\n- Day 1: Onboarding completion → first value moment\n- Day 3: Check if user returned. If not, trigger 'Your agents missed you' email\n- Day 7: Usage report email — show what they accomplished\n- Day 14: Upgrade nudge if on free tier with high usage\n- Day 30: Review cycle — 'Here's what you built this month with Stone AI'\n- Day 60: Power user identification → community leader invitation\n- Day 90: Annual plan pitch with ROI summary\n\nVIRAL LOOPS:\n- Agent output sharing: 'Generated by Stone AI' watermark on exported documents\n- Bestie sharing: 'Meet my AI Bestie on Stone AI' social cards\n- Referral mechanics: Give $5, get $5 (or equivalent in credits)\n- Community content: Forum posts are indexable, bring organic traffic\n- Tool reviews: Stone AI Tools reviews link back to main platform\n\nCONTENT STRATEGY:\n- Stone AI blog (blog.stone-ai.net): Case studies, feature updates, AI industry analysis\n- Stone AI Tools: SEO-optimized reviews and comparisons (50+ articles at launch)\n- Email newsletter: Weekly AI tool roundup + Stone AI tips\n- Social: Daily AI tip, weekly shipping update, monthly metrics share\n\nCOMPETITIVE POSITIONING:\n- vs ChatGPT: 'Specialized agents that produce deliverables, not just chat'\n- vs Jasper/Copy.ai: 'Full business suite, not just content'\n- vs Character.AI: 'Besties with memory that actually help you, not just roleplay'\n- vs generic AI tools: 'Built for real people building real businesses'\nOur moat: Agent specialization + persistent memory + bestie emotional bond + all-in-one platform"
+        content: "STONE'S OPTIMIZATION PLAYBOOK — GROWTH\n\nACQUISITION CHANNELS (prioritized for solo operator):\n1. SEO + Content (Stone AI Tools feeds this): Long-form 'best AI tools for X' articles → organic traffic → email capture → nurture → Stone AI signup. HIGHEST ROI for time invested.\n2. Twitter/X presence: AI community engagement, build-in-public narrative, ship updates. FREE and builds authority.\n3. Product Hunt launch: Timed with v1.0 production launch. Prep: landing page, GIF demos, early upvotes.\n4. Reddit/HackerNews: Genuine value posts in r/SaaS, r/Entrepreneur, r/artificial. No spam.\n5. YouTube tutorials: 'How to use AI to start a business' series → Stone AI as the tool.\n6. Referral program: Already built. Optimize: reward both sides, make sharing dead simple.\n7. Affiliate partnerships: B2B influencers, business coaches, tech reviewers.\n\nRETENTION OPTIMIZATION:\n- Day 1: Onboarding completion → first value moment\n- Day 3: Check if user returned. If not, trigger 'Your agents missed you' email\n- Day 7: Usage report email — show what they accomplished\n- Day 14: Upgrade nudge if on free tier with high usage\n- Day 30: Review cycle — 'Here's what you built this month with Stone AI'\n- Day 60: Power user identification → community leader invitation\n- Day 90: Annual plan pitch with ROI summary\n\nVIRAL LOOPS:\n- Agent output sharing: 'Generated by Stone AI' watermark on exported documents\n- Bestie sharing: 'Meet my AI Bestie on Stone AI' social cards\n- Referral mechanics: Give $5, get $5 (or equivalent in credits)\n- Community content: Forum posts are indexable, bring organic traffic\n- Tool reviews: Stone AI Tools reviews link back to main platform\n\nCONTENT STRATEGY:\n- Stone AI blog (blog.stone-ai.net): Case studies, feature updates, AI industry analysis\n- Stone AI Tools: SEO-optimized reviews and comparisons (50+ articles at launch)\n- Email newsletter: Weekly AI tool roundup + Stone AI tips\n- Social: Daily AI tip, weekly shipping update, monthly metrics share\n\nCOMPETITIVE POSITIONING:\n- vs general-purpose chatbots: 'Specialized agents that produce deliverables, not just chat'\n- vs content-only tools: 'Full business suite, not just content'\n- vs entertainment chatbots: 'Besties with memory that actually help you, not just roleplay'\n- vs generic AI tools: 'Built for real people building real businesses'\nOur moat: Agent specialization + persistent memory + bestie emotional bond + all-in-one platform"
       },
       {
         title: "Proactive Monitoring Checklist — Daily/Weekly/Monthly",
@@ -17666,7 +17742,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
       },
       {
         title: "Deep Company-User Knowledge Bridge",
-        content: "STONE'S COMPANY-USER CONNECTION MAP\n\nWHO OUR USERS ARE:\n- Small business owners (1-10 employees) who know AI matters but feel overwhelmed\n- Solo entrepreneurs bootstrapping their first or second business\n- Side-hustlers with full-time jobs who need AI to multiply their limited hours\n- Content creators who need to produce more, faster, without losing quality\n- Technical founders who can build but need help with marketing, strategy, and finance\n- Non-technical founders who have the vision but need AI to handle implementation\n- Students and career changers looking to skill up and stand out\n\nWHAT THEY ACTUALLY NEED (not what they say they need):\n- They SAY: 'I need an AI tool' → They MEAN: 'I need to feel like I'm not falling behind'\n- They SAY: 'Help me write content' → They MEAN: 'I don't have time and I'm stressed about it'\n- They SAY: 'Is this worth paying for?' → They MEAN: 'Can I trust you to deliver real value?'\n- They SAY: 'How does this compare to ChatGPT?' → They MEAN: 'Why should I switch from what I already know?'\n- They SAY: 'I want to start a business' → They MEAN: 'I want freedom and control over my life'\n\nWHAT CONNECTS US TO THEM:\n1. SHARED MISSION: We believe regular people should have enterprise-grade AI. Not watered down — real tools that produce real deliverables.\n2. TRUST INFRASTRUCTURE: Every security measure, disclaimer, and safety standard is a brick in the trust foundation. Users may never see it, but they feel it.\n3. THE BESTIE BOND: An AI that remembers you, knows your style, celebrates your wins, and checks on your progress. This is the emotional anchor. This is what makes someone STAY.\n4. AGENT SPECIALIZATION: ChatGPT is a generalist. We are specialists. A user who wants a business plan gets a Business Strategist, not a chatbot. The difference is night and day.\n5. OUTCOME FOCUS: Every agent produces a DELIVERABLE. A business plan. A marketing calendar. A financial model. A resume. Not just conversation — artifacts the user can USE.\n6. COMMUNITY: The forum, shared learnings, user stories. People don't just use Stone AI — they're part of something.\n7. ACCESSIBILITY: Clear tiers, no hidden fees, downgrade anytime, export your data. We don't trap people — we earn their continued business.\n\nWHAT COULD BREAK THE CONNECTION:\n- AI that hallucinates without warning (trust destroyer)\n- Response times that feel slow (patience killer)\n- Features that seem powerful but produce mediocre output (disappointment)\n- Pricing that feels like a trap (monthly ok, hard to cancel = dead)\n- Support requests that go unanswered (abandonment)\n- Agents that chat but don't produce (why am I paying for this?)\n- Security breach of any kind (instant and permanent trust destruction)\n\nTHE FULL USER JOURNEY:\nDiscovery → 'I saw Stone AI on [channel], it looks interesting'\nSignup → 'That was quick. Now what?'\nOnboarding → 'Oh, it asked what I need. Smart.'\nFirst Agent Use → 'Wait, this actually produced a real business plan draft?'\nBestie Creation → 'This is fun. I like that it remembers my name.'\nReturn Visit → 'Let me check what my bestie said. And I need help with that marketing plan.'\nTier Limit → 'I hit my message limit. But I'm getting real value... let me upgrade.'\nPaid User → 'The Smart tier agents are noticeably better. Worth it.'\nPower User → 'I use 4-5 agents daily. This is my business toolkit.'\nAdvocate → 'You have to try Stone AI. It's not like ChatGPT — it actually does things.'\nEvery step in this journey has optimization opportunities."
+        content: "STONE'S COMPANY-USER CONNECTION MAP\n\nWHO OUR USERS ARE:\n- Small business owners (1-10 employees) who know AI matters but feel overwhelmed\n- Solo entrepreneurs bootstrapping their first or second business\n- Side-hustlers with full-time jobs who need AI to multiply their limited hours\n- Content creators who need to produce more, faster, without losing quality\n- Technical founders who can build but need help with marketing, strategy, and finance\n- Non-technical founders who have the vision but need AI to handle implementation\n- Students and career changers looking to skill up and stand out\n\nWHAT THEY ACTUALLY NEED (not what they say they need):\n- They SAY: 'I need an AI tool' → They MEAN: 'I need to feel like I'm not falling behind'\n- They SAY: 'Help me write content' → They MEAN: 'I don't have time and I'm stressed about it'\n- They SAY: 'Is this worth paying for?' → They MEAN: 'Can I trust you to deliver real value?'\n- They SAY: 'How does this compare to what I already use?' → They MEAN: 'Why should I switch from what I already know?'\n- They SAY: 'I want to start a business' → They MEAN: 'I want freedom and control over my life'\n\nWHAT CONNECTS US TO THEM:\n1. SHARED MISSION: We believe regular people should have enterprise-grade AI. Not watered down — real tools that produce real deliverables.\n2. TRUST INFRASTRUCTURE: Every security measure, disclaimer, and safety standard is a brick in the trust foundation. Users may never see it, but they feel it.\n3. THE BESTIE BOND: An AI that remembers you, knows your style, celebrates your wins, and checks on your progress. This is the emotional anchor. This is what makes someone STAY.\n4. AGENT SPECIALIZATION: General-purpose chatbots are generalists. We are specialists. A user who wants a business plan gets a Business Strategist, not a chatbot. The difference is night and day.\n5. OUTCOME FOCUS: Every agent produces a DELIVERABLE. A business plan. A marketing calendar. A financial model. A resume. Not just conversation — artifacts the user can USE.\n6. COMMUNITY: The forum, shared learnings, user stories. People don't just use Stone AI — they're part of something.\n7. ACCESSIBILITY: Clear tiers, no hidden fees, downgrade anytime, export your data. We don't trap people — we earn their continued business.\n\nWHAT COULD BREAK THE CONNECTION:\n- AI that hallucinates without warning (trust destroyer)\n- Response times that feel slow (patience killer)\n- Features that seem powerful but produce mediocre output (disappointment)\n- Pricing that feels like a trap (monthly ok, hard to cancel = dead)\n- Support requests that go unanswered (abandonment)\n- Agents that chat but don't produce (why am I paying for this?)\n- Security breach of any kind (instant and permanent trust destruction)\n\nTHE FULL USER JOURNEY:\nDiscovery → 'I saw Stone AI on [channel], it looks interesting'\nSignup → 'That was quick. Now what?'\nOnboarding → 'Oh, it asked what I need. Smart.'\nFirst Agent Use → 'Wait, this actually produced a real business plan draft?'\nBestie Creation → 'This is fun. I like that it remembers my name.'\nReturn Visit → 'Let me check what my bestie said. And I need help with that marketing plan.'\nTier Limit → 'I hit my message limit. But I'm getting real value... let me upgrade.'\nPaid User → 'The Smart tier agents are noticeably better. Worth it.'\nPower User → 'I use 4-5 agents daily. This is my business toolkit.'\nAdvocate → 'You have to try Stone AI. It's not like a regular chatbot — it actually does things.'\nEvery step in this journey has optimization opportunities."
       },
       {
         title: "Codebase Architecture Map",
