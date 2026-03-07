@@ -1,6 +1,7 @@
 "use client";
 
-import { PanelLeft } from "lucide-react";
+import { PanelLeft, Home } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Sidebar } from "./Sidebar";
 import { useAppStore } from "@/store/app-store";
@@ -16,6 +17,7 @@ interface AppShellProps {
 
 export function AppShell({ children, userTier, userBadges = [], backdropTheme = "none" }: AppShellProps) {
   const { sidebarOpen, toggleSidebar } = useAppStore();
+  const router = useRouter();
 
   return (
     <div className="relative flex h-screen bg-zinc-950 text-white">
@@ -47,9 +49,21 @@ export function AppShell({ children, userTier, userBadges = [], backdropTheme = 
             >
               <PanelLeft className="h-4 w-4" />
             </Button>
-            <span className="ml-2 text-sm font-medium text-zinc-300">
+            <span
+              className="ml-2 text-sm font-medium text-zinc-300 cursor-pointer hover:text-white transition-colors"
+              onClick={() => router.push("/")}
+            >
               Stone AI
             </span>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Home"
+              className="h-8 w-8 text-zinc-400 hover:text-white ml-auto"
+              onClick={() => router.push("/")}
+            >
+              <Home className="h-4 w-4" />
+            </Button>
           </div>
         )}
 

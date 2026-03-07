@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
-import { Plus, Settings, CreditCard, PanelLeftClose, Users, HelpCircle, Bell, Sparkles, Heart, Compass } from "lucide-react";
+import { Plus, Settings, CreditCard, PanelLeftClose, Users, HelpCircle, Bell, Sparkles, Heart, Compass, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
@@ -47,7 +47,7 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
     <div className="flex flex-col h-full bg-zinc-900 border-r border-zinc-800">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
           <Insignia size={10} showPills={false} />
           <TierBadge tier={userTier} />
         </div>
@@ -101,6 +101,14 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
 
       {/* Footer Nav */}
       <div className="p-3 space-y-1">
+        <Button
+          variant="ghost"
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
+          onClick={() => router.push("/")}
+        >
+          <Home className="h-4 w-4" />
+          Home
+        </Button>
         <Button
           variant="ghost"
           className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
