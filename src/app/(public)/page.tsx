@@ -996,7 +996,7 @@ export default function LandingPage() {
             <ul className="space-y-2 text-sm text-zinc-500">
               <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-              <li><Link href="mailto:support@stone-ai.net" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><a href="mailto:support@stone-ai.net" className="hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
           <div>

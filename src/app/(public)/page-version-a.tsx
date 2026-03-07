@@ -492,7 +492,7 @@ export default function LandingPage() {
             <p className="text-xs font-semibold text-zinc-400 mb-2">Company</p>
             <ul className="space-y-1.5 text-xs text-zinc-600">
               <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
-              <li><Link href="mailto:support@stone-ai.net" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><a href="mailto:support@stone-ai.net" className="hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
           <div>
