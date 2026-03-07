@@ -82,8 +82,8 @@ export interface TierConfig {
  * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
  * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
  * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
- * SMART    | Executive    | $99.99  | 38     | 30/day           | ~$27            | 73%
- * PRO      | Reseller     | $200    | 42     | 50/day           | ~$55            | 73%
+ * SMART    | Executive    | $99.99  | 39     | 30/day           | ~$27            | 73%
+ * PRO      | Reseller     | $200    | 43     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
  *
@@ -248,7 +248,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 38,
+    agentCount: 39,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_000,
@@ -294,7 +294,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 200,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 42,
+    agentCount: 43,
     tagline: "Full platform access with reseller capabilities",
     limits: {
       messagesPerDay: 3_000,
@@ -468,7 +468,7 @@ export function mapPriceToTier(priceId: string): Tier | null {
  * SMART agents: available to PLUS (Growth) and above
  * PRO agents: available to PRO (Reseller) and above only
  *
- * Result: FREE=4, STARTER=16, PLUS=30, SMART=38, PRO=42 agents
+ * Result: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=43 agents
  */
 export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier): boolean {
   const userPriority = TIER_CONFIG[userTier].priority;

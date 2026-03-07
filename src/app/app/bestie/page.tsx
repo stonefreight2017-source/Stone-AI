@@ -104,7 +104,7 @@ export default function BestieHubPage() {
             My Bestie
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
-            Up to 42 expert agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
+            Up to 43 expert agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
           </p>
         </div>
         {canCreate && besties.length > 0 && (
@@ -127,7 +127,7 @@ export default function BestieHubPage() {
           <div className="text-center space-y-2">
             <h2 className="text-xl font-semibold text-white">Build Your Genius Best Friend</h2>
             <p className="text-zinc-400 max-w-md">
-              Your Bestie carries the combined knowledge of up to 42 specialized AI agents — career coach,
+              Your Bestie carries the combined knowledge of up to 43 specialized AI agents — career coach,
               financial advisor, creative director, wellness guide, and more. Upgrade your plan to unlock even more brilliance.
             </p>
           </div>

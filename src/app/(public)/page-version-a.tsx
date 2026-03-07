@@ -78,14 +78,14 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <Badge className="mb-4 bg-amber-500/10 text-amber-400 border-amber-500/20 text-xs">
-                42 AI agents. 1 platform. $0 to start.
+                43 AI agents. 1 platform. $0 to start.
               </Badge>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-4">
                 AI that works<br />
                 <span className="text-amber-400">for</span> you.
               </h1>
               <p className="text-lg text-zinc-400 mb-6 leading-relaxed max-w-md">
-                Local GPU inference. 42 specialist agents. Persistent memory.
+                Local GPU inference. 43 specialist agents. Persistent memory.
                 Your data stays private by default.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -104,7 +104,7 @@ export default function LandingPage() {
               {[
                 { value: "<100ms", label: "Local response", desc: "GPU inference" },
                 { value: "70B", label: "Parameters", desc: "Open-weight" },
-                { value: "42", label: "Agents", desc: "Every department" },
+                { value: "43", label: "Agents", desc: "Every department" },
                 { value: "$0", label: "Local mode", desc: "Unlimited msgs" },
               ].map((s) => (
                 <div key={s.label} className="rounded-xl bg-zinc-800/60 border border-zinc-700/40 p-4 sm:p-5">
@@ -205,7 +205,7 @@ export default function LandingPage() {
 
         {/* TAB 2: Your Team */}
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3">42 specialists. One platform.</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-3">43 specialists. One platform.</h2>
           <p className="text-zinc-500 mb-10 max-w-lg">
             Domain experts with persistent memory. They produce deliverables, not chat responses.
           </p>
@@ -437,7 +437,7 @@ export default function LandingPage() {
       <section className="px-4 sm:px-6 py-20 sm:py-28 max-w-3xl mx-auto text-center">
         <AnimateOnScroll>
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            42 agents.<br />$0 to start.
+            43 agents.<br />$0 to start.
           </h2>
           <p className="text-zinc-500 mb-8">No credit card. No trial. No catch.</p>
         </AnimateOnScroll>

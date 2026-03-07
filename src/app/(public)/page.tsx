@@ -117,7 +117,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-            42 AI specialists that think so you don't have to. Your data stays yours.
+            43 AI specialists that think so you don't have to. Your data stays yours.
           </p>
           <p className="text-base text-zinc-500 max-w-md mx-auto mb-6">
             One platform. Instant responses. Starting at $0.
@@ -156,7 +156,7 @@ export default function LandingPage() {
             { value: "<100ms", label: "Response time", sub: "Local mode" },
             { value: "70B", label: "Parameters", sub: "Open-weight model" },
             { value: "$0", label: "Local messages", sub: "Unlimited" },
-            { value: "42", label: "AI thinkers", sub: "So you don't have to" },
+            { value: "43", label: "AI thinkers", sub: "So you don't have to" },
           ].map((s) => (
             <StaggerCard key={s.label}>
               <div className="text-center p-4 sm:p-5 rounded-xl bg-zinc-800/50 border border-zinc-700/50">
@@ -308,7 +308,7 @@ export default function LandingPage() {
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
           <ScrollSection>
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              42 specialists. <span className="text-zinc-400">Zero salaries.</span>
+              43 specialists. <span className="text-zinc-400">Zero salaries.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-4 max-w-2xl mx-auto">
               Imagine walking into an office where every desk is staffed — marketing, legal, finance,
@@ -421,12 +421,12 @@ export default function LandingPage() {
                 AI Right Hand
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Not a chatbot. <span className="text-amber-400">Up to 42 experts in one best friend.</span>
+                Not a chatbot. <span className="text-amber-400">Up to 43 experts in one best friend.</span>
               </h2>
               <p className="text-zinc-400 max-w-xl mx-auto mb-3">
-                Powered by up to 42 specialized AI agents — career strategist,
+                Powered by up to 43 specialized AI agents — career strategist,
                 financial advisor, fitness coach, creative director, and more. Your Bestie{`'`}s knowledge scales with your plan —
-                from 4 expert agents on Free to the full roster of 42 on Executive. Upgrade your plan, upgrade your Bestie{`'`}s brain.
+                from 4 expert agents on Free to the full roster of 43 on Executive. Upgrade your plan, upgrade your Bestie{`'`}s brain.
               </p>
               <p className="text-zinc-500 max-w-lg mx-auto text-sm">
                 Pick 2 communication styles and she blends them into someone uniquely yours.
@@ -557,7 +557,7 @@ export default function LandingPage() {
           <AnimateOnScroll>
             <div className="text-center">
               <p className="text-sm text-zinc-500 mb-2">
-                Three steps and you have a genius best friend — powered by up to 42 expert agents — who knows your name, your goals, and your standards.
+                Three steps and you have a genius best friend — powered by up to 43 expert agents — who knows your name, your goals, and your standards.
               </p>
               <p className="text-xs text-zinc-600 mb-4">
                 Built on ICF coaching ethics, crisis protocol, and anti-dependency guardrails. She{`'`}ll push you toward real human connections — not more screen time. Trust you can feel.
@@ -679,7 +679,7 @@ export default function LandingPage() {
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { value: "88%", label: "Time saved", sub: "back in your week" },
-              { value: "42", label: "AI thinkers", sub: "cognitive heavy-lifting handled" },
+              { value: "43", label: "AI thinkers", sub: "cognitive heavy-lifting handled" },
               { value: "$0", label: "Local cost", sub: "ask all day, pay nothing" },
               { value: "24/7", label: "Available", sub: "3am ideas welcome" },
             ].map((s) => (
@@ -808,7 +808,7 @@ export default function LandingPage() {
 
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             {[
-              { icon: Terminal, title: "REST API", desc: "Drop a few lines of code and your app is powered by 42 AI agents. Any language, any framework.", color: "text-emerald-400" },
+              { icon: Terminal, title: "REST API", desc: "Drop a few lines of code and your app is powered by 43 AI agents. Any language, any framework.", color: "text-emerald-400" },
               { icon: Shield, title: "White-Label", desc: "Your clients see your brand, your logo, your pricing. We stay invisible.", color: "text-amber-400" },
               { icon: Target, title: "$200/mo Flat", desc: "Charge your clients $500. Pay us $200. Keep the difference. No per-token surprises.", color: "text-blue-400" },
             ].map((item) => (
@@ -854,7 +854,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">
-              42 agents that think so you don{`'`}t have to. A bestie who speaks your language — literally.
+              43 agents that think so you don{`'`}t have to. A bestie who speaks your language — literally.
               A community that has your back. And it starts at $0.
             </p>
           </AnimateOnScroll>
@@ -863,7 +863,7 @@ export default function LandingPage() {
           <AnimateOnScroll delay={0.25}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12 max-w-2xl mx-auto">
               {[
-                { label: "42 AI Agents", live: true },
+                { label: "43 AI Agents", live: true },
                 { label: "AI Bestie", live: true },
                 { label: "Community", live: true },
                 { label: "API Access", live: true },
@@ -935,7 +935,7 @@ export default function LandingPage() {
                   <Heart className="h-5 w-5 text-amber-400" />
                   <h3 className="text-lg font-semibold text-white">AI Bestie</h3>
                 </div>
-                <p className="text-sm text-zinc-400 mb-3">Powered by up to 42 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 42 on Executive.</p>
+                <p className="text-sm text-zinc-400 mb-3">Powered by up to 43 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 43 on Executive.</p>
                 <ul className="space-y-2 text-sm text-zinc-400">
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Persistent memory across sessions</li>
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice chat in 6 languages</li>

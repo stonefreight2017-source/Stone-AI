@@ -37,9 +37,9 @@ export default function AboutPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">42 AI Specialist Agents</h2>
+            <h2 className="text-lg font-semibold text-white">43 AI Specialist Agents</h2>
             <p>
-              Stone AI provides 42 purpose-built AI agents spanning every major business department —
+              Stone AI provides 43 purpose-built AI agents spanning every major business department —
               marketing, sales, finance, legal, HR, operations, engineering, customer support, strategy,
               and more. Each agent carries domain-specific knowledge and is designed to deliver
               actionable guidance, not generic responses. Pick the specialist you need, ask your

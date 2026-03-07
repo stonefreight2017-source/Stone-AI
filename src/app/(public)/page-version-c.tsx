@@ -90,14 +90,14 @@ export default function LandingPage() {
 
         <HeroSection>
           <Badge className="mb-6 bg-amber-900/50 text-amber-300 border-amber-800">
-            <Activity className="h-3 w-3 mr-1" /> 42 AI agents. Local inference. Zero data leaks.
+            <Activity className="h-3 w-3 mr-1" /> 43 AI agents. Local inference. Zero data leaks.
           </Badge>
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight mb-6">
             You had the <span className="text-amber-400">idea</span>.
             <br />Now meet the <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">team</span>.
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-            While others debate whether AI replaces jobs, your 42-agent team is already
+            While others debate whether AI replaces jobs, your 43-agent team is already
             writing proposals, building strategies, and closing deals.
           </p>
           <p className="text-lg text-zinc-500 max-w-xl mx-auto mb-10">
@@ -277,7 +277,7 @@ export default function LandingPage() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    "42 agents remember your business forever",
+                    "43 agents remember your business forever",
                     "One platform for proposals, code, marketing",
                     "Unlimited local inference — $0 per message",
                     "Sub-100ms — faster than you can blink",
@@ -386,10 +386,10 @@ export default function LandingPage() {
             <div className="text-center mb-16">
               <p className="text-sm text-zinc-500 uppercase tracking-widest mb-4">Chapter 4: Watch It Work</p>
               <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">
-                <Bot className="h-3 w-3 mr-1" /> 42 Expert AI Agents
+                <Bot className="h-3 w-3 mr-1" /> 43 Expert AI Agents
               </Badge>
               <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
-                42 specialists.<br />
+                43 specialists.<br />
                 <span className="text-amber-400">Zero salaries.</span>
               </h2>
               <p className="text-zinc-400 max-w-2xl mx-auto">
@@ -518,7 +518,7 @@ export default function LandingPage() {
 
           {/* Departments */}
           <ScrollSection>
-            <h3 className="text-2xl font-bold text-center mb-8">All 42 agents, organized by department</h3>
+            <h3 className="text-2xl font-bold text-center mb-8">All 43 agents, organized by department</h3>
           </ScrollSection>
           <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {[
@@ -848,7 +848,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6">
-              42 agents that know your business. A Bestie that knows you.
+              43 agents that know your business. A Bestie that knows you.
               Infrastructure that keeps your data yours. A community of builders who move first.
             </p>
           </AnimateOnScroll>
@@ -863,7 +863,7 @@ export default function LandingPage() {
           <AnimateOnScroll delay={0.3}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 max-w-3xl mx-auto">
               {[
-                { label: "42 AI Agents", status: "Live" },
+                { label: "43 AI Agents", status: "Live" },
                 { label: "AI Bestie", status: "Live" },
                 { label: "Community Forum", status: "Live" },
                 { label: "API Access", status: "Live" },

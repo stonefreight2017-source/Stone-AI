@@ -9,7 +9,7 @@ const upcomingPosts = [
     category: "Privacy & Security",
   },
   {
-    title: "Meet Your 42 AI Specialists",
+    title: "Meet Your 43 AI Specialists",
     description:
       "A deep dive into the specialized agents powering Stone AI — from legal review to marketing strategy.",
     category: "Product",

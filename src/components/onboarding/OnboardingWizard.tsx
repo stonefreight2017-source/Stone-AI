@@ -328,7 +328,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           {/* What you get — plain English */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
             {[
-              { icon: Bot, label: "Your AI Team", desc: "42 specialists that handle marketing, finance, writing, strategy, coding, and more — like having a team on call 24/7" },
+              { icon: Bot, label: "Your AI Team", desc: "43 specialists that handle marketing, finance, writing, strategy, coding, and more — like having a team on call 24/7" },
               { icon: Heart, label: "Your AI Bestie", desc: "Your AI right hand — custom personality, total memory, keeps you accountable and gets things done" },
               { icon: Briefcase, label: "Your Business Hub", desc: "Plan, build, market, and scale your business — all from one place, no switching between apps" },
             ].map((item) => (
@@ -486,7 +486,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           </div>
 
           <p className="text-xs text-zinc-600">
-            You can access all 42 agents anytime from the sidebar.
+            You can access all 43 agents anytime from the sidebar.
           </p>
 
           <div className="flex items-center justify-between">
@@ -600,7 +600,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           {[
             { icon: Bot, label: "Start a conversation", desc: "Click \"New Chat\" in the sidebar, pick any agent, and just start talking. Ask it anything about your business, your idea, or what you need help with." },
             { icon: Heart, label: "Build your Bestie", desc: "Go to \"My Bestie\" in the sidebar to create your AI right hand. It remembers everything, tracks your goals, and holds you accountable." },
-            { icon: Sparkles, label: "Browse all agents", desc: "Click \"Discover\" to see all 42 AI specialists organized by category. Try a few — each one is trained for different tasks." },
+            { icon: Sparkles, label: "Browse all agents", desc: "Click \"Discover\" to see all 43 AI specialists organized by category. Try a few — each one is trained for different tasks." },
             { icon: Briefcase, label: "Use agents together", desc: "Start with the Business Strategist for your plan, then the Marketing Strategist for promotion, then the Content Writer for copy. They work together through you." },
           ].map((tip) => (
             <div key={tip.label} className="flex items-start gap-3 p-3 rounded-lg bg-zinc-900/40">

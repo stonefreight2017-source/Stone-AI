@@ -98,7 +98,7 @@ export default function LandingPage() {
         <HeroSection>
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-8">
             <Activity className="h-3.5 w-3.5" />
-            42 AI agents. Local inference. Zero data leaks.
+            43 AI agents. Local inference. Zero data leaks.
           </div>
 
           <h1 className="text-5xl sm:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
@@ -110,7 +110,7 @@ export default function LandingPage() {
 
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
             While others debate whether AI will replace jobs, your AI team is already writing proposals,
-            building strategies, and closing deals. 42 specialists. One platform. Instant.
+            building strategies, and closing deals. 43 specialists. One platform. Instant.
           </p>
           <p className="text-lg text-zinc-600 max-w-xl mx-auto mb-10">
             The companies that move first don&apos;t compete. They dominate.
@@ -314,7 +314,7 @@ export default function LandingPage() {
                   </div>
                   <div className="space-y-3">
                     {[
-                      "42 agents remember your business forever",
+                      "43 agents remember your business forever",
                       "One platform — proposals, code, marketing, ops",
                       "Unlimited local inference — $0 per message",
                       "Sub-100ms response — faster than you can blink",
@@ -422,7 +422,7 @@ export default function LandingPage() {
             <div className="text-center mb-16">
               <p className="text-xs text-blue-400/60 uppercase tracking-[0.3em] mb-4">Your AI Workforce</p>
               <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
-                42 specialists.<br />
+                43 specialists.<br />
                 <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Zero salaries.</span>
               </h2>
               <p className="text-zinc-500 max-w-2xl mx-auto">
@@ -605,7 +605,7 @@ export default function LandingPage() {
             <div className="text-center">
               <Button asChild size="lg" className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold text-lg px-8">
                 <Link href="/sign-up">
-                  Deploy All 42 Agents <ArrowRight className="ml-2 h-5 w-5" />
+                  Deploy All 43 Agents <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
             </div>
@@ -866,7 +866,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6">
-              42 AI agents that know your business. A companion that knows you.
+              43 AI agents that know your business. A companion that knows you.
               Infrastructure that keeps your data yours. A community of builders who move first.
             </p>
           </AnimateOnScroll>
@@ -881,7 +881,7 @@ export default function LandingPage() {
           <AnimateOnScroll delay={0.3}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-14 max-w-3xl mx-auto">
               {[
-                { label: "42 AI Agents", status: "ONLINE" },
+                { label: "43 AI Agents", status: "ONLINE" },
                 { label: "AI Bestie", status: "ONLINE" },
                 { label: "Community", status: "ONLINE" },
                 { label: "API Access", status: "ONLINE" },

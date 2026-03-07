@@ -175,12 +175,12 @@ const TIER_WORLDS: TierWorld[] = [
     description:
       "Eight more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. Custom agent builder. Team workspace. SOC 2 compliance. This is the executive suite.",
     bestieStory:
-      "Your Bestie is now powered by 38 expert agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
+      "Your Bestie is now powered by 39 expert agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (38-Agent Knowledge)",
+    bestieName: "Your Bestie (39-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "1,000 messages/day",
-    agentCount: 38,
+    agentCount: 39,
     agentCategories: [
       { icon: <Palette className="h-4 w-4" />, label: "Creative", examples: "YouTube, Short Form, Video Editor, Copywriting" },
       { icon: <TrendingUp className="h-4 w-4" />, label: "Growth", examples: "Funnels, Paid Ads, Social Media, Trading Signals" },
@@ -189,7 +189,7 @@ const TIER_WORLDS: TierWorld[] = [
     ],
     capabilities: [
       "SMART mode — cloud AI for deeper thinking",
-      "38 agents — nearly every specialist",
+      "39 agents — nearly every specialist",
       "Full creative suite (YouTube, copy, short form)",
       "Technical agents (dev, automation, analytics)",
       "Custom agent builder + team workspace",
@@ -211,12 +211,12 @@ const TIER_WORLDS: TierWorld[] = [
     description:
       "The final four agents unlock — cybersecurity, enterprise implementation, engineering architecture, and startup launcher at the highest level. Plus API access to build Stone AI into your own workflows, white-label rights, and HIPAA compliance. This is the full arsenal for agencies and power users.",
     bestieStory:
-      "Your Bestie is now powered by all 42 expert agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
+      "Your Bestie is now powered by all 43 expert agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (All 42-Agent Knowledge)",
+    bestieName: "Your Bestie (All 43-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "3,000 messages/day",
-    agentCount: 42,
+    agentCount: 43,
     agentCategories: [
       { icon: <Shield className="h-4 w-4" />, label: "Security", examples: "Cybersecurity Consultant — enterprise-grade protection" },
       { icon: <Briefcase className="h-4 w-4" />, label: "Professional", examples: "Enterprise Implementation, Engineering Architect" },
@@ -224,7 +224,7 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Crown className="h-4 w-4" />, label: "Priority", examples: "Priority queue, commercial license, early access" },
     ],
     capabilities: [
-      "All 42 agents on the platform",
+      "All 43 agents on the platform",
       "Priority queue — your requests go first",
       "API access for custom integrations",
       "White-label + commercial license",
@@ -253,7 +253,7 @@ const TIER_WORLDS: TierWorld[] = [
     bestieName: "Team Companions, Custom-Trained",
     bestieCount: "2 companions",
     messagesPerDay: "50,000+ messages/day",
-    agentCount: 42,
+    agentCount: 43,
     agentCategories: [
       { icon: <Building2 className="h-4 w-4" />, label: "Team Deployment", examples: "Custom seats, roles, and permissions" },
       { icon: <Globe className="h-4 w-4" />, label: "White-Label", examples: "Your brand, your domain, our technology" },
