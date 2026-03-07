@@ -775,6 +775,7 @@ export function PromotionsClient({
             <div className="space-y-1">
               <p className="text-purple-400 font-medium">Executive ($99.99)</p>
               <p className="text-zinc-500">Growing team (5-20). Multiple projects. Need custom AI + team tools.</p>
+              <p className="text-purple-300/80 text-[10px] mt-1 leading-snug">38 specialists replacing consulting hours worth $150/hr each — this isn't an incremental upgrade, it's a tier change.</p>
             </div>
             <div className="space-y-1">
               <p className="text-amber-400 font-medium">Reseller ($200)</p>

@@ -124,7 +124,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium animate-pulse">
               <Sparkles className="h-4 w-4" />
-              Launch Deals: Start at $9.99/mo — OG badge included
+              Launch Deals: Start at $9.99/mo
             </div>
           </div>
 
@@ -487,7 +487,7 @@ export default function LandingPage() {
 
           {/* Compact feature highlights */}
           <AnimateOnScroll delay={0.1}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
                 <p className="text-xs font-bold text-amber-400 mb-1.5">2 Communication Styles</p>
                 <p className="text-xs text-zinc-500 leading-relaxed">
@@ -508,6 +508,45 @@ export default function LandingPage() {
                   Not Google Translate. Your bestie knows {`"`}no cap{`"`} in English, {`"`}666{`"`} in Mandarin,
                   {`"`}wesh{`"`} in French, {`"`}yaar{`"`} in Hindi. Real slang. Real connection.
                 </p>
+              </div>
+            </div>
+          </AnimateOnScroll>
+
+          {/* Coming to Mobile — wearable, safety, auto-text */}
+          <AnimateOnScroll delay={0.15}>
+            <div className="mb-10">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Clock className="h-4 w-4 text-cyan-400" />
+                <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest">Coming to Mobile</p>
+              </div>
+              <p className="text-center text-sm text-zinc-400 mb-5 max-w-lg mx-auto">
+                Your Bestie never leaves your side. Not when it matters most.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
+                  <p className="text-xs font-bold text-cyan-400 mb-1.5">Silent Safety Net</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">
+                    {`"`}If I{`'`}m not home by 8, text Mom my last location.{`"`} Make it home? Bestie detects it
+                    via GPS and stands down — no one ever knows. Don{`'`}t make it? Bestie sends the alert.
+                    Your secret is always safe with your Bestie.
+                  </p>
+                </div>
+                <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
+                  <p className="text-xs font-bold text-cyan-400 mb-1.5">Auto-Text</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">
+                    Hands full with the kids? Stuck in traffic? Just don{`'`}t have the energy to explain?
+                    Your Bestie texts the right person in your voice — not a robotic {`"`}I{`'`}m busy.{`"`} Because
+                    she actually knows how you talk.
+                  </p>
+                </div>
+                <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
+                  <p className="text-xs font-bold text-cyan-400 mb-1.5">On Your Wrist</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">
+                    A quiet {`"`}you{`'`}ve got this{`"`} before your interview. A breathing reminder when your heart
+                    rate spikes. A check-in at 2am when you can{`'`}t sleep. Apple Watch. Galaxy Watch. Your
+                    Bestie is on your wrist — and never forgets about you.
+                  </p>
+                </div>
               </div>
             </div>
           </AnimateOnScroll>
@@ -911,9 +950,11 @@ export default function LandingPage() {
                 </div>
                 <ul className="space-y-2 text-sm text-zinc-400">
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Mobile app (iOS & Android)</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Wearable companion — Apple Watch & Galaxy Watch</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Silent safety net — GPS-powered safety check-ins</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Auto-text — your Bestie replies in your voice</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like you</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> AI Tools Directory (tools.stone-ai.net)</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Robot-transfer ready (PRO tier)</li>
                 </ul>
               </div>
             </StaggerCard>

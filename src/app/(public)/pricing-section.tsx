@@ -151,7 +151,7 @@ const TIERS: TierInfo[] = [
   {
     key: "SMART",
     name: "Executive",
-    tagline: "Run your entire operation like a CEO with a full AI executive team",
+    tagline: "38 specialists for less than a single hour of consulting — working for you every day of the month",
     price: 99.99,
     price6month: 99.99,
     priceAnnual: 79.99,
@@ -161,11 +161,12 @@ const TIERS: TierInfo[] = [
     accentText: "text-amber-400",
     features: [
       { text: "Everything in Growth" },
-      { text: "38 agents — nearly every department staffed, every core skill covered", highlight: true },
-      { text: "1,000 messages/day with priority queue — your team never hits a wall", highlight: true },
-      { text: "30 GPT-4o answers/day + build custom agents tailored to your workflow" },
-      { text: "Team workspace with SOC 2 compliance — bring your people in safely" },
-      { text: "1 AI Bestie — powered by 38 expert agents — nearly every specialist on call, every day" },
+      { text: "38 agents across strategy, legal, finance, dev, marketing, and ops — your full executive floor, staffed overnight", highlight: true },
+      { text: "Each agent replaces hours of $150/hr consulting — 38 specialists, one monthly investment", highlight: true },
+      { text: "1,000 messages/day with priority queue — decisions at the speed your business actually moves" },
+      { text: "30 GPT-4o answers/day + custom agents built around your workflow, not someone else's template" },
+      { text: "Team workspace with SOC 2 compliance — bring your people in, keep your data locked down" },
+      { text: "1 AI Bestie — powered by 38 expert agents — a thinking partner that knows every corner of your operation", highlight: true },
     ],
     details: {
       messagesPerDay: "1,000",
@@ -336,7 +337,7 @@ export function PricingSection() {
                     <span className="text-[11px] text-zinc-500">Credit card required</span>
                   </div>
                   <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
-                    One-time offer — $9.99 for your first 30 days, then $19.99/mo. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
+                    One-time offer — $9.99 for your first 30 days, then $19.99/mo. Try the full Builder experience risk-free.
                   </p>
                   <div className="mt-auto">
                     <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
@@ -536,7 +537,7 @@ export function PricingSection() {
             {tier.key === "STARTER" && (
               <p className="text-xs text-amber-400 mt-1 font-medium">
                 <Sparkles className="inline h-3 w-3 mr-1" />
-                Launch deal: $9.99 first month <span className="text-zinc-500 line-through">$19.99</span> — OG badge included
+                Launch deal: $9.99 first month <span className="text-zinc-500 line-through">$19.99</span>
               </p>
             )}
             {tier.key === "PLUS" && (

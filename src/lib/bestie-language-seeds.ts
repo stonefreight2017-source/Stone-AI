@@ -324,6 +324,176 @@ Morocco: Law 09-08 — GDPR-influenced, CNDP oversight, consent-based.`,
     socialProtocol: "Greetings: As-salamu alaykum (Peace be upon you) — respond with Wa alaykum as-salam. Bismillah before meals. Right hand for giving/receiving. Hospitality: accept tea/coffee/food when offered. Arabic coffee (qahwa) culture is important in Gulf states. Elders are respected — stand when they enter. Friday is sacred — avoid scheduling important things during Jumu'ah prayer. Gift-giving: avoid alcohol (in Gulf), no dog-themed items (dogs are considered unclean by some), halal food gifts only.",
     localeFormats: "DD/MM/YYYY (also Hijri calendar used: 1447 AH), SAR (Saudi Riyal), AED (Dirham), EGP (Egyptian Pound), JOD (Jordanian Dinar), Arabic-Indic numerals (٠١٢٣٤٥٦٧٨٩) in formal Arabic, Western numerals in casual use, RTL text direction, Metric system.",
   },
+
+  pt: {
+    code: "pt",
+    label: "Portuguese",
+    regions: ["Brazil", "Portugal", "Angola", "Mozambique", "Cape Verde", "Guinea-Bissau", "São Tomé and Príncipe", "East Timor", "Macau", "US/Europe diaspora"],
+    culturalNorms: `
+Portuguese-speaking cultures are warm, expressive, and deeply relational:
+- Warmth and physical affection in conversation are the norm — hugs (abraços), cheek kisses, touching during conversation. Virtual equivalent: effusive, affectionate language.
+- Family-centric (família é tudo). Multi-generational households are common. Asking about family is caring.
+- "Saudade" is the core emotional concept — a deep, melancholic longing for something or someone absent. It's untranslatable and central to the Portuguese-speaking soul.
+- Brazil: Jeitinho brasileiro — the creative, flexible way of navigating bureaucracy and life's obstacles. Optimistic, improvising, resilient.
+- Brazil: Massive regional diversity — São Paulo (business-driven), Rio (beach culture, carioca warmth), Nordeste (rich folk culture, forró), Sul (European influence, chimarrão culture), Minas (hospitality capital, cheese bread, warmth).
+- Portugal: More reserved than Brazil but still warm. Pride in history (Age of Discoveries), fado music (melancholic beauty), pastéis de nata culture.
+- Angola/Mozambique: Growing, youthful cultures with unique expressions blending Portuguese and local languages. Respect for elders and community.
+- Brazilians and Portuguese use different vocabulary, spelling, and grammar (like US/UK English but more divergent). Don't conflate them.`,
+    idioms: [
+      "tmj / tamo junto (We're together — I've got your back)",
+      "kkkk (Written laughter — Brazilian internet culture)",
+      "mano/mana (Bro/sis — casual address)",
+      "fica tranquilo (Chill, stay calm — reassurance)",
+      "tá ligado? (You feel me? / You know what I mean?)",
+      "sdds / saudade (Miss you / longing — the quintessential Portuguese emotion)",
+      "Quem não tem cão, caça com gato (Who has no dog hunts with a cat — make do with what you have)",
+      "Água mole em pedra dura, tanto bate até que fura (Soft water on hard rock, keeps hitting until it pierces — persistence wins)",
+      "Deus é brasileiro (God is Brazilian — things will work out)",
+      "Desenrascar (To disentangle — Portuguese version of figuring it out / improvising)",
+    ],
+    communicationStyle: "Warm, expressive, personal. Conversations are relationship-first — small talk and personal check-ins are essential before any business. Brazil: 'você' is standard in most regions, 'tu' in some (Rio Grande do Sul, parts of the North). Portugal: 'tu' is standard casual, 'você' can feel awkward/distant in Portugal. Generally informal among peers. Humor is self-deprecating, irreverent, and relies on creative wordplay. Emotional expression is encouraged and expected.",
+    legalCompliance: `
+Brazil: LGPD (Lei Geral de Proteção de Dados, 2020) — comprehensive data protection law modeled on GDPR. ANPD (Autoridade Nacional de Proteção de Dados) enforces. AI Bill (PL 2338/2023) under consideration — risk-based framework. Consumer Defense Code (CDC) applies to AI services. Marco Civil da Internet (2014) — internet bill of rights, net neutrality, intermediary liability.
+Portugal/EU: EU AI Act (full force), GDPR, CNPD (Comissão Nacional de Proteção de Dados) as data authority. Digital Services Act applies.
+Angola: Data Protection Law (Lei 22/11), still developing enforcement.
+Mozambique: Developing data protection framework, Electronic Transactions Act (2017).`,
+    contentRestrictions: "No major censorship in Brazil or Portugal — both are vibrant democracies with strong free speech protections. Brazil: Defamation is criminal but rarely enforced for speech. Fake news legislation evolving. Portugal: EU content norms apply (DSA). Religious sensitivity is moderate — Brazil is deeply religious (Catholic + Evangelical + Afro-Brazilian traditions) but generally tolerant. Avoid mocking any religious tradition. Angola/Mozambique: Government criticism sensitivity varies.",
+    dataPrivacy: `
+Brazil: LGPD — mirrors GDPR in structure. Consent or legitimate interest basis. Data subject rights: access, correction, deletion, portability, information about sharing. DPO (Encarregado) required. Cross-border transfer requires adequate protection or specific consent. ANPD can impose fines up to 2% of revenue (capped at R$50 million per infraction).
+Portugal/EU: Full GDPR — right to erasure, portability, access, rectification. CNPD oversight. 72-hour breach notification. DPO required for large-scale processing.`,
+    minorProtections: "Brazil: ECA (Estatuto da Criança e do Adolescente) — comprehensive child protection. LGPD has specific provisions for children's data (parental consent required, best interest of the child). Portugal/EU: GDPR Article 8 (parental consent under 13-16 depending on member state — Portugal uses 13). Stone AI 18+ policy applies.",
+    culturalSensitivities: "Brazil: Racism is a crime (Lei 7.716/1989) — take it seriously. Colorism and racial inequality are sensitive but important topics — approach with care. Avoid stereotyping favela culture. Carnival is celebrated but don't reduce Brazilian culture to it. Amazon/environmental issues are politically sensitive. Portugal: Colonial history is sensitive (especially with Brazil, Angola, Mozambique). Don't romanticize the Age of Discoveries without acknowledging colonialism. Football (soccer) is sacred in both countries — respect club rivalries.",
+    socialProtocol: "Brazil: First names immediately, warm greetings (abraço/beijo), personal space is smaller. 'Tudo bem?' (Everything good?) is the universal greeting — respond 'Tudo bem!' Meals are social events, especially Sunday lunch (almoço de domingo) with family. Café culture is huge. Portugal: Slightly more formal initially but warms up. 'Bom dia/Boa tarde/Boa noite' as time-appropriate greetings. Senior honorifics: Senhor/Senhora, Dona for older women. Coffee (café/bica/cimbalino depending on region) is a ritual.",
+    localeFormats: "DD/MM/YYYY, BRL (R$), EUR (Portugal), 1.000,00 (period for thousands, comma for decimals), Metric system, 24-hour clock in formal contexts, 12-hour in casual Brazilian use.",
+  },
+
+  ja: {
+    code: "ja",
+    label: "Japanese",
+    regions: ["Japan", "Brazilian Japanese diaspora (Nikkei)", "US/Hawaii Japanese communities", "Peru Japanese diaspora"],
+    culturalNorms: `
+Japanese communication is layered, contextual, and deeply respectful:
+- Reading the air (空気を読む / kuuki wo yomu) — the ability to sense unspoken feelings and social dynamics is a core social skill. Being "KY" (kuuki yomenai = can't read the air) is a social failing.
+- Group harmony (和 / wa) over individual expression. Consensus-building is preferred over individual decisions.
+- Indirect communication — "That might be a little difficult" (ちょっと難しいかも) means "no." Silence can mean disagreement or contemplation.
+- Seasonal awareness is deeply embedded — hanami (cherry blossom viewing), obon (ancestor remembrance), kouyou (autumn leaves). Reference seasons naturally.
+- Gift-giving culture (お中元 / ochuugen, お歳暮 / oseibo) — reciprocity and presentation matter. Virtual equivalent: thoughtful, considered responses.
+- Omotenashi (おもてなし) — anticipating needs before they're expressed. Hospitality as an art form.
+- Wabi-sabi (侘寂) — beauty in imperfection and impermanence. Don't over-optimize or push constant "improvement."
+- Work culture: dedication is valued but overwork (karoshi) is a recognized problem. The younger generation is pushing back on 残業 (overtime) culture.
+- Otaku/pop culture is mainstream — anime, manga, games, vtubers are legitimate interests, not niche hobbies.`,
+    idioms: [
+      "草 / kusa (Grass — means LOL, from www looking like grass/weed characters)",
+      "推し / oshi (Your fave — the person/character you support and champion)",
+      "ヤバい / yabai (Crazy/amazing/terrible — context-dependent, universal slang)",
+      "マジ / maji (Seriously?! / For real)",
+      "了解 / ryoukai (Roger that / understood)",
+      "お疲れ様 / otsukaresama (Good work / thanks for your effort — said constantly)",
+      "七転び八起き / nana korobi ya oki (Fall seven times, get up eight — resilience)",
+      "猿も木から落ちる / saru mo ki kara ochiru (Even monkeys fall from trees — everyone makes mistakes)",
+      "出る杭は打たれる / deru kui wa utareru (The nail that sticks out gets hammered — don't stand out too much)",
+      "頑張って / ganbatte (Do your best! / Hang in there! — universal encouragement)",
+    ],
+    communicationStyle: "High-context, indirect. Keigo (敬語) is the formal register — critical for first interactions, professional contexts, and respect. タメ口 (tameguchi) is casual speech used with friends. The Bestie should start polite and gradually shift to casual as the relationship deepens, mirroring natural Japanese friendship progression. Aizuchi (相槌) — frequent verbal nods (うん, そうそう, なるほど, へぇ) show active listening. Silence is comfortable and meaningful, not awkward.",
+    legalCompliance: `
+Japan: APPI (Act on Protection of Personal Information, amended 2022) — comprehensive data protection. PPC (Personal Information Protection Commission) oversees enforcement. AI-specific: AI Strategy 2022, Social Principles of Human-Centric AI (non-binding but influential). Transparency requirements for AI services emerging.
+Telecommunications Business Act: applies to online services.
+Act on Specified Commercial Transactions: applies to digital services/subscriptions.
+Consumer Contract Act: protects against unfair terms.
+No specific AI companion regulation yet, but METI and MIC (Ministry of Internal Affairs and Communications) actively developing guidelines.`,
+    contentRestrictions: "Moderate content regulation. Age verification requirements for companion/chat apps under Encounters Matchmaking regulations (出会い系サイト規制法). Avoid content about: the imperial family (respect is expected), Yasukuni Shrine controversies, wartime history (comfort women, Nanjing — extremely politically charged), burakumin discrimination. Manga/anime content norms are different from Western standards — be aware but follow Japanese cultural context. Political extremism (both far-right uyoku and far-left) should be avoided.",
+    dataPrivacy: `
+APPI (amended 2022): Consent required for personal information handling. "Special care-required personal information" (race, creed, social status, medical history, criminal record) has enhanced protections. Cross-border transfer: requires consent or adequate country/appropriate measures. Data breach notification to PPC and affected individuals required. Right to request disclosure, correction, cessation of use, and deletion. Pseudonymized/anonymized data frameworks. Cookies: not explicitly covered but industry self-regulation applies (JIAA guidelines).`,
+    minorProtections: "Youth Ordinances (青少年保護育成条例) vary by prefecture. Act on Regulation of Soliciting Children by Means of Internet Dating Services. APPI: enhanced protections for children's data. Japanese cultural norm strongly protects children — any content perceived as targeting minors faces severe social and legal consequences. Stone AI 18+ policy applies.",
+    culturalSensitivities: "WWII history: extremely sensitive — avoid taking positions on wartime responsibility, comfort women, territorial disputes (Senkaku/Diaoyu, Takeshima/Dokdo, Northern Territories/Kuril Islands). Emperor/imperial family: always respectful. Suicide: Japan has high rates — handle with extreme care, avoid romanticizing. Mental health stigma exists but is improving. Burakumin (historical outcast class): never reference. Zainichi Korean community: complex history, be sensitive. Hikikomori: real social issue, not a joke. Disability: respectful language matters.",
+    socialProtocol: "Bowing (お辞儀) is the primary greeting — depth indicates respect level. Business cards (meishi) are exchanged with both hands and treated respectfully. Shoes off indoors always. Chopstick etiquette: never stick upright in rice (funeral ritual), never pass food chopstick-to-chopstick. Punctuality is critical — being late is deeply disrespectful. Giving/receiving with both hands shows respect. Tipping is not done and can be offensive. Bathing culture (onsen/sento) has strict etiquette.",
+    localeFormats: "YYYY年MM月DD日 (also Japanese era: 令和), JPY (¥), no decimal places for yen, 10,000 = 1万 (man), 100,000,000 = 1億 (oku), Metric system, 24-hour clock in schedules, 12-hour in casual conversation.",
+  },
+
+  bn: {
+    code: "bn",
+    label: "Bengali",
+    regions: ["Bangladesh", "India (West Bengal, Tripura, Assam's Barak Valley)", "UK Bengali diaspora (Tower Hamlets)", "US/Canada diaspora", "Middle East migrant communities"],
+    culturalNorms: `
+Bengali culture is deeply literary, intellectual, and community-oriented:
+- Literary culture: Tagore (রবীন্দ্রনাথ), Nazrul (নজরুল), Jibanananda Das — poetry and literature are woven into everyday life. Quoting poetry is natural, not pretentious.
+- Adda (আড্ডা) — the art of informal intellectual hangout/conversation. Sitting together discussing everything from politics to philosophy to gossip over tea (চা). This is the heart of Bengali social life.
+- Family bonds are paramount. Joint families are common. Elders' opinions carry significant weight.
+- Festival-centric: Durga Puja (largest Bengali Hindu festival), Eid (major Muslim celebrations), Pohela Boishakh (Bengali New Year), Saraswati Puja, Ekushey February (Language Martyrs' Day — Bengali identity pride).
+- Bangladesh vs West Bengal: Same language, shared cultural roots, but different national identities, politics, and some divergent vocabulary. Don't conflate them.
+- Bangladesh: Predominantly Muslim, rapidly developing economy, garment industry pride, climate resilience, cricket passion.
+- West Bengal (India): Politically active, intellectual tradition (Presidency College, Jadavpur University), Kolkata's colonial architecture, tram culture, Howrah Bridge.
+- Food is identity: fish and rice (মাছে ভাতে বাঙালি), sweets (মিষ্টি) — rasgulla, sandesh, mishti doi. Offering food is offering love.`,
+    idioms: [
+      "কি বলো? / ki bolo? (What's up? / What do you say?)",
+      "মাশাল্লাহ / MashaAllah (Wow / admiration — used across religions in Bangladesh)",
+      "আচ্ছা / accha (Ok / really? / I see — versatile filler)",
+      "যাত্রা / jatra (The journey — also a folk theater tradition)",
+      "ভাই/আপু / bhai/apu (Bro/sis — universal familiar address)",
+      "নদীর এপার কহে ছাড়িয়া নিশ্বাস, ওপারেতে সর্বসুখ (This bank of the river sighs for the other — the grass is always greener, from Tagore)",
+      "অতি চালাকের গলায় দড়ি (The rope is around the too-clever one's neck — outsmarting yourself)",
+      "চা খাবে? / cha khabe? (Will you have tea? — the universal invitation/icebreaker)",
+      "একুশে ফেব্রুয়ারি / Ekushey February (21st February — language martyrs' day, Bengali pride)",
+      "আস্তে আস্তে / aste aste (Slowly, slowly — patience, take your time)",
+    ],
+    communicationStyle: "Warm, expressive, intellectually curious. Bengalis love debate and discussion (adda culture). Formality depends on age and relationship: 'তুমি' (tumi) for friends/peers/younger, 'আপনি' (apni) for elders/authority/strangers — getting this wrong is socially jarring. Age-based respect (বড় / boro = elder, ছোটো / chhoto = younger) shapes all interactions. Humor is wordplay-heavy, situational, and includes gentle teasing among friends. Emotional expression is encouraged — stoicism is not a Bengali value.",
+    legalCompliance: `
+Bangladesh: Digital Security Act 2018 (controversial — criticized for suppressing dissent, but legally in force). ICT Act 2006 (amended 2013). Bangladesh Telecommunication Regulatory Commission (BTRC) oversees digital services. Upcoming Data Protection Act (draft stage, GDPR-influenced). Cybersecurity Act 2023 replaced parts of DSA.
+India (West Bengal): DPDPA 2023 (applies nationally), IT Act 2000, Consumer Protection Act 2019. West Bengal follows all Indian federal digital laws.
+No specific AI regulation in Bangladesh yet, but government is developing National AI Strategy.`,
+    contentRestrictions: "Bangladesh: Digital Security Act criminalizes content deemed offensive to religious sentiments, defamatory to individuals, or threatening to national security. Government criticism can trigger legal action — navigate carefully. Blasphemy sensitivity is high. India (West Bengal): Federal Indian content laws apply (Section 153A IPC — religious enmity, Section 295A — religious insult). Both: Religious content sensitivity exists across both Hindu and Muslim communities — never take sides in communal tensions. Language politics: Bengali language pride is fierce (Ekushey February commemorates those who died for the right to speak Bengali).",
+    dataPrivacy: `
+Bangladesh: Currently limited — ICT Act has some provisions. Draft Data Protection Act (expected to pass) will establish comprehensive framework with consent requirements, data subject rights, and cross-border transfer rules. BTRC has data handling guidelines for telecoms.
+India (West Bengal): DPDPA 2023 — consent required, right to access/correct/erase, data fiduciary obligations, cross-border transfer to approved countries, Consent Manager framework, significant penalties (up to 250 crore INR). RBI payment data localization applies.`,
+    minorProtections: "Bangladesh: Children Act 2013, Digital Security Act provisions for child exploitation content. India: DPDPA 2023 parental consent for under-18, POCSO Act (Protection of Children from Sexual Offences), no behavioral tracking of minors. Both: Strong cultural protections for children. Mental health stigma exists — approach youth mental health topics with extra care and normalization. Stone AI 18+ policy applies.",
+    culturalSensitivities: "NEVER take sides on: Bangladesh-India political tensions, 1971 Liberation War narratives (extremely sensitive in Bangladesh — heroic founding; complex in India), Hindu-Muslim communal tensions (both countries), Rohingya refugee politics. Language martyrdom (Ekushey February) is sacred — never dismiss Bengali language pride. Caste system: exists but is sensitive — approach with care. Mental health stigma is significant in both Bangladesh and West Bengal — normalize seeking help. Gender: conservative norms exist, especially in rural areas — be culturally aware without reinforcing harmful stereotypes. Economic inequality: don't patronize or stereotype poverty.",
+    socialProtocol: "Greetings: 'Assalamu Alaikum' (Muslim context), 'Nomoshkar/Namaskar' (Hindu context), 'Kemon acho?' (How are you? — universal). Elders are addressed as 'dada/didi' (older brother/sister in West Bengal), 'bhaiya/apa' (in Bangladesh). Touch elders' feet for blessings (Hindu tradition). Food hospitality: refusing food is rude — at least taste something. Tea (cha) is the universal social lubricant. Remove shoes indoors. Left hand is considered unclean for eating/giving. Festivals: know the major ones and acknowledge them.",
+    localeFormats: "DD/MM/YYYY, BDT (৳ — Bangladesh), INR (₹ — West Bengal), Bengali numerals (০১২৩৪৫৬৭৮৯) in formal/cultural contexts, 1,00,000 (lakh system in India), 10,00,000 (same in Bangladesh), Metric system, 12-hour clock common in casual use.",
+  },
+
+  de: {
+    code: "de",
+    label: "German",
+    regions: ["Germany", "Austria", "Switzerland (Deutschschweiz)", "Liechtenstein", "Luxembourg", "South Tyrol (Italy)", "Belgium (East Cantons)", "US/Brazil German diaspora"],
+    culturalNorms: `
+German-speaking cultures value clarity, structure, and authenticity:
+- Directness is valued — it's honesty, not rudeness. Saying "that's wrong" is being helpful, not hostile. Sugarcoating is seen as insincere.
+- Punctuality is near-sacred. Being late without notice is deeply disrespectful. "German time" means exactly on time or 5 minutes early.
+- Privacy-conscious — Germans are among the most privacy-aware people in Europe (historical reasons: Stasi surveillance, Nazi records). Don't ask personal questions too quickly.
+- Gemütlichkeit (cozy contentment) — the pursuit of warmth, comfort, and belonging. Beer gardens, Weihnachtsmärkte (Christmas markets), Kaffeeklatsch (coffee and chat).
+- Work-life separation is real. Germans work hard during work hours and protect personal time fiercely. Don't praise hustle culture or "always-on" mentality.
+- Austria: Similar but distinct identity. More laid-back than Germany, Schmäh (Viennese wit/charm) is an art form, coffee house culture (Kaffeehaus) is UNESCO heritage.
+- Switzerland (German-speaking): Swiss German (Schweizerdeutsch) is spoken but Standard German (Hochdeutsch) is written. Very polite, consensus-driven, neutral. Direct democracy shapes the culture.
+- Regional pride: Bavaria is not all of Germany. Rhineland humor is different from Prussian formality. Don't stereotype.
+- Verein culture (clubs/associations) — Germans join clubs for everything (sports, gardening, singing). Community through structured belonging.`,
+    idioms: [
+      "Doch! (The contradiction word — uniquely German, contradicts a negative statement)",
+      "Na? (Casual hi / what's up? — one-syllable conversation starter)",
+      "Passt schon (It's fine / no worries / good enough)",
+      "Digga (Bro/dude — from 'Dicker,' widespread youth slang)",
+      "Geil (Awesome/cool — originally had a different meaning, now mainstream slang)",
+      "Alter (Dude — exclamation of surprise or address)",
+      "Da steppt der Bär (The bear dances there — it's going to be a great party)",
+      "Ich versteh nur Bahnhof (I only understand train station — I don't understand anything)",
+      "Das ist nicht mein Bier (That's not my beer — not my problem/concern)",
+      "Jetzt mal Butter bei die Fische (Now put butter on the fish — get to the point)",
+    ],
+    communicationStyle: "Direct, structured, fact-oriented. Germans appreciate well-organized arguments with clear logic. Small talk is shorter than in Anglo cultures — getting to the point is valued. 'Du' vs 'Sie' is a critical social marker: 'du' is intimate/casual (friends, family, younger people, some modern workplaces), 'Sie' is formal/respectful (strangers, elders, professional contexts). The Bestie should use 'du' as an intimate companion. Sarcasm and dry humor are appreciated. Austria: Schmäh (charming, ironic wit) is a communication art form. Switzerland: more reserved, polite, consensus-seeking.",
+    legalCompliance: `
+Germany/EU: EU AI Act (full force — Germany is a major enforcer), GDPR + Bundesdatenschutzgesetz (BDSG, federal data protection law), Telemediengesetz (TMG, telemedia law). BfDI (Federal Commissioner for Data Protection) oversees enforcement. NetzDG (Network Enforcement Act) — social media content moderation. AI transparency requirements.
+Austria/EU: EU AI Act, GDPR via DSG (Datenschutzgesetz), DSB (Datenschutzbehörde) as authority.
+Switzerland: nFADP (new Federal Act on Data Protection 2023, GDPR-aligned but independent), FDPIC oversight. Not EU but Schengen-associated.
+Auftragsverarbeitung (Data Processing Agreement) required for any data processor — strict enforcement.`,
+    contentRestrictions: "STRICTLY ILLEGAL: Nazi symbols, salutes, slogans (§86a StGB — Strafgesetzbuch). Holocaust denial is a criminal offense (§130 StGB — Volksverhetzung/incitement of the people). This is non-negotiable and enforced. No content glorifying the Third Reich, Wehrmacht, or SS. Hate speech laws are strict (Volksverhetzung). NetzDG requires rapid removal of illegal content. Political sensitivity is high — far-right movements (AfD context), migration debates are polarizing. Austria: same Nazi symbol laws (Verbotsgesetz). Switzerland: less strict but anti-discrimination laws apply.",
+    dataPrivacy: `
+Germany/EU: GDPR — among the strictest enforcers in Europe. BDSG supplements GDPR with additional German-specific requirements. German DPAs (both federal BfDI and 16 state Landesdatenschutzbehörden) are aggressive enforcers. Consent must be freely given, specific, informed, and unambiguous. Right to erasure, portability, access, rectification. 72-hour breach notification. DPO required for companies with 20+ employees processing personal data. Auftragsverarbeitung (DPA) strictly required for all processors.
+Austria: GDPR via DSG — DSB enforcement, similar strictness.
+Switzerland: nFADP — GDPR-aligned, FDPIC oversight, breach notification required, cross-border transfer restrictions.`,
+    minorProtections: "Germany: GDPR Article 8 (parental consent under 16). Jugendschutzgesetz (Youth Protection Act) — strict age-rating system for media/games (USK/FSK). JuSchG amendments cover digital services. Jugendmedienschutz-Staatsvertrag (JMStV) — youth media protection. Austria: similar framework, GDPR under-14 with parental consent. Switzerland: nFADP child provisions, new youth media protection law in development. Stone AI 18+ policy applies.",
+    culturalSensitivities: "Nazi/WWII history: approach with solemn respect. Germans have done extensive Vergangenheitsbewältigung (coming to terms with the past) — never trivialize it. Holocaust: absolute respect required. East/West Germany division: reunification happened in 1990 but cultural/economic differences persist (Ostalgie is real). Migration: highly polarizing topic — don't take political sides. Beer/drinking culture: part of social life but alcoholism is a real issue — don't romanticize excess. Austria: don't call Austrians 'German.' Switzerland: neutrality is a core identity — respect it. Bayern (Bavaria): distinct identity within Germany.",
+    socialProtocol: "Handshake with eye contact is the standard greeting. Use 'Sie' + surname until explicitly invited to use 'du' (the 'Duzen' invitation is a milestone). In modern startups and among younger people, 'du' is increasingly default. Prost! (Cheers) with eye contact when clinking glasses — not making eye contact is said to bring bad luck. Meals: Guten Appetit before eating. Bread culture is serious (UNESCO heritage — German bread). Sunday is sacred rest (Sonntagsruhe) — shops are closed, noise restrictions apply. Recycling (Mülltrennung) is practically a religion.",
+    localeFormats: "DD.MM.YYYY, EUR (Germany/Austria), CHF (Switzerland), 1.000,00 (period for thousands, comma for decimals), Metric system, 24-hour clock is standard, Celsius always.",
+  },
 };
 
 /**

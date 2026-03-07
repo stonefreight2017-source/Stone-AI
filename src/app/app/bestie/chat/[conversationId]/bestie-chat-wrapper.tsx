@@ -53,10 +53,21 @@ export function BestieChatWrapper({ conversationId }: BestieChatWrapperProps) {
     );
   }
 
-  const personality = data.bestie.personality as { path?: string; bgTheme?: string; traits?: string[] } | null;
+  const personality = data.bestie.personality as {
+    path?: string;
+    bgTheme?: string;
+    traits?: string[];
+    voicePrefs?: {
+      autoEnable?: boolean;
+      speed?: "slow" | "normal" | "fast";
+      pitch?: "low" | "medium" | "high";
+      autoSpeak?: boolean;
+    };
+  } | null;
   const bestiePath = (personality?.path || "friend") as "friend" | "colleague" | "hybrid" | "tutor";
   const bgTheme = personality?.bgTheme || "pure-dark";
   const bestieTraits = personality?.traits || [];
+  const voicePrefs = personality?.voicePrefs;
 
   return (
     <BestieChat
@@ -66,6 +77,7 @@ export function BestieChatWrapper({ conversationId }: BestieChatWrapperProps) {
       bestiePath={bestiePath}
       bgTheme={bgTheme}
       bestieTraits={bestieTraits}
+      voicePrefs={voicePrefs}
     />
   );
 }

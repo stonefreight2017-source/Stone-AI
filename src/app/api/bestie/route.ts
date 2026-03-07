@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { name, traits, styles, expertise, avatarEmoji, language, aboutMe, purposes, bgTheme } = parsed.data;
+    const { name, traits, styles, expertise, avatarEmoji, language, aboutMe, purposes, bgTheme, voicePrefs, safetyNet, autoText } = parsed.data;
 
     // Check bestie limit
     const activeCount = await db.bestieProfile.count({
@@ -128,7 +128,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Create or reactivate
-    const personalityData = { traits, styles, expertise, language: language || "en", purposes, bgTheme };
+    const personalityData = { traits, styles, expertise, language: language || "en", purposes, bgTheme, voicePrefs, safetyNet, autoText };
     const bestie = existing
       ? await db.bestieProfile.update({
           where: { id: existing.id },

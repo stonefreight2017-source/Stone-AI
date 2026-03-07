@@ -20,6 +20,13 @@ const DEFAULT_CRISIS_RESOURCES = "988 Suicide & Crisis Lifeline (call or text 98
 
 type BestiePath = "friend" | "colleague" | "hybrid" | "tutor";
 
+interface VoicePrefs {
+  autoEnable?: boolean;
+  speed?: "slow" | "normal" | "fast";
+  pitch?: "low" | "medium" | "high";
+  autoSpeak?: boolean;
+}
+
 interface BestieChatProps {
   conversationId: string;
   bestieName: string;
@@ -27,6 +34,7 @@ interface BestieChatProps {
   bestiePath?: BestiePath;
   bgTheme?: string;
   bestieTraits?: string[];
+  voicePrefs?: VoicePrefs;
 }
 
 /** Map personality traits to emoji sets for thinking/reactions */
@@ -150,7 +158,7 @@ function AvatarDisplay({ avatar, size = "sm" }: { avatar: string; size?: "sm" | 
   return <span className={textSize}>{avatar}</span>;
 }
 
-export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath = "friend", bgTheme, bestieTraits = [] }: BestieChatProps) {
+export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath = "friend", bgTheme, bestieTraits = [], voicePrefs }: BestieChatProps) {
   const theme = PATH_THEMES[bestiePath];
   const personalityEmojis = getPersonalityEmojis(bestieTraits);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -203,9 +211,13 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
   // Voice chat state
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const [voiceEnabled, setVoiceEnabled] = useState(false);
+  const [voiceEnabled, setVoiceEnabled] = useState(voicePrefs?.autoEnable ?? false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [voiceLang, setVoiceLang] = useState("en-US");
+
+  // Voice pref mappings
+  const speedRateMap: Record<string, number> = { slow: 0.8, normal: 1.0, fast: 1.3 };
+  const pitchMap: Record<string, number> = { low: 0.8, medium: 1.0, high: 1.2 };
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const recognitionRef = useRef<any>(null);
   const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -349,6 +361,8 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
 
     const utterance = new SpeechSynthesisUtterance(cleanText);
     utterance.lang = voiceLang;
+    utterance.rate = speedRateMap[voicePrefs?.speed ?? "normal"] ?? 1.0;
+    utterance.pitch = pitchMap[voicePrefs?.pitch ?? "medium"] ?? 1.0;
 
     // Try to find a voice matching the language
     const voices = synth.getVoices();
@@ -362,7 +376,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
 
     synthRef.current = utterance;
     synth.speak(utterance);
-  }, [voiceEnabled, voiceLang]);
+  }, [voiceEnabled, voiceLang, voicePrefs?.speed, voicePrefs?.pitch]);
 
   // Stop speaking
   const stopSpeaking = useCallback(() => {
@@ -370,9 +384,10 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
     setIsSpeaking(false);
   }, []);
 
-  // Auto-speak assistant messages when voice is enabled
+  // Auto-speak assistant messages when voice is enabled and autoSpeak is on
+  const shouldAutoSpeak = voiceEnabled && (voicePrefs?.autoSpeak !== false);
   useEffect(() => {
-    if (!voiceEnabled || !messages.length || isBusy) return;
+    if (!shouldAutoSpeak || !messages.length || isBusy) return;
     const last = messages[messages.length - 1];
     if (last.role === "assistant" && last.parts) {
       const text = last.parts
@@ -381,7 +396,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         .join("");
       if (text) speakText(text);
     }
-  }, [voiceEnabled, messages, isBusy, speakText]);
+  }, [shouldAutoSpeak, messages, isBusy, speakText]);
 
   // Cleanup on unmount
   useEffect(() => {

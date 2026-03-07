@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, ArrowRight, Heart, Loader2, Sparkles, Globe, Monitor, Palette, Target, Camera, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Heart, Loader2, Sparkles, Globe, Monitor, Palette, Target, Camera, X, Mic } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -310,6 +310,12 @@ export default function CreateBestiePage() {
   const [aboutFavorites, setAboutFavorites] = useState("");
   const [aboutOther, setAboutOther] = useState("");
 
+  // Voice preferences (Step 4)
+  const [voiceAutoEnable, setVoiceAutoEnable] = useState(false);
+  const [voiceSpeed, setVoiceSpeed] = useState<"slow" | "normal" | "fast">("normal");
+  const [voicePitch, setVoicePitch] = useState<"low" | "medium" | "high">("medium");
+  const [voiceAutoSpeak, setVoiceAutoSpeak] = useState(false);
+
   const canNextPurpose = selectedPurposes.length >= 1;
   const canNextName = name.trim().length >= 2 && name.trim().length <= 20;
   const canNextPersonality = true; // no minimums — user can skip, reminded at preview
@@ -390,6 +396,12 @@ export default function CreateBestiePage() {
             location: aboutLocation.trim() || undefined,
             favorites: aboutFavorites.trim() || undefined,
             other: aboutOther.trim() || undefined,
+          },
+          voicePrefs: {
+            autoEnable: voiceAutoEnable,
+            speed: voiceSpeed,
+            pitch: voicePitch,
+            autoSpeak: voiceAutoSpeak,
           },
         }),
       });
@@ -737,6 +749,88 @@ export default function CreateBestiePage() {
             <StylePicker selected={styles} onChange={setStyles} />
             <ExpertisePicker selected={expertise} onChange={setExpertise} />
 
+            {/* Voice Preferences */}
+            <div className="bg-zinc-800/60 rounded-xl border border-zinc-700/60 p-4 space-y-3 backdrop-blur-sm">
+              <div className="flex items-center gap-2 mb-1">
+                <Mic className="h-4 w-4 text-pink-400" />
+                <p className="text-sm font-medium text-zinc-300">Voice</p>
+                <span className="text-[10px] text-zinc-500">Optional</span>
+              </div>
+
+              {/* Row 1: Toggles */}
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const next = !voiceAutoEnable;
+                    setVoiceAutoEnable(next);
+                    if (next && !voiceAutoSpeak) setVoiceAutoSpeak(true);
+                    if (!next) setVoiceAutoSpeak(false);
+                  }}
+                  className={`px-3 py-1.5 rounded-full text-xs transition-all ${
+                    voiceAutoEnable
+                      ? "bg-pink-500/20 border border-pink-500 text-pink-300"
+                      : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-400 hover:border-zinc-500"
+                  }`}
+                >
+                  {voiceAutoEnable ? "Voice on by default" : "Voice off by default"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setVoiceAutoSpeak(!voiceAutoSpeak)}
+                  className={`px-3 py-1.5 rounded-full text-xs transition-all ${
+                    voiceAutoSpeak
+                      ? "bg-pink-500/20 border border-pink-500 text-pink-300"
+                      : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-400 hover:border-zinc-500"
+                  }`}
+                >
+                  {voiceAutoSpeak ? "Auto-speak on" : "Auto-speak off"}
+                </button>
+              </div>
+
+              {/* Row 2: Speed & Pitch */}
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <p className="text-[10px] text-zinc-500 mb-1">Speed</p>
+                  <div className="flex gap-1">
+                    {(["slow", "normal", "fast"] as const).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => setVoiceSpeed(s)}
+                        className={`flex-1 px-2 py-1 rounded-md text-[11px] capitalize transition-all ${
+                          voiceSpeed === s
+                            ? "bg-pink-500/20 border border-pink-500 text-pink-300"
+                            : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-500 hover:border-zinc-500"
+                        }`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <p className="text-[10px] text-zinc-500 mb-1">Pitch</p>
+                  <div className="flex gap-1">
+                    {(["low", "medium", "high"] as const).map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => setVoicePitch(p)}
+                        className={`flex-1 px-2 py-1 rounded-md text-[11px] capitalize transition-all ${
+                          voicePitch === p
+                            ? "bg-pink-500/20 border border-pink-500 text-pink-300"
+                            : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-500 hover:border-zinc-500"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <Button
               onClick={() => setStep(5)}
               disabled={!canNextPersonality}
@@ -822,6 +916,10 @@ export default function CreateBestiePage() {
               <p className="text-xs text-zinc-600 flex items-center justify-center gap-1">
                 <Palette className="h-3 w-3" />
                 {activeBg?.label ?? "Default"} theme
+              </p>
+              <p className="text-xs text-zinc-600 flex items-center justify-center gap-1">
+                <Mic className="h-3 w-3" />
+                Voice: {voiceAutoEnable ? "Enabled" : "Off"}, {voiceSpeed.charAt(0).toUpperCase() + voiceSpeed.slice(1)} speed, {voicePitch.charAt(0).toUpperCase() + voicePitch.slice(1)} pitch{voiceAutoSpeak ? ", Auto-speak" : ""}
               </p>
               {activePurposes.length > 0 && (
                 <div className="flex flex-wrap justify-center gap-1.5 mt-1">

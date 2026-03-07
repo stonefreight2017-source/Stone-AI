@@ -7,6 +7,10 @@ export const BESTIE_LANGUAGES = [
   "hi",
   "fr",
   "ar",
+  "pt",
+  "ja",
+  "bn",
+  "de",
 ] as const;
 
 export type BestieLanguage = (typeof BESTIE_LANGUAGES)[number];
@@ -18,6 +22,10 @@ export const BESTIE_LANGUAGE_LABELS: Record<BestieLanguage, string> = {
   hi: "Hindi",
   fr: "French",
   ar: "Arabic",
+  pt: "Portuguese",
+  ja: "Japanese",
+  bn: "Bengali",
+  de: "German",
 };
 
 export const BESTIE_TRAITS = [
@@ -134,9 +142,33 @@ export const createBestieSchema = z.object({
     favorites: z.string().max(200).optional(),
     other: z.string().max(500).optional(),
   }).optional(),
-}).strict();
+  voicePrefs: z.object({
+    autoEnable: z.boolean().default(false),
+    speed: z.enum(["slow", "normal", "fast"]).default("normal"),
+    pitch: z.enum(["low", "medium", "high"]).default("medium"),
+    autoSpeak: z.boolean().default(false),
+  }).optional(),
+  safetyNet: z.object({
+    enabled: z.boolean().default(false),
+    curfewTime: z.string().max(5).optional(),
+    contacts: z.array(z.object({
+      name: z.string().max(50),
+      phone: z.string().max(20).optional(),
+      relationship: z.string().max(30).optional(),
+    })).max(5).default([]),
+    message: z.string().max(200).optional(),
+  }).optional(),
+  autoText: z.object({
+    enabled: z.boolean().default(false),
+    rules: z.array(z.object({
+      trigger: z.string().max(50),
+      contact: z.string().max(50),
+      template: z.string().max(200),
+    })).max(10).default([]),
+  }).optional(),
+});
 
-export const updateBestieSchema = createBestieSchema.partial().strict();
+export const updateBestieSchema = createBestieSchema.partial();
 
 export const bestieChatSchema = z.object({
   conversationId: z.string().cuid(),

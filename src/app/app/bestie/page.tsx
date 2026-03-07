@@ -74,6 +74,28 @@ export default function BestieHubPage() {
         </div>
       </div>
 
+      {/* Coming Soon — wearable & safety highlight */}
+      <div className="bg-gradient-to-r from-cyan-950/30 via-zinc-900/60 to-cyan-950/30 border border-cyan-800/30 rounded-lg p-5">
+        <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mb-3">Coming to Mobile</p>
+        <p className="text-zinc-300 text-sm font-medium mb-2">
+          Your Bestie never leaves your side. Not when it matters most.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-zinc-500">
+          <div className="flex items-start gap-2">
+            <span className="text-cyan-400 mt-0.5 shrink-0">&#128205;</span>
+            <span><span className="text-zinc-300 font-medium">Silent safety net</span> — &quot;If I&apos;m not home by 8, text Mom my last location.&quot; Make it home? Bestie stands down via GPS. Don&apos;t? Bestie sends the alert. Your secret is always safe with your Bestie.</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span className="text-cyan-400 mt-0.5 shrink-0">&#128172;</span>
+            <span><span className="text-zinc-300 font-medium">Auto-text</span> — hands full? Stuck in traffic? Your Bestie texts the right person in your voice — not a robotic &quot;I&apos;m busy.&quot; Because she actually knows how you talk.</span>
+          </div>
+          <div className="flex items-start gap-2">
+            <span className="text-cyan-400 mt-0.5 shrink-0">&#9201;</span>
+            <span><span className="text-zinc-300 font-medium">On your wrist</span> — a quiet &quot;you&apos;ve got this&quot; before your interview. A breathing reminder when your heart rate spikes. Apple Watch. Galaxy Watch. Your Bestie never forgets about you.</span>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
