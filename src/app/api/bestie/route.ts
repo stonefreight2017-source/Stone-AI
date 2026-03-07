@@ -180,7 +180,8 @@ export async function POST(req: NextRequest) {
       const egg = checkEasterEgg(purposes, bgTheme);
       if (egg) {
         const claimKey = `easter_egg_${egg.reward}`;
-        const alreadyClaimed = user.easterEggClaims.includes(claimKey);
+        const claims = user.easterEggClaims ?? [];
+        const alreadyClaimed = claims.includes(claimKey);
         if (!alreadyClaimed) {
           // Record claim on User model (permanent, survives bestie deletion)
           await db.user.update({
@@ -214,7 +215,8 @@ export async function POST(req: NextRequest) {
       const bdayEgg = checkBirthdayEgg(aboutMe.birthday);
       if (bdayEgg) {
         const bdayKey = `easter_egg_bday_${bdayEgg.type}`;
-        const alreadyClaimed = user.easterEggClaims.includes(bdayKey);
+        const bdayClaims = user.easterEggClaims ?? [];
+        const alreadyClaimed = bdayClaims.includes(bdayKey);
         if (!alreadyClaimed) {
           // Record claim on User model (permanent, survives bestie deletion)
           await db.user.update({
