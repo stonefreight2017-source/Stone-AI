@@ -336,7 +336,7 @@ export function PricingSection() {
                     <span className="text-[11px] text-zinc-500">Credit card required</span>
                   </div>
                   <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
-                    One-time offer — price locked forever. Keep it a year to earn the <span className="text-amber-400 font-medium">OG Golden Egg</span> badge.
+                    One-time offer — price locked forever. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
                   </p>
                   <div className="mt-auto">
                     <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
@@ -372,7 +372,7 @@ export function PricingSection() {
                     <span className="text-[11px] text-zinc-500">Credit card required</span>
                   </div>
                   <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
-                    One-time offer — price locked forever. Keep it a year to earn the <span className="text-amber-400 font-medium">OG Golden Egg</span> badge.
+                    One-time offer — price locked forever. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
                   </p>
                   <div className="mt-auto">
                     <Button asChild size="sm" className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold">
@@ -387,7 +387,7 @@ export function PricingSection() {
 
               {/* OG badge note */}
               <p className="text-center text-[11px] text-zinc-600 mb-4">
-                OG and Golden Egg badges are visible across forums, profiles, and every app on Stone AI.
+                OG badges are visible across forums, profiles, and every app on Stone AI.
               </p>
 
               {/* Always visible — no dismiss */}

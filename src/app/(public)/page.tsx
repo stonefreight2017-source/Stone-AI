@@ -733,11 +733,11 @@ export default function LandingPage() {
             <Card className="bg-gradient-to-r from-amber-950/30 via-zinc-800/30 to-amber-950/30 border-amber-800/20 p-5 mb-6">
               <div className="flex items-center gap-3 mb-2">
                 <Trophy className="h-5 w-5 text-amber-400" />
-                <h3 className="font-bold text-sm text-white">OG Badge & Golden Egg</h3>
+                <h3 className="font-bold text-sm text-white">OG Founding Member Badge</h3>
               </div>
               <p className="text-xs text-zinc-400 leading-relaxed">
                 Join during launch and earn the <span className="text-amber-400 font-medium">OG founding member badge</span> — visible across the entire ecosystem.
-                Stay one year and unlock the legendary <span className="text-amber-400 font-medium">Golden Egg</span> — a badge that proves you were here from day one.
+                Loyal members unlock surprises along the way.
                 These aren{`'`}t coming back. Once the window closes, it{`'`}s closed.
               </p>
             </Card>
