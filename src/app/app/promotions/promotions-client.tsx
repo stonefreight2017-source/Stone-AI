@@ -781,6 +781,33 @@ export function PromotionsClient({
               <p className="text-zinc-500">Agency or consultant. Reselling AI to your own clients.</p>
             </div>
           </div>
+
+          {/* PRO-exclusive agents callout */}
+          <div className="bg-amber-950/20 border border-amber-800/30 rounded-xl p-4 mb-4">
+            <div className="flex items-center gap-2 mb-2">
+              <Shield className="h-4 w-4 text-amber-400" />
+              <p className="text-sm font-semibold text-amber-300">4 Agents Only Resellers Get</p>
+            </div>
+            <p className="text-xs text-zinc-400 mb-3">These high-value specialists are exclusive to the Reseller tier — built for operators who serve clients, not just themselves.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <div className="bg-zinc-800/40 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-white">Enterprise Implementation Architect</p>
+                <p className="text-[10px] text-zinc-500">Design multi-agent deployments for organizations and client rollouts</p>
+              </div>
+              <div className="bg-zinc-800/40 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-white">Cybersecurity Consultant</p>
+                <p className="text-[10px] text-zinc-500">HIPAA, PCI, ISO compliance frameworks and security audits</p>
+              </div>
+              <div className="bg-zinc-800/40 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-white">Engineering Architect</p>
+                <p className="text-[10px] text-zinc-500">Cloud infrastructure, API design, and scalable system architecture</p>
+              </div>
+              <div className="bg-zinc-800/40 rounded-lg p-2.5">
+                <p className="text-xs font-medium text-white">Startup Launcher</p>
+                <p className="text-[10px] text-zinc-500">Idea validation, MVP design, pitch decks, and go-to-market strategy</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="overflow-x-auto">
