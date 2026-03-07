@@ -956,7 +956,7 @@ export default function LandingPage() {
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Wearable companion — Apple Watch & Galaxy Watch</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Silent safety net — GPS-powered safety check-ins</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Auto-text — your Bestie replies in your voice</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like you</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like a loved one</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> AI Tools Directory (tools.stone-ai.net)</li>
                 </ul>
               </div>
