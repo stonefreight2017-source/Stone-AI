@@ -264,6 +264,7 @@ export function PricingSection() {
   const [showDetails, setShowDetails] = useState(false);
   const [billingPeriod, setBillingPeriod] = useState<BillingPeriod>("monthly");
 
+
   const tier = TIERS.find((t) => t.key === selected)!;
   const isPro = tier.key === "PRO";
   const isEnterprise = tier.key === "ENTERPRISE";
@@ -291,6 +292,116 @@ export function PricingSection() {
         Every tier puts more specialists in your corner and more hours back in your week.
         Start free, scale when the results speak for themselves.
       </p>
+
+      {/* Founding Member Promo Banner — Always visible */}
+        <div className="mb-10 max-w-2xl mx-auto animate-in fade-in slide-in-from-top-4 duration-500">
+          {/* Shimmer border wrapper */}
+          <div className="relative rounded-2xl p-[2px] bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 shadow-lg shadow-amber-900/20"
+               style={{ backgroundSize: "200% 100%", animation: "promoShimmer 3s ease-in-out infinite" }}>
+            <div className="bg-zinc-900 rounded-2xl p-6 md:p-8">
+              {/* Header */}
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <Sparkles className="h-5 w-5 text-amber-400" />
+                <h3 className="text-lg md:text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-yellow-500">
+                  Limited Launch Deals
+                </h3>
+                <Sparkles className="h-5 w-5 text-amber-400" />
+              </div>
+              <p className="text-center text-sm text-zinc-400 mb-6">
+                Lock in founding member pricing — these one-time offers disappear once you leave.
+              </p>
+
+              {/* Two promo cards side by side */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+                {/* Launch Trial — Builder at $14.99 */}
+                <div className="relative bg-zinc-800/60 border border-emerald-700/50 rounded-xl p-5 flex flex-col">
+                  <div className="absolute -top-2.5 left-4">
+                    <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                      Launch Trial
+                    </span>
+                  </div>
+                  <p className="text-sm text-zinc-400 mt-2 mb-2">Builder plan</p>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-zinc-500 line-through text-base">$19.99</span>
+                    <span className="text-2xl font-bold text-emerald-400">$14.99</span>
+                    <span className="text-zinc-500 text-sm">/mo</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <span className="inline-block bg-emerald-500/20 text-emerald-400 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                      Save $5/mo
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <CreditCard className="h-3.5 w-3.5 text-zinc-500" />
+                    <span className="text-[11px] text-zinc-500">Credit card required</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
+                    One-time offer — price locked forever. Keep it a year to earn the <span className="text-amber-400 font-medium">OG Golden Egg</span> badge.
+                  </p>
+                  <div className="mt-auto">
+                    <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
+                      <Link href="/sign-up">
+                        Claim $14.99 Deal
+                        <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Growth Early Adopter — Growth at $39.99 */}
+                <div className="relative bg-zinc-800/60 border border-amber-700/50 rounded-xl p-5 flex flex-col">
+                  <div className="absolute -top-2.5 left-4">
+                    <span className="bg-amber-600 text-black text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                      Early Adopter
+                    </span>
+                  </div>
+                  <p className="text-sm text-zinc-400 mt-2 mb-0.5">Growth plan</p>
+                  <p className="text-[11px] text-emerald-400 font-medium mb-2">+ 7-day free trial</p>
+                  <div className="flex items-baseline gap-2 mb-2">
+                    <span className="text-zinc-500 line-through text-base">$49.99</span>
+                    <span className="text-2xl font-bold text-amber-400">$39.99</span>
+                    <span className="text-zinc-500 text-sm">/mo</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <span className="inline-block bg-amber-500/20 text-amber-400 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                      Save $10/mo
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <CreditCard className="h-3.5 w-3.5 text-zinc-500" />
+                    <span className="text-[11px] text-zinc-500">Credit card required</span>
+                  </div>
+                  <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
+                    One-time offer — price locked forever. Keep it a year to earn the <span className="text-amber-400 font-medium">OG Golden Egg</span> badge.
+                  </p>
+                  <div className="mt-auto">
+                    <Button asChild size="sm" className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold">
+                      <Link href="/sign-up">
+                        Claim $39.99 Deal
+                        <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      </Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* OG badge note */}
+              <p className="text-center text-[11px] text-zinc-600 mb-4">
+                OG and Golden Egg badges are visible across forums, profiles, and every app on Stone AI.
+              </p>
+
+              {/* Always visible — no dismiss */}
+            </div>
+          </div>
+
+          {/* Shimmer keyframes injected via style tag */}
+          <style jsx>{`
+            @keyframes promoShimmer {
+              0%, 100% { background-position: 0% 50%; }
+              50% { background-position: 100% 50%; }
+            }
+          `}</style>
+        </div>
 
       {/* Billing period toggle */}
       <div className="flex items-center justify-center gap-1 mb-8 bg-zinc-900 rounded-lg p-1 max-w-md mx-auto">
@@ -385,6 +496,18 @@ export function PricingSection() {
                     ? `Billed $${(getCurrentPrice(tier) * 12).toFixed(0)} per year (${discount})`
                     : `Billed $${(getCurrentPrice(tier) * 12).toFixed(2)} per year (${discount})`;
                 })()}
+              </p>
+            )}
+            {tier.key === "STARTER" && (
+              <p className="text-xs text-amber-400 mt-1 font-medium">
+                <Sparkles className="inline h-3 w-3 mr-1" />
+                Launch deal: $14.99/mo <span className="text-zinc-500 line-through">$19.99</span> — OG badge included
+              </p>
+            )}
+            {tier.key === "PLUS" && (
+              <p className="text-xs text-amber-400 mt-1 font-medium">
+                <Sparkles className="inline h-3 w-3 mr-1" />
+                Early adopter: $39.99/mo <span className="text-zinc-500 line-through">$49.99</span> — OG badge included
               </p>
             )}
           </div>
@@ -557,93 +680,17 @@ export function PricingSection() {
               <p className={isActive ? "text-zinc-300" : "text-zinc-700"}>
                 {formatPrice(t)}{t.price > 0 && !t.enterprise ? "/mo" : ""}
               </p>
+              {t.key === "STARTER" && (
+                <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$14.99 deal</p>
+              )}
+              {t.key === "PLUS" && (
+                <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$39.99 deal</p>
+              )}
             </button>
           );
         })}
       </div>
 
-      {/* Limited Sign-On Deals */}
-      <div className="mt-10">
-        <div className="flex items-center justify-center gap-2 mb-5">
-          <Sparkles className="h-5 w-5 text-amber-400" />
-          <h3 className="text-lg font-bold text-white">Limited Sign-On Deals</h3>
-          <Sparkles className="h-5 w-5 text-amber-400" />
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
-          {/* Launch Trial — Builder at $14.99 */}
-          <div className="relative bg-zinc-900 border border-emerald-800/60 rounded-xl p-5 flex flex-col">
-            <div className="absolute -top-2.5 left-4">
-              <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
-                Launch Trial
-              </span>
-            </div>
-            <p className="text-sm text-zinc-400 mt-2 mb-3">Builder plan</p>
-            <div className="flex items-baseline gap-2 mb-3">
-              <span className="text-zinc-500 line-through text-lg">$19.99</span>
-              <span className="text-3xl font-bold text-emerald-400">$14.99</span>
-              <span className="text-zinc-500 text-sm">/mo</span>
-            </div>
-            <div className="flex items-center gap-1.5 mb-2">
-              <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
-              <span className="text-xs text-zinc-400 font-medium">Credit card required</span>
-            </div>
-            <p className="text-xs text-amber-400/90 mb-2 leading-relaxed">
-              One-time offer — if you cancel, this price is gone forever
-            </p>
-            <p className="text-[11px] text-zinc-500 mb-4 leading-relaxed">
-              Lock in this price and join the OG founders. Keep it for a year — unlock the <span className="text-amber-400 font-medium">Golden Egg</span>, the rarest badge on Stone AI.
-            </p>
-            <div className="mt-auto">
-              <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
-                <Link href="/sign-up">
-                  Claim This Deal
-                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-
-          {/* Growth Early Adopter — Growth at $39.99 + 7-day trial */}
-          <div className="relative bg-zinc-900 border border-amber-700/60 rounded-xl p-5 flex flex-col">
-            <div className="absolute -top-2.5 left-4">
-              <span className="bg-amber-600 text-black text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
-                Early Adopter
-              </span>
-            </div>
-            <p className="text-sm text-zinc-400 mt-2 mb-1">Growth plan</p>
-            <p className="text-[11px] text-emerald-400 font-medium mb-2">+ 7-day free trial</p>
-            <div className="flex items-baseline gap-2 mb-3">
-              <span className="text-zinc-500 line-through text-lg">$49.99</span>
-              <span className="text-3xl font-bold text-amber-400">$39.99</span>
-              <span className="text-zinc-500 text-sm">/mo</span>
-            </div>
-            <div className="flex items-center gap-1.5 mb-2">
-              <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
-              <span className="text-xs text-zinc-400 font-medium">Credit card required</span>
-            </div>
-            <p className="text-xs text-amber-400/90 mb-2 leading-relaxed">
-              One-time offer — if you cancel, this price is gone forever
-            </p>
-            <p className="text-[11px] text-zinc-500 mb-4 leading-relaxed">
-              Lock in this price and join the OG founders. Keep it for a year — unlock the <span className="text-amber-400 font-medium">Golden Egg</span>, the rarest badge on Stone AI.
-            </p>
-            <div className="mt-auto">
-              <Button asChild size="sm" className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold">
-                <Link href="/sign-up">
-                  Claim This Deal
-                  <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* OG program callout */}
-        <p className="text-center text-xs text-zinc-600 mt-5 max-w-lg mx-auto">
-          OG and Golden Egg badges are visible across the entire Stone AI ecosystem — in the community forum, your profile, and every app in the platform.
-          Founding member status that everyone can see.
-        </p>
-      </div>
     </section>
   );
 }

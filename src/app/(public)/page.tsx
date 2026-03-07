@@ -116,9 +116,17 @@ export default function LandingPage() {
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
             42 AI specialists that think so you don't have to. Your data stays yours.
           </p>
-          <p className="text-base text-zinc-500 max-w-md mx-auto mb-10">
+          <p className="text-base text-zinc-500 max-w-md mx-auto mb-6">
             One platform. Instant responses. Starting at $0.
           </p>
+
+          {/* Promo callout */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-sm font-medium animate-pulse">
+              <Sparkles className="h-4 w-4" />
+              Launch Deals: Start at $14.99/mo — OG badge included
+            </div>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="bg-white text-black hover:bg-zinc-200 font-bold text-lg px-8">
