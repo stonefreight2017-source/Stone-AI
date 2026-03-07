@@ -1096,11 +1096,11 @@ FREE tier ($0/month): Access to 4 foundational agents: General Coding Assistant,
 
 STARTER tier ($19.99/month): Everything in FREE plus access to 13 agents including Project Management Coach, Health and Wellness Coach, and Research Synthesis. Increased Bestie companion limit. Enhanced conversation features. Billing options: Monthly at $19.99, 6-month at $17.99/month (10% savings), Annual at $15.99/month (20% savings). Perfect for: Freelancers, solopreneurs, and individuals building their first projects.
 
-PLUS tier ($49.99/month): Everything in STARTER plus access to 22 agents including E-Commerce Store Builder, Legal Basics Reviewer, Digital Marketing Strategist, and Podcast Production. Smart Mode powered by GPT-4o for advanced reasoning. 2 Bestie companions. Billing options: Monthly at $49.99, 6-month at $44.99/month (10% savings), Annual at $39.99/month (20% savings). Perfect for: Small business owners, content creators, and growing teams.
+PLUS tier ($49.99/month): Everything in STARTER plus access to 22 agents including E-Commerce Store Builder, Legal Basics Reviewer, Digital Marketing Strategist, and Podcast Production. Smart Mode powered by GPT-4o for advanced reasoning. 1 Bestie companion (powered by 30-agent knowledge). Billing options: Monthly at $49.99, 6-month at $44.99/month (10% savings), Annual at $39.99/month (20% savings). Perfect for: Small business owners, content creators, and growing teams.
 
-SMART tier ($99.99/month): Everything in PLUS plus access to all standard agents including Enterprise Implementation, HR and People Operations, and Real Estate Investing. Priority response times. 3 Bestie companions. Advanced analytics. Billing options: Monthly at $99.99, 6-month at $89.99/month (10% savings), Annual at $79.99/month (20% savings). Perfect for: Established businesses, agencies, and power users.
+SMART tier ($99.99/month): Everything in PLUS plus access to all standard agents including Enterprise Implementation, HR and People Operations, and Real Estate Investing. Priority response times. 1 Bestie companion (powered by all 42-agent knowledge). Advanced analytics. Billing options: Monthly at $99.99, 6-month at $89.99/month (10% savings), Annual at $79.99/month (20% savings). Perfect for: Established businesses, agencies, and power users.
 
-PRO tier ($200/month): Everything in SMART plus exclusive PRO-only agents. 5 Bestie companions. Dedicated support. Reseller program eligibility. Billing options: Monthly at $200, 6-month and Annual available with savings. Perfect for: Agencies, consultants, and businesses that want the full Stone AI experience.
+PRO tier ($200/month): Everything in SMART plus exclusive PRO-only agents. 1 Bestie companion (powered by all 42-agent knowledge). Dedicated support. Reseller program eligibility. Billing options: Monthly at $200, 6-month and Annual available with savings. Perfect for: Agencies, consultants, and businesses that want the full Stone AI experience.
 
 Upgrading: Navigate to Settings then Billing to upgrade at any time. You will be credited for the unused portion of your current billing period.`
     },
@@ -1126,7 +1126,7 @@ Creating your Bestie (3-step process): Step 1 -- Choose your Bestie's personalit
 
 Bestie capabilities: Persistent memory: Your Bestie remembers previous conversations and can reference past discussions. Goal tracking: Share your goals and your Bestie will check in on progress. Personalized advice: Unlike generic AI, your Bestie factors in your specific situation, preferences, and history. Emotional support: Your Bestie is designed with coaching ethics (ICF/NBHWC standards) and anti-dependency protocols to support your growth while encouraging self-reliance.
 
-Bestie limits by tier: FREE: 1 Bestie companion. STARTER: 1 Bestie companion. PLUS: 2 Bestie companions. SMART: 3 Bestie companions. PRO: 5 Bestie companions. You can create multiple Besties for different contexts (business, personal development, creative projects).
+Bestie limits by tier: FREE: 1 Bestie (4-agent knowledge). STARTER: 1 Bestie (16-agent knowledge). PLUS: 1 Bestie (30-agent knowledge). SMART: 1 Bestie (42-agent knowledge). PRO: 1 Bestie (42-agent knowledge). ENTERPRISE: 2 Besties (42+ agent knowledge each). Higher tiers unlock more agent expertise powering your bestie, not more besties.
 
 Safety and ethics: Your Bestie is built with a safety standard that is inviolable. It will not provide medical diagnoses, legal advice, or encourage harmful behavior. It includes built-in guardrails based on professional coaching ethics to ensure the relationship supports your well-being and growth.`
     },

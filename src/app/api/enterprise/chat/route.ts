@@ -156,7 +156,7 @@ Stone AI is an AI platform with 42 specialist agents (marketing, finance, coding
 ## KEY FEATURES BY TIER
 - **All tiers**: Local AI (unlimited, free), conversation history, data encryption (AES-256-GCM)
 - **Builder+**: File uploads, web lookups, saved documents, conversation export
-- **Growth+**: Voice chat, app connections (Zapier, Google, etc.), commercial rights
+- **Growth+**: Voice chat, commercial rights
 - **Executive+**: Priority speed, custom agent builder, team workspace, SOC 2 compliance, early access
 - **Reseller+**: API access, white-label, HIPAA compliance, custom model training
 

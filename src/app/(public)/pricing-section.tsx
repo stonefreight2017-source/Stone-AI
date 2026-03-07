@@ -129,7 +129,7 @@ const TIERS: TierInfo[] = [
       { text: "15 GPT-4o answers/day — auto-routed so the right brain handles each question", highlight: true },
       { text: "500 messages/day + live web research to keep your market intel fresh" },
       { text: "Talk out loud in 6 languages — serve clients from Tokyo to Buenos Aires", highlight: true },
-      { text: "1 AI Bestie — powered by 30 expert agents — connected to 5 apps, career, finance, wellness, and more" },
+      { text: "1 AI Bestie — powered by 30 expert agents — career, finance, wellness, and more" },
     ],
     details: {
       messagesPerDay: "500",
@@ -165,7 +165,7 @@ const TIERS: TierInfo[] = [
       { text: "1,000 messages/day with priority queue — your team never hits a wall", highlight: true },
       { text: "30 GPT-4o answers/day + build custom agents tailored to your workflow" },
       { text: "Team workspace with SOC 2 compliance — bring your people in safely" },
-      { text: "1 AI Bestie — powered by all 42 expert agents — wired into 10 apps, every specialist on call, every day" },
+      { text: "1 AI Bestie — powered by all 42 expert agents — every specialist on call, every day" },
     ],
     details: {
       messagesPerDay: "1,000",
@@ -200,7 +200,7 @@ const TIERS: TierInfo[] = [
       { text: "Commercial license + reseller rights — charge your clients, keep the margin", highlight: true },
       { text: "3,000 messages/day + 50 GPT-4o — enough firepower to serve a client roster" },
       { text: "Fine-tune models on your data — your AI gets smarter the more you use it", highlight: true },
-      { text: "1 AI Bestie — powered by all 42 expert agents — + 50 app connections, a genius operator across your entire stack" },
+      { text: "1 AI Bestie — powered by all 42 expert agents — a genius operator across your entire business" },
       { text: "HIPAA + SOC 2 — serve healthcare, finance, and regulated clients with confidence" },
     ],
     details: {

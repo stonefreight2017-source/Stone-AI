@@ -159,7 +159,7 @@ export function BillingClient({
     PLUS: {
       tagline: "For businesses that are growing and need more firepower",
       highlight: "Most Popular",
-      whyUpgrade: "Best for: growing businesses with 1-5 people. You've launched and now you need to scale. 500 messages/day handles a full workday of AI-assisted marketing, content, and strategy. App connections let your AI team talk to your existing tools. This is the sweet spot for most small businesses.",
+      whyUpgrade: "Best for: growing businesses with 1-5 people. You've launched and now you need to scale. 500 messages/day handles a full workday of AI-assisted marketing, content, and strategy. This is the sweet spot for most small businesses.",
       features: [
         "30 AI agents — covers every business function (marketing, sales, legal, coding, HR, design, and more)",
         "500 messages a day — enough for a full workday of AI-assisted work across multiple projects",
@@ -168,8 +168,7 @@ export function BillingClient({
         "25 web lookups/day — agents pull live data: competitor prices, trending topics, market research",
         "Run code — test ideas, analyze data, or build prototypes without leaving the conversation",
         "30 saved documents — upload product catalogs, brand guides, SOPs — AI references them automatically",
-        "5 app connections — connect email, CRM, Google Docs, Slack, or Zapier so AI works with your existing tools",
-        "2 AI Besties — one for business, one for life — each remembers and operates independently",
+        "1 AI Bestie — powered by 30 expert agents — career, finance, wellness, and more",
         "Commercial rights — use anything AI creates in your business, no attribution required",
       ],
     },
@@ -184,10 +183,9 @@ export function BillingClient({
         "Build your own agents — train AI on your exact products, processes, and company knowledge",
         "60 web lookups + 60 code runs/day — real-time market research and rapid prototyping",
         "100 saved documents — your AI knows your entire business: SOPs, client lists, product specs",
-        "10 app connections — link CRM, email, project management, accounting, and more",
         "Team workspace — your team shares agents, conversations, and knowledge in one place",
         "SOC 2 compliance — required if you work with enterprise clients or handle sensitive data",
-        "3 AI Besties — dedicated operators for business, personal growth, and learning",
+        "1 AI Bestie — powered by all 42 expert agents — every specialist on call, every day",
         "Early access — try new agents and features 30 days before everyone else",
       ],
     },
@@ -201,12 +199,11 @@ export function BillingClient({
         "API access — build your own apps, chatbots, or tools powered by Stone AI (your clients never see us)",
         "White-label — put your logo, your colors, your domain on it. Clients think it's yours",
         "Custom model training — teach AI your industry's jargon, processes, and best practices",
-        "50 app connections — wire up every tool in your stack and your clients' stacks",
         "HIPAA compliance — required if you serve healthcare, therapy, or medical clients",
         "500 saved documents — an entire knowledge base for your business and your clients' businesses",
         "150 web lookups + 150 code runs/day — enterprise-grade research and rapid prototyping",
         "2x referral rewards — earn double commission when you bring others to Stone AI",
-        "5 AI Besties — a full roster of AI operators across every part of your life and business",
+        "1 AI Bestie — powered by all 42 expert agents — a genius operator across your entire business",
         "Everything in Executive, plus dedicated priority support",
       ],
     },
@@ -649,10 +646,6 @@ export function BillingClient({
             <p>
               <strong className="text-zinc-300">What are &quot;premium answers&quot;?</strong>{" "}
               These are powered by GPT-4o — a more advanced AI that gives deeper, longer, and more accurate responses. Regular messages use our fast local AI (unlimited). Premium is for when you need the best possible answer.
-            </p>
-            <p>
-              <strong className="text-zinc-300">What are &quot;app connections&quot;?</strong>{" "}
-              These let your AI agents talk to other apps you already use — like Google Docs, Zapier, Slack, or your CRM. More connections = more automation.
             </p>
             <p>
               <strong className="text-zinc-300">What are &quot;saved documents&quot;?</strong>{" "}

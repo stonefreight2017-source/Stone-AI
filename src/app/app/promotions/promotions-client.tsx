@@ -850,9 +850,9 @@ export function PromotionsClient({
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">1</td>
                 <td className="text-center py-3 px-2 text-zinc-300">1</td>
-                <td className="text-center py-3 px-2 text-zinc-300">2</td>
-                <td className="text-center py-3 px-2 text-zinc-300">3</td>
-                <td className="text-center py-3 px-2 text-zinc-300">5</td>
+                <td className="text-center py-3 px-2 text-zinc-300">1</td>
+                <td className="text-center py-3 px-2 text-zinc-300">1</td>
+                <td className="text-center py-3 px-2 text-zinc-300">1</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
@@ -864,17 +864,6 @@ export function PromotionsClient({
                 <td className="text-center py-3 px-2 text-zinc-300">30</td>
                 <td className="text-center py-3 px-2 text-zinc-300">100</td>
                 <td className="text-center py-3 px-2 text-zinc-300">500</td>
-              </tr>
-              <tr className="border-b border-zinc-800/50">
-                <td className="py-3 px-2">
-                  <p className="text-zinc-300 font-medium text-xs">App connections (Zapier, Google, etc.)</p>
-                  <p className="text-[10px] text-zinc-500">Each connection = 1 app AI can talk to. 5 covers email + CRM + docs + calendar + Slack. 10+ for larger tool stacks.</p>
-                </td>
-                <td className="text-center py-3 px-2 text-zinc-600">—</td>
-                <td className="text-center py-3 px-2 text-zinc-600">—</td>
-                <td className="text-center py-3 px-2 text-zinc-300">5</td>
-                <td className="text-center py-3 px-2 text-zinc-300">10</td>
-                <td className="text-center py-3 px-2 text-zinc-300">50</td>
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
