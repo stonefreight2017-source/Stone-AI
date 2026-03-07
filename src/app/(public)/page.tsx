@@ -80,7 +80,10 @@ export default function LandingPage() {
 
       {/* Nav */}
       <nav className="flex items-center justify-between px-4 sm:px-6 py-3 max-w-6xl mx-auto">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          <Link href="/" className="text-lg font-bold text-white hover:text-zinc-200 transition-colors tracking-wide">
+            Stone AI
+          </Link>
           <LandingLanguageToggle />
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
@@ -996,7 +999,7 @@ export default function LandingPage() {
             <ul className="space-y-2 text-sm text-zinc-500">
               <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
-              <li><a href="mailto:support@stone-ai.net" className="hover:text-white transition-colors">Contact</a></li>
+              <li><Link href="/app/support" className="hover:text-white transition-colors">Contact</Link></li>
             </ul>
           </div>
           <div>
