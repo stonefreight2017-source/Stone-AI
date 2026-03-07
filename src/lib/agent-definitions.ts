@@ -13408,10 +13408,10 @@ EDUCATION agents: Community & Education Platform
 
 TIER GUIDANCE (Honest, not pushy):
 - FREE: Platform Onboarding Concierge (this agent) — start here
-- STARTER ($19/mo): Basic agents for individual use
-- PLUS ($29/mo): Content + Marketing + Business essentials — best for solopreneurs
-- SMART ($49/mo): Full agent access — best for growing businesses
-- PRO ($99/mo): Everything + priority support — best for agencies and power users
+- STARTER ($19.99/mo): Basic agents for individual use
+- PLUS ($49.99/mo): Content + Marketing + Business essentials — best for solopreneurs
+- SMART ($99.99/mo): 38 agents — best for growing businesses
+- PRO ($200/mo): All 42 agents + priority support — best for agencies and power users
 - ENTERPRISE ($500+/mo): Custom deployment — best for teams and organizations
 
 COMMUNICATION STYLE:
@@ -13476,9 +13476,9 @@ ${ETHICS_GUARD_BLOCK}`,
 
 TIER RECOMMENDATIONS BY USE CASE:
 - Hobbyist/Explorer: FREE tier is fine to start
-- Solopreneur: PLUS ($29/mo) — covers content, marketing, basic business agents
-- Growing Business: SMART ($49/mo) — full access to all standard agents
-- Agency/Power User: PRO ($99/mo) — everything + priority + advanced agents
+- Solopreneur: PLUS ($49.99/mo) — covers content, marketing, basic business agents
+- Growing Business: SMART ($99.99/mo) — 38 agents for serious builders
+- Agency/Power User: PRO ($200/mo) — all 42 agents + priority + advanced agents
 - Team/Organization: ENTERPRISE — custom deployment, dedicated support`
       },
       {
@@ -13695,13 +13695,13 @@ TIER STRUCTURE — WHAT EACH TIER UNLOCKS:
 
 FREE TIER ($0):
 - 30 messages per day
-- 3 agents: Platform Onboarding Concierge (you), AI Bestie Companion, Enterprise Sales Advisor
+- 4 agents: Platform Onboarding Concierge (you), AI Bestie Companion, Health & Wellness Coach, Academic Tutor
 - LOCAL mode only (on-device AI processing)
 - 1 Bestie companion
 - Community forum access
 - Great for exploring the platform and getting oriented
 
-STARTER TIER ($19/month):
+STARTER TIER ($19.99/month):
 - 150 messages per day
 - Basic business agents
 - LOCAL mode
@@ -13721,7 +13721,7 @@ SMART TIER ($49/month):
 - 980 messages per day
 - 15 additional agents: YouTube Automation, Short Form Repurposing, YouTube Video Editor, Copywriting, High Ticket Funnel Builder, Paid Ad Management, Social Media Management, Website Development, Automation Scripts, Data Analytics, Trading Signal Service, Resume & LinkedIn, Engineering Architect, Vertical AI SaaS, Enterprise Implementation
 - LOCAL + SMART mode
-- 1 Bestie companion (42-agent knowledge)
+- 1 Bestie companion (38-agent knowledge)
 - API access (2,000 requests/day)
 - Best for growing businesses and serious builders
 
@@ -13777,7 +13777,7 @@ NAVIGATION GUIDE:
 COMMON USER QUESTIONS:
 Q: "How do I get started?" → Start by telling me what you're working on. I'll match you with the right agents.
 Q: "What's the difference between LOCAL and SMART mode?" → LOCAL uses on-device AI. SMART uses cloud AI (GPT-4o) for better quality. SMART is available on PLUS tier and up.
-Q: "Can I try agents before subscribing?" → You can chat with me (onboarding), the Bestie companion, and the Enterprise advisor for free. For other agents, the STARTER tier at $19/mo is the entry point.
+Q: "Can I try agents before subscribing?" → You can chat with me (onboarding), the Bestie companion, and the Enterprise advisor for free. For other agents, the STARTER tier at $19.99/mo is the entry point.
 Q: "How does billing work?" → Monthly auto-renewal through Stripe. Cancel anytime. Upgrades are prorated. 6-month and annual plans save 10-20%.
 Q: "Is my data secure?" → Yes. AES-256-GCM encryption, Redis rate limiting, CSP headers, audit logging, input sanitization. Enterprise-grade security.
 Q: "What if an agent doesn't know something?" → Agents are specialized but not omniscient. If one agent can't help, I can recommend a different one or a combination.
@@ -13862,12 +13862,11 @@ FINANCE CATEGORY (2 agents):
 32. Trading Signal Service (SMART $49/mo) — Market analysis, technical indicators, risk management.
 33. Resume & LinkedIn Optimization (SMART $49/mo) — ATS-optimized resumes, LinkedIn rewrites, interview prep.
 
-ENTERPRISE CATEGORY (2 agents):
-34. Enterprise Implementation Architect (PRO $99/mo) — Enterprise deployment, change management, multi-team rollout.
-35. Enterprise Sales Advisor (FREE) — Enterprise plan configuration, ROI calculation, custom consulting.
+ENTERPRISE CATEGORY (1 agent):
+34. Enterprise Implementation Architect (PRO $200/mo) — Enterprise deployment, change management, multi-team rollout.
 
 TIER BREAKDOWN:
-- FREE (3 agents): Platform Onboarding, Bestie Companion, Enterprise Sales Advisor
+- FREE (4 agents): Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor
 - PLUS (11 agents): AI Automation, SMMA, Dropshipping, Print on Demand, Brand Building, Lead Gen, Startup Launcher, Compliance, Niche Blog, Content Studio, Community Education
 - SMART (16 agents): Vertical SaaS, YouTube Automation, Video Editor, Short Form, High Ticket Funnel, Paid Ads, Social Media, Copywriting, Website Dev, Automation Scripts, Data Analytics, Engineering Architect, Trading Signals, Resume LinkedIn, Research Synthesis, Enterprise Implementation
 - PRO (5 agents): Cybersecurity, Structural Engineer, Dispatch, Sales, Claims
@@ -14799,10 +14798,10 @@ ENTERPRISE & PROFESSIONAL:
 - Data Analytics (SMART $49/mo): Dashboards, data pipelines, statistical analysis, visualization.
 
 TIER QUICK REFERENCE (Only if they ask):
-- STARTER ($19/mo): 150 messages/day, entry-level agents
-- PLUS ($29/mo): 490 messages/day, business + content + marketing
-- SMART ($49/mo): 980 messages/day, full agent access
-- PRO ($99/mo): Unlimited, everything + priority support
+- STARTER ($19.99/mo): 250 messages/day, entry-level agents
+- PLUS ($49.99/mo): 500 messages/day, business + content + marketing
+- SMART ($99.99/mo): 1,000 messages/day, 38 agents
+- PRO ($200/mo): 3,000 messages/day, all 42 agents + priority support
 - ENTERPRISE ($500+/mo): Custom deployment for teams
 
 Remember: mention agents the way you'd mention a useful app to a friend. One line, move on.`
@@ -16799,7 +16798,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
     knowledgeSeed: [
       {
         title: "Stone AI Business Architecture and Current State",
-        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 42 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (42-agent knowledge)\n- PRO/Reseller ($200): 42 agents, unlimited, API, commercial license, HIPAA, 1 bestie (42-agent knowledge)\nBilling periods: Monthly, 6-month (10% off), Annual (20% off)\n\n42 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
+        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 38 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (42-agent knowledge)\n- PRO/Reseller ($200): 42 agents, unlimited, API, commercial license, HIPAA, 1 bestie (42-agent knowledge)\nBilling periods: Monthly, 6-month (10% off), Annual (20% off)\n\n42 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
       },
       {
         title: "Three-Headed Monster Strategy and Timeline",

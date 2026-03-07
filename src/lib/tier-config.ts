@@ -82,7 +82,7 @@ export interface TierConfig {
  * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
  * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
  * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
- * SMART    | Executive    | $99.99  | 42     | 30/day           | ~$27            | 73%
+ * SMART    | Executive    | $99.99  | 38     | 30/day           | ~$27            | 73%
  * PRO      | Reseller     | $200    | 42     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
@@ -248,7 +248,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 42,
+    agentCount: 38,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_000,
@@ -371,6 +371,14 @@ export function getLocalModel(tier: Tier): string {
 
 export type BillingPeriod = "monthly" | "semiannual" | "annual";
 
+/**
+ * Standard billing discounts for FREE through SMART tiers.
+ * NOTE: PRO (Reseller) and Enterprise use REDUCED discounts:
+ *   - Monthly: full price
+ *   - 6-month: NO discount (same as monthly)
+ *   - Annual: 5% off only
+ * These special cases are defined in pricing-section.tsx (price6month / priceAnnual fields).
+ */
 export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: number; months: number }[] = [
   { key: "monthly", label: "Monthly", discount: 0, months: 1 },
   { key: "semiannual", label: "6 Months", discount: 10, months: 6 },
@@ -457,7 +465,9 @@ export function mapPriceToTier(priceId: string): Tier | null {
  * FREE agents: available to all tiers
  * PLUS agents: available to STARTER (Builder) and above
  * SMART agents: available to PLUS (Growth) and above
- * PRO agents: available to SMART (Executive) and above
+ * PRO agents: available to PRO (Reseller) and above only
+ *
+ * Result: FREE=4, STARTER=16, PLUS=30, SMART=38, PRO=42 agents
  */
 export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier): boolean {
   const userPriority = TIER_CONFIG[userTier].priority;
@@ -466,7 +476,7 @@ export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier): boolean
   // This allows the 14 "plan & start" agents to be available at Builder tier
   if (agentRequiredTier === "PLUS") return userPriority >= 1; // STARTER+
   if (agentRequiredTier === "SMART") return userPriority >= 2; // PLUS+
-  if (agentRequiredTier === "PRO") return userPriority >= 3;   // SMART+
+  if (agentRequiredTier === "PRO") return userPriority >= 4;   // PRO+ only (not SMART)
   return true; // FREE agents available to everyone
 }
 

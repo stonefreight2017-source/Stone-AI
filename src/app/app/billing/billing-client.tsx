@@ -176,7 +176,7 @@ export function BillingClient({
       tagline: "Your full AI-powered business command center",
       whyUpgrade: "Best for: established businesses with 5-20 people, or founders running multiple projects. 1,000 messages/day means your whole team can use AI all day long. Build custom agents trained on your specific processes. Team workspace lets everyone collaborate. SOC 2 compliance means you can use this with enterprise clients. This replaces hiring 2-3 junior employees.",
       features: [
-        "All 42 AI agents — zero restrictions, every specialist available to your whole team",
+        "38 AI agents — nearly every specialist available to your whole team",
         "1,000 messages a day — enough for a team of 5-20 to use AI throughout the workday",
         "30 premium answers/day — deep strategy, board-ready reports, complex financial analysis",
         "Priority speed — when the platform is busy, your team's requests go first",
@@ -185,7 +185,7 @@ export function BillingClient({
         "100 saved documents — your AI knows your entire business: SOPs, client lists, product specs",
         "Team workspace — your team shares agents, conversations, and knowledge in one place",
         "SOC 2 compliance — required if you work with enterprise clients or handle sensitive data",
-        "1 AI Bestie — powered by all 42 expert agents — every specialist on call, every day",
+        "1 AI Bestie — powered by 38 expert agents — nearly every specialist on call, every day",
         "Early access — try new agents and features 30 days before everyone else",
       ],
     },

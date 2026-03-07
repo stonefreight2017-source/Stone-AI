@@ -198,7 +198,7 @@ export function PromotionsClient({
                 </div>
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
-                  14 specialized agents
+                  16 specialized agents
                 </div>
                 <div className="flex items-center gap-2 text-zinc-300">
                   <Check className="h-3 w-3 text-emerald-400" />
@@ -330,7 +330,7 @@ export function PromotionsClient({
                 <p>Builder: $17.99/mo (save $12 over 6 months)</p>
                 <p>Growth: $44.99/mo (save $30 over 6 months)</p>
                 <p>Executive: $89.99/mo (save $60 over 6 months)</p>
-                <p>Reseller: $180/mo (save $120 over 6 months)</p>
+                <p>Reseller: $200/mo (no 6-month discount)</p>
               </div>
             </CardContent>
           </Card>
@@ -345,7 +345,7 @@ export function PromotionsClient({
                 <p>Builder: $15.99/mo (save $48/yr)</p>
                 <p>Growth: $39.99/mo (save $120/yr)</p>
                 <p>Executive: $79.99/mo (save $240/yr)</p>
-                <p>Reseller: $160/mo (save $480/yr)</p>
+                <p>Reseller: $190/mo (save $120/yr, 5% off)</p>
               </div>
             </CardContent>
           </Card>
@@ -829,7 +829,7 @@ export function PromotionsClient({
                 <td className="text-center py-3 px-2 text-zinc-300">4</td>
                 <td className="text-center py-3 px-2 text-zinc-300">16</td>
                 <td className="text-center py-3 px-2 text-zinc-300">30</td>
-                <td className="text-center py-3 px-2 text-zinc-300">All 42</td>
+                <td className="text-center py-3 px-2 text-zinc-300">38</td>
                 <td className="text-center py-3 px-2 text-white font-medium">All 42</td>
               </tr>
               <tr className="border-b border-zinc-800/50">

@@ -110,8 +110,8 @@ const TOKEN_OPTIONS = [
 
 const BILLING_PERIODS = [
   { key: "monthly", label: "Monthly", discount: 0, months: 1 },
-  { key: "semiannual", label: "6 Months", discount: 10, months: 6 },
-  { key: "annual", label: "Annual", discount: 20, months: 12 },
+  { key: "semiannual", label: "6 Months", discount: 0, months: 6 },
+  { key: "annual", label: "Annual", discount: 5, months: 12 },
 ] as const;
 
 const FINANCING_OPTIONS = [

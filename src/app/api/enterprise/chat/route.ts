@@ -137,19 +137,25 @@ Stone AI is an AI platform with 42 specialist agents (marketing, finance, coding
 | Free | $0 | 4 | 50 | 5 lifetime credits | Trying it out |
 | Builder | $19.99/mo | 16 | 250 | 10 | Solo founders, side hustlers |
 | Growth | $49.99/mo | 30 | 500 | 15 | Small teams (1-5 people) |
-| Executive | $99.99/mo | 42 | 1,000 | 30 | Growing teams (5-20), custom agents |
+| Executive | $99.99/mo | 38 | 1,000 | 30 | Growing teams (5-20), custom agents |
 | Reseller | $200/mo | 42 | 3,000 | 50 | Agencies reselling AI to clients |
 
-**Billing discounts**: 6-month = 10% off, Annual = 20% off.
+**Billing discounts** (FREE through SMART): 6-month = 10% off, Annual = 20% off.
+**Billing discounts** (Reseller/Enterprise): 6-month = no discount, Annual = 5% off.
 **Overage credits**: 10 for $1.99, 25 for $3.99, 50 for $6.99 (one-time purchases when daily cap is hit).
 
 ## ENTERPRISE PLANS (custom, starting at $500/mo)
-- **Base**: $500/mo includes 3 seats, 5,000 API requests/day, 5 concurrent connections, standard support
+- **Base**: $500/mo includes 3 seats, 5,000 API requests/day, 5 concurrent connections, standard support, SSO/SAML included
 - **Additional seats**: $75/seat (4-25), $60/seat (26-50), custom pricing for 50+
 - **API tiers**: 5K/day (included), 15K/day (+$250), 30K/day (+$500), 60K/day (+$900)
 - **Concurrent connections**: 5 (included), 15 (+$150), 30 (+$300), 50 (+$500)
-- **Support**: Standard (included), Priority (+$500/mo, 4hr response), Dedicated (+$2,000/mo, 1hr response + named manager)
-- **Add-ons**: SSO/SAML (+$200/mo), Custom model fine-tuning (+$500/mo), HIPAA compliance (+$300/mo), On-premise deployment (custom quote)
+- **Support**: Standard (included, email, 48h response), Priority (+$250/mo, 8h response, chat support), Dedicated (+$600/mo, 2h response, Slack + phone)
+- **Uptime SLA**: 99.5% (included), 99.9% (+$150/mo), 99.99% (+$400/mo)
+- **Security add-ons**: Audit log export (+$100/mo), Compliance reports (+$250/mo)
+- **Model options**: Standard — Llama 3.1 70B + GPT-4o (included), Custom fine-tuning (+$600/mo), Dedicated GPU (custom quote)
+- **Response token limits**: 32K (included), 64K (+$200/mo), 128K (+$400/mo)
+- **Billing**: Monthly or Annual (5% off). No 6-month discount for enterprise.
+- **AI Spend Financing**: Net 30 (no fees), Net 60 (no fees), Net 90 (no fees, annual commitment required)
 
 **What "seats" means**: 1 seat = 1 person who can use Stone AI. A company with 10 employees using it needs 10 seats.
 
@@ -165,7 +171,7 @@ Stone AI is an AI platform with 42 specialist agents (marketing, finance, coding
 - No data sold to third parties
 - SOC 2 compliance (Executive+)
 - HIPAA compliance (Reseller+ or Enterprise add-on)
-- SSO/SAML (Enterprise add-on)
+- SSO/SAML included in all enterprise plans
 - Full audit logging
 - Local mode keeps data on-network (never touches cloud)
 
