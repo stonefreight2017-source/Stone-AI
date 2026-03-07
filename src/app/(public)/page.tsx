@@ -267,7 +267,7 @@ export default function LandingPage() {
           {/* 3 steps */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { step: "1", title: "Sign up free", desc: "Takes 30 seconds. No credit card. You're chatting with 4 AI agents before your coffee gets cold." },
+              { step: "1", title: "Sign up free", desc: "Google, Apple, Outlook, Yahoo — pick your login. No credit card, no forms. You're chatting with 4 AI agents before your coffee gets cold." },
               { step: "2", title: "Chat locally", desc: "Ask anything — the agent thinks through angles, weighs options, and delivers the answer before you finish the thought. Your data never leaves our network." },
               { step: "3", title: "Add Smart mode", desc: "Hit a wall? Flip on GPT-4o for the heavy stuff. You pick when. You control the cost." },
             ].map((s) => (
@@ -890,7 +890,7 @@ export default function LandingPage() {
                 <Link href="#pricing">Compare Plans</Link>
               </Button>
             </div>
-            <p className="text-xs text-zinc-600">No credit card. No trial. No catch.</p>
+            <p className="text-xs text-zinc-600">No credit card — sign up with Google, Apple, Outlook, or Yahoo. No trial. No catch.</p>
           </AnimateOnScroll>
         </div>
       </section>
@@ -904,7 +904,7 @@ export default function LandingPage() {
             <div className="text-center mb-12">
               <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">Limited Time</Badge>
               <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">What You Get — Right Now</h2>
-              <p className="text-zinc-400 max-w-xl mx-auto">No credit card. No trial countdown. Just start.</p>
+              <p className="text-zinc-400 max-w-xl mx-auto">Sign up with Google, Apple, Outlook, or Yahoo — no credit card, no trial countdown. Just start.</p>
             </div>
           </ScrollSection>
 

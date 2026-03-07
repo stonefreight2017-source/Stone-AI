@@ -59,7 +59,7 @@ const TIERS: TierInfo[] = [
       { text: "1 AI Bestie — powered by 4 expert agents — that remembers you tomorrow" },
       { text: "Every conversation saved — pick up right where you left off" },
       { text: "Your data stays on our servers, never sold or shared" },
-      { text: "No credit card, no trial clock — just go" },
+      { text: "No credit card — sign up with Google, Apple, or email in seconds" },
     ],
     details: {
       messagesPerDay: "100",
