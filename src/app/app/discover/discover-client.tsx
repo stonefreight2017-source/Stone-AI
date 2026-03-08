@@ -211,12 +211,12 @@ const TIER_WORLDS: TierWorld[] = [
     description:
       "The final four agents unlock — cybersecurity, enterprise implementation, engineering architecture, and startup launcher at the highest level. Plus API access to build Stone AI into your own workflows, white-label rights, and HIPAA compliance. This is the full arsenal for agencies and power users.",
     bestieStory:
-      "Your Bestie is now powered by all 43 expert agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
+      "Your Bestie is now powered by all 42 expert agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (All 43-Agent Knowledge)",
+    bestieName: "Your Bestie (All 42-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "3,000 messages/day",
-    agentCount: 43,
+    agentCount: 42,
     agentCategories: [
       { icon: <Shield className="h-4 w-4" />, label: "Security", examples: "Cybersecurity Consultant — enterprise-grade protection" },
       { icon: <Briefcase className="h-4 w-4" />, label: "Professional", examples: "Enterprise Implementation, Engineering Architect" },
@@ -224,7 +224,7 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Crown className="h-4 w-4" />, label: "Priority", examples: "Priority queue, commercial license, early access" },
     ],
     capabilities: [
-      "All 43 agents on the platform",
+      "All 42 agents on the platform",
       "Priority queue — your requests go first",
       "API access for custom integrations",
       "White-label + commercial license",
@@ -253,7 +253,7 @@ const TIER_WORLDS: TierWorld[] = [
     bestieName: "Team Companions, Custom-Trained",
     bestieCount: "2 companions",
     messagesPerDay: "50,000+ messages/day",
-    agentCount: 43,
+    agentCount: 42,
     agentCategories: [
       { icon: <Building2 className="h-4 w-4" />, label: "Team Deployment", examples: "Custom seats, roles, and permissions" },
       { icon: <Globe className="h-4 w-4" />, label: "White-Label", examples: "Your brand, your domain, our technology" },

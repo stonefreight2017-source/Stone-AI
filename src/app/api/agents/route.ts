@@ -12,7 +12,7 @@ export async function GET() {
     const userTier = user.tier as Tier;
 
     // Hidden agent slugs — internal use only, not shown in marketplace
-    const HIDDEN_AGENTS = ["stone"];
+    const HIDDEN_AGENTS = ["stone", "chaos"];
 
     const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
     const isAdmin = adminEmails.includes(user.email.toLowerCase());

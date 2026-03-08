@@ -1,21 +1,41 @@
 import { db } from "@/lib/db";
+import { encrypt, decrypt } from "@/lib/encryption";
 
 /**
  * Bestie Memory System
  *
  * Separate from AgentMemory to avoid FK constraint issues.
  * Each bestie maintains per-user memory that persists across sessions.
+ *
+ * All memory values are encrypted at rest using AES-256-GCM.
+ * Backward compatible: reads handle both encrypted and legacy plaintext values.
  */
+
+/**
+ * Decrypt a value, falling back to plaintext for legacy unencrypted data.
+ */
+function safeDecrypt(value: string): string {
+  try {
+    return decrypt(value);
+  } catch {
+    // Legacy plaintext data — return as-is
+    return value;
+  }
+}
 
 export async function getBestieMemory(
   bestieId: string,
   userId: string
 ) {
-  return db.bestieMemory.findMany({
+  const memories = await db.bestieMemory.findMany({
     where: { bestieId, userId },
     orderBy: { updatedAt: "desc" },
     select: { key: true, value: true, updatedAt: true },
   });
+  return memories.map((m) => ({
+    ...m,
+    value: safeDecrypt(m.value),
+  }));
 }
 
 export async function setBestieMemory(
@@ -24,12 +44,13 @@ export async function setBestieMemory(
   key: string,
   value: string
 ) {
+  const encryptedValue = encrypt(value);
   await db.bestieMemory.upsert({
     where: {
       bestieId_userId_key: { bestieId, userId, key },
     },
-    create: { bestieId, userId, key, value },
-    update: { value },
+    create: { bestieId, userId, key, value: encryptedValue },
+    update: { value: encryptedValue },
   });
 }
 

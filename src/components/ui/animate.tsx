@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 interface AnimateOnScrollProps {
   children: React.ReactNode;
@@ -19,7 +19,16 @@ export function AnimateOnScroll({
   duration = 0.6,
 }: AnimateOnScrollProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  // Safety net: if useInView never fires within 2s, force visible
+  const [forceVisible, setForceVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setForceVisible(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const shouldShow = isInView || forceVisible;
 
   const directionMap = {
     up: { y: 40, x: 0 },
@@ -35,7 +44,7 @@ export function AnimateOnScroll({
     <motion.div
       ref={ref}
       initial={{ opacity: 0, y, x }}
-      animate={isInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}
+      animate={shouldShow ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}
       transition={{ duration, delay, ease: "easeOut" }}
       className={className}
     >
@@ -56,13 +65,22 @@ export function StaggerChildren({
   staggerDelay = 0.1,
 }: StaggerChildrenProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  // Safety net: if useInView never fires within 2s, force visible
+  const [forceVisible, setForceVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setForceVisible(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const shouldShow = isInView || forceVisible;
 
   return (
     <motion.div
       ref={ref}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={shouldShow ? "visible" : "hidden"}
       variants={{
         hidden: {},
         visible: { transition: { staggerChildren: staggerDelay } },
@@ -168,15 +186,24 @@ export function CountUp({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
+  // Safety net: if useInView never fires within 2s, force visible
+  const [forceVisible, setForceVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setForceVisible(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const shouldShow = isInView || forceVisible;
 
   return (
     <motion.span
       ref={ref}
       className={className}
       initial={{ opacity: 0 }}
-      animate={isInView ? { opacity: 1 } : {}}
+      animate={shouldShow ? { opacity: 1 } : {}}
     >
-      {isInView ? (
+      {shouldShow ? (
         <motion.span>
           {prefix}
           <motion.span

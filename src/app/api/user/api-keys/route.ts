@@ -9,7 +9,7 @@ import type { Tier } from "@/lib/tier-config";
 
 const createKeySchema = z.object({
   name: z.string().min(1).max(100).default("Default"),
-});
+}).strict();
 
 // GET /api/user/api-keys — list user's API keys
 export async function GET() {

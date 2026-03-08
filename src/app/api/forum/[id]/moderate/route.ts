@@ -6,7 +6,7 @@ import { z } from "zod";
 
 const moderateSchema = z.object({
   action: z.enum(["pin", "unpin", "lock", "unlock", "delete"]),
-});
+}).strict();
 
 // POST /api/forum/[id]/moderate — admin moderation actions
 export async function POST(

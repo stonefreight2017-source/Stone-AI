@@ -513,6 +513,22 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent to plan and execute enterprise-scale Stone AI deployments. It handles architecture, compliance documentation, change management, and integration strategy. The bridge between our platform and large organization requirements.",
   },
+  chaos: {
+    capabilities: [
+      "System Monitoring",
+      "Network Diagnostics",
+      "File System Intelligence",
+      "Build Health Monitoring",
+      "Universal Search (HYPER-SEARCH)",
+      "Environment Auditing",
+      "Dependency Analysis",
+      "Process Management",
+      "Container Health",
+      "Infrastructure Reporting",
+    ],
+    businessUse:
+      "Founder-exclusive infrastructure intelligence — monitors, searches, and maintains all systems, networks, and websites. Can execute fixes and deployments with founder authorization.",
+  },
   "bestie-companion-base": {
     capabilities: [
       "Provide personalized emotional support and companionship",

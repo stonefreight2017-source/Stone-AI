@@ -28,14 +28,17 @@ import {
   Network,
   Terminal,
   Mic,
+  Megaphone,
+  Home,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Insignia } from "@/components/brand/Insignia";
+import { LandingLanguageToggle } from "./landing-language-toggle";
 import { PricingSection } from "./pricing-section";
 import { LandingTabs } from "./landing-tabs";
-import { LandingLanguageToggle } from "./landing-language-toggle";
+import { DepartmentTabs } from "./department-tabs";
 import {
   HeroSection,
   ScrollSection,
@@ -73,16 +76,11 @@ export default function LandingPage() {
         </svg>
       </div>
       <div className="relative z-10">
-      {/* Insignia — centered */}
-      <div className="flex justify-center pt-8 pb-4">
-        <Insignia size={18} />
-      </div>
-
-      {/* Nav */}
-      <nav className="flex items-center justify-between px-4 sm:px-6 py-3 max-w-6xl mx-auto">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="text-lg font-bold text-white hover:text-zinc-200 transition-colors tracking-wide">
-            Stone AI
+      {/* Top bar — home + language upper-left, nav links upper-right */}
+      <div className="flex items-center justify-between px-4 sm:px-6 pt-4 pb-2">
+        <div className="flex items-center gap-3">
+          <Link href="/" className="text-zinc-400 hover:text-white transition-colors" aria-label="Home">
+            <Home className="h-5 w-5" />
           </Link>
           <LandingLanguageToggle />
         </div>
@@ -96,11 +94,13 @@ export default function LandingPage() {
           <Link href="/sign-in" className="text-sm text-zinc-400 hover:text-white transition-colors">
             Sign In
           </Link>
-          <Button asChild size="sm" className="bg-white text-black hover:bg-zinc-200 font-semibold">
-            <Link href="/sign-up">Get Started</Link>
-          </Button>
         </div>
-      </nav>
+      </div>
+
+      {/* Insignia — centered */}
+      <div className="flex justify-center pt-4 pb-4">
+        <Insignia size={18} />
+      </div>
 
       {/* ═══════════════════════════════════════════════════════════════
           Hero — Clean, Tesla-inspired, premium feel
@@ -117,7 +117,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-            43 AI specialists that think so you don't have to. Your data stays yours.
+            42 AI specialists that think so you don't have to. Your data stays yours.
           </p>
           <p className="text-base text-zinc-500 max-w-md mx-auto mb-6">
             One platform. Instant responses. Starting at $0.
@@ -156,7 +156,7 @@ export default function LandingPage() {
             { value: "<100ms", label: "Response time", sub: "Local mode" },
             { value: "70B", label: "Parameters", sub: "Open-weight model" },
             { value: "$0", label: "Local messages", sub: "Unlimited" },
-            { value: "43", label: "AI thinkers", sub: "So you don't have to" },
+            { value: "42", label: "AI thinkers", sub: "So you don't have to" },
           ].map((s) => (
             <StaggerCard key={s.label}>
               <div className="text-center p-4 sm:p-5 rounded-xl bg-zinc-800/50 border border-zinc-700/50">
@@ -308,7 +308,7 @@ export default function LandingPage() {
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
           <ScrollSection>
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              43 specialists. <span className="text-zinc-400">Zero salaries.</span>
+              42 specialists. <span className="text-zinc-400">Zero salaries.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-4 max-w-2xl mx-auto">
               Imagine walking into an office where every desk is staffed — marketing, legal, finance,
@@ -318,6 +318,38 @@ export default function LandingPage() {
               Most of this runs on local AI — so you're getting pro-level output without paying per question.
             </p>
           </ScrollSection>
+
+          {/* Featured Agent: Digital Marketing Strategist */}
+          <AnimateOnScroll>
+            <Card className="bg-gradient-to-br from-green-500/10 via-zinc-800/40 to-zinc-800/30 border-green-500/20 p-6 sm:p-8 mb-8 relative overflow-hidden">
+              <div className="absolute top-3 right-3">
+                <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-[10px] uppercase tracking-wider">Featured Agent</Badge>
+              </div>
+              <div className="flex flex-col sm:flex-row items-start gap-5">
+                <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-green-500/15 border border-green-500/20 flex items-center justify-center">
+                  <Megaphone className="h-7 w-7 text-green-400" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1">Digital Marketing Strategist</h3>
+                  <p className="text-sm text-zinc-400 leading-relaxed mb-4">
+                    Full-spectrum digital marketing strategist and Stone AI{`'`}s official marketing voice. Agency building, organic social, paid ads, client acquisition, analytics, and growth strategy.
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {["Organic Social", "Paid Ads", "Agency Building", "Client Acquisition", "Analytics", "Growth Strategy"].map((tag) => (
+                      <span key={tag} className="text-[10px] px-2.5 py-1 rounded-full bg-green-500/10 text-green-400/80 border border-green-500/15 font-medium">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-4">
+                    <Button asChild size="sm" className="bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 font-semibold text-xs">
+                      <Link href="/sign-up">Try Her Free <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </AnimateOnScroll>
 
           {/* Scenario: Business launch */}
           <AnimateOnScroll>
@@ -335,7 +367,7 @@ export default function LandingPage() {
                   { day: "Tue", agent: "Business Plan", task: "Financials & model" },
                   { day: "Wed", agent: "Brand Agent", task: "Name & identity" },
                   { day: "Thu", agent: "Web Dev", task: "Landing page" },
-                  { day: "Fri", agent: "Marketing", task: "Ads & funnels" },
+                  { day: "Fri", agent: "Marketing Strategist", task: "Ads & funnels" },
                 ].map((s) => (
                   <div key={s.day} className="rounded-lg bg-zinc-700/30 p-3 sm:p-4">
                     <span className="text-[10px] text-zinc-500 uppercase font-semibold">{s.day}</span>
@@ -371,27 +403,8 @@ export default function LandingPage() {
             </Card>
           </AnimateOnScroll>
 
-          {/* Departments */}
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-8">
-            {[
-              { icon: Briefcase, title: "Business Building", count: 14, examples: "AI Agency, SaaS, Sales, HR, PM, Dispatch, Claims", color: "text-blue-400" },
-              { icon: Pen, title: "Content & Media", count: 7, examples: "YouTube, Content Studio, Copywriting, Blog, Podcast", color: "text-purple-400" },
-              { icon: BarChart2, title: "Marketing & Sales", count: 4, examples: "Digital Marketing, Funnels, Lead Gen, Brand", color: "text-green-400" },
-              { icon: Code, title: "Technical", count: 5, examples: "Web Dev, Code Assistant, Automation, Analytics", color: "text-amber-400" },
-              { icon: TrendingUp, title: "Finance & Career", count: 4, examples: "Personal Finance, Trading, Resume, Real Estate", color: "text-emerald-400" },
-              { icon: Brain, title: "Education & Wellness", count: 8, examples: "Health Coach, Tutor, Writing Coach, Guide", color: "text-pink-400" },
-            ].map((cat) => (
-              <StaggerCard key={cat.title}>
-                <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4 h-full">
-                  <cat.icon className={`h-5 w-5 ${cat.color} mb-2`} />
-                  <h3 className="font-semibold text-sm mb-1">
-                    {cat.title} <span className="text-zinc-600">({cat.count})</span>
-                  </h3>
-                  <p className="text-xs text-zinc-500">{cat.examples}</p>
-                </div>
-              </StaggerCard>
-            ))}
-          </StaggerGrid>
+          {/* Department Tabs — interactive agent browser */}
+          <DepartmentTabs />
 
           {/* What makes them different — compact */}
           <AnimateOnScroll>
@@ -421,12 +434,12 @@ export default function LandingPage() {
                 AI Right Hand
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                Not a chatbot. <span className="text-amber-400">Up to 43 experts in one best friend.</span>
+                Not a chatbot. <span className="text-amber-400">Up to 42 experts in one best friend.</span>
               </h2>
               <p className="text-zinc-400 max-w-xl mx-auto mb-3">
-                Powered by up to 43 specialized AI agents — career strategist,
+                Powered by up to 42 specialized AI agents — career strategist,
                 financial advisor, fitness coach, creative director, and more. Your Bestie{`'`}s knowledge scales with your plan —
-                from 4 expert agents on Free to the full roster of 43 on Executive. Upgrade your plan, upgrade your Bestie{`'`}s brain.
+                from 4 expert agents on Free to the full roster of 42 on Executive. Upgrade your plan, upgrade your Bestie{`'`}s brain.
               </p>
               <p className="text-zinc-500 max-w-lg mx-auto text-sm">
                 Pick 2 communication styles and she blends them into someone uniquely yours.
@@ -529,17 +542,17 @@ export default function LandingPage() {
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
                   <p className="text-xs font-bold text-cyan-400 mb-1.5">Silent Safety Net</p>
                   <p className="text-xs text-zinc-500 leading-relaxed">
-                    {`"`}If I{`'`}m not home by 8, text Mom my last location.{`"`} Make it home? Bestie detects it
-                    via GPS and stands down — no one ever knows. Don{`'`}t make it? Bestie sends the alert.
-                    Your secret is always safe with your Bestie.
+                    Set a check-in. Pick a time, pick a contact. Walk through your door safely and
+                    Bestie quietly cancels — zero notifications, zero drama. But if you don{`'`}t show?
+                    Your person gets your location instantly. No app to fumble with. No one has to know it{`'`}s even on.
                   </p>
                 </div>
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
                   <p className="text-xs font-bold text-cyan-400 mb-1.5">Auto-Text</p>
                   <p className="text-xs text-zinc-500 leading-relaxed">
-                    Hands full with the kids? Stuck in traffic? Just don{`'`}t have the energy to explain?
-                    Your Bestie texts the right person in your voice — not a robotic {`"`}I{`'`}m busy.{`"`} Because
-                    she actually knows how you talk.
+                    Life gets chaotic — meetings run long, toddlers melt down, sometimes you just can{`'`}t
+                    deal. Bestie handles the reply for you, and it sounds like you wrote it. Not some
+                    stiff auto-response. Her. Typing the way you actually type. They{`'`}ll never know the difference.
                   </p>
                 </div>
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
@@ -557,7 +570,7 @@ export default function LandingPage() {
           <AnimateOnScroll>
             <div className="text-center">
               <p className="text-sm text-zinc-500 mb-2">
-                Three steps and you have a genius best friend — powered by up to 43 expert agents — who knows your name, your goals, and your standards.
+                Three steps and you have a genius best friend — powered by up to 42 expert agents — who knows your name, your goals, and your standards.
               </p>
               <p className="text-xs text-zinc-600 mb-4">
                 Built on ICF coaching ethics, crisis protocol, and anti-dependency guardrails. She{`'`}ll push you toward real human connections — not more screen time. Trust you can feel.
@@ -679,7 +692,7 @@ export default function LandingPage() {
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { value: "88%", label: "Time saved*", sub: "based on internal testing" },
-              { value: "43", label: "AI thinkers", sub: "cognitive heavy-lifting handled" },
+              { value: "42", label: "AI thinkers", sub: "cognitive heavy-lifting handled" },
               { value: "$0", label: "Local cost", sub: "ask all day, pay nothing" },
               { value: "24/7", label: "Available", sub: "3am ideas welcome" },
             ].map((s) => (
@@ -808,7 +821,7 @@ export default function LandingPage() {
 
           <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
             {[
-              { icon: Terminal, title: "REST API", desc: "Drop a few lines of code and your app is powered by 43 AI agents. Any language, any framework.", color: "text-emerald-400" },
+              { icon: Terminal, title: "REST API", desc: "Drop a few lines of code and your app is powered by 42 AI agents. Any language, any framework.", color: "text-emerald-400" },
               { icon: Shield, title: "White-Label", desc: "Your clients see your brand, your logo, your pricing. We stay invisible.", color: "text-amber-400" },
               { icon: Target, title: "$200/mo Flat", desc: "Charge your clients $500. Pay us $200. Keep the difference. No per-token surprises.", color: "text-blue-400" },
             ].map((item) => (
@@ -854,7 +867,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">
-              43 agents that think so you don{`'`}t have to. A bestie who speaks your language — literally.
+              42 agents that think so you don{`'`}t have to. A bestie who speaks your language — literally.
               A community that has your back. And it starts at $0.
             </p>
           </AnimateOnScroll>
@@ -863,7 +876,7 @@ export default function LandingPage() {
           <AnimateOnScroll delay={0.25}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12 max-w-2xl mx-auto">
               {[
-                { label: "43 AI Agents", live: true },
+                { label: "42 AI Agents", live: true },
                 { label: "AI Bestie", live: true },
                 { label: "Community", live: true },
                 { label: "API Access", live: true },
@@ -935,7 +948,7 @@ export default function LandingPage() {
                   <Heart className="h-5 w-5 text-amber-400" />
                   <h3 className="text-lg font-semibold text-white">AI Bestie</h3>
                 </div>
-                <p className="text-sm text-zinc-400 mb-3">Powered by up to 43 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 43 on Executive.</p>
+                <p className="text-sm text-zinc-400 mb-3">Powered by up to 42 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 42 on Executive.</p>
                 <ul className="space-y-2 text-sm text-zinc-400">
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Persistent memory across sessions</li>
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice chat in 6 languages</li>

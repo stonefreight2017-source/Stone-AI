@@ -109,7 +109,7 @@ export const scheduleSchema = z.object({
   businessStart: z.string().default("09:00"), // HH:MM
   businessEnd: z.string().default("17:00"),
   timezone: z.string().default("America/New_York"),
-});
+}).strict();
 
 export type BestieSchedule = z.infer<typeof scheduleSchema>;
 
@@ -141,13 +141,13 @@ export const createBestieSchema = z.object({
     location: z.string().max(100).optional(),
     favorites: z.string().max(200).optional(),
     other: z.string().max(500).optional(),
-  }).optional(),
+  }).strict().optional(),
   voicePrefs: z.object({
     autoEnable: z.boolean().default(false),
     speed: z.enum(["slow", "normal", "fast"]).default("normal"),
     pitch: z.enum(["low", "medium", "high"]).default("medium"),
     autoSpeak: z.boolean().default(false),
-  }).optional(),
+  }).strict().optional(),
   safetyNet: z.object({
     enabled: z.boolean().default(false),
     curfewTime: z.string().max(5).optional(),
@@ -155,18 +155,18 @@ export const createBestieSchema = z.object({
       name: z.string().max(50),
       phone: z.string().max(20).optional(),
       relationship: z.string().max(30).optional(),
-    })).max(5).default([]),
+    }).strict()).max(5).default([]),
     message: z.string().max(200).optional(),
-  }).optional(),
+  }).strict().optional(),
   autoText: z.object({
     enabled: z.boolean().default(false),
     rules: z.array(z.object({
       trigger: z.string().max(50),
       contact: z.string().max(50),
       template: z.string().max(200),
-    })).max(10).default([]),
-  }).optional(),
-});
+    }).strict()).max(10).default([]),
+  }).strict().optional(),
+}).strict();
 
 export const updateBestieSchema = createBestieSchema.partial();
 
@@ -178,4 +178,4 @@ export const bestieChatSchema = z.object({
     .max(4000, "Message is too long (max 4,000 characters)")
     .refine((val) => val.trim().length > 0, "Message cannot be only whitespace"),
   mode: z.enum(["LOCAL", "SMART"]).default("LOCAL"),
-});
+}).strict();

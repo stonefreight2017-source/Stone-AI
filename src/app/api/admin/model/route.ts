@@ -5,7 +5,7 @@ import { MODEL_REGISTRY } from "@/lib/vllm";
 
 const deploySchema = z.object({
   modelId: z.string().min(1),
-});
+}).strict();
 
 // POST /api/admin/model — deploy a new model to vLLM
 export async function POST(req: NextRequest) {

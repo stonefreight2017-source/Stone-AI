@@ -203,7 +203,7 @@ export function BillingClient({
         "500 saved documents — an entire knowledge base for your business and your clients' businesses",
         "150 web lookups + 150 code runs/day — enterprise-grade research and rapid prototyping",
         "2x referral rewards — earn double commission when you bring others to Stone AI",
-        "1 AI Bestie — powered by all 43 expert agents — a genius operator across your entire business",
+        "1 AI Bestie — powered by all 42 expert agents — a genius operator across your entire business",
         "Everything in Executive, plus dedicated priority support",
       ],
     },
@@ -540,7 +540,7 @@ export function BillingClient({
               <div className="space-y-2.5">
                 <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">What you get:</p>
                 {tierDetail.features.map((f) => {
-                  const isBold = f.startsWith("Unlimited") || f.startsWith("Everything") || f.startsWith("All 43");
+                  const isBold = f.startsWith("Unlimited") || f.startsWith("Everything") || f.startsWith("All 42");
                   return (
                     <div key={f} className="flex items-start gap-2.5 text-sm">
                       <Check className={`h-4 w-4 shrink-0 mt-0.5 ${isPro ? "text-amber-400" : tierColor.accent}`} />

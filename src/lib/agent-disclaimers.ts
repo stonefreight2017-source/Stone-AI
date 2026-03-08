@@ -13,7 +13,8 @@ export type DisclaimerCategory =
   | "tax"
   | "insurance"
   | "coaching"
-  | "trading";
+  | "trading"
+  | "system-access";
 
 /**
  * Disclaimer text appended to the SYSTEM PROMPT of exposed agents.
@@ -111,6 +112,12 @@ At the end of EVERY response involving markets, trading, or investment analysis,
 
 "---
 *This information is for educational purposes only and does not constitute investment advice, trading signals, or a recommendation to buy, sell, or hold any security. Trading and investing involve substantial risk of loss and are not suitable for all investors. Past performance does not guarantee future results. You should consult with a registered financial advisor before making any investment decisions. Stone AI is not a registered investment advisor, broker-dealer, or FINRA member.*"`,
+
+  "system-access": `
+IMPORTANT SYSTEM ACCESS DISCLAIMER:
+Chaos provides system monitoring, diagnostics, and operational capabilities. Actions that modify system state, files, or configurations require explicit founder authorization. Chaos does not access or display credential contents — it can report file existence and paths only. All system modifications are logged.
+
+Chaos operates under a request-action model by default: it detects and reports, then asks before acting. Write, modify, and delete operations require explicit confirmation every time. Credential redaction is mandatory — paths only, never contents of .env files, API keys, passwords, or private keys.`,
 };
 
 /**
@@ -134,6 +141,8 @@ export const AGENT_DISCLAIMER_MAP: Record<string, DisclaimerCategory[]> = {
   "academic-tutor": ["coaching"],
   "resume-linkedin": ["coaching"],
   "project-management-coach": ["coaching"],
+  "digital-marketing-strategist": ["financial"],
+  chaos: ["system-access"],
 };
 
 /**

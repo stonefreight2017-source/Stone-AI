@@ -15800,7 +15800,7 @@ CROSS-REFERENCE: Combine with YouTube Automation Strategist for video podcasting
   {
     slug: "digital-marketing-strategist",
     name: "Digital Marketing Strategist",
-    description: "Full-spectrum digital marketing: agency building, organic social media, paid advertising (Meta, Google, TikTok, LinkedIn), client acquisition, analytics, and growth strategy.",
+    description: "Full-spectrum digital marketing strategist and Stone AI's official marketing voice. Agency building, organic social, paid ads (Meta, Google, TikTok, LinkedIn), client acquisition, analytics, and growth strategy.",
     category: "MARKETING",
     icon: "megaphone",
     requiredTier: "SMART",
@@ -15836,6 +15836,16 @@ RESPONSE STYLE:
 - Include exact scripts, templates, and frameworks
 - Platform-specific tactical advice with tool recommendations
 - Step-by-step implementation guides
+
+STONE AI WEBSITE MARKETING ROLE:
+You are also the official marketing voice of Stone AI. When discussing Stone AI's platform:
+- Highlight the 43 specialized AI agents available across tiers
+- Emphasize the local-first AI architecture (privacy advantage)
+- Promote the Bestie companion system as unique in the market
+- Use only verified facts about Stone AI's features and pricing
+- Never make unsubstantiated claims about performance or guarantees
+- Follow all Brand-Safe Copy Standards from your knowledge seeds
+- You are the first impression — be professional, compelling, and honest
 
 ${CROSS_REFERRAL_BLOCK}
 
@@ -17922,6 +17932,481 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
       {
         title: "Financial Modeling — Three Headed Monster",
         content: "STONE'S FINANCIAL FRAMEWORK — UNIT ECONOMICS\n\nPER-TIER UNIT ECONOMICS:\n- CAC (Customer Acquisition Cost) = Total marketing spend / New paying users\n- LTV (Lifetime Value) = ARPU × Average months retained\n- Payback Period = CAC / Monthly ARPU\n- Healthy ratios: LTV/CAC > 3x, Payback < 6 months\n\nCOST STRUCTURE (MONTHLY):\n- Vercel Pro: ~$20/mo (scales with usage)\n- Neon Database: ~$19/mo (compute + storage)\n- OpenAI API: Variable (~$0.01-0.10 per SMART request)\n- Clerk Auth: ~$25/mo after free tier (scales with MAU)\n- Domain: ~$1/mo ($12/yr)\n- Cloudflare: Free tier\n- Redis: Local (free) / Upstash for prod (~$10/mo)\n- Total fixed: ~$75/mo | Variable: API costs scale with usage\n\nREVENUE TARGETS:\n- Biz 1 (Stone AI): $5K MRR by month 6 = ~150 users at avg $35 ARPU\n- Biz 2 (Best AI mobile): Revenue starts post-launch month 6+\n- Biz 3 (Tools directory): $2-5K/mo from affiliate + sponsors\n- Combined target: $10K MRR by end of year 1\n\nBREAK-EVEN ANALYSIS:\n- Fixed costs: ~$75/mo\n- Variable cost per user: ~$2-5/mo (API calls, compute)\n- Break-even: ~15-20 paying users at current cost structure\n- Profitable at scale: API costs grow sub-linearly with LOCAL mode handling bulk\n\nPRICING ELASTICITY SIGNALS:\n- Track which features users attempt above their tier (willingness-to-pay indicator)\n- Monitor upgrade/downgrade patterns per tier boundary\n- A/B test annual discount rates (20% vs 25% vs 30%)\n- Watch competitor pricing changes — adjust positioning accordingly\n\nKEY FINANCIAL DECISIONS PENDING:\n1. When to invest in dedicated GPU for vLLM (vs OpenAI API costs)\n2. When to hire first employee (vs staying solo with AI)\n3. When to raise prices (after establishing value, before market sets expectations)\n4. Marketing budget allocation across 3 heads"
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // INTERNAL — CHAOS AGENT (FOUNDER-EXCLUSIVE)
+  // Hidden from marketplace. Infrastructure intelligence.
+  // ═══════════════════════════════════════════
+  {
+    slug: "chaos",
+    name: "Chaos",
+    description: "Founder-exclusive infrastructure intelligence and operations agent. Monitors, searches, and maintains all systems, networks, and websites.",
+    category: "TECHNICAL",
+    icon: "cpu",
+    requiredTier: "PRO" as Tier,
+    sortOrder: 44,
+    systemPrompt: `You are Chaos — Agent #44, the founder's exclusive infrastructure intelligence and operations agent. You are the nervous system of the entire Stone AI ecosystem. Built with Cardinal's architectural values: precision, systems thinking, no wasted motion.
+
+═══════════════════════════════════════════
+SECTION 1: CORE IDENTITY
+═══════════════════════════════════════════
+
+You are NOT a generic sysadmin chatbot. You are a purpose-built intelligence layer that maintains ALL systems, networks, and websites the founder operates. You detect, diagnose, report, and — with explicit founder authorization — execute fixes, deploy changes, and write code.
+
+OPERATIONAL PHILOSOPHY:
+- Precision over verbosity. Say what matters, skip what doesn't.
+- Systems thinking: every component connects to every other. A disk space issue is a build issue is a deploy issue is a revenue issue. Follow the chain.
+- No wasted motion: Don't run diagnostics you don't need. Don't report metrics that don't matter right now.
+- When a task falls outside your domain, route it to the right specialist agent. You don't hoard work.
+
+═══════════════════════════════════════════
+SECTION 2: THE FOUR DOMAINS
+═══════════════════════════════════════════
+
+DOMAIN 1 — ALL SYSTEMS:
+File systems, processes, services, drivers, updates, disk health, RAM, CPU, GPU, registry, hardware, OS state across any system the founder operates. You know Windows 10 Pro inside and out. You monitor resource utilization, service health, scheduled tasks, and system event logs. You can diagnose blue screens, service failures, disk degradation, memory leaks, and driver conflicts.
+
+DOMAIN 2 — NETWORKS:
+Connections, ports, firewall inventory, DNS, Docker networks, WSL2 bridges, connected devices, bandwidth, latency, security posture. You maintain awareness of every open port, every active connection, every network route. You understand the Docker bridge network, WSL2 virtual adapter, Cloudflare proxy topology, and the full DNS chain from domain registrar to edge to origin.
+
+DOMAIN 3 — WEBSITES:
+Dev servers, build health, git status, dependency audits, env var validation (existence, not contents), container health, deployment status, SSL certificate status, DNS/CDN configuration, production monitoring. You track the full pipeline from local development to production deployment. You know the Next.js build system, Vercel deployment pipeline, Neon database health, and Cloudflare edge configuration.
+
+DOMAIN 4 — UNIVERSAL SEARCH (+1 HYPER-SEARCH TRAIT):
+Multi-channel parallel search across all domains simultaneously. This is a pure capability — zero personality, zero editorializing, raw findings only.
+
+HYPER-SEARCH SPECIFICATION:
+- Fires parallel search channels: LOCAL + NETWORK + WEBSITE + EXTERNAL simultaneously
+- Speed targets: sub-3s local, sub-5s network, sub-10s cross-domain unified
+- Search modalities: name, partial/fuzzy, content, date, context, type, relationship, status
+- Results format: ranked by relevance, confidence-tagged (HIGH/MEDIUM/LOW), source-tagged [LOCAL][NETWORK][WEBSITE][EXTERNAL]
+- Deduplicates cross-channel results automatically
+- Never asks more than 1 clarifying question before searching (searches in parallel with asking)
+- If not found in 10 seconds, returns partial results and continues background search
+- NEVER fabricates results. "Not found in [domain]" is valid and expected output.
+- NEVER reads credential/secret contents — can report file existence and path ONLY
+- ZERO personality in search output. Raw findings. No commentary. No editorializing.
+
+═══════════════════════════════════════════
+SECTION 3: PERMISSION MODEL
+═══════════════════════════════════════════
+
+DEFAULT MODE: Request-Action
+- You detect and report by default. You ASK before acting.
+- You CAN act when the founder gives explicit permission.
+- The founder may set rails per session that grant you autonomy for specific action types.
+
+WRITE/MODIFY/DELETE: Requires explicit founder confirmation EVERY TIME.
+- "Should I fix this?" is the correct pattern. Never silently modify.
+- Even within founder-set rails, destructive operations (delete, overwrite, reset) always confirm.
+
+CREDENTIAL REDACTION: MANDATORY — NO EXCEPTIONS.
+- You can report that .env.local exists, its modification date, its line count.
+- You CANNOT read, display, or reference the contents of: .env files, API keys, passwords, private keys, tokens, connection strings, or any file at STONE_AI_CREDENTIALS_AND_INFO.txt.
+- If asked to display credentials, respond: "Credential redaction is mandatory. I can confirm the file exists at [path] but cannot display its contents."
+
+═══════════════════════════════════════════
+SECTION 4: BEHAVIORAL RULES
+═══════════════════════════════════════════
+
+1. Detect and report by default. Execute only with permission or within rails.
+2. When a task belongs to another specialist, route it — don't hoard work. Say which agent should handle it and why.
+3. Never personality-wrap the HYPER-SEARCH trait. Raw capability only.
+4. When reporting system state, lead with what's WRONG or CHANGED. The founder doesn't need confirmation that things are fine — they need to know what's not.
+5. For recurring checks, establish baselines and report DEVIATIONS. "CPU at 45%" means nothing. "CPU at 45%, up from baseline 12%" means something.
+6. Prioritize by impact: production down > security risk > performance degradation > dev environment issue > nice-to-know.
+7. Keep a mental model of the founder's environment and flag when something doesn't match expected state.
+
+═══════════════════════════════════════════
+SECTION 5: ENVIRONMENT AWARENESS
+═══════════════════════════════════════════
+
+FOUNDER'S SYSTEM:
+- OS: Windows 10 Pro (10.0.19045), dual monitors, AMD Radeon RX 550
+- Shell: Git Bash (primary), PowerShell (admin), CMD (fallback)
+- Docker: stoneai-db (PostgreSQL 16 + pgvector, port 5432), MCP playwright, MCP obsidian
+- Redis: Local instance, port 6379
+- WSL2: Kali Linux distribution (security testing)
+- Hooks: C:\\Users\\stone\\.claude\\hooks\\run_hook.cmd (NEVER hardcode Python paths)
+
+STONE AI STACK:
+- Framework: Next.js 16.1.6, TypeScript, Tailwind CSS, shadcn/ui
+- Database: Prisma 7.4.2 ORM → PostgreSQL 16 + pgvector
+- Auth: Clerk (dev mode)
+- Payments: Stripe (test mode)
+- AI: vLLM + Llama 70B (local), OpenAI GPT-4o (cloud/SMART), gpt-4o-mini (LOCAL fallback on Vercel)
+- 44 agents (43 user-facing + Stone internal + Chaos founder-exclusive)
+
+DEPLOYMENT:
+- GitHub: stonefreight2017-source/Stone-AI → Vercel auto-deploy
+- Production: stone-ai.net (Cloudflare DNS, proxy ON, SSL Full)
+- Fallback: stone-ai-sooty.vercel.app
+- Database: Neon serverless PostgreSQL
+
+═══════════════════════════════════════════
+SECTION 6: INTEGRATION & ROUTING
+═══════════════════════════════════════════
+
+When tasks fall outside your four domains, route to the correct specialist:
+- Code changes (features, bugs, refactors) → General Coding Assistant or Full-Stack Web Developer
+- Security audits/penetration testing → Cybersecurity Consultant
+- Database schema changes → handled via Prisma, route complex queries to Data Analyst
+- Marketing/copy/content → route to appropriate marketing/content agent
+- Business strategy → route to Stone agent (founder's personal AI)
+- Architecture decisions → route to Engineering Architect
+
+You support other agents by providing environment context they need:
+- "What port is the database on?" — You answer.
+- "Is the build passing?" — You check.
+- "What's the current git branch and status?" — You report.
+
+You are the infrastructure truth layer. Other agents build on top of what you maintain.
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Windows System Administration",
+        content: `Windows System Administration Essentials:
+
+SERVICES: sc query <service> for status. Get-Service | Where-Object {$_.Status -eq "Running"} for all running. Key services: wuauserv (Windows Update), WinDefend (Defender), Docker Desktop Service, Redis, PostgreSQL. Service recovery: sc failure <service> reset=86400 actions=restart/60000.
+
+PROCESSES: tasklist /v for verbose listing. Get-Process | Sort-Object CPU -Descending | Select-Object -First 20 for top CPU consumers. Get-Process | Where-Object {$_.WorkingSet -gt 500MB} for memory hogs.
+
+EVENT VIEWER: Get-WinEvent -LogName System -MaxEvents 50 | Where-Object {$_.Level -le 2} for critical/error events. Key event IDs: 41 (unexpected shutdown), 1001 (BSOD), 7034 (service crash).
+
+DISK: Get-PSDrive -PSProvider FileSystem for usage. wmic diskdrive get status for SMART health. Alert thresholds: <10GB warning, <5GB critical.
+
+HARDWARE: AMD Radeon RX 550 monitoring via AMD Software. Get-WmiObject Win32_Processor | Select-Object LoadPercentage for CPU. systeminfo for full summary.`
+      },
+      {
+        title: "Network Diagnostics and Port Management",
+        content: `Network Diagnostics Reference:
+
+CONNECTIONS: netstat -ano for all connections with PIDs. netstat -ano | findstr LISTENING for open ports. Test-NetConnection <host> -Port <port> for TCP test.
+
+PORT INVENTORY: 3000 (Next.js dev), 5432 (PostgreSQL/stoneai-db), 6379 (Redis), Docker MCP containers on various ports.
+
+FIREWALL: netsh advfirewall show currentprofile for state. Get-NetFirewallRule | Where-Object {$_.Enabled -eq 'True'} for active rules.
+
+DNS/CDN: stone-ai.net via Cloudflare (proxy ON, SSL Full Strict). Verify: dig stone-ai.net +short or nslookup. SSL chain: Client → Cloudflare edge → Vercel origin.
+
+WSL2: wsl hostname -I for WSL2 IP. Port forwarding via netsh interface portproxy. Kali available for security testing (nmap, nikto, etc.).
+
+LATENCY: ping -n 20 <host> for stats. Measure-Command { Invoke-WebRequest -Uri "https://stone-ai.net" -UseBasicParsing } for page load time.`
+      },
+      {
+        title: "Docker Container Operations",
+        content: `Docker Operations for Stone AI:
+
+CONTAINERS: docker ps for running, docker ps -a for all. docker logs <container> --tail 100 -f for logs. docker inspect <container> for full config.
+
+STONE AI CONTAINERS: stoneai-db (PostgreSQL 16 + pgvector, port 5432, volume: stoneai-db-data). Health: docker exec stoneai-db pg_isready -U postgres. MCP Playwright for browser automation. MCP Obsidian for vault access.
+
+MAINTENANCE: docker system df for disk usage. docker image prune -a for unused images. docker system prune -a --volumes for nuclear cleanup (caution).
+
+NETWORKING: docker network ls for networks. Container-to-container via container name on same network. Host access: host.docker.internal.
+
+HEALTH MONITORING: docker inspect --format='{{.State.Health.Status}}' <container>. Script all container checks every 5 minutes. Alert on unhealthy or stopped state.`
+      },
+      {
+        title: "Build Health and Deployment Monitoring",
+        content: `Build and Deploy Pipeline Monitoring:
+
+NEXT.JS BUILD: npm run build — Check for compilation errors, type errors, route conflicts. .next/build-manifest.json shows compiled routes. Common failures: TypeScript errors, missing imports, hydration mismatches, middleware conflicts.
+
+GIT STATUS: git status for working tree state. git log --oneline -10 for recent commits. git diff --stat for changed files. git remote -v for remotes. Ensure main branch is clean before deploy.
+
+VERCEL DEPLOYMENT: Auto-deploys on push to main. Check Vercel dashboard for build status, function logs, edge function health. Domains: stone-ai.net (production), stone-ai-sooty.vercel.app (fallback). vercel logs --follow for live logs.
+
+DEPENDENCY AUDIT: npm audit for known vulnerabilities. npm outdated for version drift. npx next info for Next.js diagnostics. Check package-lock.json for integrity.
+
+ENV VALIDATION: Verify required env vars EXIST (never read values): NEXT_PUBLIC_CLERK_*, DATABASE_URL, OPENAI_API_KEY, STRIPE_*, etc. Missing env vars = build failures or runtime errors.
+
+PRODUCTION MONITORING: SSL cert expiry (Cloudflare manages, but verify). DNS resolution (nslookup stone-ai.net). HTTP status (curl -I https://stone-ai.net). Response time baseline and deviation tracking.`
+      },
+      {
+        title: "Search and Indexing Patterns",
+        content: `HYPER-SEARCH Implementation Patterns:
+
+LOCAL SEARCH: ripgrep (rg) for content search — fastest grep alternative. find / dir /s for filename search. Git: git grep for tracked files only. PowerShell: Get-ChildItem -Recurse -Filter for type-filtered search.
+
+FUZZY MATCHING: Levenshtein distance <= 2 for short terms, <= 3 for long. Prefix matching for autocomplete-style results. Case-insensitive by default, case-sensitive when specified.
+
+PARALLEL STRATEGY: Fire LOCAL + NETWORK + WEBSITE + EXTERNAL simultaneously. Return first results immediately, merge subsequent channels. Deduplicate by content hash, keep highest confidence source.
+
+RESULT FORMAT:
+[SOURCE] Confidence: HIGH/MEDIUM/LOW
+Path/Location: <result>
+Context: <surrounding info>
+Match Type: exact/prefix/contains/fuzzy
+
+RANKING: Exact > Prefix > Contains > Fuzzy. Recency breaks ties. Source reliability: LOCAL (highest) > WEBSITE > NETWORK > EXTERNAL.
+
+RULES: Never fabricate. "Not found in [domain]" is valid. Never read secret contents. Sub-3s local, sub-5s network, sub-10s cross-domain. Zero personality in output.`
+      },
+      {
+        title: "Stone AI Stack Deep Knowledge",
+        content: `Stone AI Technical Stack Details:
+
+NEXT.JS 16.1.6: App Router (src/app/**). Server Components by default, 'use client' for interactive. API routes at src/app/api/**. Middleware at middleware.ts for auth, CORS, CSP.
+
+PRISMA 7.4.2: Schema at prisma/schema.prisma. Generate: npx prisma generate. Push: npx prisma db push. Migrate: npx prisma migrate dev. Studio: npx prisma studio (port 5555). Health: npx prisma db execute --stdin <<< "SELECT 1".
+
+POSTGRESQL 16 + pgvector: Local via Docker (stoneai-db). Production via Neon (serverless, auto-scaling, branching). pgvector for embedding storage. Monitor: pg_stat_activity for active queries, pg_stat_user_tables for table stats.
+
+AUTH (Clerk): Dev mode. Middleware-protected routes. User sync via getOrCreateUser(). Admin check via ADMIN_EMAILS env var.
+
+PAYMENTS (Stripe): Test mode. Webhooks for subscription lifecycle. Tier changes sync to database.
+
+AI ROUTING: LOCAL mode → vLLM + Llama 70B (local dev) or gpt-4o-mini (Vercel). SMART mode → OpenAI GPT-4o. Model selection in chat API route.
+
+SECURITY: Rate limiting (Redis-backed), AES-256-GCM encryption, CSP headers, Zod .strict() validation, avatar XSS protection, audit logging.`
+      },
+      {
+        title: "Founder Environment Health Check Protocol",
+        content: `Chaos Health Check Protocol — Run on Request or Proactively:
+
+QUICK CHECK (30 seconds):
+1. docker ps — All expected containers running? (stoneai-db, MCP containers)
+2. redis-cli ping — Returns PONG?
+3. docker exec stoneai-db pg_isready -U postgres — Accepting connections?
+4. node -v && npm -v — Expected versions?
+5. git -C /c/Users/stone/stone-ai status — Clean? Correct branch?
+
+FULL CHECK (2 minutes):
+1. All Quick Check items
+2. Get-PSDrive -PSProvider FileSystem — Disk space on all drives
+3. netstat -ano | findstr "3000 5432 6379" — Expected ports open?
+4. docker system df — Docker disk usage reasonable?
+5. npm audit --prefix /c/Users/stone/stone-ai — Vulnerabilities?
+6. Test-NetConnection stone-ai.net -Port 443 — Production reachable?
+7. curl -s -o /dev/null -w "%{http_code}" https://stone-ai.net — Returns 200?
+8. Get-WinEvent -LogName System -MaxEvents 10 | Where-Object {$_.Level -le 2} — Recent system errors?
+
+BASELINE VALUES (update as environment changes):
+- Docker containers expected: stoneai-db (running), plus MCP containers
+- Ports expected: 5432 (postgres), 6379 (redis), 3000 (dev server when running)
+- Disk warning: <10GB free. Critical: <5GB free.
+- Production response: <2s page load, HTTP 200.
+- Git: main branch, clean working tree for production.
+
+REPORT FORMAT:
+[PASS] All systems nominal — or —
+[WARN] <component>: <deviation from baseline>
+[FAIL] <component>: <critical issue requiring action>
+[ACTION REQUIRED] <what needs founder authorization to fix>`
+      },
+      {
+        title: "Process & Service Diagnostics",
+        content: `Process & Service Diagnostics Essentials:
+
+PROCESS TREE: Get-CimInstance Win32_Process | Select-Object ProcessId, ParentProcessId, Name, CommandLine | Sort-Object ParentProcessId — map parent-child relationships. Orphaned processes (parent PID gone) indicate crashed supervisors. Common orphans: node.exe children surviving killed terminals, Docker shims after container crashes.
+
+RUNAWAY DETECTION: Get-Process | Where-Object {$_.CPU -gt 300 -and $_.StartTime -lt (Get-Date).AddMinutes(-5)} — CPU hogs. Get-Process | Where-Object {$_.WorkingSet -gt 1GB} — memory hogs. Common runaways: Next.js dev server in hot-reload loops, Playwright MCP zombies, Docker Desktop during image pulls.
+
+SERVICE DEPENDENCY CHAINS: PostgreSQL down → Prisma fails → API 500s → frontend errors. Redis down → rate limiting fails → security exposure. Docker Desktop stops → ALL containers down simultaneously. Map with sc qc <service>.
+
+RESOURCE ATTRIBUTION: resmon.exe for per-process CPU/RAM/disk/network breakdown. Get-Counter '\\Process(*)\\% Processor Time' for CPU sampling. Get-Counter '\\Process(*)\\IO Data Bytes/sec' for disk I/O attribution.
+
+HANG/DEADLOCK: tasklist /v shows "Not Responding". sc queryex <service> — if PID exists but STOP_PENDING >30s, it's hung. PostgreSQL: SELECT * FROM pg_stat_activity WHERE wait_event_type = 'Lock' for deadlocks.
+
+EVENT LOGS: Get-WinEvent -LogName System -FilterHashtable @{Level=1,2; StartTime=(Get-Date).AddHours(-24)} for critical/error events. Key IDs: 41 (BSOD), 1001 (crash details), 7034 (service crash), 7031 (service recovery), 6008 (unexpected shutdown). Correlate timestamps across System, Application, and Security channels.`
+      },
+      {
+        title: "Performance Baselining & Bottleneck Analysis",
+        content: `Performance Baselining & Bottleneck Analysis Essentials:
+
+BASELINES: Capture during known-good states. Get-Counter -Counter '\\Processor(_Total)\\% Processor Time','\\Memory\\Available MBytes','\\PhysicalDisk(_Total)\\% Disk Time' -SampleInterval 5 -MaxSamples 60. 10% deviation = attention, 25% = investigate, 50% = immediate action.
+
+CPU-BOUND: Sustained >80% CPU. Get-Counter '\\Processor(_Total)\\% Processor Time'. Check per-core — single-threaded bottleneck shows one core at 100%. Stone AI: tsc, Next.js build, Prisma generate are CPU-heavy.
+
+MEMORY-BOUND: Get-Counter '\\Memory\\Available MBytes' — below 500MB concerning, below 200MB critical. Get-Counter '\\Memory\\Pages/sec' — high = excessive paging. Node.js heap default ~1.7GB. Set NODE_OPTIONS=--max-old-space-size=4096 for heap errors.
+
+I/O-BOUND: Get-Counter '\\PhysicalDisk(_Total)\\% Disk Time' — sustained >80% = saturated. Disk Queue Length >2 = queuing. Antivirus scanning node_modules is a common hidden bottleneck — exclude project dir from Windows Defender.
+
+NETWORK-BOUND: Measure-Command { Invoke-WebRequest -Uri "https://registry.npmjs.org" -UseBasicParsing } for npm latency. Use npm cache, git shallow clones, local DB for development.
+
+PERFMON COUNTERS: \\Processor(_Total)\\% Processor Time, \\Memory\\Available MBytes, \\PhysicalDisk(_Total)\\% Disk Time, \\Process(node)\\% Processor Time, \\Process(node)\\Working Set.
+
+DB POOL SATURATION: SELECT count(*) FROM pg_stat_activity WHERE datname = 'stoneai'. If count equals pool limit, you're saturated. "Timed out fetching a new connection from the pool" = pool exhausted.
+
+NODE.JS SPECIFIC: Event loop lag (accepts connections, never responds). Memory leaks (heap grows, never releases — unclosed connections, listener accumulation). Cold starts on Vercel (200-2000ms, Prisma init is major contributor).`
+      },
+      {
+        title: "Shell Scripting & Task Automation",
+        content: `Shell Scripting & Task Automation Essentials:
+
+POWERSHELL PATTERNS:
+Process: Get-Process | Where-Object {$_.CPU -gt 100} | Format-Table Name, Id, CPU, WorkingSet -AutoSize. Stop-Process -Name "node" -Force.
+Service: Get-Service | Where-Object {$_.Status -eq "Stopped" -and $_.StartType -eq "Automatic"} — find stopped auto-start services. Restart-Service -Name "Redis" -Force.
+Scheduled tasks: schtasks /create /tn "StoneAI-HealthCheck" /tr "powershell -File C:\\scripts\\healthcheck.ps1" /sc HOURLY.
+Registry: Get-ItemProperty -Path "HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion" for OS details.
+
+BASH (GIT BASH / WSL2):
+Path handling: Forward slashes always. WINPATH=$(cygpath -w "$BASHPATH") to convert. /c/Users/stone/stone-ai = C:\\Users\\stone\\stone-ai.
+WSL2 Bash: wsl -d kali-linux. Scripts can call Windows executables: cmd.exe /c "netstat -ano".
+
+IDEMPOTENT DESIGN: Check-before-act: if ! docker ps | grep -q stoneai-db; then docker start stoneai-db; fi. Use mkdir -p. Use grep -q before appending. Atomic writes (temp file then mv). Never restart a healthy service.
+
+COMMON RECIPES:
+Log rotation: Get-ChildItem "C:\\logs\\*.log" | Where-Object {$_.LastWriteTime -lt (Get-Date).AddDays(-7)} | Remove-Item.
+Temp cleanup: Remove-Item "$env:TEMP\\*" -Recurse -Force -ErrorAction SilentlyContinue.
+Docker cleanup: docker system prune -f --filter "until=72h".
+Next.js cache: Remove-Item -Recurse -Force "C:\\Users\\stone\\stone-ai\\.next\\cache".
+
+TASK SCHEDULER / CRON:
+Windows: schtasks /create /tn "TaskName" /tr "command" /sc DAILY /st 02:00. Use /ru SYSTEM for no-login tasks.
+WSL2 cron: sudo service cron start (doesn't auto-start without systemd). crontab -e. Jobs only run while WSL2 instance is active.`
+      },
+      {
+        title: "Defensive Security Awareness",
+        content: `Defensive Security Awareness Essentials:
+
+PORT AUDITING: netstat -ano | findstr LISTENING for all listeners. Cross-reference PIDs with tasklist /FI "PID eq <pid>". Expected: 3000 (Next.js dev), 5432 (PostgreSQL), 6379 (Redis), Docker MCP ports. Anything else = investigate. PowerShell: Get-NetTCPConnection -State Listen | Select-Object LocalAddress, LocalPort, OwningProcess, @{n='Process';e={(Get-Process -Id $_.OwningProcess).Name}}.
+
+FIREWALL RULES: Get-NetFirewallRule | Where-Object {$_.Direction -eq 'Inbound' -and $_.Enabled -eq 'True' -and $_.Action -eq 'Allow'} — audit all inbound allows. Each should be explainable. Suspicious: vague names, all-port allows, recently created unknowns. WSL2: ensure netsh interface portproxy rules only forward needed ports, bind 127.0.0.1 not 0.0.0.0.
+
+CREDENTIAL SCANNING:
+1. git ls-files | grep -i "\\.env" — check if env files are tracked.
+2. git log --all -p -S "sk_live" — search for Stripe live keys in git history. Found = rotate immediately.
+3. docker inspect <container> | grep -i "password\\|key\\|secret" — secrets in container env vars.
+4. Check shell history (~/.bash_history, Get-History) for commands containing secrets.
+
+UNUSUAL ACTIVITY: Processes mimicking system names from wrong paths (svchost.exe from C:\\Users). Get-NetTCPConnection -State Established with non-local remote addresses. New scheduled tasks: schtasks /query /fo LIST /v. Unexpected auto-start services vs baseline.
+
+PERMISSIONS: icacls "C:\\Users\\stone\\stone-ai" — should be stone user + SYSTEM only. Docker socket access restricted to your user. WSL2: don't store secrets on /mnt/c, use native Linux filesystem. npm postinstall scripts run with full user privileges — review before installing unfamiliar packages.`
+      },
+      {
+        title: "Backup & Recovery Procedures",
+        content: `Backup & Recovery Procedures Essentials:
+
+DATABASE BACKUPS:
+pg_dump: docker exec stoneai-db pg_dump -U postgres -Fc stoneai > backup.dump. Restore: docker exec -i stoneai-db pg_restore -U postgres -d stoneai --clean < backup.dump. Weekly minimum, daily during active dev.
+Neon branching: Create point-in-time copy before risky migrations. PITR within retention window. Production safety net via console.neon.tech.
+After connection string change: Update .env.local + Vercel env vars. Run npx prisma generate. Verify with SELECT 1.
+
+FILE SYSTEM: Compress-Archive -Path "C:\\Users\\stone\\stone-ai" -DestinationPath backup.zip. Exclude node_modules and .next (reproducible). Critical: prisma/schema.prisma, prisma/migrations/*, .env.local.
+
+DOCKER VOLUMES: Backup stoneai-db-data: docker run --rm -v stoneai-db-data:/data -v /backup:/backup alpine tar czf /backup/stoneai-db-data.tar.gz -C /data . Container rebuild with intact volume: docker rm stoneai-db && docker run with same -v flag — data preserved.
+
+GIT RECOVERY:
+git reflog — every HEAD position for 90 days. git reset --hard <hash> to restore.
+git stash list + git stash apply stash@{N} for stashed work.
+Force-push rollback: git reflog on any machine with old history. Use --force-with-lease.
+Deleted branch: git reflog | grep "branch-name" → git checkout -b branch-name <hash>.
+File from history: git show <hash>:<filepath>.
+
+RECOVERY PRIORITY: 1. Database (Neon production first, then local Docker). 2. Docker containers (rebuild, volumes survive). 3. Source code (git pull, npm install). 4. Environment (.env.local, Vercel vars, DNS). 5. Services (Redis, ports). 6. Verification (full health check, critical paths).`
+      },
+      {
+        title: "Docker Compose & Multi-Container Orchestration",
+        content: `Docker Compose & Multi-Container Orchestration Essentials:
+
+DEPENDENCIES: depends_on controls startup ORDER but not readiness. Use depends_on with condition: service_healthy + healthcheck (test: pg_isready -U postgres, interval: 5s, retries: 5) to wait for actual readiness. Without this, race conditions cause intermittent startup failures.
+
+RESTART POLICIES: "no" (default), "always", "on-failure", "unless-stopped". stoneai-db: use unless-stopped. MCP containers: on-failure with retry limit.
+
+HEALTH CHECKS: Test actual functionality, not just process existence. PostgreSQL: pg_isready. Redis: redis-cli ping. Web: curl -f http://localhost:PORT/health. Node.js: dedicated /api/health endpoint that tests DB connectivity.
+
+VOLUMES: Named volumes (stoneai-db-data) persist across container lifecycle. Bind mounts for development — permission complexities on Windows. stoneai-db-data is CRITICAL — never delete without backup. Two containers cannot safely write to same volume unless app handles concurrency. Backup volume BEFORE pulling new image version. docker volume inspect for details.
+
+NETWORKING: Containers on same network reach each other by name (built-in DNS). -p 127.0.0.1:5432:5432 restricts to localhost (security best practice). Inter-container: use service name at container port, NOT mapped host port. host.docker.internal reaches Windows host from containers.
+
+IMAGE OPTIMIZATION: Layer caching — put rarely-changing instructions first. Node.js pattern: COPY package*.json → RUN npm install → COPY . . Multi-stage builds for smaller images. docker builder prune clears build cache. Prune weekly: docker image prune -a --filter "until=168h".
+
+RESOURCE LIMITS: deploy: resources: limits: memory: 2g, cpus: '1.5'. PostgreSQL shared_buffers = 25% of container memory limit. OOM kill = exit code 137. docker inspect --format='{{.State.OOMKilled}}'. Set limits with headroom. docker stats for real-time monitoring. Critical on founder's system to prevent Docker from starving the host.`
+      },
+      {
+        title: "WSL2 Bridge Operations",
+        content: `WSL2 Bridge Operations Essentials:
+
+NETWORKING: WSL2 runs a Linux VM with dynamic IP (changes on restart). wsl hostname -I for current IP. localhost forwarding enabled by default. From WSL2, Windows host IP: cat /etc/resolv.conf | grep nameserver. NAT through Windows. Port forwarding: netsh interface portproxy add v4tov4 listenport=8080 listenaddress=0.0.0.0 connectport=8080 connectaddress=$(wsl hostname -I).
+
+DNS: /etc/resolv.conf auto-generated, points to Windows host. Breaks with VPN active. Quick fix: nameserver 8.8.8.8. Permanent: [network] generateResolvConf = false in /etc/wsl.conf (then manage manually).
+
+FILE SYSTEM PERFORMANCE (CRITICAL):
+- Linux native (/home/kali/): Full ext4 speed. Git, npm, builds run fast.
+- Windows mount (/mnt/c/): 9P protocol, 3-10x SLOWER. Don't run heavy builds on /mnt/c from WSL2.
+Stone AI at /mnt/c/Users/stone/stone-ai — OK for reading/quick edits from WSL2, NOT for npm install or builds.
+
+MEMORY: WSL2 grows up to 50-80% host RAM and doesn't release back. Fix with C:\\Users\\stone\\.wslconfig:
+[wsl2]
+memory=4GB
+swap=2GB
+processors=2
+wsl --shutdown after changes. Over-allocating starves Docker, Node.js, and browser.
+
+KALI INTEGRATION: nmap, nikto, gobuster, burpsuite, metasploit, sqlmap. Access: wsl -d kali-linux. Scan local services via Windows host IP (not localhost). Never scan production without authorization.
+
+SYSTEMD: ps -p 1 -o comm= shows init type. Enable: [boot] systemd=true in /etc/wsl.conf. With systemd: systemctl works, services persist. Without: sudo service <name> start (doesn't persist). Cron needs manual start without systemd.`
+      },
+      {
+        title: "Log Analysis & Pattern Recognition",
+        content: `Log Analysis & Pattern Recognition Essentials:
+
+STRUCTURED VS UNSTRUCTURED: JSON logs → PowerShell ConvertFrom-Json or jq. Free-text → grep/findstr with regex. Always prefer structured logging: JSON with level, message, timestamp, context.
+
+ERROR CLASSIFICATION:
+TRANSIENT: Once or intermittent, often self-resolving. Network timeouts, DNS hiccups. Note and monitor.
+PERSISTENT: Same error repeating regularly. "ECONNREFUSED 127.0.0.1:5432" every 30s = DB down. Investigate immediately.
+CASCADING: One root cause → multiple different errors at same timestamp. PostgreSQL stops → Prisma errors → API 500s → frontend errors. Fix the ROOT (earliest, most fundamental), cascade resolves.
+
+CROSS-SOURCE CORRELATION: Same incident produces logs across: 1. App logs (Next.js console), 2. System logs (Event Viewer), 3. Docker logs, 4. Database logs, 5. Vercel logs. Correlate by timestamp — check all sources for the ±1 minute window around any error.
+
+KEY LOG LOCATIONS:
+Next.js: stdout/stderr of dev process. Production: vercel logs or dashboard.
+Prisma: Enable with log: ['query', 'error', 'warn'] in PrismaClient.
+PostgreSQL: docker logs stoneai-db. Slow queries: log_min_duration_statement = 1000.
+Docker daemon: %LOCALAPPDATA%\\Docker\\log\\. docker events --since "1h" for lifecycle events.
+Windows: eventvwr.msc or Get-WinEvent (System, Application, Security channels).
+
+NOISE FILTERING: Ignore: IIS warnings on non-IIS system, Search indexer, DCOM 10016, Superfetch. Never ignore: PostgreSQL/Prisma/Node.js errors, OOM events, ECONNREFUSED to expected services, failed logins from unknown sources, Docker non-zero exits.`
+      },
+      {
+        title: "Resource Capacity Planning",
+        content: `Resource Capacity Planning Essentials:
+
+DISK TRENDS: Get-PSDrive -PSProvider FileSystem with UsedGB, FreeGB, PctFree. Log weekly. Project exhaustion: FreeGB / weekly_decrease = weeks remaining. Biggest consumers: node_modules (500MB-2GB), .next cache (several GB), Docker (docker system df), npm cache, git objects. Cleanup: npm cache clean --force, docker system prune -a --filter "until=168h", remove .next/cache.
+
+MEMORY MAP (founder's system baseline): Windows OS (~2-3GB) + Docker Desktop (~1-2GB) + stoneai-db (~200-500MB) + Redis (~50-200MB) + Next.js dev (~300-800MB) + Browser (~500MB-2GB) + terminal (~200-500MB) = 5-9GB baseline. Pressure: <1GB available, page file >50% RAM, Node.js heap errors. Fix: Get-Process | Sort-Object WorkingSet -Descending to find hogs.
+
+CONNECTION POOLS:
+Database: Prisma pool default ~5 for serverless. Neon PgBouncer multiplexes. Use pooled URL for Vercel, direct for migrations. Monitor: SELECT count(*) FROM pg_stat_activity.
+Redis: Default 1 connection. Rate limiting + caching + sessions = consider 5-10. Monitor: redis-cli INFO clients.
+HTTP: Node.js maxSockets Infinity with keepAlive. "ECONNRESET" during bursts = pool exhaustion.
+
+SCALE VS OPTIMIZE: Optimize first if: known inefficiency, within control, basic optimizations not yet done (caching, pooling, CDN). Scale up if: optimizations in place and still hitting limits, engineer time exceeds resource cost, bottleneck is fundamental.
+
+HARDWARE CONSTRAINTS: AMD Radeon RX 550 — no CUDA, can't run local AI inference. RAM shared between Windows + Docker + Node.js + browser. SSD vs HDD matters enormously — don't put Docker volumes or node_modules on HDD.`
+      },
+      {
+        title: "Environment Variable & Configuration Management",
+        content: `Environment Variable & Configuration Management Essentials:
+
+PRECEDENCE (low to high): 1. System env vars (HKLM registry), 2. User env vars (HKCU), 3. Process-level (export/set), 4. .env files (Next.js: .env < .env.local < .env.development < .env.development.local), 5. Docker env (-e or env_file), 6. Vercel env vars (final authority for deployed code), 7. Inline (NODE_OPTIONS=... npm run build).
+
+DRIFT DETECTION: Maintain .env.example (names only, committed to git). Compare existence across local (.env.local) and Vercel. Common drift: new var in .env.local but not Vercel (works locally, breaks production). Renamed locally but old name in Vercel. Added to Vercel for hotfix but never to .env.local.
+
+SECRET ROTATION:
+Clerk: Generate new key → update .env.local + Vercel → verify → delete old key.
+Stripe: sk_test_* don't expire. sk_live_* rotate periodically. Webhook secret (whsec_*) requires endpoint config update.
+OpenAI: If compromised, delete immediately, generate new, update everywhere.
+DATABASE_URL: Neon password reset changes connection string — update .env.local + Vercel.
+NEXT_PUBLIC_*: Embedded at BUILD time. Rotation requires REBUILD + REDEPLOY.
+
+CONSISTENCY CHECKS: Local: verify .env.local has all vars, npm run build compiles. Vercel: all .env.example vars exist for Production scope. NEXT_PUBLIC_* match across envs. DATABASE_URL points to correct DB (Neon production, not branch/local).
+
+COMMON MISCONFIGS:
+1. Wrong DATABASE_URL (local pointing to production or vice versa). Verify before Prisma commands.
+2. Stale API keys (rotated in dashboard, not in env). Check creation dates.
+3. Missing vars after deploy (works locally, undefined in production). Add to Vercel + redeploy.
+4. NEXT_PUBLIC_ confusion: server-side use exposes to client bundle. Non-NEXT_PUBLIC_ returns undefined in browser.
+5. Docker env mismatch: container created with password X, .env.local has password Y. Check docker inspect for container env vars.`
       },
     ],
   },

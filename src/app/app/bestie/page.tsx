@@ -39,7 +39,7 @@ export default function BestieHubPage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="flex items-center justify-center min-h-[50vh]">
         <Loader2 className="h-6 w-6 animate-spin text-pink-400" />
       </div>
     );
@@ -47,7 +47,7 @@ export default function BestieHubPage() {
 
   if (error || !data) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-3 text-red-400">
+      <div className="flex flex-col items-center justify-center min-h-[50vh] gap-3 text-red-400">
         <p>Failed to load your besties</p>
         <Button variant="outline" size="sm" onClick={() => queryClient.invalidateQueries({ queryKey: ["besties"] })}>
           Try Again
@@ -60,7 +60,7 @@ export default function BestieHubPage() {
   const canCreate = besties.length < maxBesties;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="overflow-y-auto h-full max-w-4xl mx-auto p-6 space-y-6">
       {/* Early access banner */}
       <div className="bg-zinc-900/80 border border-zinc-700 rounded-lg p-4 flex items-center gap-3">
         <Sparkles className="h-5 w-5 text-amber-400 shrink-0" />
@@ -104,7 +104,7 @@ export default function BestieHubPage() {
             My Bestie
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
-            Up to 43 expert agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
+            Up to 42 expert agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
           </p>
         </div>
         {canCreate && besties.length > 0 && (

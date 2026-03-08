@@ -21,6 +21,7 @@ import { checkRateLimit } from "@/lib/rate-limiter";
 import { getTierConfig, getMaxBesties } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
 import { checkEasterEgg, checkBirthdayEgg, getZodiacEggBadge } from "@/lib/easter-eggs";
+import { encrypt } from "@/lib/encryption";
 
 // GET — List user's besties
 export async function GET() {
@@ -163,7 +164,7 @@ export async function POST(req: NextRequest) {
             bestieId: bestie.id,
             userId: user.id,
             key: m.key,
-            value: m.value,
+            value: encrypt(m.value),
           })),
           skipDuplicates: true,
         });
@@ -194,11 +195,11 @@ export async function POST(req: NextRequest) {
               bestieId: bestie.id,
               userId: user.id,
               key: claimKey,
-              value: JSON.stringify({
+              value: encrypt(JSON.stringify({
                 credits: egg.credits,
                 claimedAt: now.toISOString(),
                 badge: zodiacBadge,
-              }),
+              })),
             },
           });
           easterEgg = {
@@ -229,12 +230,12 @@ export async function POST(req: NextRequest) {
               bestieId: bestie.id,
               userId: user.id,
               key: bdayKey,
-              value: JSON.stringify({
+              value: encrypt(JSON.stringify({
                 discountPercent: bdayEgg.discountPercent,
                 claimedAt: now.toISOString(),
                 used: false,
                 badge: zodiacBadge,
-              }),
+              })),
             },
           });
           easterEgg = {

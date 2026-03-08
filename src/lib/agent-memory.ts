@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { encrypt, decrypt } from "@/lib/encryption";
 
 /**
  * Agent Memory System
@@ -9,7 +10,22 @@ import { db } from "@/lib/db";
  * - context: Business details, project info, past decisions
  * - learnings: What worked, what didn't, patterns observed
  * - history: Summary of past interactions and outcomes
+ *
+ * All memory values are encrypted at rest using AES-256-GCM.
+ * Backward compatible: reads handle both encrypted and legacy plaintext values.
  */
+
+/**
+ * Decrypt a value, falling back to plaintext for legacy unencrypted data.
+ */
+function safeDecrypt(value: string): string {
+  try {
+    return decrypt(value);
+  } catch {
+    // Legacy plaintext data — return as-is
+    return value;
+  }
+}
 
 export interface MemoryEntry {
   key: string;
@@ -29,7 +45,10 @@ export async function getAgentMemory(
     orderBy: { updatedAt: "desc" },
     select: { key: true, value: true, updatedAt: true },
   });
-  return memories;
+  return memories.map((m) => ({
+    ...m,
+    value: safeDecrypt(m.value),
+  }));
 }
 
 /**
@@ -41,12 +60,13 @@ export async function setAgentMemory(
   key: string,
   value: string
 ) {
+  const encryptedValue = encrypt(value);
   await db.agentMemory.upsert({
     where: {
       agentId_userId_key: { agentId, userId, key },
     },
-    create: { agentId, userId, key, value },
-    update: { value },
+    create: { agentId, userId, key, value: encryptedValue },
+    update: { value: encryptedValue },
   });
 }
 

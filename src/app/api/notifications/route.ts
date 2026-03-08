@@ -4,8 +4,8 @@ import { getOrCreateUser } from "@/lib/auth";
 import { z } from "zod";
 
 const markReadSchema = z.union([
-  z.object({ markAllRead: z.literal(true) }),
-  z.object({ id: z.string().min(1).max(100) }),
+  z.object({ markAllRead: z.literal(true) }).strict(),
+  z.object({ id: z.string().min(1).max(100) }).strict(),
 ]);
 
 // GET /api/notifications — get user's notifications

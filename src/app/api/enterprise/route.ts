@@ -19,7 +19,7 @@ const enterpriseSchema = z.object({
     financing: z.enum(["none", "net-30", "net-60", "net-90"]).default("none"),
     companyName: z.string().min(1).max(200),
     contactEmail: z.string().email().max(200),
-  }),
+  }).strict(),
   estimatedMonthly: z.number().min(0),
   estimatedTotal: z.number().min(0),
   billingPeriod: z.string(),

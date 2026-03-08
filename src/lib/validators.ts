@@ -1,10 +1,10 @@
 import { z } from "zod";
 
-export const createConversationSchema = z.object({});
+export const createConversationSchema = z.object({}).strict();
 
 export const updateConversationSchema = z.object({
   title: z.string().min(1).max(200),
-});
+}).strict();
 
 export const chatMessageSchema = z.object({
   message: z
@@ -14,4 +14,4 @@ export const chatMessageSchema = z.object({
     .refine((val) => val.trim().length > 0, "Message cannot be only whitespace"),
   conversationId: z.string().cuid(),
   mode: z.enum(["LOCAL", "SMART"]).default("LOCAL"),
-});
+}).strict();

@@ -14,6 +14,15 @@ export async function GET(
     const user = await getOrCreateUser();
     const { slug } = await params;
 
+    // Hidden agent slugs — internal use only, not shown to non-admin users
+    const HIDDEN_AGENTS = ["stone", "chaos"];
+    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
+    const isAdmin = adminEmails.includes(user.email.toLowerCase());
+
+    if (!isAdmin && HIDDEN_AGENTS.includes(slug)) {
+      return NextResponse.json({ error: "Agent not found" }, { status: 404 });
+    }
+
     const agent = await db.agent.findUnique({
       where: { slug },
       select: {
