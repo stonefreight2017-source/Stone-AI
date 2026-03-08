@@ -130,8 +130,8 @@ export async function POST(req: NextRequest) {
         });
         return Response.json(
           {
+            error: `This agent requires ${conversation.agent.requiredTier} tier or higher`,
             code: "AGENT_TIER_REQUIRED",
-            message: `This agent requires ${conversation.agent.requiredTier} tier or higher`,
             currentTier: tier,
             requiredTier: conversation.agent.requiredTier,
           },
@@ -146,8 +146,8 @@ export async function POST(req: NextRequest) {
       const nextTier = getNextTier(tier);
       return Response.json(
         {
+          error: `${mode} mode requires ${requiredTier} tier or higher`,
           code: "TIER_MISMATCH",
-          message: `${mode} mode requires ${requiredTier} tier or higher`,
           currentTier: tier,
           requestedMode: mode,
           requiredTier,
@@ -171,8 +171,8 @@ export async function POST(req: NextRequest) {
           });
           return Response.json(
             {
+              error: "You've used all your Cloud AI trial credits. Your Stone Engine (unlimited) is still available, or upgrade for daily Cloud AI access.",
               code: "SMART_CREDITS_EXHAUSTED",
-              message: "You've used all your Cloud AI trial credits. Your Stone Engine (unlimited) is still available, or upgrade for daily Cloud AI access.",
               lifetimeCreditsRemaining: 0,
               suggestion: "LOCAL",
               upgrade: {
@@ -200,8 +200,8 @@ export async function POST(req: NextRequest) {
           });
           return Response.json(
             {
+              error: `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue with Cloud AI.`,
               code: "SMART_QUOTA_EXCEEDED",
-              message: `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue with Cloud AI.`,
               smartUsage: {
                 sent: smartQuota.smartMessagesSentToday,
                 limit: smartQuota.smartMessagesPerDay,
@@ -230,8 +230,8 @@ export async function POST(req: NextRequest) {
     if (!rateCheck.allowed) {
       return Response.json(
         {
+          error: "Too many requests. Please slow down.",
           code: "RATE_LIMITED",
-          message: "Too many requests. Please slow down.",
           retryAfterMs: rateCheck.retryAfterMs,
         },
         { status: 429 }
@@ -249,8 +249,8 @@ export async function POST(req: NextRequest) {
       });
       return Response.json(
         {
+          error: "Too many simultaneous requests. Please wait for a response.",
           code: "TOO_MANY_CONCURRENT",
-          message: "Too many simultaneous requests. Please wait for a response.",
         },
         { status: 429 }
       );
@@ -263,8 +263,8 @@ export async function POST(req: NextRequest) {
       const nextTier = getNextTier(tier);
       return Response.json(
         {
+          error: "You've reached your usage limit",
           code: "QUOTA_EXCEEDED",
-          message: "You've reached your usage limit",
           currentTier: tier,
           usage: {
             messagesSentToday: quota.messagesSentToday,
@@ -463,10 +463,7 @@ export async function POST(req: NextRequest) {
     }
     console.error("POST /api/chat:", error instanceof Error ? error.message : "Unknown error");
     return Response.json(
-      {
-        code: "SERVICE_UNAVAILABLE",
-        message: "Something went wrong. Please try again.",
-      },
+      { error: "Something went wrong. Please try again.", code: "SERVICE_UNAVAILABLE" },
       { status: 500 }
     );
   }

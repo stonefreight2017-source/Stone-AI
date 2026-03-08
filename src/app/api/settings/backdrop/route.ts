@@ -42,7 +42,7 @@ export async function PUT(req: NextRequest) {
     const parsed = backdropSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: "Invalid input", details: parsed.error.flatten() },
+        { error: "Invalid input" },
         { status: 400 }
       );
     }
@@ -91,7 +91,7 @@ export async function PUT(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("PUT /api/settings/backdrop:", error);
+    console.error("PUT /api/settings/backdrop:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -28,7 +28,10 @@ export async function GET(req: NextRequest) {
     ]);
 
     return NextResponse.json({ notifications, unreadCount });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to load notifications" }, { status: 500 });
   }
 }
@@ -37,7 +40,14 @@ export async function GET(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
-    const body = await req.json();
+
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
     const parsed = markReadSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
@@ -56,7 +66,10 @@ export async function PATCH(req: NextRequest) {
       data: { read: true },
     });
     return NextResponse.json({ success: true });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to update notifications" }, { status: 500 });
   }
 }

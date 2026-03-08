@@ -115,8 +115,8 @@ export async function POST(req: NextRequest) {
       const nextTier = getNextTier(tier);
       return Response.json(
         {
+          error: `${mode} mode requires ${requiredTier} tier or higher`,
           code: "TIER_MISMATCH",
-          message: `${mode} mode requires ${requiredTier} tier or higher`,
           currentTier: tier,
           requestedMode: mode,
           requiredTier,
@@ -134,10 +134,10 @@ export async function POST(req: NextRequest) {
         const isFree = tier === "FREE";
         return Response.json(
           {
-            code: isFree ? "SMART_CREDITS_EXHAUSTED" : "SMART_QUOTA_EXCEEDED",
-            message: isFree
+            error: isFree
               ? "You've used all your Cloud AI trial credits. Your Stone Engine (unlimited) is still available, or upgrade for daily Cloud AI access."
               : `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue.`,
+            code: isFree ? "SMART_CREDITS_EXHAUSTED" : "SMART_QUOTA_EXCEEDED",
             suggestion: "LOCAL",
             ...(!isFree && {
               creditPacks: [
@@ -157,8 +157,8 @@ export async function POST(req: NextRequest) {
     if (!rateCheck.allowed) {
       return Response.json(
         {
+          error: "Too many requests. Please slow down.",
           code: "RATE_LIMITED",
-          message: "Too many requests. Please slow down.",
           retryAfterMs: rateCheck.retryAfterMs,
         },
         { status: 429 }
@@ -171,8 +171,8 @@ export async function POST(req: NextRequest) {
     if (!concurrency.acquired) {
       return Response.json(
         {
+          error: "Too many simultaneous requests. Please wait for a response.",
           code: "TOO_MANY_CONCURRENT",
-          message: "Too many simultaneous requests. Please wait for a response.",
         },
         { status: 429 }
       );
@@ -185,8 +185,8 @@ export async function POST(req: NextRequest) {
       const nextTier = getNextTier(tier);
       return Response.json(
         {
+          error: "You've reached your usage limit",
           code: "QUOTA_EXCEEDED",
-          message: "You've reached your usage limit",
           currentTier: tier,
           usage: {
             messagesSentToday: quota.messagesSentToday,
@@ -328,7 +328,7 @@ export async function POST(req: NextRequest) {
     }
     console.error("POST /api/bestie/chat:", error instanceof Error ? error.message : "Unknown error");
     return Response.json(
-      { code: "SERVICE_UNAVAILABLE", message: "Something went wrong. Please try again." },
+      { error: "Something went wrong. Please try again.", code: "SERVICE_UNAVAILABLE" },
       { status: 500 }
     );
   }

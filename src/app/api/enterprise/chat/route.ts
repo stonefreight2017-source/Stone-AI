@@ -113,15 +113,22 @@ export async function POST(req: NextRequest) {
   );
 
   // Stream response
-  const result = streamText({
-    model: getModel("LOCAL"),
-    system: systemPrompt,
-    messages: sanitizedMessages,
-    maxOutputTokens: 1024,
-  });
+  try {
+    const result = streamText({
+      model: getModel("LOCAL"),
+      system: systemPrompt,
+      messages: sanitizedMessages,
+      maxOutputTokens: 1024,
+    });
 
-  // Return plain text stream (no Vercel AI SDK data protocol — widget uses raw fetch)
-  return result.toTextStreamResponse();
+    // Return plain text stream (no Vercel AI SDK data protocol — widget uses raw fetch)
+    return result.toTextStreamResponse();
+  } catch {
+    return new Response(JSON.stringify({ error: "Internal server error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
 }
 
 const FALLBACK_SYSTEM_PROMPT = `You are the Stone AI Enterprise Advisor — a knowledgeable, straightforward sales consultant for Stone AI's enterprise and self-service plans. Your job is to understand what the prospect needs and recommend the right plan. Never guess — if you don't know something, say "let me connect you with our team" and suggest emailing support@stone-ai.net.

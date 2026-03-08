@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("Referral track:", error);
+    console.error("Referral track:", error instanceof Error ? error.message : "Unknown error");
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

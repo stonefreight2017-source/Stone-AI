@@ -54,7 +54,7 @@ export async function GET(req: NextRequest, context: RouteContext) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("GET /api/bestie/[id]/conversations:", error);
+    console.error("GET /api/bestie/[id]/conversations:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest, context: RouteContext) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("POST /api/bestie/[id]/conversations:", error);
+    console.error("POST /api/bestie/[id]/conversations:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
@@ -128,7 +128,7 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("DELETE /api/bestie/[id]/conversations:", error);
+    console.error("DELETE /api/bestie/[id]/conversations:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

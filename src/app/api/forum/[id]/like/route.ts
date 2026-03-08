@@ -54,7 +54,10 @@ export async function POST(
       ]);
       return NextResponse.json({ liked: true });
     }
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to toggle like" }, { status: 500 });
   }
 }

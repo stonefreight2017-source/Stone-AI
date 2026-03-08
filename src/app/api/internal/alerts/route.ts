@@ -54,8 +54,9 @@ export async function POST(req: NextRequest) {
   const result = await sendFounderAlert(parsed.data as AlertPayload);
 
   if (!result.success) {
+    console.error("[alerts] Alert send failed:", result.error);
     return NextResponse.json(
-      { error: result.error, alertId: result.alertId },
+      { error: "Alert delivery failed", alertId: result.alertId },
       { status: 500 }
     );
   }

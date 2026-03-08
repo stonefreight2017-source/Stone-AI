@@ -144,7 +144,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("POST /api/bestie/avatar:", error);
+    console.error("POST /api/bestie/avatar:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

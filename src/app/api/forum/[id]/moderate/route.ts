@@ -23,7 +23,13 @@ export async function POST(
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const body = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
     const parsed = moderateSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
@@ -66,7 +72,10 @@ export async function POST(
     });
 
     return NextResponse.json({ success: true, action });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Moderation action failed" }, { status: 500 });
   }
 }

@@ -92,7 +92,10 @@ export async function GET(req: NextRequest) {
         totalPages: Math.ceil(total / limit),
       },
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to load posts" }, { status: 500 });
   }
 }
@@ -114,7 +117,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Please wait before posting again" }, { status: 429 });
     }
 
-    const body = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
     const parsed = createPostSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -179,7 +188,10 @@ export async function POST(req: NextRequest) {
         createdAt: post.createdAt,
       },
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to create post" }, { status: 500 });
   }
 }

@@ -98,7 +98,10 @@ export async function GET(
         "Content-Disposition": `attachment; filename="conversation-${id}.json"`,
       },
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to export conversation" }, { status: 500 });
   }
 }

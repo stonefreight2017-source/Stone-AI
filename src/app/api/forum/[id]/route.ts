@@ -84,7 +84,10 @@ export async function GET(
         })),
       },
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to load post" }, { status: 500 });
   }
 }

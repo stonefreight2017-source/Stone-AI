@@ -38,7 +38,13 @@ export async function POST(
       return NextResponse.json({ error: "This post is locked" }, { status: 403 });
     }
 
-    const body = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
     const parsed = replySchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -106,7 +112,10 @@ export async function POST(
         createdAt: reply.createdAt,
       },
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to post reply" }, { status: 500 });
   }
 }

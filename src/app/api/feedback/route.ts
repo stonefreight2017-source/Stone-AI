@@ -21,7 +21,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Please wait before sending another message" }, { status: 429 });
     }
 
-    const body = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+    }
+
     const parsed = feedbackSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json({ error: "Message must be between 10 and 5000 characters" }, { status: 400 });
@@ -37,7 +43,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ id: feedback.id, success: true });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to submit feedback" }, { status: 500 });
   }
 }
@@ -46,8 +55,8 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
-    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim());
-    if (!adminEmails.includes(user.email)) {
+    const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
+    if (!adminEmails.includes(user.email.toLowerCase())) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -73,7 +82,10 @@ export async function GET(req: NextRequest) {
     ]);
 
     return NextResponse.json({ items, total, page });
-  } catch {
+  } catch (error) {
+    if (error instanceof Error && error.message === "Unauthorized") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
     return NextResponse.json({ error: "Failed to load feedback" }, { status: 500 });
   }
 }

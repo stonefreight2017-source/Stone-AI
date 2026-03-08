@@ -56,7 +56,7 @@ export async function GET() {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("GET /api/bestie:", error);
+    console.error("GET /api/bestie:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
@@ -253,7 +253,7 @@ export async function POST(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("POST /api/bestie:", error);
+    console.error("POST /api/bestie:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
@@ -317,7 +317,7 @@ export async function PATCH(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("PATCH /api/bestie:", error);
+    console.error("PATCH /api/bestie:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }
@@ -360,7 +360,7 @@ export async function DELETE(req: NextRequest) {
     if (error instanceof Error && error.message === "Unauthorized") {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
-    console.error("DELETE /api/bestie:", error);
+    console.error("DELETE /api/bestie:", error instanceof Error ? error.message : "Unknown error");
     return Response.json({ error: "Something went wrong" }, { status: 500 });
   }
 }

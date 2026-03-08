@@ -34,10 +34,10 @@ export async function GET(req: NextRequest) {
   const inboxResult = await checkInbox();
 
   if (!inboxResult.success) {
+    console.error("[inbox-manager] Inbox check failed:", inboxResult.error);
     return NextResponse.json(
       {
         error: "Inbox check failed",
-        detail: inboxResult.error,
         messagesRead: inboxResult.messages.length,
       },
       { status: 500 }

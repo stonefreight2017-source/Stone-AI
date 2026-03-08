@@ -9,20 +9,24 @@ import { getClientIp } from "@/lib/security";
  * No auth required — returns only public compliance info based on IP location.
  */
 export async function GET(req: NextRequest) {
-  const ip = getClientIp(req.headers);
-  const { allowed } = await checkRateLimitAsync(`geo:${ip}`, 30);
-  if (!allowed) {
-    return Response.json({ error: "Too many requests" }, { status: 429 });
+  try {
+    const ip = getClientIp(req.headers);
+    const { allowed } = await checkRateLimitAsync(`geo:${ip}`, 30);
+    if (!allowed) {
+      return Response.json({ error: "Too many requests" }, { status: 429 });
+    }
+
+    const rules = getComplianceRules(req.headers);
+
+    return Response.json({
+      jurisdiction: rules.jurisdiction,
+      countryCode: rules.countryCode,
+      requiresAiDisclosure: rules.requiresAiDisclosure,
+      redisclosureIntervalMs: rules.redisclosureIntervalMs,
+      crisisResources: rules.crisisResources,
+      minimumAge: rules.minimumAge,
+    });
+  } catch {
+    return Response.json({ error: "Internal server error" }, { status: 500 });
   }
-
-  const rules = getComplianceRules(req.headers);
-
-  return Response.json({
-    jurisdiction: rules.jurisdiction,
-    countryCode: rules.countryCode,
-    requiresAiDisclosure: rules.requiresAiDisclosure,
-    redisclosureIntervalMs: rules.redisclosureIntervalMs,
-    crisisResources: rules.crisisResources,
-    minimumAge: rules.minimumAge,
-  });
 }
