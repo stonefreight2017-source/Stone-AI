@@ -690,15 +690,6 @@ export function PricingSection() {
           </div>
         )}
 
-        {/* Reseller founding member callout */}
-        {isPro && (
-          <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-3 mb-6">
-            <p className="text-sm text-amber-300 font-medium flex items-center gap-2">
-              <Star className="h-4 w-4" />
-              Founding Member — this price is locked while your subscription is active
-            </p>
-          </div>
-        )}
 
         {/* CTA */}
         <Button
