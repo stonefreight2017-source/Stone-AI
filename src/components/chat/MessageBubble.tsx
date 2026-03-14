@@ -35,7 +35,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
           <div
             className={cn(
               "mt-1.5 text-[10px] uppercase tracking-wider",
-              isUser ? "text-blue-300" : "text-zinc-500"
+              isUser ? "text-blue-300" : "text-zinc-400"
             )}
           >
             {message.mode}

@@ -39,8 +39,34 @@ import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
 import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK } from "@/lib/agent-shared-prompts";
+import { assemblePrompt, getTokenEstimate } from "@/lib/golden-egg";
+import { buildAnswerContext } from "@/lib/answer-bank";
+import { guardCheck, buildGuardPrompt } from "@/lib/agent-guard";
 import type { Tier } from "@/lib/tier-config";
 import type { Role, Mode } from "@/generated/prisma/enums";
+import { checkCache, saveToCache } from "@/lib/semantic-cache";
+import { scoreResponse } from "@/lib/quality-scorer";
+import { trackEvent } from "@/lib/journey-tracker";
+import { extractAndSaveMemories as extractLongTermMemories, buildMemoryPrompt } from "@/lib/memory-manager";
+import { traceChat } from "@/lib/monitoring";
+import { selfCritique } from "@/lib/self-critique";
+
+/**
+ * ═══ GOLDEN EGG A/B TEST FLAG ═══
+ *
+ * When enabled, replaces the legacy per-agent systemPrompt with the Golden Egg
+ * architecture: a compact universal shell + egg-type behavioral block + targeted
+ * nearest-neighbor referrals. This reduces prompt overhead by ~50%
+ * (from ~8,350 tokens down to ~4,180 tokens per request).
+ *
+ * How to enable: set USE_GOLDEN_EGG=true in your .env file.
+ * Default: false (legacy prompt assembly, no behavior change).
+ *
+ * The golden egg produces the BASE system prompt only. RAG context, user memory,
+ * disclaimers, output capabilities, and verification blocks are still appended
+ * after — identical to the legacy path.
+ */
+const USE_GOLDEN_EGG = process.env.USE_GOLDEN_EGG === "true";
 
 export async function POST(req: NextRequest) {
   try {
@@ -102,6 +128,7 @@ export async function POST(req: NextRequest) {
             id: true,
             slug: true,
             name: true,
+            description: true,
             systemPrompt: true,
             requiredTier: true,
           },
@@ -119,7 +146,7 @@ export async function POST(req: NextRequest) {
 
     // 3b. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
     if (conversation.agent) {
-      if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier)) {
+      if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier, conversation.agent.slug)) {
         logAuditEvent({
           event: "agent.access_denied",
           userId: user.id,
@@ -137,6 +164,29 @@ export async function POST(req: NextRequest) {
           },
           { status: 403 }
         );
+      }
+    }
+
+    // 3c. AGENT EXPLOITATION GUARD — check every user message before it reaches the LLM
+    if (conversation.agent) {
+      const guardResult = guardCheck(conversation.agent.slug, message, tier, conversationId);
+      if (!guardResult.allowed) {
+        console.warn(`[GUARD-BLOCK] agent=${conversation.agent.slug} type=${guardResult.exploitationType} tier=${tier}`);
+        logAuditEvent({
+          event: "guard.exploitation_blocked",
+          userId: user.id,
+          metadata: {
+            agentSlug: conversation.agent.slug,
+            exploitationType: guardResult.exploitationType ?? "unknown",
+            tier,
+          },
+        });
+        return new Response(JSON.stringify({
+          role: 'assistant',
+          content: guardResult.reason || "I can't help with that request.",
+          ...(guardResult.redirect ? { redirect: guardResult.redirect } : {}),
+          ...(guardResult.tierUpgrade ? { tierUpgrade: guardResult.tierUpgrade } : {}),
+        }), { headers: { 'Content-Type': 'application/json' } });
       }
     }
 
@@ -325,18 +375,75 @@ export async function POST(req: NextRequest) {
 
     if (conversation.agent) {
       const agent = conversation.agent;
-      basePrompt = agent.systemPrompt;
 
-      // Inject RAG knowledge context (tiered: higher tiers get more chunks)
-      const ragContext = await buildRagContext(agent.id, message, tier);
+      // Golden Egg A/B: use compact universal shell or legacy full systemPrompt
+      if (USE_GOLDEN_EGG) {
+        try {
+          basePrompt = assemblePrompt(agent.slug, {
+            slug: agent.slug,
+            name: agent.name,
+            description: agent.description ?? "",
+            systemPrompt: agent.systemPrompt,
+          });
+        } catch (goldenEggErr) {
+          console.error(`[GOLDEN-EGG-FALLBACK] assemblePrompt failed for ${agent.slug}:`, goldenEggErr);
+          basePrompt = agent.systemPrompt;
+        }
+      } else {
+        basePrompt = agent.systemPrompt;
+      }
+
+      // Inject agent guard prompt (golden egg only — reinforces boundaries at model level)
+      if (USE_GOLDEN_EGG) {
+        const guardPrompt = buildGuardPrompt(agent.slug, tier);
+        if (guardPrompt) {
+          basePrompt += "\n\n" + guardPrompt;
+        }
+      }
+
+      // Answer Injection — check for verified answers before RAG (golden egg only)
+      let answerContext: string | null = null;
+      if (USE_GOLDEN_EGG) {
+        answerContext = await buildAnswerContext(agent.slug, message);
+        if (answerContext) {
+          basePrompt += answerContext;
+          if (process.env.NODE_ENV === "development" || process.env.LOG_PROMPT_STATS === "true") {
+            console.log(`[ANSWER-BANK] Hit for ${agent.slug}: ${getTokenEstimate(answerContext)} tokens`);
+          }
+        }
+      }
+
+      // Inject RAG knowledge context (token-budgeted)
+      // Combined RAG + memory budget: 4000 tokens. Split: 3000 RAG, 1000 memory.
+      // If answer bank hit, reduce RAG budget — verified answer takes priority.
+      const RAG_TOKEN_BUDGET = answerContext ? 1000 : 3000;
+      const MEMORY_TOKEN_BUDGET = 1000;
+
+      const ragContext = await buildRagContext(agent.id, message, {
+        relevanceThreshold: 0.3,
+        maxTokens: RAG_TOKEN_BUDGET,
+        userTier: tier,
+      });
       if (ragContext) {
         basePrompt += ragContext;
       }
 
-      // Inject user-specific memory
-      const memoryContext = await buildMemoryContext(agent.id, user.id);
+      // Inject user-specific memory (token-budgeted)
+      const memoryContext = await buildMemoryContext(agent.id, user.id, {
+        maxTokens: MEMORY_TOKEN_BUDGET,
+      });
       if (memoryContext) {
         basePrompt += memoryContext;
+      }
+
+      // Long-term memory (MemGPT-style working + recall memory)
+      try {
+        const longMemoryContext = await buildMemoryPrompt(agent.id, user.id);
+        if (longMemoryContext) {
+          basePrompt += longMemoryContext;
+        }
+      } catch {
+        // Long-term memory is best-effort
       }
 
       // Inject professional disclaimers for regulated domains
@@ -355,8 +462,32 @@ export async function POST(req: NextRequest) {
     // Wrap with anti-injection security directives
     const systemPrompt = wrapSystemPrompt(basePrompt);
 
+    // Golden Egg instrumentation — log prompt sizes for A/B comparison
+    if (process.env.NODE_ENV === "development" || process.env.LOG_PROMPT_STATS === "true") {
+      const agentSlug = conversation.agent?.slug ?? "general";
+      const tokenEst = getTokenEstimate(systemPrompt);
+      console.log(`[PROMPT-STATS] agent=${agentSlug} mode=${USE_GOLDEN_EGG ? "golden-egg" : "legacy"} tokens≈${tokenEst} chars=${systemPrompt.length}`);
+    }
+
     // 11. Stream response from model
     const startTime = Date.now();
+
+    // Semantic cache check — return cached response if available
+    if (process.env.ENABLE_SEMANTIC_CACHE === "true" && conversation.agent) {
+      try {
+        const cached = await checkCache(conversation.agent.slug, message);
+        if (cached) {
+          // Save user message to DB before returning cached response
+          // (already saved above in step 7)
+          return new Response(cached, {
+            headers: { "Content-Type": "text/plain; charset=utf-8", "X-Cache": "HIT" },
+          });
+        }
+      } catch {
+        // Cache miss or error — continue with normal flow
+      }
+    }
+
     const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
 
     const AI_ERROR_MESSAGE = "I'm having trouble connecting to the AI service right now. Please try again in a moment.";
@@ -370,9 +501,12 @@ export async function POST(req: NextRequest) {
         maxOutputTokens: mode === "SMART" && tierConfig.limits.smartMaxResponseTokens > 0
           ? tierConfig.limits.smartMaxResponseTokens
           : tierConfig.limits.maxResponseTokens,
-        onFinish: async ({ text, usage: tokenUsage }) => {
+        onFinish: async ({ text: rawText, usage: tokenUsage }) => {
+          // Strip Qwen 3 think tags — internal reasoning must never be stored or shown
+          const text = rawText.replace(/<think>[\s\S]*?<\/think>/g, "").trim();
+
           // Don't save empty assistant messages (e.g. quota exhausted, empty stream)
-          if (!text || !text.trim()) {
+          if (!text) {
             console.warn("POST /api/chat: Empty response from model — skipping DB save", {
               conversationId: conversation.id,
               mode,
@@ -432,6 +566,30 @@ export async function POST(req: NextRequest) {
               text
             ).catch(() => {});
           }
+
+          // ═══ MASTERPIECE ENHANCEMENTS (fire-and-forget, never break main flow) ═══
+          try { trackEvent(user.id, conversation.agent?.slug || "general", "conversation_message"); } catch {}
+          try { scoreResponse(message, text, conversation.agent?.slug || "general", ""); } catch {}
+          try { extractLongTermMemories(conversation.agent?.id, user.id, message, text); } catch {}
+          try {
+            traceChat({
+              userId: user.id,
+              agentSlug: conversation.agent?.slug || "general",
+              input: message,
+              output: text,
+              tokensIn: tokenUsage?.inputTokens ?? 0,
+              tokensOut: tokenUsage?.outputTokens ?? 0,
+              latencyMs: Date.now() - startTime,
+              mode,
+              tier,
+            });
+          } catch {}
+          if (process.env.ENABLE_SEMANTIC_CACHE === "true" && conversation.agent) {
+            try { saveToCache(conversation.agent.slug, message, text); } catch {}
+          }
+          if (process.env.ENABLE_SELF_CRITIQUE === "true") {
+            try { selfCritique(text, conversation.agent?.slug || "general", message); } catch {}
+          }
         },
       });
     } catch (streamError) {
@@ -445,9 +603,67 @@ export async function POST(req: NextRequest) {
     }
 
     // 12. Return streaming response — only safe headers
+    // Strip Qwen 3 <think> tags from vLLM responses before they reach the user.
+    // Internal reasoning can leak rule names and architecture details.
     const firstTokenTime = Date.now() - startTime;
-    return streamResult.toTextStreamResponse({
+    const rawStream = streamResult.textStream;
+    const thinkStripStream = new ReadableStream<string>({
+      async start(controller) {
+        let buffer = "";
+        for await (const chunk of rawStream) {
+          buffer += chunk;
+          // Flush everything before any potential <think> tag
+          while (true) {
+            const openIdx = buffer.indexOf("<think>");
+            if (openIdx === -1) {
+              // No open tag — check if buffer might end with a partial "<think"
+              // Keep last 6 chars in case "<think" is split across chunks
+              const safeEnd = buffer.length - 6;
+              if (safeEnd > 0) {
+                controller.enqueue(buffer.slice(0, safeEnd));
+                buffer = buffer.slice(safeEnd);
+              }
+              break;
+            }
+            // Emit everything before the <think> tag
+            if (openIdx > 0) {
+              controller.enqueue(buffer.slice(0, openIdx));
+            }
+            const closeIdx = buffer.indexOf("</think>", openIdx);
+            if (closeIdx === -1) {
+              // Tag opened but not closed yet — hold entire remainder in buffer
+              buffer = buffer.slice(openIdx);
+              break;
+            }
+            // Full <think>...</think> found — strip it and continue scanning
+            buffer = buffer.slice(closeIdx + 8); // 8 = "</think>".length
+          }
+        }
+        // Flush remaining buffer (strip any unclosed think tag at the very end)
+        buffer = buffer.replace(/<think>[\s\S]*$/, "");
+        if (buffer) {
+          controller.enqueue(buffer);
+        }
+        controller.close();
+      },
+    });
+
+    const encoder = new TextEncoder();
+    const byteStream = new ReadableStream({
+      async start(controller) {
+        const reader = thinkStripStream.getReader();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          if (value) controller.enqueue(encoder.encode(value));
+        }
+        controller.close();
+      },
+    });
+
+    return new Response(byteStream, {
       headers: {
+        "Content-Type": "text/plain; charset=utf-8",
         "X-Latency-Ms": String(firstTokenTime),
       },
     });

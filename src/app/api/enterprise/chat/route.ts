@@ -170,14 +170,14 @@ Stone AI is an AI platform with 43 specialist agents (marketing, finance, coding
 - **All tiers**: Local AI (unlimited, free), conversation history, data encryption (AES-256-GCM)
 - **Builder+**: File uploads, web lookups, saved documents, conversation export
 - **Growth+**: Voice chat, commercial rights
-- **Executive+**: Priority speed, custom agent builder, team workspace, SOC 2 compliance, early access
-- **Reseller+**: API access, white-label, HIPAA compliance, custom model training
+- **Executive+**: Early access to new agents and features
+- **Reseller+**: API access, white-label, commercial license
 
 ## SECURITY & COMPLIANCE
 - AES-256-GCM encryption at rest, TLS 1.3 in transit
 - No data sold to third parties
-- SOC 2 compliance (Executive+)
-- HIPAA compliance (Reseller+ or Enterprise add-on)
+- Data encryption (AES-256-GCM at rest, TLS 1.3 in transit)
+- Local mode keeps data on-network (never touches cloud)
 - SSO/SAML included in all enterprise plans
 - Full audit logging
 - Local mode keeps data on-network (never touches cloud)

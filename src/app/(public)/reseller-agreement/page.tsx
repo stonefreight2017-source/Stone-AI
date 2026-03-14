@@ -4,16 +4,16 @@ import { ArrowLeft } from "lucide-react";
 export default function ResellerAgreementPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
+      <nav aria-label="Page navigation" className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
         <Link href="/" className="text-xl font-bold">Stone AI&trade;</Link>
         <Link href="/" className="text-sm text-zinc-400 hover:text-white flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
       </nav>
 
-      <main className="px-6 py-12 max-w-4xl mx-auto">
+      <main id="main-content" className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Reseller Agreement</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 4, 2026</p>
+        <p className="text-zinc-400 text-sm mb-10">Last updated: March 4, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
 
@@ -21,7 +21,7 @@ export default function ResellerAgreementPage() {
             <p className="text-amber-300 text-sm font-medium">
               This Reseller Agreement (&quot;Agreement&quot;) must be executed before any reselling activity.
               Contact legal@stone-ai.net to request a signed copy. Unauthorized reselling is a material
-              breach of the <Link href="/terms" className="text-emerald-400 hover:underline">Terms of Service</Link> and
+              breach of the <Link href="/terms" className="text-emerald-400 underline">Terms of Service</Link> and
               may result in legal action.
             </p>
           </div>

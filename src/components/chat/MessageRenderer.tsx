@@ -284,6 +284,7 @@ export const MessageRenderer = memo(function MessageRenderer({ content }: Messag
             className="text-blue-400 hover:text-blue-300 underline underline-offset-2"
           >
             {children}
+            <span className="sr-only"> (opens in new tab)</span>
           </a>
         );
       },

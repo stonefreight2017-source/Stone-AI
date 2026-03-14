@@ -1,7 +1,7 @@
 /**
  * Inbound email reader for Three-Headed Monster command system.
  * Connects to Gmail via IMAP, reads UNSEEN messages, and parses
- * @AGENT commands from subject lines.
+ * @AGENT commands from subject lines and email body text.
  *
  * Required env vars:
  *   ALERT_EMAIL_USER  — Gmail address (3headedm@gmail.com)
@@ -11,7 +11,7 @@
 import Imap from "imap";
 import { simpleParser, type ParsedMail } from "mailparser";
 
-export type AgentTarget = "chaos" | "stone" | "cardinal";
+export type AgentTarget = "chaos" | "stone" | "cardinal" | "rush" | "wiz";
 
 export interface ParsedCommand {
   agent: AgentTarget;
@@ -42,7 +42,14 @@ export interface InboxResult {
   error?: string;
 }
 
-const AGENT_PATTERN = /^@(CHAOS|STONE|CARDINAL)\b\s*(.*)/i;
+const AGENT_PATTERN = /^@(CHAOS|STONES?|CARDINAL|RUSH|WIZ)\b\s*(.*)/i;
+
+/** Map raw matched name to canonical AgentTarget (handles aliases like STONES → stone) */
+function normalizeAgentName(raw: string): AgentTarget {
+  const lower = raw.toLowerCase();
+  if (lower === "stones") return "stone";
+  return lower as AgentTarget;
+}
 
 function parseSubjectForCommand(
   subject: string,
@@ -55,7 +62,7 @@ function parseSubjectForCommand(
   const match = trimmed.match(AGENT_PATTERN);
   if (!match) return null;
 
-  const agent = match[1].toLowerCase() as AgentTarget;
+  const agent = normalizeAgentName(match[1]);
   const command = match[2].trim();
 
   return {
@@ -63,6 +70,38 @@ function parseSubjectForCommand(
     command: command || "(no command body)",
     from,
     subject: trimmed,
+    timestamp,
+    messageId,
+    uid,
+  };
+}
+
+/**
+ * Scan the plain-text email body for an @AGENT command.
+ * Checks each line for the AGENT_PATTERN (not anchored to start-of-subject,
+ * but anchored to start-of-line so we don't match mid-sentence mentions).
+ */
+const BODY_AGENT_PATTERN = /(?:^|\n)\s*@(CHAOS|STONES?|CARDINAL|RUSH|WIZ)\b\s*(.*)/i;
+
+function parseBodyForCommand(
+  body: string,
+  from: string,
+  subject: string,
+  timestamp: Date,
+  messageId: string,
+  uid: number
+): ParsedCommand | null {
+  const match = body.match(BODY_AGENT_PATTERN);
+  if (!match) return null;
+
+  const agent = normalizeAgentName(match[1]);
+  const command = match[2].trim();
+
+  return {
+    agent,
+    command: command || "(no command body)",
+    from,
+    subject,
     timestamp,
     messageId,
     uid,
@@ -175,7 +214,8 @@ export async function checkInbox(): Promise<InboxResult> {
                 const timestamp = parsed.date ?? new Date();
                 const messageId = parsed.messageId ?? `uid-${uid}`;
 
-                const cmd = parseSubjectForCommand(
+                // Try subject first, then fall back to body
+                let cmd = parseSubjectForCommand(
                   subject,
                   from,
                   timestamp,
@@ -191,6 +231,17 @@ export async function checkInbox(): Promise<InboxResult> {
                 const quoteIdx = textBody.indexOf("\n>");
                 if (quoteIdx > 0) textBody = textBody.slice(0, quoteIdx);
                 textBody = textBody.trim();
+
+                if (!cmd && parsed.text) {
+                  cmd = parseBodyForCommand(
+                    parsed.text,
+                    from,
+                    subject,
+                    timestamp,
+                    messageId,
+                    uid
+                  );
+                }
 
                 const inboxMsg: InboxMessage = {
                   from,

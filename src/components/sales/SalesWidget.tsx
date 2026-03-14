@@ -214,7 +214,7 @@ export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
     <>
       {/* Chat Panel */}
       {open && (
-        <div className="fixed bottom-20 right-4 z-50 w-[380px] h-[520px] max-sm:inset-0 max-sm:w-full max-sm:h-full max-sm:bottom-0 max-sm:right-0 flex flex-col bg-zinc-900 border border-zinc-700 rounded-xl max-sm:rounded-none shadow-2xl overflow-hidden">
+        <div role="dialog" aria-label="Sales chat" className="fixed bottom-20 right-4 z-50 w-[380px] h-[520px] max-sm:inset-0 max-sm:w-full max-sm:h-full max-sm:bottom-0 max-sm:right-0 flex flex-col bg-zinc-900 border border-zinc-700 rounded-xl max-sm:rounded-none shadow-2xl overflow-hidden">
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-zinc-800 border-b border-zinc-700">
             <div className="flex items-center gap-2">
@@ -271,12 +271,14 @@ export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask about enterprise plans..."
+                aria-label="Ask about enterprise plans"
                 disabled={streaming}
                 className="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 disabled:opacity-50"
               />
               <button
                 type="submit"
                 disabled={streaming || !input.trim()}
+                aria-label="Send message"
                 className="bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 disabled:hover:bg-emerald-600 text-white rounded-lg px-3 py-2 transition-colors"
               >
                 <Send className="h-4 w-4" />
@@ -292,6 +294,8 @@ export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
           setOpen(!open);
           setShowDot(false);
         }}
+        aria-label={open ? "Close sales chat" : "Open sales chat"}
+        aria-expanded={open}
         className="fixed bottom-4 right-4 z-50 w-14 h-14 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg flex items-center justify-center transition-all hover:scale-105"
       >
         {open ? (

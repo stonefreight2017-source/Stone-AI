@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import {
   Briefcase,
   Pen,
@@ -178,21 +178,58 @@ export function DepartmentTabs() {
 
   const activeDept = departments.find((d) => d.id === activeTab) ?? departments[0];
 
+  const handleDeptKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      const currentIndex = departments.findIndex((d) => d.id === activeTab);
+      let nextIndex: number | null = null;
+
+      switch (e.key) {
+        case "ArrowRight":
+          nextIndex = (currentIndex + 1) % departments.length;
+          break;
+        case "ArrowLeft":
+          nextIndex = (currentIndex - 1 + departments.length) % departments.length;
+          break;
+        case "Home":
+          nextIndex = 0;
+          break;
+        case "End":
+          nextIndex = departments.length - 1;
+          break;
+        default:
+          return;
+      }
+
+      e.preventDefault();
+      const nextDept = departments[nextIndex];
+      setActiveTab(nextDept.id);
+      const nextButton = document.getElementById(`dept-tab-${nextDept.id}`);
+      nextButton?.focus();
+    },
+    [activeTab],
+  );
+
   return (
     <div className="mb-8">
       {/* Tab pills */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap gap-2 mb-6" role="tablist" aria-label="Department categories">
         {departments.map((dept) => {
           const Icon = dept.icon;
           const isActive = activeTab === dept.id;
           return (
             <button
               key={dept.id}
+              id={`dept-tab-${dept.id}`}
+              role="tab"
+              aria-selected={isActive}
+              aria-controls={`dept-panel-${dept.id}`}
+              tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveTab(dept.id)}
+              onKeyDown={handleDeptKeyDown}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                 isActive
                   ? dept.activeColor
-                  : "bg-zinc-800/40 text-zinc-500 border-zinc-700/30 hover:text-zinc-300 hover:border-zinc-600/40"
+                  : "bg-zinc-800/40 text-zinc-400 border-zinc-700/30 hover:text-zinc-300 hover:border-zinc-600/40"
               }`}
             >
               <Icon className="h-3.5 w-3.5" />
@@ -204,7 +241,7 @@ export function DepartmentTabs() {
       </div>
 
       {/* Agent cards grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3" role="tabpanel" id={`dept-panel-${activeDept.id}`} aria-labelledby={`dept-tab-${activeDept.id}`}>
         {activeDept.agents.map((agent) => {
           const AgentIcon = agent.icon;
           return (
@@ -219,14 +256,14 @@ export function DepartmentTabs() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
                     <h4 className="text-sm font-semibold text-white truncate">{agent.name}</h4>
-                    <span className={`flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded-full border font-medium ${tierColors[agent.tier]}`}>
+                    <span className={`flex-shrink-0 text-xs px-1.5 py-0.5 rounded-full border font-medium ${tierColors[agent.tier]}`}>
                       {agent.tier}
                     </span>
                   </div>
                   <p className="text-xs text-zinc-400 leading-relaxed">{agent.description}</p>
                 </div>
               </div>
-              <p className="text-[11px] text-zinc-500 italic mt-2 pl-12">{agent.benefit}</p>
+              <p className="text-xs text-zinc-400 italic mt-2 pl-12">{agent.benefit}</p>
             </div>
           );
         })}

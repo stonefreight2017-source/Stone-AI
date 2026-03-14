@@ -337,6 +337,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                 onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="What's on your mind?"
                 maxLength={200}
+                aria-label="Post title"
                 className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -349,9 +350,10 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                 placeholder="Share your thoughts, tips, or questions..."
                 rows={8}
                 maxLength={10000}
+                aria-label="Post content"
                 className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
-              <p className="text-xs text-zinc-600 mt-1">{newContent.length}/10,000</p>
+              <p className="text-xs text-zinc-400 mt-1">{newContent.length}/10,000</p>
             </div>
 
             <div className="flex gap-3 pt-2">
@@ -422,8 +424,8 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                   <RankBadge postCount={selectedPost.author.postCount} />
                 )}
               </div>
-              <span className="text-zinc-600">·</span>
-              <span className="text-zinc-500 flex items-center gap-1">
+              <span className="text-zinc-400">·</span>
+              <span className="text-zinc-400 flex items-center gap-1">
                 <Clock className="h-3 w-3" />
                 {timeAgo(selectedPost.createdAt)}
               </span>
@@ -437,13 +439,13 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
               <button
                 onClick={() => handleLike(selectedPost.id)}
                 className={`flex items-center gap-1.5 text-sm transition-colors ${
-                  hasLiked ? "text-blue-400" : "text-zinc-500 hover:text-blue-400"
+                  hasLiked ? "text-blue-400" : "text-zinc-400 hover:text-blue-400"
                 }`}
               >
                 <ThumbsUp className={`h-4 w-4 ${hasLiked ? "fill-blue-400" : ""}`} />
                 {selectedPost.likes}
               </button>
-              <span className="flex items-center gap-1.5 text-sm text-zinc-500">
+              <span className="flex items-center gap-1.5 text-sm text-zinc-400">
                 <MessageSquare className="h-4 w-4" />
                 {selectedPost.replies.length} replies
               </span>
@@ -472,7 +474,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                   {reply.author.postCount != null && (
                     <RankBadge postCount={reply.author.postCount} />
                   )}
-                  <span className="text-zinc-600 text-xs">{timeAgo(reply.createdAt)}</span>
+                  <span className="text-zinc-400 text-xs">{timeAgo(reply.createdAt)}</span>
                 </div>
                 <p className="text-zinc-300 text-sm whitespace-pre-wrap leading-relaxed pl-8">
                   {reply.content}
@@ -496,6 +498,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                       placeholder="Write a reply..."
                       rows={3}
                       maxLength={5000}
+                      aria-label="Write a reply"
                       className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                     />
                     <div className="flex justify-end mt-2">
@@ -514,7 +517,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
               </CardContent>
             </Card>
           ) : (
-            <div className="text-center py-4 text-zinc-500 text-sm">
+            <div className="text-center py-4 text-zinc-400 text-sm">
               <Lock className="h-4 w-4 inline mr-1" />
               This discussion is locked.
             </div>
@@ -560,17 +563,17 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
         <div className="grid grid-cols-3 gap-3">
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center">
             <p className="text-lg font-bold text-white">{stats.totalDiscussions}</p>
-            <p className="text-xs text-zinc-500">Discussions</p>
+            <p className="text-xs text-zinc-400">Discussions</p>
           </div>
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center">
             <p className="text-lg font-bold text-white">{stats.totalMembers}</p>
-            <p className="text-xs text-zinc-500">Active Members</p>
+            <p className="text-xs text-zinc-400">Active Members</p>
           </div>
           <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-3 text-center">
             <p className="text-lg font-bold text-amber-400 flex items-center justify-center gap-1">
               <Crown className="h-4 w-4" /> {stats.proMembers}
             </p>
-            <p className="text-xs text-zinc-500">PRO Members</p>
+            <p className="text-xs text-zinc-400">PRO Members</p>
           </div>
         </div>
       )}
@@ -578,7 +581,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
       {/* Top Contributors */}
       {topContributors.length > 0 && (
         <div className="flex items-center gap-3 overflow-x-auto pb-1">
-          <span className="text-xs text-zinc-500 shrink-0 flex items-center gap-1">
+          <span className="text-xs text-zinc-400 shrink-0 flex items-center gap-1">
             <Flame className="h-3 w-3 text-amber-400" /> Top contributors:
           </span>
           {topContributors.map((c, i) => (
@@ -624,7 +627,7 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
               className={`flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                 sort === s.key
                   ? "bg-zinc-700 text-white"
-                  : "text-zinc-500 hover:text-zinc-300"
+                  : "text-zinc-400 hover:text-zinc-300"
               }`}
             >
               <s.icon className="h-3 w-3" />
@@ -637,14 +640,14 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
       {/* Posts */}
       {loading ? (
         <div className="flex items-center justify-center py-20">
-          <Loader2 className="h-8 w-8 animate-spin text-zinc-500" />
+          <Loader2 className="h-8 w-8 animate-spin text-zinc-400" />
         </div>
       ) : posts.length === 0 ? (
         <Card className="bg-zinc-900 border-zinc-800">
           <CardContent className="py-16 text-center">
             <MessageSquare className="h-12 w-12 text-zinc-700 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-zinc-300 mb-2">No posts yet</h3>
-            <p className="text-zinc-500 text-sm mb-6">
+            <p className="text-zinc-400 text-sm mb-6">
               Be the first to start a discussion in the community!
             </p>
             <Button onClick={() => setView("create")} className="bg-blue-600 hover:bg-blue-500">
@@ -675,8 +678,8 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                         {post.locked && <Lock className="h-3 w-3 text-red-400" />}
                       </div>
                       <h3 className="font-semibold text-white truncate">{post.title}</h3>
-                      <p className="text-zinc-500 text-sm mt-1 line-clamp-2">{post.content}</p>
-                      <div className="flex items-center gap-2 mt-2 text-xs text-zinc-500">
+                      <p className="text-zinc-400 text-sm mt-1 line-clamp-2">{post.content}</p>
+                      <div className="flex items-center gap-2 mt-2 text-xs text-zinc-400">
                         <span className="flex items-center gap-1.5">
                           <div className={`h-5 w-5 rounded-full flex items-center justify-center text-[9px] font-bold ${
                             isPro ? "bg-amber-500/20 text-amber-400" : "bg-zinc-700 text-white"
@@ -690,16 +693,16 @@ export function CommunityClient({ userId, userName, userTier }: CommunityClientP
                         {post.author.postCount != null && (
                           <RankBadge postCount={post.author.postCount} />
                         )}
-                        <span className="text-zinc-600">·</span>
+                        <span className="text-zinc-400">·</span>
                         <span>{timeAgo(post.createdAt)}</span>
                       </div>
                     </div>
                     <div className="flex flex-col items-center gap-2 shrink-0">
-                      <div className="flex items-center gap-1 text-zinc-500 text-sm">
+                      <div className="flex items-center gap-1 text-zinc-400 text-sm">
                         <ThumbsUp className="h-3.5 w-3.5" />
                         {post.likes}
                       </div>
-                      <div className="flex items-center gap-1 text-zinc-500 text-sm">
+                      <div className="flex items-center gap-1 text-zinc-400 text-sm">
                         <MessageSquare className="h-3.5 w-3.5" />
                         {post.replyCount}
                       </div>

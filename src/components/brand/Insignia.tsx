@@ -17,6 +17,7 @@ export function Insignia({ size = 16, showPills = true, className = "" }: Insign
   return (
     <div
       className={`shrink-0 flex flex-col items-center ${className}`}
+      role="img"
       aria-label="Stone Intelligence"
     >
       <span
@@ -57,9 +58,9 @@ export function Insignia({ size = 16, showPills = true, className = "" }: Insign
                 fontSize: `${5 * scale}px`,
                 letterSpacing: `${0.5 * scale}px`,
                 textTransform: "uppercase" as const,
-                color: i === 0 ? "rgba(212,175,55,0.5)" : "rgba(255,255,255,0.25)",
+                color: i === 0 ? "#d4af37" : "#a1a1aa",
                 padding: `${1.5 * scale}px ${4 * scale}px`,
-                border: `1px solid ${i === 0 ? "rgba(212,175,55,0.25)" : "rgba(255,255,255,0.1)"}`,
+                border: `1px solid ${i === 0 ? "rgba(212,175,55,0.6)" : "rgba(255,255,255,0.4)"}`,
                 borderRadius: `${2 * scale}px`,
                 whiteSpace: "nowrap" as const,
               }}

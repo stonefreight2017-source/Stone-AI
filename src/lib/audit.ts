@@ -25,7 +25,15 @@ export type AuditEvent =
   | "admin.action"
   | "conversation.deleted"
   | "concurrent.blocked"
-  | "smart.quota_exceeded";
+  | "smart.quota_exceeded"
+  | "image.quota_exceeded"
+  | "image.generate_start"
+  | "image.generate_success"
+  | "upload.rejected"
+  | "upload.success"
+  | "message.edited"
+  | "message.regenerated"
+  | "guard.exploitation_blocked";
 
 interface AuditLogEntry {
   event: AuditEvent;

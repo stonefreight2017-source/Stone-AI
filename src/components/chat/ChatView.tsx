@@ -128,7 +128,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
   if (isLoadingConversation) {
     return (
       <div className="flex items-center justify-center h-full">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+        <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
       </div>
     );
   }
@@ -179,7 +179,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-zinc-800/50">
         <div className="flex items-center gap-3">
           <ModeSelector allowedModes={userData?.user.allowedModes ?? ["LOCAL"]} />
-          <span className="text-sm text-zinc-500 truncate max-w-[200px] hidden sm:inline">
+          <span className="text-sm text-zinc-400 truncate max-w-[200px] hidden sm:inline">
             {data.conversation.title}
           </span>
         </div>
@@ -188,7 +188,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-zinc-500 hover:text-white"
+              className="h-8 w-8 text-zinc-400 hover:text-white"
               onClick={() => {
                 window.open(`/api/conversations/${conversationId}/export?format=json`, "_blank");
               }}
@@ -215,11 +215,11 @@ export function ChatView({ conversationId }: ChatViewProps) {
       {/* Messages — flat layout like ChatGPT/Claude */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto">
         {allMessages.length === 0 ? (
-          <div className="flex items-center justify-center h-full text-zinc-500 text-sm">
+          <div className="flex items-center justify-center h-full text-zinc-400 text-sm">
             Send a message to start the conversation
           </div>
         ) : (
-          <div className="max-w-3xl mx-auto py-6 space-y-1">
+          <div className="max-w-3xl mx-auto py-6 space-y-1" aria-live="polite" aria-relevant="additions">
             {allMessages.map((msg) => {
               const ttft = latencyMap[`${msg.id}-ttft`];
               const totalLatency = latencyMap[msg.id];
@@ -265,7 +265,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
                         <div className="flex items-center gap-3 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
                             onClick={() => handleCopy(messageText, msg.id)}
-                            className="flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors"
+                            className="flex items-center gap-1 text-[11px] text-zinc-400 hover:text-zinc-300 transition-colors"
                           >
                             {copiedId === msg.id ? (
                               <><Check className="h-3 w-3" /> Copied</>
@@ -274,7 +274,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
                             )}
                           </button>
                           {(ttft || totalLatency) && (
-                            <span className="flex items-center gap-1 text-[11px] text-zinc-600">
+                            <span className="flex items-center gap-1 text-[11px] text-zinc-400">
                               <Zap className="h-2.5 w-2.5" />
                               {ttft && <span>{formatLatency(ttft)}</span>}
                               {ttft && totalLatency && <span>/</span>}
@@ -318,7 +318,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
       <ChatInput onSend={handleSend} disabled={isBusy} isLoading={isBusy} />
 
       {/* Disclaimer */}
-      <p className="text-center text-[11px] text-zinc-600 pb-2">
+      <p className="text-center text-[11px] text-zinc-400 pb-2">
         Stone AI can make mistakes. Verify important information.
       </p>
     </div>

@@ -165,15 +165,15 @@ export function SettingsClient({
         <CardContent className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label className="text-xs text-zinc-500 uppercase tracking-wide">Name</label>
+              <label className="text-xs text-zinc-400 uppercase tracking-wide">Name</label>
               <p className="text-white mt-1">{user.name || "Not set"}</p>
             </div>
             <div>
-              <label className="text-xs text-zinc-500 uppercase tracking-wide">Email</label>
+              <label className="text-xs text-zinc-400 uppercase tracking-wide">Email</label>
               <p className="text-white mt-1">{user.email}</p>
             </div>
             <div>
-              <label className="text-xs text-zinc-500 uppercase tracking-wide">Plan</label>
+              <label className="text-xs text-zinc-400 uppercase tracking-wide">Plan</label>
               <div className="mt-1 flex items-center gap-2">
                 <TierBadge tier={user.tier} />
                 <span className="text-zinc-400 text-sm">{user.tierName}</span>
@@ -181,7 +181,7 @@ export function SettingsClient({
               </div>
             </div>
             <div>
-              <label className="text-xs text-zinc-500 uppercase tracking-wide">Member Since</label>
+              <label className="text-xs text-zinc-400 uppercase tracking-wide">Member Since</label>
               <p className="text-white mt-1">
                 {new Date(user.createdAt).toLocaleDateString("en-US", {
                   year: "numeric",
@@ -314,14 +314,14 @@ export function SettingsClient({
             <Key className="h-4 w-4" />
             API Keys
             {user.tier !== "PRO" && (
-              <Badge className="bg-zinc-800 text-zinc-500 text-xs ml-2">Pro Only</Badge>
+              <Badge className="bg-zinc-800 text-zinc-400 text-xs ml-2">Pro Only</Badge>
             )}
           </CardTitle>
         </CardHeader>
         <CardContent>
           {user.tier !== "PRO" ? (
             <div className="text-center py-8">
-              <Shield className="h-8 w-8 text-zinc-600 mx-auto mb-3" />
+              <Shield className="h-8 w-8 text-zinc-400 mx-auto mb-3" />
               <p className="text-zinc-400 text-sm">
                 API access is available on the Pro plan.
               </p>
@@ -389,14 +389,14 @@ export function SettingsClient({
               </div>
 
               {apiKeys.length >= 5 && (
-                <p className="text-xs text-zinc-500">Maximum 5 active keys. Revoke one to create a new one.</p>
+                <p className="text-xs text-zinc-400">Maximum 5 active keys. Revoke one to create a new one.</p>
               )}
 
               <Separator className="bg-zinc-800" />
 
               {/* Key list */}
               {apiKeys.length === 0 ? (
-                <p className="text-zinc-500 text-sm text-center py-4">
+                <p className="text-zinc-400 text-sm text-center py-4">
                   No API keys yet. Create one to access the API.
                 </p>
               ) : (
@@ -408,8 +408,8 @@ export function SettingsClient({
                     >
                       <div>
                         <p className="text-sm text-white font-medium">{key.name}</p>
-                        <p className="text-xs text-zinc-500 font-mono">{key.keyPrefix}</p>
-                        <p className="text-xs text-zinc-600">
+                        <p className="text-xs text-zinc-400 font-mono">{key.keyPrefix}</p>
+                        <p className="text-xs text-zinc-400">
                           Created {new Date(key.createdAt).toLocaleDateString()}
                           {key.lastUsedAt &&
                             ` · Last used ${new Date(key.lastUsedAt).toLocaleDateString()}`}
@@ -433,7 +433,7 @@ export function SettingsClient({
                 </div>
               )}
 
-              <div className="bg-zinc-800/30 rounded-lg p-3 text-xs text-zinc-500">
+              <div className="bg-zinc-800/30 rounded-lg p-3 text-xs text-zinc-400">
                 <p className="font-medium text-zinc-400 mb-1">API Usage</p>
                 <p>
                   Use your API key as a Bearer token:{" "}
@@ -544,12 +544,12 @@ function ReferralCard() {
       <CardContent className="space-y-4">
         {loading ? (
           <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+            <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
           </div>
         ) : data ? (
           <>
             <div className="bg-zinc-800/50 rounded-lg p-4">
-              <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2">
+              <p className="text-xs text-zinc-400 uppercase tracking-wide mb-2">
                 Your Referral Link
               </p>
               <div className="flex items-center gap-2">
@@ -564,7 +564,7 @@ function ReferralCard() {
                   )}
                 </Button>
               </div>
-              <p className="text-xs text-zinc-500 mt-2">
+              <p className="text-xs text-zinc-400 mt-2">
                 Code: <span className="text-zinc-300 font-mono">{data.referralCode}</span>
               </p>
             </div>
@@ -572,28 +572,28 @@ function ReferralCard() {
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
                 <p className="text-lg font-bold text-white">{data.stats.total}</p>
-                <p className="text-xs text-zinc-500">Total Referrals</p>
+                <p className="text-xs text-zinc-400">Total Referrals</p>
               </div>
               <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
                 <p className="text-lg font-bold text-emerald-400">{data.stats.qualified}</p>
-                <p className="text-xs text-zinc-500">Qualified</p>
+                <p className="text-xs text-zinc-400">Qualified</p>
               </div>
               <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
                 <p className="text-lg font-bold text-amber-400">{data.stats.rewarded}</p>
-                <p className="text-xs text-zinc-500">Rewarded</p>
+                <p className="text-xs text-zinc-400">Rewarded</p>
               </div>
             </div>
 
             {data.referrals.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs text-zinc-500 uppercase tracking-wide">Recent Referrals</p>
+                <p className="text-xs text-zinc-400 uppercase tracking-wide">Recent Referrals</p>
                 {data.referrals.slice(0, 5).map((r) => (
                   <div
                     key={r.id}
                     className="flex items-center justify-between bg-zinc-800/30 rounded-lg px-3 py-2"
                   >
                     <div className="flex items-center gap-2">
-                      <Users className="h-3 w-3 text-zinc-500" />
+                      <Users className="h-3 w-3 text-zinc-400" />
                       <span className="text-sm text-zinc-300">{r.name || r.email}</span>
                     </div>
                     <Badge
@@ -612,7 +612,7 @@ function ReferralCard() {
               </div>
             )}
 
-            <div className="bg-zinc-800/30 rounded-lg p-3 text-xs text-zinc-500">
+            <div className="bg-zinc-800/30 rounded-lg p-3 text-xs text-zinc-400">
               <p className="font-medium text-zinc-400 mb-1 flex items-center gap-1">
                 <Share2 className="h-3 w-3" /> How it works
               </p>
@@ -620,7 +620,7 @@ function ReferralCard() {
             </div>
           </>
         ) : (
-          <p className="text-zinc-500 text-sm text-center py-4">
+          <p className="text-zinc-400 text-sm text-center py-4">
             Unable to load referral data. Please try again later.
           </p>
         )}
@@ -763,7 +763,7 @@ function BackdropPicker({
         <CardTitle className="text-zinc-300 text-sm font-medium flex items-center gap-2">
           <Palette className="h-4 w-4" />
           Backdrop Theme
-          {saving && <Loader2 className="h-3 w-3 animate-spin text-zinc-500 ml-2" />}
+          {saving && <Loader2 className="h-3 w-3 animate-spin text-zinc-400 ml-2" />}
           {saved && (
             <span className="text-xs text-emerald-400 ml-2 flex items-center gap-1">
               <Check className="h-3 w-3" /> Saved
@@ -779,7 +779,7 @@ function BackdropPicker({
 
           <div className="relative space-y-3">
             <div className="flex items-center gap-2">
-              <div className={`transition-all duration-300 ${isUnlocked ? "text-cyan-400" : "text-zinc-500"}`}>
+              <div className={`transition-all duration-300 ${isUnlocked ? "text-cyan-400" : "text-zinc-400"}`}>
                 {isUnlocked ? (
                   <Unlock className="h-4 w-4" />
                 ) : (
@@ -795,7 +795,7 @@ function BackdropPicker({
               )}
             </div>
 
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-zinc-400">
               Enter 1-8 characters from your name to unlock your personal backdrop collection
             </p>
 
@@ -810,7 +810,7 @@ function BackdropPicker({
                   className="bg-zinc-800/80 border-zinc-700 text-white font-mono tracking-widest uppercase placeholder:normal-case placeholder:tracking-normal placeholder:font-sans h-9"
                 />
                 {nameKeyInput && (
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-zinc-600">
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-zinc-400">
                     {nameKeyInput.length}/8
                   </span>
                 )}
@@ -837,7 +837,7 @@ function BackdropPicker({
             )}
 
             {nameKey && !nameKeyError && (
-              <p className="text-[11px] text-zinc-500">
+              <p className="text-[11px] text-zinc-400">
                 Key: <span className="text-zinc-300 font-mono">{nameKey.toUpperCase()}</span>
               </p>
             )}
@@ -847,7 +847,7 @@ function BackdropPicker({
         {/* ── Standard Presets ─────────────────────────────── */}
         {grouped.map(({ category, label, presets }) => (
           <div key={category}>
-            <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+            <p className="text-xs text-zinc-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
               {label}
               {category === "vanta" && (
                 <Badge className="bg-amber-900/40 text-amber-400 text-[10px] px-1.5 py-0">
@@ -899,7 +899,7 @@ function BackdropPicker({
         <Separator className="bg-zinc-800" />
 
         <div>
-          <p className="text-xs text-zinc-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
+          <p className="text-xs text-zinc-400 uppercase tracking-wide mb-2 flex items-center gap-1.5">
             <Sparkles className="h-3 w-3 text-purple-400" />
             Your Personal Collection
             {isUnlocked && (
@@ -952,11 +952,11 @@ function BackdropPicker({
               {/* Blurred backdrop preview */}
               <div className="absolute inset-0 opacity-20 blur-md bg-gradient-to-br from-purple-900/30 via-zinc-900 to-cyan-900/30 pointer-events-none" />
               <div className="relative">
-                <Lock className="h-6 w-6 text-zinc-600 mx-auto mb-2" />
-                <p className="text-sm text-zinc-500">
+                <Lock className="h-6 w-6 text-zinc-400 mx-auto mb-2" />
+                <p className="text-sm text-zinc-400">
                   Enter your name key above to unlock personal backdrops
                 </p>
-                <p className="text-[11px] text-zinc-600 mt-1">
+                <p className="text-[11px] text-zinc-400 mt-1">
                   Each name key reveals a unique set of backdrops from a pool of 100
                 </p>
               </div>
@@ -964,7 +964,7 @@ function BackdropPicker({
           )}
         </div>
 
-        <p className="text-[11px] text-zinc-600">
+        <p className="text-[11px] text-zinc-400">
           Choose a backdrop that appears behind your workspace. All backdrops respect reduced-motion preferences.
         </p>
       </CardContent>
@@ -997,7 +997,7 @@ function PrivacyChoicesInline() {
       <button
         type="button"
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center gap-2 text-xs text-zinc-500 hover:text-zinc-400 transition-colors w-full"
+        className="flex items-center gap-2 text-xs text-zinc-400 hover:text-zinc-400 transition-colors w-full"
       >
         <span>{expanded ? "\u25BC" : "\u25B6"}</span>
         <span>Data &amp; Privacy Preferences</span>
@@ -1007,7 +1007,7 @@ function PrivacyChoicesInline() {
           <div className="flex items-center justify-between bg-zinc-800/50 rounded-lg p-3">
             <div>
               <p className="text-zinc-300 font-medium text-xs">Ad Personalization</p>
-              <p className="text-[10px] text-zinc-600">
+              <p className="text-[10px] text-zinc-400">
                 {optedOut ? "Opted out." : "Contextual relevance enabled."}
               </p>
             </div>
@@ -1016,14 +1016,14 @@ function PrivacyChoicesInline() {
                 Re-enable
               </Button>
             ) : (
-              <Button size="sm" variant="outline" onClick={handleOptOut} className="text-[10px] h-7 px-2 text-zinc-600">
+              <Button size="sm" variant="outline" onClick={handleOptOut} className="text-[10px] h-7 px-2 text-zinc-400">
                 Opt Out
               </Button>
             )}
           </div>
           <p className="text-[10px] text-zinc-700">
             Per CCPA/CPRA, you may opt out of personalized advertising.{" "}
-            <a href="/privacy" className="text-zinc-600 hover:text-zinc-500 underline">Privacy Policy</a>
+            <a href="/privacy" className="text-zinc-400 hover:text-zinc-400 underline">Privacy Policy</a>
           </p>
         </div>
       )}

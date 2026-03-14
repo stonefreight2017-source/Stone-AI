@@ -158,9 +158,9 @@ export function BillingClient({
         "16 AI agents — marketing, finance, strategy, content, and more (covers what a solo founder needs)",
         "250 messages a day — about 2-3 solid working sessions with your AI team",
         "10 premium answers/day — use these for big decisions, deep analysis, or long-form content",
-        "Upload files for analysis — drop in spreadsheets, PDFs, or images and get instant insights",
-        "10 web lookups/day — agents search the internet so their answers are current, not outdated",
-        "Store 10 documents — upload your business plan or brand guide so AI references them every time",
+        "Conversation export — download and share your conversations with clients or partners",
+        "2,500 token max responses — longer, more detailed answers than Free tier",
+        "25 messages of context memory — AI remembers more of your conversation history",
         "1 AI Bestie — your AI right hand that remembers every conversation and keeps you on track",
         "Works on your phone — manage your business from anywhere",
       ],
@@ -173,46 +173,42 @@ export function BillingClient({
         "30 AI agents — covers every business function (marketing, sales, legal, coding, HR, design, and more)",
         "500 messages a day — enough for a full workday of AI-assisted work across multiple projects",
         "15 premium answers/day — for strategy sessions, in-depth research, or complex writing tasks",
-        "Voice chat — brainstorm out loud while driving, walking, or cooking (hands-free AI)",
-        "25 web lookups/day — agents pull live data: competitor prices, trending topics, market research",
-        "Run code — test ideas, analyze data, or build prototypes without leaving the conversation",
-        "30 saved documents — upload product catalogs, brand guides, SOPs — AI references them automatically",
-        "1 AI Bestie — powered by 30 expert agents — career, finance, wellness, and more",
+        "Conversation export — download and share your conversations",
+        "1.5x longer responses — more detailed, thorough answers from every agent",
+        "3 concurrent chats — run multiple conversations at once",
+        "1 AI Bestie — powered by 30 specialist agents — career, finance, wellness, and more",
         "Commercial rights — use anything AI creates in your business, no attribution required",
       ],
     },
     SMART: {
       tagline: "Your full AI-powered business command center",
-      whyUpgrade: "Best for: established businesses with 5-20 people, or founders running multiple projects. 1,000 messages/day means your whole team can use AI all day long. Build custom agents trained on your specific processes. Team workspace lets everyone collaborate. SOC 2 compliance means you can use this with enterprise clients. This replaces hiring 2-3 junior employees.",
+      whyUpgrade: "Best for: established businesses with 5-20 people, or founders running multiple projects. 1,000 messages/day means your whole team can use AI all day long. Early access to new agents and features 30 days before everyone else. This replaces hiring 2-3 junior employees.",
       features: [
         "39 AI agents — nearly every specialist available to your whole team",
         "1,000 messages a day — enough for a team of 5-20 to use AI throughout the workday",
         "30 premium answers/day — deep strategy, board-ready reports, complex financial analysis",
-        "Priority speed — when the platform is busy, your team's requests go first",
-        "Build your own agents — train AI on your exact products, processes, and company knowledge",
-        "60 web lookups + 60 code runs/day — real-time market research and rapid prototyping",
-        "100 saved documents — your AI knows your entire business: SOPs, client lists, product specs",
-        "Team workspace — your team shares agents, conversations, and knowledge in one place",
-        "SOC 2 compliance — required if you work with enterprise clients or handle sensitive data",
-        "1 AI Bestie — powered by 39 expert agents — nearly every specialist on call, every day",
+        "6,000 token max responses — the longest, most detailed answers on the platform",
+        "4 concurrent chats — run multiple conversations at once",
+        "60 messages of context memory — AI remembers more of your conversation history",
         "Early access — try new agents and features 30 days before everyone else",
+        "1 AI Bestie — powered by 39 specialist agents — nearly every specialist on call, every day",
+        "1.5x referral rewards — earn more when you bring others to Stone AI",
       ],
     },
     PRO: {
       tagline: "Full platform access + earn money reselling Stone AI",
       highlight: "Reseller — build a business on top of Stone AI",
-      whyUpgrade: "Best for: agencies, consultants, and entrepreneurs who want to resell AI services to their own clients. 3,000 messages/day and API access let you build products on top of Stone AI. White-label means your clients see your brand, not ours. HIPAA compliance opens up healthcare clients. If you serve other businesses, this is how you add AI to your offering without building it yourself.",
+      whyUpgrade: "Best for: agencies, consultants, and entrepreneurs who want to resell AI services to their own clients. 3,000 messages/day and API access let you build products on top of Stone AI. White-label means your clients see your brand, not ours. If you serve other businesses, this is how you add AI to your offering without building it yourself.",
       features: [
         "3,000 messages a day — enough for you + all your clients if you're reselling AI services",
         "50 premium answers/day — the highest allocation for agencies handling multiple client projects",
         "API access — build your own apps, chatbots, or tools powered by Stone AI (your clients never see us)",
         "White-label — put your logo, your colors, your domain on it. Clients think it's yours",
-        "Custom model training — teach AI your industry's jargon, processes, and best practices",
-        "HIPAA compliance — required if you serve healthcare, therapy, or medical clients",
-        "500 saved documents — an entire knowledge base for your business and your clients' businesses",
-        "150 web lookups + 150 code runs/day — enterprise-grade research and rapid prototyping",
+        "All 42 agents — every specialist on the platform",
+        "8,000 token max responses — the longest, most detailed answers available",
+        "80 messages of context memory — AI remembers your full conversation history",
         "2x referral rewards — earn double commission when you bring others to Stone AI",
-        "1 AI Bestie — powered by all 42 expert agents — a genius operator across your entire business",
+        "1 AI Bestie — powered by all 42 specialist agents — a genius operator across your entire business",
         "Everything in Executive, plus dedicated priority support",
       ],
     },
@@ -299,7 +295,7 @@ export function BillingClient({
                     ? "text-emerald-400"
                     : subscriptionStatus === "PAST_DUE"
                     ? "text-amber-400"
-                    : "text-zinc-500"
+                    : "text-zinc-400"
                 }
               >
                 {subscriptionStatus === "ACTIVE"
@@ -385,17 +381,17 @@ export function BillingClient({
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
                     <p className="text-lg font-bold text-white">{usageData.stats.conversations}</p>
-                    <p className="text-xs text-zinc-500">Conversations</p>
+                    <p className="text-xs text-zinc-400">Conversations</p>
                   </div>
                   <div className="bg-zinc-800/50 rounded-lg p-3 text-center">
                     <p className="text-lg font-bold text-white">{usageData.stats.agentSessions}</p>
-                    <p className="text-xs text-zinc-500">Agent Sessions</p>
+                    <p className="text-xs text-zinc-400">Agent Sessions</p>
                   </div>
                 </div>
               </>
             ) : (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+                <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
               </div>
             )}
           </CardContent>
@@ -515,11 +511,11 @@ export function BillingClient({
                         ? activeTier.price
                         : (activeTier.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}
                     </span>
-                    <span className="text-zinc-500 text-sm">/mo</span>
+                    <span className="text-zinc-400 text-sm">/mo</span>
                   </div>
                   {billingPeriod !== "monthly" && (
-                    <p className="text-xs text-zinc-500 mt-0.5">
-                      <span className="line-through text-zinc-600 mr-1">${activeTier.price}/mo</span>
+                    <p className="text-xs text-zinc-400 mt-0.5">
+                      <span className="line-through text-zinc-400 mr-1">${activeTier.price}/mo</span>
                       {PERIOD_INFO[billingPeriod].months === 6
                         ? `$${(activeTier.price * 6 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)} / 6 mo`
                         : `$${(activeTier.price * 12 * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)} / yr`}
@@ -547,7 +543,7 @@ export function BillingClient({
 
               {/* Features — plain English, single column for readability */}
               <div className="space-y-2.5">
-                <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">What you get:</p>
+                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide">What you get:</p>
                 {tierDetail.features.map((f) => {
                   const isBold = f.startsWith("Unlimited") || f.startsWith("Everything") || f.startsWith("All 42");
                   return (
@@ -560,6 +556,25 @@ export function BillingClient({
                   );
                 })}
               </div>
+
+              {/* Auto-renewal disclosure (NY GBL §527-a) */}
+              {!isCurrentPlan && isUpgrade && (
+                <div className="bg-zinc-800/60 rounded-lg p-3 border border-zinc-700/50">
+                  <p className="text-xs text-zinc-400 leading-relaxed">
+                    This subscription will automatically renew every{" "}
+                    {billingPeriod === "monthly" ? "month" : billingPeriod === "semiannual" ? "6 months" : "year"}{" "}
+                    and your payment method will be charged{" "}
+                    <span className="text-zinc-300 font-medium">
+                      ${billingPeriod === "monthly"
+                        ? activeTier.price
+                        : (activeTier.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(2)}/mo
+                    </span>{" "}
+                    unless you cancel before the renewal date. You may cancel at any time through your{" "}
+                    <span className="text-zinc-300">Billing settings</span>.{" "}
+                    <a href="/terms#auto-renewal" className="text-emerald-400 hover:underline">Full terms</a>
+                  </p>
+                </div>
+              )}
 
               {/* Action button */}
               <div className="pt-1">
@@ -618,10 +633,10 @@ export function BillingClient({
                     : "border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/50"
                 }`}
               >
-                <p className={`font-semibold ${isSelected ? (t.key === "PRO" ? "text-amber-400" : "text-white") : "text-zinc-500"}`}>
+                <p className={`font-semibold ${isSelected ? (t.key === "PRO" ? "text-amber-400" : "text-white") : "text-zinc-400"}`}>
                   {t.name}
                 </p>
-                <p className={`${isSelected ? "text-zinc-300" : "text-zinc-600"}`}>
+                <p className={`${isSelected ? "text-zinc-300" : "text-zinc-400"}`}>
                   ${billingPeriod === "monthly"
                     ? t.price
                     : (t.price * (1 - PERIOD_INFO[billingPeriod].discount / 100)).toFixed(0)}/mo

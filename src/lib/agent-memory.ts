@@ -84,19 +84,50 @@ export async function deleteAgentMemory(
 }
 
 /**
+ * Estimate token count from a string (~4 chars per token).
+ */
+function estimateTokens(text: string): number {
+  return Math.ceil(text.length / 4);
+}
+
+/**
  * Build memory context string for injection into prompts.
  * Formats all stored memories as structured context.
+ *
+ * Options:
+ * - maxTokens: token budget for the memory context block (default 1000).
+ *   If over budget, oldest memories are dropped first.
  */
 export async function buildMemoryContext(
   agentId: string,
-  userId: string
+  userId: string,
+  options?: { maxTokens?: number }
 ): Promise<string> {
+  const maxTokens = options?.maxTokens ?? 1000;
   const memories = await getAgentMemory(agentId, userId);
 
   if (memories.length === 0) return "";
 
-  const grouped: Record<string, string[]> = {};
+  // Memories are ordered by updatedAt desc (newest first).
+  // If over budget, drop oldest (last in array) first.
+  const wrapper = `\n\n<user_memory>\nYou have the following memory about this user from past sessions:\n\n\n\nUse this memory to personalize responses. Reference past context naturally. Update your understanding as new information emerges.\n</user_memory>`;
+  const wrapperTokens = estimateTokens(wrapper);
+  let availableTokens = maxTokens - wrapperTokens;
+
+  // Build memory lines from newest to oldest, stop when budget exhausted
+  const includedMemories: MemoryEntry[] = [];
   for (const m of memories) {
+    const line = `- ${m.key.split(":").slice(1).join(":") || m.key}: ${m.value}`;
+    const lineTokens = estimateTokens(line + "\n");
+    if (lineTokens > availableTokens) break;
+    includedMemories.push(m);
+    availableTokens -= lineTokens;
+  }
+
+  if (includedMemories.length === 0) return "";
+
+  const grouped: Record<string, string[]> = {};
+  for (const m of includedMemories) {
     const category = m.key.split(":")[0] || "general";
     if (!grouped[category]) grouped[category] = [];
     grouped[category].push(`- ${m.key.split(":").slice(1).join(":")||m.key}: ${m.value}`);

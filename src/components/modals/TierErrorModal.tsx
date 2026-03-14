@@ -140,7 +140,7 @@ function QuotaExceededContent({ error }: { error: QuotaExceededError }) {
           />
         </div>
       </div>
-      <p className="text-xs text-zinc-500">
+      <p className="text-xs text-zinc-400">
         Resets daily at midnight. Upgrade for higher limits.
       </p>
     </div>

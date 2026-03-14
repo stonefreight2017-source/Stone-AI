@@ -85,7 +85,7 @@ const MODEL_OPTIONS = [
     label: "Standard",
     value: "standard",
     cost: 0,
-    desc: "Llama 3.1 70B + GPT-4o",
+    desc: "Qwen 2.5 32B + GPT-4o",
   },
   {
     label: "Custom Fine-Tuning",
@@ -444,14 +444,14 @@ export function EnterpriseConfigurator() {
             your configuration and reach out within 24 hours.
           </p>
           <div className="bg-zinc-800/50 rounded-lg p-4 mb-6">
-            <p className="text-sm text-zinc-500 mb-1">Reference ID</p>
+            <p className="text-sm text-zinc-400 mb-1">Reference ID</p>
             <p className="font-mono text-emerald-400">{referenceId}</p>
           </div>
           <div className="bg-zinc-800/50 rounded-lg p-4 mb-6 text-left">
-            <p className="text-sm text-zinc-500 mb-2">Estimated Pricing</p>
+            <p className="text-sm text-zinc-400 mb-2">Estimated Pricing</p>
             <p className="text-2xl font-bold text-white">
               {formatMoney(pricing.discountedMonthly)}
-              <span className="text-sm text-zinc-500 font-normal">/mo</span>
+              <span className="text-sm text-zinc-400 font-normal">/mo</span>
             </p>
             {pricing.period.discount > 0 && (
               <p className="text-sm text-emerald-400 mt-1">
@@ -462,7 +462,7 @@ export function EnterpriseConfigurator() {
           </div>
           {config.financing !== "none" && (
             <div className="bg-emerald-900/20 border border-emerald-800/50 rounded-lg p-4 mb-6 text-left">
-              <p className="text-sm text-zinc-500 mb-1">AI Spend Financing</p>
+              <p className="text-sm text-zinc-400 mb-1">AI Spend Financing</p>
               <p className="text-white font-medium">
                 {FINANCING_OPTIONS.find((o) => o.key === config.financing)?.label}
               </p>
@@ -517,7 +517,7 @@ export function EnterpriseConfigurator() {
                 Custom Quote
               </Badge>
             ) : cost === 0 ? (
-              <span className="text-sm text-zinc-500">Included</span>
+              <span className="text-sm text-zinc-400">Included</span>
             ) : (
               <span className="text-emerald-400 font-medium">
                 +{formatMoney(cost)}/mo
@@ -582,7 +582,7 @@ export function EnterpriseConfigurator() {
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Users className="h-5 w-5 text-emerald-400" /> Team Size
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Base includes {BASE_SEATS} seats. $75/seat for 4-25, $60/seat
                 for 26-50.
               </p>
@@ -599,7 +599,7 @@ export function EnterpriseConfigurator() {
                   <span className="text-xl font-bold text-white">
                     {config.seats}
                   </span>
-                  <span className="text-zinc-500 text-sm ml-1">seats</span>
+                  <span className="text-zinc-400 text-sm ml-1">seats</span>
                 </div>
               </div>
               {config.seats > BASE_SEATS && (
@@ -616,7 +616,7 @@ export function EnterpriseConfigurator() {
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Zap className="h-5 w-5 text-emerald-400" /> API Requests / Day
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Each request consumes GPU cycles and bandwidth.
               </p>
               <div className="grid grid-cols-2 gap-3">
@@ -639,7 +639,7 @@ export function EnterpriseConfigurator() {
                 <Server className="h-5 w-5 text-emerald-400" /> Concurrent
                 Connections
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Concurrency reserves GPU memory for simultaneous requests.
               </p>
               <div className="grid grid-cols-2 gap-3">
@@ -664,7 +664,7 @@ export function EnterpriseConfigurator() {
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Headphones className="h-5 w-5 text-emerald-400" /> Support Tier
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Higher tiers get faster response times and more channels.
               </p>
               <div className="space-y-3">
@@ -687,7 +687,7 @@ export function EnterpriseConfigurator() {
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Shield className="h-5 w-5 text-emerald-400" /> Uptime SLA
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Higher SLA requires redundant infrastructure investment.
               </p>
               <div className="space-y-3">
@@ -712,7 +712,7 @@ export function EnterpriseConfigurator() {
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Lock className="h-5 w-5 text-emerald-400" /> Security Add-ons
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 SSO/SAML is included in all enterprise plans.
               </p>
               <div className="space-y-3">
@@ -737,8 +737,8 @@ export function EnterpriseConfigurator() {
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Brain className="h-5 w-5 text-emerald-400" /> Model Options
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
-                Standard includes Llama 3.1 70B + GPT-4o.
+              <p className="text-sm text-zinc-400 mb-4">
+                Standard includes Qwen 2.5 32B + GPT-4o.
               </p>
               <div className="space-y-3">
                 {MODEL_OPTIONS.map((opt) => (
@@ -762,7 +762,7 @@ export function EnterpriseConfigurator() {
                 <Zap className="h-5 w-5 text-emerald-400" /> Response Token
                 Limit
               </h3>
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Longer responses consume more GPU time per request.
               </p>
               <div className="grid grid-cols-3 gap-3">
@@ -849,7 +849,7 @@ export function EnterpriseConfigurator() {
               <h3 className="text-sm font-medium text-zinc-400 mb-1 flex items-center gap-2">
                 <CalendarClock className="h-4 w-4" /> AI Spend Financing
               </h3>
-              <p className="text-xs text-zinc-500 mb-3">
+              <p className="text-xs text-zinc-400 mb-3">
                 Start using Stone AI today — pay later. Zero fees, zero interest.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -867,7 +867,7 @@ export function EnterpriseConfigurator() {
                     <p className="font-medium text-white text-sm">
                       {opt.label}
                     </p>
-                    <p className="text-xs text-zinc-500 mt-0.5">{opt.desc}</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">{opt.desc}</p>
                   </button>
                 ))}
               </div>
@@ -894,13 +894,13 @@ export function EnterpriseConfigurator() {
                   <p className="text-sm text-zinc-400">Estimated Monthly</p>
                   <p className="text-3xl font-bold text-white">
                     {formatMoney(pricing.discountedMonthly)}
-                    <span className="text-base text-zinc-500 font-normal">
+                    <span className="text-base text-zinc-400 font-normal">
                       /mo
                     </span>
                   </p>
                   {pricing.period.discount > 0 && (
                     <p className="text-sm text-emerald-400 mt-1">
-                      <span className="line-through text-zinc-500 mr-2">
+                      <span className="line-through text-zinc-400 mr-2">
                         {formatMoney(pricing.monthly)}
                       </span>
                       {pricing.period.discount}% off
@@ -926,18 +926,18 @@ export function EnterpriseConfigurator() {
                 Contact Information
               </h3>
               <div>
-                <label className="text-sm text-zinc-500 mb-1.5 block">
+                <label className="text-sm text-zinc-400 mb-1.5 block">
                   Company Name
                 </label>
                 <Input
                   value={config.companyName}
                   onChange={(e) => update("companyName", e.target.value)}
                   placeholder="Acme Corp"
-                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400"
                 />
               </div>
               <div>
-                <label className="text-sm text-zinc-500 mb-1.5 block">
+                <label className="text-sm text-zinc-400 mb-1.5 block">
                   Contact Email
                 </label>
                 <Input
@@ -945,7 +945,7 @@ export function EnterpriseConfigurator() {
                   onChange={(e) => update("contactEmail", e.target.value)}
                   placeholder="cto@acme.com"
                   type="email"
-                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-600"
+                  className="bg-zinc-800 border-zinc-700 text-white placeholder:text-zinc-400"
                 />
               </div>
             </div>
@@ -1012,7 +1012,7 @@ export function EnterpriseConfigurator() {
                     ? "bg-emerald-900/30 text-emerald-400 border border-emerald-700"
                     : isComplete
                     ? "bg-zinc-800 text-emerald-400 cursor-pointer hover:bg-zinc-700"
-                    : "bg-zinc-900 text-zinc-600 cursor-default"
+                    : "bg-zinc-900 text-zinc-400 cursor-default"
                 }`}
                 disabled={i > step}
               >
@@ -1049,7 +1049,7 @@ export function EnterpriseConfigurator() {
                 <div className="flex items-center gap-2">
                   <span className="text-lg font-bold text-white">
                     {formatMoney(pricing.discountedMonthly)}
-                    <span className="text-xs text-zinc-500 font-normal">/mo</span>
+                    <span className="text-xs text-zinc-400 font-normal">/mo</span>
                   </span>
                   <ChevronDown
                     className={`h-4 w-4 text-zinc-400 transition-transform ${
@@ -1076,7 +1076,7 @@ export function EnterpriseConfigurator() {
 
                   <div className="flex justify-between items-end">
                     <div>
-                      <p className="text-xs text-zinc-500">Monthly</p>
+                      <p className="text-xs text-zinc-400">Monthly</p>
                       <p className="text-2xl font-bold text-white">
                         {formatMoney(pricing.discountedMonthly)}
                       </p>

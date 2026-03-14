@@ -462,7 +462,7 @@ export default function CreateBestiePage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-xl font-bold text-white">Create Your Bestie <span className="text-sm font-normal text-amber-400/80">— up to 42 experts, one friend</span></h1>
+            <h1 className="text-xl font-bold text-white">Create Your Bestie <span className="text-sm font-normal text-amber-400/80">— up to 42 specialists, one friend</span></h1>
             <p className="text-xs text-pink-400/70">Step {step} of {TOTAL_STEPS}</p>
           </div>
         </div>
@@ -487,7 +487,7 @@ export default function CreateBestiePage() {
             <div className="text-center space-y-2">
               <Target className="h-8 w-8 mx-auto text-purple-400" />
               <p className="text-lg text-zinc-300">What brings you here?</p>
-              <p className="text-sm text-zinc-500">Your Bestie inherits knowledge from your tier&apos;s full roster of expert agents. Pick 1-3 reasons and she&apos;ll know exactly how to help.</p>
+              <p className="text-sm text-zinc-400">Your Bestie inherits knowledge from your tier&apos;s full roster of specialist agents. Pick 1-3 reasons and she&apos;ll know exactly how to help.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -508,7 +508,7 @@ export default function CreateBestiePage() {
                       <span className="text-2xl">{p.icon}</span>
                       <div>
                         <p className={`text-sm font-medium ${selected ? "text-white" : "text-zinc-300"}`}>{p.label}</p>
-                        <p className="text-xs text-zinc-500 mt-0.5">{p.desc}</p>
+                        <p className="text-xs text-zinc-400 mt-0.5">{p.desc}</p>
                       </div>
                     </div>
                     {selected && (
@@ -520,7 +520,7 @@ export default function CreateBestiePage() {
             </div>
 
             {selectedPurposes.length > 0 && (
-              <p className="text-center text-xs text-zinc-500">
+              <p className="text-center text-xs text-zinc-400">
                 {selectedPurposes.length}/3 selected
               </p>
             )}
@@ -541,7 +541,7 @@ export default function CreateBestiePage() {
           <div className="space-y-6">
             <div className="text-center space-y-2">
               <p className="text-lg text-zinc-300">What should your Bestie be called?</p>
-              <p className="text-sm text-zinc-500">Give them a name that feels right to you</p>
+              <p className="text-sm text-zinc-400">Give them a name that feels right to you</p>
             </div>
 
             <div className="space-y-4">
@@ -550,10 +550,10 @@ export default function CreateBestiePage() {
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Luna, Max, Sage, River..."
                 maxLength={20}
-                className="bg-zinc-800/80 border-zinc-700 text-white text-center text-lg h-14 placeholder:text-zinc-600 backdrop-blur-sm"
+                className="bg-zinc-800/80 border-zinc-700 text-white text-center text-lg h-14 placeholder:text-zinc-400 backdrop-blur-sm"
                 autoFocus
               />
-              <p className="text-center text-xs text-zinc-500">{name.length}/20 characters</p>
+              <p className="text-center text-xs text-zinc-400">{name.length}/20 characters</p>
             </div>
 
             <div>
@@ -561,7 +561,7 @@ export default function CreateBestiePage() {
 
               {/* Custom photo upload */}
               <div className="mb-4 max-w-md mx-auto">
-                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1.5">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1.5">
                   Custom Photo
                   <span className="ml-2 text-purple-400 normal-case tracking-normal">- Upload your own</span>
                 </p>
@@ -591,11 +591,11 @@ export default function CreateBestiePage() {
                       {uploadingAvatar ? (
                         <Loader2 className="h-5 w-5 animate-spin text-purple-400" />
                       ) : (
-                        <Camera className="h-5 w-5 text-zinc-500" />
+                        <Camera className="h-5 w-5 text-zinc-400" />
                       )}
                     </button>
                   )}
-                  <div className="text-xs text-zinc-500">
+                  <div className="text-xs text-zinc-400">
                     {uploadingAvatar ? (
                       <span className="text-purple-400">Checking image...</span>
                     ) : customAvatar ? (
@@ -621,10 +621,10 @@ export default function CreateBestiePage() {
               {/* Emoji avatars */}
               {!customAvatar && (
                 <div className="space-y-4 max-w-md mx-auto">
-                  <p className="text-[10px] uppercase tracking-widest text-zinc-500">Or choose an emoji</p>
+                  <p className="text-[10px] uppercase tracking-widest text-zinc-400">Or choose an emoji</p>
                   {AVATAR_SECTIONS.map((section, idx) => (
                     <div key={section.label}>
-                      <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-1.5">
+                      <p className="text-[10px] uppercase tracking-widest text-zinc-400 mb-1.5">
                         {section.label}
                         {highlightedAvatarSections.includes(idx) && (
                           <span className="ml-2 text-pink-400 normal-case tracking-normal">- Recommended</span>
@@ -694,7 +694,7 @@ export default function CreateBestiePage() {
             <div className="text-center space-y-2">
               <Palette className="h-8 w-8 mx-auto text-purple-400" />
               <p className="text-lg text-zinc-300">Set the vibe</p>
-              <p className="text-sm text-zinc-500">Pick a backdrop that feels like {name || "your Bestie"}&apos;s world</p>
+              <p className="text-sm text-zinc-400">Pick a backdrop that feels like {name || "your Bestie"}&apos;s world</p>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -728,7 +728,7 @@ export default function CreateBestiePage() {
               ))}
             </div>
 
-            <p className="text-center text-[10px] text-zinc-600">
+            <p className="text-center text-[10px] text-zinc-400">
               Showing {filteredBgThemes.length} environments based on your vibe
             </p>
 
@@ -754,7 +754,7 @@ export default function CreateBestiePage() {
               <div className="flex items-center gap-2 mb-1">
                 <Mic className="h-4 w-4 text-pink-400" />
                 <p className="text-sm font-medium text-zinc-300">Voice</p>
-                <span className="text-[10px] text-zinc-500">Optional</span>
+                <span className="text-[10px] text-zinc-400">Optional</span>
               </div>
 
               {/* Row 1: Toggles */}
@@ -791,7 +791,7 @@ export default function CreateBestiePage() {
               {/* Row 2: Speed & Pitch */}
               <div className="flex gap-4">
                 <div className="flex-1">
-                  <p className="text-[10px] text-zinc-500 mb-1">Speed</p>
+                  <p className="text-[10px] text-zinc-400 mb-1">Speed</p>
                   <div className="flex gap-1">
                     {(["slow", "normal", "fast"] as const).map((s) => (
                       <button
@@ -801,7 +801,7 @@ export default function CreateBestiePage() {
                         className={`flex-1 px-2 py-1 rounded-md text-[11px] capitalize transition-all ${
                           voiceSpeed === s
                             ? "bg-pink-500/20 border border-pink-500 text-pink-300"
-                            : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-500 hover:border-zinc-500"
+                            : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-400 hover:border-zinc-500"
                         }`}
                       >
                         {s}
@@ -810,7 +810,7 @@ export default function CreateBestiePage() {
                   </div>
                 </div>
                 <div className="flex-1">
-                  <p className="text-[10px] text-zinc-500 mb-1">Pitch</p>
+                  <p className="text-[10px] text-zinc-400 mb-1">Pitch</p>
                   <div className="flex gap-1">
                     {(["low", "medium", "high"] as const).map((p) => (
                       <button
@@ -820,7 +820,7 @@ export default function CreateBestiePage() {
                         className={`flex-1 px-2 py-1 rounded-md text-[11px] capitalize transition-all ${
                           voicePitch === p
                             ? "bg-pink-500/20 border border-pink-500 text-pink-300"
-                            : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-500 hover:border-zinc-500"
+                            : "bg-zinc-900/60 border border-zinc-700/60 text-zinc-400 hover:border-zinc-500"
                         }`}
                       >
                         {p}
@@ -847,33 +847,33 @@ export default function CreateBestiePage() {
           <div className="space-y-6">
             <div className="text-center space-y-2">
               <p className="text-lg text-zinc-300">Tell {name} about yourself</p>
-              <p className="text-sm text-zinc-500">Context that helps your Bestie operate better. All fields are optional.</p>
+              <p className="text-sm text-zinc-400">Context that helps your Bestie operate better. All fields are optional.</p>
             </div>
 
             <div className="space-y-4">
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Your name</label>
-                <Input value={aboutName} onChange={(e) => setAboutName(e.target.value)} placeholder="What should they call you?" maxLength={50} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-600 backdrop-blur-sm" />
+                <Input value={aboutName} onChange={(e) => setAboutName(e.target.value)} placeholder="What should they call you?" maxLength={50} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-400 backdrop-blur-sm" />
               </div>
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Birthday</label>
-                <Input value={aboutBirthday} onChange={(e) => setAboutBirthday(e.target.value)} placeholder="e.g. March 15, July 4th" maxLength={20} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-600 backdrop-blur-sm" />
+                <Input value={aboutBirthday} onChange={(e) => setAboutBirthday(e.target.value)} placeholder="e.g. March 15, July 4th" maxLength={20} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-400 backdrop-blur-sm" />
               </div>
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Siblings</label>
-                <Input value={aboutSiblings} onChange={(e) => setAboutSiblings(e.target.value)} placeholder="e.g. 2 brothers, 1 sister" maxLength={100} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-600 backdrop-blur-sm" />
+                <Input value={aboutSiblings} onChange={(e) => setAboutSiblings(e.target.value)} placeholder="e.g. 2 brothers, 1 sister" maxLength={100} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-400 backdrop-blur-sm" />
               </div>
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Where you live</label>
-                <Input value={aboutLocation} onChange={(e) => setAboutLocation(e.target.value)} placeholder="e.g. Austin, Texas" maxLength={100} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-600 backdrop-blur-sm" />
+                <Input value={aboutLocation} onChange={(e) => setAboutLocation(e.target.value)} placeholder="e.g. Austin, Texas" maxLength={100} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-400 backdrop-blur-sm" />
               </div>
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Favorites</label>
-                <Input value={aboutFavorites} onChange={(e) => setAboutFavorites(e.target.value)} placeholder="e.g. Coffee, hip-hop, sci-fi movies" maxLength={200} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-600 backdrop-blur-sm" />
+                <Input value={aboutFavorites} onChange={(e) => setAboutFavorites(e.target.value)} placeholder="e.g. Coffee, hip-hop, sci-fi movies" maxLength={200} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-400 backdrop-blur-sm" />
               </div>
               <div>
                 <label className="text-xs text-zinc-400 mb-1 block">Anything else they should know</label>
-                <Textarea value={aboutOther} onChange={(e) => setAboutOther(e.target.value)} placeholder="Night owl, dog person, learning guitar..." maxLength={500} rows={3} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-600 resize-none backdrop-blur-sm" />
+                <Textarea value={aboutOther} onChange={(e) => setAboutOther(e.target.value)} placeholder="Night owl, dog person, learning guitar..." maxLength={500} rows={3} className="bg-zinc-800/80 border-zinc-700 text-white placeholder:text-zinc-400 resize-none backdrop-blur-sm" />
               </div>
             </div>
 
@@ -909,15 +909,15 @@ export default function CreateBestiePage() {
               <p className="text-sm text-purple-400">
                 {styles.length > 0 ? styles.map((s) => ({ casual: "BFF Vibes", supportive: "Life Coach", intellectual: "Mentor", hype: "Hype Squad", blunt: "Straight Shooter", gentle: "Soft & Gentle", professional: "All Business", storyteller: "Storyteller" } as Record<string, string>)[s] ?? s).join(" + ") : "No style selected"}
               </p>
-              <p className="text-xs text-zinc-500 flex items-center justify-center gap-1">
+              <p className="text-xs text-zinc-400 flex items-center justify-center gap-1">
                 <Globe className="h-3 w-3" />
                 Speaks {BESTIE_LANGUAGE_LABELS[language]}
               </p>
-              <p className="text-xs text-zinc-600 flex items-center justify-center gap-1">
+              <p className="text-xs text-zinc-400 flex items-center justify-center gap-1">
                 <Palette className="h-3 w-3" />
                 {activeBg?.label ?? "Default"} theme
               </p>
-              <p className="text-xs text-zinc-600 flex items-center justify-center gap-1">
+              <p className="text-xs text-zinc-400 flex items-center justify-center gap-1">
                 <Mic className="h-3 w-3" />
                 Voice: {voiceAutoEnable ? "Enabled" : "Off"}, {voiceSpeed.charAt(0).toUpperCase() + voiceSpeed.slice(1)} speed, {voicePitch.charAt(0).toUpperCase() + voicePitch.slice(1)} pitch{voiceAutoSpeak ? ", Auto-speak" : ""}
               </p>
@@ -970,7 +970,7 @@ export default function CreateBestiePage() {
 
             {/* Preview greeting */}
             <div className="bg-zinc-800/70 rounded-lg p-4 border border-zinc-700 backdrop-blur-sm">
-              <p className="text-xs text-zinc-500 mb-2 flex items-center gap-1">
+              <p className="text-xs text-zinc-400 mb-2 flex items-center gap-1">
                 <Sparkles className="h-3 w-3" /> Preview greeting
               </p>
               <p className="text-zinc-200 text-sm leading-relaxed">
@@ -995,7 +995,7 @@ export default function CreateBestiePage() {
               </div>
             )}
 
-            <div className="space-y-2 text-xs text-zinc-500 text-center">
+            <div className="space-y-2 text-xs text-zinc-400 text-center">
               <p>Your Bestie will remember your conversations and learn about you over time.</p>
               <p>You can always edit their personality later.</p>
             </div>
@@ -1017,7 +1017,7 @@ export default function CreateBestiePage() {
               <div className="text-center space-y-3 py-4">
                 <Loader2 className="h-8 w-8 animate-spin text-pink-400 mx-auto" />
                 <p className="text-sm text-pink-300 animate-pulse">Bringing {name} to life...</p>
-                <p className="text-[10px] text-zinc-500">Creating a unique look based on their personality</p>
+                <p className="text-[10px] text-zinc-400">Creating a unique look based on their personality</p>
               </div>
             )}
 

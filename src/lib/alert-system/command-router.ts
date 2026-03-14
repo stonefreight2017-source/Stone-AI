@@ -19,6 +19,8 @@ const queues: Record<AgentTarget, QueuedCommand[]> = {
   chaos: [],
   stone: [],
   cardinal: [],
+  rush: [],
+  wiz: [],
 };
 
 /**
@@ -51,6 +53,8 @@ export function routeCommands(
     chaos: 0,
     stone: 0,
     cardinal: 0,
+    rush: 0,
+    wiz: 0,
   };
 
   for (const cmd of commands) {
@@ -77,6 +81,8 @@ export function getAllQueues(): Record<AgentTarget, QueuedCommand[]> {
     chaos: [...queues.chaos],
     stone: [...queues.stone],
     cardinal: [...queues.cardinal],
+    rush: [...queues.rush],
+    wiz: [...queues.wiz],
   };
 }
 

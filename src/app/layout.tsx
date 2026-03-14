@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/components/providers/QueryProvider";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { CookieConsent } from "@/components/CookieConsent";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,12 +56,16 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-zinc-950 text-zinc-50`}
           suppressHydrationWarning
         >
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:z-[9999] focus:top-4 focus:left-4 focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded-lg focus:text-sm focus:font-medium focus:shadow-lg">
+            Skip to main content
+          </a>
           <QueryProvider>
             {children}
           </QueryProvider>
           <Toaster />
           <Analytics />
           <SpeedInsights />
+          <CookieConsent />
         </body>
       </html>
     </ClerkProvider>

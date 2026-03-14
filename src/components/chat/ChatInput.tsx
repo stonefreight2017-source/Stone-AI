@@ -43,7 +43,7 @@ export function ChatInput({ onSend, disabled, isLoading, placeholder }: ChatInpu
     <div className="px-4 pb-2 pt-3">
       <div className="max-w-3xl mx-auto">
         {/* Pill-shaped input container — ChatGPT style */}
-        <div className="relative flex items-end gap-2 rounded-3xl bg-zinc-800/80 border border-zinc-700/50 px-4 py-2.5 focus-within:border-zinc-600 transition-colors">
+        <div className="relative flex items-end gap-2 rounded-3xl bg-zinc-800/80 border border-zinc-700/50 px-4 py-2.5 focus-within:border-zinc-500 focus-within:ring-1 focus-within:ring-zinc-500/50 transition-colors">
           <textarea
             ref={textareaRef}
             aria-label="Message input"
@@ -52,7 +52,7 @@ export function ChatInput({ onSend, disabled, isLoading, placeholder }: ChatInpu
             onKeyDown={handleKeyDown}
             placeholder={placeholder ?? "Message Stone AI..."}
             disabled={disabled || isLoading}
-            className="flex-1 bg-transparent text-white text-sm placeholder:text-zinc-500 resize-none outline-none min-h-[24px] max-h-[200px] py-0.5 leading-relaxed"
+            className="flex-1 bg-transparent text-white text-sm placeholder:text-zinc-400 resize-none outline-none min-h-[24px] max-h-[200px] py-0.5 leading-relaxed"
             rows={1}
           />
           <button

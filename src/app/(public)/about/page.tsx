@@ -4,16 +4,16 @@ import { ArrowLeft } from "lucide-react";
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
+      <nav aria-label="Page navigation" className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
         <Link href="/" className="text-xl font-bold">Stone AI™</Link>
         <Link href="/" className="text-sm text-zinc-400 hover:text-white flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
       </nav>
 
-      <main className="px-6 py-12 max-w-4xl mx-auto">
+      <main id="main-content" className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">About Stone AI</h1>
-        <p className="text-zinc-500 text-sm mb-10">Founded 2026</p>
+        <p className="text-zinc-400 text-sm mb-10">Founded 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
@@ -30,7 +30,7 @@ export default function AboutPage() {
             <h2 className="text-lg font-semibold text-white">Our Mission</h2>
             <p>
               Make AI accessible, private, and affordable for every business. We believe that the
-              advantages of artificial intelligence should not be locked behind six-figure contracts
+              advantages of artificial intelligence should not be locked behind expensive enterprise contracts
               or require handing your most sensitive data to third parties. Stone AI was founded on
               the principle that businesses deserve both power and privacy.
             </p>
@@ -51,8 +51,7 @@ export default function AboutPage() {
             <h2 className="text-lg font-semibold text-white">Local-First AI</h2>
             <p>
               By default, your conversations are processed using local-first AI running on dedicated
-              hardware. Your prompts and responses never leave our infrastructure
-              and are never sent to third-party AI providers. For teams that need the highest
+              hardware. In Local Mode, your data never leaves our servers. Smart Mode routes through Anthropic — always opt-in. For teams that need the highest
               capability, we also offer optional cloud AI from leading providers — but the choice
               is always yours.
             </p>
@@ -83,7 +82,7 @@ export default function AboutPage() {
             <h2 className="text-lg font-semibold text-white">Contact</h2>
             <p>
               Have questions or want to learn more? Reach us at{" "}
-              <a href="mailto:support@stone-ai.net" className="text-emerald-400 hover:underline">
+              <a href="mailto:support@stone-ai.net" className="text-emerald-400 underline">
                 support@stone-ai.net
               </a>.
             </p>

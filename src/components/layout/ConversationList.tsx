@@ -76,7 +76,7 @@ export function ConversationList() {
               <Skeleton key={i} className="h-9 w-full rounded-md" />
             ))
           ) : filtered.length === 0 ? (
-            <p className="text-xs text-zinc-500 text-center py-4">
+            <p className="text-xs text-zinc-400 text-center py-4">
               {search ? "No matching chats" : "No conversations yet"}
             </p>
           ) : (
@@ -98,6 +98,7 @@ export function ConversationList() {
                   <Button
                     variant="ghost"
                     size="icon"
+                    aria-live="polite"
                     aria-label={
                       pendingDeleteId === convo.id
                         ? "Click again to confirm delete"

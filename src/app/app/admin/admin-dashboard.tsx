@@ -131,7 +131,7 @@ export function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <Loader2 className="h-6 w-6 animate-spin text-zinc-500" />
+        <Loader2 className="h-6 w-6 animate-spin text-zinc-400" />
       </div>
     );
   }
@@ -153,8 +153,8 @@ export function AdminDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card className="bg-zinc-900 border-zinc-800 p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Server className="h-4 w-4 text-zinc-500" />
-              <span className="text-xs text-zinc-500">vLLM Status</span>
+              <Server className="h-4 w-4 text-zinc-400" />
+              <span className="text-xs text-zinc-400">vLLM Status</span>
             </div>
             <div className="flex items-center gap-2">
               <div
@@ -170,15 +170,15 @@ export function AdminDashboard() {
           </Card>
           <Card className="bg-zinc-900 border-zinc-800 p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Users className="h-4 w-4 text-zinc-500" />
-              <span className="text-xs text-zinc-500">Total Users</span>
+              <Users className="h-4 w-4 text-zinc-400" />
+              <span className="text-xs text-zinc-400">Total Users</span>
             </div>
             <span className="text-2xl font-bold">{data.stats.totalUsers}</span>
           </Card>
           <Card className="bg-zinc-900 border-zinc-800 p-4">
             <div className="flex items-center gap-2 mb-2">
-              <MessageSquare className="h-4 w-4 text-zinc-500" />
-              <span className="text-xs text-zinc-500">Messages Today</span>
+              <MessageSquare className="h-4 w-4 text-zinc-400" />
+              <span className="text-xs text-zinc-400">Messages Today</span>
             </div>
             <span className="text-2xl font-bold">
               {data.stats.messagesToday}
@@ -186,8 +186,8 @@ export function AdminDashboard() {
           </Card>
           <Card className="bg-zinc-900 border-zinc-800 p-4">
             <div className="flex items-center gap-2 mb-2">
-              <Zap className="h-4 w-4 text-zinc-500" />
-              <span className="text-xs text-zinc-500">Tokens/sec</span>
+              <Zap className="h-4 w-4 text-zinc-400" />
+              <span className="text-xs text-zinc-400">Tokens/sec</span>
             </div>
             <span className="text-2xl font-bold">
               {data.vllm.tokensPerSecond?.toFixed(1) ?? "—"}
@@ -279,7 +279,7 @@ export function AdminDashboard() {
               </div>
               {data.vllm.gpuUtilization !== null && (
                 <div className="text-right">
-                  <span className="text-xs text-zinc-500">GPU Cache</span>
+                  <span className="text-xs text-zinc-400">GPU Cache</span>
                   <p className="text-lg font-bold">
                     {data.vllm.gpuUtilization.toFixed(0)}%
                   </p>
@@ -294,7 +294,7 @@ export function AdminDashboard() {
         {/* Model Registry */}
         <div>
           <h2 className="text-lg font-semibold mb-1">Model Intelligence</h2>
-          <p className="text-sm text-zinc-500 mb-4">
+          <p className="text-sm text-zinc-400 mb-4">
             Curated models optimized for your RTX 5090. Sorted by benchmark
             score.
           </p>
@@ -326,7 +326,7 @@ export function AdminDashboard() {
                                 ? "text-green-400"
                                 : model.benchmarkScore >= 80
                                   ? "text-amber-400"
-                                  : "text-zinc-500"
+                                  : "text-zinc-400"
                             )}
                           >
                             {model.benchmarkScore}/100
@@ -350,7 +350,7 @@ export function AdminDashboard() {
                             </Badge>
                           )}
                         </div>
-                        <p className="text-xs text-zinc-500 mt-1">
+                        <p className="text-xs text-zinc-400 mt-1">
                           {model.params} | {model.quantization} |{" "}
                           {model.vramGb}GB VRAM |{" "}
                           {model.strengths.join(", ")}
@@ -400,26 +400,26 @@ export function AdminDashboard() {
                   <BarChart2 className="h-5 w-5 text-amber-400" />
                   Agent Usage Analytics
                 </h2>
-                <div className="flex gap-3 text-xs text-zinc-500">
+                <div className="flex gap-3 text-xs text-zinc-400">
                   <span>{agentData.totalAgents} total</span>
                   <span className="text-green-400">{agentData.activeAgents} active</span>
-                  <span className="text-zinc-600">{agentData.unusedAgents} unused</span>
+                  <span className="text-zinc-400">{agentData.unusedAgents} unused</span>
                 </div>
               </div>
 
               {/* Top stats */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                 <Card className="bg-zinc-900 border-zinc-800 p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Total Agent Conversations</p>
+                  <p className="text-[10px] text-zinc-400 uppercase">Total Agent Conversations</p>
                   <p className="text-xl font-bold">{agentData.totalAgentConversations}</p>
                 </Card>
                 <Card className="bg-zinc-900 border-zinc-800 p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Active Agents (1+ convos)</p>
+                  <p className="text-[10px] text-zinc-400 uppercase">Active Agents (1+ convos)</p>
                   <p className="text-xl font-bold text-green-400">{agentData.activeAgents}</p>
                 </Card>
                 <Card className="bg-zinc-900 border-zinc-800 p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Unused Agents</p>
-                  <p className="text-xl font-bold text-zinc-600">{agentData.unusedAgents}</p>
+                  <p className="text-[10px] text-zinc-400 uppercase">Unused Agents</p>
+                  <p className="text-xl font-bold text-zinc-400">{agentData.unusedAgents}</p>
                 </Card>
               </div>
 
@@ -428,7 +428,7 @@ export function AdminDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
-                      <tr className="border-b border-zinc-800 text-xs text-zinc-500">
+                      <tr className="border-b border-zinc-800 text-xs text-zinc-400">
                         <th className="text-left p-3 font-medium">Agent</th>
                         <th className="text-left p-3 font-medium">Tier</th>
                         <th className="text-right p-3 font-medium">Total</th>
@@ -449,8 +449,8 @@ export function AdminDashboard() {
                             <tr key={agent.agentId} className="border-b border-zinc-800/50 hover:bg-zinc-800/30">
                               <td className="p-3">
                                 <div className="flex items-center gap-2">
-                                  <Bot className="h-3.5 w-3.5 text-zinc-600 shrink-0" />
-                                  <span className={agent.totalConversations === 0 ? "text-zinc-600" : "text-zinc-200"}>
+                                  <Bot className="h-3.5 w-3.5 text-zinc-400 shrink-0" />
+                                  <span className={agent.totalConversations === 0 ? "text-zinc-400" : "text-zinc-200"}>
                                     {agent.name}
                                   </span>
                                 </div>
@@ -475,7 +475,7 @@ export function AdminDashboard() {
                                   <span className={cn("flex items-center justify-end gap-1 text-xs", {
                                     "text-green-400": trend > 0,
                                     "text-red-400": trend < 0,
-                                    "text-zinc-500": trend === 0,
+                                    "text-zinc-400": trend === 0,
                                   })}>
                                     {trend > 0 ? <TrendingUp className="h-3 w-3" /> : trend < 0 ? <TrendingDown className="h-3 w-3" /> : null}
                                     {trend > 0 ? "+" : ""}{trend.toFixed(0)}%

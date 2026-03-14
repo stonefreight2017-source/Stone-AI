@@ -47,10 +47,10 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
     <div className="flex flex-col h-full bg-zinc-900 border-r border-zinc-800">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-3">
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
+        <button type="button" aria-label="Go to homepage" className="flex items-center gap-2 bg-transparent border-none p-0" onClick={() => router.push("/")}>
           <Insignia size={10} showPills={false} />
           <TierBadge tier={userTier} />
-        </div>
+        </button>
         <div className="flex items-center gap-1">
           <Button
             variant="ghost"

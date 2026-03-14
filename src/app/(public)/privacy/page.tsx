@@ -4,22 +4,22 @@ import { ArrowLeft } from "lucide-react";
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
+      <nav aria-label="Page navigation" className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
         <Link href="/" className="text-xl font-bold">Stone AI™</Link>
         <Link href="/" className="text-sm text-zinc-400 hover:text-white flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
       </nav>
 
-      <main className="px-6 py-12 max-w-4xl mx-auto">
+      <main id="main-content" className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 5, 2026</p>
+        <p className="text-zinc-400 text-sm mb-10">Last updated: March 13, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
             <h2 className="text-lg font-semibold text-white">1. Overview</h2>
             <p>
-              Stone AI ("we", "us", "our") is committed to protecting your privacy. This policy explains
+              Stone AI (&quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is committed to protecting your privacy. This policy explains
               what data we collect, how we use it, and your rights regarding your information. Stone AI
               is designed with a local-first architecture — on our Free and Starter plans, your
               conversations are processed entirely on local hardware and never sent to third-party AI providers.
@@ -49,8 +49,8 @@ export default function PrivacyPage() {
             </p>
             <p><strong className="text-white">Smart Mode (Smart and Pro plans):</strong></p>
             <p>
-              When you use Smart mode or when auto-routing selects it, your message may be sent to Anthropic's
-              Claude API for processing. Anthropic's data usage policies apply to these requests. Anthropic's API
+              When you use Smart mode or when auto-routing selects it, your message may be sent to Anthropic&apos;s
+              Claude API for processing. Anthropic&apos;s data usage policies apply to these requests. Anthropic&apos;s API
               does not use your data for training by default. You can always use Local mode instead if you prefer
               complete data sovereignty.
             </p>
@@ -70,6 +70,25 @@ export default function PrivacyPage() {
               <li>Enterprise security headers (CSP, HSTS, X-Frame-Options)</li>
               <li>Input sanitization on all user-submitted content</li>
             </ul>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">4A. NY SHIELD Act Compliance</h2>
+            <p>
+              Stone AI maintains a data security program that includes reasonable administrative, technical, and physical safeguards to protect the security, confidentiality, and integrity of personal information of New York residents, as required by the New York SHIELD Act (N.Y. Gen. Bus. Law §899-bb).
+            </p>
+            <p>
+              <strong className="text-white">Administrative safeguards:</strong> Designated personnel responsible for security program coordination, risk assessments, and vendor security evaluation.
+            </p>
+            <p>
+              <strong className="text-white">Technical safeguards:</strong> AES-256-GCM encryption at rest, TLS 1.2+ encryption in transit, API key hashing, rate limiting, security audit logging, CSP headers, input sanitization, and regular security reviews.
+            </p>
+            <p>
+              <strong className="text-white">Physical safeguards:</strong> Access controls to physical infrastructure, secure data center hosting (via Vercel/Neon), and disposal procedures for data-bearing equipment.
+            </p>
+            <p>
+              <strong className="text-white">Breach notification:</strong> In the event of a data breach affecting personal information of New York residents, Stone AI will notify affected individuals in the most expedient time possible and without unreasonable delay, consistent with any law enforcement investigation needs. If a breach affects more than 500 New York residents, Stone AI will also notify the New York Attorney General within 10 business days.
+            </p>
           </section>
 
           <section>
@@ -144,6 +163,16 @@ export default function PrivacyPage() {
             </p>
           </section>
 
+          <section className="border border-amber-500/30 bg-amber-500/5 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-amber-400">⚠ HIPAA / Protected Health Information (PHI) Disclaimer</h2>
+            <p className="mt-2">
+              <strong className="text-white">Stone AI does not support HIPAA-regulated workflows and should not be used to store,
+              process, or transmit protected health information (PHI).</strong> Users are responsible for ensuring that uploaded
+              data does not contain regulated or sensitive information including PHI, financial records, or
+              government-protected data.
+            </p>
+          </section>
+
           <section>
             <h2 className="text-lg font-semibold text-white">9. Third-Party Services</h2>
             <p>We use the following third-party services:</p>
@@ -152,6 +181,9 @@ export default function PrivacyPage() {
               <li><strong className="text-zinc-300">Stripe</strong> — payment processing and subscription billing</li>
               <li><strong className="text-zinc-300">Anthropic</strong> — cloud AI inference (Smart mode only, Smart and Pro tiers)</li>
               <li><strong className="text-zinc-300">Google AdSense</strong> — contextual advertising on ad-supported tiers</li>
+              <li><strong className="text-zinc-300">Vercel</strong> — web application hosting and serverless functions (processes all HTTP traffic)</li>
+              <li><strong className="text-zinc-300">Neon</strong> — managed PostgreSQL database hosting (stores all user data)</li>
+              <li><strong className="text-zinc-300">Cloudflare</strong> — DNS, CDN, DDoS protection, and SSL/TLS termination (processes all network traffic)</li>
             </ul>
             <p>Each service has its own privacy policy. We recommend reviewing them.</p>
           </section>
@@ -199,30 +231,65 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">14. California Privacy Rights (CCPA)</h2>
+            <h2 className="text-lg font-semibold text-white">14. California Privacy Rights (CCPA/CPRA)</h2>
             <p>
               If you are a California resident, you have the right to request disclosure of the categories of
               personal information we collect, the purposes for which it is used, and the categories of third
               parties with whom it is shared. You may also request deletion of your personal information and
-              opt out of the sale or sharing of personal information. To exercise these rights, visit the
-              Privacy Choices section in your account Settings or contact us at support@stone-ai.net. We will
-              respond to verified requests within 45 days.
+              opt out of the sale or sharing of personal information. We will respond to verified requests within 45 days.
+            </p>
+            <p>
+              <strong className="text-white">Do Not Sell or Share My Personal Information:</strong> Stone AI uses contextual advertising on ad-supported tiers via Google AdSense, which may constitute &quot;sharing&quot; of personal information under the CCPA/CPRA. You have the right to opt out. To exercise this right, visit the Privacy Choices section in your account Settings, use the &quot;Do Not Sell or Share My Personal Information&quot; link in our site footer, or contact us at support@stone-ai.net.
+            </p>
+            <p>
+              <strong className="text-white">Categories of Personal Information Collected:</strong>
+            </p>
+            <ul className="list-disc pl-6 space-y-1 text-zinc-400">
+              <li><strong className="text-zinc-300">Identifiers:</strong> Email address, name, Clerk user ID, Stripe customer ID</li>
+              <li><strong className="text-zinc-300">Commercial information:</strong> Subscription tier, payment history, purchase records</li>
+              <li><strong className="text-zinc-300">Internet or electronic network activity:</strong> Usage data, message counts, token usage, feature usage statistics, conversation metadata</li>
+              <li><strong className="text-zinc-300">Inferences:</strong> Anonymized interest segments derived from usage patterns for advertising relevance</li>
+            </ul>
+            <p>
+              <strong className="text-white">Purposes of Collection:</strong> To provide and improve the Service, process payments, enforce usage limits, personalize your experience, display contextual advertisements on ad-supported tiers, respond to support inquiries, and comply with legal obligations.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">15. Changes to This Policy</h2>
+            <h2 className="text-lg font-semibold text-white">15. European Privacy Rights (GDPR)</h2>
+            <p>
+              If you are located in the European Economic Area (EEA), United Kingdom, or Switzerland, the following additional provisions apply:
+            </p>
+            <p>
+              <strong className="text-white">Legal Basis for Processing:</strong> We process your personal data on the following legal bases: (a) Contract performance — to provide the Service you subscribed to; (b) Legitimate interests — to improve our Service, prevent fraud, and ensure security; (c) Consent — for optional features such as marketing communications and non-essential cookies; (d) Legal obligation — to comply with applicable laws.
+            </p>
+            <p>
+              <strong className="text-white">Your Rights Under GDPR:</strong> In addition to the rights listed in Section 11, you have the right to: lodge a complaint with your local data protection authority (supervisory authority); request data portability (receive your data in a structured, commonly used, machine-readable format); restrict processing of your personal data; and object to processing based on legitimate interests.
+            </p>
+            <p>
+              <strong className="text-white">International Data Transfers:</strong> Your data may be transferred to and processed in the United States. We rely on Standard Contractual Clauses (SCCs) approved by the European Commission as our data transfer mechanism to ensure adequate protection of your data in accordance with GDPR Article 46.
+            </p>
+            <p>
+              <strong className="text-white">Data Controller:</strong> Stone AI, 4879 State Hwy 30, #183, Amsterdam, NY 12010, USA. For GDPR inquiries, contact privacy@stone-ai.net.
+            </p>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold text-white">16. Changes to This Policy</h2>
             <p>
               We may update this privacy policy from time to time. Material changes will be communicated
-              via email at least 14 days before taking effect. The "last updated" date at the top of this
+              via email at least 14 days before taking effect. The &quot;last updated&quot; date at the top of this
               page indicates when the policy was last revised.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg font-semibold text-white">16. Contact</h2>
+            <h2 className="text-lg font-semibold text-white">17. Contact</h2>
             <p>
-              For privacy-related questions or data requests, contact us at support@stone-ai.net.
+              For privacy-related questions or data requests, contact us at privacy@stone-ai.net or support@stone-ai.net.
+            </p>
+            <p>
+              Stone AI, 4879 State Hwy 30, #183, Amsterdam, NY 12010.
             </p>
           </section>
         </div>

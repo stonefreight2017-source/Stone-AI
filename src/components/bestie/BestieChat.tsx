@@ -90,10 +90,10 @@ const PATH_THEMES: Record<BestiePath, {
     userBubble: "bg-rose-600/90 text-white",
     userAvatar: "bg-rose-700/80 text-rose-100",
     accentText: "text-rose-400",
-    subtitleText: "text-zinc-500",
+    subtitleText: "text-zinc-400",
     subtitle: "Your Right Hand",
     sendButton: "bg-rose-600 hover:bg-rose-500",
-    placeholder: "placeholder:text-zinc-600",
+    placeholder: "placeholder:text-zinc-400",
   },
   colleague: {
     headerBg: "bg-zinc-900/80",
@@ -103,10 +103,10 @@ const PATH_THEMES: Record<BestiePath, {
     userBubble: "bg-blue-600/90 text-white",
     userAvatar: "bg-blue-700/80 text-blue-100",
     accentText: "text-blue-400",
-    subtitleText: "text-zinc-500",
+    subtitleText: "text-zinc-400",
     subtitle: "Business Operator",
     sendButton: "bg-blue-600 hover:bg-blue-500",
-    placeholder: "placeholder:text-zinc-600",
+    placeholder: "placeholder:text-zinc-400",
   },
   hybrid: {
     headerBg: "bg-zinc-900/80",
@@ -116,10 +116,10 @@ const PATH_THEMES: Record<BestiePath, {
     userBubble: "bg-amber-600/90 text-white",
     userAvatar: "bg-amber-700/80 text-amber-100",
     accentText: "text-amber-400",
-    subtitleText: "text-zinc-500",
+    subtitleText: "text-zinc-400",
     subtitle: "Full-Stack Partner",
     sendButton: "bg-amber-600 hover:bg-amber-500",
-    placeholder: "placeholder:text-zinc-600",
+    placeholder: "placeholder:text-zinc-400",
   },
   tutor: {
     headerBg: "bg-zinc-900/80",
@@ -129,10 +129,10 @@ const PATH_THEMES: Record<BestiePath, {
     userBubble: "bg-emerald-600/90 text-white",
     userAvatar: "bg-emerald-700/80 text-emerald-100",
     accentText: "text-emerald-400",
-    subtitleText: "text-zinc-500",
+    subtitleText: "text-zinc-400",
     subtitle: "Growth Advisor",
     sendButton: "bg-emerald-600 hover:bg-emerald-500",
-    placeholder: "placeholder:text-zinc-600",
+    placeholder: "placeholder:text-zinc-400",
   },
 };
 
@@ -149,7 +149,7 @@ function AvatarDisplay({ avatar, size = "sm" }: { avatar: string; size?: "sm" | 
     return (
       <img
         src={avatar}
-        alt=""
+        alt="AI companion avatar"
         className={`${sizeClasses} rounded-full object-cover ring-1 ring-white/10 shadow-sm`}
       />
     );
@@ -472,7 +472,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         </div>
         <div className="flex items-center gap-2">
           {messages.length > 0 && (
-            <div className="flex items-center gap-1 text-[10px] text-zinc-600">
+            <div className="flex items-center gap-1 text-[10px] text-zinc-400">
               <Brain className="h-3 w-3" />
               <span>Memory active</span>
             </div>
@@ -494,7 +494,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
                 size="icon"
                 className={cn(
                   "h-7 w-7",
-                  voiceEnabled ? "text-pink-400 hover:text-pink-300" : "text-zinc-500 hover:text-zinc-300"
+                  voiceEnabled ? "text-pink-400 hover:text-pink-300" : "text-zinc-400 hover:text-zinc-300"
                 )}
                 onClick={() => {
                   const next = !voiceEnabled;
@@ -525,13 +525,13 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
       {/* AI Disclosure Banner — legally required (NY/CA) */}
       {showDisclosure && (
         <div className="px-4 py-2.5 bg-zinc-900/80 border-b border-zinc-800 flex items-start gap-2.5">
-          <Info className="h-4 w-4 text-zinc-500 shrink-0 mt-0.5" />
+          <Info className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
           <div className="flex-1 text-xs text-zinc-400 leading-relaxed">
             <strong className="text-zinc-300">AI Disclosure:</strong> {bestieName} is an AI companion created by Stone AI. Not a real person, not a substitute for professional support. Crisis resources: {crisisResources}
           </div>
           <button
             onClick={() => setShowDisclosure(false)}
-            className="shrink-0 text-zinc-600 hover:text-zinc-400 p-0.5"
+            className="shrink-0 text-zinc-400 hover:text-zinc-400 p-0.5"
             aria-label="Dismiss disclosure"
           >
             <X className="h-3.5 w-3.5" />
@@ -544,7 +544,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         {allMessages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-3 text-center px-8">
             <div className="flex items-center justify-center"><AvatarDisplay avatar={bestieEmoji} size="lg" /></div>
-            <p className="text-zinc-500 text-sm max-w-md">
+            <p className="text-zinc-400 text-sm max-w-md">
               Start a conversation with <span className={cn("font-medium", theme.accentText)}>{bestieName}</span>.
             </p>
           </div>
@@ -585,7 +585,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
                       )}
                     </div>
                     {msg.role === "assistant" && (ttft || totalLatency) && (
-                      <div className="flex items-center gap-1.5 text-[10px] text-zinc-500">
+                      <div className="flex items-center gap-1.5 text-[10px] text-zinc-400">
                         <Zap className="h-2.5 w-2.5" />
                         {ttft && <span>First token: {formatLatency(ttft)}</span>}
                         {ttft && totalLatency && <span className="text-zinc-700">|</span>}
@@ -639,7 +639,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
                 {bestieName} is speaking...
                 <button
                   onClick={stopSpeaking}
-                  className="text-zinc-500 hover:text-white text-[10px] underline ml-1"
+                  className="text-zinc-400 hover:text-white text-[10px] underline ml-1"
                 >
                   Stop
                 </button>

@@ -144,7 +144,7 @@ export function ThinkingIndicator({ variant = "default" }: ThinkingIndicatorProp
           </div>
 
           {/* Elapsed time + floating ambient emoji */}
-          <div className="flex items-center gap-2 text-[10px] text-zinc-600">
+          <div className="flex items-center gap-2 text-[10px] text-zinc-400">
             <span>{(elapsed / 1000).toFixed(0)}s</span>
             <span className="text-xs opacity-60 transition-opacity duration-500">
               {ambient[ambientIndex]}

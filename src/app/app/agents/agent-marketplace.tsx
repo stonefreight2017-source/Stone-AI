@@ -110,7 +110,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
   if (loading) {
     return (
       <div className="flex-1 flex items-center justify-center">
-        <div className="animate-pulse text-zinc-500">Loading agents...</div>
+        <div className="animate-pulse text-zinc-400">Loading agents...</div>
       </div>
     );
   }
@@ -125,7 +125,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
             <h1 className="text-2xl font-bold">AI Agent Marketplace</h1>
           </div>
           <p className="text-zinc-400 max-w-2xl mb-2">
-            Expert AI agents that don't just chat — they <strong className="text-white">perform tasks</strong>,{" "}
+            Specialist AI agents that don't just chat — they <strong className="text-white">perform tasks</strong>,{" "}
             <strong className="text-white">generate deliverables</strong>, and{" "}
             <strong className="text-white">run business operations</strong>.
             Each agent learns your preferences and gets smarter every session.
@@ -160,13 +160,13 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
       <div className="px-6 py-4 border-b border-zinc-800">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
             <input
               type="text"
               placeholder="Search agents by name, skill, or use case..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-600"
+              className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-10 pr-4 py-2 text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-zinc-600"
               aria-label="Search agents"
             />
           </div>
@@ -191,7 +191,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
       {/* Agent Grid */}
       <div className="px-6 py-6">
         <div className="max-w-5xl mx-auto">
-          <p className="text-xs text-zinc-500 mb-4">
+          <p className="text-xs text-zinc-400 mb-4">
             {filtered.length} agent{filtered.length !== 1 ? "s" : ""} available
             {selectedCategory !== "ALL" && ` in ${CATEGORY_LABELS[selectedCategory]}`}
           </p>
@@ -217,7 +217,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
                       {agent.unlocked ? (
                         <IconComp className="h-5 w-5 text-amber-400" />
                       ) : (
-                        <Lock className="h-4 w-4 text-zinc-500" />
+                        <Lock className="h-4 w-4 text-zinc-400" />
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -298,7 +298,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center py-12 text-zinc-500">
+            <div className="text-center py-12 text-zinc-400">
               <Bot className="h-12 w-12 mx-auto mb-3 opacity-30" />
               <p>No agents match your search.</p>
             </div>

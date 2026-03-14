@@ -26,7 +26,7 @@ export function EmotePicker({ onSelect, className = "" }: EmotePickerProps) {
             className={`flex-1 px-2 py-2 text-[10px] font-medium transition-colors ${
               activeCategory === cat.key
                 ? "text-white bg-zinc-800 border-b-2 border-cyan-400"
-                : "text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50"
+                : "text-zinc-400 hover:text-zinc-300 hover:bg-zinc-800/50"
             }`}
           >
             {cat.label}

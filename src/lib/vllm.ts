@@ -84,14 +84,14 @@ export interface ModelOption {
 
 export const MODEL_REGISTRY: ModelOption[] = [
   {
-    id: "meta-llama/Llama-3.1-70B-Instruct",
-    name: "Llama 3.1 70B",
-    params: "70B",
-    quantization: "Q4_K_M",
-    vramGb: 22,
-    strengths: ["General", "Code", "Reasoning"],
-    benchmarkScore: 82,
-    speed: "medium",
+    id: "/mnt/c/models/qwen3-32b-awq",
+    name: "Qwen 2.5 32B",
+    params: "32B",
+    quantization: "AWQ",
+    vramGb: 18,
+    strengths: ["General", "Code", "Multilingual", "Reasoning"],
+    benchmarkScore: 86,
+    speed: "fast",
     recommended: true,
   },
   {
@@ -145,7 +145,7 @@ export const MODEL_REGISTRY: ModelOption[] = [
  */
 export function getCurrentModelConfig() {
   return {
-    modelId: process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct",
+    modelId: process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq",
     baseUrl: process.env.VLLM_BASE_URL ?? "http://127.0.0.1:8000/v1",
     maxConcurrent: parseInt(process.env.VLLM_MAX_CONCURRENT ?? "10", 10),
   };

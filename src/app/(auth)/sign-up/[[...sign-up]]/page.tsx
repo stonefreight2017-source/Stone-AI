@@ -14,7 +14,15 @@ function SignUpInner() {
     }
   }, [searchParams]);
 
-  return <SignUp />;
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <SignUp />
+      <p className="max-w-sm text-center text-xs text-zinc-400 px-4">
+        By signing up, you acknowledge that Stone AI is not HIPAA-compliant and
+        should not be used for protected health information.
+      </p>
+    </div>
+  );
 }
 
 export default function SignUpPage() {

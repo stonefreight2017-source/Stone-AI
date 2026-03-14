@@ -10,16 +10,16 @@ export const metadata: Metadata = {
 export default function CookiePolicyPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
+      <nav aria-label="Page navigation" className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
         <Link href="/" className="text-xl font-bold">Stone AI&trade;</Link>
         <Link href="/" className="text-sm text-zinc-400 hover:text-white flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
       </nav>
 
-      <main className="px-6 py-12 max-w-4xl mx-auto">
+      <main id="main-content" className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Cookie Policy</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 7, 2026</p>
+        <p className="text-zinc-400 text-sm mb-10">Last updated: March 7, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
@@ -69,7 +69,7 @@ export default function CookiePolicyPage() {
                   On ad-supported tiers (including the Free tier), third-party advertising services may set
                   cookies to deliver relevant ads and measure ad performance. Paid subscription tiers are
                   ad-free and do not receive advertising cookies. See our{" "}
-                  <Link href="/privacy" className="text-emerald-400 hover:underline">Privacy Policy</Link>{" "}
+                  <Link href="/privacy" className="text-emerald-400 underline">Privacy Policy</Link>{" "}
                   for details on advertising data practices.
                 </p>
               </div>
@@ -122,14 +122,14 @@ export default function CookiePolicyPage() {
             <h2 className="text-lg font-semibold text-white">6. Contact</h2>
             <p>
               Questions about cookies? Reach us at{" "}
-              <a href="mailto:support@stone-ai.net" className="text-emerald-400 hover:underline">support@stone-ai.net</a>.
+              <a href="mailto:support@stone-ai.net" className="text-emerald-400 underline">support@stone-ai.net</a>.
             </p>
           </section>
 
-          <section className="border-t border-zinc-800 pt-6 text-zinc-500">
+          <section className="border-t border-zinc-800 pt-6 text-zinc-400">
             <p>
-              See also: <Link href="/terms" className="text-emerald-400 hover:underline">Terms of Service</Link>{" · "}
-              <Link href="/privacy" className="text-emerald-400 hover:underline">Privacy Policy</Link>
+              See also: <Link href="/terms" className="text-emerald-400 underline">Terms of Service</Link>{" · "}
+              <Link href="/privacy" className="text-emerald-400 underline">Privacy Policy</Link>
             </p>
           </section>
         </div>

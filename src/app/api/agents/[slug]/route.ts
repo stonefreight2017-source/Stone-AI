@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { AGENT_CAPABILITIES } from "@/lib/agent-capabilities";
-import { canAccessAgent } from "@/lib/tier-config";
+import { canAccessAgent, isInternalAgent } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
 
 // GET /api/agents/[slug] — get agent details
@@ -14,12 +14,11 @@ export async function GET(
     const user = await getOrCreateUser();
     const { slug } = await params;
 
-    // Hidden agent slugs — internal use only, not shown to non-admin users
-    const HIDDEN_AGENTS = ["stone", "chaos"];
+    // Internal agents — Three Heads & Royal Guards, not shown to non-admin users
     const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
     const isAdmin = adminEmails.includes(user.email.toLowerCase());
 
-    if (!isAdmin && HIDDEN_AGENTS.includes(slug)) {
+    if (!isAdmin && isInternalAgent(slug)) {
       return NextResponse.json({ error: "Agent not found" }, { status: 404 });
     }
 
@@ -42,7 +41,7 @@ export async function GET(
       return NextResponse.json({ error: "Agent not found" }, { status: 404 });
     }
 
-    const unlocked = canAccessAgent(user.tier as Tier, agent.requiredTier as Tier);
+    const unlocked = canAccessAgent(user.tier as Tier, agent.requiredTier as Tier, agent.slug);
 
     const caps = AGENT_CAPABILITIES[agent.slug];
 

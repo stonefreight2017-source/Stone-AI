@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 interface AnimateOnScrollProps {
@@ -20,6 +20,7 @@ export function AnimateOnScroll({
 }: AnimateOnScrollProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const shouldReduce = useReducedMotion();
   // Safety net: if useInView never fires within 2s, force visible
   const [forceVisible, setForceVisible] = useState(false);
 
@@ -38,14 +39,14 @@ export function AnimateOnScroll({
     none: { y: 0, x: 0 },
   };
 
-  const { x, y } = directionMap[direction];
+  const { x, y } = shouldReduce ? { x: 0, y: 0 } : directionMap[direction];
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y, x }}
-      animate={shouldShow ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y, x }}
-      transition={{ duration, delay, ease: "easeOut" }}
+      initial={shouldReduce ? { opacity: 1 } : { opacity: 0, y, x }}
+      animate={shouldShow ? { opacity: 1, y: 0, x: 0 } : shouldReduce ? { opacity: 1 } : { opacity: 0, y, x }}
+      transition={{ duration: shouldReduce ? 0 : duration, delay: shouldReduce ? 0 : delay, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -66,6 +67,7 @@ export function StaggerChildren({
 }: StaggerChildrenProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const shouldReduce = useReducedMotion();
   // Safety net: if useInView never fires within 2s, force visible
   const [forceVisible, setForceVisible] = useState(false);
 
@@ -79,11 +81,11 @@ export function StaggerChildren({
   return (
     <motion.div
       ref={ref}
-      initial="hidden"
-      animate={shouldShow ? "visible" : "hidden"}
+      initial={shouldReduce ? "visible" : "hidden"}
+      animate={shouldShow ? "visible" : shouldReduce ? "visible" : "hidden"}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: staggerDelay } },
+        visible: { transition: { staggerChildren: shouldReduce ? 0 : staggerDelay } },
       }}
       className={className}
     >
@@ -99,11 +101,13 @@ export function StaggerItem({
   children: React.ReactNode;
   className?: string;
 }) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+        hidden: shouldReduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: shouldReduce ? 0 : 0.5, ease: "easeOut" } },
       }}
       className={className}
     >
@@ -121,11 +125,13 @@ export function FadeIn({
   className?: string;
   delay?: number;
 }) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
+      initial={shouldReduce ? { opacity: 1 } : { opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay, ease: "easeOut" }}
+      transition={{ duration: shouldReduce ? 0 : 0.8, delay: shouldReduce ? 0 : delay, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -142,11 +148,13 @@ export function SlideUp({
   className?: string;
   delay?: number;
 }) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={shouldReduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+      transition={{ duration: shouldReduce ? 0 : 0.7, delay: shouldReduce ? 0 : delay, ease: "easeOut" }}
       className={className}
     >
       {children}
@@ -155,14 +163,16 @@ export function SlideUp({
 }
 
 export function PulseGlow({ className }: { className?: string }) {
+  const shouldReduce = useReducedMotion();
+
   return (
     <motion.div
       className={className}
-      animate={{
+      animate={shouldReduce ? { opacity: 0.6, scale: 1 } : {
         opacity: [0.4, 0.8, 0.4],
         scale: [1, 1.05, 1],
       }}
-      transition={{
+      transition={shouldReduce ? { duration: 0 } : {
         duration: 3,
         repeat: Infinity,
         ease: "easeInOut",

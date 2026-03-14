@@ -80,10 +80,10 @@ export interface TierConfig {
  *
  * DB Enum  | Display Name | Monthly | Agents | Cloud AI         | Max API Cost/mo | Margin @100%
  * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
- * STARTER  | Builder      | $19.99  | 17     | 10/day           | ~$5.50          | 73%
- * PLUS     | Growth       | $49.99  | 17     | 15/day           | ~$12            | 76%
- * SMART    | Executive    | $99.99  | 34     | 30/day           | ~$27            | 73%
- * PRO      | Reseller     | $200    | 37     | 50/day           | ~$55            | 73%
+ * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
+ * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
+ * SMART    | Executive    | $99.99  | 39     | 30/day           | ~$27            | 73%
+ * PRO      | Reseller     | $200    | 42     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
  *
@@ -109,7 +109,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Free",
     price: 0,
     stripePriceEnvKey: null,
-    localModel: "meta-llama/Llama-3.1-70B-Instruct",
+    localModel: "/mnt/c/models/qwen3-32b-awq",
     agentCount: 4,
     tagline: "Explore AI with essential tools",
     limits: {
@@ -155,8 +155,8 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Builder",
     price: 19.99,
     stripePriceEnvKey: "STRIPE_PRICE_STARTER",
-    localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 17,
+    localModel: "/mnt/c/models/qwen3-32b-awq",
+    agentCount: 16,
     tagline: "Plan and start your business",
     limits: {
       messagesPerDay: 250,
@@ -180,10 +180,10 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       agentBuilder: false,
       referralMultiplier: 1,
       maxBesties: 1,
-      maxDocuments: 10,
-      webSearchesPerDay: 10,
-      codeExecutionsPerDay: 10,
-      fileUploadAnalysis: true,
+      maxDocuments: 0,             // Coming Soon — document upload not yet built
+      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
+      fileUploadAnalysis: false,   // Coming Soon
 
       voiceInteraction: false,
       pluginIntegrations: 0,
@@ -201,8 +201,8 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Growth",
     price: 49.99,
     stripePriceEnvKey: "STRIPE_PRICE_PLUS",
-    localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 17,
+    localModel: "/mnt/c/models/qwen3-32b-awq",
+    agentCount: 30,
     tagline: "Plan, start, and maintain your business",
     limits: {
       messagesPerDay: 500,
@@ -217,7 +217,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     },
     perks: {
       contextMessages: 40,
-      autoRouting: true,
+      autoRouting: false,          // Coming Soon — auto-routing not yet built
       conversationExport: true,
       priorityQueue: false,
       apiAccess: false,
@@ -226,13 +226,13 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       agentBuilder: false,
       referralMultiplier: 1,
       maxBesties: 1,
-      maxDocuments: 30,
-      webSearchesPerDay: 25,
-      codeExecutionsPerDay: 25,
-      fileUploadAnalysis: true,
+      maxDocuments: 0,             // Coming Soon — document upload not yet built
+      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
+      fileUploadAnalysis: false,   // Coming Soon
 
-      voiceInteraction: true,
-      pluginIntegrations: 5,
+      voiceInteraction: false,     // Coming Soon — voice interaction not yet built
+      pluginIntegrations: 0,       // Coming Soon — plugin integrations not yet built
       teamWorkspace: false,
       customModelFineTuning: false,
       soc2Compliance: false,
@@ -247,8 +247,8 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Executive",
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
-    localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 34,
+    localModel: "/mnt/c/models/qwen3-32b-awq",
+    agentCount: 39,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_000,
@@ -263,25 +263,25 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     },
     perks: {
       contextMessages: 60,
-      autoRouting: true,
+      autoRouting: false,          // Coming Soon — auto-routing not yet built
       conversationExport: true,
-      priorityQueue: true,
+      priorityQueue: false,        // Coming Soon — priority queue not yet built
       apiAccess: false,
       commercialLicense: true,
       earlyAccess: true,
-      agentBuilder: true,
+      agentBuilder: false,         // Coming Soon — agent builder not yet built
       referralMultiplier: 1.5,
       maxBesties: 1,
-      maxDocuments: 100,
-      webSearchesPerDay: 60,
-      codeExecutionsPerDay: 60,
-      fileUploadAnalysis: true,
+      maxDocuments: 0,             // Coming Soon — document upload not yet built
+      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
+      fileUploadAnalysis: false,   // Coming Soon
 
-      voiceInteraction: true,
-      pluginIntegrations: 10,
-      teamWorkspace: true,
+      voiceInteraction: false,     // Coming Soon — voice interaction not yet built
+      pluginIntegrations: 0,       // Coming Soon — plugin integrations not yet built
+      teamWorkspace: false,        // Coming Soon — team workspace not yet built
       customModelFineTuning: false,
-      soc2Compliance: true,
+      soc2Compliance: false,       // Coming Soon — requires actual SOC 2 certification
       hipaaCompliance: false,
       mobileApp: true,
     },
@@ -293,8 +293,8 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Reseller",
     price: 200,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
-    localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 37,
+    localModel: "/mnt/c/models/qwen3-32b-awq",
+    agentCount: 42,
     tagline: "Full platform access with reseller capabilities",
     limits: {
       messagesPerDay: 3_000,
@@ -309,26 +309,26 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     },
     perks: {
       contextMessages: 80,
-      autoRouting: true,
+      autoRouting: false,          // Coming Soon — auto-routing not yet built
       conversationExport: true,
-      priorityQueue: true,
+      priorityQueue: false,        // Coming Soon — priority queue not yet built
       apiAccess: true,
       commercialLicense: true,
       earlyAccess: true,
-      agentBuilder: true,
+      agentBuilder: false,         // Coming Soon — agent builder not yet built
       referralMultiplier: 2,
       maxBesties: 1,
-      maxDocuments: 500,
-      webSearchesPerDay: 150,
-      codeExecutionsPerDay: 150,
-      fileUploadAnalysis: true,
+      maxDocuments: 0,             // Coming Soon — document upload not yet built
+      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
+      fileUploadAnalysis: false,   // Coming Soon
 
-      voiceInteraction: true,
-      pluginIntegrations: 50,
-      teamWorkspace: true,
-      customModelFineTuning: true,
-      soc2Compliance: true,
-      hipaaCompliance: true,
+      voiceInteraction: false,     // Coming Soon — voice interaction not yet built
+      pluginIntegrations: 0,       // Coming Soon — plugin integrations not yet built
+      teamWorkspace: false,        // Coming Soon — team workspace not yet built
+      customModelFineTuning: false, // Coming Soon — custom model fine-tuning not yet built
+      soc2Compliance: false,       // Coming Soon — requires actual SOC 2 certification
+      hipaaCompliance: false,      // Coming Soon — requires actual HIPAA certification
       mobileApp: true,
     },
     allowedModes: ["LOCAL", "SMART", "PRIORITY"],
@@ -460,25 +460,52 @@ export function mapPriceToTier(priceId: string): Tier | null {
 }
 
 /**
- * Agent tier requirements — maps agent requiredTier to the
- * minimum tier needed to access it.
+ * Internal agent slugs — Three Heads, Royal Guards, and ops agents.
+ * These are NEVER accessible to regular users, regardless of tier.
+ * They are founder-only operational agents.
  *
- * FREE agents: available to all tiers
- * PLUS agents: available to STARTER (Builder) and above
- * SMART agents: available to PLUS (Growth) and above
- * PRO agents: available to PRO (Reseller) and above only
- *
- * Result: FREE=4, STARTER=17, PLUS=17, SMART=34, PRO=37 agents
+ * stone — Head 1 (The Owner)
+ * chaos — Head 3 / Agent #44 (The Vanguard, HIDDEN)
+ * cardinal — Head 2 (The Architect)
+ * rush — Royal Guard (The Breacher, FOUNDER-ONLY)
+ * computer-wiz — Royal Guard (The Diagnostician)
+ * executive-inbox-manager — Internal ops agent (founder-only)
  */
-export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier): boolean {
+export const INTERNAL_AGENT_SLUGS = ["stone", "chaos", "cardinal", "rush", "computer-wiz", "executive-inbox-manager"] as const;
+
+/**
+ * Check if an agent slug belongs to an internal (non-user-facing) agent.
+ * Internal agents: Stone (Head 1), Cardinal (Head 2), Chaos (Head 3),
+ * Rush (Royal Guard), Computer Wiz (Royal Guard), Executive Inbox Manager.
+ */
+export function isInternalAgent(slug: string): boolean {
+  return (INTERNAL_AGENT_SLUGS as readonly string[]).includes(slug);
+}
+
+/**
+ * Agent tier requirements — maps agent requiredTier to the
+ * minimum user tier needed to access it.
+ *
+ * requiredTier "FREE"    → all users (priority >= 0)         — 4 agents
+ * requiredTier "STARTER" → STARTER / Builder+ (priority >= 1) — +12 = 16 cumulative
+ * requiredTier "PLUS"    → PLUS / Growth+ (priority >= 2)     — +14 = 30 cumulative
+ * requiredTier "SMART"   → SMART / Executive+ (priority >= 3) — +9  = 39 cumulative
+ * requiredTier "PRO"     → PRO / Reseller only (priority >= 4) — +3  = 42 cumulative
+ *
+ * Internal agents (Stone, Cardinal, Chaos, Rush, Computer Wiz, Executive Inbox Manager)
+ * are EXCLUDED from user-facing access entirely — pass their slug to block them.
+ *
+ * Result: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=42 user-facing agents
+ */
+export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier, agentSlug?: string): boolean {
+  // Internal agents are NEVER accessible to regular users
+  if (agentSlug && isInternalAgent(agentSlug)) {
+    return false;
+  }
+
   const userPriority = TIER_CONFIG[userTier].priority;
   const requiredPriority = TIER_CONFIG[agentRequiredTier].priority;
-  // Special mapping: PLUS-required agents are available from STARTER (Builder)
-  // This allows the 13 "plan & start" agents to be available at Builder tier
-  if (agentRequiredTier === "PLUS") return userPriority >= 1; // STARTER+
-  if (agentRequiredTier === "SMART") return userPriority >= 2; // PLUS+
-  if (agentRequiredTier === "PRO") return userPriority >= 4;   // PRO+ only (not SMART)
-  return true; // FREE agents available to everyone
+  return userPriority >= requiredPriority;
 }
 
 // Display config for frontend

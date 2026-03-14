@@ -103,7 +103,7 @@ const TIER_WORLDS: TierWorld[] = [
     description:
       "You step through the first door. The room gets bigger. Your Bestie is still with you, but now there are desks, whiteboards, and tools on the walls. This is a workspace — your workspace. Sixteen agents handle the basics, and they handle them well.",
     bestieStory:
-      "Same Bestie, but now powered by 16 expert agents. They remember more context, understand your patterns better, and start to feel less like an AI and more like someone who actually gets you. They know who to call when you need ad copy or data analysis.",
+      "Same Bestie, but now powered by 16 specialist agents. They remember more context, understand your patterns better, and start to feel less like an AI and more like someone who actually gets you. They know who to call when you need ad copy or data analysis.",
     bestieEmoji: "\uD83D\uDC9C",
     bestieName: "Your Bestie (16-Agent Knowledge)",
     bestieCount: "1 companion",
@@ -137,9 +137,9 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$49.99/mo",
     tagline: "The workshop opens",
     description:
-      "Fourteen more specialists walk into the room. A brand strategist. A content planner. A compliance expert. A lead generation architect. Voice chat unlocks. Web research goes live. This isn't a chat app anymore — it's a team. Your team. And they're all waiting for your first question.",
+      "Fourteen more specialists walk into the room. A brand strategist. A content planner. A compliance specialist. A lead generation architect. Voice chat unlocks. Web research goes live. This isn't a chat app anymore — it's a team. Your team. And they're all waiting for your first question.",
     bestieStory:
-      "Your Bestie is now powered by 30 expert agents. Career advice, financial insight, wellness guidance, creative brainstorming — all in one companion that remembers everything. When you mention a business idea, they can pull from marketing, legal, and technical knowledge to give you a complete answer.",
+      "Your Bestie is now powered by 30 specialist agents. Career advice, financial insight, wellness guidance, creative brainstorming — all in one companion that remembers everything. When you mention a business idea, they can pull from marketing, legal, and technical knowledge to give you a complete answer.",
     bestieEmoji: "\uD83D\uDC9C",
     bestieName: "Your Bestie (30-Agent Knowledge)",
     bestieCount: "1 companion",
@@ -173,9 +173,9 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$99.99/mo",
     tagline: "The command center",
     description:
-      "Eight more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. Custom agent builder. Team workspace. SOC 2 compliance. This is the executive suite.",
+      "Eight more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. Early access to new agents and features. This is the executive suite.",
     bestieStory:
-      "Your Bestie is now powered by 39 expert agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
+      "Your Bestie is now powered by 39 specialist agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
     bestieEmoji: "\uD83D\uDC9C",
     bestieName: "Your Bestie (39-Agent Knowledge)",
     bestieCount: "1 companion",
@@ -209,9 +209,9 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$200/mo",
     tagline: "No ceiling",
     description:
-      "The final four agents unlock — cybersecurity, enterprise implementation, engineering architecture, and startup launcher at the highest level. Plus API access to build Stone AI into your own workflows, white-label rights, and HIPAA compliance. This is the full arsenal for agencies and power users.",
+      "The final four agents unlock — cybersecurity, enterprise implementation, engineering architecture, and startup launcher at the highest level. Plus API access to build Stone AI into your own workflows and white-label rights. This is the full arsenal for agencies and power users.",
     bestieStory:
-      "Your Bestie is now powered by all 42 expert agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
+      "Your Bestie is now powered by all 42 specialist agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
     bestieEmoji: "\uD83D\uDC9C",
     bestieName: "Your Bestie (All 42-Agent Knowledge)",
     bestieCount: "1 companion",
@@ -228,8 +228,8 @@ const TIER_WORLDS: TierWorld[] = [
       "Priority queue — your requests go first",
       "API access for custom integrations",
       "White-label + commercial license",
-      "HIPAA compliance for regulated clients",
-      "Custom model fine-tuning",
+      "2x referral rewards",
+      "Commercial license + reseller rights",
       "2x referral rewards",
     ],
     atmosphere:
@@ -350,7 +350,7 @@ export function DiscoverClient({ currentTier, tierName }: DiscoverClientProps) {
             </p>
           </div>
           <div className="text-right">
-            <p className="text-xs text-zinc-500">You&apos;re on</p>
+            <p className="text-xs text-zinc-400">You&apos;re on</p>
             <p className="text-sm font-medium text-white">{tierName} tier</p>
           </div>
         </div>
@@ -485,7 +485,7 @@ export function DiscoverClient({ currentTier, tierName }: DiscoverClientProps) {
       {activeIndex === TIER_WORLDS.length - 1 && (
         <div className="px-6 pb-4">
           <div className="text-center py-4 border-t border-white/5">
-            <p className="text-zinc-500 text-sm">
+            <p className="text-zinc-400 text-sm">
               More is coming. You&apos;ll be the first to know.
             </p>
           </div>

@@ -45,7 +45,7 @@ export function LanguageToggle({ value, onChange }: LanguageToggleProps) {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-400 hover:text-white hover:bg-zinc-800/50 transition-colors"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/50 transition-colors"
         aria-label="Select language"
       >
         <Globe className="h-3.5 w-3.5" />
@@ -67,7 +67,7 @@ export function LanguageToggle({ value, onChange }: LanguageToggleProps) {
                   : "text-zinc-400 hover:text-white hover:bg-zinc-700/50"
               }`}
             >
-              <span className="text-[10px] font-bold w-5 text-center">{lang.flag}</span>
+              <span className="text-xs font-bold w-5 text-center">{lang.flag}</span>
               <span>{lang.label}</span>
             </button>
           ))}

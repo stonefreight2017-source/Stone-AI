@@ -25,14 +25,14 @@ const upcomingPosts = [
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
+      <nav aria-label="Page navigation" className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
         <Link href="/" className="text-xl font-bold">Stone AI&trade;</Link>
         <Link href="/" className="text-sm text-zinc-400 hover:text-white flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
       </nav>
 
-      <main className="px-6 py-12 max-w-4xl mx-auto">
+      <main id="main-content" className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Blog</h1>
         <p className="text-zinc-400 text-sm mb-12">
           Insights, updates, and stories from the Stone AI team.
@@ -66,7 +66,7 @@ export default function BlogPage() {
               <p className="text-zinc-400 text-sm leading-relaxed flex-1">
                 {post.description}
               </p>
-              <p className="text-zinc-600 text-xs mt-4">{post.category}</p>
+              <p className="text-zinc-400 text-xs mt-4">{post.category}</p>
             </div>
           ))}
         </div>
@@ -85,7 +85,7 @@ export default function BlogPage() {
             <Mail className="h-4 w-4" />
             Subscribe for Updates
           </a>
-          <p className="text-zinc-600 text-xs mt-4">
+          <p className="text-zinc-400 text-xs mt-4">
             Or contact us at{" "}
             <a href="mailto:support@stone-ai.net" className="text-zinc-400 hover:text-white">
               support@stone-ai.net

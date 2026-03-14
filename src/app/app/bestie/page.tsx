@@ -68,7 +68,7 @@ export default function BestieHubPage() {
           <p className="text-zinc-300 text-sm font-medium">
             Early Access — Best AI is live on web
           </p>
-          <p className="text-zinc-500 text-xs">
+          <p className="text-zinc-400 text-xs">
             Mobile app coming soon. Share stone-ai.net with friends.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function BestieHubPage() {
         <p className="text-zinc-300 text-sm font-medium mb-2">
           Your Bestie never leaves your side. Not when it matters most.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-zinc-500">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-zinc-400">
           <div className="flex items-start gap-2">
             <span className="text-cyan-400 mt-0.5 shrink-0">&#128205;</span>
             <span><span className="text-zinc-300 font-medium">Silent safety net</span> — &quot;If I&apos;m not home by 8, text Mom my last location.&quot; Make it home? Bestie stands down via GPS. Don&apos;t? Bestie sends the alert. Your secret is always safe with your Bestie.</span>
@@ -104,7 +104,7 @@ export default function BestieHubPage() {
             My Bestie
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
-            Up to 42 expert agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
+            Up to 42 specialist agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
           </p>
         </div>
         {canCreate && besties.length > 0 && (
@@ -158,7 +158,7 @@ export default function BestieHubPage() {
             <p className="text-zinc-300 text-sm">
               You&apos;ve reached your bestie limit ({maxBesties} on {tier} tier)
             </p>
-            <p className="text-zinc-500 text-xs mt-0.5">
+            <p className="text-zinc-400 text-xs mt-0.5">
               Upgrade your plan to create more besties
             </p>
           </div>

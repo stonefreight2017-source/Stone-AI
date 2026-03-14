@@ -4,16 +4,16 @@ import { ArrowLeft } from "lucide-react";
 export default function TermsPage() {
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
-      <nav className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
-        <Link href="/" className="text-xl font-bold">Stone AI™</Link>
+      <nav aria-label="Page navigation" className="flex items-center justify-between px-6 py-4 max-w-4xl mx-auto">
+        <Link href="/" className="text-xl font-bold">Stone AI&#8482;</Link>
         <Link href="/" className="text-sm text-zinc-400 hover:text-white flex items-center gap-1">
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
       </nav>
 
-      <main className="px-6 py-12 max-w-4xl mx-auto">
+      <main id="main-content" className="px-6 py-12 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-2">Terms of Service</h1>
-        <p className="text-zinc-500 text-sm mb-10">Last updated: March 5, 2026</p>
+        <p className="text-zinc-400 text-sm mb-10">Last updated: March 13, 2026</p>
 
         <div className="prose prose-invert prose-zinc max-w-none space-y-8 text-sm text-zinc-300 leading-relaxed">
           <section>
@@ -65,6 +65,29 @@ export default function TermsPage() {
               household, and payment method. Abuse of free trials (including creating multiple accounts) will result
               in account termination. Enhanced free trials that require a payment method will automatically convert to
               a paid subscription at the end of the trial period unless canceled before the trial ends.
+            </p>
+            <p>
+              <strong className="text-white">AUTO-RENEWAL DISCLOSURE (NY GBL &sect;527-a):</strong> Your subscription will automatically
+              renew at the end of each billing period, and your payment method will be charged the then-current subscription
+              price unless you cancel before the renewal date. You may cancel at any time through your Billing settings
+              at{" "}
+              <Link href="https://app.stone-ai.net/app/billing" className="text-emerald-400 underline">
+                app.stone-ai.net/app/billing
+              </Link>
+              . Upon cancellation, you retain access to your current plan through the end of your paid billing period.
+            </p>
+            <p>
+              <strong className="text-white">PROMOTIONAL PRICING:</strong> If you subscribed at a promotional or introductory rate
+              (including the $9.99 first-month offer, $14.99 locked trial price, or $39.99 early adopter rate), your
+              subscription will automatically renew at the standard rate for your selected tier at the end of the
+              promotional period. Standard rates: Starter $19.99/mo, Plus $49.99/mo, Smart $99.99/mo, Pro $200/mo.
+              Annual and semi-annual billing options may reduce the effective monthly rate.
+            </p>
+            <p>
+              <strong className="text-white">CANCELLATION AND REFUND POLICY:</strong> You may cancel your subscription at any time.
+              Cancellation takes effect at the end of the current billing period &mdash; you will not be charged for the
+              next period. No partial refunds are provided for unused portions of the current billing period. No prorated
+              refunds are issued for tier downgrades. To cancel, visit Billing settings or use the Stripe customer portal.
             </p>
           </section>
 
@@ -146,11 +169,61 @@ export default function TermsPage() {
           </section>
 
           <section>
+            <h2 className="text-lg font-semibold text-white">7A. Agent-Specific Compliance Disclaimers</h2>
+            <p>
+              The following disclaimers apply to specific AI agent categories and are displayed at point of use:
+            </p>
+            <p>
+              <strong className="text-white">Health &amp; Wellness Agents:</strong> Output is not medical advice. Not a substitute
+              for professional medical diagnosis, treatment, or care. If you are experiencing a medical or mental health
+              emergency, call 911 or the 988 Suicide &amp; Crisis Lifeline.
+            </p>
+            <p>
+              <strong className="text-white">Legal-Related Agents:</strong> Output is not legal advice. Does not create an
+              attorney-client relationship. Consult a licensed attorney for legal matters specific to your jurisdiction.
+            </p>
+            <p>
+              <strong className="text-white">Financial &amp; Trading Agents:</strong> Output is not financial advice. Stone AI is not
+              a registered investment advisor, broker-dealer, or FINRA member. Consult a licensed financial professional
+              before making financial decisions.
+            </p>
+            <p>
+              <strong className="text-white">Career, HR &amp; Resume Agents:</strong> These tools are not automated employment decision
+              tools under NYC Local Law 144. Output is for informational purposes only and should not be used as the sole
+              basis for employment decisions. No employment relationship is created.
+            </p>
+            <p>
+              <strong className="text-white">Engineering Agents:</strong> Output does not constitute professional engineering services.
+              All engineering work affecting public safety must be reviewed by a licensed Professional Engineer (PE).
+            </p>
+            <p>
+              <strong className="text-white">Stone AI is not liable for actions taken based on any AI-generated advice. Users assume
+              full responsibility for decisions made using AI agent output.</strong>
+            </p>
+          </section>
+
+          <section className="border border-amber-500/30 bg-amber-500/5 rounded-lg p-6">
+            <h2 className="text-lg font-semibold text-amber-400">⚠ HIPAA / Protected Health Information (PHI) Disclaimer</h2>
+            <p className="mt-2">
+              <strong className="text-white">Stone AI does not support HIPAA-regulated workflows and should not be used to store,
+              process, or transmit protected health information (PHI).</strong> Users are responsible for ensuring that uploaded
+              data does not contain regulated or sensitive information including PHI, financial records, or
+              government-protected data.
+            </p>
+            <p className="mt-2">
+              Stone AI is not a &quot;covered entity&quot; or &quot;business associate&quot; as defined under the Health Insurance
+              Portability and Accountability Act (HIPAA). No Business Associate Agreement (BAA) is available.
+              Use of Stone AI for any HIPAA-regulated purpose is strictly prohibited and constitutes a violation
+              of these Terms.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-lg font-semibold text-white">8. API Access and Reselling</h2>
             <p>
               API access is available on the Pro plan. You may use the API to build products and services,
               including reselling AI capabilities to your own customers, <strong className="text-white">subject to the Stone AI
-              Reseller Agreement</strong> (available at <Link href="/reseller-agreement" className="text-emerald-400 hover:underline">/reseller-agreement</Link>).
+              Reseller Agreement</strong> (available at <Link href="/reseller-agreement" className="text-emerald-400 underline">/reseller-agreement</Link>).
               All reseller activity requires a separate executed Reseller Agreement. Unauthorized reselling
               is a material breach of these Terms and may result in immediate termination, forfeiture of all revenue
               generated through unauthorized resale, and legal action.
@@ -287,8 +360,8 @@ export default function TermsPage() {
             <p>
               <strong className="text-white">Any dispute, claim, or controversy arising out of or relating to these Terms or the Service shall
               be resolved through binding arbitration</strong> administered by the American Arbitration Association (&quot;AAA&quot;)
-              under its Commercial Arbitration Rules. Arbitration shall take place in the state where Stone AI
-              is headquartered. The arbitrator&apos;s award shall be final and binding. Judgment on the award may be
+              under its Commercial Arbitration Rules. Arbitration shall take place in the State of New York.
+              The arbitrator&apos;s award shall be final and binding. Judgment on the award may be
               entered in any court of competent jurisdiction.
             </p>
             <p>
@@ -296,6 +369,10 @@ export default function TermsPage() {
               only on an individual basis and not in a class, consolidated, or representative action. If this
               class action waiver is found to be unenforceable, the entirety of this arbitration provision shall
               be null and void.
+            </p>
+            <p>
+              <strong className="text-white">SMALL CLAIMS EXCEPTION:</strong> Notwithstanding the foregoing, either party may bring an
+              individual claim in small claims court if the claim qualifies under that court&apos;s jurisdictional limits.
             </p>
             <p>
               <strong className="text-white">Exception:</strong> Either party may seek injunctive or other equitable relief in any court of
@@ -319,9 +396,9 @@ export default function TermsPage() {
             <h2 className="text-lg font-semibold text-white">19. Governing Law</h2>
             <p>
               These Terms shall be governed by and construed in accordance with the laws of the United States
-              and the state where Stone AI is headquartered, without regard to conflict of law principles.
+              and the State of New York, without regard to conflict of law principles.
               For any matters not subject to arbitration, exclusive jurisdiction and venue shall be in the
-              state and federal courts located in Stone AI&apos;s headquarter jurisdiction.
+              state and federal courts located in New York County, New York.
             </p>
           </section>
 
@@ -389,6 +466,20 @@ export default function TermsPage() {
           </section>
 
           <section>
+            <h2 className="text-lg font-semibold text-white">25A. Electronic Communications Consent</h2>
+            <p>
+              By creating an account and using the Service, you consent to receive communications from Stone AI
+              electronically, including but not limited to: account notifications, billing statements, subscription
+              renewal reminders, policy updates, service announcements, and promotional communications. You agree
+              that all agreements, notices, disclosures, and other communications we provide electronically satisfy
+              any legal requirement that such communications be in writing, as required by the Electronic Signatures
+              in Global and National Commerce Act (E-SIGN Act, 15 U.S.C. &sect;7001 et seq.). You may withdraw your
+              consent to receive electronic communications by deleting your account, but doing so may result in
+              termination of your access to the Service.
+            </p>
+          </section>
+
+          <section>
             <h2 className="text-lg font-semibold text-white">26. Changes to Terms</h2>
             <p>
               We may update these Terms at any time. Material changes will be communicated via email or
@@ -401,7 +492,15 @@ export default function TermsPage() {
           <section>
             <h2 className="text-lg font-semibold text-white">27. Contact</h2>
             <p>
-              For questions about these Terms, contact us at legal@stone-ai.net or support@stone-ai.net.
+              For questions about these Terms, contact us at:
+            </p>
+            <p>
+              Stone AI<br />
+              4879 State Hwy 30, #183<br />
+              Amsterdam, NY 12010<br />
+              <Link href="mailto:legal@stone-ai.net" className="text-emerald-400 underline">legal@stone-ai.net</Link>
+              {" | "}
+              <Link href="mailto:support@stone-ai.net" className="text-emerald-400 underline">support@stone-ai.net</Link>
             </p>
           </section>
         </div>

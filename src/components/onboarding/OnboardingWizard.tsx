@@ -301,7 +301,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
           {/* Skip — less prominent, tucked away */}
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-400 text-xs"
           >
             skip for now
           </button>
@@ -335,7 +335,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
               <div key={item.label} className="p-4 rounded-xl bg-zinc-900/60 border border-zinc-800 space-y-2">
                 <item.icon className="h-5 w-5 text-amber-400" />
                 <p className="text-sm font-medium text-white">{item.label}</p>
-                <p className="text-xs text-zinc-500">{item.desc}</p>
+                <p className="text-xs text-zinc-400">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -348,7 +348,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
             Let&apos;s Get Started <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
 
-          <p className="text-[10px] text-zinc-600">
+          <p className="text-[10px] text-zinc-400">
             Need help? Email support@stone-ai.net anytime — we&apos;ll walk you through everything.
           </p>
         </div>
@@ -363,7 +363,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="max-w-2xl w-full text-center space-y-8">
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-400 text-xs"
           >
             skip for now
           </button>
@@ -395,11 +395,11 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
                       : "bg-zinc-900/60 border-zinc-800 hover:border-zinc-600"
                   }`}
                 >
-                  <goal.icon className={`h-5 w-5 mb-2 ${selected ? "text-amber-400" : "text-zinc-500"}`} />
+                  <goal.icon className={`h-5 w-5 mb-2 ${selected ? "text-amber-400" : "text-zinc-400"}`} />
                   <p className={`text-sm font-medium ${selected ? "text-white" : "text-zinc-300"}`}>
                     {goal.label}
                   </p>
-                  <p className="text-xs text-zinc-500 mt-1">{goal.description}</p>
+                  <p className="text-xs text-zinc-400 mt-1">{goal.description}</p>
                   {selected && (
                     <div className="mt-2">
                       <Check className="h-4 w-4 text-amber-400" />
@@ -442,7 +442,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="max-w-2xl w-full text-center space-y-8">
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-400 text-xs"
           >
             skip for now
           </button>
@@ -470,7 +470,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
                   </div>
                   <div>
                     <p className="text-sm font-medium text-white">{agent.name}</p>
-                    <p className="text-xs text-zinc-500">{agent.desc}</p>
+                    <p className="text-xs text-zinc-400">{agent.desc}</p>
                   </div>
                 </div>
                 <Button
@@ -485,7 +485,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
             ))}
           </div>
 
-          <p className="text-xs text-zinc-600">
+          <p className="text-xs text-zinc-400">
             You can access all 42 agents anytime from the sidebar.
           </p>
 
@@ -513,7 +513,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         <div className="max-w-xl w-full text-center space-y-8">
           <button
             onClick={handleSkip}
-            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-500 text-xs"
+            className="absolute top-6 right-6 text-zinc-700 hover:text-zinc-400 text-xs"
           >
             skip for now
           </button>
@@ -552,10 +552,10 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
                   <p className="text-base font-medium text-white group-hover:text-amber-300 transition-colors">
                     {preset.name}
                   </p>
-                  <p className="text-xs text-zinc-500 mt-1 capitalize">
+                  <p className="text-xs text-zinc-400 mt-1 capitalize">
                     {preset.traits.join(", ")}
                   </p>
-                  <p className="text-[10px] text-zinc-500/60 mt-1 capitalize">{preset.style} style</p>
+                  <p className="text-[10px] text-zinc-400/60 mt-1 capitalize">{preset.style} style</p>
                 </button>
               ))}
             </div>
@@ -607,7 +607,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
               <tip.icon className="h-5 w-5 text-amber-400 mt-0.5 shrink-0" />
               <div>
                 <p className="text-sm font-medium text-white">{tip.label}</p>
-                <p className="text-xs text-zinc-500">{tip.desc}</p>
+                <p className="text-xs text-zinc-400">{tip.desc}</p>
               </div>
             </div>
           ))}

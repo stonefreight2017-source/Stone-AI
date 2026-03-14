@@ -90,7 +90,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
             )}
             <div>
               <h3 className="font-semibold text-white text-lg">{bestie.name}</h3>
-              <p className="text-xs text-zinc-500">
+              <p className="text-xs text-zinc-400">
                 {STYLE_LABELS[bestie.personality.style] ?? bestie.personality.style}
               </p>
             </div>
@@ -99,7 +99,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-zinc-500 hover:text-red-400"
+              className="h-8 w-8 text-zinc-400 hover:text-red-400"
               onClick={handleDelete}
               disabled={isDeleting}
               aria-label="Delete bestie"
@@ -128,7 +128,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
             <Badge
               key={exp}
               variant="outline"
-              className="text-[10px] border-zinc-700 text-zinc-500 bg-zinc-800/30"
+              className="text-[10px] border-zinc-700 text-zinc-400 bg-zinc-800/30"
             >
               {exp}
             </Badge>
@@ -137,7 +137,7 @@ export function BestieCard({ bestie, onDelete }: BestieCardProps) {
 
         {/* Stats + Chat */}
         <div className="flex items-center justify-between">
-          <span className="text-xs text-zinc-500">
+          <span className="text-xs text-zinc-400">
             {bestie.conversationCount} conversation{bestie.conversationCount !== 1 ? "s" : ""}
           </span>
           <Button

@@ -81,7 +81,7 @@ export default function LandingPage() {
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
             42 AI specialists. Local GPU inference. Your data stays yours.
           </p>
-          <p className="text-base text-zinc-500 max-w-md mx-auto mb-10">
+          <p className="text-base text-zinc-400 max-w-md mx-auto mb-10">
             One platform. Instant responses. Starting at $0.
           </p>
 
@@ -107,16 +107,16 @@ export default function LandingPage() {
       <section className="px-4 sm:px-6 pb-12 max-w-4xl mx-auto">
         <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { value: "<100ms", label: "Response time", sub: "Local mode" },
-            { value: "70B", label: "Parameters", sub: "Open-weight model" },
-            { value: "$0", label: "Local messages", sub: "Unlimited" },
+            { value: "<100ms", label: "First token", sub: "Local mode" },
+            { value: "32B", label: "Parameters", sub: "Open-weight model" },
+            { value: "$0", label: "Local messages", sub: "No per-msg cost" },
             { value: "42", label: "AI specialists", sub: "Every department" },
           ].map((s) => (
             <StaggerCard key={s.label}>
               <div className="text-center p-4 sm:p-5 rounded-xl bg-zinc-800/50 border border-zinc-700/50">
                 <p className="text-2xl sm:text-3xl font-bold text-white">{s.value}</p>
                 <p className="text-xs text-zinc-400 mt-1">{s.label}</p>
-                <p className="text-[10px] text-zinc-600">{s.sub}</p>
+                <p className="text-xs text-zinc-400">{s.sub}</p>
               </div>
             </StaggerCard>
           ))}
@@ -158,29 +158,29 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <p className="font-bold text-white">Stone Engine (Local)</p>
-                    <p className="text-xs text-zinc-500">Default on all tiers</p>
+                    <p className="text-xs text-zinc-400">Default on all tiers</p>
                   </div>
                 </div>
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Sub-100ms response time</span>
+                    <span>Sub-100ms time to first token</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Data never leaves your network</span>
+                    <span>In Local Mode, data never leaves our servers</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>Unlimited messages (no per-token cost)</span>
+                    <span>No per-message cost — daily limits apply</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-emerald-400 shrink-0" />
-                    <span>70B parameter open-weight model</span>
+                    <span>32B parameter open-weight model</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 rounded-lg bg-zinc-700/30">
-                  <p className="text-xs text-zinc-400">Best for: everyday work, sensitive data, unlimited usage</p>
+                  <p className="text-xs text-zinc-400">Best for: everyday work, sensitive data, generous daily limits</p>
                 </div>
               </Card>
             </AnimateOnScroll>
@@ -193,7 +193,7 @@ export default function LandingPage() {
                   </div>
                   <div>
                     <p className="font-bold text-white">Smart Mode (Cloud)</p>
-                    <p className="text-xs text-zinc-500">Opt-in on Builder+ tiers</p>
+                    <p className="text-xs text-zinc-400">Opt-in on Builder+ tiers</p>
                   </div>
                 </div>
                 <div className="space-y-3 text-sm text-zinc-300">
@@ -224,13 +224,13 @@ export default function LandingPage() {
           {/* 3 steps */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
-              { step: "1", title: "Sign up free", desc: "No credit card. Instant access to 4 agents and unlimited local AI." },
-              { step: "2", title: "Chat locally", desc: "Messages go to our GPU. Sub-100ms responses. Your data stays private." },
+              { step: "1", title: "Sign up free", desc: "No credit card. Instant access to 4 agents and generous daily limits." },
+              { step: "2", title: "Chat locally", desc: "Messages go to our GPU. Sub-100ms first token. Your data stays private in Local Mode." },
               { step: "3", title: "Add Smart mode", desc: "Upgrade to unlock GPT-4o, more agents, and cloud AI when you choose." },
             ].map((s) => (
               <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5">
-                  <span className="text-3xl font-bold text-zinc-700">{s.step}</span>
+                  <span className="text-3xl font-bold text-zinc-500">{s.step}</span>
                   <h3 className="font-bold text-white mt-2 mb-1">{s.title}</h3>
                   <p className="text-sm text-zinc-400 leading-relaxed">{s.desc}</p>
                 </div>
@@ -265,7 +265,7 @@ export default function LandingPage() {
               42 specialists. <span className="text-zinc-400">Zero salaries.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              Each agent is a domain expert with persistent memory and industry frameworks.
+              Each agent is a domain specialist with persistent memory and industry frameworks.
               They produce client-ready deliverables — not generic AI output.
             </p>
           </ScrollSection>
@@ -277,7 +277,7 @@ export default function LandingPage() {
                 <Rocket className="h-6 w-6 text-white" />
                 <div>
                   <h3 className="text-lg font-bold">Launch a business this week</h3>
-                  <p className="text-sm text-zinc-500">5 agents, 5 days, revenue-ready</p>
+                  <p className="text-sm text-zinc-400">5 agents, 5 days, revenue-ready</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
@@ -289,9 +289,9 @@ export default function LandingPage() {
                   { day: "Fri", agent: "Marketing", task: "Ads & funnels" },
                 ].map((s) => (
                   <div key={s.day} className="rounded-lg bg-zinc-700/30 p-3 sm:p-4">
-                    <span className="text-[10px] text-zinc-500 uppercase font-semibold">{s.day}</span>
+                    <span className="text-xs text-zinc-400 uppercase font-semibold">{s.day}</span>
                     <p className="text-sm font-semibold text-white mt-1">{s.agent}</p>
-                    <p className="text-xs text-zinc-500 mt-0.5">{s.task}</p>
+                    <p className="text-xs text-zinc-400 mt-0.5">{s.task}</p>
                   </div>
                 ))}
               </div>
@@ -305,7 +305,7 @@ export default function LandingPage() {
                 <Network className="h-6 w-6 text-white" />
                 <div>
                   <h3 className="text-lg font-bold">One idea, twelve deliverables</h3>
-                  <p className="text-sm text-zinc-500">Agents build on each other&apos;s output</p>
+                  <p className="text-sm text-zinc-400">Agents build on each other&apos;s output</p>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
@@ -336,9 +336,9 @@ export default function LandingPage() {
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4 h-full">
                   <cat.icon className={`h-5 w-5 ${cat.color} mb-2`} />
                   <h3 className="font-semibold text-sm mb-1">
-                    {cat.title} <span className="text-zinc-600">({cat.count})</span>
+                    {cat.title} <span className="text-zinc-400">({cat.count})</span>
                   </h3>
-                  <p className="text-xs text-zinc-500">{cat.examples}</p>
+                  <p className="text-xs text-zinc-400">{cat.examples}</p>
                 </div>
               </StaggerCard>
             ))}
@@ -355,7 +355,7 @@ export default function LandingPage() {
                 <div key={item.title} className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
                   <item.icon className={`h-5 w-5 ${item.color} mb-2`} />
                   <h4 className="text-sm font-semibold mb-1">{item.title}</h4>
-                  <p className="text-xs text-zinc-500 leading-relaxed">{item.desc}</p>
+                  <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -392,7 +392,7 @@ export default function LandingPage() {
                   <item.icon className="h-8 w-8 text-pink-400 mx-auto mb-3" />
                   <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
                   <p className="text-xs text-zinc-400 leading-relaxed mb-3">{item.desc}</p>
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium ${
+                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
                     item.status === "Live"
                       ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
                       : "bg-amber-500/10 border border-amber-500/20 text-amber-400"
@@ -407,7 +407,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll>
             <div className="text-center">
-              <p className="text-sm text-zinc-500 mb-4">
+              <p className="text-sm text-zinc-400 mb-4">
                 Create yours in 3 steps. Choose a personality, pick a name, start talking.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 text-lg px-8 font-semibold">
@@ -436,7 +436,7 @@ export default function LandingPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Before */}
                 <div>
-                  <p className="text-xs text-zinc-500 uppercase tracking-wider font-semibold mb-4">Without Stone AI</p>
+                  <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold mb-4">Without Stone AI</p>
                   <div className="space-y-3">
                     {[
                       { task: "Client proposal", time: "2.0 hours" },
@@ -447,7 +447,7 @@ export default function LandingPage() {
                     ].map((t) => (
                       <div key={t.task} className="flex items-center justify-between py-2 border-b border-zinc-700/30">
                         <span className="text-sm text-zinc-400">{t.task}</span>
-                        <span className="text-sm text-zinc-500 font-mono">{t.time}</span>
+                        <span className="text-sm text-zinc-400 font-mono">{t.time}</span>
                       </div>
                     ))}
                     <div className="pt-2">
@@ -490,7 +490,7 @@ export default function LandingPage() {
           {/* Impact summary */}
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { value: "88%", label: "Time saved", sub: "on routine tasks" },
+              { value: "40%+", label: "Faster workflows", sub: "AI-assisted task completion" },
               { value: "42", label: "Specialists", sub: "across departments" },
               { value: "$0", label: "Local cost", sub: "per message" },
               { value: "24/7", label: "Available", sub: "no sick days" },
@@ -499,7 +499,7 @@ export default function LandingPage() {
                 <div className="text-center p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30">
                   <p className="text-2xl font-bold text-white">{s.value}</p>
                   <p className="text-xs text-zinc-400 mt-1">{s.label}</p>
-                  <p className="text-[10px] text-zinc-600">{s.sub}</p>
+                  <p className="text-xs text-zinc-400">{s.sub}</p>
                 </div>
               </StaggerCard>
             ))}
@@ -527,7 +527,7 @@ export default function LandingPage() {
                   Prompt templates, workflow combos, and agent setups from daily users.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-500 italic">
+                  <p className="text-xs text-zinc-400 italic">
                     &quot;Chained Proposal + Sales Agent. Closed $12K in 3 days.&quot;
                   </p>
                 </div>
@@ -541,7 +541,7 @@ export default function LandingPage() {
                   Businesses launched, deals closed, products shipped. Real results.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-500 italic">
+                  <p className="text-xs text-zinc-400 italic">
                     &quot;Built my SaaS MVP in 2 weeks. First customer on day 16.&quot;
                   </p>
                 </div>
@@ -555,7 +555,7 @@ export default function LandingPage() {
                   No gatekeeping. Ask a question, get answers from people who&apos;ve done it.
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-500 italic">
+                  <p className="text-xs text-zinc-400 italic">
                     &quot;Asked about onboarding automation. Got 4 detailed agent combos.&quot;
                   </p>
                 </div>
@@ -577,7 +577,7 @@ export default function LandingPage() {
               ].map((c) => (
                 <div key={c.name} className="text-center p-2.5 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-zinc-600/50 transition-colors">
                   <c.icon className={`h-4 w-4 ${c.color} mx-auto mb-1`} />
-                  <p className="text-[11px] text-zinc-400 font-medium">{c.name}</p>
+                  <p className="text-xs text-zinc-400 font-medium">{c.name}</p>
                 </div>
               ))}
             </div>
@@ -672,7 +672,7 @@ export default function LandingPage() {
               ].map((item) => (
                 <div key={item.label} className="text-center p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30">
                   <p className="text-xs font-medium text-zinc-300 mb-1">{item.label}</p>
-                  <span className={`text-[10px] font-semibold ${item.live ? "text-emerald-400" : "text-amber-400"}`}>
+                  <span className={`text-xs font-semibold ${item.live ? "text-emerald-400" : "text-amber-400"}`}>
                     {item.live ? "Live" : "Coming Soon"}
                   </span>
                 </div>
@@ -691,7 +691,7 @@ export default function LandingPage() {
                 <Link href="#pricing">Compare Plans</Link>
               </Button>
             </div>
-            <p className="text-xs text-zinc-600">No credit card. No trial. No catch.</p>
+            <p className="text-xs text-zinc-400">No credit card. Free tier: 4 agents, 100 msgs/day, ad-supported.</p>
           </AnimateOnScroll>
         </div>
       </section>
@@ -701,13 +701,13 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
             <span className="text-lg font-bold">Stone AI&#8482;</span>
-            <p className="text-sm text-zinc-500 mt-2 leading-relaxed">
+            <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
               Local-first AI for businesses that move.
             </p>
           </div>
           <div>
             <p className="text-sm font-semibold text-zinc-300 mb-3">Product</p>
-            <ul className="space-y-2 text-sm text-zinc-500">
+            <ul className="space-y-2 text-sm text-zinc-400">
               <li><Link href="/sign-up" className="hover:text-white transition-colors">AI Agents</Link></li>
               <li><Link href="/sign-up" className="hover:text-white transition-colors">AI Bestie</Link></li>
               <li><Link href="#pricing" className="hover:text-white transition-colors">Pricing</Link></li>
@@ -716,7 +716,7 @@ export default function LandingPage() {
           </div>
           <div>
             <p className="text-sm font-semibold text-zinc-300 mb-3">Company</p>
-            <ul className="space-y-2 text-sm text-zinc-500">
+            <ul className="space-y-2 text-sm text-zinc-400">
               <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
               <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
               <li><a href="mailto:support@stone-ai.net" className="hover:text-white transition-colors">Contact</a></li>
@@ -724,7 +724,7 @@ export default function LandingPage() {
           </div>
           <div>
             <p className="text-sm font-semibold text-zinc-300 mb-3">Legal</p>
-            <ul className="space-y-2 text-sm text-zinc-500">
+            <ul className="space-y-2 text-sm text-zinc-400">
               <li><Link href="/terms" className="hover:text-white transition-colors">Terms</Link></li>
               <li><Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link></li>
               <li><Link href="/security" className="hover:text-white transition-colors">Security</Link></li>
@@ -732,8 +732,8 @@ export default function LandingPage() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-xs text-zinc-600">&copy; 2026 Stone AI&#8482;. All rights reserved.</span>
-          <span className="text-xs text-zinc-600">Local-first AI infrastructure</span>
+          <span className="text-xs text-zinc-400">&copy; 2026 Stone AI&#8482;. All rights reserved.</span>
+          <span className="text-xs text-zinc-400">Local-first AI infrastructure</span>
         </div>
       </footer>
     </div>

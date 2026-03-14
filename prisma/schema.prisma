@@ -79,6 +79,8 @@ model User {
   referrals      Referral[]     @relation("Referrer")
   referredUsers  Referral[]     @relation("ReferredUser")
   bestieProfiles BestieProfile[]
+  feedbackSignals FeedbackSignal[]
+  journeyEvents  UserJourney[]
 }
 
 model Conversation {
@@ -95,6 +97,7 @@ model Conversation {
   agent    Agent?         @relation(fields: [agentId], references: [id], onDelete: SetNull)
   bestie   BestieProfile? @relation(fields: [bestieId], references: [id], onDelete: SetNull)
   messages Message[]
+  feedbackSignals FeedbackSignal[]
 
   @@index([userId, updatedAt])
   @@index([agentId])
@@ -242,19 +245,21 @@ model Agent {
   knowledgeChunks AgentKnowledgeChunk[]
   memories        AgentMemory[]
   conversations   Conversation[]
+  longMemories    AgentMemoryLong[]
 
   @@index([category])
   @@index([requiredTier])
 }
 
 model AgentKnowledgeChunk {
-  id        String   @id @default(cuid())
-  agentId   String
-  title     String
-  content   String   @db.Text
-  source    String?
-  embedding Unsupported("vector(768)")?
-  createdAt DateTime @default(now())
+  id             String   @id @default(cuid())
+  agentId        String
+  title          String
+  content        String   @db.Text
+  source         String?
+  embedding      Unsupported("vector(768)")?
+  embeddingModel String?  @default("unknown")
+  createdAt      DateTime @default(now())
 
   agent Agent @relation(fields: [agentId], references: [id], onDelete: Cascade)
 
@@ -444,4 +449,90 @@ model BestieMemory {
 
   @@unique([bestieId, userId, key])
   @@index([bestieId, userId])
+}
+
+// ═══════════════════════════════════════════
+// MASTERPIECE ENHANCEMENT MODELS
+// ═══════════════════════════════════════════
+
+model FeedbackSignal {
+  id               String       @id @default(cuid())
+  userId           String
+  conversationId   String
+  messageId        String
+  signal           String
+  agentSlug        String
+  userMessage      String       @db.Text
+  assistantMessage String       @db.Text
+  createdAt        DateTime     @default(now())
+  user             User         @relation(fields: [userId], references: [id])
+  conversation     Conversation @relation(fields: [conversationId], references: [id])
+}
+
+model SemanticCache {
+  id             String                      @id @default(cuid())
+  agentSlug      String
+  queryEmbedding Unsupported("vector(768)")?
+  queryText      String                      @db.Text
+  responseText   String                      @db.Text
+  hitCount       Int                         @default(0)
+  lastHitAt      DateTime?
+  createdAt      DateTime                    @default(now())
+  updatedAt      DateTime                    @updatedAt
+  @@index([agentSlug])
+}
+
+model AgentMemoryLong {
+  id             String    @id @default(cuid())
+  agentId        String
+  userId         String
+  tier           String
+  key            String
+  value          String    @db.Text
+  importance     Float     @default(0.5)
+  accessCount    Int       @default(0)
+  lastAccessedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  agent          Agent     @relation(fields: [agentId], references: [id])
+  @@index([agentId, userId, tier])
+  @@unique([agentId, userId, key, tier])
+}
+
+model QualityScore {
+  id            String   @id @default(cuid())
+  messageId     String
+  agentSlug     String
+  relevance     Float
+  accuracy      Float
+  completeness  Float
+  tone          Float
+  overallScore  Float
+  flagged       Boolean  @default(false)
+  createdAt     DateTime @default(now())
+}
+
+model UserJourney {
+  id        String   @id @default(cuid())
+  userId    String
+  agentSlug String
+  action    String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  @@index([userId, createdAt])
+}
+
+model ArenaMatch {
+  id          String   @id @default(cuid())
+  queryText   String   @db.Text
+  agentSlugA  String
+  agentSlugB  String
+  responseA   String   @db.Text
+  responseB   String   @db.Text
+  winnerSlug  String?
+  judgeScoreA Float?
+  judgeScoreB Float?
+  judgeReason String?  @db.Text
+  createdAt   DateTime @default(now())
 }

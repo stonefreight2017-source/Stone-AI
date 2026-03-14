@@ -49,12 +49,14 @@ export function AppShell({ children, userTier, userBadges = [], backdropTheme = 
             >
               <PanelLeft className="h-4 w-4" />
             </Button>
-            <span
-              className="ml-2 text-sm font-medium text-zinc-300 cursor-pointer hover:text-white transition-colors"
+            <button
+              type="button"
+              aria-label="Go to homepage"
+              className="ml-2 text-sm font-medium text-zinc-300 hover:text-white transition-colors bg-transparent border-none p-0"
               onClick={() => router.push("/")}
             >
               Stone AI
-            </span>
+            </button>
             <Button
               variant="ghost"
               size="icon"
@@ -69,6 +71,11 @@ export function AppShell({ children, userTier, userBadges = [], backdropTheme = 
 
         {/* Page content */}
         <main className="flex-1 min-h-0">{children}</main>
+
+        {/* HIPAA / compliance notice */}
+        <div className="px-4 py-1.5 text-center text-[11px] text-zinc-500 border-t border-zinc-800/50">
+          Stone AI provides AI assistance, not professional advice. Not for HIPAA-regulated data.
+        </div>
       </div>
     </div>
   );

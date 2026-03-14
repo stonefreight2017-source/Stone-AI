@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Cpu, Cloud, AlertTriangle, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAppStore } from "@/store/app-store";
@@ -20,6 +20,8 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
   const { selectedMode, setSelectedMode } = useAppStore();
   const [showWarning, setShowWarning] = useState(false);
   const [smartUsage, setSmartUsage] = useState<SmartUsage | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   // Fetch SMART usage when component mounts and mode is available
   const fetchSmartUsage = useCallback(async () => {
@@ -46,6 +48,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
   function handleModeClick(modeKey: "LOCAL" | "SMART") {
     if (modeKey === "SMART" && selectedMode !== "SMART") {
       // Show warning before switching to SMART
+      triggerRef.current = document.activeElement as HTMLButtonElement;
       setShowWarning(true);
       fetchSmartUsage(); // Refresh count
       return;
@@ -53,10 +56,59 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
     setSelectedMode(modeKey);
   }
 
+  function closeDialog() {
+    setShowWarning(false);
+    triggerRef.current?.focus();
+  }
+
   function confirmSmart() {
     setShowWarning(false);
+    triggerRef.current?.focus();
     setSelectedMode("SMART");
   }
+
+  // Focus trap for the warning dialog
+  useEffect(() => {
+    if (!showWarning || !dialogRef.current) return;
+
+    const dialog = dialogRef.current;
+    const focusableSelector =
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const focusableElements = dialog.querySelectorAll<HTMLElement>(focusableSelector);
+    if (focusableElements.length === 0) return;
+
+    const firstFocusable = focusableElements[0];
+    const lastFocusable = focusableElements[focusableElements.length - 1];
+
+    // Focus first element on open
+    firstFocusable.focus();
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeDialog();
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable.focus();
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showWarning]);
 
   const modes = [
     {
@@ -102,7 +154,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
                     : "bg-emerald-700/40 text-emerald-200 ring-1 ring-emerald-500/30"
                   : isAllowed
                     ? "text-zinc-400 hover:text-zinc-200"
-                    : "text-zinc-600 cursor-not-allowed"
+                    : "text-zinc-400 cursor-not-allowed"
               )}
             >
               <Icon className="h-3 w-3" />
@@ -142,7 +194,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
               style={{ width: `${Math.min(usagePercent, 100)}%` }}
             />
           </div>
-          <p className="text-[8px] text-zinc-500 mt-1">
+          <p className="text-[8px] text-zinc-400 mt-1">
             Each Smart message counts as {smartUsage.smartCostMultiplier}x toward daily limit
           </p>
         </div>
@@ -150,21 +202,22 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
 
       {/* Warning dialog when switching to SMART */}
       {showWarning && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-zinc-900 border border-amber-700/50 rounded-xl p-5 max-w-sm w-full shadow-2xl">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" role="dialog" aria-modal="true" aria-labelledby="smart-mode-title">
+          <div ref={dialogRef} className="bg-zinc-900 border border-amber-700/50 rounded-xl p-5 max-w-sm w-full shadow-2xl">
             <div className="flex items-start gap-3 mb-4">
               <div className="h-10 w-10 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0">
                 <AlertTriangle className="h-5 w-5 text-amber-400" />
               </div>
               <div>
-                <h3 className="font-semibold text-white text-sm">Switch to Smart Mode?</h3>
+                <h3 id="smart-mode-title" className="font-semibold text-white text-sm">Switch to Smart Mode?</h3>
                 <p className="text-xs text-zinc-400 mt-1">
                   Smart mode uses cloud AI (GPT-4o) which costs significantly more.
                 </p>
               </div>
               <button
-                onClick={() => setShowWarning(false)}
-                className="text-zinc-500 hover:text-white ml-auto"
+                onClick={closeDialog}
+                aria-label="Close dialog"
+                className="text-zinc-400 hover:text-white ml-auto"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -208,7 +261,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
                 variant="outline"
                 size="sm"
                 className="flex-1 border-zinc-700 text-zinc-300"
-                onClick={() => setShowWarning(false)}
+                onClick={closeDialog}
               >
                 Stay on Local
               </Button>

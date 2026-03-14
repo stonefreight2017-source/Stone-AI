@@ -61,7 +61,7 @@ const GETTING_STARTED = [
       "Go to \"Billing\" in the sidebar to see your current plan and usage.",
       "Free plan: Local AI chat with generous daily usage — no credit card needed.",
       "Starter ($9.99/mo): 4x faster speed, longer responses, extended context.",
-      "Plus ($29.99/mo): 11 AI Expert Agents, 2 concurrent chats, conversation export.",
+      "Plus ($29.99/mo): 11 AI Specialist Agents, 2 concurrent chats, conversation export.",
       "Smart ($69.99/mo): 26 agents, GPT-4o Smart mode, cloud fallback so it never goes down.",
       "Pro ($199/mo): All 30 agents, API access, priority speed, 10 concurrent chats.",
       "You can upgrade or downgrade anytime. No contracts.",
@@ -139,7 +139,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "How do AI Agents work?",
-    a: "Each agent is a pre-configured AI specialist with built-in knowledge about its domain. When you start a conversation with an agent, it uses a custom prompt and a knowledge base to give you expert-level responses. Agents also remember your preferences across conversations, so they get more useful over time.",
+    a: "Each agent is a pre-configured AI specialist with built-in knowledge about its domain. When you start a conversation with an agent, it uses a custom prompt and a knowledge base to give you specialist-level responses. Agents also remember your preferences across conversations, so they get more useful over time.",
   },
   {
     q: "What is the API and who is it for?",
@@ -219,7 +219,7 @@ export function SupportClient({ userTier, userEmail }: SupportClientProps) {
 
       {/* Search */}
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
         <input
           type="text"
           value={searchQuery}
@@ -266,9 +266,9 @@ export function SupportClient({ userTier, userEmail }: SupportClientProps) {
                   <span className="font-medium text-white">{guide.title}</span>
                 </div>
                 {expandedGuide === i ? (
-                  <ChevronDown className="h-4 w-4 text-zinc-500" />
+                  <ChevronDown className="h-4 w-4 text-zinc-400" />
                 ) : (
-                  <ChevronRight className="h-4 w-4 text-zinc-500" />
+                  <ChevronRight className="h-4 w-4 text-zinc-400" />
                 )}
               </button>
               {expandedGuide === i && (
@@ -319,7 +319,7 @@ export function SupportClient({ userTier, userEmail }: SupportClientProps) {
           {filteredFaq.length === 0 ? (
             <Card className="bg-zinc-900 border-zinc-800">
               <CardContent className="py-8 text-center">
-                <p className="text-zinc-500 text-sm">
+                <p className="text-zinc-400 text-sm">
                   No results found for "{searchQuery}". Try different keywords or{" "}
                   <a href="#feedback" className="text-blue-400 hover:underline">
                     send us a message
@@ -337,9 +337,9 @@ export function SupportClient({ userTier, userEmail }: SupportClientProps) {
                 >
                   <span className="font-medium text-white text-sm">{item.q}</span>
                   {expandedFaq === i ? (
-                    <ChevronDown className="h-4 w-4 text-zinc-500 shrink-0 mt-0.5" />
+                    <ChevronDown className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
                   ) : (
-                    <ChevronRight className="h-4 w-4 text-zinc-500 shrink-0 mt-0.5" />
+                    <ChevronRight className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
                   )}
                 </button>
                 {expandedFaq === i && (
@@ -417,10 +417,10 @@ export function SupportClient({ userTier, userEmail }: SupportClientProps) {
                     className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
                   />
                   <div className="flex items-center justify-between mt-1">
-                    <p className="text-xs text-zinc-600">
+                    <p className="text-xs text-zinc-400">
                       We'll respond to {userEmail}
                     </p>
-                    <p className="text-xs text-zinc-600">{feedbackMessage.length}/5,000</p>
+                    <p className="text-xs text-zinc-400">{feedbackMessage.length}/5,000</p>
                   </div>
                 </div>
 
@@ -449,7 +449,7 @@ export function SupportClient({ userTier, userEmail }: SupportClientProps) {
             <Shield className="h-5 w-5 text-green-400 shrink-0 mt-0.5" />
             <div>
               <h4 className="text-sm font-semibold text-zinc-300 mb-1">Your data is safe</h4>
-              <p className="text-xs text-zinc-500 leading-relaxed">
+              <p className="text-xs text-zinc-400 leading-relaxed">
                 Stone AI™ processes your conversations on local hardware. On the Free and Starter plans,
                 your data never touches third-party servers. We use bank-grade encryption (AES-256-GCM)
                 and follow enterprise security practices from Cloudflare, Stripe, and Signal.

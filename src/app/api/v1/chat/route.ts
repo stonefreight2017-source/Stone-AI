@@ -1,259 +1,427 @@
+/**
+ * Stone AI Public API v1 Chat Endpoint
+ *
+ * OpenAI-compatible chat completions API authenticated via Bearer API keys.
+ * This endpoint does NOT use Clerk auth; it uses api-keys.ts for auth.
+ *
+ * MIDDLEWARE NOTE: /api/v1/(.*) is already in the public routes list in
+ * src/middleware.ts, so Clerk will not intercept these requests.
+ *
+ * Format (OpenAI-compatible):
+ *   POST /api/v1/chat
+ *   Authorization: Bearer sk_stone_...
+ *   { model?, messages: [{role, content}], stream?, agent?, mode? }
+ *
+ * Response (non-streaming):
+ *   { id, object: "chat.completion", created, model, choices, usage }
+ *
+ * Response (streaming):
+ *   SSE stream of { id, object: "chat.completion.chunk", choices: [{delta}] }
+ */
 import { NextRequest } from "next/server";
-import { streamText } from "ai";
+import { streamText, generateText } from "ai";
+import { z } from "zod";
 import { authenticateApiKey } from "@/lib/api-keys";
 import { db } from "@/lib/db";
-import { chatMessageSchema } from "@/lib/validators";
-import { getTierConfig, canAccessAgent, isModeAllowed } from "@/lib/tier-config";
-import { checkRateLimit } from "@/lib/rate-limiter";
-import { checkQuota, checkSmartQuota, incrementDailyUsage, incrementSmartUsage, decrementFreeSmartCredits, recordTokenUsage } from "@/lib/quota";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
-import { buildRagContext } from "@/lib/embeddings";
-import { buildMemoryContext } from "@/lib/agent-memory";
-import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
-import { logAuditEvent, getClientIp } from "@/lib/audit";
-import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
-import { VERIFICATION_BLOCK } from "@/lib/agent-shared-prompts";
+import { getTierConfig, canAccessAgent } from "@/lib/tier-config";
+import {
+  checkQuota,
+  checkSmartQuota,
+  incrementDailyUsage,
+  incrementSmartUsage,
+  decrementFreeSmartCredits,
+  recordTokenUsage,
+} from "@/lib/quota";
 import type { Tier } from "@/lib/tier-config";
-import type { Role, Mode } from "@/generated/prisma/enums";
 
-// POST /api/v1/chat — API key authenticated chat endpoint
+// ---------------------------------------------------------------------------
+// Request schema - OpenAI-compatible with Stone AI extensions
+// ---------------------------------------------------------------------------
+const chatRequestSchema = z
+  .object({
+    model: z.string().optional(),
+    messages: z
+      .array(
+        z.object({
+          role: z.enum(["system", "user", "assistant"]),
+          content: z.string(),
+        })
+      )
+      .min(1),
+    stream: z.boolean().optional().default(false),
+    max_tokens: z.number().int().positive().optional(),
+    temperature: z.number().min(0).max(2).optional(),
+    // Stone AI extensions
+    agent: z.string().optional(),
+    mode: z.enum(["LOCAL", "SMART"]).optional().default("LOCAL"),
+  })
+  .strict();
+
+// ---------------------------------------------------------------------------
+// Error helper - OpenAI-compatible error envelope
+// ---------------------------------------------------------------------------
+function apiError(
+  message: string,
+  type: string,
+  code: string,
+  status: number
+) {
+  return Response.json({ error: { message, type, code } }, { status });
+}
+
+// ---------------------------------------------------------------------------
+// Generate a completion ID
+// ---------------------------------------------------------------------------
+function completionId(): string {
+  return "chatcmpl-" + crypto.randomUUID().replace(/-/g, "").slice(0, 24);
+}
+
+// ---------------------------------------------------------------------------
+// OPTIONS handler for CORS preflight
+// ---------------------------------------------------------------------------
+export async function OPTIONS() {
+  return new Response(null, { status: 204 });
+}
+
+// ---------------------------------------------------------------------------
+// POST /api/v1/chat
+// ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
+  const startTime = Date.now();
+
+  // 1. Authenticate via Bearer token
+  const authHeader = req.headers.get("authorization");
+  const user = await authenticateApiKey(authHeader);
+  if (!user) {
+    return apiError(
+      "Invalid or missing API key. Provide a valid Bearer token.",
+      "authentication_error",
+      "invalid_api_key",
+      401
+    );
+  }
+
+  // Banned check
+  if (user.banned) {
+    return apiError(
+      "Account suspended.",
+      "authentication_error",
+      "account_suspended",
+      403
+    );
+  }
+
+  // 2. Check API access perk
+  const tier = user.tier as Tier;
+  const tierConfig = getTierConfig(tier);
+  if (!tierConfig.perks.apiAccess) {
+    return apiError(
+      "API access requires a tier with API access enabled. Current tier: " + tier,
+      "permission_error",
+      "api_access_denied",
+      403
+    );
+  }
+
+  // 3. Parse and validate request body
+  let body: unknown;
   try {
-    // 1. Authenticate via API key
-    const user = await authenticateApiKey(req.headers.get("authorization"));
-    if (!user) {
-      logAuditEvent({
-        event: "api_key.invalid",
-        ip: getClientIp(req.headers),
-      });
-      return Response.json({ error: "Invalid API key" }, { status: 401 });
-    }
+    body = await req.json();
+  } catch {
+    return apiError(
+      "Invalid JSON in request body.",
+      "invalid_request_error",
+      "invalid_json",
+      400
+    );
+  }
 
-    // 1b. Check banned status
-    if (user.banned) {
-      logAuditEvent({
-        event: "auth.banned_access",
-        userId: user.id,
-        ip: getClientIp(req.headers),
-      });
-      return Response.json({ error: "Account suspended" }, { status: 403 });
-    }
+  const parsed = chatRequestSchema.safeParse(body);
+  if (!parsed.success) {
+    const firstIssue = parsed.error.issues[0];
+    const path = firstIssue?.path.join(".") ?? "unknown";
+    const msg = firstIssue?.message ?? "validation failed";
+    return apiError(
+      "Invalid request: " + path + " - " + msg,
+      "invalid_request_error",
+      "invalid_params",
+      400
+    );
+  }
 
-    const tier = user.tier as Tier;
-    if (tier !== "PRO") {
-      return Response.json(
-        { error: "API access requires Pro tier" },
-        { status: 403 }
-      );
-    }
+  const {
+    messages,
+    stream,
+    max_tokens,
+    agent: agentSlug,
+    mode,
+  } = parsed.data;
 
-    const tierConfig = getTierConfig(tier);
+  // 4. Resolve agent (optional)
+  let systemPrompt = SYSTEM_PROMPT;
+  let agentRecord: {
+    id: string;
+    slug: string;
+    name: string;
+    systemPrompt: string;
+    requiredTier: string;
+  } | null = null;
 
-    // 2. Parse input
-    let body: unknown;
-    try {
-      body = await req.json();
-    } catch {
-      return Response.json({ error: "Invalid JSON" }, { status: 400 });
-    }
-
-    const parsed = chatMessageSchema.safeParse(body);
-    if (!parsed.success) {
-      return Response.json({ error: "Invalid input" }, { status: 400 });
-    }
-
-    const { message: rawMessage, conversationId, mode } = parsed.data;
-
-    // 2b. Sanitize user input
-    const message = sanitizeUserInput(rawMessage);
-
-    // 3. Verify conversation ownership — include agent data
-    const conversation = await db.conversation.findFirst({
-      where: { id: conversationId, userId: user.id },
+  if (agentSlug) {
+    agentRecord = await db.agent.findFirst({
+      where: { slug: agentSlug, isActive: true },
       select: {
         id: true,
-        title: true,
-        agentId: true,
-        agent: {
-          select: {
-            id: true,
-            slug: true,
-            name: true,
-            systemPrompt: true,
-            requiredTier: true,
-          },
-        },
-        messages: {
-          orderBy: { createdAt: "asc" },
-          select: { role: true, content: true },
-        },
+        slug: true,
+        name: true,
+        systemPrompt: true,
+        requiredTier: true,
       },
     });
 
-    if (!conversation) {
-      return Response.json({ error: "Conversation not found" }, { status: 404 });
-    }
-
-    // 3b. Agent tier enforcement
-    if (conversation.agent) {
-      if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier)) {
-        logAuditEvent({
-          event: "agent.access_denied",
-          userId: user.id,
-          metadata: {
-            agentSlug: conversation.agent.slug,
-            requiredTier: conversation.agent.requiredTier,
-          },
-        });
-        return Response.json(
-          { error: `This agent requires ${conversation.agent.requiredTier} tier or higher` },
-          { status: 403 }
-        );
-      }
-    }
-
-    // 3c. Mode access check
-    if (!isModeAllowed(tier, mode)) {
-      return Response.json(
-        { error: `${mode} mode not available on your plan` },
-        { status: 403 }
+    if (!agentRecord) {
+      return apiError(
+        "Agent not found or inactive: " + agentSlug,
+        "invalid_request_error",
+        "agent_not_found",
+        404
       );
     }
 
-    // 3d. SMART mode hard cap — protect margins from cloud API abuse
-    if (mode === "SMART") {
-      const smartQuota = await checkSmartQuota(user.id, tier);
-      if (!smartQuota.allowed) {
-        logAuditEvent({
-          event: "smart.quota_exceeded",
-          userId: user.id,
-          metadata: { endpoint: "v1/chat", smartSentToday: smartQuota.smartMessagesSentToday },
-        });
-        return Response.json(
-          {
-            error: "Smart mode quota exceeded",
-            smartUsage: { sent: smartQuota.smartMessagesSentToday, limit: smartQuota.smartMessagesPerDay },
-            creditPacks: [
-              { credits: 10, price: 1.99 },
-              { credits: 25, price: 3.99 },
-              { credits: 50, price: 6.99 },
-            ],
-          },
-          { status: 429 }
-        );
-      }
+    // Tier enforcement for agent access
+    if (
+      !canAccessAgent(
+        tier,
+        agentRecord.requiredTier as Tier,
+        agentRecord.slug
+      )
+    ) {
+      return apiError(
+        "Agent requires " + agentRecord.requiredTier + " tier or higher. Your tier: " + tier,
+        "permission_error",
+        "agent_tier_required",
+        403
+      );
     }
 
-    // 4. Rate limit
-    const rateCheck = checkRateLimit(`api:${user.id}`, tierConfig.limits.requestsPerMinute);
-    if (!rateCheck.allowed) {
-      logAuditEvent({
-        event: "rate_limit.hit",
-        userId: user.id,
-        metadata: { endpoint: "v1/chat" },
+    systemPrompt = agentRecord.systemPrompt;
+  }
+
+  // 5. SMART mode quota check
+  if (mode === "SMART") {
+    const smartQuota = await checkSmartQuota(user.id, tier);
+    if (!smartQuota.allowed) {
+      const quotaMsg = tier === "FREE"
+        ? "Free SMART trial credits exhausted. Use LOCAL mode or upgrade."
+        : "SMART daily limit reached (" + smartQuota.smartMessagesPerDay + "/day). Use LOCAL mode or upgrade.";
+      return apiError(quotaMsg, "rate_limit_error", "smart_quota_exceeded", 429);
+    }
+  }
+
+  // 6. General quota check
+  const quota = await checkQuota(user.id, tier);
+  if (!quota.allowed) {
+    return apiError(
+      "Usage quota exceeded. Messages today: " +
+        quota.messagesSentToday + "/" + quota.messagesPerDay +
+        ". Tokens this month: " +
+        quota.tokensUsedThisMonth + "/" + quota.tokensPerMonth,
+      "rate_limit_error",
+      "quota_exceeded",
+      429
+    );
+  }
+
+  // 7. Increment usage counters
+  if (mode === "SMART") {
+    if (tier === "FREE") {
+      await decrementFreeSmartCredits(user.id);
+    }
+    await incrementSmartUsage(user.id);
+  } else {
+    await incrementDailyUsage(user.id);
+  }
+
+  // 8. Build messages array for the model
+  // If the caller provides their own system message, skip our system prompt
+  const hasSystemMessage = messages.some((m) => m.role === "system");
+  const modelMessages = messages.map((m) => ({
+    role: m.role as "system" | "user" | "assistant",
+    content: m.content,
+  }));
+
+  // 9. Select model and determine token limits
+  const model = getModel(mode, tierConfig.localModel);
+  const maxTokens =
+    max_tokens ??
+    (mode === "SMART" && tierConfig.limits.smartMaxResponseTokens > 0
+      ? tierConfig.limits.smartMaxResponseTokens
+      : tierConfig.limits.maxResponseTokens);
+
+  // Trim context to tier limit
+  const contextLimit =
+    mode === "SMART" && tierConfig.limits.smartContextMessages > 0
+      ? tierConfig.limits.smartContextMessages
+      : tierConfig.perks.contextMessages;
+  const trimmedMessages = modelMessages.slice(-contextLimit);
+
+  const id = completionId();
+  const created = Math.floor(Date.now() / 1000);
+  const modelName =
+    mode === "SMART"
+      ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
+      : (process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct");
+
+  // ---------------------------------------------------------------------------
+  // 10a. Streaming response (SSE, OpenAI-compatible)
+  // ---------------------------------------------------------------------------
+  if (stream) {
+    try {
+      const streamResult = streamText({
+        model,
+        system: hasSystemMessage ? undefined : systemPrompt,
+        messages: trimmedMessages,
+        maxOutputTokens: maxTokens,
+        onFinish: async ({ usage: tokenUsage }) => {
+          await recordTokenUsage(
+            user.id,
+            tokenUsage?.inputTokens ?? 0,
+            tokenUsage?.outputTokens ?? 0,
+            mode
+          );
+        },
       });
-      return Response.json(
-        { error: "Rate limited", retryAfterMs: rateCheck.retryAfterMs },
-        { status: 429 }
+
+      // Convert AI SDK text stream to OpenAI SSE format
+      const encoder = new TextEncoder();
+      const readable = new ReadableStream({
+        async start(controller) {
+          try {
+            for await (const chunk of (await streamResult).textStream) {
+              const payload = {
+                id,
+                object: "chat.completion.chunk",
+                created,
+                model: modelName,
+                choices: [
+                  {
+                    index: 0,
+                    delta: { content: chunk },
+                    finish_reason: null,
+                  },
+                ],
+              };
+              controller.enqueue(
+                encoder.encode("data: " + JSON.stringify(payload) + "\n\n")
+              );
+            }
+
+            // Final chunk with finish_reason
+            const finalPayload = {
+              id,
+              object: "chat.completion.chunk",
+              created,
+              model: modelName,
+              choices: [
+                {
+                  index: 0,
+                  delta: {},
+                  finish_reason: "stop",
+                },
+              ],
+            };
+            controller.enqueue(
+              encoder.encode("data: " + JSON.stringify(finalPayload) + "\n\n")
+            );
+            controller.enqueue(encoder.encode("data: [DONE]\n\n"));
+            controller.close();
+          } catch {
+            const errPayload = {
+              error: {
+                message: "Stream interrupted. Please retry.",
+                type: "server_error",
+                code: "stream_error",
+              },
+            };
+            controller.enqueue(
+              encoder.encode("data: " + JSON.stringify(errPayload) + "\n\n")
+            );
+            controller.close();
+          }
+        },
+      });
+
+      return new Response(readable, {
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+          Connection: "keep-alive",
+          "X-Latency-Ms": String(Date.now() - startTime),
+        },
+      });
+    } catch {
+      return apiError(
+        "Failed to connect to AI service. Please retry.",
+        "server_error",
+        "model_unavailable",
+        503
       );
     }
+  }
 
-    // 5. Quota check
-    const quota = await checkQuota(user.id, tier);
-    if (!quota.allowed) {
-      return Response.json({ error: "Quota exceeded" }, { status: 429 });
-    }
-
-    // 6. Save user message
-    await db.message.create({
-      data: {
-        conversationId: conversation.id,
-        role: "USER" as Role,
-        content: message,
-        mode: mode as Mode,
-      },
-    });
-
-    if (mode === "SMART") {
-      await incrementSmartUsage(user.id);
-    } else {
-      await incrementDailyUsage(user.id);
-    }
-
-    // 7. Build history — enforce context window limit
-    const contextLimit = tierConfig.perks.contextMessages;
-    const allMessages = conversation.messages;
-    const recentMessages = allMessages.slice(-contextLimit);
-
-    const history = recentMessages.map((m) => ({
-      role: m.role.toLowerCase() as "user" | "assistant" | "system",
-      content: m.content,
-    }));
-    history.push({ role: "user", content: message });
-
-    // 8. Build system prompt (agent-aware with RAG + memory + security)
-    let basePrompt = SYSTEM_PROMPT;
-
-    if (conversation.agent) {
-      const agent = conversation.agent;
-      basePrompt = agent.systemPrompt;
-
-      const ragContext = await buildRagContext(agent.id, message, tier);
-      if (ragContext) basePrompt += ragContext;
-
-      const memoryContext = await buildMemoryContext(agent.id, user.id);
-      if (memoryContext) basePrompt += memoryContext;
-
-      // Inject professional disclaimers for regulated domains
-      const disclaimers = getDisclaimerPrompts(agent.slug);
-      if (disclaimers) basePrompt += disclaimers;
-    }
-
-    // Inject verification protocol (applies to all agents)
-    basePrompt += "\n\n" + VERIFICATION_BLOCK;
-
-    const systemPrompt = wrapSystemPrompt(basePrompt);
-
-    // 9. Stream
-    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
-
-    const result = streamText({
+  // ---------------------------------------------------------------------------
+  // 10b. Non-streaming response
+  // ---------------------------------------------------------------------------
+  try {
+    const result = await generateText({
       model,
-      system: systemPrompt,
-      messages: history,
-      maxOutputTokens: tierConfig.limits.maxResponseTokens,
-      onFinish: async ({ text, usage: tokenUsage }) => {
-        await db.message.create({
-          data: {
-            conversationId: conversation.id,
-            role: "ASSISTANT" as Role,
-            content: text,
-            mode: mode as Mode,
-            model: mode === "SMART"
-              ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
-              : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
-            tokensIn: tokenUsage?.inputTokens ?? 0,
-            tokensOut: tokenUsage?.outputTokens ?? 0,
-          },
-        });
-
-        await recordTokenUsage(
-          user.id,
-          tokenUsage?.inputTokens ?? 0,
-          tokenUsage?.outputTokens ?? 0,
-          mode as "LOCAL" | "SMART"
-        );
-
-        await db.conversation.update({
-          where: { id: conversation.id },
-          data: { updatedAt: new Date() },
-        });
-      },
+      system: hasSystemMessage ? undefined : systemPrompt,
+      messages: trimmedMessages,
+      maxOutputTokens: maxTokens,
     });
 
-    return result.toTextStreamResponse();
-  } catch (error) {
-    console.error("POST /api/v1/chat:", error instanceof Error ? error.message : "Unknown error");
-    return Response.json({ error: "Internal server error" }, { status: 500 });
+    const text = result.text ?? "";
+    const promptTokens = result.usage?.inputTokens ?? 0;
+    const completionTokens = result.usage?.outputTokens ?? 0;
+
+    // Record usage
+    await recordTokenUsage(user.id, promptTokens, completionTokens, mode);
+
+    return Response.json(
+      {
+        id,
+        object: "chat.completion",
+        created,
+        model: modelName,
+        choices: [
+          {
+            index: 0,
+            message: {
+              role: "assistant",
+              content: text,
+            },
+            finish_reason: "stop",
+          },
+        ],
+        usage: {
+          prompt_tokens: promptTokens,
+          completion_tokens: completionTokens,
+          total_tokens: promptTokens + completionTokens,
+        },
+      },
+      {
+        headers: {
+          "X-Latency-Ms": String(Date.now() - startTime),
+        },
+      }
+    );
+  } catch {
+    return apiError(
+      "Failed to generate response. Please retry.",
+      "server_error",
+      "model_unavailable",
+      503
+    );
   }
 }

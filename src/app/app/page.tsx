@@ -51,7 +51,7 @@ export default function AppPage() {
           <h1 className="text-3xl font-semibold text-zinc-100 mb-2">
             What can I help with?
           </h1>
-          <p className="text-sm text-zinc-500">
+          <p className="text-sm text-zinc-400">
             Choose a suggestion or start typing below.
           </p>
         </div>
@@ -64,12 +64,12 @@ export default function AppPage() {
               onClick={() => handleSuggestion(s.prompt)}
               className="flex items-start gap-3 p-4 rounded-xl bg-zinc-800/50 border border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700 transition-all text-left group"
             >
-              <s.icon className="h-5 w-5 text-zinc-500 group-hover:text-amber-400 transition-colors shrink-0 mt-0.5" />
+              <s.icon className="h-5 w-5 text-zinc-400 group-hover:text-amber-400 transition-colors shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-medium text-zinc-300 group-hover:text-white transition-colors">
                   {s.label}
                 </p>
-                <p className="text-xs text-zinc-600 mt-0.5 line-clamp-2">
+                <p className="text-xs text-zinc-400 mt-0.5 line-clamp-2">
                   {s.prompt.slice(0, 80)}...
                 </p>
               </div>

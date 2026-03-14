@@ -2,8 +2,35 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 
 /**
+ * Custom fetch wrapper for vLLM that injects chat_template_kwargs
+ * to disable Qwen3's <think> reasoning mode.
+ *
+ * Without this, Qwen3 spends the entire token budget on invisible
+ * internal reasoning (<think> tags) and returns ZERO visible output.
+ */
+const vllmFetch: typeof globalThis.fetch = async (input, init) => {
+  if (init?.body && typeof init.body === "string") {
+    try {
+      const body = JSON.parse(init.body);
+      body.chat_template_kwargs = { enable_thinking: false };
+      init = { ...init, body: JSON.stringify(body) };
+    } catch {
+      // Not JSON — pass through unchanged
+    }
+  }
+  return globalThis.fetch(input, init);
+};
+
+/**
  * vLLM provider — OpenAI-compatible API running locally.
  * Points to localhost:8000 where vLLM serves the model.
+ *
+ * ═══ CRITICAL: THINKING MODE DISABLED ═══
+ * Qwen3 models have a <think> reasoning mode that consumes the entire
+ * token budget on invisible internal reasoning. The custom fetch wrapper
+ * above injects chat_template_kwargs: { enable_thinking: false } into
+ * every request to prevent this. The vLLM server also has
+ * --default-chat-template-kwargs set, but this is defense-in-depth.
  *
  * ═══ SCALING REMINDER ═══
  * When daily active users exceed ~50, switch to a cloud endpoint:
@@ -19,6 +46,7 @@ export const vllm = createOpenAI({
   baseURL: process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1",
   apiKey: process.env.VLLM_API_KEY ?? "not-needed",
   name: "vllm",
+  fetch: vllmFetch,
 });
 
 /**
@@ -38,8 +66,7 @@ export const cloud = createAnthropic({
  * Get the appropriate model based on request mode and user tier.
  *
  * LOCAL mode: Uses the tier's assigned local model
- *   - Free tier: Llama 3.1 8B (fast, good for basics)
- *   - Paid tiers: Llama 3.1 70B (full capability)
+ *   - All tiers: Qwen 2.5 32B AWQ (RTX 5090, fast + capable)
  *
  * SMART mode: Uses cloud model (Claude Sonnet) for all paid tiers
  *
@@ -62,7 +89,7 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
-  const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct";
+  const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq";
   return vllm(model);
 }
 

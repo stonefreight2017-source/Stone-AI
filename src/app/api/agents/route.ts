@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { AGENT_CAPABILITIES } from "@/lib/agent-capabilities";
-import { canAccessAgent, TIER_CONFIG } from "@/lib/tier-config";
+import { canAccessAgent, TIER_CONFIG, INTERNAL_AGENT_SLUGS } from "@/lib/tier-config";
 import type { Tier } from "@/lib/tier-config";
 
 // GET /api/agents — list all available agents with tier access info
@@ -11,8 +11,8 @@ export async function GET() {
     const user = await getOrCreateUser();
     const userTier = user.tier as Tier;
 
-    // Hidden agent slugs — internal use only, not shown in marketplace
-    const HIDDEN_AGENTS = ["stone", "chaos"];
+    // Internal agent slugs — Three Heads & Royal Guards, not shown in marketplace
+    const HIDDEN_AGENTS: readonly string[] = INTERNAL_AGENT_SLUGS;
 
     const adminEmails = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase());
     const isAdmin = adminEmails.includes(user.email.toLowerCase());
@@ -21,7 +21,7 @@ export async function GET() {
       where: {
         isActive: true,
         // Hide internal agents from non-admin users
-        ...(!isAdmin && { slug: { notIn: HIDDEN_AGENTS } }),
+        ...(!isAdmin && { slug: { notIn: [...HIDDEN_AGENTS] } }),
       },
       orderBy: { sortOrder: "asc" },
       select: {
@@ -38,7 +38,7 @@ export async function GET() {
 
     const enriched = agents.map((agent) => {
       const caps = AGENT_CAPABILITIES[agent.slug];
-      const unlocked = canAccessAgent(userTier, agent.requiredTier as Tier);
+      const unlocked = canAccessAgent(userTier, agent.requiredTier as Tier, agent.slug);
 
       // Locked agents: show only name, category, tier requirement — no details
       if (!unlocked) {

@@ -111,7 +111,7 @@ export function TraitPicker({ selected, onChange }: TraitPickerProps) {
     <div>
       <p className="text-sm text-zinc-400 mb-3">
         Pick <span className="text-pink-400 font-medium">up to 5 personality traits</span> that define your Bestie&apos;s core
-        <span className="text-zinc-500 ml-2">({selected.length}/5)</span>
+        <span className="text-zinc-400 ml-2">({selected.length}/5)</span>
       </p>
       <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
         {BESTIE_TRAITS.map((trait) => {
@@ -129,7 +129,7 @@ export function TraitPicker({ selected, onChange }: TraitPickerProps) {
                 isSelected
                   ? "border-pink-500 bg-pink-500/10 text-pink-300"
                   : isDisabled
-                    ? "border-zinc-800 bg-zinc-900 text-zinc-600 cursor-not-allowed opacity-50"
+                    ? "border-zinc-800 bg-zinc-900 text-zinc-400 cursor-not-allowed opacity-50"
                     : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-pink-700 hover:bg-pink-900/10"
               )}
             >
@@ -161,7 +161,7 @@ export function StylePicker({ selected, onChange }: StylePickerProps) {
     <div>
       <p className="text-sm text-zinc-400 mb-3">
         Pick <span className="text-purple-400 font-medium">up to 2 communication styles</span>
-        <span className="text-zinc-500 ml-2">({selected.length}/2)</span>
+        <span className="text-zinc-400 ml-2">({selected.length}/2)</span>
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {BESTIE_STYLES.map((style) => {
@@ -179,7 +179,7 @@ export function StylePicker({ selected, onChange }: StylePickerProps) {
                 isSelected
                   ? "border-purple-500 bg-purple-500/10"
                   : isDisabled
-                    ? "border-zinc-800 bg-zinc-900 text-zinc-600 cursor-not-allowed opacity-50"
+                    ? "border-zinc-800 bg-zinc-900 text-zinc-400 cursor-not-allowed opacity-50"
                     : "border-zinc-700 bg-zinc-900 hover:border-purple-700 hover:bg-purple-900/10"
               )}
             >
@@ -188,7 +188,7 @@ export function StylePicker({ selected, onChange }: StylePickerProps) {
                 <p className={cn("font-medium text-sm", isSelected ? "text-purple-300" : "text-zinc-300")}>
                   {meta.label}
                 </p>
-                <p className="text-xs text-zinc-500 mt-0.5">{meta.description}</p>
+                <p className="text-xs text-zinc-400 mt-0.5">{meta.description}</p>
               </div>
             </button>
           );
@@ -216,7 +216,7 @@ export function ExpertisePicker({ selected, onChange }: ExpertisePickerProps) {
     <div>
       <p className="text-sm text-zinc-400 mb-3">
         What should they know about? Pick <span className="text-purple-400 font-medium">up to 5 topics</span>
-        <span className="text-zinc-500 ml-2">({selected.length}/5)</span>
+        <span className="text-zinc-400 ml-2">({selected.length}/5)</span>
       </p>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {BESTIE_EXPERTISE.map((exp) => {
@@ -234,7 +234,7 @@ export function ExpertisePicker({ selected, onChange }: ExpertisePickerProps) {
                 isSelected
                   ? "border-purple-500 bg-purple-500/10 text-purple-300"
                   : isDisabled
-                    ? "border-zinc-800 bg-zinc-900 text-zinc-600 cursor-not-allowed opacity-50"
+                    ? "border-zinc-800 bg-zinc-900 text-zinc-400 cursor-not-allowed opacity-50"
                     : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-purple-700 hover:bg-purple-900/10"
               )}
             >

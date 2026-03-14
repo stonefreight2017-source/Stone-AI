@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   // Fix turbopack root detection when parent dirs have lockfiles
@@ -32,4 +33,20 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  // Suppress Sentry CLI logs during build
+  silent: true,
+
+  // Disable source map upload (needs SENTRY_AUTH_TOKEN — enable post-launch)
+  sourcemaps: {
+    disable: true,
+  },
+
+  // Disable automatic release creation (needs auth token)
+  release: {
+    create: false,
+  },
+
+  // Disable telemetry to Sentry
+  telemetry: false,
+});

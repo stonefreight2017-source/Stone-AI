@@ -38,7 +38,7 @@ interface TierInfo {
   enterprise?: boolean;
   color: string;
   accentText: string;
-  features: { text: string; highlight?: boolean }[];
+  features: { text: string; highlight?: boolean; link?: string }[];
   details: TierDetails;
 }
 
@@ -54,11 +54,11 @@ const TIERS: TierInfo[] = [
     color: "border-zinc-600",
     accentText: "text-zinc-300",
     features: [
-      { text: "Answers faster than you can switch tabs — under 100ms" },
+      { text: "Starts responding in under 100ms — faster than you can switch tabs" },
       { text: "4 AI agents to plan, write, learn, and stay on track", highlight: true },
-      { text: "1 AI Bestie — powered by 4 expert agents — that remembers you tomorrow" },
+      { text: "1 AI Bestie — powered by 4 specialist agents — that remembers you tomorrow" },
       { text: "Every conversation saved — pick up right where you left off" },
-      { text: "Your data stays on our servers, never sold or shared" },
+      { text: "Your data is never sold or shared. Local Mode keeps data on our servers; Smart Mode uses Anthropic (opt-in)." },
       { text: "No credit card — sign up with Google, Apple, or email in seconds" },
     ],
     details: {
@@ -75,7 +75,7 @@ const TIERS: TierInfo[] = [
       apiAccess: false,
       besties: "1 AI Bestie (4-agent knowledge)",
       agents: "4 AI Agents (Onboarding, Bestie, Wellness, Tutor)",
-      billingOptions: "Free forever",
+      billingOptions: "Free forever (ad-supported)",
     },
   },
   {
@@ -94,7 +94,7 @@ const TIERS: TierInfo[] = [
       { text: "10 Smart Mode answers/day for the hard questions that need genius-level thinking", highlight: true },
       { text: "250 messages/day — enough to draft a full business plan before lunch" },
       { text: "Export conversations as docs — hand them straight to clients or partners" },
-      { text: "1 AI Bestie — powered by 16 expert agents — that learns your voice and goals over time" },
+      { text: "1 AI Bestie — powered by 16 specialist agents — that learns your voice and goals over time" },
     ],
     details: {
       messagesPerDay: "250",
@@ -109,7 +109,7 @@ const TIERS: TierInfo[] = [
       priorityQueue: false,
       apiAccess: false,
       besties: "1 AI Bestie (16-agent knowledge)",
-      agents: "16 Expert Agents (Business, Content, Marketing)",
+      agents: "16 Specialist Agents (Business, Content, Marketing)",
       billingOptions: "$19.99/mo · $17.99/mo (6-mo, 10% off) · $15.99/mo (yearly, 20% off)",
     },
   },
@@ -126,10 +126,10 @@ const TIERS: TierInfo[] = [
     features: [
       { text: "Everything in Builder" },
       { text: "30 agents covering marketing, legal, finance, dev, HR, and sales", highlight: true },
-      { text: "15 Smart Mode answers/day — auto-routed so the right brain handles each question", highlight: true },
-      { text: "500 messages/day + live web research to keep your market intel fresh" },
-      { text: "Talk out loud in 6 languages — serve clients from Tokyo to Buenos Aires", highlight: true },
-      { text: "1 AI Bestie — powered by 30 expert agents — career, finance, wellness, and more" },
+      { text: "15 Smart Mode answers/day — cloud-powered AI for the hard questions", highlight: true },
+      { text: "500 messages/day — enough for a growing team across multiple projects" },
+      { text: "Commercial rights — use AI-generated content in your business, no attribution", highlight: true },
+      { text: "1 AI Bestie — powered by 30 specialist agents — career, finance, wellness, and more" },
     ],
     details: {
       messagesPerDay: "500",
@@ -138,20 +138,20 @@ const TIERS: TierInfo[] = [
       concurrentChats: "3",
       requestsPerMinute: "15",
       contextMemory: "40 messages",
-      aiModes: "Local + 15 premium/day (Smart Mode) with auto-routing",
-      autoRouting: true,
+      aiModes: "Local + 15 premium/day (Smart Mode)",
+      autoRouting: false,
       conversationExport: true,
       priorityQueue: false,
       apiAccess: false,
       besties: "1 AI Bestie (30-agent knowledge)",
-      agents: "30 Expert Agents (all categories)",
+      agents: "30 Specialist Agents (all categories)",
       billingOptions: "$49.99/mo · $44.99/mo (6-mo, 10% off) · $39.99/mo (yearly, 20% off)",
     },
   },
   {
     key: "SMART",
     name: "Executive",
-    tagline: "39 specialists for less than a single hour of consulting — working for you every day of the month",
+    tagline: "39 AI specialists, one monthly investment — working for you every day of the month",
     price: 99.99,
     price6month: 99.99,
     priceAnnual: 79.99,
@@ -162,11 +162,11 @@ const TIERS: TierInfo[] = [
     features: [
       { text: "Everything in Growth" },
       { text: "39 agents across strategy, legal, finance, dev, marketing, and ops — your full executive floor, staffed overnight", highlight: true },
-      { text: "Each agent replaces hours of $150/hr consulting — 39 specialists, one monthly investment", highlight: true },
+      { text: "Each agent handles a different business domain — strategy, legal, finance, dev, marketing, and ops", highlight: true },
       { text: "1,000 messages/day with priority queue — decisions at the speed your business actually moves" },
-      { text: "30 Smart Mode answers/day + custom agents built around your workflow, not someone else's template" },
-      { text: "Team workspace with enterprise-grade security — bring your people in, keep your data locked down" },
-      { text: "1 AI Bestie — powered by 39 expert agents — a thinking partner that knows every corner of your operation", highlight: true },
+      { text: "30 Smart Mode answers/day — deep strategy, board-ready reports, complex financial analysis" },
+      { text: "Early access — try new agents and features 30 days before everyone else" },
+      { text: "1 AI Bestie — powered by 39 specialist agents — a thinking partner that knows every corner of your operation", highlight: true },
     ],
     details: {
       messagesPerDay: "1,000",
@@ -175,13 +175,13 @@ const TIERS: TierInfo[] = [
       concurrentChats: "4",
       requestsPerMinute: "25",
       contextMemory: "60 messages",
-      aiModes: "Local + 30 premium/day (Smart Mode) with auto-routing",
-      autoRouting: true,
+      aiModes: "Local + 30 premium/day (Smart Mode)",
+      autoRouting: false,
       conversationExport: true,
-      priorityQueue: true,
+      priorityQueue: false,
       apiAccess: false,
       besties: "1 AI Bestie (39-agent knowledge)",
-      agents: "39 Expert Agents (nearly every category)",
+      agents: "39 Specialist Agents (nearly every category)",
       billingOptions: "$79.99/mo (yearly, 20% off) — annual commitment only",
     },
   },
@@ -200,9 +200,9 @@ const TIERS: TierInfo[] = [
       { text: "All 42 agents + full API — plug AI into your own products overnight", highlight: true },
       { text: "Commercial license + reseller rights — charge your clients, keep the margin", highlight: true },
       { text: "3,000 messages/day + 50 Smart Mode answers — enough firepower to serve a client roster" },
-      { text: "Custom AI workflows — your AI gets smarter the more you use it", highlight: true },
-      { text: "1 AI Bestie — powered by all 42 expert agents — a genius operator across your entire business" },
-      { text: "Enterprise-grade security — serve healthcare, finance, and regulated clients with confidence" },
+      { text: "Commercial license + reseller rights — charge your clients, keep the margin", highlight: true },
+      { text: "1 AI Bestie — powered by all 42 specialist agents — a genius operator across your entire business" },
+      { text: "2x referral rewards — earn double commission when you bring others to Stone AI" },
     ],
     details: {
       messagesPerDay: "3,000",
@@ -211,20 +211,20 @@ const TIERS: TierInfo[] = [
       concurrentChats: "6",
       requestsPerMinute: "30",
       contextMemory: "80 messages",
-      aiModes: "Local + 50 premium/day + Priority with auto-routing",
-      autoRouting: true,
+      aiModes: "Local + 50 premium/day (Smart Mode)",
+      autoRouting: false,
       conversationExport: true,
-      priorityQueue: true,
+      priorityQueue: false,
       apiAccess: true,
       besties: "1 AI Bestie (all 42-agent knowledge)",
-      agents: "All 42 Expert Agents + API + reseller",
+      agents: "All 42 Specialist Agents + API + reseller",
       billingOptions: "$200/mo · $170/mo (yearly, 15% off)",
     },
   },
   {
     key: "ENTERPRISE",
     name: "Enterprise",
-    tagline: "Replace six-figure software contracts with one platform your whole team shares",
+    tagline: "One AI platform your whole team shares — every department, one subscription",
     price: 500,
     price6month: 500,
     priceAnnual: 475,
@@ -236,7 +236,7 @@ const TIERS: TierInfo[] = [
       { text: "Everything in Reseller" },
       { text: "Seats for your whole team — everyone gets their own agents and API keys", highlight: true },
       { text: "Dedicated GPU infrastructure — your workloads never compete for resources", highlight: true },
-      { text: "Priority uptime SLA — as reliable as the tools it replaces", highlight: true },
+      { text: "99.5% uptime SLA with service credits", highlight: true, link: "/sla" },
       { text: "SSO/SAML + audit logging — IT signs off on day one" },
       { text: "50K+ requests/day — enough for department-wide rollouts across the org" },
       { text: "Dedicated support channel — real humans, same-day responses" },
@@ -317,31 +317,31 @@ export function PricingSection() {
                 {/* Starter Deal — Builder at $9.99 */}
                 <div className="relative bg-zinc-800/60 border border-emerald-700/50 rounded-xl p-5 flex flex-col">
                   <div className="absolute -top-2.5 left-4">
-                    <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                    <span className="bg-emerald-700 text-white text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
                       First Month
                     </span>
                   </div>
                   <p className="text-sm text-zinc-400 mt-2 mb-2">Builder plan</p>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-zinc-500 line-through text-base">$19.99</span>
+                    <span className="text-zinc-400 line-through text-base">$19.99</span>
                     <span className="text-2xl font-bold text-emerald-400">$9.99</span>
-                    <span className="text-zinc-500 text-sm">/mo</span>
+                    <span className="text-zinc-400 text-sm">/mo</span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <span className="inline-block bg-emerald-500/20 text-emerald-400 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                    <span className="inline-block bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-2 py-0.5 rounded-full">
                       Save $10 first month
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <CreditCard className="h-3.5 w-3.5 text-zinc-500" />
-                    <span className="text-[11px] text-zinc-500">Credit card required</span>
+                    <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
+                    <span className="text-xs text-zinc-400">Credit card required</span>
                   </div>
-                  <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
-                    One-time offer — $9.99 for your first 30 days, then $19.99/mo. Try the full Builder experience risk-free.
+                  <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
+                    One-time offer — $9.99 for your first 30 days, then $19.99/mo. Try the full Builder experience.
                   </p>
                   <div className="mt-auto">
-                    <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
-                      <Link href="/app/billing?deal=first-month">
+                    <Button asChild size="sm" className="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold">
+                      <Link href="/sign-up">
                         Claim $9.99 Deal
                         <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                       </Link>
@@ -352,30 +352,30 @@ export function PricingSection() {
                 {/* Launch Trial — Builder at $14.99 */}
                 <div className="relative bg-zinc-800/60 border border-emerald-700/50 rounded-xl p-5 flex flex-col">
                   <div className="absolute -top-2.5 left-4">
-                    <span className="bg-emerald-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                    <span className="bg-emerald-700 text-white text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
                       Launch Trial
                     </span>
                   </div>
                   <p className="text-sm text-zinc-400 mt-2 mb-2">Builder plan</p>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-zinc-500 line-through text-base">$19.99</span>
+                    <span className="text-zinc-400 line-through text-base">$19.99</span>
                     <span className="text-2xl font-bold text-emerald-400">$14.99</span>
-                    <span className="text-zinc-500 text-sm">/mo</span>
+                    <span className="text-zinc-400 text-sm">/mo</span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <span className="inline-block bg-emerald-500/20 text-emerald-400 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                    <span className="inline-block bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-2 py-0.5 rounded-full">
                       Save $5/mo
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <CreditCard className="h-3.5 w-3.5 text-zinc-500" />
-                    <span className="text-[11px] text-zinc-500">Credit card required</span>
+                    <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
+                    <span className="text-xs text-zinc-400">Credit card required</span>
                   </div>
-                  <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
-                    One-time offer — price locked forever. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
+                  <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
+                    One-time offer — price locked while your subscription is active. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
                   </p>
                   <div className="mt-auto">
-                    <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
+                    <Button asChild size="sm" className="w-full bg-emerald-700 hover:bg-emerald-600 text-white font-semibold">
                       <Link href="/sign-up">
                         Claim $14.99 Deal
                         <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
@@ -387,28 +387,28 @@ export function PricingSection() {
                 {/* Growth Early Adopter — Growth at $39.99 */}
                 <div className="relative bg-zinc-800/60 border border-amber-700/50 rounded-xl p-5 flex flex-col">
                   <div className="absolute -top-2.5 left-4">
-                    <span className="bg-amber-600 text-black text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+                    <span className="bg-amber-600 text-black text-xs font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
                       Early Adopter
                     </span>
                   </div>
                   <p className="text-sm text-zinc-400 mt-2 mb-0.5">Growth plan</p>
-                  <p className="text-[11px] text-emerald-400 font-medium mb-2">+ 7-day free trial</p>
+                  <p className="text-xs text-emerald-400 font-medium mb-2">+ 7-day free trial</p>
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-zinc-500 line-through text-base">$49.99</span>
+                    <span className="text-zinc-400 line-through text-base">$49.99</span>
                     <span className="text-2xl font-bold text-amber-400">$39.99</span>
-                    <span className="text-zinc-500 text-sm">/mo</span>
+                    <span className="text-zinc-400 text-sm">/mo</span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <span className="inline-block bg-amber-500/20 text-amber-400 text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                    <span className="inline-block bg-amber-500/20 text-amber-400 text-xs font-semibold px-2 py-0.5 rounded-full">
                       Save $10/mo
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <CreditCard className="h-3.5 w-3.5 text-zinc-500" />
-                    <span className="text-[11px] text-zinc-500">Credit card required</span>
+                    <CreditCard className="h-3.5 w-3.5 text-zinc-400" />
+                    <span className="text-xs text-zinc-400">Credit card required</span>
                   </div>
-                  <p className="text-[11px] text-zinc-500 mb-3 leading-relaxed">
-                    One-time offer — price locked forever. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
+                  <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
+                    One-time offer — price locked while your subscription is active. Founding members earn the <span className="text-amber-400 font-medium">OG</span> badge.
                   </p>
                   <div className="mt-auto">
                     <Button asChild size="sm" className="w-full bg-amber-500 hover:bg-amber-400 text-black font-semibold">
@@ -422,7 +422,7 @@ export function PricingSection() {
               </div>
 
               {/* OG badge note */}
-              <p className="text-center text-[11px] text-zinc-600 mb-4">
+              <p className="text-center text-xs text-zinc-400 mb-4">
                 OG badges are visible across forums, profiles, and every app on Stone AI.
               </p>
 
@@ -440,7 +440,7 @@ export function PricingSection() {
         </div>
 
       {/* Billing period toggle */}
-      <div className="flex items-center justify-center gap-1 mb-8 bg-zinc-900 rounded-lg p-1 max-w-md mx-auto">
+      <div className="flex items-center justify-center gap-1 mb-8 bg-zinc-900 rounded-lg p-1 max-w-md mx-auto" role="radiogroup" aria-label="Billing period">
         {(["monthly", "6month", "annual"] as const)
           .filter((period) => {
             // Hide 6-month option when the selected tier has no 6-month discount
@@ -454,6 +454,8 @@ export function PricingSection() {
           return (
             <button
               key={period}
+              role="radio"
+              aria-checked={isActive}
               onClick={() => setBillingPeriod(period)}
               className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                 isActive
@@ -463,7 +465,7 @@ export function PricingSection() {
             >
               {labels[period]}
               {savings[period] && (
-                <span className={`ml-1 text-[10px] font-semibold ${isActive ? "text-emerald-600" : "text-emerald-400"}`}>
+                <span className={`ml-1 text-xs font-semibold ${isActive ? "text-emerald-600" : "text-emerald-400"}`}>
                   {savings[period]}
                 </span>
               )}
@@ -473,12 +475,14 @@ export function PricingSection() {
       </div>
 
       {/* Tier selector pills */}
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+      <div className="flex flex-wrap items-center justify-center gap-2 mb-8" role="radiogroup" aria-label="Select pricing tier">
         {TIERS.map((t) => {
           const isActive = t.key === selected;
           return (
             <button
               key={t.key}
+              role="radio"
+              aria-checked={isActive}
               onClick={() => {
                 setSelected(t.key);
                 setShowDetails(false);
@@ -490,7 +494,7 @@ export function PricingSection() {
               className={`relative px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 isActive
                   ? `bg-zinc-800 ${t.accentText} ring-1 ring-current`
-                  : "bg-zinc-900 text-zinc-500 hover:text-zinc-300 hover:bg-zinc-800/50"
+                  : "bg-zinc-900 text-zinc-400 hover:text-zinc-300 hover:bg-zinc-800/50"
               }`}
             >
               <span className="flex items-center gap-1.5">
@@ -499,7 +503,7 @@ export function PricingSection() {
                 {t.name}
               </span>
               {t.popular && (
-                <span className="absolute -top-2 -right-1 bg-amber-500 text-black text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none">
+                <span className="absolute -top-2 -right-1 bg-amber-500 text-black text-xs font-bold px-1.5 py-0.5 rounded-full leading-none">
                   Popular
                 </span>
               )}
@@ -518,7 +522,7 @@ export function PricingSection() {
               {isEnterprise && <Building2 className="h-5 w-5 text-emerald-400" />}
               <h3 className={`text-2xl font-bold ${tier.accentText}`}>{tier.name}</h3>
               {tier.popular && (
-                <Badge className="bg-amber-500/20 text-amber-400 text-[10px] px-2 py-0.5">
+                <Badge className="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5">
                   <Star className="h-3 w-3 mr-1" /> Most Popular
                 </Badge>
               )}
@@ -528,7 +532,7 @@ export function PricingSection() {
           <div className="text-left sm:text-right">
             <div className="flex items-baseline gap-1">
               <span className="text-4xl font-bold text-white">{formatPrice(tier)}</span>
-              {tier.price > 0 && <span className="text-zinc-500">/mo</span>}
+              {tier.price > 0 && <span className="text-zinc-400">/mo</span>}
             </div>
             {billingPeriod === "6month" && tier.price6month < tier.price && (
               <p className="text-xs text-emerald-400 mt-1">
@@ -550,13 +554,13 @@ export function PricingSection() {
             {tier.key === "STARTER" && (
               <p className="text-xs text-amber-400 mt-1 font-medium">
                 <Sparkles className="inline h-3 w-3 mr-1" />
-                Launch deal: $9.99 first month <span className="text-zinc-500 line-through">$19.99</span>
+                Launch deal: $9.99 first month <span className="text-zinc-400 line-through">$19.99</span>
               </p>
             )}
             {tier.key === "PLUS" && (
               <p className="text-xs text-amber-400 mt-1 font-medium">
                 <Sparkles className="inline h-3 w-3 mr-1" />
-                Early adopter: $39.99/mo <span className="text-zinc-500 line-through">$49.99</span> — OG badge included
+                Early adopter: $39.99/mo <span className="text-zinc-400 line-through">$49.99</span> — OG badge included
               </p>
             )}
           </div>
@@ -569,6 +573,14 @@ export function PricingSection() {
               <Check className={`h-4 w-4 shrink-0 ${f.highlight ? "text-amber-400" : "text-emerald-400"}`} />
               <span className={f.highlight ? "text-white font-medium" : "text-zinc-300"}>
                 {f.text}
+                {f.link && (
+                  <>
+                    {" "}
+                    <Link href={f.link} className="text-emerald-400 underline text-xs hover:text-emerald-300">
+                      (see SLA)
+                    </Link>
+                  </>
+                )}
               </span>
             </div>
           ))}
@@ -588,32 +600,32 @@ export function PricingSection() {
           <div className="border-t border-zinc-800 pt-5 mb-6 space-y-4 animate-in fade-in slide-in-from-top-2 duration-200">
             {/* Capacity & Performance */}
             <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <Zap className="h-3 w-3" /> Capacity & Performance
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Messages / Day</p>
+                  <p className="text-xs text-zinc-400 uppercase">Messages / Day</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.messagesPerDay}</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Tokens / Month</p>
+                  <p className="text-xs text-zinc-400 uppercase">Tokens / Month</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.tokensPerMonth}</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Max Response</p>
+                  <p className="text-xs text-zinc-400 uppercase">Max Response</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.maxResponse}</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Concurrent Chats</p>
+                  <p className="text-xs text-zinc-400 uppercase">Concurrent Chats</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.concurrentChats}</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Requests / Minute</p>
+                  <p className="text-xs text-zinc-400 uppercase">Requests / Minute</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.requestsPerMinute}</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Context Memory</p>
+                  <p className="text-xs text-zinc-400 uppercase">Context Memory</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.contextMemory}</p>
                 </div>
               </div>
@@ -621,16 +633,16 @@ export function PricingSection() {
 
             {/* AI & Agents */}
             <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <Brain className="h-3 w-3" /> AI & Agents
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">AI Modes</p>
+                  <p className="text-xs text-zinc-400 uppercase">AI Modes</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.aiModes}</p>
                 </div>
                 <div className="bg-zinc-800/50 rounded-lg p-3">
-                  <p className="text-[10px] text-zinc-500 uppercase">Expert Agents</p>
+                  <p className="text-xs text-zinc-400 uppercase">Specialist Agents</p>
                   <p className="text-sm font-semibold text-white mt-0.5">{tier.details.agents}</p>
                 </div>
               </div>
@@ -638,7 +650,7 @@ export function PricingSection() {
 
             {/* Features Grid */}
             <div>
-              <p className="text-xs font-semibold text-zinc-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+              <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
                 <MessageSquare className="h-3 w-3" /> Features
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -650,11 +662,11 @@ export function PricingSection() {
                 ].map((feat) => (
                   <div key={feat.label} className="flex items-center gap-2 bg-zinc-800/50 rounded-lg p-2.5">
                     {feat.enabled ? (
-                      <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" />
+                      <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" aria-hidden="true" />
                     ) : (
-                      <span className="h-3.5 w-3.5 text-zinc-600 shrink-0 text-center leading-none">&mdash;</span>
+                      <span className="h-3.5 w-3.5 text-zinc-400 shrink-0 text-center leading-none">&mdash;</span>
                     )}
-                    <span className={`text-xs ${feat.enabled ? "text-zinc-200" : "text-zinc-600"}`}>
+                    <span className={`text-xs ${feat.enabled ? "text-zinc-200" : "text-zinc-400"}`}>
                       {feat.label}
                     </span>
                   </div>
@@ -665,13 +677,13 @@ export function PricingSection() {
             {/* Bestie & Billing */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-zinc-800/50 rounded-lg p-3">
-                <p className="text-[10px] text-zinc-500 uppercase flex items-center gap-1">
+                <p className="text-xs text-zinc-400 uppercase flex items-center gap-1">
                   <Heart className="h-2.5 w-2.5" /> AI Bestie Companions
                 </p>
                 <p className="text-sm font-semibold text-white mt-0.5">{tier.details.besties}</p>
               </div>
               <div className="bg-zinc-800/50 rounded-lg p-3">
-                <p className="text-[10px] text-zinc-500 uppercase">Billing Options</p>
+                <p className="text-xs text-zinc-400 uppercase">Billing Options</p>
                 <p className="text-sm font-semibold text-white mt-0.5">{tier.details.billingOptions}</p>
               </div>
             </div>
@@ -683,7 +695,7 @@ export function PricingSection() {
           <div className="bg-amber-950/30 border border-amber-800/50 rounded-lg p-3 mb-6">
             <p className="text-sm text-amber-300 font-medium flex items-center gap-2">
               <Star className="h-4 w-4" />
-              Founding Member — this price is locked forever for early subscribers
+              Founding Member — this price is locked while your subscription is active
             </p>
           </div>
         )}
@@ -729,22 +741,27 @@ export function PricingSection() {
                   : "border-zinc-800/50 bg-zinc-900/30 hover:bg-zinc-800/30"
               }`}
             >
-              <p className={`font-semibold ${isActive ? t.accentText : "text-zinc-600"}`}>
+              <p className={`font-semibold ${isActive ? t.accentText : "text-zinc-400"}`}>
                 {t.name}
               </p>
-              <p className={isActive ? "text-zinc-300" : "text-zinc-700"}>
+              <p className={isActive ? "text-zinc-300" : "text-zinc-400"}>
                 {formatPrice(t)}{t.price > 0 && !t.enterprise ? "/mo" : ""}
               </p>
               {t.key === "STARTER" && (
-                <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$9.99 deal</p>
+                <p className="text-amber-400 text-xs font-semibold mt-0.5">$9.99 deal</p>
               )}
               {t.key === "PLUS" && (
-                <p className="text-amber-400 text-[9px] font-semibold mt-0.5">$39.99 deal</p>
+                <p className="text-amber-400 text-xs font-semibold mt-0.5">$39.99 deal</p>
               )}
             </button>
           );
         })}
       </div>
+
+      {/* Professional disclaimer */}
+      <p className="text-center text-xs text-zinc-500 mt-8">
+        AI agents provide assistance, not professional advice. Not a substitute for a licensed professional.
+      </p>
 
     </section>
   );

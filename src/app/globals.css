@@ -555,4 +555,21 @@
   .emote-bow {
     animation: none !important;
   }
+
+  .animate-pulse,
+  .animate-float,
+  .animate-gradient,
+  .animate-fade-in-up,
+  .animate-backdrop-aurora,
+  .animate-backdrop-sunset,
+  .animate-backdrop-ocean,
+  .animate-backdrop-cosmic,
+  .animate-backdrop-emerald,
+  .animate-backdrop-fire,
+  .animate-backdrop-nebula,
+  .animate-backdrop-glass-aurora,
+  .animate-backdrop-prismatic,
+  .badge-golden-egg-shimmer::after {
+    animation: none !important;
+  }
 }

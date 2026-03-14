@@ -1,8 +1,8 @@
 /**
  * Internal inbox check endpoint for Three-Headed Monster.
- * GET /api/internal/inbox
+ * GET|POST /api/internal/inbox
  *
- * Secured by INTERNAL_ALERT_SECRET header.
+ * Secured by INTERNAL_ALERT_SECRET (via x-alert-secret, Authorization Bearer, or x-internal-secret headers).
  * Reads UNSEEN emails from Gmail IMAP, parses @AGENT commands,
  * routes them to agent queues, and sends confirmation replies.
  */
@@ -13,12 +13,30 @@ import { routeCommands } from "@/lib/alert-system/command-router";
 import { sendFounderAlert } from "@/lib/alert-system/send";
 import { AlertAgent, AlertPriority, AlertType } from "@/lib/alert-system/types";
 
-export async function GET(req: NextRequest) {
-  // Auth: require internal secret
-  const secret = req.headers.get("x-alert-secret");
+function authorize(req: NextRequest): boolean {
   const expected = process.env.INTERNAL_ALERT_SECRET;
+  if (!expected) return false;
 
-  if (!expected || secret !== expected) {
+  // Support x-alert-secret header (legacy)
+  const secretHeader = req.headers.get("x-alert-secret");
+  if (secretHeader === expected) return true;
+
+  // Support Authorization: Bearer <secret>
+  const authHeader = req.headers.get("authorization");
+  if (authHeader) {
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    if (token === expected) return true;
+  }
+
+  // Support x-internal-secret header
+  const internalHeader = req.headers.get("x-internal-secret");
+  if (internalHeader === expected) return true;
+
+  return false;
+}
+
+export async function GET(req: NextRequest) {
+  if (!authorize(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -82,4 +100,9 @@ export async function GET(req: NextRequest) {
     },
     { status: 200 }
   );
+}
+
+// POST handler — same logic as GET, for flexibility
+export async function POST(req: NextRequest) {
+  return GET(req);
 }

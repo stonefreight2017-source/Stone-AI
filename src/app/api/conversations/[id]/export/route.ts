@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { db } from "@/lib/db";
 import { getOrCreateUser } from "@/lib/auth";
 import { TIER_CONFIG, type Tier } from "@/lib/tier-config";
+import {
+  exportAsMarkdown,
+  exportAsText,
+  exportAsJSON,
+} from "@/lib/conversation-export";
 
-// GET /api/conversations/[id]/export — export conversation as JSON
+// GET /api/conversations/[id]/export?format=markdown|text|json
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -21,51 +25,40 @@ export async function GET(
       );
     }
 
-    const conversation = await db.conversation.findFirst({
-      where: { id, userId: user.id },
-      include: {
-        messages: {
-          orderBy: { createdAt: "asc" },
-          select: {
-            role: true,
-            content: true,
-            model: true,
-            mode: true,
-            createdAt: true,
-          },
-        },
-        agent: {
-          select: { name: true, slug: true },
-        },
-      },
-    });
-
-    if (!conversation) {
-      return NextResponse.json({ error: "Conversation not found" }, { status: 404 });
-    }
-
     const url = new URL(req.url);
     const format = url.searchParams.get("format") || "json";
 
-    if (format === "text") {
-      // Plain text export
-      const lines: string[] = [
-        `Conversation: ${conversation.title}`,
-        `Date: ${conversation.createdAt.toISOString()}`,
-        conversation.agent ? `Agent: ${conversation.agent.name}` : "",
-        "---",
-        "",
-      ].filter(Boolean);
+    if (!["markdown", "text", "json"].includes(format)) {
+      return NextResponse.json(
+        { error: "Invalid format. Use: markdown, text, or json" },
+        { status: 400 }
+      );
+    }
 
-      for (const msg of conversation.messages) {
-        const role = msg.role === "USER" ? "You" : msg.role === "ASSISTANT" ? "AI" : "System";
-        const time = new Date(msg.createdAt).toLocaleString();
-        lines.push(`[${role}] (${time})`);
-        lines.push(msg.content);
-        lines.push("");
+    if (format === "markdown") {
+      const markdown = await exportAsMarkdown(id, user.id);
+      if (!markdown) {
+        return NextResponse.json(
+          { error: "Conversation not found" },
+          { status: 404 }
+        );
       }
+      return new NextResponse(markdown, {
+        headers: {
+          "Content-Type": "text/markdown; charset=utf-8",
+          "Content-Disposition": `attachment; filename="conversation-${id}.md"`,
+        },
+      });
+    }
 
-      const text = lines.join("\n");
+    if (format === "text") {
+      const text = await exportAsText(id, user.id);
+      if (!text) {
+        return NextResponse.json(
+          { error: "Conversation not found" },
+          { status: 404 }
+        );
+      }
       return new NextResponse(text, {
         headers: {
           "Content-Type": "text/plain; charset=utf-8",
@@ -75,22 +68,14 @@ export async function GET(
     }
 
     // JSON export (default)
-    const exportData = {
-      title: conversation.title,
-      agent: conversation.agent?.name || null,
-      createdAt: conversation.createdAt,
-      updatedAt: conversation.updatedAt,
-      messageCount: conversation.messages.length,
-      messages: conversation.messages.map((m) => ({
-        role: m.role,
-        content: m.content,
-        model: m.model,
-        mode: m.mode,
-        timestamp: m.createdAt,
-      })),
-      exportedAt: new Date().toISOString(),
-      exportedBy: user.name || user.email,
-    };
+    const exporterName = user.name || user.email;
+    const exportData = await exportAsJSON(id, user.id, exporterName);
+    if (!exportData) {
+      return NextResponse.json(
+        { error: "Conversation not found" },
+        { status: 404 }
+      );
+    }
 
     return new NextResponse(JSON.stringify(exportData, null, 2), {
       headers: {
@@ -102,6 +87,9 @@ export async function GET(
     if (error instanceof Error && error.message === "Unauthorized") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    return NextResponse.json({ error: "Failed to export conversation" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to export conversation" },
+      { status: 500 }
+    );
   }
 }
