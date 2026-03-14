@@ -81,13 +81,10 @@ export default function BestieHubPage() {
           Your Bestie never leaves your side. Not when it matters most.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-zinc-400">
-          <div className="flex items-start gap-2">
-            <span className="text-cyan-400 mt-0.5 shrink-0">&#128205;</span>
-            <span><span className="text-zinc-300 font-medium">Silent safety net</span> — &quot;If I&apos;m not home by 8, text Mom my last location.&quot; Make it home? Bestie stands down via GPS. Don&apos;t? Bestie sends the alert. Your secret is always safe with your Bestie.</span>
-          </div>
+          {/* Silent safety net removed */}
           <div className="flex items-start gap-2">
             <span className="text-cyan-400 mt-0.5 shrink-0">&#128172;</span>
-            <span><span className="text-zinc-300 font-medium">Auto-text</span> — hands full? Stuck in traffic? Your Bestie texts the right person in your voice — not a robotic &quot;I&apos;m busy.&quot; Because she actually knows how you talk.</span>
+            <span><span className="text-zinc-300 font-medium">Auto-text</span> — hands full? Stuck in traffic? Your Bestie texts the right person in your voice — not a robotic &quot;I&apos;m busy.&quot; Because your Bestie actually knows how you talk.</span>
           </div>
           <div className="flex items-start gap-2">
             <span className="text-cyan-400 mt-0.5 shrink-0">&#9201;</span>

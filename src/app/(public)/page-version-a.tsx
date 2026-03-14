@@ -439,7 +439,7 @@ export default function LandingPage() {
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
             42 agents.<br />$0 to start.
           </h2>
-          <p className="text-zinc-400 mb-8">No credit card. Free tier: 4 agents, 100 msgs/day, ad-supported.</p>
+          <p className="text-zinc-400 mb-8">No credit card. Free tier: 4 agents, 100 msgs/day.</p>
         </AnimateOnScroll>
 
         <AnimateOnScroll delay={0.15}>

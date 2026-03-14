@@ -231,10 +231,10 @@ export default function LandingPageD() {
               </div>
               <p className="text-zinc-400 text-sm mb-4 leading-relaxed">
                 Your AI companion with personality. Bestie remembers you, adapts to
-                your style, speaks 6 languages, and grows with you over time.
+                your style and grows with you over time.
               </p>
               <div className="flex flex-wrap gap-2">
-                {["Remembers you", "Adapts", "6 languages", "Your personality"].map(
+                {["Remembers you", "Adapts", "Your personality"].map(
                   (trait) => (
                     <Badge
                       key={trait}

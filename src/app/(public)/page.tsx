@@ -35,7 +35,8 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Insignia } from "@/components/brand/Insignia";
-import { LandingLanguageToggle } from "./landing-language-toggle";
+// Language toggle removed until multi-language is verified
+// import { LandingLanguageToggle } from "./landing-language-toggle";
 import { PricingSection } from "./pricing-section";
 import { LandingTabs } from "./landing-tabs";
 import { DepartmentTabs } from "./department-tabs";
@@ -82,7 +83,7 @@ export default function LandingPage() {
           <Link href="/" className="text-zinc-300 hover:text-white transition-colors" aria-label="Home">
             <Home className="h-5 w-5" />
           </Link>
-          <LandingLanguageToggle />
+          {/* Language toggle removed until multi-language verified */}
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
           <Link href="#promotions" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
@@ -344,7 +345,7 @@ export default function LandingPage() {
                   </div>
                   <div className="mt-4">
                     <Button asChild size="sm" className="bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 font-semibold text-xs">
-                      <Link href="/sign-up">Try Her Free <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
+                      <Link href="/sign-up">Upgrade to Access <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
                     </Button>
                   </div>
                 </div>
@@ -394,7 +395,7 @@ export default function LandingPage() {
                 {[
                   "Blog series", "Email sequence", "30 days posts", "Video script",
                   "Keyword strategy", "Ad campaigns", "Landing pages", "Episode outline",
-                  "Outreach emails", "Dashboard", "6 languages", "Client deck",
+                  "Outreach emails", "Dashboard", "Client deck",
                 ].map((output) => (
                   <div key={output} className="rounded-lg bg-zinc-700/20 p-3 text-center border border-zinc-700/30">
                     <p className="text-xs text-zinc-300 font-medium">{output}</p>
@@ -455,7 +456,7 @@ export default function LandingPage() {
               { icon: Laptop, title: "Desktop & Laptop", desc: "Open a tab, start talking. Your Bestie is always one click away while you work.", status: "Live" },
               { icon: Smartphone, title: "Home Screen", desc: "Waiting in line? Tap and ask. It lives on your phone like any other app — no app store needed.", status: "Live" },
               { icon: Globe, title: "Cross-Device Memory", desc: "Start a game plan on your laptop at the office, refine it on your phone at dinner. It remembers everything.", status: "Live" },
-              { icon: Mic, title: "Voice Chat", desc: "Speak naturally in 6 languages — perfect for founders serving international clients or thinking out loud on a walk.", status: "Live" },
+              { icon: Mic, title: "Voice Chat", desc: "Speak naturally — perfect for founders thinking out loud on a walk or dictating ideas hands-free.", status: "Live" },
             ].map((item) => (
               <StaggerCard key={item.title}>
                 <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-amber-500/20 transition-colors">
@@ -475,32 +476,7 @@ export default function LandingPage() {
             ))}
           </StaggerGrid>
 
-          {/* Bestie speaks 6 languages */}
-          <AnimateOnScroll>
-            <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 sm:p-6 mb-10">
-              <div className="flex items-center gap-3 mb-2">
-                <Globe className="h-5 w-5 text-amber-400" />
-                <h3 className="font-bold text-white text-sm">Texts Like a Native in 6 Languages</h3>
-              </div>
-              <p className="text-xs text-zinc-400 mb-4">Not a generic translator. Real slang. Real cultural context. Real connection.</p>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                {[
-                  { lang: "English", code: "EN", slang: "\"no cap\"" },
-                  { lang: "Mandarin", code: "ZH", slang: "\"666\"" },
-                  { lang: "Spanish", code: "ES", slang: "\"no mames\"" },
-                  { lang: "Hindi", code: "HI", slang: "\"yaar\"" },
-                  { lang: "French", code: "FR", slang: "\"wesh\"" },
-                  { lang: "Arabic", code: "AR", slang: "\"yalla\"" },
-                ].map((l) => (
-                  <div key={l.code} className="text-center p-2.5 rounded-lg bg-zinc-700/30 border border-zinc-700/30">
-                    <p className="text-xs font-bold text-amber-400">{l.code}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">{l.lang}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">{l.slang}</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </AnimateOnScroll>
+          {/* Bestie 6 languages section removed until multi-language verified */}
 
           {/* Compact feature highlights */}
           <AnimateOnScroll delay={0.1}>
@@ -540,20 +516,13 @@ export default function LandingPage() {
                 Your Bestie never leaves your side. Not when it matters most.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
-                  <p className="text-xs font-bold text-cyan-400 mb-1.5">Silent Safety Net</p>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    Set a check-in. Pick a time, pick a contact. Walk through your door safely and
-                    Bestie quietly cancels — zero notifications, zero drama. But if you don{`'`}t show?
-                    Your person gets your location instantly. No app to fumble with. No one has to know it{`'`}s even on.
-                  </p>
-                </div>
+                {/* Silent Safety Net removed */}
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
                   <p className="text-xs font-bold text-cyan-400 mb-1.5">Auto-Text</p>
                   <p className="text-xs text-zinc-400 leading-relaxed">
                     Life gets chaotic — meetings run long, toddlers melt down, sometimes you just can{`'`}t
                     deal. Bestie handles the reply for you, and it sounds like you wrote it. Not some
-                    stiff auto-response. Her. Typing the way you actually type. They{`'`}ll never know the difference.
+                    stiff auto-response. Your Bestie. Typing the way you actually type. They{`'`}ll never know the difference.
                   </p>
                 </div>
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
@@ -574,7 +543,7 @@ export default function LandingPage() {
                 Three steps and you have a genius best friend — powered by up to 42 specialist agents — who knows your name, your goals, and your standards.
               </p>
               <p className="text-xs text-zinc-400 mb-4">
-                Built on ICF coaching ethics, crisis protocol, and anti-dependency guardrails. She{`'`}ll push you toward real human connections — not more screen time. Trust you can feel.
+                Built on ICF coaching ethics, crisis protocol, and anti-dependency guardrails. Your Bestie pushes you toward real human connections — not more screen time. Trust you can feel.
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-lg px-8 font-semibold">
                 <Link href="/app/bestie">
@@ -907,7 +876,7 @@ export default function LandingPage() {
                 <Link href="#pricing">Compare Plans</Link>
               </Button>
             </div>
-            <p className="text-xs text-zinc-400">No credit card — sign up with Google, Apple, Outlook, or Yahoo. Free tier includes 4 agents, 100 msgs/day, ad-supported.</p>
+            <p className="text-xs text-zinc-400">No credit card — sign up with Google, Apple, Outlook, or Yahoo. Free tier includes 4 agents and 100 msgs/day.</p>
           </AnimateOnScroll>
         </div>
       </section>
@@ -952,7 +921,7 @@ export default function LandingPage() {
                 <p className="text-sm text-zinc-400 mb-3">Powered by up to 42 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 42 on Executive.</p>
                 <ul className="space-y-2 text-sm text-zinc-400">
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Persistent memory across sessions</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Voice chat in 6 languages</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Voice chat</li>
                   <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Customizable personality & behavior</li>
                 </ul>
               </div>

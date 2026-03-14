@@ -153,7 +153,7 @@ const TIER_WORLDS: TierWorld[] = [
     ],
     capabilities: [
       "30 specialized agents unlocked",
-      "Voice chat in 6 languages",
+      "Voice chat",
       "15 GPT-4o premium answers/day",
       "Auto-routing picks the best model",
       "25 web lookups/day",

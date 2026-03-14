@@ -476,7 +476,7 @@ export default function LandingPage() {
                   { agent: "Podcast", output: "Episode outline" },
                   { agent: "Sales Agent", output: "Outreach emails" },
                   { agent: "Analytics", output: "Dashboard" },
-                  { agent: "Translation", output: "6 languages" },
+                  { agent: "Translation", output: "Localization" },
                   { agent: "Proposal", output: "Client deck" },
                 ].map((d) => (
                   <div key={d.agent} className="rounded-lg bg-zinc-900/50 border border-zinc-800/50 p-3 hover:border-purple-500/20 transition-colors text-center">
@@ -912,7 +912,7 @@ export default function LandingPage() {
               </Button>
             </div>
             <p className="text-xs text-zinc-500 font-mono">
-              No credit card. Free tier: 4 agents, 100 msgs/day, ad-supported.
+              No credit card. Free tier: 4 agents, 100 msgs/day.
             </p>
           </AnimateOnScroll>
         </div>

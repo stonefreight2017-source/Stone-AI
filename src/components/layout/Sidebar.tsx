@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
 import { TierBadge } from "@/components/billing/TierBadge";
-import { TierGatedAd } from "@/components/ads/TierGatedAd";
+// Ad component removed — ads disabled
+// import { TierGatedAd } from "@/components/ads/TierGatedAd";
 import { GoldenEggDot } from "@/components/badges/UserBadges";
 import { useCreateConversation } from "@/hooks/use-conversations";
 import { useAppStore } from "@/store/app-store";
@@ -166,8 +167,7 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
           Help & Support
         </Button>
 
-        {/* Ad slot for free-tier users */}
-        <TierGatedAd tier={userTier} slot="sidebar" className="mx-2 my-2" />
+        {/* Ad slot removed — ads disabled */}
 
         <Separator className="bg-zinc-800 my-2" />
 

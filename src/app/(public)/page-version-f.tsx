@@ -398,7 +398,7 @@ export default function LandingPageF() {
                   {[
                     "Remembers your preferences and past conversations",
                     "Adapts to your communication style",
-                    "Speaks 6 languages natively",
+                    "Persistent memory across sessions",
                     "18 personality traits you can customize",
                   ].map((item) => (
                     <li key={item} className="flex items-start gap-2 text-sm text-zinc-300">
@@ -482,7 +482,7 @@ export default function LandingPageF() {
             />
             <FAQItem
               q="What's Bestie?"
-              a="Bestie is your personal AI companion included with every paid tier. It remembers your preferences, adapts to your communication style, and supports 6 languages. Think of it as a friend who's always there."
+              a="Bestie is your personal AI companion included with every paid tier. It remembers your preferences and adapts to your communication style. Think of it as a friend who's always there."
             />
           </div>
         </AnimateOnScroll>

@@ -75,7 +75,7 @@ const TIERS: TierInfo[] = [
       apiAccess: false,
       besties: "1 AI Bestie (4-agent knowledge)",
       agents: "4 AI Agents (Onboarding, Bestie, Wellness, Tutor)",
-      billingOptions: "Free forever (ad-supported)",
+      billingOptions: "Free forever",
     },
   },
   {

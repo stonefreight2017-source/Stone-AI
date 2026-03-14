@@ -173,7 +173,7 @@ export default function LandingPageE() {
               {[
                 { icon: Brain, label: "Remembers you" },
                 { icon: Sparkles, label: "Adapts to your style" },
-                { icon: Globe, label: "6 languages" },
+                { icon: Globe, label: "Cross-device" },
                 { icon: Heart, label: "Your personality" },
               ].map(({ icon: Icon, label }) => (
                 <div

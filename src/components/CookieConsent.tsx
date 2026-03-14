@@ -34,7 +34,6 @@ export function CookieConsent() {
         <div className="flex-1 text-sm text-zinc-300">
           <p id="cookie-desc">
             We use cookies for authentication, preferences, and analytics.
-            On ad-supported tiers, third-party advertising cookies may be used.
             See our{" "}
             <Link href="/cookies" className="text-emerald-400 underline">
               Cookie Policy
