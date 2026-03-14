@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three-Headed Monster — Palace Command Center</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0d0d14;
+    --bg-panel: #0f0f18;
+    --border-dim: rgba(255,255,255,0.06);
+    --text-primary: #e0e0e8;
+    --text-dim: #6a6a7a;
+    --stone-gold: #d4a017;
+    --stone-gold-glow: rgba(212,160,23,0.4);
+    --cardinal-red: #c0392b;
+    --cardinal-red-glow: rgba(192,57,43,0.4);
+    --chaos-cyan: #00e5ff;
+    --chaos-cyan-glow: rgba(0,229,255,0.4);
+    --rush-violet: #9b59b6;
+    --rush-violet-glow: rgba(155,89,182,0.4);
+    --wiz-green: #2ecc71;
+    --wiz-green-glow: rgba(46,204,113,0.4);
+    --active-green: #00ff88;
+    --grid-line: rgba(0,229,255,0.03);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Animated grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridDrift 20s linear infinite;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  @keyframes gridDrift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px 40px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 40px 0 30px;
+    position: relative;
+  }
+
+  .insignia {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 64px;
+    font-weight: 900;
+    letter-spacing: 8px;
+    background: linear-gradient(135deg, var(--stone-gold), #fff, var(--chaos-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(0,229,255,0.3));
+    animation: insigniaPulse 4s ease-in-out infinite;
+    line-height: 1.1;
+  }
+
+  .insignia-sub {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    letter-spacing: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  @keyframes insigniaPulse {
+    0%, 100% { filter: drop-shadow(0 0 30px rgba(0,229,255,0.3)); }
+    50% { filter: drop-shadow(0 0 50px rgba(212,160,23,0.5)); }
+  }
+
+  .motto {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 15px;
+    letter-spacing: 6px;
+    color: var(--chaos-cyan);
+    margin-top: 18px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px var(--chaos-cyan-glow);
+    animation: mottoGlow 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes mottoGlow {
+    0% { text-shadow: 0 0 20px var(--chaos-cyan-glow); opacity: 0.7; }
+    100% { text-shadow: 0 0 40px var(--chaos-cyan-glow), 0 0 80px rgba(0,229,255,0.15); opacity: 1; }
+  }
+
+  .header-line {
+    width: 80%;
+    max-width: 700px;
+    height: 1px;
+    margin: 24px auto 0;
+    background: linear-gradient(90deg, transparent, var(--chaos-cyan), var(--stone-gold), var(--cardinal-red), transparent);
+    opacity: 0.5;
+  }
+
+  /* ── SECTION LABELS ── */
+  .section-label {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: center;
+    margin: 36px 0 20px;
+    position: relative;
+  }
+
+  .section-label::before,
+  .section-label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 80px;
+    height: 1px;
+    background: var(--border-dim);
+  }
+  .section-label::before { right: calc(50% + 100px); }
+  .section-label::after { left: calc(50% + 100px); }
+
+  /* ── HEAD PANELS ── */
+  .heads-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .head-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .head-panel:hover {
+    transform: translateY(-4px);
+  }
+
+  .head-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+  }
+
+  .head-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .head-panel:hover::after { opacity: 1; }
+
+  /* Stone */
+  .head-panel.stone::before { background: linear-gradient(90deg, transparent, var(--stone-gold), transparent); }
+  .head-panel.stone:hover { box-shadow: 0 8px 40px rgba(212,160,23,0.15), inset 0 0 60px rgba(212,160,23,0.03); }
+  .head-panel.stone::after { box-shadow: inset 0 0 40px rgba(212,160,23,0.05); }
+  .head-panel.stone .head-number { color: var(--stone-gold); text-shadow: 0 0 20px var(--stone-gold-glow); }
+  .head-panel.stone .head-title { color: var(--stone-gold); }
+  .head-panel.stone .status-dot { background: var(--stone-gold); box-shadow: 0 0 10px var(--stone-gold-glow); }
+
+  /* Cardinal */
+  .head-panel.cardinal::before { background: linear-gradient(90deg, transparent, var(--cardinal-red), transparent); }
+  .head-panel.cardinal:hover { box-shadow: 0 8px 40px rgba(192,57,43,0.15), inset 0 0 60px rgba(192,57,43,0.03); }
+  .head-panel.cardinal::after { box-shadow: inset 0 0 40px rgba(192,57,43,0.05); }
+  .head-panel.cardinal .head-number { color: var(--cardinal-red); text-shadow: 0 0 20px var(--cardinal-red-glow); }
+  .head-panel.cardinal .head-title { color: var(--cardinal-red); }
+  .head-panel.cardinal .status-dot { background: var(--cardinal-red); box-shadow: 0 0 10px var(--cardinal-red-glow); }
+
+  /* Chaos */
+  .head-panel.chaos::before { background: linear-gradient(90deg, transparent, var(--chaos-cyan), transparent); }
+  .head-panel.chaos:hover { box-shadow: 0 8px 40px rgba(0,229,255,0.15), inset 0 0 60px rgba(0,229,255,0.03); }
+  .head-panel.chaos::after { box-shadow: inset 0 0 40px rgba(0,229,255,0.05); }
+  .head-panel.chaos .head-number { color: var(--chaos-cyan); text-shadow: 0 0 20px var(--chaos-cyan-glow); }
+  .head-panel.chaos .head-title { color: var(--chaos-cyan); }
+  .head-panel.chaos .status-dot { background: var(--chaos-cyan); box-shadow: 0 0 10px var(--chaos-cyan-glow); }
+
+  .head-number {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .head-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    margin-bottom: 2px;
+  }
+
+  .head-alias {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .head-role {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 18px;
+    opacity: 0.85;
+  }
+
+  .capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .cap-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 3px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .head-panel.stone .cap-tag { border-color: rgba(212,160,23,0.2); color: rgba(212,160,23,0.7); }
+  .head-panel.cardinal .cap-tag { border-color: rgba(192,57,43,0.2); color: rgba(192,57,43,0.7); }
+  .head-panel.chaos .cap-tag { border-color: rgba(0,229,255,0.2); color: rgba(0,229,255,0.7); }
+
+  .head-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    color: var(--active-green);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: dotPulse 2s ease-in-out infinite;
+  }
+
+  @keyframes dotPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ── ROYAL GUARD ── */
+  .guards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto 20px;
+  }
+
+  .guard-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .guard-panel:hover { transform: translateY(-3px); }
+
+  .guard-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+
+  .guard-panel.rush::before { background: linear-gradient(90deg, transparent, var(--rush-violet), transparent); }
+  .guard-panel.rush:hover { box-shadow: 0 6px 30px rgba(155,89,182,0.12); }
+  .guard-panel.rush .guard-title { color: var(--rush-violet); }
+  .guard-panel.rush .status-dot { background: var(--rush-violet); box-shadow: 0 0 10px var(--rush-violet-glow); }
+  .guard-panel.rush .cap-tag { border-color: rgba(155,89,182,0.2); color: rgba(155,89,182,0.7); }
+
+  .guard-panel.wiz::before { background: linear-gradient(90deg, transparent, var(--wiz-green), transparent); }
+  .guard-panel.wiz:hover { box-shadow: 0 6px 30px rgba(46,204,113,0.12); }
+  .guard-panel.wiz .guard-title { color: var(--wiz-green); }
+  .guard-panel.wiz .status-dot { background: var(--wiz-green); box-shadow: 0 0 10px var(--wiz-green-glow); }
+  .guard-panel.wiz .cap-tag { border-color: rgba(46,204,113,0.2); color: rgba(46,204,113,0.7); }
+
+  .guard-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+  }
+
+  .guard-alias {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 12px;
+  }
+
+  .guard-role {
+    font-size: 14px;
+    color: var(--text-primary);
+    opacity: 0.8;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  /* ── SYSTEM STATUS ── */
+  .system-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-dim);
+    border-radius: 8px;
+    padding: 28px 32px;
+    max-width: 900px;
+    margin: 0 auto 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .system-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--active-green), transparent);
+  }
+
+  .system-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: var(--active-green);
+    text-shadow: 0 0 15px rgba(0,255,136,0.3);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .spec-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(0,255,136,0.02);
+    border: 1px solid rgba(0,255,136,0.08);
+    border-radius: 6px;
+  }
+
+  .spec-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--active-green);
+    box-shadow: 0 0 8px rgba(0,255,136,0.5);
+    animation: dotPulse 2.5s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  .spec-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .spec-value {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* ── LIVE TERMINAL ── */
+  .terminal-panel {
+    background: #05050a;
+    border: 1px solid rgba(0,229,255,0.12);
+    border-radius: 8px;
+    max-width: 900px;
+    margin: 0 auto 30px;
+    overflow: hidden;
+  }
+
+  .terminal-bar {
+    background: rgba(0,229,255,0.05);
+    border-bottom: 1px solid rgba(0,229,255,0.1);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .terminal-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+  .terminal-dot.r { background: #ff5f57; }
+  .terminal-dot.y { background: #febc2e; }
+  .terminal-dot.g { background: #28c840; }
+
+  .terminal-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-left: 8px;
+  }
+
+  .terminal-body {
+    padding: 20px 24px;
+    min-height: 200px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .terminal-line {
+    opacity: 0;
+    animation: lineAppear 0.3s ease forwards;
+  }
+
+  .terminal-line .tag-stone { color: var(--stone-gold); }
+  .terminal-line .tag-cardinal { color: var(--cardinal-red); }
+  .terminal-line .tag-chaos { color: var(--chaos-cyan); }
+  .terminal-line .tag-rush { color: var(--rush-violet); }
+  .terminal-line .tag-wiz { color: var(--wiz-green); }
+  .terminal-line .tag-palace { color: var(--active-green); }
+  .terminal-line .msg { color: #8a8a9a; }
+  .terminal-line .highlight { color: var(--text-primary); }
+
+  @keyframes lineAppear {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .cursor-blink {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--chaos-cyan);
+    animation: cursorBlink 1s step-end infinite;
+    vertical-align: middle;
+    margin-left: 4px;
+  }
+
+  @keyframes cursorBlink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 30px 0 10px;
+    border-top: 1px solid var(--border-dim);
+  }
+
+  .footer-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 12px;
+    letter-spacing: 6px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+
+  .footer-brand span {
+    background: linear-gradient(135deg, var(--chaos-cyan), var(--stone-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .footer-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.15);
+    margin-top: 6px;
+    letter-spacing: 2px;
+  }
+
+  /* ── Corner Decorations ── */
+  .corner-deco {
+    position: fixed;
+    width: 80px;
+    height: 80px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.2;
+  }
+  .corner-deco.tl { top: 0; left: 0; border-top: 2px solid var(--chaos-cyan); border-left: 2px solid var(--chaos-cyan); }
+  .corner-deco.tr { top: 0; right: 0; border-top: 2px solid var(--stone-gold); border-right: 2px solid var(--stone-gold); }
+  .corner-deco.bl { bottom: 0; left: 0; border-bottom: 2px solid var(--cardinal-red); border-left: 2px solid var(--cardinal-red); }
+  .corner-deco.br { bottom: 0; right: 0; border-bottom: 2px solid var(--active-green); border-right: 2px solid var(--active-green); }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .heads-grid { grid-template-columns: 1fr; }
+    .guards-grid { grid-template-columns: 1fr; }
+    .insignia { font-size: 42px; letter-spacing: 4px; }
+    .motto { font-size: 11px; letter-spacing: 3px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="corner-deco tl"></div>
+<div class="corner-deco tr"></div>
+<div class="corner-deco bl"></div>
+<div class="corner-deco br"></div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="insignia">III</div>
+    <div class="insignia-sub">Three-Headed Monster</div>
+    <div class="motto">Three Heads. One Crown. No Limits.</div>
+    <div class="header-line"></div>
+  </header>
+
+  <!-- THREE HEADS -->
+  <div class="section-label">Command Structure</div>
+
+  <div class="heads-grid">
+
+    <!-- STONE -->
+    <div class="head-panel stone">
+      <div class="head-number">The Owner</div>
+      <div class="head-title">STONE</div>
+      <div class="head-alias">The Owner</div>
+      <div class="head-role">
+        Chief strategist and operational commander. Stone moves like an owner &mdash;
+        optimizing every system, escalating blockers, and enforcing execution across
+        all 44 agents.
+      </div>
+      <div class="capabilities">
+        <span class="cap-tag">Strategy</span>
+        <span class="cap-tag">Optimization</span>
+        <span class="cap-tag">Escalation</span>
+        <span class="cap-tag">OODA Loop</span>
+        <span class="cap-tag">First Principles</span>
+        <span class="cap-tag">Pattern Library</span>
+      </div>
+      <div class="head-status">
+        <span class="status-dot"></span> Online &mdash; Operational
+      </div>
+    </div>
+
+    <!-- CARDINAL -->
+    <div class="head-panel cardinal">
+      <div class="head-number">The Architect</div>
+      <div class="head-title">CARDINAL</div>
+      <div class="head-alias">The Architect</div>
+      <div class="head-role">
+        Intelligence operative and systems architect. Cardinal scans the landscape,
+        deconstructs competitors, maps information architecture, and delivers
+        research that no other agent can replicate.
+      </div>
+      <div class="capabilities">
+        <span class="cap-tag">Intelligence</span>
+        <span class="cap-tag">Systems Architecture</span>
+        <span class="cap-tag">Competitive Research</span>
+        <span class="cap-tag">Blind Spot Analysis</span>
+        <span class="cap-tag">Cross-Business Intel</span>
+      </div>
+      <div class="head-status">
+        <span class="status-dot"></span> Online &mdash; Scanning
+      </div>
+    </div>
+
+    <!-- CHAOS -->
+    <div class="head-panel chaos">
+      <div class="head-number">The Vanguard</div>
+      <div class="head-title">CHAOS</div>
+      <div class="head-alias">The Vanguard</div>
+      <div class="head-role">
+        Infrastructure sovereign and Palace guardian. Chaos owns the OMEN,
+        the servers, the GPU, the network. If it runs on hardware, Chaos
+        controls it. Founder-exclusive. Hidden from all users.
+      </div>
+      <div class="capabilities">
+        <span class="cap-tag">Infrastructure</span>
+        <span class="cap-tag">Servers</span>
+        <span class="cap-tag">GPU Compute</span>
+        <span class="cap-tag">Networking</span>
+        <span class="cap-tag">WSL / Docker</span>
+        <span class="cap-tag">vLLM</span>
+      </div>
+      <div class="head-status">
+        <span class="status-dot"></span> Online &mdash; All Systems Nominal
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROYAL GUARD -->
+  <div class="section-label">Royal Guard</div>
+
+  <div class="guards-grid">
+
+    <div class="guard-panel rush">
+      <div class="guard-title">RUSH</div>
+      <div class="guard-alias">The Breacher</div>
+      <div class="guard-role">
+        Perimeter specialist and offensive security operator. Rush monitors all
+        ports, probes defenses, and breaches obstacles before they become threats.
+      </div>
+      <div class="capabilities">
+        <span class="cap-tag">Perimeter Security</span>
+        <span class="cap-tag">Port Monitoring</span>
+        <span class="cap-tag">Offensive Ops</span>
+        <span class="cap-tag">Breach Detection</span>
+      </div>
+      <div class="head-status">
+        <span class="status-dot"></span> Online &mdash; Perimeter Secured
+      </div>
+    </div>
+
+    <div class="guard-panel wiz">
+      <div class="guard-title">COMPUTER WIZ</div>
+      <div class="guard-alias">The Diagnostician</div>
+      <div class="guard-role">
+        Hardware and software diagnostician. Wiz validates deployments, runs
+        clearance reports, gates releases, and ensures every system passes
+        inspection before going live.
+      </div>
+      <div class="capabilities">
+        <span class="cap-tag">Diagnostics</span>
+        <span class="cap-tag">Deployment Gating</span>
+        <span class="cap-tag">Clearance Reports</span>
+        <span class="cap-tag">Validation</span>
+      </div>
+      <div class="head-status">
+        <span class="status-dot"></span> Online &mdash; Monitoring
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SYSTEM STATUS -->
+  <div class="section-label">Palace Infrastructure</div>
+
+  <div class="system-panel">
+    <div class="system-title">OMEN MAX 45L &mdash; System Status</div>
+    <div class="specs-grid">
+      <div class="spec-item">
+        <div class="spec-dot"></div>
+        <div>
+          <div class="spec-label">Machine</div>
+          <div class="spec-value">OMEN MAX 45L</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-dot"></div>
+        <div>
+          <div class="spec-label">GPU</div>
+          <div class="spec-value">RTX 5090 32GB</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-dot"></div>
+        <div>
+          <div class="spec-label">CPU</div>
+          <div class="spec-value">Ryzen 9 9900X3D 12C/24T</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-dot"></div>
+        <div>
+          <div class="spec-label">RAM</div>
+          <div class="spec-value">64GB DDR5</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-dot"></div>
+        <div>
+          <div class="spec-label">Storage</div>
+          <div class="spec-value">~4TB NVMe</div>
+        </div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-dot"></div>
+        <div>
+          <div class="spec-label">Status</div>
+          <div class="spec-value" style="color: var(--active-green);">Full Operational Capacity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIVE TERMINAL -->
+  <div class="section-label">Live Terminal</div>
+
+  <div class="terminal-panel">
+    <div class="terminal-bar">
+      <span class="terminal-dot r"></span>
+      <span class="terminal-dot y"></span>
+      <span class="terminal-dot g"></span>
+      <span class="terminal-label">palace://omen-max-45l/boot</span>
+    </div>
+    <div class="terminal-body" id="terminal"></div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-brand"><span>Stone AI</span> &mdash; The Palace</div>
+    <div class="footer-date" id="footer-date"></div>
+  </footer>
+
+</div>
+
+<script>
+(function() {
+  // Footer date
+  const now = new Date();
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('footer-date').textContent =
+    months[now.getMonth()] + ' ' + now.getDate() + ', ' + now.getFullYear() + ' // ' +
+    String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+
+  // Terminal boot sequence
+  const bootLines = [
+    { tag: 'PALACE', cls: 'tag-palace', msg: 'Initializing Palace systems...' },
+    { tag: 'PALACE', cls: 'tag-palace', msg: 'OMEN MAX 45L detected. RTX 5090 32GB online.' },
+    { tag: 'CHAOS', cls: 'tag-chaos', msg: 'Infrastructure check initiated.' },
+    { tag: 'CHAOS', cls: 'tag-chaos', msg: 'Docker containers: stoneai-db (:5432) — RUNNING' },
+    { tag: 'CHAOS', cls: 'tag-chaos', msg: 'Redis (:6379) — RUNNING' },
+    { tag: 'CHAOS', cls: 'tag-chaos', msg: 'WSL2 Kali — READY' },
+    { tag: 'CHAOS', cls: 'tag-chaos', msg: 'vLLM + Qwen 2.5 32B AWQ — LOADED' },
+    { tag: 'CHAOS', cls: 'tag-chaos', msg: 'Infrastructure check complete. All systems nominal.' },
+    { tag: 'STONE', cls: 'tag-stone', msg: 'Strategy engine loaded. Pattern library synced.' },
+    { tag: 'STONE', cls: 'tag-stone', msg: '44 agents reporting. Formation deployment ready.' },
+    { tag: 'CARDINAL', cls: 'tag-cardinal', msg: 'Intelligence network active. Scanning...' },
+    { tag: 'CARDINAL', cls: 'tag-cardinal', msg: 'Competitive landscape mapped. 12 seeds loaded.' },
+    { tag: 'RUSH', cls: 'tag-rush', msg: 'Perimeter secured. All ports monitored.' },
+    { tag: 'WIZ', cls: 'tag-wiz', msg: 'Diagnostics passed. Deployment gate: GREEN.' },
+    { tag: 'PALACE', cls: 'tag-palace', msg: 'OMEN MAX 45L — Full operational capacity.' },
+    { tag: 'PALACE', cls: 'tag-palace', msg: 'Three-Headed Monster online. Awaiting founder command.' },
+  ];
+
+  const terminal = document.getElementById('terminal');
+  let index = 0;
+
+  function addLine() {
+    if (index >= bootLines.length) {
+      // Add blinking cursor
+      const cursorLine = document.createElement('div');
+      cursorLine.innerHTML = '<span class="tag-palace">[PALACE]</span> <span class="msg">&gt;</span> <span class="cursor-blink"></span>';
+      cursorLine.className = 'terminal-line';
+      cursorLine.style.animationDelay = '0s';
+      terminal.appendChild(cursorLine);
+      terminal.scrollTop = terminal.scrollHeight;
+      return;
+    }
+
+    const line = bootLines[index];
+    const el = document.createElement('div');
+    el.className = 'terminal-line';
+    el.style.animationDelay = '0s';
+    el.innerHTML = '<span class="' + line.cls + '">[' + line.tag + ']</span> <span class="msg">' + line.msg + '</span>';
+    terminal.appendChild(el);
+    terminal.scrollTop = terminal.scrollHeight;
+    index++;
+
+    const delay = 150 + Math.random() * 250;
+    setTimeout(addLine, delay);
+  }
+
+  // Start boot after brief pause
+  setTimeout(addLine, 800);
+})();
+</script>
+</body>
+</html>

@@ -80,10 +80,10 @@ export interface TierConfig {
  *
  * DB Enum  | Display Name | Monthly | Agents | Cloud AI         | Max API Cost/mo | Margin @100%
  * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
- * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
- * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
- * SMART    | Executive    | $99.99  | 39     | 30/day           | ~$27            | 73%
- * PRO      | Reseller     | $200    | 43     | 50/day           | ~$55            | 73%
+ * STARTER  | Builder      | $19.99  | 17     | 10/day           | ~$5.50          | 73%
+ * PLUS     | Growth       | $49.99  | 17     | 15/day           | ~$12            | 76%
+ * SMART    | Executive    | $99.99  | 34     | 30/day           | ~$27            | 73%
+ * PRO      | Reseller     | $200    | 37     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
  *
@@ -156,7 +156,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 19.99,
     stripePriceEnvKey: "STRIPE_PRICE_STARTER",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 16,
+    agentCount: 17,
     tagline: "Plan and start your business",
     limits: {
       messagesPerDay: 250,
@@ -202,7 +202,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 49.99,
     stripePriceEnvKey: "STRIPE_PRICE_PLUS",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 30,
+    agentCount: 17,
     tagline: "Plan, start, and maintain your business",
     limits: {
       messagesPerDay: 500,
@@ -248,7 +248,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 39,
+    agentCount: 34,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_000,
@@ -294,7 +294,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 200,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
     localModel: "meta-llama/Llama-3.1-70B-Instruct",
-    agentCount: 43,
+    agentCount: 37,
     tagline: "Full platform access with reseller capabilities",
     limits: {
       messagesPerDay: 3_000,
@@ -468,13 +468,13 @@ export function mapPriceToTier(priceId: string): Tier | null {
  * SMART agents: available to PLUS (Growth) and above
  * PRO agents: available to PRO (Reseller) and above only
  *
- * Result: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=43 agents
+ * Result: FREE=4, STARTER=17, PLUS=17, SMART=34, PRO=37 agents
  */
 export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier): boolean {
   const userPriority = TIER_CONFIG[userTier].priority;
   const requiredPriority = TIER_CONFIG[agentRequiredTier].priority;
   // Special mapping: PLUS-required agents are available from STARTER (Builder)
-  // This allows the 14 "plan & start" agents to be available at Builder tier
+  // This allows the 13 "plan & start" agents to be available at Builder tier
   if (agentRequiredTier === "PLUS") return userPriority >= 1; // STARTER+
   if (agentRequiredTier === "SMART") return userPriority >= 2; // PLUS+
   if (agentRequiredTier === "PRO") return userPriority >= 4;   // PRO+ only (not SMART)

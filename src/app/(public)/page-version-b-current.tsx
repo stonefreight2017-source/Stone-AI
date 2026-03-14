@@ -312,7 +312,7 @@ export default function LandingPage() {
                 {[
                   "Blog series", "Email sequence", "30 days posts", "Video script",
                   "Keyword strategy", "Ad campaigns", "Landing pages", "Episode outline",
-                  "Outreach emails", "Dashboard", "3 languages", "Client deck",
+                  "Outreach emails", "Dashboard", "6 languages", "Client deck",
                 ].map((output) => (
                   <div key={output} className="rounded-lg bg-zinc-700/20 p-3 text-center border border-zinc-700/30">
                     <p className="text-xs text-zinc-300 font-medium">{output}</p>

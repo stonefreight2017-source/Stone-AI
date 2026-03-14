@@ -191,9 +191,6 @@ export async function sendAutoResponses(
     // Check 24h cooldown per sender
     if (isOnCooldown(senderEmail)) {
       skippedCooldown++;
-      console.log(
-        `[auto-responder] Cooldown active for ${senderEmail}, skipping auto-response`
-      );
       continue;
     }
 
@@ -216,10 +213,6 @@ export async function sendAutoResponses(
 
       setCooldownForSender(senderEmail);
       sent++;
-
-      console.log(
-        `[auto-responder] Sent ${decision.zohoTag} auto-response to ${senderEmail}`
-      );
 
       // Notify founder that an auto-response was sent
       await sendFounderAlert(

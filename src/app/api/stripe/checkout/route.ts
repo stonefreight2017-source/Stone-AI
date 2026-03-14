@@ -14,6 +14,7 @@ const checkoutSchema = z.object({
   tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]),
   period: z.enum(["monthly", "semiannual", "annual"]).optional().default("monthly"),
   trial: z.boolean().optional().default(false),
+  firstMonthDeal: z.boolean().optional().default(false),
 }).strict();
 
 // POST /api/stripe/checkout — create a Stripe checkout session
@@ -45,7 +46,16 @@ export async function POST(req: NextRequest) {
     const targetTier = parsed.data.tier as Tier;
     const billingPeriod = parsed.data.period as BillingPeriod;
     const wantsTrial = parsed.data.trial;
+    const wantsFirstMonthDeal = parsed.data.firstMonthDeal;
     const priceId = getStripePriceId(targetTier, billingPeriod);
+
+    // First month deal only applies to Builder (STARTER) on monthly billing
+    const applyFirstMonthCoupon =
+      wantsFirstMonthDeal &&
+      targetTier === "STARTER" &&
+      billingPeriod === "monthly" &&
+      !wantsTrial &&
+      process.env.STRIPE_FIRST_MONTH_COUPON_ID;
 
     // Enhanced trial: one per account, requires credit card, 7-day free then auto-charges
     if (wantsTrial) {
@@ -105,7 +115,9 @@ export async function POST(req: NextRequest) {
         metadata: { userId: user.id },
         ...(wantsTrial ? { trial_period_days: 7 } : {}),
       },
-      allow_promotion_codes: !wantsTrial, // No promo codes during trial
+      ...(applyFirstMonthCoupon
+        ? { discounts: [{ coupon: process.env.STRIPE_FIRST_MONTH_COUPON_ID! }] }
+        : { allow_promotion_codes: !wantsTrial }), // No promo codes during trial or when coupon auto-applied
     };
 
     const session = await stripe.checkout.sessions.create(sessionConfig);

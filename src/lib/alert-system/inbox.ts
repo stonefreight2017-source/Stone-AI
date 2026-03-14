@@ -31,6 +31,8 @@ export interface InboxMessage {
   uid: number;
   isCommand: boolean;
   parsedCommand?: ParsedCommand;
+  /** Plain text body (for reply parsing — stripped of quoted text) */
+  textBody?: string;
 }
 
 export interface InboxResult {
@@ -181,6 +183,15 @@ export async function checkInbox(): Promise<InboxResult> {
                   uid
                 );
 
+                // Extract plain text body (first part before quoted reply)
+                let textBody = parsed.text ?? "";
+                // Strip quoted reply sections (lines starting with >)
+                const replyIdx = textBody.indexOf("\nOn ");
+                if (replyIdx > 0) textBody = textBody.slice(0, replyIdx);
+                const quoteIdx = textBody.indexOf("\n>");
+                if (quoteIdx > 0) textBody = textBody.slice(0, quoteIdx);
+                textBody = textBody.trim();
+
                 const inboxMsg: InboxMessage = {
                   from,
                   subject,
@@ -189,6 +200,7 @@ export async function checkInbox(): Promise<InboxResult> {
                   uid,
                   isCommand: !!cmd,
                   parsedCommand: cmd ?? undefined,
+                  textBody: textBody || undefined,
                 };
 
                 messages.push(inboxMsg);

@@ -1,0 +1,161 @@
+THREE-HEADED MONSTER — ADVERTISING CONTENT PROPOSAL
+
+Batch 1 | 38 Content Pieces | All Brands | All Platforms
+Status: AWAITING FOUNDER APPROVAL — Nothing gets posted until you say go.
+Every future ad batch will be sent here for review before posting.
+
+============================================================
+STONE AI (Main Product)
+Handles: app.stone-ai.net@stone-ai.net
+============================================================
+
+[INSTAGRAM — Carousel]
+Stone AI — 44 AI agents. One platform. Every tier gets smarter. Whether you're freelancing or running a team, there's an agent built for how you work. Strategy. Code. Writing. Security. Finance. All in one place. Start free. Upgrade when you're ready. stone-ai.net
+Hashtags: #AI #AITools #Productivity #SaaS #StoneAI #ArtificialIntelligence #StartupTools #TechStartup
+Format: Carousel (slide 1: hook on dark bg, slides 2-4: agent categories, slide 5: CTA)
+
+[FACEBOOK — Post]
+Most AI tools give you one chatbot. Stone AI gives you 44 specialized agents — each trained for a specific job. Strategy, engineering, writing, security, finance, marketing — pick the agent, get the work done. Free tier available. No credit card. Try it: stone-ai.net
+
+[TIKTOK — 15s Video]
+Concept: Screen recording — open Stone AI, show agent grid, pick 3 agents, show each answering. Text: One platform. 44 agents. All yours.
+Sound: Trending upbeat audio. CTA: Link in bio
+
+[BLUESKY — Post]
+Built Stone AI because I was tired of switching between 6 different AI tools. Now it's one platform, 44 agents, and a free tier. stone-ai.net
+
+============================================================
+STONE AI TOOLS (Developer Platform)
+Handles: stoneaitools@stone-ai.net
+============================================================
+
+[TWITTER/X]
+Stone AI Tools is coming. Developer-first. API access. Build with AI agents that actually know your stack. Launching at tools.stone-ai.net
+
+[INSTAGRAM — Single Image]
+Developers — stop duct-taping AI into your workflow. Stone AI Tools gives you direct API access to 44 specialized agents. Plug them into your app, your pipeline, your product. tools.stone-ai.net
+Format: Dark terminal aesthetic, code snippet, logo
+
+[THREADS]
+Building AI tools for developers who are tired of generic chatbots. 44 agents. Real API. Real specialization. tools.stone-ai.net — coming soon.
+
+[TIKTOK — 15s Video]
+Concept: Code editor — import SDK, call code review agent, get real review back. Text: AI agents with an API. Finally.
+Sound: Lo-fi coding aesthetic. CTA: tools.stone-ai.net
+
+[LINKEDIN]
+We're launching Stone AI Tools — a developer platform with API access to 44 specialized AI agents. Each trained for a specific domain: backend engineering, security auditing, database optimization, financial analysis, and more. Not another wrapper. Purpose-built agents on our infrastructure. Early access: tools.stone-ai.net
+
+[REDDIT — r/programming, r/artificial, r/SaaS]
+Title: We built 44 specialized AI agents and we're opening up API access
+Body: Each agent knows its domain — code review understands your stack, security runs OWASP checks, financial handles real modeling. Free tier. Looking for dev feedback. tools.stone-ai.net
+
+[PINTEREST — Infographic Pin]
+44 AI Agents for Developers — grid of agent categories. Clean dark design. Link: tools.stone-ai.net
+
+============================================================
+BEST AI — Brand 1
+Handles: bestAI@stone-ai.net
+============================================================
+
+[INSTAGRAM — Carousel]
+Meet your Best AI — the AI companion that actually gets you. Pick your personality. Choose how they talk. Build a real connection. Not a chatbot. A bestie.
+Format: Carousel (Your AI Your Way > trait selection > chat preview > Coming Soon)
+
+[THREADS]
+We're building an AI that doesn't talk like a robot. You pick the personality. You choose the vibe. It remembers you. Best AI is coming.
+
+[FACEBOOK]
+What if your AI assistant felt like talking to a friend? Best AI lets you customize your AI companion — personality, communication style, even language. Personal AI, done right. Coming soon.
+
+[LINKEDIN]
+Announcing Best AI — personalized AI companion. 18 personality traits, multiple communication styles, 6 languages. The consumer AI market is moving toward personalization. We're leading that shift.
+
+[TIKTOK]
+Split screen — left: generic AI robotic response. Right: Best AI warm personalized response. Text: AI that actually gets you.
+Sound: Trending relatable audio. CTA: Follow for launch
+
+[YOUTUBE — 60s]
+Why we built Best AI — founder to camera, app interface cuts, personality selection, chat demo. End: Follow for launch.
+
+[GITHUB]
+README update — description, features, tech stack, coming soon badge
+
+[REDDIT — r/artificial, r/apps]
+Title: Building a personal AI companion that isn't cringe — looking for feedback
+Body: 18 traits, comm styles, language, context memory. Not a virtual girlfriend app. Useful AI that adapts to YOU.
+
+[BLUESKY]
+Most AI feels like talking to a manual. Best AI lets you pick the personality, the vibe, the language. Your AI, your rules. Coming soon.
+
+[TWITTER/X]
+Your AI should talk like you want it to. 18 personality traits. 2 comm styles. 6 languages. Best AI — coming soon.
+
+============================================================
+BEST AI — Mobile App
+Handles: mybestAIapp@stone-ai.net
+============================================================
+
+[THREADS]
+The Best AI app is almost here. Your pocket AI companion — customized to you. Not a chatbot. A bestie.
+
+[INSTAGRAM — Phone Mockup]
+Best AI — now in your pocket. Your personalized AI companion, wherever you go. Customize everything. Coming to iOS and Android.
+
+[FACEBOOK]
+Your AI companion is going mobile. Best AI app — personalize your AI's personality, chat anywhere, build a connection that grows. iOS + Android. Coming soon.
+
+[TIKTOK]
+Hand holding phone, opening Best AI, personality setup, start conversation. Text: Your AI. Your pocket. Your rules.
+Sound: Satisfying UI reveal audio
+
+[YOUTUBE — 30s]
+App walkthrough — personality setup, conversation, context memory. Best AI — Download soon.
+
+[GITHUB]
+Mobile repo — tech stack docs, contribution guidelines, architecture
+
+[REDDIT]
+Best AI is going mobile — personal AI companion for iOS and Android
+
+[BLUESKY]
+Best AI mobile app. Your AI bestie in your pocket. Personalized. Private. Coming to iOS and Android.
+
+[LINKEDIN]
+Expanding Best AI to mobile. The personalized AI companion market is growing fast. Full personality customization on mobile with offline capability planned.
+
+============================================================
+STONE AI CORPORATE
+Handles: StoneAI2026@outlook.com
+============================================================
+
+[X/TWITTER — @StoneAI2026]
+Stone AI — 44 specialized AI agents on one platform. Free tier. No generic chatbots. Each agent built for a specific job. stone-ai.net
+
+[LINKEDIN — /company/stoneai]
+Stone AI is a specialized AI agent platform. Instead of one general-purpose AI, we built 44 domain-specific agents. Now live at stone-ai.net. Free tier. Coming soon: Stone AI Tools, Best AI, Best AI Mobile.
+
+[YOUTUBE — @StoneAI — 90s]
+The Stone AI Empire — all three products, the vision, the infrastructure. Professional. End with all URLs.
+
+[REDDIT — u/StoneAI]
+Profile post: Stone AI, three-business strategy, founder vision. stone-ai.net
+
+[THREADS — @StoneAI]
+Three products. One mission. AI that works for real people. Stone AI — 44 agents. Stone AI Tools — dev API. Best AI — your companion. All 2026.
+
+[DISCORD — stoneai2026]
+Welcome post: community intro, products, what's coming. Pin rules and links.
+
+[PRODUCT HUNT — @StoneAI]
+Stone AI — 44 specialized AI agents. Free to start.
+Tagline: Stop using one AI for everything. Use the right agent for the right job.
+
+[GITHUB ORG — /StoneAI]
+Org README — description, product links, tech stack, open source.
+
+============================================================
+TOTALS: 38 pieces | 5 brands | All platforms covered
+REPLY TO APPROVE, REJECT, OR REQUEST CHANGES.
+Nothing gets posted until you say go.
+============================================================

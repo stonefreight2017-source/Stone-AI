@@ -2,7 +2,17 @@ import { db } from "@/lib/db";
 
 // Embedding dimensions — matches nomic-embed-text / local models
 const EMBED_DIM = 768;
-const TOP_K = 5;
+
+// Tiered RAG depth — higher tiers get more knowledge chunks retrieved
+// This is the kill shot: same model, different knowledge depth per tier
+const TIERED_TOP_K: Record<string, number> = {
+  FREE: 2,
+  STARTER: 3,
+  PLUS: 5,
+  SMART: 7,
+  PRO: 10,
+};
+const TOP_K = 5; // Default fallback
 
 /**
  * Generate embedding via vLLM embedding endpoint or fallback.
@@ -146,12 +156,18 @@ export async function searchKnowledge(
 /**
  * Build RAG context string from knowledge search results.
  * Injected into the prompt before the user's message.
+ *
+ * Tiered RAG: higher tiers retrieve more knowledge chunks,
+ * making agents smarter at premium tiers with the same base model.
+ * FREE=2, STARTER=3, PLUS=5, SMART=7, PRO=10
  */
 export async function buildRagContext(
   agentId: string,
-  query: string
+  query: string,
+  userTier?: string
 ): Promise<string> {
-  const chunks = await searchKnowledge(agentId, query, TOP_K);
+  const topK = userTier ? (TIERED_TOP_K[userTier] ?? TOP_K) : TOP_K;
+  const chunks = await searchKnowledge(agentId, query, topK);
 
   if (chunks.length === 0) return "";
 

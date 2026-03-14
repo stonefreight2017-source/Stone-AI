@@ -66,6 +66,7 @@ export function BillingClient({
   const success = searchParams.get("success");
   const canceled = searchParams.get("canceled");
   const upgradedTier = searchParams.get("tier");
+  const deal = searchParams.get("deal");
 
   const [usageData, setUsageData] = useState<UsageData | null>(null);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
@@ -92,6 +93,14 @@ export function BillingClient({
     }
   }, [currentTier]);
 
+  // Auto-trigger first month deal from URL param (?deal=first-month)
+  useEffect(() => {
+    if (deal === "first-month" && currentTier === "FREE" && !hasStripeCustomer) {
+      handleUpgrade("STARTER", true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deal]);
+
   useEffect(() => {
     fetch("/api/user/usage")
       .then((r) => r.json())
@@ -99,13 +108,13 @@ export function BillingClient({
       .catch(() => {});
   }, []);
 
-  async function handleUpgrade(tier: string) {
+  async function handleUpgrade(tier: string, firstMonthDeal = false) {
     setLoadingCheckout(tier);
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier, period: billingPeriod }),
+        body: JSON.stringify({ tier, period: billingPeriod, ...(firstMonthDeal ? { firstMonthDeal: true } : {}) }),
       });
       const data = await res.json();
       if (data.url) {

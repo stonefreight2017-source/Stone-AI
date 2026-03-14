@@ -3,6 +3,16 @@ import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
 
+// ============================================================================
+// REFERRAL REWARDS STATUS: NOT ACTIVE
+//
+// This endpoint tracks referral sign-ups (who referred whom), but referral
+// rewards are NOT currently granted. For a referral to qualify for rewards,
+// the referred user must have an ACTIVE paid subscription (not a trial).
+// Until reward distribution logic is implemented and enabled, referrals are
+// recorded with status "PENDING" only.
+// ============================================================================
+
 // POST /api/referral/track — track that current user was referred by a code
 export async function POST(req: NextRequest) {
   try {

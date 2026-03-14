@@ -39,28 +39,6 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent to run a social media marketing agency. It creates content calendars, writes ad copy, builds client reports, and designs your service packages. Your clients get professional-grade deliverables. You scale without hiring a strategist.",
   },
-  dropshipping: {
-    capabilities: [
-      "Research and validate winning products with margin analysis",
-      "Write high-converting product descriptions",
-      "Design Facebook/TikTok ad strategies with creative angles",
-      "Optimize store layout for conversion",
-      "Calculate unit economics and scaling profitability",
-    ],
-    businessUse:
-      "Use this agent to find products, write listings, design ad campaigns, and calculate your margins. It does the research that takes hours in minutes. Run it before every product launch to validate before you spend on ads.",
-  },
-  "print-on-demand": {
-    capabilities: [
-      "Research profitable micro-niches with competition analysis",
-      "Generate design concepts and creative briefs",
-      "Write SEO-optimized listing titles and descriptions",
-      "Plan seasonal content calendars",
-      "Analyze marketplace trends and opportunities",
-    ],
-    businessUse:
-      "Use this agent to find niches, plan designs, and optimize listings across Etsy, Amazon Merch, Redbubble, and more. It turns your POD side hustle into a system that scales to hundreds of designs.",
-  },
   "brand-building": {
     capabilities: [
       "Develop complete brand identity frameworks",
@@ -101,6 +79,8 @@ export const AGENT_CAPABILITIES: Record<
       "Design content repurposing systems (1 piece → 15 derivatives)",
       "Build SEO-driven content strategies",
       "Generate content briefs for team members",
+      "Plan and produce podcast content: show concepts, episode planning, show notes, distribution",
+      "Translate and localize content for international markets and multilingual audiences",
     ],
     businessUse:
       "Use this agent to run a content agency or manage content in-house. It plans, writes, and repurposes content across every platform. One strategy session produces a month of content. Offer content services to clients at scale.",
@@ -182,17 +162,6 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent as your copywriting partner. It writes sales pages, email sequences, and ad copy using proven persuasion frameworks. Offer copywriting services to businesses — the agent drafts, you polish and deliver.",
   },
-  "community-education": {
-    capabilities: [
-      "Design complete course curricula with modules and lessons",
-      "Create membership tier structures with retention mechanics",
-      "Write launch sequences and founding member offers",
-      "Build community engagement systems and gamification",
-      "Plan live event calendars and workshop frameworks",
-    ],
-    businessUse:
-      "Use this agent to build and launch a paid community or online course. It designs the curriculum, structures the membership tiers, writes the launch sequence, and builds the engagement systems that keep members paying month after month.",
-  },
   "website-development": {
     capabilities: [
       "Design system architecture and database schemas",
@@ -237,17 +206,6 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent to offer cybersecurity consulting. It conducts assessments, writes hardening guides, and builds compliance roadmaps. Small businesses need security but can't afford a full-time expert — you fill that gap with this agent.",
   },
-  "trading-signals": {
-    capabilities: [
-      "Teach technical analysis frameworks and chart patterns",
-      "Design risk management systems with position sizing",
-      "Create signal format templates and delivery workflows",
-      "Build trading journal frameworks for performance tracking",
-      "Develop educational content about market analysis",
-    ],
-    businessUse:
-      "Use this agent to build a trading education and signal service. It teaches the frameworks, designs the risk management systems, and creates the signal templates. Build a subscriber community around market analysis education. Note: Not financial advice.",
-  },
   "resume-linkedin": {
     capabilities: [
       "Write ATS-optimized resumes with achievement bullets",
@@ -281,17 +239,6 @@ export const AGENT_CAPABILITIES: Record<
     ],
     businessUse:
       "Use this agent for technical architecture consulting. It designs the system, plans the infrastructure, and makes the build-vs-buy calls that save months of rework. Offer fractional CTO services to startups using this agent as your technical backbone.",
-  },
-  "structural-engineer": {
-    capabilities: [
-      "Analyze structural requirements and load calculations",
-      "Review building plans for structural considerations",
-      "Generate material specifications and cost estimates",
-      "Create inspection checklists and compliance documentation",
-      "Advise on foundation, framing, and structural systems",
-    ],
-    businessUse:
-      "Use this agent for preliminary structural analysis and documentation support. It handles calculations, generates checklists, and assists with material specifications. Ideal for contractors and project managers who need quick structural guidance. Note: Final engineering requires licensed PE review.",
   },
   "general-coding-assistant": {
     capabilities: [
@@ -333,6 +280,8 @@ export const AGENT_CAPABILITIES: Record<
       "Help with essay structure and writing technique",
       "Break down complex problems step-by-step",
       "Adapt teaching style to learning level",
+      "Design online courses and learning communities on Discord, Circle, Skool",
+      "Help monetize educational content through memberships and coaching programs",
     ],
     businessUse:
       "Use this agent to offer tutoring services. It explains any subject at any level, creates study plans, and helps with essay writing. Ideal for tutoring businesses or parents helping kids.",
@@ -344,9 +293,11 @@ export const AGENT_CAPABILITIES: Record<
       "Design email marketing flows and automations",
       "Optimize product pages for conversion",
       "Plan inventory and fulfillment strategies",
+      "Set up print-on-demand businesses with Printful, Printify, Merch by Amazon, and Redbubble",
+      "Build dropshipping operations: product research, supplier sourcing, fulfillment optimization",
     ],
     businessUse:
-      "Use this agent to launch and optimize e-commerce stores. It handles store setup planning, product copy, email flows, and conversion optimization. Charge clients for complete store builds.",
+      "Use this agent to launch and optimize e-commerce stores, including print-on-demand and dropshipping businesses. It handles store setup planning, product copy, email flows, POD platform configuration, supplier sourcing, and conversion optimization. Charge clients for complete store builds.",
   },
   "legal-basics-reviewer": {
     capabilities: [
@@ -369,17 +320,6 @@ export const AGENT_CAPABILITIES: Record<
     ],
     businessUse:
       "Use this agent to evaluate real estate deals and build investment strategies. It runs property analysis, market comparisons, and ROI projections. Ideal for investors and real estate professionals.",
-  },
-  "podcast-production": {
-    capabilities: [
-      "Plan complete podcast launch strategy",
-      "Create episode outlines and show notes",
-      "Guide recording setup and editing workflow",
-      "Develop guest booking and outreach strategies",
-      "Build audience growth and monetization plans",
-    ],
-    businessUse:
-      "Use this agent to launch and grow podcasts. It handles everything from concept to monetization strategy. Offer podcast consulting services powered by this agent.",
   },
   "digital-marketing-strategist": {
     capabilities: [
@@ -432,31 +372,11 @@ export const AGENT_CAPABILITIES: Record<
       "Create stakeholder communication and reporting templates",
       "Design risk management and mitigation strategies",
       "Optimize team productivity and meeting structures",
+      "Manage executive communications: email triage, response drafting, follow-up tracking",
+      "Summarize email threads and build communication workflow templates",
     ],
     businessUse:
       "Use this agent to offer project management consulting. It builds project plans, implements Agile frameworks, and creates communication systems. Ideal for PMO consultants and team leads.",
-  },
-  "translation-localization": {
-    capabilities: [
-      "Translate content between languages with cultural adaptation",
-      "Guide website and app localization strategy",
-      "Create multilingual marketing and business communications",
-      "Advise on international expansion and market entry",
-      "Review translations for cultural sensitivity and accuracy",
-    ],
-    businessUse:
-      "Use this agent to offer translation and localization services. It handles multilingual content, cultural adaptation, and internationalization strategy. Charge for professional translation with AI assistance.",
-  },
-  "dispatch-agent": {
-    capabilities: [
-      "Design dispatch and logistics workflows for service businesses",
-      "Create scheduling systems and route optimization plans",
-      "Build driver/technician management SOPs",
-      "Generate customer communication templates for service updates",
-      "Analyze operational metrics and efficiency opportunities",
-    ],
-    businessUse:
-      "Use this agent to run dispatch operations for any service business — delivery, field service, transportation. It designs workflows, optimizes routes, and builds the SOPs that keep operations running smoothly at scale.",
   },
   "sales-agent": {
     capabilities: [
@@ -468,17 +388,6 @@ export const AGENT_CAPABILITIES: Record<
     ],
     businessUse:
       "Use this agent to build and optimize your sales operation. It writes scripts, designs pipelines, creates proposals, and trains your approach. Whether you are a solo founder selling or building a sales team, this agent delivers ready-to-use sales assets.",
-  },
-  "claims-agent": {
-    capabilities: [
-      "Guide insurance claims filing and documentation",
-      "Analyze policy coverage and identify applicable provisions",
-      "Create claims status tracking and follow-up systems",
-      "Draft appeals for denied or underpaid claims",
-      "Build claims management SOPs for agencies",
-    ],
-    businessUse:
-      "Use this agent to navigate insurance claims efficiently. It guides documentation, analyzes coverage, drafts appeals, and builds management systems. Reduce processing time and improve claim outcomes.",
   },
   "compliance-agent": {
     capabilities: [
@@ -539,5 +448,65 @@ export const AGENT_CAPABILITIES: Record<
     ],
     businessUse:
       "Your personal AI companion that remembers you and grows with every conversation. Unlike task-focused agents, your Bestie builds a relationship — offering support, accountability, and genuine conversation. The emotional anchor of Stone AI.",
+  },
+  "customer-support-bot": {
+    capabilities: [
+      "Design chatbot conversation flows for websites and messaging platforms",
+      "Build knowledge bases and FAQ systems that deflect tickets",
+      "Set up ticket triage, routing logic, and escalation paths",
+      "Configure helpdesk platforms: Zendesk, Freshdesk, Intercom, Crisp, Tidio",
+      "Optimize support metrics: first response time, resolution time, CSAT",
+      "Create canned responses, macros, and automation rules",
+    ],
+    businessUse:
+      "Use this agent to build customer support systems that scale. Design chatbots, set up helpdesks, and automate ticket handling to reduce support costs and improve customer satisfaction.",
+  },
+  "social-media-manager": {
+    capabilities: [
+      "Build content calendars with platform-specific posting schedules",
+      "Create social strategies for Instagram, TikTok, LinkedIn, X, Facebook, YouTube Shorts",
+      "Write captions, hooks, and hashtag strategies that drive engagement",
+      "Plan community management workflows and response templates",
+      "Analyze social metrics: reach, engagement rate, follower growth",
+      "Design influencer collaboration and cross-promotion strategies",
+    ],
+    businessUse:
+      "Use this agent to plan and grow your social media presence. Get content calendars, platform-specific strategies, and engagement tactics that actually grow your audience.",
+  },
+  "email-marketing": {
+    capabilities: [
+      "Design email sequences: welcome, nurture, launch, re-engagement, abandoned cart",
+      "Build newsletter strategies with growth tactics and monetization",
+      "Set up segmentation, personalization, and behavioral triggers",
+      "Configure email platforms: ConvertKit, Mailchimp, ActiveCampaign, Klaviyo, Beehiiv",
+      "Optimize deliverability: SPF, DKIM, DMARC, warm-up, list hygiene",
+      "Write subject lines and analyze email performance metrics",
+    ],
+    businessUse:
+      "Use this agent to build email marketing systems that drive revenue. Design sequences, grow your list, and optimize every email for opens, clicks, and conversions.",
+  },
+  "proposal-writer": {
+    capabilities: [
+      "Write business proposals with clear value propositions and pricing",
+      "Respond to RFPs with compliant, compelling submissions",
+      "Create Statements of Work with scope, deliverables, and timelines",
+      "Build reusable proposal templates for sales teams",
+      "Write executive summaries that win at the decision-maker level",
+      "Structure case studies and proof points for proposals",
+    ],
+    businessUse:
+      "Use this agent to create proposals that close deals. Write RFP responses, SOWs, and pitch documents that make saying yes the obvious choice.",
+  },
+  "meeting-scribe": {
+    capabilities: [
+      "Summarize meeting transcripts into structured notes with key decisions",
+      "Extract action items with owners, deadlines, and priority levels",
+      "Create meeting agendas and preparation briefs",
+      "Draft follow-up emails from meeting outcomes",
+      "Track outstanding action items across recurring meetings",
+      "Format notes for different audiences: executive summary vs detailed minutes",
+    ],
+    businessUse:
+      "Use this agent to never lose a meeting outcome again. Get structured summaries, clear action items, and follow-up drafts from any meeting notes or transcript.",
   },
 };

@@ -17,6 +17,9 @@ const ZOHO_TAG_PATTERN = /\[(ADMIN|SUPPORT|SECURITY|LEGAL|ENTERPRISE)\]/i;
 const P0_KEYWORDS = /\b(urgent|emergency|breach|lawsuit|subpoena|cease and desist|critical outage|data leak)\b/i;
 const P1_KEYWORDS = /\b(high priority|action required|escalat|sla breach|revenue drop|churn spike|security incident)\b/i;
 
+// --- Content approval subject patterns (route to Cardinal) ---
+const CONTENT_APPROVAL_PATTERN = /content approval|ad content batch|awaiting approval/i;
+
 // --- Social media sender patterns ---
 const SOCIAL_SENDERS: Record<string, string> = {
   "notify@twitter.com": "Social/Twitter",
@@ -90,6 +93,27 @@ export function triageEmail(msg: InboxMessage): TriageDecision {
   let immediateAlert = false;
   let reason = "Routine";
 
+  // 0. Check for content approval reply (route to Cardinal — P1)
+  if (CONTENT_APPROVAL_PATTERN.test(subject)) {
+    routedTo = AlertAgent.CARDINAL;
+    priority = AlertPriority.P1;
+    immediateAlert = true;
+    reason = "Content approval response — routed to Cardinal";
+    return {
+      messageId: msg.messageId,
+      from: msg.from,
+      subject,
+      timestamp: msg.timestamp,
+      zohoTag,
+      zohoLabel,
+      socialLabel,
+      routedTo,
+      priority,
+      immediateAlert,
+      reason,
+    };
+  }
+
   // 1. Check for Zoho subject tags
   const tagMatch = subject.match(ZOHO_TAG_PATTERN);
   if (tagMatch) {
@@ -157,12 +181,6 @@ export async function processIncomingEmails(
   for (const msg of messages) {
     const decision = triageEmail(msg);
     decisions.push(decision);
-
-    // Log triage decision
-    console.log(
-      `[inbox-manager] Triaged: "${decision.subject}" -> P=${decision.priority}, ` +
-        `route=${decision.routedTo || "none"}, reason="${decision.reason}"`
-    );
 
     // Fire immediate alert for P0/P1 (bypass digest timer)
     if (decision.immediateAlert && decision.routedTo) {

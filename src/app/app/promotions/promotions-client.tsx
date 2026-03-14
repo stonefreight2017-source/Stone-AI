@@ -49,7 +49,6 @@ interface TierInfo {
 interface PromotionsClientProps {
   currentTier: string;
   tierName: string;
-  freeTrialUsed: boolean;
   enhancedTrialUsed: boolean;
   trialActive: boolean;
   trialEndsAt: string | null;
@@ -60,7 +59,6 @@ interface PromotionsClientProps {
 export function PromotionsClient({
   currentTier,
   tierName,
-  freeTrialUsed,
   enhancedTrialUsed,
   trialActive,
   trialEndsAt,
@@ -68,31 +66,8 @@ export function PromotionsClient({
   tiers,
 }: PromotionsClientProps) {
   const router = useRouter();
-  const [loadingTrial, setLoadingTrial] = useState(false);
   const [loadingEnhanced, setLoadingEnhanced] = useState<string | null>(null);
   const [trialSuccess, setTrialSuccess] = useState(false);
-
-  async function handleBasicTrial() {
-    setLoadingTrial(true);
-    try {
-      const res = await fetch("/api/trial", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "basic" }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        setTrialSuccess(true);
-        setTimeout(() => window.location.reload(), 2000);
-      } else {
-        alert(data.error || "Could not activate trial");
-      }
-    } catch {
-      alert("Something went wrong");
-    } finally {
-      setLoadingTrial(false);
-    }
-  }
 
   async function handleEnhancedTrial(tier: string) {
     setLoadingEnhanced(tier);
@@ -170,72 +145,14 @@ export function PromotionsClient({
         </div>
       )}
 
-      {/* ═══ SECTION 1: FREE TRIALS ═══ */}
+      {/* ═══ SECTION 1: BUILDER TRIAL ═══ */}
       <div>
         <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-          <Gift className="h-5 w-5 text-emerald-400" />
-          Free Trials
+          <Gift className="h-5 w-5 text-purple-400" />
+          Builder Trial
         </h2>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          {/* Basic Trial — No Credit Card */}
-          <Card className={`bg-zinc-900 border ${!freeTrialUsed && currentTier === "FREE" ? "border-emerald-600" : "border-zinc-800"}`}>
-            <CardContent className="pt-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-white">Basic Trial</h3>
-                <Badge className="bg-emerald-900/50 text-emerald-300 text-xs">No Credit Card</Badge>
-              </div>
-
-              <p className="text-sm text-zinc-400">
-                Try Builder features free for 7 days. No credit card needed.
-                Get a taste of what Stone AI can really do.
-              </p>
-
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <Check className="h-3 w-3 text-emerald-400" />
-                  200 messages/day (2x more than Free)
-                </div>
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <Check className="h-3 w-3 text-emerald-400" />
-                  16 specialized agents
-                </div>
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <Check className="h-3 w-3 text-emerald-400" />
-                  10 Smart (GPT-4o) messages/day
-                </div>
-                <div className="flex items-center gap-2 text-zinc-300">
-                  <Clock className="h-3 w-3 text-blue-400" />
-                  7 days, then reverts to Free
-                </div>
-              </div>
-
-              {freeTrialUsed ? (
-                <Button disabled className="w-full" variant="outline">
-                  <Check className="h-4 w-4 mr-2" />
-                  Trial Used
-                </Button>
-              ) : currentTier !== "FREE" || hasSubscription ? (
-                <Button disabled className="w-full" variant="outline">
-                  Not eligible (already upgraded)
-                </Button>
-              ) : (
-                <Button
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
-                  onClick={handleBasicTrial}
-                  disabled={loadingTrial}
-                >
-                  {loadingTrial ? (
-                    <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                  ) : (
-                    <Gift className="h-4 w-4 mr-2" />
-                  )}
-                  Start Free Trial
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-
+        <div className="grid gap-4 md:grid-cols-1">
           {/* Enhanced Trial — Credit Card Required */}
           <Card className={`bg-zinc-900 border ${!enhancedTrialUsed ? "border-purple-600" : "border-zinc-800"}`}>
             <CardContent className="pt-6 space-y-4">

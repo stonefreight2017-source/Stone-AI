@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Palace — Stone AI</title>
+<style>
+/* ── Reset & Base ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #111118;
+  --bg-tertiary: #1a1a2e;
+  --bg-input: #14141f;
+  --text-primary: #e0e0e0;
+  --text-secondary: #888;
+  --text-muted: #555;
+  --gold: #d4a847;
+  --gold-dim: #9a7a32;
+  --border: #222233;
+  --accent: #2a2a4a;
+  --error: #e05555;
+  --success: #55aa55;
+  --sidebar-width: 260px;
+  --topbar-height: 48px;
+  --input-height: 72px;
+  --right-panel-width: 380px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+
+/* ── Layout ────────────────────────────────────────────────────────────── */
+#app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ── Left Sidebar ──────────────────────────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#sidebar-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+#agent-search {
+  margin: 8px 12px;
+  padding: 6px 10px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 12px;
+  outline: none;
+}
+#agent-search:focus { border-color: var(--gold-dim); }
+#agent-search::placeholder { color: var(--text-muted); }
+
+#agent-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 4px 0;
+}
+
+.agent-group-label {
+  padding: 10px 16px 4px;
+  font-size: 10px;
+  color: var(--gold-dim);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  user-select: none;
+}
+
+.agent-item {
+  padding: 6px 16px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background 0.1s, color 0.1s;
+}
+.agent-item:hover {
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+.agent-item.active {
+  background: var(--accent);
+  color: var(--gold);
+}
+.agent-item .agent-tier {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin-left: 6px;
+}
+
+/* ── Main Area ─────────────────────────────────────────────────────────── */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Top Bar ───────────────────────────────────────────────────────────── */
+#topbar {
+  height: var(--topbar-height);
+  min-height: var(--topbar-height);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+}
+
+#topbar-brand {
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+#topbar-agent {
+  font-size: 12px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+
+.topbar-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 11px;
+  transition: all 0.15s;
+}
+.topbar-btn:hover {
+  border-color: var(--gold-dim);
+  color: var(--gold);
+}
+.topbar-btn.active {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(212, 168, 71, 0.08);
+}
+
+#topbar-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+#topbar-status.online { background: var(--success); }
+#topbar-status.offline { background: var(--error); }
+
+/* ── Chat + Right Panel Container ──────────────────────────────────────── */
+#content-area {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Chat Area ─────────────────────────────────────────────────────────── */
+#chat-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+}
+
+#messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+.message.user {
+  align-self: flex-end;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.message.assistant {
+  align-self: flex-start;
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.message-agent-name {
+  font-size: 11px;
+  color: var(--gold);
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.message-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.message-image {
+  max-width: 300px;
+  max-height: 200px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+
+.spinner-line {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 10px 14px;
+}
+
+/* ── Drop overlay ──────────────────────────────────────────────────────── */
+#drop-overlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 15, 0.9);
+  border: 2px dashed var(--gold-dim);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  pointer-events: none;
+}
+#drop-overlay.visible {
+  display: flex;
+}
+
+/* ── Input Area ────────────────────────────────────────────────────────── */
+#input-area {
+  padding: 12px 24px 16px;
+  background: var(--bg-primary);
+  border-top: 1px solid var(--border);
+}
+
+#input-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: border-color 0.15s;
+}
+#input-row:focus-within { border-color: var(--gold-dim); }
+
+#chat-input {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  max-height: 120px;
+  min-height: 20px;
+}
+#chat-input::placeholder { color: var(--text-muted); }
+
+.input-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 4px;
+  font-size: 16px;
+  line-height: 1;
+  transition: color 0.15s;
+}
+.input-btn:hover { color: var(--gold); }
+.input-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+#file-input { display: none; }
+
+/* ── Right Panel ───────────────────────────────────────────────────────── */
+#right-panel {
+  width: var(--right-panel-width);
+  min-width: var(--right-panel-width);
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 20px;
+  display: none;
+}
+#right-panel.visible { display: block; }
+
+.home-section {
+  margin-bottom: 20px;
+}
+
+.home-section-title {
+  font-size: 11px;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+.home-item-label { color: var(--text-secondary); }
+.home-item-value { color: var(--text-primary); }
+.home-item-value.ok { color: var(--success); }
+.home-item-value.warn { color: #ddaa33; }
+.home-item-value.bad { color: var(--error); }
+
+.home-blocker {
+  padding: 6px 0;
+  font-size: 12px;
+  color: var(--error);
+}
+.home-blocker::before {
+  content: '! ';
+  font-weight: bold;
+}
+
+/* ── Code blocks in messages ───────────────────────────────────────────── */
+.msg-code {
+  background: var(--bg-secondary);
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin: 6px 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+
+/* ── Welcome screen ────────────────────────────────────────────────────── */
+#welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  gap: 12px;
+  padding: 40px;
+}
+
+#welcome-title {
+  font-size: 20px;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+
+#welcome-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  max-width: 400px;
+  line-height: 1.8;
+}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- Left Sidebar -->
+  <div id="sidebar">
+    <div id="sidebar-header">Agent Fleet</div>
+    <input type="text" id="agent-search" placeholder="Search agents..." />
+    <div id="agent-list"></div>
+  </div>
+
+  <!-- Main Area -->
+  <div id="main">
+    <!-- Top Bar -->
+    <div id="topbar">
+      <span id="topbar-brand">THE PALACE</span>
+      <span id="topbar-agent">Agent Stone</span>
+      <div style="flex:1"></div>
+      <button class="topbar-btn" id="btn-home" title="Home Dashboard">/home</button>
+      <button class="topbar-btn" id="btn-clear" title="Clear Chat">Clear</button>
+      <div id="topbar-status" title="Checking..."></div>
+    </div>
+
+    <!-- Content: Chat + Right Panel -->
+    <div id="content-area">
+      <!-- Chat Container -->
+      <div id="chat-container">
+        <div id="drop-overlay">Drop file to analyze</div>
+
+        <div id="messages">
+          <div id="welcome">
+            <div id="welcome-title">THE PALACE</div>
+            <div id="welcome-sub">
+              Stone AI Local Inference Engine<br>
+              44 agents. 3 heads. 2 Royal Guards.<br><br>
+              Select an agent from the sidebar or start typing.<br>
+              Agent Stone is ready by default.
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div id="input-area">
+          <div id="input-row">
+            <button class="input-btn" id="btn-upload" title="Upload file">+</button>
+            <textarea id="chat-input" rows="1" placeholder="Talk to the Palace..."></textarea>
+            <button class="input-btn" id="btn-send" title="Send">&#9654;</button>
+            <input type="file" id="file-input" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel: Home Dashboard -->
+      <div id="right-panel">
+        <div class="home-section">
+          <div class="home-section-title">Businesses</div>
+          <div class="home-item"><span class="home-item-label">Stone AI</span><span class="home-item-value ok">LIVE</span></div>
+          <div class="home-item"><span class="home-item-label">Best AI Mobile</span><span class="home-item-value warn">~18wk post-launch</span></div>
+          <div class="home-item"><span class="home-item-label">Stone AI Tools</span><span class="home-item-value warn">Pre-launch</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Infrastructure</div>
+          <div class="home-item"><span class="home-item-label">Palace (OMEN 45L)</span><span class="home-item-value" id="home-palace">Checking...</span></div>
+          <div class="home-item"><span class="home-item-label">vLLM Text (:8000)</span><span class="home-item-value" id="home-vllm">Checking...</span></div>
+          <div class="home-item"><span class="home-item-label">Vision (:8001)</span><span class="home-item-value" id="home-vision">Checking...</span></div>
+          <div class="home-item"><span class="home-item-label">Neon DB</span><span class="home-item-value ok">Connected</span></div>
+          <div class="home-item"><span class="home-item-label">Vercel</span><span class="home-item-value ok">Deployed</span></div>
+          <div class="home-item"><span class="home-item-label">Cloudflare</span><span class="home-item-value ok">Proxy ON</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Domain & Web</div>
+          <div class="home-item"><span class="home-item-label">Domain</span><span class="home-item-value">stone-ai.net</span></div>
+          <div class="home-item"><span class="home-item-label">Fallback</span><span class="home-item-value">stone-ai-sooty.vercel.app</span></div>
+          <div class="home-item"><span class="home-item-label">SSL</span><span class="home-item-value ok">Full (Strict)</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">AI Models</div>
+          <div class="home-item"><span class="home-item-label">Local</span><span class="home-item-value">Qwen 2.5 32B AWQ</span></div>
+          <div class="home-item"><span class="home-item-label">Cloud</span><span class="home-item-value">Claude Sonnet (SMART)</span></div>
+          <div class="home-item"><span class="home-item-label">Fallback</span><span class="home-item-value">Claude Haiku (Vercel)</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Agent Fleet</div>
+          <div class="home-item"><span class="home-item-label">Total</span><span class="home-item-value">44 agents</span></div>
+          <div class="home-item"><span class="home-item-label">FREE tier</span><span class="home-item-value">4 agents</span></div>
+          <div class="home-item"><span class="home-item-label">STARTER tier</span><span class="home-item-value">16 agents</span></div>
+          <div class="home-item"><span class="home-item-label">PLUS tier</span><span class="home-item-value">30 agents</span></div>
+          <div class="home-item"><span class="home-item-label">SMART tier</span><span class="home-item-value">39 agents</span></div>
+          <div class="home-item"><span class="home-item-label">PRO tier</span><span class="home-item-value">42 agents (public)</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Pricing</div>
+          <div class="home-item"><span class="home-item-label">FREE</span><span class="home-item-value">$0</span></div>
+          <div class="home-item"><span class="home-item-label">STARTER</span><span class="home-item-value">$19.99/mo</span></div>
+          <div class="home-item"><span class="home-item-label">PLUS</span><span class="home-item-value">$49.99/mo</span></div>
+          <div class="home-item"><span class="home-item-label">SMART</span><span class="home-item-value">$99.99/mo ($79.99 annual)</span></div>
+          <div class="home-item"><span class="home-item-label">PRO</span><span class="home-item-value">$200/mo ($170 annual)</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Auth & Payments</div>
+          <div class="home-item"><span class="home-item-label">Clerk</span><span class="home-item-value warn">Dev Mode</span></div>
+          <div class="home-item"><span class="home-item-label">Stripe</span><span class="home-item-value warn">Test Mode</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Go-Live Blockers</div>
+          <div class="home-blocker">Clerk production mode migration</div>
+          <div class="home-blocker">Stripe live mode activation</div>
+          <div class="home-blocker">ANTHROPIC_API_KEY on Vercel</div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Email</div>
+          <div class="home-item"><span class="home-item-label">Alerts</span><span class="home-item-value">3headedm@gmail.com</span></div>
+          <div class="home-item"><span class="home-item-label">Transport</span><span class="home-item-value">Nodemailer + Gmail SMTP</span></div>
+        </div>
+        <div class="home-section">
+          <div class="home-section-title">Security</div>
+          <div class="home-item"><span class="home-item-label">Encryption</span><span class="home-item-value ok">AES-256-GCM</span></div>
+          <div class="home-item"><span class="home-item-label">Rate Limiting</span><span class="home-item-value ok">Active</span></div>
+          <div class="home-item"><span class="home-item-label">CSP Headers</span><span class="home-item-value ok">Active</span></div>
+          <div class="home-item"><span class="home-item-label">Zod Schemas</span><span class="home-item-value ok">.strict()</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ───────────────────────────────────────────────────────────────────
+const state = {
+  currentAgent: { slug: 'stone', name: 'Agent Stone' },
+  agents: { heads: [], royalGuard: [], agents: [] },
+  messages: [],       // { role, content, agent, fileInfo }
+  isStreaming: false,
+  homeVisible: false,
+  abortController: null,
+};
+
+// ── DOM refs ────────────────────────────────────────────────────────────────
+const $ = (sel) => document.querySelector(sel);
+const agentListEl = $('#agent-list');
+const messagesEl = $('#messages');
+const chatInput = $('#chat-input');
+const btnSend = $('#btn-send');
+const btnUpload = $('#btn-upload');
+const btnHome = $('#btn-home');
+const btnClear = $('#btn-clear');
+const fileInput = $('#file-input');
+const dropOverlay = $('#drop-overlay');
+const topbarAgent = $('#topbar-agent');
+const topbarStatus = $('#topbar-status');
+const rightPanel = $('#right-panel');
+const welcomeEl = $('#welcome');
+const agentSearch = $('#agent-search');
+
+// ── Spinner frames ──────────────────────────────────────────────────────────
+const spinnerFrames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+let spinnerIdx = 0;
+let spinnerInterval = null;
+
+// ── Init ────────────────────────────────────────────────────────────────────
+async function init() {
+  loadAgents();
+  checkHealth();
+  setInterval(checkHealth, 30000);
+
+  chatInput.addEventListener('keydown', onInputKeydown);
+  chatInput.addEventListener('input', autoResize);
+  btnSend.addEventListener('click', sendMessage);
+  btnUpload.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', onFileSelect);
+  btnHome.addEventListener('click', toggleHome);
+  btnClear.addEventListener('click', clearChat);
+  agentSearch.addEventListener('input', filterAgents);
+
+  // Drag and drop
+  const chatContainer = $('#chat-container');
+  chatContainer.addEventListener('dragenter', onDragEnter);
+  chatContainer.addEventListener('dragover', onDragOver);
+  chatContainer.addEventListener('dragleave', onDragLeave);
+  chatContainer.addEventListener('drop', onDrop);
+}
+
+// ── Load agents ─────────────────────────────────────────────────────────────
+async function loadAgents() {
+  try {
+    const res = await fetch('/api/agents');
+    state.agents = await res.json();
+    renderAgentList();
+  } catch (e) {
+    console.error('Failed to load agents:', e);
+  }
+}
+
+function renderAgentList(filter = '') {
+  const fl = filter.toLowerCase();
+  let html = '';
+
+  const renderGroup = (label, items) => {
+    const filtered = items.filter(a => !fl || a.name.toLowerCase().includes(fl) || a.slug.includes(fl));
+    if (filtered.length === 0) return '';
+    let h = `<div class="agent-group-label">${label}</div>`;
+    for (const a of filtered) {
+      const active = a.slug === state.currentAgent.slug ? ' active' : '';
+      const tier = a.tier && a.tier !== 'PALACE' && a.tier !== 'GUARD' ? `<span class="agent-tier">${a.tier}</span>` : '';
+      h += `<div class="agent-item${active}" data-slug="${a.slug}" data-name="${a.name}" onclick="selectAgent('${a.slug}','${escapeHtml(a.name)}')">${a.name}${tier}</div>`;
+    }
+    return h;
+  };
+
+  html += renderGroup('Palace — The Three Heads', state.agents.heads || []);
+  html += renderGroup('Royal Guard', state.agents.royalGuard || []);
+
+  // Group remaining agents by category
+  const cats = {};
+  for (const a of (state.agents.agents || [])) {
+    const cat = a.category || 'OTHER';
+    if (!cats[cat]) cats[cat] = [];
+    cats[cat].push(a);
+  }
+
+  const catOrder = ['BUSINESS', 'CONTENT', 'TECHNICAL', 'MARKETING', 'FINANCE', 'CAREER', 'EDUCATION', 'LIFESTYLE', 'RESEARCH', 'OPERATIONS', 'OTHER'];
+  for (const cat of catOrder) {
+    if (cats[cat]) {
+      html += renderGroup(cat, cats[cat]);
+    }
+  }
+
+  agentListEl.innerHTML = html;
+}
+
+function filterAgents() {
+  renderAgentList(agentSearch.value);
+}
+
+function selectAgent(slug, name) {
+  state.currentAgent = { slug, name };
+  topbarAgent.textContent = name;
+  renderAgentList(agentSearch.value);
+}
+
+// ── Health check ────────────────────────────────────────────────────────────
+async function checkHealth() {
+  try {
+    const res = await fetch('/api/health');
+    const data = await res.json();
+
+    const textSvc = data.services.find(s => s.service === 'vLLM Text');
+    const visionSvc = data.services.find(s => s.service === 'vLLM Vision');
+
+    const anyOnline = data.services.some(s => s.status === 'online');
+    topbarStatus.className = anyOnline ? 'online' : 'offline';
+    topbarStatus.title = anyOnline ? 'Palace online' : 'Palace offline';
+
+    // Update home dashboard
+    const palaceEl = $('#home-palace');
+    const vllmEl = $('#home-vllm');
+    const visionEl = $('#home-vision');
+
+    if (palaceEl) {
+      palaceEl.textContent = 'Running';
+      palaceEl.className = 'home-item-value ok';
+    }
+    if (vllmEl && textSvc) {
+      vllmEl.textContent = textSvc.status === 'online' ? 'Online' : 'Offline';
+      vllmEl.className = 'home-item-value ' + (textSvc.status === 'online' ? 'ok' : 'bad');
+    }
+    if (visionEl && visionSvc) {
+      visionEl.textContent = visionSvc.status === 'online' ? 'Online' : 'Offline';
+      visionEl.className = 'home-item-value ' + (visionSvc.status === 'online' ? 'ok' : 'bad');
+    }
+  } catch (e) {
+    topbarStatus.className = 'offline';
+    topbarStatus.title = 'Palace server unreachable';
+  }
+}
+
+// ── Toggle home panel ───────────────────────────────────────────────────────
+function toggleHome() {
+  state.homeVisible = !state.homeVisible;
+  rightPanel.classList.toggle('visible', state.homeVisible);
+  btnHome.classList.toggle('active', state.homeVisible);
+}
+
+// ── Clear chat ──────────────────────────────────────────────────────────────
+function clearChat() {
+  state.messages = [];
+  messagesEl.innerHTML = '';
+  welcomeEl.style.display = '';
+  messagesEl.appendChild(welcomeEl);
+}
+
+// ── Input handling ──────────────────────────────────────────────────────────
+function onInputKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize() {
+  chatInput.style.height = 'auto';
+  chatInput.style.height = Math.min(chatInput.scrollHeight, 120) + 'px';
+}
+
+// ── Send message ────────────────────────────────────────────────────────────
+async function sendMessage() {
+  const text = chatInput.value.trim();
+  if (!text || state.isStreaming) return;
+
+  // Hide welcome
+  if (welcomeEl.parentElement) welcomeEl.remove();
+
+  // Auto-detect agent from message prefix
+  detectAgentFromMessage(text);
+
+  // Add user message
+  addMessage('user', text);
+  chatInput.value = '';
+  autoResize();
+
+  // Build messages for API
+  const apiMessages = state.messages
+    .filter(m => m.role === 'user' || m.role === 'assistant')
+    .map(m => ({ role: m.role, content: m.content }));
+
+  await streamChat(apiMessages);
+}
+
+function detectAgentFromMessage(text) {
+  const lower = text.toLowerCase();
+  const prefixes = {
+    'stone': { slug: 'stone', name: 'Agent Stone' },
+    'cardinal': { slug: 'cardinal', name: 'Cardinal' },
+    'chaos': { slug: 'chaos', name: 'Chaos' },
+    'wiz': { slug: 'computerwiz', name: 'Computer Wiz' },
+    'computerwiz': { slug: 'computerwiz', name: 'Computer Wiz' },
+    'rush': { slug: 'rush', name: 'Rush' },
+  };
+  for (const [prefix, agent] of Object.entries(prefixes)) {
+    if (lower.startsWith(prefix + ' ') || lower.startsWith(prefix + ',') || lower.startsWith(prefix + ':')) {
+      selectAgent(agent.slug, agent.name);
+      return;
+    }
+  }
+}
+
+// ── Stream chat from API ────────────────────────────────────────────────────
+async function streamChat(messages) {
+  state.isStreaming = true;
+  btnSend.disabled = true;
+
+  // Add spinner
+  const spinnerEl = document.createElement('div');
+  spinnerEl.className = 'spinner-line';
+  spinnerEl.id = 'active-spinner';
+  spinnerIdx = 0;
+  spinnerEl.textContent = `${spinnerFrames[0]} ${state.currentAgent.name} is thinking...`;
+  messagesEl.appendChild(spinnerEl);
+  scrollToBottom();
+
+  spinnerInterval = setInterval(() => {
+    spinnerIdx = (spinnerIdx + 1) % spinnerFrames.length;
+    const el = $('#active-spinner');
+    if (el) el.textContent = `${spinnerFrames[spinnerIdx]} ${state.currentAgent.name} is thinking...`;
+  }, 80);
+
+  const controller = new AbortController();
+  state.abortController = controller;
+
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        messages,
+        agent: state.currentAgent.slug,
+      }),
+      signal: controller.signal,
+    });
+
+    // Remove spinner, add assistant message element
+    clearSpinner();
+
+    const msgEl = addMessageElement('assistant', '', state.currentAgent.name);
+    const contentEl = msgEl.querySelector('.message-content');
+    let fullText = '';
+    let insideThink = false;
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+
+      // Process SSE lines
+      const lines = buffer.split('\n');
+      buffer = lines.pop(); // keep incomplete line in buffer
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') continue;
+
+        try {
+          const parsed = JSON.parse(data);
+
+          // Check for error
+          if (parsed.error) {
+            fullText += `\n[Error: ${parsed.error}]`;
+            contentEl.innerHTML = formatMessage(fullText);
+            scrollToBottom();
+            continue;
+          }
+
+          const delta = parsed.choices?.[0]?.delta?.content;
+          if (delta) {
+            fullText += delta;
+            // Strip <think>...</think> blocks
+            const display = stripThinkTags(fullText);
+            contentEl.innerHTML = formatMessage(display);
+            scrollToBottom();
+          }
+        } catch (e) {
+          // Not valid JSON, skip
+        }
+      }
+    }
+
+    // Final cleanup
+    const finalDisplay = stripThinkTags(fullText);
+    contentEl.innerHTML = formatMessage(finalDisplay);
+    state.messages.push({ role: 'assistant', content: finalDisplay, agent: state.currentAgent.slug });
+
+  } catch (e) {
+    clearSpinner();
+    if (e.name !== 'AbortError') {
+      addMessage('assistant', `[Connection error: ${e.message}]`);
+    }
+  } finally {
+    state.isStreaming = false;
+    btnSend.disabled = false;
+    state.abortController = null;
+    scrollToBottom();
+  }
+}
+
+// ── Strip <think> tags ──────────────────────────────────────────────────────
+function stripThinkTags(text) {
+  // Remove complete <think>...</think> blocks
+  let result = text.replace(/<think>[\s\S]*?<\/think>/g, '');
+  // Remove incomplete <think>... at the end (still streaming)
+  const openIdx = result.lastIndexOf('<think>');
+  if (openIdx !== -1 && result.indexOf('</think>', openIdx) === -1) {
+    result = result.substring(0, openIdx);
+  }
+  // Remove partial <think or </think at the very end (chunk split mid-tag)
+  result = result.replace(/<\/?thi(?:n(?:k)?)?$/g, '');
+  return result.trim();
+}
+
+// ── Format message (code blocks, basic markdown) ────────────────────────────
+function formatMessage(text) {
+  // Escape HTML first
+  let html = escapeHtml(text);
+
+  // Code blocks: ```lang\n...\n```
+  html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (_, lang, code) => {
+    return `<div class="msg-code">${code}</div>`;
+  });
+
+  // Inline code: `...`
+  html = html.replace(/`([^`]+)`/g, '<code style="background:#1a1a2e;padding:1px 5px;border-radius:3px;font-size:12px">$1</code>');
+
+  // Bold: **...**
+  html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+
+  // Newlines
+  html = html.replace(/\n/g, '<br>');
+
+  return html;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// ── Message elements ────────────────────────────────────────────────────────
+function addMessage(role, content, agentName) {
+  state.messages.push({ role, content });
+  addMessageElement(role, content, role === 'assistant' ? (agentName || state.currentAgent.name) : null);
+  scrollToBottom();
+}
+
+function addMessageElement(role, content, agentName) {
+  const div = document.createElement('div');
+  div.className = `message ${role}`;
+
+  let inner = '';
+  if (agentName) {
+    inner += `<div class="message-agent-name">${escapeHtml(agentName)}</div>`;
+  }
+  inner += `<div class="message-content">${role === 'user' ? escapeHtml(content) : formatMessage(content)}</div>`;
+  div.innerHTML = inner;
+
+  messagesEl.appendChild(div);
+  scrollToBottom();
+  return div;
+}
+
+function scrollToBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function clearSpinner() {
+  if (spinnerInterval) { clearInterval(spinnerInterval); spinnerInterval = null; }
+  const el = $('#active-spinner');
+  if (el) el.remove();
+}
+
+// ── File upload ─────────────────────────────────────────────────────────────
+async function onFileSelect(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  fileInput.value = '';
+  await processFile(file);
+}
+
+async function processFile(file) {
+  if (welcomeEl.parentElement) welcomeEl.remove();
+
+  // Show file in chat
+  const isImage = file.type.startsWith('image/');
+
+  if (isImage) {
+    // Show thumbnail
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const div = document.createElement('div');
+      div.className = 'message user';
+      div.innerHTML = `<img class="message-image" src="${e.target.result}" alt="${escapeHtml(file.name)}" /><div class="message-file">📎 ${escapeHtml(file.name)} (${formatSize(file.size)})</div>`;
+      messagesEl.appendChild(div);
+      scrollToBottom();
+
+      // Upload and send to vision model
+      await uploadAndAnalyze(file, e.target.result);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    // Show file indicator
+    const div = document.createElement('div');
+    div.className = 'message user';
+    div.innerHTML = `<div class="message-file">📎 ${escapeHtml(file.name)} (${formatSize(file.size)})</div>`;
+    messagesEl.appendChild(div);
+    scrollToBottom();
+
+    await uploadAndAnalyze(file, null);
+  }
+}
+
+async function uploadAndAnalyze(file, dataUrl) {
+  // Upload to server
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const uploadRes = await fetch('/api/upload', { method: 'POST', body: formData });
+    const uploadData = await uploadRes.json();
+
+    if (uploadData.fileType === 'image' && uploadData.base64) {
+      // Send to vision model
+      state.isStreaming = true;
+      btnSend.disabled = true;
+
+      const spinnerEl = document.createElement('div');
+      spinnerEl.className = 'spinner-line';
+      spinnerEl.id = 'active-spinner';
+      spinnerIdx = 0;
+      spinnerEl.textContent = `${spinnerFrames[0]} ${state.currentAgent.name} is analyzing image...`;
+      messagesEl.appendChild(spinnerEl);
+      scrollToBottom();
+
+      spinnerInterval = setInterval(() => {
+        spinnerIdx = (spinnerIdx + 1) % spinnerFrames.length;
+        const el = $('#active-spinner');
+        if (el) el.textContent = `${spinnerFrames[spinnerIdx]} ${state.currentAgent.name} is analyzing image...`;
+      }, 80);
+
+      try {
+        const visionRes = await fetch('/api/vision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            image_base64: uploadData.base64,
+            mime_type: uploadData.mimeType,
+            prompt: chatInput.value.trim() || 'Describe what you see in this image in detail.',
+            agent: state.currentAgent.slug,
+          }),
+        });
+
+        clearSpinner();
+        const msgEl = addMessageElement('assistant', '', state.currentAgent.name);
+        const contentEl = msgEl.querySelector('.message-content');
+        let fullText = '';
+
+        const reader = visionRes.body.getReader();
+        const decoder = new TextDecoder();
+        let buffer = '';
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop();
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const data = line.slice(6).trim();
+            if (data === '[DONE]') continue;
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.error) { fullText += `\n[Error: ${parsed.error}]`; }
+              const delta = parsed.choices?.[0]?.delta?.content;
+              if (delta) { fullText += delta; }
+              contentEl.innerHTML = formatMessage(stripThinkTags(fullText));
+              scrollToBottom();
+            } catch (e) {}
+          }
+        }
+
+        const finalDisplay = stripThinkTags(fullText);
+        contentEl.innerHTML = formatMessage(finalDisplay);
+        state.messages.push({ role: 'assistant', content: finalDisplay });
+      } catch (e) {
+        clearSpinner();
+        addMessage('assistant', `[Vision model error: ${e.message}]`);
+      } finally {
+        state.isStreaming = false;
+        btnSend.disabled = false;
+      }
+
+    } else if (uploadData.textContent) {
+      // Text file — inject into chat and send to text model
+      const prompt = chatInput.value.trim() || `Analyze this file (${uploadData.filename}):`;
+      chatInput.value = '';
+      autoResize();
+
+      state.messages.push({ role: 'user', content: `${prompt}\n\n--- ${uploadData.filename} ---\n${uploadData.textContent}` });
+
+      const apiMessages = state.messages
+        .filter(m => m.role === 'user' || m.role === 'assistant')
+        .map(m => ({ role: m.role, content: m.content }));
+
+      await streamChat(apiMessages);
+
+    } else if (uploadData.fileType === 'audio') {
+      addMessage('assistant', `[Audio file received: ${uploadData.filename}. Whisper transcription is not yet connected to the Palace GUI. Upload the audio through the CLI for now.]`);
+    } else if (uploadData.fileType === 'video') {
+      addMessage('assistant', `[Video file received: ${uploadData.filename}. Video frame extraction is not yet connected. Upload through the CLI for now.]`);
+    } else {
+      addMessage('assistant', `[File received: ${uploadData.filename} (${uploadData.fileType}). Unable to process this file type directly.]`);
+    }
+  } catch (e) {
+    addMessage('assistant', `[Upload failed: ${e.message}]`);
+  }
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
+}
+
+// ── Drag and drop ───────────────────────────────────────────────────────────
+let dragCounter = 0;
+
+function onDragEnter(e) {
+  e.preventDefault();
+  dragCounter++;
+  dropOverlay.classList.add('visible');
+}
+
+function onDragOver(e) {
+  e.preventDefault();
+}
+
+function onDragLeave(e) {
+  e.preventDefault();
+  dragCounter--;
+  if (dragCounter <= 0) {
+    dragCounter = 0;
+    dropOverlay.classList.remove('visible');
+  }
+}
+
+function onDrop(e) {
+  e.preventDefault();
+  dragCounter = 0;
+  dropOverlay.classList.remove('visible');
+
+  const files = e.dataTransfer.files;
+  if (files.length > 0) {
+    processFile(files[0]);
+  }
+}
+
+// ── Boot ────────────────────────────────────────────────────────────────────
+init();
+
+// Show home on startup
+toggleHome();
+</script>
+</body>
+</html>

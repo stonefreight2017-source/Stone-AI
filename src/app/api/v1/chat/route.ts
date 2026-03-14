@@ -198,7 +198,7 @@ export async function POST(req: NextRequest) {
       const agent = conversation.agent;
       basePrompt = agent.systemPrompt;
 
-      const ragContext = await buildRagContext(agent.id, message);
+      const ragContext = await buildRagContext(agent.id, message, tier);
       if (ragContext) basePrompt += ragContext;
 
       const memoryContext = await buildMemoryContext(agent.id, user.id);

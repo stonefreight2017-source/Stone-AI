@@ -12,7 +12,6 @@ export default async function PromotionsPage() {
     <PromotionsClient
       currentTier={tier}
       tierName={config.name}
-      freeTrialUsed={user.freeTrialUsed}
       enhancedTrialUsed={user.enhancedTrialUsed}
       trialActive={!!(user.freeTrialEndsAt && user.freeTrialEndsAt > new Date())}
       trialEndsAt={user.freeTrialEndsAt?.toISOString() ?? null}

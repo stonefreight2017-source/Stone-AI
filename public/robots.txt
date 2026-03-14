@@ -1,0 +1,10 @@
+# Stone AI — https://stone-ai.net
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /sign-in
+Disallow: /sign-up
+
+Sitemap: https://stone-ai.net/sitemap.xml

@@ -2,17 +2,20 @@ import { NextRequest } from "next/server";
 import { Webhook } from "svix";
 import { db } from "@/lib/db";
 import { logAuditEvent } from "@/lib/audit";
+import { sendOutboundEmail } from "@/lib/alert-system/outbound";
+import { sendFounderAlert } from "@/lib/alert-system/send";
+import { AlertAgent, AlertPriority, AlertType } from "@/lib/alert-system/types";
 
 // ═══════════════════════════════════════════════════════════════
 // Clerk Webhook Handler
 // ═══════════════════════════════════════════════════════════════
-// Keeps the database in sync when users are deleted or updated
-// in the Clerk Dashboard or via Clerk's API.
+// Keeps the database in sync when users are created, deleted, or
+// updated in the Clerk Dashboard or via Clerk's API.
 //
 // CLERK DASHBOARD SETUP:
 //   1. Go to https://dashboard.clerk.com → Webhooks → Add Endpoint
 //   2. URL: https://stone-ai.net/api/webhooks/clerk
-//   3. Subscribe to events: user.deleted, user.updated
+//   3. Subscribe to events: user.created, user.deleted, user.updated
 //   4. Copy the Signing Secret and set it as CLERK_WEBHOOK_SECRET
 //      in your environment variables (Vercel + .env.local)
 // ═══════════════════════════════════════════════════════════════
@@ -81,6 +84,11 @@ export async function POST(req: NextRequest) {
 
   try {
     switch (type) {
+      case "user.created": {
+        handleUserCreated(data);  // fire-and-forget — don't block webhook response
+        break;
+      }
+
       case "user.deleted": {
         await handleUserDeleted(clerkId);
         break;
@@ -93,7 +101,6 @@ export async function POST(req: NextRequest) {
 
       default: {
         // Ignore unhandled event types gracefully
-        console.log(`[Clerk Webhook] Ignoring unhandled event type: ${type}`);
       }
     }
 
@@ -103,6 +110,120 @@ export async function POST(req: NextRequest) {
     console.error(`[Clerk Webhook] Handler error for ${type}:`, message);
     return Response.json({ error: "Webhook handler failed" }, { status: 500 });
   }
+}
+
+/**
+ * Handle user.created — send a welcome email and notify the founder.
+ * Runs fire-and-forget so the webhook response isn't delayed by SMTP.
+ */
+function handleUserCreated(data: ClerkUserEvent["data"]) {
+  const clerkId = data.id;
+
+  // Resolve email address
+  const primaryEmailObj = data.email_addresses?.find(
+    (e) => e.id === data.primary_email_address_id
+  );
+  const email = primaryEmailObj?.email_address ?? data.email_addresses?.[0]?.email_address;
+
+  if (!email) {
+    console.error("[Clerk Webhook] user.created event has no email address, skipping welcome email");
+    return;
+  }
+
+  const firstName = data.first_name || null;
+  const greeting = firstName ? `Hi ${firstName},` : "Hi there,";
+
+  // Fire-and-forget: send welcome email + founder alert without blocking
+  Promise.all([
+    sendOutboundEmail({
+      to: email,
+      subject: "Welcome to Stone AI — Your AI Agents Are Ready",
+      body: "",
+      html: `
+        <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #1a1a1a;">
+          <!-- Header -->
+          <div style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 40px 32px; text-align: center; border-radius: 8px 8px 0 0;">
+            <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">
+              Stone AI
+            </h1>
+            <p style="margin: 8px 0 0; color: #94a3b8; font-size: 14px;">
+              Intelligence that works for you
+            </p>
+          </div>
+
+          <!-- Body -->
+          <div style="padding: 36px 32px;">
+            <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px;">
+              ${greeting}
+            </p>
+            <p style="font-size: 16px; line-height: 1.6; margin: 0 0 16px;">
+              Welcome to Stone AI! Your account is set up and ready to go.
+            </p>
+            <p style="font-size: 16px; line-height: 1.6; margin: 0 0 24px;">
+              Here's what you can start doing right away:
+            </p>
+
+            <ul style="font-size: 15px; line-height: 1.8; margin: 0 0 24px; padding-left: 20px; color: #334155;">
+              <li><strong>42+ specialized AI agents</strong> — from writing and research to code review and strategy</li>
+              <li><strong>Local-first privacy</strong> — your data stays yours, always</li>
+              <li><strong>SMART mode</strong> — automatically routes your request to the best agent for the job</li>
+            </ul>
+
+            <!-- CTA Button -->
+            <div style="text-align: center; margin: 32px 0;">
+              <a href="https://stone-ai.net/app"
+                 style="display: inline-block; background: #3b82f6; color: #ffffff; text-decoration: none; padding: 14px 36px; border-radius: 8px; font-size: 16px; font-weight: 600; letter-spacing: 0.2px;">
+                Explore Your Agents
+              </a>
+            </div>
+
+            <p style="font-size: 15px; line-height: 1.6; color: #475569; margin: 0;">
+              If you have any questions, just reply to this email — a real human reads every message.
+            </p>
+          </div>
+
+          <!-- Footer -->
+          <div style="padding: 24px 32px; border-top: 1px solid #e2e8f0; text-align: center; background: #f8fafc; border-radius: 0 0 8px 8px;">
+            <p style="margin: 0 0 4px; color: #64748b; font-size: 13px; font-weight: 600;">
+              Stone AI
+            </p>
+            <p style="margin: 0; color: #94a3b8; font-size: 12px;">
+              <a href="https://stone-ai.net" style="color: #3b82f6; text-decoration: none;">stone-ai.net</a>
+            </p>
+          </div>
+        </div>
+      `,
+    }),
+    sendFounderAlert(
+      {
+        agent: AlertAgent.STONE,
+        priority: AlertPriority.P3,
+        alertType: AlertType.SIGNUP_SURGE,
+        title: "New User Signup",
+        body: `New user signed up: ${email}`,
+        metadata: { email, clerkId, firstName },
+      },
+      0 // skip cooldown — every signup should be reported
+    ),
+  ]).then(([emailResult, alertResult]) => {
+    if (!emailResult.success) {
+      console.error("[Clerk Webhook] Welcome email failed:", emailResult.error);
+    }
+    if (!alertResult.success) {
+      console.error("[Clerk Webhook] Founder signup alert failed:", alertResult.error);
+    }
+  }).catch((err) => {
+    console.error("[Clerk Webhook] user.created fire-and-forget error:", err);
+  });
+
+  logAuditEvent({
+    event: "admin.action",
+    metadata: {
+      action: "clerk_user_created_welcome_sent",
+      clerkId,
+      email,
+    },
+  });
 }
 
 /**
@@ -123,7 +244,6 @@ async function handleUserDeleted(clerkId: string) {
 
   if (!user) {
     // User may have already been deleted or never synced — not an error
-    console.log(`[Clerk Webhook] user.deleted: No DB user found for clerkId=${clerkId}`);
     logAuditEvent({
       event: "admin.action",
       metadata: { action: "clerk_user_deleted_no_db_record", clerkId },
@@ -146,9 +266,6 @@ async function handleUserDeleted(clerkId: string) {
     },
   });
 
-  console.log(
-    `[Clerk Webhook] user.deleted: Removed user ${user.id} (${user.email}), tier=${user.tier}`
-  );
 }
 
 /**
@@ -177,7 +294,6 @@ async function handleUserUpdated(data: ClerkUserEvent["data"]) {
 
   if (!existingUser) {
     // User hasn't visited the app yet — no DB record to update
-    console.log(`[Clerk Webhook] user.updated: No DB user found for clerkId=${clerkId}`);
     return;
   }
 
@@ -209,7 +325,4 @@ async function handleUserUpdated(data: ClerkUserEvent["data"]) {
     },
   });
 
-  console.log(
-    `[Clerk Webhook] user.updated: Synced ${Object.keys(updates).join(", ")} for user ${existingUser.id}`
-  );
 }

@@ -49,13 +49,18 @@ export enum AlertType {
   STRIPE_WEBHOOK_FAIL = "stripe.webhook_fail",
   USER_REPORT = "user.report",
 
-  // --- Cardinal (intelligence) ---
+  // --- Cardinal (intelligence + legal + advertising) ---
   COMPETITOR_ALERT = "competitor.alert",
   MARKET_SHIFT = "market.shift",
   SEO_RANKING_CHANGE = "seo.ranking_change",
   LEGAL_COMPLIANCE = "legal.compliance",
   RESEARCH_COMPLETE = "research.complete",
   SEED_DELIVERABLE = "seed.deliverable",
+  CONTENT_APPROVAL = "content.approval",
+  CONTENT_APPROVED = "content.approved",
+  CONTENT_REJECTED = "content.rejected",
+  CONTENT_CHANGES_REQUESTED = "content.changes_requested",
+  CONTENT_ROLLED = "content.rolled",
 
   // --- System ---
   TEST = "test",

@@ -341,7 +341,7 @@ export function PricingSection() {
                   </p>
                   <div className="mt-auto">
                     <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
-                      <Link href="/sign-up">
+                      <Link href="/app/billing?deal=first-month">
                         Claim $9.99 Deal
                         <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
                       </Link>
@@ -441,7 +441,13 @@ export function PricingSection() {
 
       {/* Billing period toggle */}
       <div className="flex items-center justify-center gap-1 mb-8 bg-zinc-900 rounded-lg p-1 max-w-md mx-auto">
-        {(["monthly", "6month", "annual"] as const).map((period) => {
+        {(["monthly", "6month", "annual"] as const)
+          .filter((period) => {
+            // Hide 6-month option when the selected tier has no 6-month discount
+            if (period === "6month" && tier.price6month >= tier.price && tier.price > 0) return false;
+            return true;
+          })
+          .map((period) => {
           const labels: Record<BillingPeriod, string> = { monthly: "Monthly", "6month": "6-Month", annual: "Yearly" };
           const savings: Record<BillingPeriod, string> = { monthly: "", "6month": "10% off", annual: "20% off" };
           const isActive = billingPeriod === period;
@@ -473,7 +479,14 @@ export function PricingSection() {
           return (
             <button
               key={t.key}
-              onClick={() => { setSelected(t.key); setShowDetails(false); }}
+              onClick={() => {
+                setSelected(t.key);
+                setShowDetails(false);
+                // If switching to a tier with no 6-month discount while on 6-month billing, reset to monthly
+                if (billingPeriod === "6month" && t.price6month >= t.price && t.price > 0) {
+                  setBillingPeriod("monthly");
+                }
+              }}
               className={`relative px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 isActive
                   ? `bg-zinc-800 ${t.accentText} ring-1 ring-current`
@@ -703,7 +716,13 @@ export function PricingSection() {
           return (
             <button
               key={t.key}
-              onClick={() => { setSelected(t.key); setShowDetails(false); }}
+              onClick={() => {
+                setSelected(t.key);
+                setShowDetails(false);
+                if (billingPeriod === "6month" && t.price6month >= t.price && t.price > 0) {
+                  setBillingPeriod("monthly");
+                }
+              }}
               className={`text-center py-2 rounded-lg border transition-all text-xs ${
                 isActive
                   ? `${t.color} bg-zinc-800/80`

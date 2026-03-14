@@ -21,3 +21,19 @@ export { routeCommand, routeCommands, getAgentQueue, getAllQueues, clearAgentQue
 export { processIncomingEmails, triageEmail, type TriageDecision } from "./inbox-manager";
 export { generateDailyDigest, generateDigestHtml, addToDigest, getPendingCount, clearPending } from "./daily-digest";
 export { sendAutoResponses } from "./auto-responder";
+export { sendOutboundEmail, type OutboundEmailPayload, type OutboundEmailResult } from "./outbound";
+export {
+  addBatch,
+  getPendingBatches,
+  getBatch,
+  updateBatch,
+  sendBatchReminder,
+  rollPendingBatches,
+  processBatchResponse,
+  parseApprovalResponse,
+  runReminderCycle,
+  getCurrentTimeET,
+  getTodayET,
+  type ContentItem,
+  type ContentBatch,
+} from "./content-approval";

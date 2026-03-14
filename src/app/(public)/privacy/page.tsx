@@ -49,9 +49,9 @@ export default function PrivacyPage() {
             </p>
             <p><strong className="text-white">Smart Mode (Smart and Pro plans):</strong></p>
             <p>
-              When you use Smart mode or when auto-routing selects it, your message may be sent to OpenAI's
-              GPT-4o API for processing. OpenAI's data usage policies apply to these requests. OpenAI's API
-              does not use your data for training. You can always use Local mode instead if you prefer
+              When you use Smart mode or when auto-routing selects it, your message may be sent to Anthropic's
+              Claude API for processing. Anthropic's data usage policies apply to these requests. Anthropic's API
+              does not use your data for training by default. You can always use Local mode instead if you prefer
               complete data sovereignty.
             </p>
           </section>
@@ -150,7 +150,7 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 space-y-1 text-zinc-400">
               <li><strong className="text-zinc-300">Clerk</strong> — authentication and user management</li>
               <li><strong className="text-zinc-300">Stripe</strong> — payment processing and subscription billing</li>
-              <li><strong className="text-zinc-300">OpenAI</strong> — cloud AI inference (Smart mode only, Smart and Pro tiers)</li>
+              <li><strong className="text-zinc-300">Anthropic</strong> — cloud AI inference (Smart mode only, Smart and Pro tiers)</li>
               <li><strong className="text-zinc-300">Google AdSense</strong> — contextual advertising on ad-supported tiers</li>
             </ul>
             <p>Each service has its own privacy policy. We recommend reviewing them.</p>

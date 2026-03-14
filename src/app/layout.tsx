@@ -4,6 +4,8 @@ import { dark } from "@clerk/themes";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { QueryProvider } from "@/components/providers/QueryProvider";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -23,6 +25,22 @@ export const metadata: Metadata = {
   },
   description:
     "Private, fast AI chat powered by local GPU inference. No data leaves your infrastructure unless you choose.",
+  openGraph: {
+    title: "Stone AI — Local-First AI Chat",
+    description:
+      "Private, fast AI chat powered by local GPU inference. 42 specialized AI agents. No data leaves your infrastructure unless you choose.",
+    url: "https://stone-ai.net",
+    siteName: "Stone AI",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Stone AI — Local-First AI Chat",
+    description:
+      "Private, fast AI chat powered by local GPU inference. 42 specialized AI agents.",
+  },
+  metadataBase: new URL("https://stone-ai.net"),
 };
 
 export default function RootLayout({
@@ -41,6 +59,8 @@ export default function RootLayout({
             {children}
           </QueryProvider>
           <Toaster />
+          <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>

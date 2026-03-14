@@ -393,7 +393,7 @@ export default function LandingPage() {
                 {[
                   "Blog series", "Email sequence", "30 days posts", "Video script",
                   "Keyword strategy", "Ad campaigns", "Landing pages", "Episode outline",
-                  "Outreach emails", "Dashboard", "3 languages", "Client deck",
+                  "Outreach emails", "Dashboard", "6 languages", "Client deck",
                 ].map((output) => (
                   <div key={output} className="rounded-lg bg-zinc-700/20 p-3 text-center border border-zinc-700/30">
                     <p className="text-xs text-zinc-300 font-medium">{output}</p>
@@ -967,7 +967,6 @@ export default function LandingPage() {
                 <ul className="space-y-2 text-sm text-zinc-400">
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Mobile app (iOS & Android)</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Wearable companion — Apple Watch & Galaxy Watch</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Silent safety net — GPS-powered safety check-ins</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Auto-text — your Bestie replies in your voice</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like a loved one</li>
                   <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> AI Tools Directory (tools.stone-ai.net)</li>

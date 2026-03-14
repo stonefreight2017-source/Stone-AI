@@ -33,10 +33,6 @@ export function routeCommand(cmd: ParsedCommand): QueuedCommand {
 
   queues[cmd.agent].push(queued);
 
-  console.log(
-    `[command-router] @${cmd.agent.toUpperCase()} command queued: "${cmd.command}" (from: ${cmd.from})`
-  );
-
   return queued;
 }
 
@@ -61,13 +57,6 @@ export function routeCommands(
     const queued = routeCommand(cmd);
     routed.push(queued);
     summary[cmd.agent]++;
-  }
-
-  if (commands.length > 0) {
-    console.log(
-      `[command-router] Routed ${commands.length} command(s): ` +
-        `Chaos=${summary.chaos}, Stone=${summary.stone}, Cardinal=${summary.cardinal}`
-    );
   }
 
   return { routed, summary };

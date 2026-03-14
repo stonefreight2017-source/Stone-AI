@@ -476,7 +476,7 @@ export default function LandingPage() {
                   { agent: "Podcast", output: "Episode outline" },
                   { agent: "Sales Agent", output: "Outreach emails" },
                   { agent: "Analytics", output: "Dashboard" },
-                  { agent: "Translation", output: "3 languages" },
+                  { agent: "Translation", output: "6 languages" },
                   { agent: "Proposal", output: "Client deck" },
                 ].map((d) => (
                   <div key={d.agent} className="rounded-lg bg-zinc-900/50 border border-zinc-800/50 p-3 hover:border-purple-500/20 transition-colors text-center">

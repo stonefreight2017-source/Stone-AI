@@ -17,6 +17,8 @@ import { checkInbox } from "@/lib/alert-system/inbox";
 import { processIncomingEmails } from "@/lib/alert-system/inbox-manager";
 import { sendAutoResponses } from "@/lib/alert-system/auto-responder";
 import { addToDigest, generateDailyDigest, getPendingCount } from "@/lib/alert-system/daily-digest";
+import { runReminderCycle, parseApprovalResponse, processBatchResponse, getPendingBatches } from "@/lib/alert-system/content-approval";
+import { checkTrialReminders } from "@/lib/alert-system/trial-reminder";
 
 export async function GET(req: NextRequest) {
   // Auth: require internal secret
@@ -47,7 +49,9 @@ export async function GET(req: NextRequest) {
   report.messagesRead = inboxResult.messages.length;
 
   if (inboxResult.messages.length === 0) {
-    // No new messages — check if digest is due
+    // No new messages — still run reminder cycle, trial reminders, and check digest
+    const reminderResult = await runReminderCycle();
+    const trialReminderResult = await checkTrialReminders();
     const digestResult = await maybeRunDigest();
     return NextResponse.json(
       {
@@ -56,6 +60,12 @@ export async function GET(req: NextRequest) {
         triaged: 0,
         immediateAlerts: 0,
         autoResponses: { sent: 0 },
+        contentReminders: {
+          remindersSent: reminderResult.reminders.length,
+          reminders: reminderResult.reminders,
+          batchesRolled: reminderResult.rolled,
+        },
+        trialReminders: trialReminderResult,
         digestPending: getPendingCount(),
         digestSent: digestResult.sent,
         durationMs: Date.now() - startTime,
@@ -81,11 +91,54 @@ export async function GET(req: NextRequest) {
     errors: autoResult.errors,
   };
 
-  // --- Step 5: Add non-immediate decisions to digest queue ---
+  // --- Step 5: Check for content approval responses in emails ---
+  for (const msg of inboxResult.messages) {
+    const subjectLower = (msg.subject || "").toLowerCase();
+    if (
+      subjectLower.includes("content approval") ||
+      subjectLower.includes("ad content batch") ||
+      subjectLower.includes("awaiting approval")
+    ) {
+      const bodyText = msg.textBody || "";
+      const parsed = parseApprovalResponse(bodyText);
+      if (parsed.response) {
+        // Find the batch — use parsed batchId or fall back to most recent pending
+        const targetBatchId = parsed.batchId || getPendingBatches()[0]?.batchId;
+        if (targetBatchId) {
+          const result = processBatchResponse(
+            targetBatchId,
+            parsed.response,
+            parsed.itemId || undefined
+          );
+          if (!report.contentApproval) report.contentApproval = [];
+          (report.contentApproval as unknown[]).push({
+            batchId: targetBatchId,
+            response: parsed.response,
+            itemId: parsed.itemId,
+            result: result.message,
+          });
+        }
+      }
+    }
+  }
+
+  // --- Step 6: Run Cardinal content approval reminder cycle ---
+  const reminderResult = await runReminderCycle();
+  report.contentReminders = {
+    remindersSent: reminderResult.reminders.length,
+    reminders: reminderResult.reminders,
+    batchesRolled: reminderResult.rolled,
+  };
+
+  // --- Step 6b: Check for trial expiry reminders ---
+  const trialReminderResult = await checkTrialReminders();
+  report.trialReminders = trialReminderResult;
+
+  // --- Step 7: Add non-immediate decisions to digest queue ---
   addToDigest(triageResult.decisions);
   report.digestPending = getPendingCount();
 
-  // --- Step 6: Maybe send daily digest (7:00 AM ET window) ---
+  // --- Step 8: Maybe send daily digest (7:00 AM ET window) ---
   const digestResult = await maybeRunDigest();
   report.digestSent = digestResult.sent;
   if (digestResult.error) report.digestError = digestResult.error;
@@ -141,9 +194,6 @@ async function maybeRunDigest(): Promise<{
     if (!result.success) {
       return { sent: false, error: result.error };
     }
-    console.log(
-      `[inbox-manager] Daily digest sent with ${result.emailCount} email(s)`
-    );
     return { sent: true };
   } catch (err) {
     const errMsg = err instanceof Error ? err.message : String(err);

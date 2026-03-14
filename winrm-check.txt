@@ -1,0 +1,16 @@
+﻿Client
+    NetworkDelayms = 5000
+    URLPrefix = wsman
+    AllowUnencrypted = false
+    Auth
+        Basic = true
+        Digest = true
+        Kerberos = true
+        Negotiate = true
+        Certificate = true
+        CredSSP = false
+    DefaultPorts
+        HTTP = 5985
+        HTTPS = 5986
+    TrustedHosts
+

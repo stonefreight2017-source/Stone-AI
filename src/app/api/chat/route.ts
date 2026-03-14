@@ -327,8 +327,8 @@ export async function POST(req: NextRequest) {
       const agent = conversation.agent;
       basePrompt = agent.systemPrompt;
 
-      // Inject RAG knowledge context
-      const ragContext = await buildRagContext(agent.id, message);
+      // Inject RAG knowledge context (tiered: higher tiers get more chunks)
+      const ragContext = await buildRagContext(agent.id, message, tier);
       if (ragContext) {
         basePrompt += ragContext;
       }
