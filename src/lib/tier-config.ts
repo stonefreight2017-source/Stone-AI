@@ -82,7 +82,7 @@ export interface TierConfig {
  * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
  * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
  * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
- * SMART    | Executive    | $99.99  | 39     | 30/day           | ~$27            | 73%
+ * SMART    | Executive    | $99.99  | 39     | 30/day           | ~$27            | 73%  | Annual: $84.99/mo (15% off)
  * PRO      | Reseller     | $200    | 42     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
@@ -372,18 +372,19 @@ export function getLocalModel(tier: Tier): string {
 export type BillingPeriod = "monthly" | "semiannual" | "annual";
 
 /**
- * Standard billing discounts for FREE through SMART tiers.
+ * Standard billing discounts for Builder, Growth, Executive tiers:
+ *   - 6-month: 5% off
+ *   - Annual: 15% off
+ *
  * NOTE: PRO (Reseller) and Enterprise use REDUCED discounts:
- *   - PRO (Reseller): Annual only, 15% off ($200 → $170/mo)
+ *   - PRO (Reseller): Annual only, 5% off ($200 → $190/mo)
  *   - Enterprise: Annual only, 5% off (custom engagement)
  * These special cases are defined in pricing-section.tsx (price6month / priceAnnual fields).
- *
- * SMART (Executive): Annual only, 20% off ($99.99 → $79.99/mo).
  */
 export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: number; months: number }[] = [
   { key: "monthly", label: "Monthly", discount: 0, months: 1 },
-  { key: "semiannual", label: "6 Months", discount: 10, months: 6 },
-  { key: "annual", label: "Annual", discount: 20, months: 12 },
+  { key: "semiannual", label: "6 Months", discount: 5, months: 6 },
+  { key: "annual", label: "Annual", discount: 15, months: 12 },
 ];
 
 /**

@@ -147,8 +147,8 @@ Stone AI is an AI platform with 43 specialist agents (marketing, finance, coding
 | Executive | $99.99/mo | 39 | 1,000 | 30 | Growing teams (5-20), custom agents |
 | Reseller | $200/mo | 43 | 3,000 | 50 | Agencies reselling AI to clients |
 
-**Billing discounts** (FREE through SMART): 6-month = 10% off, Annual = 20% off.
-**Billing discounts** (Reseller/Enterprise): 6-month = no discount, Annual = 5% off.
+**Billing discounts** (Builder/Growth/Executive): 6-month = 5% off, Annual = 15% off.
+**Billing discounts** (Reseller/Enterprise): Annual only = 5% off.
 **Overage credits**: 10 for $1.99, 25 for $3.99, 50 for $6.99 (one-time purchases when daily cap is hit).
 
 ## ENTERPRISE PLANS (custom, starting at $500/mo)

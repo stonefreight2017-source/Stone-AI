@@ -239,15 +239,15 @@ export function PromotionsClient({
 
           <Card className="bg-zinc-900 border-blue-600">
             <CardContent className="pt-6 text-center space-y-2">
-              <Badge className="bg-blue-900/50 text-blue-300 text-xs mb-1">Save 10%</Badge>
+              <Badge className="bg-blue-900/50 text-blue-300 text-xs mb-1">Save 5%</Badge>
               <p className="text-zinc-400 text-sm">6-Month Plan</p>
-              <p className="text-3xl font-bold text-white">10% off</p>
+              <p className="text-3xl font-bold text-white">5% off</p>
               <p className="text-xs text-zinc-400">Billed every 6 months</p>
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
-                <p>Builder: $17.99/mo (save $12 over 6 months)</p>
-                <p>Growth: $44.99/mo (save $30 over 6 months)</p>
-                <p>Executive: $99.99/mo (annual only — no 6-month discount)</p>
-                <p>Reseller: $200/mo (no 6-month discount)</p>
+                <p>Builder: $18.99/mo (save $6 over 6 months)</p>
+                <p>Growth: $47.49/mo (save $15 over 6 months)</p>
+                <p>Executive: $94.99/mo (save $30 over 6 months)</p>
+                <p>Reseller: $200/mo (annual only)</p>
               </div>
             </CardContent>
           </Card>
@@ -256,13 +256,13 @@ export function PromotionsClient({
             <CardContent className="pt-6 text-center space-y-2">
               <Badge className="bg-amber-900/50 text-amber-300 text-xs mb-1">Best Value</Badge>
               <p className="text-zinc-400 text-sm">Annual Plan</p>
-              <p className="text-3xl font-bold text-white">20% off</p>
+              <p className="text-3xl font-bold text-white">Up to 15% off</p>
               <p className="text-xs text-zinc-400">Billed yearly</p>
               <div className="text-sm text-emerald-400 space-y-1 pt-2">
-                <p>Builder: $15.99/mo (save $48/yr)</p>
-                <p>Growth: $39.99/mo (save $120/yr)</p>
-                <p>Executive: $79.99/mo (save $240/yr, annual only)</p>
-                <p>Reseller: $170/mo (save $360/yr, 15% off)</p>
+                <p>Builder: $16.99/mo (save $36/yr, 15% off)</p>
+                <p>Growth: $42.49/mo (save $90/yr, 15% off)</p>
+                <p>Executive: $84.99/mo (save $180/yr, 15% off)</p>
+                <p>Reseller: $190/mo (save $120/yr, 5% off)</p>
               </div>
             </CardContent>
           </Card>

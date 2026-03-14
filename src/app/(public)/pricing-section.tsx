@@ -83,8 +83,8 @@ const TIERS: TierInfo[] = [
     name: "Builder",
     tagline: "Go from napkin sketch to first revenue — your AI co-founder never sleeps",
     price: 19.99,
-    price6month: 17.99,
-    priceAnnual: 15.99,
+    price6month: 18.99,
+    priceAnnual: 16.99,
     priceDisplay: "$19.99",
     color: "border-blue-600",
     accentText: "text-blue-400",
@@ -110,7 +110,7 @@ const TIERS: TierInfo[] = [
       apiAccess: false,
       besties: "1 AI Bestie (16-agent knowledge)",
       agents: "16 Specialist Agents (Business, Content, Marketing)",
-      billingOptions: "$19.99/mo · $17.99/mo (6-mo, 10% off) · $15.99/mo (yearly, 20% off)",
+      billingOptions: "$19.99/mo · $18.99/mo (6-mo, 5% off) · $16.99/mo (yearly, 15% off)",
     },
   },
   {
@@ -118,8 +118,8 @@ const TIERS: TierInfo[] = [
     name: "Growth",
     tagline: "The moment your side hustle starts feeling like a real company",
     price: 49.99,
-    price6month: 44.99,
-    priceAnnual: 39.99,
+    price6month: 47.49,
+    priceAnnual: 42.49,
     priceDisplay: "$49.99",
     color: "border-purple-600",
     accentText: "text-purple-400",
@@ -145,7 +145,7 @@ const TIERS: TierInfo[] = [
       apiAccess: false,
       besties: "1 AI Bestie (30-agent knowledge)",
       agents: "30 Specialist Agents (all categories)",
-      billingOptions: "$49.99/mo · $44.99/mo (6-mo, 10% off) · $39.99/mo (yearly, 20% off)",
+      billingOptions: "$49.99/mo · $47.49/mo (6-mo, 5% off) · $42.49/mo (yearly, 15% off)",
     },
   },
   {
@@ -153,8 +153,8 @@ const TIERS: TierInfo[] = [
     name: "Executive",
     tagline: "39 AI specialists, one monthly investment — working for you every day of the month",
     price: 99.99,
-    price6month: 99.99,
-    priceAnnual: 79.99,
+    price6month: 94.99,
+    priceAnnual: 84.99,
     priceDisplay: "$99.99",
     popular: true,
     color: "border-amber-500",
@@ -182,7 +182,7 @@ const TIERS: TierInfo[] = [
       apiAccess: false,
       besties: "1 AI Bestie (39-agent knowledge)",
       agents: "39 Specialist Agents (nearly every category)",
-      billingOptions: "$79.99/mo (yearly, 20% off) — annual commitment only",
+      billingOptions: "$99.99/mo · $94.99/mo (6-mo, 5% off) · $84.99/mo (yearly, 15% off)",
     },
   },
   {
@@ -191,7 +191,7 @@ const TIERS: TierInfo[] = [
     tagline: "White-label it, resell it, build your own AI agency on top of ours",
     price: 200,
     price6month: 200,
-    priceAnnual: 170,
+    priceAnnual: 190,
     priceDisplay: "$200",
     color: "border-amber-400",
     accentText: "text-amber-300",
@@ -218,7 +218,7 @@ const TIERS: TierInfo[] = [
       apiAccess: true,
       besties: "1 AI Bestie (all 42-agent knowledge)",
       agents: "All 42 Specialist Agents + API + reseller",
-      billingOptions: "$200/mo · $170/mo (yearly, 15% off)",
+      billingOptions: "$200/mo · $190/mo (yearly, 5% off)",
     },
   },
   {
@@ -449,7 +449,7 @@ export function PricingSection() {
           })
           .map((period) => {
           const labels: Record<BillingPeriod, string> = { monthly: "Monthly", "6month": "6-Month", annual: "Yearly" };
-          const savings: Record<BillingPeriod, string> = { monthly: "", "6month": "10% off", annual: "20% off" };
+          const savings: Record<BillingPeriod, string> = { monthly: "", "6month": "5% off", annual: "up to 15% off" };
           const isActive = billingPeriod === period;
           return (
             <button
@@ -537,14 +537,14 @@ export function PricingSection() {
             {billingPeriod === "6month" && tier.price6month < tier.price && (
               <p className="text-xs text-emerald-400 mt-1">
                 {isEnterprise
-                  ? `Billed $${(getCurrentPrice(tier) * 6).toFixed(0)} every 6 months (10% off)`
-                  : `Billed $${(getCurrentPrice(tier) * 6).toFixed(2)} every 6 months (10% off)`}
+                  ? `Billed $${(getCurrentPrice(tier) * 6).toFixed(0)} every 6 months (5% off)`
+                  : `Billed $${(getCurrentPrice(tier) * 6).toFixed(2)} every 6 months (5% off)`}
               </p>
             )}
             {billingPeriod === "annual" && tier.priceAnnual < tier.price && (
               <p className="text-xs text-emerald-400 mt-1">
                 {(() => {
-                  const discount = isEnterprise ? "5% off" : isPro ? "15% off" : "20% off";
+                  const discount = (isEnterprise || isPro) ? "5% off" : "15% off";
                   return isEnterprise
                     ? `Billed $${(getCurrentPrice(tier) * 12).toFixed(0)} per year (${discount})`
                     : `Billed $${(getCurrentPrice(tier) * 12).toFixed(2)} per year (${discount})`;
