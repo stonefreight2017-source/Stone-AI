@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface Tab {
@@ -30,8 +30,7 @@ export function LandingTabs({ tabs, children, className, prefix = "landing" }: L
     setActive(tabId);
   }
 
-  const handleTabKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  function handleTabKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
       const currentIndex = tabs.findIndex((t) => t.id === active);
       let nextIndex: number | null = null;
 
@@ -57,9 +56,7 @@ export function LandingTabs({ tabs, children, className, prefix = "landing" }: L
       handleTabChange(nextTab.id);
       const nextButton = document.getElementById(`${prefix}-tab-${nextTab.id}`);
       nextButton?.focus();
-    },
-    [active, tabs, prefix],
-  );
+  }
 
   return (
     <div className={className}>

@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
   const agentId = await getAgentId();
   let ragContext = "";
   if (agentId) {
-    ragContext = await buildRagContext(agentId, lastUserMsg.content, "PRO");
+    ragContext = await buildRagContext(agentId, lastUserMsg.content, { userTier: "PRO" });
   }
 
   // Build system prompt

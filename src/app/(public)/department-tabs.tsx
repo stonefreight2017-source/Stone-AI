@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import {
   Briefcase,
   Pen,
@@ -178,8 +178,7 @@ export function DepartmentTabs() {
 
   const activeDept = departments.find((d) => d.id === activeTab) ?? departments[0];
 
-  const handleDeptKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLButtonElement>) => {
+  function handleDeptKeyDown(e: React.KeyboardEvent<HTMLButtonElement>) {
       const currentIndex = departments.findIndex((d) => d.id === activeTab);
       let nextIndex: number | null = null;
 
@@ -205,9 +204,7 @@ export function DepartmentTabs() {
       setActiveTab(nextDept.id);
       const nextButton = document.getElementById(`dept-tab-${nextDept.id}`);
       nextButton?.focus();
-    },
-    [activeTab],
-  );
+  }
 
   return (
     <div className="mb-8">

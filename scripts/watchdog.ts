@@ -32,7 +32,9 @@ async function checkService(url: string, timeoutMs = 5000): Promise<boolean> {
 async function checkPostgres(): Promise<boolean> {
   try {
     const { PrismaClient } = await import("@/generated/prisma/client");
-    const db = new PrismaClient();
+    const { PrismaPg } = await import("@prisma/adapter-pg");
+    const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
+    const db = new PrismaClient({ adapter });
     await db.$queryRawUnsafe("SELECT 1");
     await db.$disconnect();
     return true;
