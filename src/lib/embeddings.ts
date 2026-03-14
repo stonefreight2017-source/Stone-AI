@@ -4,16 +4,6 @@ import { db } from "@/lib/db";
 const EMBED_DIM = 768;
 
 // Tiered RAG depth — higher tiers get more knowledge chunks retrieved
-// This is the kill shot: same model, different knowledge depth per tier
-const TIERED_TOP_K: Record<string, number> = {
-  FREE: 2,
-  STARTER: 3,
-  PLUS: 5,
-  SMART: 7,
-  PRO: 10,
-};
-const TOP_K = 5; // Default fallback
-
 export const TIERED_TOP_K: Record<string, number> = {
   FREE: 2,
   STARTER: 3,
@@ -21,6 +11,7 @@ export const TIERED_TOP_K: Record<string, number> = {
   SMART: 7,
   PRO: 10,
 };
+const TOP_K = 5; // Default fallback
 
 /**
  * Embedding result — includes the vector plus metadata about which provider generated it.
