@@ -14,9 +14,24 @@ import urllib.error
 # Primary: vLLM on port 8000 (OpenAI-compatible)
 # Fallback: Ollama on port 11434
 VLLM_URL = "http://127.0.0.1:8000/v1/chat/completions"
-VLLM_MODEL = "Qwen/Qwen3-32B-AWQ"
+VLLM_MODELS_URL = "http://127.0.0.1:8000/v1/models"
+VLLM_MODEL = None  # Auto-detected from vLLM /v1/models endpoint
 OLLAMA_URL = "http://127.0.0.1:11434/api/chat"
 OLLAMA_MODEL = "qwen3:8b"
+
+
+def detect_vllm_model():
+    """Query vLLM /v1/models to get the actual served model name."""
+    try:
+        req = urllib.request.Request(VLLM_MODELS_URL, method="GET")
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            models = data.get("data", [])
+            if models:
+                return models[0].get("id", None)
+    except Exception:
+        pass
+    return None
 
 # ---------- Platform Knowledge ----------
 PLATFORM_KNOWLEDGE = """\
@@ -150,7 +165,13 @@ def check_vllm():
         with urllib.request.urlopen(req, timeout=5) as resp:
             return resp.status == 200
     except Exception:
-        return False
+        # Some vLLM versions don't have /health, try /v1/models instead
+        try:
+            req = urllib.request.Request(VLLM_MODELS_URL, method="GET")
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                return resp.status == 200
+        except Exception:
+            return False
 
 
 def check_ollama():
@@ -329,9 +350,11 @@ def main():
     if sys.platform == "win32":
         os.system("")  # Enable ANSI escape sequences
 
-    # Detect backend
+    # Detect backend and model name
+    global VLLM_MODEL
     vllm_up = check_vllm()
     if vllm_up:
+        VLLM_MODEL = detect_vllm_model() or "Qwen/Qwen3-32B-AWQ"
         backend = "vllm"
         backend_model = VLLM_MODEL
     else:
@@ -377,6 +400,7 @@ def main():
 
         # Re-check vLLM periodically — if it comes back, switch to it
         if backend == "ollama" and check_vllm():
+            VLLM_MODEL = detect_vllm_model() or "Qwen/Qwen3-32B-AWQ"
             backend = "vllm"
             backend_model = VLLM_MODEL
             print(f"  {GREEN}● vLLM is back online. Switching to {VLLM_MODEL}.{RESET}")
