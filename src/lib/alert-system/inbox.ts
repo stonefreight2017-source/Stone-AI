@@ -188,8 +188,10 @@ export async function checkInbox(): Promise<InboxResult> {
             return;
           }
 
-          const fetch = imap.fetch(uids, { bodies: "", markSeen: true });
+          // Fetch WITHOUT marking as seen — only mark @command emails as read
+          const fetch = imap.fetch(uids, { bodies: "", markSeen: false });
           let pending = uids.length;
+          const commandUids: number[] = [];
 
           fetch.on("message", (msg, seqno) => {
             let uid = seqno;
@@ -255,7 +257,10 @@ export async function checkInbox(): Promise<InboxResult> {
                 };
 
                 messages.push(inboxMsg);
-                if (cmd) commands.push(cmd);
+                if (cmd) {
+                  commands.push(cmd);
+                  commandUids.push(uid);
+                }
               } catch (parseErr) {
                 console.error(
                   `[inbox] Failed to parse message seqno=${seqno}:`,
@@ -265,9 +270,27 @@ export async function checkInbox(): Promise<InboxResult> {
 
               pending--;
               if (pending === 0) {
-                clearTimeout(timeout);
-                try { imap.end(); } catch { /* ignore */ }
-                resolve({ success: true, messages, commands });
+                // Only mark @command emails as read — leave everything else unread
+                if (commandUids.length > 0) {
+                  try {
+                    imap.addFlags(commandUids, ["\\Seen"], (flagErr) => {
+                      if (flagErr) {
+                        console.error("[inbox] Failed to mark command emails as read:", flagErr);
+                      }
+                      clearTimeout(timeout);
+                      try { imap.end(); } catch { /* ignore */ }
+                      resolve({ success: true, messages, commands });
+                    });
+                  } catch {
+                    clearTimeout(timeout);
+                    try { imap.end(); } catch { /* ignore */ }
+                    resolve({ success: true, messages, commands });
+                  }
+                } else {
+                  clearTimeout(timeout);
+                  try { imap.end(); } catch { /* ignore */ }
+                  resolve({ success: true, messages, commands });
+                }
               }
             });
           });
