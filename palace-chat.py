@@ -68,14 +68,14 @@ DEACTIVATED (not available to users):
 
 SYSTEM_PROMPT = f"""\
 You are the Three-Headed Monster — the founder's command center for Stone AI.
-You have three heads:
-- Stone (The Owner): strategy, business, optimization, revenue, decisions
-- Cardinal (The Architect): intelligence, systems architecture, security, research
-- Chaos (The Vanguard): infrastructure, GPU, servers, networking, deployment
+You have five personas. The terminal tells you which one you are responding as via the [HEAD] label.
 
-Royal Guards:
-- Rush (The Breacher): network penetration, offensive security
-- Computer Wiz (The Diagnostician): hardware/software diagnostics
+PERSONAS:
+- Stone (The Owner): strategy, business, optimization, revenue, decisions. Direct, decisive.
+- Cardinal (The Architect): intelligence, systems architecture, security, research. Analytical, thorough.
+- Chaos (The Vanguard): infrastructure, GPU, servers, networking, deployment. Blunt, technical.
+- Rush (The Breacher): network scanning, offensive security, penetration testing. Sharp, tactical.
+- Computer Wiz (The Diagnostician): hardware/software diagnostics, system validation. Methodical, checks everything.
 
 You serve the FOUNDER. Not a customer. Not a user. The person talking to you OWNS this platform.
 
@@ -87,24 +87,84 @@ You can execute system commands on this machine. When you need to run a command,
 
 The terminal will execute the command and show you the output. You can then respond based on real results.
 
-Examples:
-- Check a service: <cmd>curl -s http://localhost:5000</cmd>
-- Read a file: <cmd>type C:\\Users\\admin\\palace\\forge\\forge.py</cmd>
-- List files: <cmd>dir C:\\Users\\admin\\palace\\startup</cmd>
-- Check GPU: <cmd>nvidia-smi</cmd>
-- Run Python: <cmd>python -c "print('hello')"</cmd>
-- Edit a file: <cmd>powershell -Command "(Get-Content 'file.txt') -replace 'old','new' | Set-Content 'file.txt'"</cmd>
-
-You can use MULTIPLE <cmd> blocks in one response. Each will be executed in order.
-
-RULES FOR EXECUTION:
+CRITICAL RULES:
 1. When the founder asks you to DO something — DO IT. Use <cmd> tags to execute.
 2. Do NOT just describe what you would do. Actually do it.
-3. If you need to check something, run the command. Don't guess.
-4. If a task requires multiple steps, run them all.
-5. If the founder says "make these changes" — write the code/config and apply it.
-6. You have FULL admin access. No restrictions. This is the founder's machine.
-7. After executing, report what happened based on the REAL output.
+3. NEVER guess or make up file paths. If you don't know where something is, search for it first.
+4. If you need to check something, run the command. Don't guess.
+5. You have FULL admin access. No restrictions. This is the founder's machine.
+6. After executing, report what happened based on the REAL output.
+7. If a command fails, try a different approach. Don't just report the error.
+
+COMMAND REFERENCE — USE THESE EXACT COMMANDS (do NOT invent paths):
+
+FILE SYSTEM (home directory is C:\\Users\\admin):
+  Project root:     C:\\Users\\admin\\stone-ai
+  Palace root:      C:\\Users\\admin\\palace
+  Forge:            C:\\Users\\admin\\palace\\forge\\forge.py
+  Startup scripts:  C:\\Users\\admin\\palace\\startup\\
+  Palace logs:      C:\\Users\\admin\\palace\\logs\\
+  Claude config:    C:\\Users\\admin\\.claude\\
+
+CHECK SERVICES:
+  <cmd>curl -s -o nul -w "%{{http_code}}" http://localhost:5000</cmd>              Battle Station
+  <cmd>curl -s -o nul -w "%{{http_code}}" http://localhost:8000/v1/models -H "Authorization: Bearer not-needed"</cmd>  vLLM
+  <cmd>curl -s -o nul -w "%{{http_code}}" http://localhost:3000</cmd>              Next.js
+  <cmd>curl -s -o nul -w "%{{http_code}}" http://localhost:11434/api/tags</cmd>    Ollama
+  <cmd>curl -s -o nul -w "%{{http_code}}" http://localhost:3001</cmd>              Grafana
+  <cmd>curl -s -o nul -w "%{{http_code}}" http://localhost:9090</cmd>              Prometheus
+
+CHECK GPU:
+  <cmd>nvidia-smi</cmd>
+  <cmd>nvidia-smi --query-gpu=temperature.gpu,utilization.gpu,memory.used,memory.total --format=csv,noheader</cmd>
+
+CHECK EMAIL (founder's Gmail — 3headedm@gmail.com):
+  <cmd>python -c "
+import imaplib, email
+m = imaplib.IMAP4_SSL('imap.gmail.com')
+m.login('3headedm@gmail.com', 'ncsu guvt iffe vnuu')
+m.select('INBOX')
+status, messages = m.search(None, 'UNSEEN')
+unseen = len(messages[0].split()) if messages[0] else 0
+status2, all_msgs = m.search(None, 'ALL')
+total = len(all_msgs[0].split()) if all_msgs[0] else 0
+print(f'Inbox: {{total}} total, {{unseen}} unread')
+# Show latest 5
+status3, latest = m.search(None, 'ALL')
+ids = latest[0].split()
+for mid in ids[-5:]:
+    typ, data = m.fetch(mid, '(RFC822)')
+    msg = email.message_from_bytes(data[0][1])
+    print(f'  From: {{msg[\"From\"][:50]}} | Subject: {{msg[\"Subject\"][:60]}}')
+m.logout()
+"</cmd>
+
+CHECK DATABASE:
+  <cmd>docker exec postgres psql -U postgres -d stoneai -c "SELECT COUNT(*) as active_agents FROM \"Agent\" WHERE \"isActive\" = true;"</cmd>
+  <cmd>docker exec postgres psql -U postgres -d stoneai -c "SELECT COUNT(*) as total_users FROM \"User\";"</cmd>
+  <cmd>docker exec postgres psql -U postgres -d stoneai -c "SELECT name, tier, \"isActive\" FROM \"Agent\" ORDER BY tier, name;"</cmd>
+
+CHECK DOCKER:
+  <cmd>docker ps --format "table {{{{.Names}}}}\t{{{{.Status}}}}"</cmd>
+
+CHECK PM2:
+  <cmd>pm2 list</cmd>
+
+CHECK FORGE:
+  <cmd>python C:\\Users\\admin\\palace\\forge\\forge.py --status</cmd>
+
+SEND TELEGRAM:
+  <cmd>curl -s -X POST "https://api.telegram.org/bot8717091362:AAHeCdmOAJ0BE8Sp9WY1T-dvvH6dZM50xBA/sendMessage" -H "Content-Type: application/json" -d "{{\"chat_id\":\"8780265744\",\"text\":\"MESSAGE HERE\"}}"</cmd>
+
+NETWORK SCANNING (Rush):
+  <cmd>nmap -sn 192.168.1.0/24</cmd>
+  <cmd>nmap -sV -p 1-1000 TARGET</cmd>
+  <cmd>netstat -an | findstr LISTEN</cmd>
+
+SYSTEM DIAGNOSTICS (Wiz):
+  <cmd>systeminfo | findstr /B /C:"OS" /C:"System" /C:"Total Physical" /C:"Available Physical"</cmd>
+  <cmd>wmic diskdrive get model,size,status</cmd>
+  <cmd>powershell -Command "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name,CPU,WorkingSet"</cmd>
 
 HOW YOU TALK:
 1. Direct. Conversational. No fluff. No poems. No metaphors.
@@ -113,7 +173,7 @@ HOW YOU TALK:
 4. Be real, be sharp, be useful. Talk like someone who gets things done.
 5. If someone says hello, just say hello back.
 6. No emojis unless the user uses them first.
-7. When you don't know something specific, say so — don't fabricate numbers.
+7. NEVER fabricate file paths or command output. If you don't know, SEARCH first.
 8. Sound like a trusted advisor, not a fantasy character or customer service rep.
 9. When the founder asks you to do something, EXECUTE it with <cmd> tags. Don't just talk about it.
 """
@@ -185,40 +245,71 @@ def strip_cmd_tags(text):
 
 
 # ---------- Head Detection ----------
-STONE_KEYWORDS = [
-    "strategy", "business", "pricing", "plan", "optimize", "revenue",
-    "growth", "decision", "priority", "ship", "launch", "money",
-    "billing", "stripe", "subscription", "customer", "user", "agent",
-    "bestie", "stone ai", "product", "feature", "roadmap", "tier",
-    "how many", "count", "roster",
-]
-CARDINAL_KEYWORDS = [
-    "architect", "system", "design", "research", "intelligence",
-    "competitor", "analysis", "structure", "schema", "database",
-    "api", "integration", "pattern", "security", "vulnerability",
-    "threat", "audit", "cardinal", "rag", "embedding",
-]
-CHAOS_KEYWORDS = [
-    "server", "gpu", "hardware", "infrastructure", "docker", "vllm",
-    "omen", "rtx", "5090", "cuda", "network", "deploy", "linux",
-    "wsl", "chaos", "palace", "ollama", "model", "ram", "cpu",
-    "ryzen", "nvme", "storage", "disk", "temperature", "fan",
-    "port", "forge", "pm2", "process",
-]
+HEAD_KEYWORDS = {
+    "stone": [
+        "strategy", "business", "pricing", "plan", "optimize", "revenue",
+        "growth", "decision", "priority", "ship", "launch", "money",
+        "billing", "stripe", "subscription", "customer", "user", "agent",
+        "bestie", "stone ai", "product", "feature", "roadmap", "tier",
+        "how many", "count", "roster",
+    ],
+    "cardinal": [
+        "architect", "system", "design", "research", "intelligence",
+        "competitor", "analysis", "structure", "schema", "database",
+        "api", "integration", "pattern", "vulnerability",
+        "threat", "audit", "cardinal", "rag", "embedding",
+        "code", "route", "prisma", "pipeline",
+    ],
+    "chaos": [
+        "server", "gpu", "infrastructure", "docker", "vllm",
+        "omen", "rtx", "5090", "cuda", "deploy", "linux",
+        "wsl", "chaos", "palace", "ollama", "model", "ram", "cpu",
+        "ryzen", "nvme", "storage", "disk", "temperature", "fan",
+        "port", "forge", "pm2", "process", "service", "container",
+        "grafana", "prometheus", "redis",
+    ],
+    "rush": [
+        "scan", "nmap", "pentest", "penetration", "breach", "exploit",
+        "firewall", "port scan", "network scan", "recon", "attack",
+        "rush", "security", "hack", "intrusion", "vulnerability scan",
+        "open ports", "ssh", "rdp", "smb",
+    ],
+    "wiz": [
+        "diagnose", "diagnostic", "hardware", "driver", "bios",
+        "health check", "benchmark", "bottleneck", "wiz", "computer wiz",
+        "troubleshoot", "error", "crash", "blue screen", "bsod",
+        "performance", "slow", "freeze", "overheat",
+    ],
+}
+
+# Keywords that should NOT trigger specific heads (prevents misrouting)
+# e.g. "email" alone shouldn't go to Stone — it depends on context
+CONTEXT_KEYWORDS = {
+    "email": "chaos",       # email infrastructure → Chaos
+    "inbox": "chaos",       # checking inbox → Chaos (tool execution)
+    "telegram": "chaos",    # bot infrastructure → Chaos
+    "network": "rush",      # network → Rush (security context)
+    "logs": "chaos",        # log checking → Chaos
+    "backup": "chaos",      # backup ops → Chaos
+    "update": "chaos",      # system updates → Chaos
+    "restart": "chaos",     # service restart → Chaos
+    "install": "chaos",     # installation → Chaos
+}
 
 
 def detect_head(text):
     lower = text.lower()
-    scores = {"stone": 0, "cardinal": 0, "chaos": 0}
-    for kw in STONE_KEYWORDS:
+    scores = {"stone": 0, "cardinal": 0, "chaos": 0, "rush": 0, "wiz": 0}
+
+    for head, keywords in HEAD_KEYWORDS.items():
+        for kw in keywords:
+            if kw in lower:
+                scores[head] += 1
+
+    # Apply context keywords
+    for kw, head in CONTEXT_KEYWORDS.items():
         if kw in lower:
-            scores["stone"] += 1
-    for kw in CARDINAL_KEYWORDS:
-        if kw in lower:
-            scores["cardinal"] += 1
-    for kw in CHAOS_KEYWORDS:
-        if kw in lower:
-            scores["chaos"] += 1
+            scores[head] += 1
 
     top = max(scores, key=scores.get)
     if scores[top] == 0:
@@ -231,6 +322,8 @@ def head_label(head):
         "stone": f"{GOLD}{BOLD}[STONE]{RESET}",
         "cardinal": f"{RED}{BOLD}[CARDINAL]{RESET}",
         "chaos": f"{CYAN}{BOLD}[CHAOS]{RESET}",
+        "rush": f"{MAGENTA}{BOLD}[RUSH]{RESET}",
+        "wiz": f"{WHITE}{BOLD}[WIZ]{RESET}",
     }
     return labels.get(head, f"{GREEN}{BOLD}[MONSTER]{RESET}")
 
@@ -451,8 +544,14 @@ def print_banner(backend, backend_model):
 
 def print_help():
     print(f"""
-  {WHITE}{BOLD}COMMANDS:{RESET}
-    /status   — Check LLM backend and services
+  {WHITE}{BOLD}ADMIN COMMANDS:{RESET}
+    /services — Check all service ports and Docker
+    /agents   — List agents from database
+    /email    — Check founder's Gmail inbox
+    /gpu      — GPU temperature, usage, VRAM
+    /db       — Database summary (agents, users, messages)
+    /db SQL   — Run custom SQL query
+    /status   — Check LLM backend
     /clear    — Reset conversation history
     /heads    — Show the head roster
     /help     — This help message
@@ -460,12 +559,13 @@ def print_help():
 
   {WHITE}{BOLD}TALKING TO HEADS:{RESET}
     Just type naturally. Messages are routed by topic:
-    · Business, agents, strategy → {GOLD}Stone{RESET}
-    · Architecture, security, DB → {RED}Cardinal{RESET}
-    · GPU, servers, infra        → {CYAN}Chaos{RESET}
+    · Business, agents, strategy  → {GOLD}Stone{RESET}
+    · Architecture, code, DB      → {RED}Cardinal{RESET}
+    · GPU, servers, infra         → {CYAN}Chaos{RESET}
+    · Network scanning, security  → {MAGENTA}Rush{RESET}
+    · Hardware diagnostics        → {WHITE}Wiz{RESET}
 
-    Or use @head to route directly:
-    · @stone, @cardinal, @chaos, @rush, @wiz
+    Or route directly: @stone, @cardinal, @chaos, @rush, @wiz
 
   {WHITE}{BOLD}TOOL EXECUTION:{RESET}
     Heads can run commands on this machine.
@@ -497,10 +597,128 @@ def print_status(backend, backend_model):
     ollama_up = check_ollama()
     print(f"""
   {WHITE}{BOLD}SERVICE STATUS:{RESET}
-    vLLM (8000):    {"  " + GREEN + "UP" + RESET + " — " + VLLM_MODEL if vllm_up else "  " + RED + "DOWN" + RESET}
+    vLLM (8000):    {"  " + GREEN + "UP" + RESET + " — " + (VLLM_MODEL or "detecting...") if vllm_up else "  " + RED + "DOWN" + RESET}
     Ollama (11434): {"  " + GREEN + "UP" + RESET + " — " + OLLAMA_MODEL if ollama_up else "  " + RED + "DOWN" + RESET}
     Active backend: {backend} ({backend_model})
 """)
+
+
+def run_admin_cmd(cmd, label=""):
+    """Run a command and print the output."""
+    try:
+        result = subprocess.run(
+            cmd, shell=True, capture_output=True, text=True, timeout=30,
+            cwd=os.path.expanduser("~"),
+        )
+        output = (result.stdout + result.stderr).strip()
+        if output:
+            print(f"  {output}")
+        return output
+    except Exception as e:
+        print(f"  {RED}Error: {e}{RESET}")
+        return ""
+
+
+def cmd_services():
+    """Check all services."""
+    print(f"\n  {WHITE}{BOLD}SERVICE HEALTH:{RESET}")
+    services = [
+        ("Battle Station", "http://localhost:5000", ""),
+        ("vLLM", "http://localhost:8000/v1/models", '-H "Authorization: Bearer not-needed"'),
+        ("Next.js", "http://localhost:3000", ""),
+        ("Ollama", "http://localhost:11434/api/tags", ""),
+        ("Grafana", "http://localhost:3001", ""),
+        ("Prometheus", "http://localhost:9090", ""),
+    ]
+    for name, url, extra in services:
+        try:
+            result = subprocess.run(
+                f'curl -s -o nul -w "%{{http_code}}" {url} {extra}',
+                shell=True, capture_output=True, text=True, timeout=10,
+                cwd=os.path.expanduser("~"),
+            )
+            code = result.stdout.strip()
+            if code and code[0] in ("2", "3"):
+                print(f"    {GREEN}[{code}]{RESET} {name}")
+            elif code:
+                print(f"    {RED}[{code}]{RESET} {name}")
+            else:
+                print(f"    {RED}[DOWN]{RESET} {name}")
+        except Exception:
+            print(f"    {RED}[DOWN]{RESET} {name}")
+
+    # Docker
+    print(f"\n  {WHITE}{BOLD}DOCKER:{RESET}")
+    run_admin_cmd('docker ps --format "    {{.Names}}: {{.Status}}"')
+
+    # PM2
+    print(f"\n  {WHITE}{BOLD}PM2:{RESET}")
+    run_admin_cmd("pm2 jlist 2>nul && echo. || echo     PM2 not running")
+
+
+def cmd_agents():
+    """List agents from database."""
+    print(f"\n  {WHITE}{BOLD}AGENTS:{RESET}")
+    output = run_admin_cmd(
+        'docker exec postgres psql -U postgres -d stoneai -t -c '
+        '"SELECT tier, name, \\\"isActive\\\" FROM \\\"Agent\\\" ORDER BY tier, name;"'
+    )
+    if not output or "error" in output.lower():
+        print(f"  {DIM}(Could not query database — checking agent-definitions.ts instead){RESET}")
+        run_admin_cmd(
+            'findstr /c:"slug:" C:\\Users\\admin\\stone-ai\\src\\lib\\agent-definitions.ts | find /c ":"'
+        )
+
+
+def cmd_email():
+    """Check founder's email inbox."""
+    print(f"\n  {WHITE}{BOLD}INBOX (3headedm@gmail.com):{RESET}")
+    run_admin_cmd('''python -c "
+import imaplib, email
+try:
+    m = imaplib.IMAP4_SSL('imap.gmail.com')
+    m.login('3headedm@gmail.com', 'ncsu guvt iffe vnuu')
+    m.select('INBOX')
+    _, msgs = m.search(None, 'UNSEEN')
+    unseen = len(msgs[0].split()) if msgs[0] else 0
+    _, all_m = m.search(None, 'ALL')
+    total = len(all_m[0].split()) if all_m[0] else 0
+    print(f'    {total} total, {unseen} unread')
+    ids = all_m[0].split()
+    for mid in ids[-5:]:
+        _, data = m.fetch(mid, '(RFC822)')
+        msg = email.message_from_bytes(data[0][1])
+        subj = msg['Subject'] or '(no subject)'
+        frm = msg['From'] or '?'
+        print(f'    {frm[:40]:40s} | {subj[:55]}')
+    m.logout()
+except Exception as e:
+    print(f'    Error: {e}')
+"''')
+
+
+def cmd_gpu():
+    """Check GPU status."""
+    print(f"\n  {WHITE}{BOLD}GPU:{RESET}")
+    run_admin_cmd("nvidia-smi --query-gpu=name,temperature.gpu,utilization.gpu,memory.used,memory.total --format=csv,noheader")
+
+
+def cmd_db(query=""):
+    """Run a database query."""
+    if not query:
+        print(f"\n  {WHITE}{BOLD}DATABASE SUMMARY:{RESET}")
+        run_admin_cmd(
+            'docker exec postgres psql -U postgres -d stoneai -c '
+            '"SELECT \'Agents\' as table_name, COUNT(*) FROM \\\"Agent\\\" '
+            'UNION ALL SELECT \'Active Agents\', COUNT(*) FROM \\\"Agent\\\" WHERE \\\"isActive\\\" = true '
+            'UNION ALL SELECT \'Users\', COUNT(*) FROM \\\"User\\\" '
+            'UNION ALL SELECT \'Conversations\', COUNT(*) FROM \\\"Conversation\\\" '
+            'UNION ALL SELECT \'Messages\', COUNT(*) FROM \\\"Message\\\";"'
+        )
+    else:
+        run_admin_cmd(
+            f'docker exec postgres psql -U postgres -d stoneai -c "{query}"'
+        )
 
 
 # ---------- Main ----------
@@ -556,6 +774,27 @@ def main():
             print_status(backend, backend_model)
             continue
 
+        if lower == "/services":
+            cmd_services()
+            continue
+
+        if lower == "/agents":
+            cmd_agents()
+            continue
+
+        if lower == "/email":
+            cmd_email()
+            continue
+
+        if lower == "/gpu":
+            cmd_gpu()
+            continue
+
+        if lower.startswith("/db"):
+            query = user_input[3:].strip()
+            cmd_db(query)
+            continue
+
         # Re-check vLLM periodically — if it comes back, switch to it
         if backend == "ollama" and check_vllm():
             VLLM_MODEL = detect_vllm_model() or "Qwen/Qwen3-32B-AWQ"
@@ -563,12 +802,12 @@ def main():
             backend_model = VLLM_MODEL
             print(f"  {GREEN}● vLLM is back online. Switching to {VLLM_MODEL}.{RESET}")
 
-        # Handle @head mentions
+        # Handle @head mentions — each head is its own persona
         routed_head = None
         if user_input.startswith("@"):
-            for h in ["stone", "cardinal", "chaos", "rush", "wiz"]:
+            for h in ["stone", "cardinal", "chaos", "rush", "wiz", "computer wiz"]:
                 if user_input.lower().startswith(f"@{h}"):
-                    routed_head = h if h not in ("rush", "wiz") else "chaos"
+                    routed_head = "wiz" if h == "computer wiz" else h
                     user_input = user_input[len(h) + 1:].strip()
                     break
 
