@@ -1,6 +1,14 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+// Allowed origins for CORS — overrides Vercel's default Access-Control-Allow-Origin: *
+const ALLOWED_ORIGINS = [
+  'https://stone-ai.net',
+  'https://www.stone-ai.net',
+  'https://tools.stone-ai.net',
+  'https://app.stone-ai.net',
+];
+
 // Public routes — no authentication required
 const isPublicRoute = createRouteMatcher([
   "/",
@@ -21,6 +29,10 @@ const isPublicRoute = createRouteMatcher([
   "/api/enterprise/(.*)",
   "/api/v1/(.*)", // API key auth handled separately
   "/api/internal/(.*)", // Internal alert system — secured by x-alert-secret header
+  "/accessibility",
+  "/refund-policy",
+  "/sla",
+  "/.well-known/(.*)",
   "/sitemap.xml",
   "/robots.txt",
 ]);
@@ -36,13 +48,13 @@ const SECURITY_HEADERS: Record<string, string> = {
   "Referrer-Policy": "strict-origin-when-cross-origin",
   // Permissions policy — disable dangerous browser features
   "Permissions-Policy":
-    "camera=(), microphone=(self), geolocation=(), interest-cohort=()",
+    "camera=(), microphone=(), geolocation=(), browsing-topics=()",
   // XSS protection (legacy browsers)
   "X-XSS-Protection": "1; mode=block",
   // Content Security Policy — defense-in-depth against XSS, data injection
   "Content-Security-Policy": [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com https://static.cloudflareinsights.com",
+    "script-src 'self' 'unsafe-inline' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com https://static.cloudflareinsights.com",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",
@@ -72,6 +84,13 @@ export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) {
     const { userId } = await auth();
     if (!userId) {
+      // API routes: return 401 JSON instead of redirect (prevents route enumeration)
+      if (req.nextUrl.pathname.startsWith('/api/')) {
+        return new Response(
+          JSON.stringify({ error: 'Unauthorized' }),
+          { status: 401, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
       const signInUrl = new URL("/sign-in", req.url);
       signInUrl.searchParams.set("redirect_url", req.url);
       return NextResponse.redirect(signInUrl);
@@ -115,9 +134,24 @@ export default clerkMiddleware(async (auth, req) => {
     }
   }
 
+  // Override Vercel's default Access-Control-Allow-Origin: * with explicit origin check
+  const origin = req.headers.get('origin');
+  if (origin && ALLOWED_ORIGINS.includes(origin)) {
+    response.headers.set('Access-Control-Allow-Origin', origin);
+    response.headers.set('Access-Control-Allow-Credentials', 'true');
+  } else {
+    // Explicitly set to our primary domain to override Vercel's wildcard
+    response.headers.set('Access-Control-Allow-Origin', 'https://stone-ai.net');
+  }
+
   // Strip server identification headers
   response.headers.delete("X-Powered-By");
   response.headers.delete("Server");
+  response.headers.delete("X-Vercel-Id");
+  response.headers.delete("X-Vercel-Cache");
+  response.headers.delete("X-Matched-Path");
+  response.headers.delete("X-Nextjs-Prerender");
+  response.headers.delete("X-Nextjs-Stale-Time");
 
   return response;
 });
