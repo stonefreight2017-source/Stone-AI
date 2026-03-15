@@ -4,6 +4,7 @@ Connects to vLLM (Qwen3-32B-AWQ) on port 8000 via OpenAI-compatible API.
 """
 
 import json
+import re
 import sys
 import os
 import subprocess
@@ -187,6 +188,11 @@ def check_ollama():
         return False
 
 
+def strip_think_tags(text):
+    """Remove <think>...</think> blocks from model output."""
+    return re.sub(r"<think>.*?</think>\s*", "", text, flags=re.DOTALL)
+
+
 def stream_vllm(messages):
     """Stream chat from vLLM (OpenAI-compatible API)."""
     payload = json.dumps({
@@ -195,6 +201,7 @@ def stream_vllm(messages):
         "stream": True,
         "max_tokens": 2048,
         "temperature": 0.7,
+        "chat_template_kwargs": {"enable_thinking": False},
     }).encode("utf-8")
 
     req = urllib.request.Request(
@@ -210,6 +217,8 @@ def stream_vllm(messages):
     try:
         with urllib.request.urlopen(req, timeout=120) as resp:
             full_response = ""
+            in_think = False
+            think_buffer = ""
             for line in resp:
                 decoded = line.decode("utf-8").strip()
                 if not decoded or not decoded.startswith("data: "):
@@ -221,13 +230,45 @@ def stream_vllm(messages):
                     chunk = json.loads(data_str)
                     delta = chunk.get("choices", [{}])[0].get("delta", {})
                     token = delta.get("content", "")
-                    if token:
-                        full_response += token
+                    if not token:
+                        continue
+
+                    full_response += token
+
+                    # Filter out <think>...</think> blocks in real-time
+                    if in_think:
+                        think_buffer += token
+                        if "</think>" in think_buffer:
+                            # Think block ended — output anything after closing tag
+                            after = think_buffer.split("</think>", 1)[1]
+                            in_think = False
+                            think_buffer = ""
+                            if after.strip():
+                                sys.stdout.write(after)
+                                sys.stdout.flush()
+                    elif "<think>" in token:
+                        # Think block starting — suppress from here
+                        before = token.split("<think>", 1)[0]
+                        if before:
+                            sys.stdout.write(before)
+                            sys.stdout.flush()
+                        remainder = token.split("<think>", 1)[1]
+                        if "</think>" in remainder:
+                            after = remainder.split("</think>", 1)[1]
+                            if after.strip():
+                                sys.stdout.write(after)
+                                sys.stdout.flush()
+                        else:
+                            in_think = True
+                            think_buffer = remainder
+                    else:
                         sys.stdout.write(token)
                         sys.stdout.flush()
                 except json.JSONDecodeError:
                     continue
             print()
+            # Clean the stored response too
+            full_response = strip_think_tags(full_response)
             return full_response
     except Exception as e:
         print(f"\n{RED}vLLM ERROR:{RESET} {e}")
@@ -252,6 +293,8 @@ def stream_ollama(messages):
     try:
         with urllib.request.urlopen(req, timeout=120) as resp:
             full_response = ""
+            in_think = False
+            think_buffer = ""
             for line in resp:
                 if not line.strip():
                     continue
@@ -260,13 +303,41 @@ def stream_ollama(messages):
                     if "message" in chunk and "content" in chunk["message"]:
                         token = chunk["message"]["content"]
                         full_response += token
-                        sys.stdout.write(token)
-                        sys.stdout.flush()
+
+                        # Filter out <think>...</think> blocks
+                        if in_think:
+                            think_buffer += token
+                            if "</think>" in think_buffer:
+                                after = think_buffer.split("</think>", 1)[1]
+                                in_think = False
+                                think_buffer = ""
+                                if after.strip():
+                                    sys.stdout.write(after)
+                                    sys.stdout.flush()
+                        elif "<think>" in token:
+                            before = token.split("<think>", 1)[0]
+                            if before:
+                                sys.stdout.write(before)
+                                sys.stdout.flush()
+                            remainder = token.split("<think>", 1)[1]
+                            if "</think>" in remainder:
+                                after = remainder.split("</think>", 1)[1]
+                                if after.strip():
+                                    sys.stdout.write(after)
+                                    sys.stdout.flush()
+                            else:
+                                in_think = True
+                                think_buffer = remainder
+                        else:
+                            sys.stdout.write(token)
+                            sys.stdout.flush()
+
                     if chunk.get("done", False):
                         break
                 except json.JSONDecodeError:
                     continue
             print()
+            full_response = strip_think_tags(full_response)
             return full_response
     except Exception as e:
         print(f"\n{RED}Ollama ERROR:{RESET} {e}")
