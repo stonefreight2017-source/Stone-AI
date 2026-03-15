@@ -42,12 +42,14 @@ export interface InboxResult {
   error?: string;
 }
 
-const AGENT_PATTERN = /^@(CHAOS|STONES?|CARDINAL|RUSH|WIZ)\b\s*(.*)/i;
+// Match @stone, @cardinal, etc. AND natural language "at stone", "at stones", etc.
+const AGENT_PATTERN = /^(?:@|at\s+)(CHAOS|STONES?|CARDINAL|RUSH|WIZ|COMPUTER\s*WIZ)\b\s*(.*)/i;
 
 /** Map raw matched name to canonical AgentTarget (handles aliases like STONES → stone) */
 function normalizeAgentName(raw: string): AgentTarget {
-  const lower = raw.toLowerCase();
+  const lower = raw.toLowerCase().trim();
   if (lower === "stones") return "stone";
+  if (lower === "computer wiz" || lower === "computerwiz") return "wiz";
   return lower as AgentTarget;
 }
 
@@ -81,7 +83,7 @@ function parseSubjectForCommand(
  * Checks each line for the AGENT_PATTERN (not anchored to start-of-subject,
  * but anchored to start-of-line so we don't match mid-sentence mentions).
  */
-const BODY_AGENT_PATTERN = /(?:^|\n)\s*@(CHAOS|STONES?|CARDINAL|RUSH|WIZ)\b\s*(.*)/i;
+const BODY_AGENT_PATTERN = /(?:^|\n)\s*(?:@|at\s+)(CHAOS|STONES?|CARDINAL|RUSH|WIZ|COMPUTER\s*WIZ)\b\s*(.*)/i;
 
 function parseBodyForCommand(
   body: string,

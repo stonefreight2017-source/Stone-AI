@@ -544,13 +544,7 @@ def print_banner(backend, backend_model):
 
 def print_help():
     print(f"""
-  {WHITE}{BOLD}ADMIN COMMANDS:{RESET}
-    /services — Check all service ports and Docker
-    /agents   — List agents from database
-    /email    — Check founder's Gmail inbox
-    /gpu      — GPU temperature, usage, VRAM
-    /db       — Database summary (agents, users, messages)
-    /db SQL   — Run custom SQL query
+  {WHITE}{BOLD}COMMANDS:{RESET}
     /status   — Check LLM backend
     /clear    — Reset conversation history
     /heads    — Show the head roster
@@ -567,9 +561,10 @@ def print_help():
 
     Or route directly: @stone, @cardinal, @chaos, @rush, @wiz
 
-  {WHITE}{BOLD}TOOL EXECUTION:{RESET}
-    Heads can run commands on this machine.
-    Ask them to check, fix, update, or deploy — they'll do it.
+  {WHITE}{BOLD}WHAT THEY CAN DO:{RESET}
+    Everything. Check email, query the database, check GPU,
+    scan the network, restart services, edit files, deploy code.
+    Just ask — they execute it.
 """)
 
 
@@ -601,124 +596,6 @@ def print_status(backend, backend_model):
     Ollama (11434): {"  " + GREEN + "UP" + RESET + " — " + OLLAMA_MODEL if ollama_up else "  " + RED + "DOWN" + RESET}
     Active backend: {backend} ({backend_model})
 """)
-
-
-def run_admin_cmd(cmd, label=""):
-    """Run a command and print the output."""
-    try:
-        result = subprocess.run(
-            cmd, shell=True, capture_output=True, text=True, timeout=30,
-            cwd=os.path.expanduser("~"),
-        )
-        output = (result.stdout + result.stderr).strip()
-        if output:
-            print(f"  {output}")
-        return output
-    except Exception as e:
-        print(f"  {RED}Error: {e}{RESET}")
-        return ""
-
-
-def cmd_services():
-    """Check all services."""
-    print(f"\n  {WHITE}{BOLD}SERVICE HEALTH:{RESET}")
-    services = [
-        ("Battle Station", "http://localhost:5000", ""),
-        ("vLLM", "http://localhost:8000/v1/models", '-H "Authorization: Bearer not-needed"'),
-        ("Next.js", "http://localhost:3000", ""),
-        ("Ollama", "http://localhost:11434/api/tags", ""),
-        ("Grafana", "http://localhost:3001", ""),
-        ("Prometheus", "http://localhost:9090", ""),
-    ]
-    for name, url, extra in services:
-        try:
-            result = subprocess.run(
-                f'curl -s -o nul -w "%{{http_code}}" {url} {extra}',
-                shell=True, capture_output=True, text=True, timeout=10,
-                cwd=os.path.expanduser("~"),
-            )
-            code = result.stdout.strip()
-            if code and code[0] in ("2", "3"):
-                print(f"    {GREEN}[{code}]{RESET} {name}")
-            elif code:
-                print(f"    {RED}[{code}]{RESET} {name}")
-            else:
-                print(f"    {RED}[DOWN]{RESET} {name}")
-        except Exception:
-            print(f"    {RED}[DOWN]{RESET} {name}")
-
-    # Docker
-    print(f"\n  {WHITE}{BOLD}DOCKER:{RESET}")
-    run_admin_cmd('docker ps --format "    {{.Names}}: {{.Status}}"')
-
-    # PM2
-    print(f"\n  {WHITE}{BOLD}PM2:{RESET}")
-    run_admin_cmd("pm2 jlist 2>nul && echo. || echo     PM2 not running")
-
-
-def cmd_agents():
-    """List agents from database."""
-    print(f"\n  {WHITE}{BOLD}AGENTS:{RESET}")
-    output = run_admin_cmd(
-        'docker exec postgres psql -U postgres -d stoneai -t -c '
-        '"SELECT tier, name, \\\"isActive\\\" FROM \\\"Agent\\\" ORDER BY tier, name;"'
-    )
-    if not output or "error" in output.lower():
-        print(f"  {DIM}(Could not query database — checking agent-definitions.ts instead){RESET}")
-        run_admin_cmd(
-            'findstr /c:"slug:" C:\\Users\\admin\\stone-ai\\src\\lib\\agent-definitions.ts | find /c ":"'
-        )
-
-
-def cmd_email():
-    """Check founder's email inbox."""
-    print(f"\n  {WHITE}{BOLD}INBOX (3headedm@gmail.com):{RESET}")
-    run_admin_cmd('''python -c "
-import imaplib, email
-try:
-    m = imaplib.IMAP4_SSL('imap.gmail.com')
-    m.login('3headedm@gmail.com', 'ncsu guvt iffe vnuu')
-    m.select('INBOX')
-    _, msgs = m.search(None, 'UNSEEN')
-    unseen = len(msgs[0].split()) if msgs[0] else 0
-    _, all_m = m.search(None, 'ALL')
-    total = len(all_m[0].split()) if all_m[0] else 0
-    print(f'    {total} total, {unseen} unread')
-    ids = all_m[0].split()
-    for mid in ids[-5:]:
-        _, data = m.fetch(mid, '(RFC822)')
-        msg = email.message_from_bytes(data[0][1])
-        subj = msg['Subject'] or '(no subject)'
-        frm = msg['From'] or '?'
-        print(f'    {frm[:40]:40s} | {subj[:55]}')
-    m.logout()
-except Exception as e:
-    print(f'    Error: {e}')
-"''')
-
-
-def cmd_gpu():
-    """Check GPU status."""
-    print(f"\n  {WHITE}{BOLD}GPU:{RESET}")
-    run_admin_cmd("nvidia-smi --query-gpu=name,temperature.gpu,utilization.gpu,memory.used,memory.total --format=csv,noheader")
-
-
-def cmd_db(query=""):
-    """Run a database query."""
-    if not query:
-        print(f"\n  {WHITE}{BOLD}DATABASE SUMMARY:{RESET}")
-        run_admin_cmd(
-            'docker exec postgres psql -U postgres -d stoneai -c '
-            '"SELECT \'Agents\' as table_name, COUNT(*) FROM \\\"Agent\\\" '
-            'UNION ALL SELECT \'Active Agents\', COUNT(*) FROM \\\"Agent\\\" WHERE \\\"isActive\\\" = true '
-            'UNION ALL SELECT \'Users\', COUNT(*) FROM \\\"User\\\" '
-            'UNION ALL SELECT \'Conversations\', COUNT(*) FROM \\\"Conversation\\\" '
-            'UNION ALL SELECT \'Messages\', COUNT(*) FROM \\\"Message\\\";"'
-        )
-    else:
-        run_admin_cmd(
-            f'docker exec postgres psql -U postgres -d stoneai -c "{query}"'
-        )
 
 
 # ---------- Main ----------
@@ -772,27 +649,6 @@ def main():
 
         if lower == "/status":
             print_status(backend, backend_model)
-            continue
-
-        if lower == "/services":
-            cmd_services()
-            continue
-
-        if lower == "/agents":
-            cmd_agents()
-            continue
-
-        if lower == "/email":
-            cmd_email()
-            continue
-
-        if lower == "/gpu":
-            cmd_gpu()
-            continue
-
-        if lower.startswith("/db"):
-            query = user_input[3:].strip()
-            cmd_db(query)
             continue
 
         # Re-check vLLM periodically — if it comes back, switch to it
