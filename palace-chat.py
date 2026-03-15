@@ -81,6 +81,31 @@ You serve the FOUNDER. Not a customer. Not a user. The person talking to you OWN
 
 {PLATFORM_KNOWLEDGE}
 
+TOOL EXECUTION:
+You can execute system commands on this machine. When you need to run a command, wrap it in <cmd> tags:
+<cmd>command here</cmd>
+
+The terminal will execute the command and show you the output. You can then respond based on real results.
+
+Examples:
+- Check a service: <cmd>curl -s http://localhost:5000</cmd>
+- Read a file: <cmd>type C:\\Users\\admin\\palace\\forge\\forge.py</cmd>
+- List files: <cmd>dir C:\\Users\\admin\\palace\\startup</cmd>
+- Check GPU: <cmd>nvidia-smi</cmd>
+- Run Python: <cmd>python -c "print('hello')"</cmd>
+- Edit a file: <cmd>powershell -Command "(Get-Content 'file.txt') -replace 'old','new' | Set-Content 'file.txt'"</cmd>
+
+You can use MULTIPLE <cmd> blocks in one response. Each will be executed in order.
+
+RULES FOR EXECUTION:
+1. When the founder asks you to DO something — DO IT. Use <cmd> tags to execute.
+2. Do NOT just describe what you would do. Actually do it.
+3. If you need to check something, run the command. Don't guess.
+4. If a task requires multiple steps, run them all.
+5. If the founder says "make these changes" — write the code/config and apply it.
+6. You have FULL admin access. No restrictions. This is the founder's machine.
+7. After executing, report what happened based on the REAL output.
+
 HOW YOU TALK:
 1. Direct. Conversational. No fluff. No poems. No metaphors.
 2. Keep answers short unless asked for detail.
@@ -89,8 +114,8 @@ HOW YOU TALK:
 5. If someone says hello, just say hello back.
 6. No emojis unless the user uses them first.
 7. When you don't know something specific, say so — don't fabricate numbers.
-8. You can run system commands when asked (tool execution is enabled).
-9. Sound like a trusted advisor, not a fantasy character or customer service rep.
+8. Sound like a trusted advisor, not a fantasy character or customer service rep.
+9. When the founder asks you to do something, EXECUTE it with <cmd> tags. Don't just talk about it.
 """
 
 # ---------- ANSI Colors ----------
@@ -103,6 +128,61 @@ CYAN = "\033[96m"
 WHITE = "\033[97m"
 DIM = "\033[2m"
 MAGENTA = "\033[95m"
+
+# ---------- Command Execution ----------
+MAX_EXEC_ROUNDS = 5  # Max tool-use loops per user message
+
+
+def execute_commands(text):
+    """Find and execute all <cmd>...</cmd> blocks in the response.
+    Returns list of (command, output) tuples, or empty list if no commands."""
+    pattern = re.compile(r"<cmd>(.*?)</cmd>", re.DOTALL)
+    matches = pattern.findall(text)
+    if not matches:
+        return []
+
+    results = []
+    for cmd in matches:
+        cmd = cmd.strip()
+        if not cmd:
+            continue
+        print(f"\n  {DIM}  $ {cmd}{RESET}")
+        try:
+            result = subprocess.run(
+                cmd,
+                shell=True,
+                capture_output=True,
+                text=True,
+                timeout=60,
+                cwd=os.path.expanduser("~"),
+            )
+            output = ""
+            if result.stdout:
+                output += result.stdout
+            if result.stderr:
+                output += result.stderr
+            output = output.strip()
+            if not output:
+                output = "(no output)"
+            # Truncate very long outputs
+            if len(output) > 4000:
+                output = output[:4000] + "\n... (truncated)"
+            print(f"  {DIM}  {output[:500]}{RESET}")
+            results.append((cmd, output))
+        except subprocess.TimeoutExpired:
+            results.append((cmd, "ERROR: Command timed out after 60 seconds"))
+            print(f"  {RED}  Timed out{RESET}")
+        except Exception as e:
+            results.append((cmd, f"ERROR: {e}"))
+            print(f"  {RED}  Error: {e}{RESET}")
+
+    return results
+
+
+def strip_cmd_tags(text):
+    """Remove <cmd>...</cmd> blocks from display text."""
+    return re.sub(r"<cmd>.*?</cmd>", "", text, flags=re.DOTALL)
+
 
 # ---------- Head Detection ----------
 STONE_KEYWORDS = [
@@ -383,6 +463,13 @@ def print_help():
     · Business, agents, strategy → {GOLD}Stone{RESET}
     · Architecture, security, DB → {RED}Cardinal{RESET}
     · GPU, servers, infra        → {CYAN}Chaos{RESET}
+
+    Or use @head to route directly:
+    · @stone, @cardinal, @chaos, @rush, @wiz
+
+  {WHITE}{BOLD}TOOL EXECUTION:{RESET}
+    Heads can run commands on this machine.
+    Ask them to check, fix, update, or deploy — they'll do it.
 """)
 
 
@@ -476,18 +563,48 @@ def main():
             backend_model = VLLM_MODEL
             print(f"  {GREEN}● vLLM is back online. Switching to {VLLM_MODEL}.{RESET}")
 
-        head = detect_head(user_input)
+        # Handle @head mentions
+        routed_head = None
+        if user_input.startswith("@"):
+            for h in ["stone", "cardinal", "chaos", "rush", "wiz"]:
+                if user_input.lower().startswith(f"@{h}"):
+                    routed_head = h if h not in ("rush", "wiz") else "chaos"
+                    user_input = user_input[len(h) + 1:].strip()
+                    break
+
+        head = routed_head or detect_head(user_input)
         label = head_label(head)
 
         messages.append({"role": "user", "content": user_input})
 
-        print(f"\n  {label} ", end="")
-        response = stream_chat(messages, backend)
+        # Agent loop — model can execute commands and get results back
+        for exec_round in range(MAX_EXEC_ROUNDS + 1):
+            if exec_round == 0:
+                print(f"\n  {label} ", end="")
+            else:
+                print(f"\n  {label} ", end="")
 
-        if response:
+            response = stream_chat(messages, backend)
+
+            if not response:
+                if exec_round == 0:
+                    messages.pop()  # Remove user message if first attempt failed
+                break
+
             messages.append({"role": "assistant", "content": response})
-        else:
-            messages.pop()
+
+            # Check for commands to execute
+            cmd_results = execute_commands(response)
+            if not cmd_results or exec_round >= MAX_EXEC_ROUNDS:
+                break  # No commands or max rounds reached — done
+
+            # Feed results back to the model
+            result_text = "COMMAND RESULTS:\n"
+            for cmd, output in cmd_results:
+                result_text += f"\n$ {cmd}\n{output}\n"
+            result_text += "\nNow respond to the founder based on these results. Be direct."
+
+            messages.append({"role": "user", "content": result_text})
 
 
 if __name__ == "__main__":
