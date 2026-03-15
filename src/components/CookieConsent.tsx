@@ -29,7 +29,12 @@ export function CookieConsent() {
   if (!visible) return null;
 
   return (
-    <div role="alertdialog" aria-label="Cookie consent" aria-describedby="cookie-desc" className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-zinc-900 border-t border-zinc-700 shadow-2xl">
+    <div
+      role="alertdialog"
+      aria-label="Cookie consent"
+      aria-describedby="cookie-desc"
+      className="fixed bottom-0 left-0 right-0 z-[9990] p-4 bg-zinc-900 border-t border-zinc-700 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-500"
+    >
       <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-4">
         <div className="flex-1 text-sm text-zinc-300">
           <p id="cookie-desc">
