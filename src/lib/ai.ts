@@ -22,8 +22,11 @@ const vllmFetch: typeof globalThis.fetch = async (input, init) => {
 };
 
 /**
- * vLLM provider — OpenAI-compatible API running locally.
- * Points to localhost:8000 where vLLM serves the model.
+ * vLLM provider — OpenAI-compatible API running locally on the Palace.
+ * Points to localhost:8000 where vLLM serves Qwen3-32B-AWQ.
+ *
+ * For Vercel production, set VLLM_BASE_URL to the Cloudflare tunnel:
+ *   VLLM_BASE_URL=https://vllm.stone-ai.net/v1
  *
  * ═══ CRITICAL: THINKING MODE DISABLED ═══
  * Qwen3 models have a <think> reasoning mode that consumes the entire
@@ -50,42 +53,73 @@ export const vllm = createOpenAI({
 });
 
 /**
- * Cloud provider — Anthropic Claude for SMART mode and Vercel fallback.
- * Available to all paid tiers (Builder and above).
- * Also used as emergency fallback when local model is down.
+ * Cloud provider — Anthropic Claude. OPTIONAL FALLBACK only.
  *
- * ═══ SCALING REMINDER ═══
- * At 500+ SMART mode users, check your Anthropic usage tier.
- * At 2000+ users, consider adding a second cloud provider as fallback.
+ * vLLM is the PRIMARY provider for ALL tiers and ALL modes.
+ * Anthropic is used ONLY when:
+ *   1. ENABLE_CLOUD_FALLBACK=true AND vLLM is unreachable, OR
+ *   2. FORCE_CLOUD_SMART=true (overrides vLLM for SMART mode only)
+ *
+ * ═══ INDEPENDENCE ═══
+ * The Palace can run the entire web app on local vLLM with zero
+ * cloud dependency. Anthropic is a safety net, not a requirement.
  */
 export const cloud = createAnthropic({
   apiKey: process.env.ANTHROPIC_API_KEY ?? "",
 });
 
 /**
+ * Whether Anthropic cloud fallback is enabled.
+ * Set ENABLE_CLOUD_FALLBACK=true in .env to allow falling back to
+ * Anthropic when vLLM is unreachable. Default: false (full independence).
+ */
+const cloudFallbackEnabled = process.env.ENABLE_CLOUD_FALLBACK === "true";
+
+/**
+ * Whether to force SMART mode to use Anthropic cloud instead of vLLM.
+ * Set FORCE_CLOUD_SMART=true in .env to route SMART requests to Claude Sonnet.
+ * Default: false (SMART mode uses vLLM like everything else).
+ */
+const forceCloudSmart = process.env.FORCE_CLOUD_SMART === "true";
+
+/**
  * Get the appropriate model based on request mode and user tier.
  *
- * LOCAL mode: Uses the tier's assigned local model
- *   - All tiers: Qwen 2.5 32B AWQ (RTX 5090, fast + capable)
+ * ═══ vLLM-FIRST ROUTING (Palace Independence) ═══
  *
- * SMART mode: Uses cloud model (Claude Sonnet) for all paid tiers
+ * ALL modes route to vLLM by default:
+ *   - LOCAL mode: vLLM Qwen3-32B-AWQ (RTX 5090, fast + capable)
+ *   - SMART mode: vLLM Qwen3-32B-AWQ (same model, premium quota/limits apply)
  *
- * Cloud fallback: When local model is unavailable, paid tiers
- * automatically fall back to cloud. This counts against Smart quota.
+ * Cloud fallback (Anthropic) is OPTIONAL and controlled by env vars:
+ *   - FORCE_CLOUD_SMART=true → SMART mode uses Claude Sonnet instead of vLLM
+ *   - ENABLE_CLOUD_FALLBACK=true → If vLLM URL is localhost on Vercel, fall back to cloud
+ *
+ * For Vercel deployment, set VLLM_BASE_URL=https://vllm.stone-ai.net/v1
+ * to route through the Cloudflare tunnel to the Palace's vLLM server.
  */
 export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
+  // SMART mode: use vLLM unless explicitly overridden to cloud
   if (mode === "SMART") {
-    return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
+    if (forceCloudSmart && process.env.ANTHROPIC_API_KEY) {
+      return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
+    }
+    // SMART uses the same vLLM model — the tier system handles the premium
+    // experience through higher token limits, longer context, and priority.
+    const smartModel = process.env.VLLM_SMART_MODEL
+      ?? tierLocalModel
+      ?? process.env.VLLM_MODEL
+      ?? "/mnt/c/models/qwen3-32b-awq";
+    return vllm(smartModel);
   }
 
-  // In production (Vercel), vLLM at localhost isn't available.
-  // Fall back to Claude Haiku for LOCAL mode until a cloud
-  // inference provider (Groq, Together, Fireworks) is configured.
+  // LOCAL mode: always vLLM
   const vllmUrl = process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1";
   const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
   const isVercel = !!process.env.VERCEL;
 
-  if (isLocalhost && isVercel) {
+  // On Vercel with localhost URL (no tunnel configured): fall back to cloud if enabled
+  if (isLocalhost && isVercel && cloudFallbackEnabled && process.env.ANTHROPIC_API_KEY) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 

@@ -80,6 +80,30 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
   if (!userId) return;
 
+  // Credit pack purchase (one-time payment, no subscription)
+  if (session.metadata?.type === "credit_pack" && session.metadata?.packTier) {
+    const credits = parseInt(session.metadata.credits, 10);
+    if (credits > 0) {
+      await db.user.update({
+        where: { id: userId },
+        data: {
+          smartCreditsBonus: { increment: credits },
+        },
+      });
+
+      logAuditEvent({
+        event: "admin.action",
+        userId,
+        metadata: {
+          action: "credit_pack_purchased",
+          packTier: session.metadata.packTier,
+          credits,
+        },
+      });
+    }
+    return;
+  }
+
   const subscriptionId =
     typeof session.subscription === "string"
       ? session.subscription

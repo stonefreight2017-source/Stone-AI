@@ -41,6 +41,7 @@ const MAX_FILE_SIZE: Record<Tier, number> = {
   PLUS: 10_485_760,     // 10 MB
   SMART: 26_214_400,    // 25 MB
   PRO: 52_428_800,      // 50 MB
+  ENTERPRISE: 104_857_600, // 100 MB
 };
 
 /** Max extracted text length (characters) per tier */
@@ -50,6 +51,7 @@ const MAX_CONTEXT_LENGTH: Record<Tier, number> = {
   PLUS: 5_000,
   SMART: 10_000,
   PRO: 20_000,
+  ENTERPRISE: 50_000,
 };
 
 /** Allowed MIME types for upload */

@@ -270,8 +270,10 @@ export async function POST(req: NextRequest) {
   const created = Math.floor(Date.now() / 1000);
   const modelName =
     mode === "SMART"
-      ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
-      : (process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct");
+      ? (process.env.FORCE_CLOUD_SMART === "true"
+          ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
+          : (process.env.VLLM_SMART_MODEL ?? process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq"))
+      : (process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq");
 
   // ---------------------------------------------------------------------------
   // 10a. Streaming response (SSE, OpenAI-compatible)

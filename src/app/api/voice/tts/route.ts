@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
     const { text, voice, provider } = parsed.data;
 
     // 5. Restrict premium providers to higher tiers
-    if (provider === "elevenlabs" && tier !== "PRO" && tier !== "SMART") {
+    if (provider === "elevenlabs" && tier !== "PRO" && tier !== "SMART" && tier !== "ENTERPRISE") {
       return NextResponse.json(
         {
           error: "ElevenLabs TTS is available on Executive (SMART) and Reseller (PRO) plans only",
@@ -114,7 +114,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (provider === "google" && tier !== "PRO" && tier !== "SMART" && tier !== "PLUS") {
+    if (provider === "google" && tier !== "PRO" && tier !== "SMART" && tier !== "PLUS" && tier !== "ENTERPRISE") {
       return NextResponse.json(
         {
           error: "Google Cloud TTS is available on Growth (PLUS) and above plans only",

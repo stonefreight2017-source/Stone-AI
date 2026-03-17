@@ -47,7 +47,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-type Tier = "FREE" | "STARTER" | "PLUS" | "SMART" | "PRO";
+type Tier = "FREE" | "STARTER" | "PLUS" | "SMART" | "PRO" | "ENTERPRISE";
 
 interface Agent {
   name: string;
@@ -72,6 +72,7 @@ const tierColors: Record<Tier, string> = {
   PLUS: "bg-blue-500/15 text-blue-400 border-blue-500/25",
   SMART: "bg-purple-500/15 text-purple-400 border-purple-500/25",
   PRO: "bg-amber-500/15 text-amber-400 border-amber-500/25",
+  ENTERPRISE: "bg-emerald-500/15 text-emerald-400 border-emerald-500/25",
 };
 
 const departments: Department[] = [

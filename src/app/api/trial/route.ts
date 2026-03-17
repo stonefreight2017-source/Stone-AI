@@ -8,7 +8,7 @@ import { checkRateLimitAsync } from "@/lib/rate-limiter";
 
 const trialSchema = z.object({
   type: z.literal("enhanced"),
-  tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]).optional(),
+  tier: z.enum(["STARTER", "PLUS", "SMART", "PRO", "ENTERPRISE"]).optional(),
 }).strict();
 
 // GET /api/trial — check trial eligibility and status

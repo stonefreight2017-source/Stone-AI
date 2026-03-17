@@ -259,11 +259,11 @@ export default function LandingPage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" aria-hidden="true" />
-                    <span>Credit packs for crunch time — big pitch week, product launch, tax season</span>
+                    <span>Need more messages? Credit Packs: 10 for $1.99 | 25 for $3.99 | 50 for $6.99 | 100 for $11.99</span>
                   </div>
                 </div>
                 <div className="mt-4 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20">
-                  <p className="text-xs text-zinc-400">Best for: investor decks, legal reviews, competitive analysis, anything that needs the sharpest mind in the room</p>
+                  <p className="text-xs text-zinc-400">Best for: investor decks, legal reviews, competitive analysis, anything that needs the sharpest mind in the room. Credit packs available for Builder tier and above.</p>
                 </div>
               </Card>
             </AnimateOnScroll>

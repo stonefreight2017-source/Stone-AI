@@ -10,12 +10,13 @@ import { Button } from "@/components/ui/button";
 import { ChatInput } from "./ChatInput";
 import { ThinkingIndicator } from "./ThinkingIndicator";
 import { MessageRenderer } from "./MessageRenderer";
+import { CreditPackOffer } from "./CreditPackOffer";
 import { useConversation } from "@/hooks/use-conversation";
 import { useAppStore } from "@/store/app-store";
 import { ModeSelector } from "./ModeSelector";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
-import type { ChatError } from "@/types";
+import type { ChatError, SmartQuotaExceededError } from "@/types";
 
 interface ChatViewProps {
   conversationId: string;
@@ -34,6 +35,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
   const { selectedMode, setSelectedMode, setTierError } = useAppStore();
   const { data: userData } = useUser();
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [smartCapError, setSmartCapError] = useState<SmartQuotaExceededError | null>(null);
 
   // Latency tracking
   const sendTimeRef = useRef<number>(0);
@@ -64,7 +66,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
         }
         if (parsed.code === "SMART_QUOTA_EXCEEDED") {
           setSelectedMode("LOCAL");
-          toast.error(parsed.message || "Smart mode limit reached. Switched to Local mode.");
+          setSmartCapError(parsed as SmartQuotaExceededError);
           return;
         }
         if (parsed.code === "RATE_LIMITED") {
@@ -114,6 +116,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
     (text: string) => {
       sendTimeRef.current = Date.now();
       firstTokenCaptured.current = false;
+      setSmartCapError(null);
       sendMessage({ text });
     },
     [sendMessage]
@@ -307,8 +310,15 @@ export function ChatView({ conversationId }: ChatViewProps) {
         )}
       </div>
 
+      {/* Smart cap — credit pack offer */}
+      {smartCapError && (
+        <div className="px-4 py-2 flex justify-center">
+          <CreditPackOffer smartUsage={smartCapError.smartUsage} />
+        </div>
+      )}
+
       {/* Error display */}
-      {chatError && (
+      {chatError && !smartCapError && (
         <div className="px-4 py-2 bg-red-900/30 border-t border-red-800 text-red-300 text-sm text-center">
           {chatError.message}
         </div>

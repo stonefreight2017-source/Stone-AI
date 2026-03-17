@@ -34,6 +34,7 @@ const IMAGE_DAILY_LIMITS: Record<Tier, number> = {
   PLUS: 15,
   SMART: 30,
   PRO: 100,
+  ENTERPRISE: 500,
 };
 
 // ─── Content Moderation ──────────────────────────────────────

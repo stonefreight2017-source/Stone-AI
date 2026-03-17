@@ -10,6 +10,7 @@ export const TIERED_TOP_K: Record<string, number> = {
   PLUS: 5,
   SMART: 7,
   PRO: 10,
+  ENTERPRISE: 15,
 };
 const TOP_K = 5; // Default fallback
 

@@ -335,10 +335,64 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     priority: 4,
     cloudFallback: true,
   },
+  ENTERPRISE: {
+    name: "Organization",
+    price: 500,
+    stripePriceEnvKey: "STRIPE_PRICE_ENTERPRISE",
+    localModel: "/mnt/c/models/qwen3-32b-awq",
+    agentCount: 46,
+    tagline: "Deploy AI across your entire organization",
+    limits: {
+      messagesPerDay: 50000,
+      tokensPerMonth: 500_000_000,
+      maxResponseTokens: 16_000,
+      concurrentRequests: 20,
+      requestsPerMinute: 100,
+      smartMessagesPerDay: 1000,
+      smartMaxResponseTokens: 4_000,
+      smartContextMessages: 30,
+      smartTokensPerMonth: 10_000_000,
+    },
+    perks: {
+      contextMessages: 100,
+      autoRouting: true,
+      conversationExport: true,
+      priorityQueue: true,
+      apiAccess: true,
+      commercialLicense: true,
+      earlyAccess: true,
+      agentBuilder: true,
+      referralMultiplier: 2,
+      maxBesties: 2,
+      maxDocuments: 100,
+      webSearchesPerDay: 1000,
+      codeExecutionsPerDay: 1000,
+      fileUploadAnalysis: true,
+      voiceInteraction: true,
+      pluginIntegrations: 50,
+      teamWorkspace: true,
+      customModelFineTuning: true,
+      soc2Compliance: true,
+      hipaaCompliance: true,
+      mobileApp: true,
+    },
+    allowedModes: ["LOCAL", "SMART", "PRIORITY"],
+    priority: 5,
+    cloudFallback: true,
+  },
 } as const;
 
+export const CREDIT_PACK_PRICES = {
+  STARTER:  { credits: 10,  price: 199,  stripePriceEnvKey: "STRIPE_PRICE_CREDITS_STARTER" },
+  STANDARD: { credits: 25,  price: 399,  stripePriceEnvKey: "STRIPE_PRICE_CREDITS_STANDARD" },
+  POWER:    { credits: 50,  price: 699,  stripePriceEnvKey: "STRIPE_PRICE_CREDITS_POWER" },
+  BULK:     { credits: 100, price: 1199, stripePriceEnvKey: "STRIPE_PRICE_CREDITS_BULK" },
+} as const;
+
+export type CreditPackTier = keyof typeof CREDIT_PACK_PRICES;
+
 // Ordered tier list for progression logic
-const TIER_ORDER: Tier[] = ["FREE", "STARTER", "PLUS", "SMART", "PRO"];
+const TIER_ORDER: Tier[] = ["FREE", "STARTER", "PLUS", "SMART", "PRO", "ENTERPRISE"];
 
 export function getTierConfig(tier: Tier): TierConfig {
   return TIER_CONFIG[tier];
@@ -516,4 +570,5 @@ export const TIER_DISPLAY = [
   { key: "PLUS" as Tier, name: "Growth", price: 49.99, badge: "indigo", popular: true },
   { key: "SMART" as Tier, name: "Executive", price: 99.99, badge: "purple", popular: false },
   { key: "PRO" as Tier, name: "Reseller", price: 200, badge: "amber", popular: false },
+  { key: "ENTERPRISE" as Tier, name: "Organization", price: 500, badge: "emerald", popular: false },
 ] as const;

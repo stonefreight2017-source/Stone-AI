@@ -67,6 +67,8 @@ export function BillingClient({
   const canceled = searchParams.get("canceled");
   const upgradedTier = searchParams.get("tier");
   const deal = searchParams.get("deal");
+  const creditsSuccess = searchParams.get("credits") === "success";
+  const creditsAdded = searchParams.get("credits_added");
 
   const [usageData, setUsageData] = useState<UsageData | null>(null);
   const [loadingCheckout, setLoadingCheckout] = useState<string | null>(null);
@@ -147,7 +149,7 @@ export function BillingClient({
   }
 
   const TIER_RANK: Record<string, number> = {
-    FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
+    FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4, ENTERPRISE: 5,
   };
 
   const TIER_DETAILS: Record<string, { tagline: string; features: string[]; whyUpgrade: string; highlight?: string }> = {
@@ -253,6 +255,21 @@ export function BillingClient({
             <p className="text-emerald-400/70 text-sm">
               Your account has been upgraded. Enjoy your new features.
             </p>
+          </div>
+        </div>
+      )}
+      {creditsSuccess && (
+        <div className="bg-emerald-900/40 border border-emerald-700 rounded-lg p-4 flex items-center gap-3">
+          <Check className="h-5 w-5 text-emerald-400 shrink-0" />
+          <div>
+            <p className="text-emerald-300 font-medium">
+              Credits added! You can continue chatting.
+            </p>
+            {creditsAdded && (
+              <p className="text-emerald-400/70 text-sm">
+                {creditsAdded} Cloud AI credits have been added to your account.
+              </p>
+            )}
           </div>
         </div>
       )}
