@@ -340,7 +340,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 500,
     stripePriceEnvKey: "STRIPE_PRICE_ENTERPRISE",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 46,
+    agentCount: 42,
     tagline: "Deploy AI across your entire organization",
     limits: {
       messagesPerDay: 50000,
@@ -361,7 +361,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       apiAccess: true,
       commercialLicense: true,
       earlyAccess: true,
-      agentBuilder: true,
+      agentBuilder: false,          // Coming Soon — agent builder not yet built
       referralMultiplier: 2,
       maxBesties: 2,
       maxDocuments: 100,
@@ -369,11 +369,11 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       codeExecutionsPerDay: 1000,
       fileUploadAnalysis: true,
       voiceInteraction: true,
-      pluginIntegrations: 50,
-      teamWorkspace: true,
-      customModelFineTuning: true,
-      soc2Compliance: true,
-      hipaaCompliance: true,
+      pluginIntegrations: 0,        // Coming Soon — plugin integrations not yet built
+      teamWorkspace: false,         // Coming Soon — team workspace not yet built
+      customModelFineTuning: false, // Coming Soon — custom model fine-tuning not yet built
+      soc2Compliance: false,       // Not yet certified — requires actual SOC 2 audit
+      hipaaCompliance: false,      // Not yet certified — requires actual HIPAA compliance program
       mobileApp: true,
     },
     allowedModes: ["LOCAL", "SMART", "PRIORITY"],

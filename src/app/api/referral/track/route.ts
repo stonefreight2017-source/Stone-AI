@@ -4,13 +4,12 @@ import { db } from "@/lib/db";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
 
 // ============================================================================
-// REFERRAL REWARDS STATUS: NOT ACTIVE
+// REFERRAL TRACKING
 //
-// This endpoint tracks referral sign-ups (who referred whom), but referral
-// rewards are NOT currently granted. For a referral to qualify for rewards,
-// the referred user must have an ACTIVE paid subscription (not a trial).
-// Until reward distribution logic is implemented and enabled, referrals are
-// recorded with status "PENDING" only.
+// This endpoint tracks referral sign-ups (who referred whom). Referrals start
+// as PENDING. When the referred user subscribes to a paid tier, the referral
+// moves to QUALIFIED. After 30 days of active subscription, rewards are
+// distributed via processReferralReward() in referral-rewards.ts.
 // ============================================================================
 
 // POST /api/referral/track — track that current user was referred by a code

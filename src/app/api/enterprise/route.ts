@@ -13,7 +13,7 @@ const enterpriseSchema = z.object({
     sla: z.enum(["99.5", "99.9", "99.99"]),
     auditLogExport: z.boolean(),
     complianceReports: z.boolean(),
-    model: z.enum(["standard", "fine-tuning", "dedicated-gpu"]),
+    model: z.enum(["standard", "dedicated-gpu"]),
     responseTokens: z.number().min(32000).max(128000),
     billingPeriod: z.enum(["monthly", "semiannual", "annual"]),
     financing: z.enum(["none", "net-30", "net-60", "net-90"]).default("none"),
@@ -54,7 +54,6 @@ function calculateServerPrice(config: z.infer<typeof enterpriseSchema>["config"]
 
   // Model
   if (config.model === "dedicated-gpu") monthly += 400;
-  else if (config.model === "fine-tuning") monthly += 200;
 
   // Tokens
   if (config.responseTokens > 64000) monthly += 100;

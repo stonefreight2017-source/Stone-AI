@@ -29,11 +29,9 @@ import { SalesWidget } from "@/components/sales/SalesWidget";
 
 // ─── Pricing Constants ───────────────────────────────────────────────
 
-const BASE_PRICE = 300;
+const BASE_PRICE = 500;
 const BASE_SEATS = 5;
 const PER_SEAT = 15;
-const PREMIUM_SUPPORT_COST = 100;
-const HIPAA_SOC2_COST = 200;
 
 const LOCAL_REQUEST_OPTIONS = [
   { label: "5K/day", value: 5_000, cost: 0, desc: "Included in base" },
@@ -85,12 +83,6 @@ const MODEL_OPTIONS = [
     value: "standard",
     cost: 0,
     desc: "Qwen 2.5 32B + GPT-4o",
-  },
-  {
-    label: "Custom Fine-Tuning",
-    value: "fine-tuning",
-    cost: 600,
-    desc: "Fine-tuned models for your domain",
   },
   {
     label: "Dedicated GPU",
@@ -162,8 +154,6 @@ interface Config {
   smartRequests: number;
   support: string;
   sla: string;
-  premiumSupport: boolean;
-  hipaaSoc2: boolean;
   auditLogExport: boolean;
   complianceReports: boolean;
   model: string;
@@ -208,8 +198,6 @@ export function EnterpriseConfigurator() {
     smartRequests: 0,
     support: "standard",
     sla: "99.5",
-    premiumSupport: false,
-    hipaaSoc2: false,
     auditLogExport: false,
     complianceReports: false,
     model: "standard",
@@ -236,13 +224,12 @@ export function EnterpriseConfigurator() {
     // Seat costs
     const extraSeats = Math.max(0, config.seats - BASE_SEATS);
     const seatCost = extraSeats * PER_SEAT;
-    const premiumSupportCost = config.premiumSupport ? PREMIUM_SUPPORT_COST : 0;
-    const hipaaSoc2Cost = config.hipaaSoc2 ? HIPAA_SOC2_COST : 0;
 
-    // Platform fee (base + seats + add-ons) — discounts apply here only
-    const platformFeeRaw = BASE_PRICE + seatCost + premiumSupportCost + hipaaSoc2Cost;
+    // Platform fee (base + seats) — volume discounts apply to seats only
     const seatDiscount = calcSeatDiscount(config.seats);
-    const platformDiscount = platformFeeRaw * seatDiscount.rate;
+    const seatDiscountAmount = seatCost * seatDiscount.rate;
+    const platformFeeRaw = BASE_PRICE + seatCost;
+    const platformDiscount = seatDiscountAmount;
     const platformFee = platformFeeRaw - platformDiscount;
 
     // Usage costs — LOCAL + SMART (no volume discounts on compute)
@@ -292,8 +279,6 @@ export function EnterpriseConfigurator() {
       platformDiscount,
       seatDiscount,
       seatCost,
-      premiumSupportCost,
-      hipaaSoc2Cost,
       localCost,
       smartCost,
       usageCost,
@@ -357,8 +342,6 @@ export function EnterpriseConfigurator() {
       `Model: ${config.model}`,
       `Tokens: ${(config.responseTokens / 1000).toFixed(0)}K`,
       `Billing: ${config.billingPeriod}`,
-      config.premiumSupport ? "Premium Support: Yes" : "",
-      config.hipaaSoc2 ? "HIPAA/SOC2: Yes" : "",
       config.auditLogExport ? "Audit log export: Yes" : "",
       config.complianceReports ? "Compliance reports: Yes" : "",
       config.financing !== "none" ? `Financing: ${config.financing}` : "",
@@ -607,32 +590,6 @@ export function EnterpriseConfigurator() {
 
             <Separator className="bg-zinc-800" />
 
-            {/* Platform Add-ons */}
-            <div>
-              <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
-                <Shield className="h-5 w-5 text-emerald-400" /> Platform Add-ons
-              </h3>
-              <p className="text-sm text-zinc-400 mb-4">
-                Optional platform-level enhancements.
-              </p>
-              <div className="space-y-3">
-                <CheckboxCard
-                  checked={config.premiumSupport}
-                  onChange={(v) => update("premiumSupport", v)}
-                  label="Premium Support"
-                  cost={PREMIUM_SUPPORT_COST}
-                />
-                <CheckboxCard
-                  checked={config.hipaaSoc2}
-                  onChange={(v) => update("hipaaSoc2", v)}
-                  label="HIPAA / SOC2 Compliance"
-                  cost={HIPAA_SOC2_COST}
-                />
-              </div>
-            </div>
-
-            <Separator className="bg-zinc-800" />
-
             {/* Local Requests */}
             <div>
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
@@ -758,7 +715,7 @@ export function EnterpriseConfigurator() {
                 <Lock className="h-5 w-5 text-emerald-400" /> Security Add-ons
               </h3>
               <p className="text-sm text-zinc-400 mb-4">
-                SSO/SAML is included in all enterprise plans.
+                SSO/SAML is included in all enterprise plans. Enterprise security features available — contact sales for compliance requirements.
               </p>
               <div className="space-y-3">
                 <CheckboxCard

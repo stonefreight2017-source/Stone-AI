@@ -192,7 +192,6 @@ const TIER_WORLDS: TierWorld[] = [
       "39 agents — nearly every specialist",
       "Full creative suite (YouTube, copy, short form)",
       "Technical agents (dev, automation, analytics)",
-      "Custom agent builder + team workspace",
       "Auto-routing picks the best model per question",
     ],
     atmosphere:
@@ -246,7 +245,7 @@ const TIER_WORLDS: TierWorld[] = [
     price: "From $500/mo",
     tagline: "Your own world",
     description:
-      "Custom everything. Seats for your whole team. Dedicated support. SLA guarantees. White-label options to resell under your own brand. Custom model fine-tuning. This isn't a subscription — it's a partnership. Stone AI becomes part of your infrastructure.",
+      "Custom everything. Seats for your whole team. Dedicated support. SLA guarantees. White-label options to resell under your own brand. This isn't a subscription — it's a partnership. Stone AI becomes part of your infrastructure.",
     bestieStory:
       "At enterprise scale, Besties become team companions. Onboarding assistants that know your company culture. Department-specific advisors trained on your processes. The personal touch of a Bestie, scaled across an organization — each team member gets their own, all of them aligned to your company's voice and values.",
     bestieEmoji: "\uD83C\uDFE2",
@@ -258,14 +257,13 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Building2 className="h-4 w-4" />, label: "Team Deployment", examples: "Custom seats, roles, and permissions" },
       { icon: <Globe className="h-4 w-4" />, label: "White-Label", examples: "Your brand, your domain, our technology" },
       { icon: <Shield className="h-4 w-4" />, label: "SLA & Security", examples: "99.99% uptime, compliance reports, audit logs" },
-      { icon: <Star className="h-4 w-4" />, label: "Custom AI", examples: "Fine-tuned models, dedicated GPU, 128K tokens" },
+      { icon: <Star className="h-4 w-4" />, label: "Custom AI", examples: "Dedicated GPU, 128K tokens" },
     ],
     capabilities: [
       "Custom team seat pricing",
       "White-label and reseller programs",
       "Dedicated support with named account manager",
       "Custom SLA up to 99.99%",
-      "Model fine-tuning on your data",
       "Compliance and audit exports",
       "Revenue sharing for resellers",
     ],

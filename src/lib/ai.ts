@@ -109,7 +109,7 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
     const smartModel = process.env.VLLM_SMART_MODEL
       ?? tierLocalModel
       ?? process.env.VLLM_MODEL
-      ?? "/mnt/c/models/qwen3-32b-awq";
+      ?? "/home/stones/models/qwen3-32b-awq";
     return vllm(smartModel);
   }
 
@@ -123,7 +123,7 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
-  const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq";
+  const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "/home/stones/models/qwen3-32b-awq";
   return vllm(model);
 }
 
