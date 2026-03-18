@@ -473,7 +473,7 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent to plan and grow your social media presence. Get content calendars, platform-specific strategies, and engagement tactics that actually grow your audience.",
   },
-  "email-marketing": {
+  "email-marketing-specialist": {
     capabilities: [
       "Design email sequences: welcome, nurture, launch, re-engagement, abandoned cart",
       "Build newsletter strategies with growth tactics and monetization",

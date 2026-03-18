@@ -1,6 +1,6 @@
 import { db } from "@/lib/db";
 
-// Embedding dimensions — matches nomic-embed-text v1.5 output
+// Embedding dimensions — matches OpenAI text-embedding-3-small output
 const EMBED_DIM = 768;
 
 // Tiered RAG depth — higher tiers get more knowledge chunks retrieved
@@ -28,19 +28,33 @@ export interface EmbeddingResult {
 /**
  * Embedding provider priority:
  * 1. OpenAI (cloud) — text-embedding-3-small, works everywhere including Vercel
- * 2. Ollama (local or remote via Cloudflare tunnel) — nomic-embed-text, free
- * 3. vLLM embedding endpoint (if a separate embedding model is loaded)
- * 4. Hash fallback (dev/testing only) — deterministic trigram hashing
+ * 2. vLLM embedding endpoint (if a separate embedding model is loaded)
+ * 3. Hash fallback (dev/testing only, must be explicitly opted in)
  *
- * OpenAI is first because it's the only provider guaranteed to work on Vercel.
- * Locally, if you prefer Ollama, unset OPENAI_API_KEY or EMBEDDING_MODEL.
+ * OpenAI is the primary provider. If unavailable, the function FAILS LOUDLY
+ * rather than silently degrading to hash embeddings.
  */
+
+/**
+ * Options for embedding generation.
+ * By default, the function throws if all real providers fail.
+ * Set allowHashFallback to true to permit deterministic hash embeddings (dev/testing only).
+ */
+export interface GenerateEmbeddingOptions {
+  allowHashFallback?: boolean;
+}
 
 /**
  * Generate embedding using the best available provider.
  * Returns the embedding vector plus provider/model metadata.
+ *
+ * By default, throws an error if all real providers (OpenAI, vLLM) fail.
+ * Pass { allowHashFallback: true } to permit hash-based fallback (dev/testing only).
  */
-export async function generateEmbedding(text: string): Promise<EmbeddingResult> {
+export async function generateEmbedding(
+  text: string,
+  options?: GenerateEmbeddingOptions
+): Promise<EmbeddingResult> {
   const truncated = text.slice(0, 8000);
   const tried: string[] = [];
 
@@ -81,44 +95,7 @@ export async function generateEmbedding(text: string): Promise<EmbeddingResult> 
     }
   }
 
-  // 2. Try Ollama (local or remote via Cloudflare tunnel)
-  // OLLAMA_BASE_URL can be http://localhost:11434 (local) or https://vllm.stone-ai.net (tunnel)
-  const ollamaUrl = process.env.OLLAMA_BASE_URL ?? "http://localhost:11434";
-  const ollamaModel = process.env.OLLAMA_EMBED_MODEL ?? "nomic-embed-text";
-
-  tried.push(`ollama/${ollamaModel}@${ollamaUrl}`);
-  try {
-    const res = await fetch(`${ollamaUrl}/api/embed`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: ollamaModel,
-        input: truncated,
-      }),
-      signal: AbortSignal.timeout(30000),
-    });
-
-    if (res.ok) {
-      const data = await res.json();
-      // Ollama /api/embed returns { embeddings: [[...]] }
-      const embedding = data.embeddings?.[0];
-      if (embedding && Array.isArray(embedding) && embedding.length > 0) {
-        const normalized =
-          embedding.length === EMBED_DIM
-            ? embedding
-            : normalizeToTargetDim(embedding, EMBED_DIM);
-        return {
-          embedding: normalized,
-          provider: "ollama",
-          model: ollamaModel,
-        };
-      }
-    }
-  } catch {
-    // Ollama not available, fall through
-  }
-
-  // 3. Try vLLM embedding endpoint (if a separate embedding model is loaded)
+  // 2. Try vLLM embedding endpoint (if a separate embedding model is loaded)
   const vllmUrl = process.env.VLLM_EMBED_URL;
   const vllmEmbedModel = process.env.VLLM_EMBED_MODEL;
 
@@ -153,17 +130,28 @@ export async function generateEmbedding(text: string): Promise<EmbeddingResult> 
     }
   }
 
-  // 4. Deterministic hash-based embedding fallback (dev/testing only)
-  console.warn(
-    `[embeddings] WARNING: All embedding providers failed. Falling back to hash embedding (NOT suitable for production).\n` +
-      `[embeddings] Providers tried: ${tried.join(" -> ")}\n` +
-      `[embeddings] To fix: Set OPENAI_API_KEY + EMBEDDING_MODEL env vars on Vercel, or ensure Ollama is reachable at OLLAMA_BASE_URL.`
+  // 4. All real providers failed
+  const providerSummary =
+    `[embeddings] Providers tried: ${tried.join(" -> ")}\n` +
+    `[embeddings] To fix: Set OPENAI_API_KEY + EMBEDDING_MODEL env vars.`;
+
+  if (options?.allowHashFallback) {
+    // Explicit opt-in: use deterministic hash embedding (dev/testing only)
+    console.warn(
+      `[embeddings] WARNING: All embedding providers failed. Using hash embedding (allowHashFallback=true, NOT suitable for production).\n` +
+        providerSummary
+    );
+    return {
+      embedding: hashEmbed(truncated, EMBED_DIM),
+      provider: "hash-fallback",
+      model: "trigram-hash",
+    };
+  }
+
+  // Default: fail loudly — never silently degrade with fake embeddings
+  throw new Error(
+    `EMBEDDING GENERATION FAILED: No embedding provider available. Chunks will NOT be stored with fake embeddings.\n${providerSummary}`
   );
-  return {
-    embedding: hashEmbed(truncated, EMBED_DIM),
-    provider: "hash-fallback",
-    model: "trigram-hash",
-  };
 }
 
 /**
@@ -278,8 +266,7 @@ export interface KnowledgeSearchResult {
  * Returns top-K most similar chunks.
  *
  * T-8 FIX: Filters by embeddingModel provider to prevent cross-provider
- * cosine similarity (e.g. Ollama embeddings vs OpenAI embeddings produce
- * meaningless scores). Falls back to unfiltered results with a degraded
+ * cosine similarity. Falls back to unfiltered results with a degraded
  * confidence flag if no provider-matched chunks exist.
  */
 export async function searchKnowledge(

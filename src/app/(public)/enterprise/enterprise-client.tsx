@@ -108,7 +108,6 @@ function calcSeatDiscount(seats: number): { rate: number; label: string } {
 
 const BILLING_PERIODS = [
   { key: "monthly", label: "Monthly", discount: 0, months: 1 },
-  { key: "semiannual", label: "6 Months", discount: 0, months: 6 },
   { key: "annual", label: "Annual", discount: 5, months: 12 },
 ] as const;
 

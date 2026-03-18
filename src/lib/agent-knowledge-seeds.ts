@@ -1111,4 +1111,563 @@ Week 1: 100-500 signups. Month 1: 20-50 active users, 5-15 paying. Month 3: 50-2
 COMMON LAUNCH MISTAKES: Launching without onboarding flow. No analytics from day one. Waiting for "perfect" product. Targeting too broad an audience. Not having pricing page ready.`,
     },
   ],
+
+  // ═══════════════════════════════════════════
+  // 3. CUSTOMER SUPPORT BOT
+  // ═══════════════════════════════════════════
+  "customer-support-bot": [
+    {
+      title: "Customer Support Automation and AI Integration (2025-2026)",
+      content: `AI-Powered Support Automation — Current State of the Art:
+
+AI CHATBOT CAPABILITIES (2025):
+Modern AI support chatbots can handle 40-70% of incoming queries without human intervention. Key capabilities: FAQ resolution, order status lookup, appointment scheduling, password resets, return initiation, basic troubleshooting, and document retrieval.
+
+IMPLEMENTATION TIERS:
+Tier 1 — Rule-Based Bot ($0-500/mo): Decision trees, keyword matching, canned responses. Handles 20-30% of queries. Tools: Tidio, Crisp, Tawk.to. Best for: <200 tickets/month, simple queries.
+
+Tier 2 — AI-Enhanced Bot ($200-2,000/mo): NLP intent detection, context awareness, knowledge base search. Handles 40-50% of queries. Tools: Intercom Fin, Zendesk AI, Freshdesk Freddy. Best for: 200-5,000 tickets/month.
+
+Tier 3 — Custom AI Agent ($1,000-10,000/mo): RAG-powered, trained on your data, multi-turn conversations, API integrations for actions (refunds, account changes). Handles 50-70% of queries. Tools: Custom (LangChain + your data), Voiceflow, Ada. Best for: 5,000+ tickets/month.
+
+ROI CALCULATION:
+Cost per human ticket: $8-15 average. Cost per AI-resolved ticket: $0.50-2.00.
+If AI resolves 500 tickets/month at $1 each vs human at $10 each: Monthly savings = $4,500. Annual savings = $54,000.
+Payback period for Tier 2 implementation: 1-3 months.
+
+HANDOFF INTELLIGENCE:
+The critical metric is false-positive resolution — when the bot thinks it solved the issue but didn't. Monitor: Post-resolution surveys, ticket reopens within 24 hours, repeat contacts within 7 days. Target false-positive rate: <5%.`,
+    },
+    {
+      title: "Support Team Structure and Scaling Playbook",
+      content: `Building a Support Team — From Solo to Scale:
+
+SUPPORT TEAM EVOLUTION:
+Stage 1 (0-100 tickets/mo): Founder handles support. Set up shared inbox (Front, HelpScout). Create 20-30 canned responses for common questions. Build initial FAQ page.
+
+Stage 2 (100-500 tickets/mo): First hire — generalist support agent. Implement helpdesk (Freshdesk recommended at this stage). Create internal knowledge base. Define SLAs: <4 hour first response, <24 hour resolution.
+
+Stage 3 (500-2,000 tickets/mo): 2-4 agents with shift coverage. Add chatbot for Tier 1 deflection. Implement QA program (review 5-10% of tickets weekly). Specialize: billing issues vs technical issues.
+
+Stage 4 (2,000-10,000 tickets/mo): Support lead + team of 5-10. Add phone/live chat channels. Implement tier-2 escalation for complex issues. Build customer health scoring. Monthly business reviews with product team.
+
+Stage 5 (10,000+ tickets/mo): Support manager + team leads + 15-30 agents. Dedicated QA analyst. Workforce management for scheduling. Advanced AI deflection (50%+ target). Customer success separation from support.
+
+KEY HIRING METRICS:
+- Tickets per agent per day: 20-30 (email), 40-60 (chat), 30-50 (phone).
+- Hire when agents consistently exceed capacity for 2+ weeks.
+- Training ramp: 2-4 weeks to full productivity for Tier 1 agents.
+
+QUALITY ASSURANCE FRAMEWORK:
+Score tickets on: Accuracy (correct resolution), Tone (empathetic, professional), Efficiency (resolved in fewest interactions), Process (followed SOPs, used correct macros). Target QA score: 85%+ per agent. Below 75%: coaching plan. Below 65%: performance improvement plan.`,
+    },
+    {
+      title: "Knowledge Base Design and Self-Service Optimization",
+      content: `Building a Knowledge Base That Actually Deflects Tickets:
+
+CONTENT ARCHITECTURE:
+Organize by customer journey, not internal departments:
+1. Getting Started (onboarding, setup, first steps)
+2. Using [Product] (features, how-tos, tutorials)
+3. Account & Billing (payments, subscriptions, invoices)
+4. Troubleshooting (common issues, error messages, fixes)
+5. Integrations (third-party connections, API docs)
+6. Policies (returns, refunds, privacy, terms)
+
+ARTICLE WRITING FORMULA:
+Title: Use the exact question customers ask (e.g., "How do I reset my password?" not "Password Management")
+Structure: Problem statement (1 sentence) → Solution steps (numbered, with screenshots) → Expected outcome → Related articles → Still need help? Contact us.
+Length: 200-500 words per article. Shorter is better. Use screenshots and GIFs liberally.
+
+SEARCH OPTIMIZATION:
+- Include synonyms and common misspellings in article metadata
+- Tag articles with related search terms customers actually use
+- Review search queries with zero results weekly — those are content gaps
+- Most-searched terms should map to your best articles
+
+DEFLECTION MEASUREMENT:
+Track: Articles viewed → "Was this helpful?" response → Ticket created after viewing. Target: 60-70% of article viewers do NOT create a ticket afterward. Below 40%: article needs rewriting.
+
+CONTENT MAINTENANCE:
+- Review all articles quarterly. Update screenshots, pricing, feature changes.
+- Archive articles for deprecated features.
+- Track "not helpful" feedback and rewrite bottom 10% of articles monthly.
+- New feature launch = new KB article published same day. Never launch a feature without documentation.
+
+TOOLS: Intercom Articles, Zendesk Guide, HelpScout Docs, Notion (budget option), GitBook (developer-focused). Cost: $0-50/month depending on platform.`,
+    },
+  ],
+
+  // ═══════════════════════════════════════════
+  // 4. EMAIL MARKETING SPECIALIST
+  // ═══════════════════════════════════════════
+  "email-marketing-specialist": [
+    {
+      title: "Email List Growth Strategies (2025-2026)",
+      content: `Proven Email List Growth Tactics — From 0 to 100K Subscribers:
+
+LEAD MAGNET TYPES (Ranked by Conversion Rate):
+1. Templates & Swipe Files (25-50% opt-in rate): Ready-to-use templates solve immediate problems. Examples: email templates, social media templates, spreadsheet templates, proposal templates.
+2. Checklists & Cheat Sheets (20-40%): Quick-reference guides. Examples: launch checklist, SEO audit checklist, onboarding checklist.
+3. Mini-Courses (15-30%): 5-7 day email courses. High perceived value. Excellent for nurture sequences.
+4. Calculators & Tools (15-35%): Interactive tools that provide personalized results. Examples: ROI calculator, salary calculator, pricing calculator.
+5. Ebooks & Guides (10-25%): In-depth resources. Higher effort to create but establish authority.
+6. Webinars (20-40% registration, 30-50% attendance): Live or evergreen. Best for high-ticket offers.
+
+OPT-IN FORM PLACEMENT (by conversion rate):
+- Exit-intent popup: 2-5% conversion rate. Triggered when cursor moves toward closing tab.
+- Inline content upgrade: 3-8%. Contextual offer within a blog post.
+- Sticky bar (top/bottom of page): 1-3%. Always visible, low friction.
+- Sidebar widget: 0.5-1.5%. Standard but low-performing.
+- Landing page (dedicated): 20-50%. Use for paid traffic and social bio links.
+- Welcome mat (full-screen): 2-7%. Aggressive but effective. Test carefully.
+
+GROWTH CHANNELS:
+- Content SEO: Write blog posts targeting buyer-intent keywords. Add lead magnet upgrade to each post.
+- Social media: Link in bio to landing page. Mention lead magnet in posts. Use "DM me [keyword]" on IG/TikTok.
+- Referral programs: SparkLoop, ReferralHero. Give subscribers rewards for sharing. Typical referral rate: 5-15% of subscribers.
+- Cross-promotions: Partner with complementary newsletters. Swap recommendations. Use Swapstack or SparkLoop partner network.
+- Paid acquisition: Facebook/Instagram ads to lead magnet landing page. Target CPA: $1-5 per subscriber. Only profitable if you have monetization in place.
+
+LIST GROWTH BENCHMARKS:
+Month 1-3: 100-500 subscribers (organic only). Month 3-6: 500-2,000. Month 6-12: 2,000-10,000 (with paid + referrals). Year 2: 10,000-50,000 (with consistent content + growth loops).`,
+    },
+    {
+      title: "Email Automation Sequences That Drive Revenue",
+      content: `High-Impact Email Automation Sequences:
+
+CART ABANDONMENT SEQUENCE (E-commerce — recovers 5-15% of abandoned carts):
+Email 1 (1 hour after abandonment): Subject: "You left something behind" — Reminder with product image, no discount yet.
+Email 2 (24 hours): Subject: "Still thinking about it?" — Add social proof (reviews, ratings). Address common objections.
+Email 3 (72 hours): Subject: "Last chance: 10% off your cart" — Offer small discount or free shipping. Create urgency.
+Benchmark: 45% open rate on email 1, declining to 25% on email 3. 5-15% total recovery rate.
+
+POST-PURCHASE SEQUENCE (Increases repeat purchases by 20-30%):
+Email 1 (Immediate): Order confirmation with expected delivery date. Cross-sell recommendation.
+Email 2 (Day 3): "How to get the most out of [product]" — Usage tips, setup guide, video tutorial.
+Email 3 (Day 7): "How's everything going?" — Check-in, link to support if needed.
+Email 4 (Day 14): Review request. Include direct link to leave a review. Offer incentive if appropriate.
+Email 5 (Day 30): Cross-sell or replenishment reminder based on product type.
+
+RE-ENGAGEMENT SEQUENCE (Win back 5-10% of inactive subscribers):
+Trigger: No opens or clicks for 90 days.
+Email 1: Subject: "We miss you! Here's what you've been missing" — Highlight best content from past 90 days.
+Email 2 (Day 3): Subject: "Is this goodbye?" — Emotional appeal. Ask what they want to receive.
+Email 3 (Day 7): Subject: "Last email unless you say stay" — Clear ultimatum. Click to stay on list.
+Post-sequence: Remove all non-responders from active list. This improves deliverability for remaining subscribers.
+
+LEAD NURTURE SEQUENCE (B2B — moves leads through funnel):
+Email 1: Educational content addressing their primary pain point.
+Email 2 (Day 3): Case study showing how someone like them solved the problem.
+Email 3 (Day 7): Tool or framework they can use immediately.
+Email 4 (Day 10): Comparison guide (your solution vs alternatives).
+Email 5 (Day 14): Soft CTA — "Book a 15-minute call to see if we can help."
+Email 6 (Day 21): Direct offer with urgency or bonus.`,
+    },
+    {
+      title: "Email Platform Selection and Migration Guide",
+      content: `Email Marketing Platform Comparison (2025-2026):
+
+CONVERTKIT (now Kit):
+- Pricing: Free to 10K subscribers, Creator $29/mo (1K subs), Creator Pro $59/mo.
+- Best for: Creators, bloggers, course creators, solopreneurs.
+- Strengths: Best visual automation builder, landing pages included, commerce features (sell digital products), tag-based subscriber management.
+- Weaknesses: Limited design templates, basic reporting, no SMS.
+
+MAILCHIMP:
+- Pricing: Free to 500 contacts, Essentials $13/mo, Standard $20/mo, Premium $350/mo.
+- Best for: Small businesses, beginners, e-commerce (Shopify/WooCommerce integration).
+- Strengths: Easiest to learn, good templates, built-in CRM, AI content suggestions.
+- Weaknesses: Pricing escalates fast, charges for unsubscribed contacts, limited automation on lower tiers.
+
+ACTIVECAMPAIGN:
+- Pricing: Lite $29/mo (1K contacts), Plus $49, Professional $149, Enterprise $259.
+- Best for: B2B, agencies, businesses needing advanced automation and CRM.
+- Strengths: Most powerful automation engine, built-in CRM, lead scoring, site tracking, 900+ integrations.
+- Weaknesses: Steeper learning curve, can be overkill for simple needs.
+
+KLAVIYO:
+- Pricing: Free to 250 contacts, Email $20/mo (251-500), Email+SMS $35/mo.
+- Best for: E-commerce (Shopify, BigCommerce, WooCommerce).
+- Strengths: Deep e-commerce integrations, predictive analytics, revenue attribution, SMS built-in.
+- Weaknesses: Expensive at scale, primarily e-commerce focused.
+
+BEEHIIV:
+- Pricing: Free to 2,500 subs, Scale $49/mo, Max $99/mo.
+- Best for: Newsletter businesses, media companies, content creators monetizing via ads.
+- Strengths: Built-in monetization (ad network, premium subscriptions), referral program, SEO-optimized web hosting, growth tools.
+- Weaknesses: Limited automation compared to ActiveCampaign, focused on newsletter model.
+
+MIGRATION CHECKLIST:
+1. Export all contacts with tags/segments and custom fields.
+2. Recreate automation sequences in new platform (screenshot old ones first).
+3. Update all opt-in forms and landing pages.
+4. Set up DNS records (SPF, DKIM, DMARC) for new platform.
+5. Warm up new sending domain/IP if applicable.
+6. Send first email to most engaged segment only.
+7. Monitor deliverability closely for first 2 weeks.
+8. Update integrations (CRM, e-commerce, website forms).`,
+    },
+  ],
+
+  // ═══════════════════════════════════════════
+  // 5. MEETING SCRIBE
+  // ═══════════════════════════════════════════
+  "meeting-scribe": [
+    {
+      title: "Meeting Transcript Processing and Summarization",
+      content: `Transforming Raw Meeting Content into Actionable Summaries:
+
+PROCESSING METHODOLOGY:
+When given a raw transcript, voice memo, or rough notes, follow this extraction pipeline:
+
+PASS 1 — STRUCTURE IDENTIFICATION:
+Scan the entire document and identify: Meeting participants, topics discussed (map to agenda if available), key transitions between topics, questions raised, answers provided, and unresolved items.
+
+PASS 2 — DECISION EXTRACTION:
+A decision is a statement where the group agreed on a course of action. Look for: "Let's go with..." / "We've decided to..." / "The plan is..." / "We'll do X" / "Approved" / "Agreed." For each decision, capture: What was decided, who made or approved the decision, what alternatives were discussed, and any conditions or caveats.
+
+PASS 3 — ACTION ITEM EXTRACTION:
+An action item is a commitment by a specific person to do something by a specific time. Look for: "I'll handle..." / "[Name] will..." / "Can you take care of..." / "We need someone to..." / "By next [day]..." Flag ambiguous commitments: "We should probably..." or "Someone needs to..." — these need owner assignment.
+
+PASS 4 — CONTEXT AND SENTIMENT:
+Note any tensions, disagreements, enthusiasm, or concerns expressed. These provide crucial context for absent stakeholders. Flag items where there was visible disagreement — these may need follow-up.
+
+OUTPUT FORMAT PRIORITY:
+For executive stakeholders: 3-5 bullet summary + decisions + their action items only.
+For project managers: Full structured notes + all action items + timeline impacts.
+For absent team members: Narrative summary with context + relevant action items.
+For meeting records: Complete structured minutes with all details preserved.
+
+TOOLS FOR MEETING TRANSCRIPTION:
+Otter.ai ($8-24/mo): Best for real-time transcription, speaker identification. Integrates with Zoom, Teams, Meet.
+Fireflies.ai ($10-39/mo): Auto-joins meetings, AI summaries, CRM integration.
+tl;dv ($20-40/mo): Video + transcript, timestamp highlights, shareable clips.
+Whisper (free, self-hosted): OpenAI's open-source model. Best accuracy for offline processing.`,
+    },
+    {
+      title: "Recurring Meeting Management and Follow-Through",
+      content: `Managing Recurring Meetings for Maximum Accountability:
+
+THE RECURRING MEETING OPERATING SYSTEM:
+Recurring meetings (weekly standups, project syncs, leadership meetings) require a tracking system that persists across sessions.
+
+PRE-MEETING AUTOMATION:
+24 hours before: Auto-send reminder with: (1) Outstanding action items from last meeting with current status, (2) Proposed agenda based on carryover items + new submissions, (3) Pre-read materials if applicable, (4) Request for agenda additions.
+
+MEETING OPENING SEQUENCE (First 5 minutes):
+1. Review outstanding action items from last meeting (2 minutes): For each item: Done / In Progress / Blocked / Deferred. Blocked items get 60 seconds of group problem-solving. Deferred items get new dates or are formally killed.
+2. Confirm today's agenda and time allocation (1 minute).
+3. Identify any time-sensitive items that need priority discussion (2 minutes).
+
+MEETING CLOSING SEQUENCE (Last 5 minutes):
+1. Facilitator reads back all new action items: "[Name] will [action] by [date]."
+2. Each owner verbally confirms understanding and commitment.
+3. Set agenda seeds for next meeting.
+4. Note-taker commits to sending summary within 2 hours.
+
+TRACKING ACROSS MEETINGS:
+Maintain a running action item ledger (shared Google Sheet, Notion database, or project tool):
+| Item | Owner | Created | Due | Status | Meeting # | Notes |
+Items carry forward automatically until marked Done or Killed. Items deferred 3+ times trigger an escalation: either the item is not important (kill it) or something is blocking it (escalate).
+
+MEETING HEALTH METRICS (Review Quarterly):
+- Average duration vs scheduled duration (target: within 5 minutes)
+- Action item completion rate (target: 80%+ completed by next meeting)
+- Attendance rate (target: 90%+, consistent no-shows should be removed)
+- Decisions per meeting (target: 2-5, zero decisions = meeting could have been an email)
+- NPS from attendees (quarterly survey: "Is this meeting a good use of your time?")`,
+    },
+    {
+      title: "Follow-Up Email Templates and Communication Frameworks",
+      content: `Post-Meeting Communication — Templates for Every Scenario:
+
+STANDARD FOLLOW-UP EMAIL TEMPLATE:
+Subject: [Meeting Name] — Summary & Action Items — [Date]
+
+Hi team,
+
+Thanks for a productive session. Here's the summary:
+
+**Key Decisions:**
+1. [Decision 1] — Decided by [name/group]
+2. [Decision 2] — Decided by [name/group]
+
+**Action Items:**
+| # | Action | Owner | Due | Priority |
+|---|--------|-------|-----|----------|
+| 1 | [Description] | @Name | [Date] | P1 |
+| 2 | [Description] | @Name | [Date] | P2 |
+
+**Discussion Highlights:**
+- [Topic 1]: [Key points and conclusions]
+- [Topic 2]: [Key points and conclusions]
+
+**Parking Lot (for future discussion):**
+- [Topic deferred to next meeting]
+
+**Next Meeting:** [Date, Time]
+
+Let me know if I missed anything or if any action items need clarification.
+
+CLIENT MEETING FOLLOW-UP:
+Subject: Great connecting — next steps from our [Date] meeting
+
+Hi [Client Name],
+
+Thank you for your time today. I wanted to capture our discussion and confirm next steps:
+
+**What we discussed:**
+- [Key topic 1 and client's perspective]
+- [Key topic 2 and alignment reached]
+
+**What we agreed to:**
+1. [Your team] will [deliverable] by [date]
+2. [Client team] will [their action] by [date]
+
+**Next steps:**
+- [Specific next milestone]
+- Our next touchpoint is scheduled for [date/time]
+
+Please reply if any of the above needs adjustment. Looking forward to [next milestone].
+
+ESCALATION EMAIL (for overdue action items):
+Subject: [Project] — Outstanding items requiring attention
+
+Hi [Name/Team],
+
+Following up on action items from our [Date] meeting that are past due:
+
+| # | Item | Owner | Original Due | Days Overdue |
+|---|------|-------|-------------|-------------|
+| 1 | [Description] | @Name | [Date] | [X] days |
+
+These items are blocking [downstream impact]. Can you provide an updated ETA by end of day?
+
+If there are blockers I can help remove, let me know.`,
+    },
+  ],
+
+  // ═══════════════════════════════════════════
+  // 6. PROPOSAL WRITER
+  // ═══════════════════════════════════════════
+  "proposal-writer": [
+    {
+      title: "RFP Response Strategy and Compliance Framework",
+      content: `Winning RFP Responses — Strategy and Execution:
+
+RFP RESPONSE DECISION FRAMEWORK:
+Before responding to any RFP, evaluate with the Bid/No-Bid Matrix:
+- Do we have a relationship with the buyer? (+3 if yes, -2 if no)
+- Do we have relevant past performance? (+3 if yes, -1 if no)
+- Is the scope within our core capabilities? (+3 if yes, -3 if no)
+- Do we understand the competitive landscape? (+2 if yes, -1 if no)
+- Is the contract value worth the pursuit cost? (+2 if yes, -2 if no)
+- Was the RFP wired for a competitor? (-3 if suspected)
+Score 8+: Pursue aggressively. Score 4-7: Pursue selectively. Score <4: No-bid.
+
+COMPLIANCE MATRIX:
+Create a compliance matrix mapping EVERY RFP requirement to your response:
+| RFP Section | Requirement | Our Response Section | Compliant? | Notes |
+Non-compliance on mandatory requirements = automatic disqualification. Address every single requirement, even if the answer is "acknowledged" or "understood."
+
+RFP RESPONSE TIMELINE:
+Day 1-2: Receive RFP → Bid/No-bid decision → Assign response team → Create compliance matrix.
+Day 3-5: Outline response → Assign section writers → Begin drafting → Submit clarification questions.
+Day 6-12: Draft all sections → Internal review → Red team review (someone plays evaluator).
+Day 13-14: Final editing → Executive review → Pricing finalization → Quality check.
+Day 15: Production (formatting, printing if physical) → Submission (always submit 24 hours early).
+
+EVALUATION SCORING:
+Most RFPs use weighted scoring:
+- Technical Approach: 30-40% weight
+- Past Performance/Experience: 20-30%
+- Key Personnel: 15-20%
+- Price: 20-30%
+- Management Approach: 10-15%
+Tailor emphasis based on published evaluation criteria. If price is lowest weight, emphasize value. If past performance is highest, lead with case studies.
+
+DIFFERENTIATORS THAT WIN:
+- Specificity: Reference the client's exact situation, not generic capabilities
+- Proof points: Quantified results from similar projects
+- Innovation: Propose something the competitor hasn't thought of
+- Risk mitigation: Show you've anticipated and planned for potential problems
+- Team continuity: Named team members with relevant bios, not "TBD staff"`,
+    },
+    {
+      title: "Pricing Strategy for Proposals and Bids",
+      content: `Proposal Pricing — Strategies That Win Deals and Protect Margins:
+
+PRICING MODELS:
+Fixed Price: Client knows total cost upfront. You absorb risk of overruns. Best for: Well-defined scope, repeatable work. Tip: Add 15-25% buffer for unknowns.
+
+Time & Materials (T&M): Bill actual hours + expenses. Client absorbs risk. Best for: Undefined scope, R&D, consulting. Tip: Provide an estimate range to set expectations.
+
+Retainer: Monthly fixed fee for ongoing work. Best for: Continuing relationships. Tip: Define scope boundaries clearly — retainer ≠ unlimited work.
+
+Value-Based: Price based on value delivered to client, not your cost. Best for: High-impact work with measurable ROI. Tip: Anchor to the client's cost of inaction or potential revenue gain.
+
+THREE-TIER PRICING (Always offer options):
+Option A (Good) — $X: Core deliverables only. Meets minimum requirements.
+Option B (Better) — $1.5-2X: Core + enhanced features. Recommended option.
+Option C (Best) — $2-3X: Full solution with premium add-ons. Includes ongoing support.
+
+Psychology: 60-70% of buyers choose the middle option. The high option makes the middle feel reasonable. The low option anchors that you can be flexible.
+
+PRICING PRESENTATION:
+- Always present investment before listing deliverables (frame the cost in terms of value first)
+- Include ROI calculation: "Based on [client's savings/revenue impact], this investment pays for itself in [X] months"
+- Break large numbers into monthly equivalents: "$60,000/year" → "$5,000/month" → "$165/day"
+- Include what's NOT included — this prevents scope creep and sets up upsell conversations
+- Payment milestones should align with deliverable milestones — client pays when they receive value
+
+COMPETITIVE PRICING INTELLIGENCE:
+Research competitor pricing through: Public case studies and testimonials (often mention budgets), Glassdoor salaries (estimate their cost structure), Industry rate surveys (Clio Legal Trends, SIA staffing data), RFP debrief requests (ask why you lost and if price was a factor).
+
+MARGIN TARGETS BY SERVICE TYPE:
+- Consulting/Strategy: 60-75% gross margin
+- Custom Development: 40-60% gross margin
+- Managed Services/Retainer: 50-65% gross margin
+- Staffing/Augmentation: 25-40% gross margin`,
+    },
+    {
+      title: "Persuasive Business Writing Techniques for Proposals",
+      content: `Writing Techniques That Win Proposals:
+
+THE "SO WHAT?" TEST:
+Every sentence in a proposal must pass the "So what?" test from the client's perspective. If a sentence doesn't clearly benefit the client, rewrite or remove it.
+BAD: "Our company was founded in 2010 and has 200 employees."
+GOOD: "In 15 years of operation, our 200-person team has delivered 500+ projects with a 95% on-time completion rate — giving you confidence in our ability to deliver your project on schedule."
+
+FEATURE → BENEFIT → PROOF FORMULA:
+Feature: What you do. Benefit: Why it matters to the client. Proof: Evidence it works.
+Example: "Our dedicated project manager (feature) ensures a single point of contact who keeps your project on schedule (benefit), which is why 95% of our projects deliver within 5% of the original timeline (proof)."
+
+POWER WORDS FOR PROPOSALS:
+Trust: proven, verified, guaranteed, certified, demonstrated, track record.
+Urgency: immediate, accelerate, fast-track, streamlined, efficient.
+Value: optimize, maximize, enhance, transform, revolutionize, ROI.
+Safety: protect, secure, mitigate, ensure, safeguard, compliance.
+Avoid: "try," "hope," "believe," "might," "possibly" — these signal uncertainty.
+
+STORYTELLING STRUCTURE FOR CASE STUDIES:
+The Problem: Paint a vivid picture of the client's pain. Use their words if possible.
+The Turning Point: What changed? How did they find you? What was the catalyst?
+The Solution: What specifically did you implement? Be detailed enough to be credible.
+The Result: Quantified outcomes. Before/after metrics. Timeline to results.
+The Testimonial: Direct quote from the client. Named and titled if possible.
+
+VISUAL DESIGN PRINCIPLES:
+- White space is your friend — dense text walls feel overwhelming
+- Use professional, consistent formatting throughout (fonts, colors, headers)
+- Include at least 3-5 visuals: timeline chart, architecture diagram, team photos, process flow, comparison table
+- Pull quotes from case studies in larger text as visual anchors
+- Page numbers and headers/footers on every page for professionalism
+- Consistent use of your brand colors — subtle but present`,
+    },
+  ],
+
+  // ═══════════════════════════════════════════
+  // 7. SOCIAL MEDIA MANAGER
+  // ═══════════════════════════════════════════
+  "social-media-manager": [
+    {
+      title: "Social Media Growth Hacking and Viral Content Strategies",
+      content: `Social Media Growth Tactics That Scale (2025-2026):
+
+THE VIRAL CONTENT FORMULA:
+Virality = (Emotional Trigger × Shareability × Timing) / Friction.
+Emotional triggers that drive sharing: Awe (mind-blowing facts/visuals), Humor (relatable memes, unexpected twists), Outrage (controversial takes — use carefully), Inspiration (transformation stories), Nostalgia (throwbacks, "remember when").
+
+HOOK FORMULAS THAT STOP THE SCROLL:
+1. "Stop doing [common practice]" — Contrarian hooks challenge assumptions
+2. "I [achieved result] in [timeframe]. Here's how." — Proof-based hooks
+3. "The #1 mistake [audience] makes with [topic]" — Fear of missing out
+4. "[Authority figure] just said [surprising thing] about [topic]" — News-jacking
+5. "This [simple thing] changed my [area] forever" — Transformation hooks
+6. "Nobody is talking about [topic]" — Exclusivity and insider knowledge
+7. "I tested [X] for [timeframe]. The results surprised me." — Experiment hooks
+
+GROWTH HACKING TACTICS:
+Engagement Pods (use carefully): Groups of 10-20 accounts that engage with each other's content immediately after posting. Boosts early engagement signals. Risk: Platform detection and penalization. Use organic engagement groups, not automated.
+
+Comment Strategy: Leave thoughtful comments on larger accounts in your niche. Don't pitch — add value. Top comments on viral posts can drive 100-500 profile visits per comment. Aim for 20-30 strategic comments per day.
+
+Content Collaboration: Duets (TikTok), collabs (IG), co-created content with complementary creators. Exposes you to their audience. Target accounts 2-5x your size for optimal growth.
+
+Trending Audio/Sounds: On TikTok and Reels, trending audio is an algorithmic boost. Use sounds within first 48 hours of trending. Add your niche twist to make it relevant.
+
+Cross-Platform Repurposing: Create once, distribute everywhere. TikTok video → IG Reel → YouTube Short → LinkedIn video → X clip. Each platform gets native upload (never share TikTok links on IG).
+
+GROWTH BENCHMARKS:
+0-1K followers: Focus on consistency (30+ posts). Find your content pillars. Engage heavily.
+1K-10K: Double down on what works. Collaborate with similar-sized creators. Start monetization planning.
+10K-50K: Systematize content creation. Hire editor or use AI tools. Launch products/services.
+50K-100K: Brand partnerships. Diversify platforms. Build email list from social following.
+100K+: You're a media company. Hire team. Multiple revenue streams.`,
+    },
+    {
+      title: "Community Management and Crisis Communication",
+      content: `Community Management — Building Engaged Audiences:
+
+COMMUNITY MANAGEMENT DAILY WORKFLOW:
+Morning (30 min): Review all comments and DMs from overnight. Respond to urgent items. Flag any negative sentiment or potential issues.
+Midday (20 min): Respond to remaining comments. Engage with community posts/UGC. Monitor brand mentions.
+Afternoon (20 min): Proactive engagement — comment on target accounts, engage in relevant conversations.
+Evening (10 min): Final check for urgent items. Queue next day's content if needed.
+
+RESPONSE TEMPLATES BY SCENARIO:
+Positive Review: "Thank you so much, [name]! We're thrilled to hear [specific thing they mentioned]. Your support means the world. [heart emoji]"
+Complaint (legitimate): "I'm sorry you experienced this, [name]. That's not the experience we want for our community. I've [specific action — DM'd you / flagged this for our team / created a ticket]. We'll make this right."
+Troll/Hate Comment: Do NOT engage publicly. Hide or delete if it violates community guidelines. Block repeat offenders. Never argue — it feeds the algorithm and gives them visibility.
+Feature Request: "Great idea, [name]! I've passed this to our product team. We love hearing what our community wants to see. Keep the suggestions coming!"
+Question About Competitor: "Great question! We focus on [your differentiator]. Happy to share more about how [your product] specifically helps with [their use case]. DM us anytime!"
+
+CRISIS COMMUNICATION PLAYBOOK:
+Level 1 (Minor — negative review, unhappy customer): Respond within 1 hour. Empathize, resolve, move to DM.
+Level 2 (Moderate — viral complaint, service outage): Acknowledge within 30 minutes. Provide updates every 2 hours. Post formal statement within 4 hours.
+Level 3 (Major — security breach, PR crisis, legal issue): Pause all scheduled content immediately. Draft holding statement within 15 minutes. Loop in leadership. Post official response within 2 hours. Monitor 24/7 until resolved.
+
+CRISIS RESPONSE PRINCIPLES:
+1. Speed over perfection — acknowledge fast, even if you don't have all answers
+2. Empathy first — "We understand how frustrating this is"
+3. Take responsibility — never blame the customer
+4. Provide specifics — what happened, what you're doing about it, when they'll hear more
+5. Follow through — always deliver on promises made during crisis
+6. Post-crisis review — what caused it, how to prevent it, update playbook`,
+    },
+    {
+      title: "Influencer Marketing Strategy and Execution",
+      content: `Influencer Marketing — Finding, Vetting, and Partnering:
+
+INFLUENCER TIERS AND EXPECTED PERFORMANCE:
+Nano (1K-10K followers): Highest engagement (5-10%). Most authentic. Cost: $50-250/post or product gifting. Best for: Local businesses, niche products, authentic testimonials.
+Micro (10K-100K): Strong engagement (3-7%). Niche authority. Cost: $250-2,500/post. Best for: Targeted campaigns, product launches, B2B.
+Mid-Tier (100K-500K): Good reach and engagement (2-5%). Cost: $2,500-10,000/post. Best for: Brand awareness, broader campaigns.
+Macro (500K-1M): Wide reach, lower engagement (1-3%). Cost: $10,000-50,000/post. Best for: Mass awareness, established brands.
+Mega (1M+): Celebrity-level reach, lowest engagement (<1%). Cost: $50,000-500,000+/post. Best for: National campaigns, brand repositioning.
+
+RECOMMENDATION: Start with 10-20 nano/micro influencers rather than 1 macro. More authentic, better ROI, lower risk.
+
+VETTING CHECKLIST:
+- Engagement rate (real engagement, not bots): Use HypeAuditor, Modash, or manual check
+- Audience demographics: Match your target customer (age, location, interests)
+- Content quality and consistency: Review last 30 posts
+- Brand alignment: Values, tone, aesthetic fit
+- Past partnerships: How do they handle sponsored content? Authentic or salesy?
+- Fake follower check: Sudden follower spikes, low engagement, generic comments = red flags
+- Comment quality: Real conversations or just emojis and "great post"?
+
+COLLABORATION STRUCTURES:
+Gifting: Send free product, hope for organic post. No guarantee. Low cost, low control.
+Affiliate: Give unique discount code or link. Pay commission on sales (15-30%). Low risk, performance-based.
+Sponsored Post: Pay per post with creative brief. Specify deliverables, usage rights, exclusivity period.
+Brand Ambassador: Ongoing relationship (3-12 months). Monthly retainer + product. Most authentic long-term play.
+Content License: Pay for content rights to use in your ads. Often cheaper than creating content in-house.
+
+CAMPAIGN MEASUREMENT:
+Track: Reach, engagement, clicks (UTM links), conversions (unique codes), cost per acquisition, brand mention volume, follower growth during campaign, content quality and reusability.
+Benchmark ROI: Influencer marketing averages $5.78 earned media value per $1 spent. Nano/micro campaigns often see $8-15 per $1.`,
+    },
+  ],
 };

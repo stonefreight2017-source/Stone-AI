@@ -156,7 +156,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 19.99,
     stripePriceEnvKey: "STRIPE_PRICE_STARTER",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 16,
+    agentCount: 15,
     tagline: "Plan and start your business",
     limits: {
       messagesPerDay: 250,
@@ -202,7 +202,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 49.99,
     stripePriceEnvKey: "STRIPE_PRICE_PLUS",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 30,
+    agentCount: 28,
     tagline: "Plan, start, and maintain your business",
     limits: {
       messagesPerDay: 500,
@@ -248,7 +248,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 39,
+    agentCount: 36,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_000,
@@ -294,7 +294,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 200,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 42,
+    agentCount: 38,
     tagline: "Full platform access with reseller capabilities",
     limits: {
       messagesPerDay: 3_000,
@@ -340,7 +340,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 500,
     stripePriceEnvKey: "STRIPE_PRICE_ENTERPRISE",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 42,
+    agentCount: 38,
     tagline: "Deploy AI across your entire organization",
     limits: {
       messagesPerDay: 50000,
@@ -355,9 +355,9 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     },
     perks: {
       contextMessages: 100,
-      autoRouting: true,
+      autoRouting: false,           // Coming Soon — auto-routing not yet built
       conversationExport: true,
-      priorityQueue: true,
+      priorityQueue: false,        // Coming Soon — priority queue not yet built
       apiAccess: true,
       commercialLicense: true,
       earlyAccess: true,
@@ -366,9 +366,9 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       maxBesties: 2,
       maxDocuments: 100,
       webSearchesPerDay: 1000,
-      codeExecutionsPerDay: 1000,
+      codeExecutionsPerDay: 0,     // Coming Soon — code sandbox Docker image not yet built
       fileUploadAnalysis: true,
-      voiceInteraction: true,
+      voiceInteraction: false,     // Coming Soon — faster-whisper not yet running
       pluginIntegrations: 0,        // Coming Soon — plugin integrations not yet built
       teamWorkspace: false,         // Coming Soon — team workspace not yet built
       customModelFineTuning: false, // Coming Soon — custom model fine-tuning not yet built
@@ -430,9 +430,9 @@ export type BillingPeriod = "monthly" | "semiannual" | "annual";
  *   - 6-month: 5% off
  *   - Annual: 15% off
  *
- * NOTE: PRO (Reseller) and Enterprise use REDUCED discounts:
- *   - PRO (Reseller): Annual only, 5% off ($200 → $190/mo)
- *   - Enterprise: Annual only, 5% off (custom engagement)
+ * NOTE: PRO (Reseller) and Enterprise have custom annual discounts:
+ *   - PRO (Reseller): Annual only, 15% off ($200 → $170/mo = $2,040/yr)
+ *   - Enterprise: Annual only, 5% off ($500 → $475/mo)
  * These special cases are defined in pricing-section.tsx (price6month / priceAnnual fields).
  */
 export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: number; months: number }[] = [
@@ -542,15 +542,15 @@ export function isInternalAgent(slug: string): boolean {
  * minimum user tier needed to access it.
  *
  * requiredTier "FREE"    → all users (priority >= 0)         — 4 agents
- * requiredTier "STARTER" → STARTER / Builder+ (priority >= 1) — +12 = 16 cumulative
- * requiredTier "PLUS"    → PLUS / Growth+ (priority >= 2)     — +14 = 30 cumulative
- * requiredTier "SMART"   → SMART / Executive+ (priority >= 3) — +9  = 39 cumulative
- * requiredTier "PRO"     → PRO / Reseller only (priority >= 4) — +3  = 42 cumulative
+ * requiredTier "STARTER" → STARTER / Builder+ (priority >= 1) — +11 = 15 cumulative
+ * requiredTier "PLUS"    → PLUS / Growth+ (priority >= 2)     — +13 = 28 cumulative
+ * requiredTier "SMART"   → SMART / Executive+ (priority >= 3) — +8  = 36 cumulative
+ * requiredTier "PRO"     → PRO / Reseller only (priority >= 4) — +2  = 38 cumulative
  *
  * Internal agents (Stone, Cardinal, Chaos, Rush, Computer Wiz, Executive Inbox Manager)
  * are EXCLUDED from user-facing access entirely — pass their slug to block them.
  *
- * Result: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=42 user-facing agents
+ * Result: FREE=4, STARTER=15, PLUS=28, SMART=36, PRO=38 active user-facing agents
  */
 export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier, agentSlug?: string): boolean {
   // Internal agents are NEVER accessible to regular users
