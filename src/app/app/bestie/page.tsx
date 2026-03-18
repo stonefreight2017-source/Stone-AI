@@ -101,7 +101,7 @@ export default function BestieHubPage() {
             My Bestie
           </h1>
           <p className="text-zinc-400 text-sm mt-1">
-            Up to 38 specialist agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
+            Up to 47 specialist agents. One best friend. Career strategy, fitness plans, creative ideas, financial advice — the more you upgrade, the smarter she gets.
           </p>
         </div>
         {canCreate && besties.length > 0 && (

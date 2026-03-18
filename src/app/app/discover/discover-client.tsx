@@ -105,10 +105,10 @@ const TIER_WORLDS: TierWorld[] = [
     bestieStory:
       "Same Bestie, but now powered by 16 specialist agents. They remember more context, understand your patterns better, and start to feel less like an AI and more like someone who actually gets you. They know who to call when you need ad copy or data analysis.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (15-Agent Knowledge)",
+    bestieName: "Your Bestie (18-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "250 messages/day",
-    agentCount: 15,
+    agentCount: 18,
     agentCategories: [
       { icon: <Briefcase className="h-4 w-4" />, label: "Business", examples: "Startup Launcher, Dropshipping, AI Agency, SMMA" },
       { icon: <Palette className="h-4 w-4" />, label: "Content", examples: "Content Studio, Niche Blog & Affiliate" },
@@ -141,10 +141,10 @@ const TIER_WORLDS: TierWorld[] = [
     bestieStory:
       "Your Bestie is now powered by 30 specialist agents. Career advice, financial insight, wellness guidance, creative brainstorming — all in one companion that remembers everything. When you mention a business idea, they can pull from marketing, legal, and technical knowledge to give you a complete answer.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (28-Agent Knowledge)",
+    bestieName: "Your Bestie (33-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "500 messages/day",
-    agentCount: 28,
+    agentCount: 33,
     agentCategories: [
       { icon: <Briefcase className="h-4 w-4" />, label: "Business", examples: "Startup Launcher, Dropshipping, AI Agency, SMMA" },
       { icon: <Palette className="h-4 w-4" />, label: "Content", examples: "Content Studio, Niche Blog & Affiliate" },
@@ -175,12 +175,12 @@ const TIER_WORLDS: TierWorld[] = [
     description:
       "Eight more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. Early access to new agents and features. This is the executive suite.",
     bestieStory:
-      "Your Bestie is now powered by 36 specialist agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
+      "Your Bestie is now powered by 44 specialist agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (36-Agent Knowledge)",
+    bestieName: "Your Bestie (44-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "1,000 messages/day",
-    agentCount: 36,
+    agentCount: 44,
     agentCategories: [
       { icon: <Palette className="h-4 w-4" />, label: "Creative", examples: "YouTube, Short Form, Video Editor, Copywriting" },
       { icon: <TrendingUp className="h-4 w-4" />, label: "Growth", examples: "Funnels, Paid Ads, Social Media, Trading Signals" },
@@ -189,7 +189,7 @@ const TIER_WORLDS: TierWorld[] = [
     ],
     capabilities: [
       "SMART mode — cloud AI for deeper thinking",
-      "36 agents — nearly every specialist",
+      "44 agents — nearly every specialist",
       "Full creative suite (YouTube, copy, short form)",
       "Technical agents (dev, automation, analytics)",
       "Auto-routing picks the best model per question",
@@ -210,12 +210,12 @@ const TIER_WORLDS: TierWorld[] = [
     description:
       "The final four agents unlock — cybersecurity, enterprise implementation, engineering architecture, and startup launcher at the highest level. Plus API access to build Stone AI into your own workflows and white-label rights. This is the full arsenal for agencies and power users.",
     bestieStory:
-      "Your Bestie is now powered by all 38 specialist agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
+      "Your Bestie is now powered by all 47 specialist agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (All 38-Agent Knowledge)",
+    bestieName: "Your Bestie (All 47-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "3,000 messages/day",
-    agentCount: 38,
+    agentCount: 47,
     agentCategories: [
       { icon: <Shield className="h-4 w-4" />, label: "Security", examples: "Cybersecurity Consultant — enterprise-grade protection" },
       { icon: <Briefcase className="h-4 w-4" />, label: "Professional", examples: "Enterprise Implementation, Engineering Architect" },
@@ -223,7 +223,7 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Crown className="h-4 w-4" />, label: "Priority", examples: "Priority queue, commercial license, early access" },
     ],
     capabilities: [
-      "All 38 agents on the platform",
+      "All 47 agents on the platform",
       "Priority queue — your requests go first",
       "API access for custom integrations",
       "White-label + commercial license",
@@ -252,7 +252,7 @@ const TIER_WORLDS: TierWorld[] = [
     bestieName: "Team Companions, Custom-Trained",
     bestieCount: "2 companions",
     messagesPerDay: "50,000+ messages/day",
-    agentCount: 38,
+    agentCount: 47,
     agentCategories: [
       { icon: <Building2 className="h-4 w-4" />, label: "Team Deployment", examples: "Custom seats, roles, and permissions" },
       { icon: <Globe className="h-4 w-4" />, label: "White-Label", examples: "Your brand, your domain, our technology" },
