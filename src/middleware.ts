@@ -73,7 +73,7 @@ const SECURITY_HEADERS: Record<string, string> = {
   // Prevent caching of sensitive API responses
   "Cache-Control": "no-store, no-cache, must-revalidate, private",
   // Cross-Origin policies — prevent data leakage to other origins
-  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Opener-Policy": "same-origin-allow-popups",
   "Cross-Origin-Resource-Policy": "same-origin",
   "Cross-Origin-Embedder-Policy": "credentialless",
 };
