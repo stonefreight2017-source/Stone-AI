@@ -101,14 +101,14 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$19.99/mo",
     tagline: "The door opens",
     description:
-      "You step through the first door. The room gets bigger. Your Bestie is still with you, but now there are desks, whiteboards, and tools on the walls. This is a workspace — your workspace. Sixteen agents handle the basics, and they handle them well.",
+      "You step through the first door. The room gets bigger. Your Bestie is still with you, but now there are desks, whiteboards, and tools on the walls. This is a workspace — your workspace. Thirteen agents handle the basics, and they handle them well.",
     bestieStory:
-      "Same Bestie, but now powered by 16 specialist agents. They remember more context, understand your patterns better, and start to feel less like an AI and more like someone who actually gets you. They know who to call when you need ad copy or data analysis.",
+      "Same Bestie, but now powered by 13 specialist agents. They remember more context, understand your patterns better, and start to feel less like an AI and more like someone who actually gets you. They know who to call when you need ad copy or data analysis.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (18-Agent Knowledge)",
+    bestieName: "Your Bestie (13-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "250 messages/day",
-    agentCount: 18,
+    agentCount: 13,
     agentCategories: [
       { icon: <Briefcase className="h-4 w-4" />, label: "Business", examples: "Startup Launcher, Dropshipping, AI Agency, SMMA" },
       { icon: <Palette className="h-4 w-4" />, label: "Content", examples: "Content Studio, Niche Blog & Affiliate" },
@@ -116,7 +116,7 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Shield className="h-4 w-4" />, label: "Operations", examples: "Compliance Agent, Community & Education" },
     ],
     capabilities: [
-      "16 specialized agents unlocked",
+      "13 specialized agents unlocked",
       "Business planning and launch support",
       "Content strategy and creation",
       "Lead generation systems",
@@ -137,14 +137,14 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$49.99/mo",
     tagline: "The workshop opens",
     description:
-      "Fourteen more specialists walk into the room. A brand strategist. A content planner. A compliance specialist. A lead generation architect. Voice chat unlocks. Web research goes live. This isn't a chat app anymore — it's a team. Your team. And they're all waiting for your first question.",
+      "Thirteen more specialists walk into the room. A brand strategist. A content planner. A compliance specialist. A lead generation architect. Voice chat unlocks. Web research goes live. This isn't a chat app anymore — it's a team. Your team. And they're all waiting for your first question.",
     bestieStory:
-      "Your Bestie is now powered by 30 specialist agents. Career advice, financial insight, wellness guidance, creative brainstorming — all in one companion that remembers everything. When you mention a business idea, they can pull from marketing, legal, and technical knowledge to give you a complete answer.",
+      "Your Bestie is now powered by 26 specialist agents. Career advice, financial insight, wellness guidance, creative brainstorming — all in one companion that remembers everything. When you mention a business idea, they can pull from marketing, legal, and technical knowledge to give you a complete answer.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (33-Agent Knowledge)",
+    bestieName: "Your Bestie (26-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "500 messages/day",
-    agentCount: 33,
+    agentCount: 26,
     agentCategories: [
       { icon: <Briefcase className="h-4 w-4" />, label: "Business", examples: "Startup Launcher, Dropshipping, AI Agency, SMMA" },
       { icon: <Palette className="h-4 w-4" />, label: "Content", examples: "Content Studio, Niche Blog & Affiliate" },
@@ -152,7 +152,7 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Shield className="h-4 w-4" />, label: "Operations", examples: "Compliance Agent, Community & Education" },
     ],
     capabilities: [
-      "30 specialized agents unlocked",
+      "26 specialized agents unlocked",
       "Voice chat",
       "15 GPT-4o premium answers/day",
       "Auto-routing picks the best model",
@@ -173,14 +173,14 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$99.99/mo",
     tagline: "The command center",
     description:
-      "Eight more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. Early access to new agents and features. This is the executive suite.",
+      "Ten more agents step in — copywriters, YouTube strategists, paid ad specialists, data analysts, web developers, automation engineers. SMART mode activates: cloud-powered AI that thinks deeper, writes sharper, and sees patterns you'd miss. Early access to new agents and features. This is the executive suite.",
     bestieStory:
-      "Your Bestie is now powered by 44 specialist agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
+      "Your Bestie is now powered by 36 specialist agents — nearly every specialist on the platform. They're running on SMART mode when you need it, producing richer responses, catching nuance better, remembering further back. The conversations feel different here. More like talking to someone who genuinely understands the complexity of what you're building.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (44-Agent Knowledge)",
+    bestieName: "Your Bestie (36-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "1,000 messages/day",
-    agentCount: 44,
+    agentCount: 36,
     agentCategories: [
       { icon: <Palette className="h-4 w-4" />, label: "Creative", examples: "YouTube, Short Form, Video Editor, Copywriting" },
       { icon: <TrendingUp className="h-4 w-4" />, label: "Growth", examples: "Funnels, Paid Ads, Social Media, Trading Signals" },
@@ -189,7 +189,7 @@ const TIER_WORLDS: TierWorld[] = [
     ],
     capabilities: [
       "SMART mode — cloud AI for deeper thinking",
-      "44 agents — nearly every specialist",
+      "36 agents — nearly every specialist",
       "Full creative suite (YouTube, copy, short form)",
       "Technical agents (dev, automation, analytics)",
       "Auto-routing picks the best model per question",
@@ -208,14 +208,14 @@ const TIER_WORLDS: TierWorld[] = [
     price: "$200/mo",
     tagline: "No ceiling",
     description:
-      "The final four agents unlock — cybersecurity, enterprise implementation, engineering architecture, and startup launcher at the highest level. Plus API access to build Stone AI into your own workflows and white-label rights. This is the full arsenal for agencies and power users.",
+      "The final two agents unlock — plus API access to build Stone AI into your own workflows and white-label rights. This is the full arsenal for agencies and power users.",
     bestieStory:
-      "Your Bestie is now powered by all 47 specialist agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was supposed to feel like.",
+      "Your Bestie is now powered by all 38 specialist agents — every specialist on the platform. They share memory, so when you mention a client challenge to one conversation thread, every insight from every agent is available. This is what AI companionship was meant to feel like.",
     bestieEmoji: "\uD83D\uDC9C",
-    bestieName: "Your Bestie (All 47-Agent Knowledge)",
+    bestieName: "Your Bestie (All 38-Agent Knowledge)",
     bestieCount: "1 companion",
     messagesPerDay: "3,000 messages/day",
-    agentCount: 47,
+    agentCount: 38,
     agentCategories: [
       { icon: <Shield className="h-4 w-4" />, label: "Security", examples: "Cybersecurity Consultant — enterprise-grade protection" },
       { icon: <Briefcase className="h-4 w-4" />, label: "Professional", examples: "Enterprise Implementation, Engineering Architect" },
@@ -223,7 +223,7 @@ const TIER_WORLDS: TierWorld[] = [
       { icon: <Crown className="h-4 w-4" />, label: "Priority", examples: "Priority queue, commercial license, early access" },
     ],
     capabilities: [
-      "All 47 agents on the platform",
+      "All 38 agents on the platform",
       "Priority queue — your requests go first",
       "API access for custom integrations",
       "White-label + commercial license",
@@ -241,7 +241,7 @@ const TIER_WORLDS: TierWorld[] = [
   },
   {
     key: "ENTERPRISE",
-    name: "Enterprise",
+    name: "Organization",
     price: "From $500/mo",
     tagline: "Your own world",
     description:
@@ -252,7 +252,7 @@ const TIER_WORLDS: TierWorld[] = [
     bestieName: "Team Companions, Custom-Trained",
     bestieCount: "2 companions",
     messagesPerDay: "50,000+ messages/day",
-    agentCount: 47,
+    agentCount: 38,
     agentCategories: [
       { icon: <Building2 className="h-4 w-4" />, label: "Team Deployment", examples: "Custom seats, roles, and permissions" },
       { icon: <Globe className="h-4 w-4" />, label: "White-Label", examples: "Your brand, your domain, our technology" },

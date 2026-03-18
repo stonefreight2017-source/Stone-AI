@@ -1113,9 +1113,9 @@ COMMON LAUNCH MISTAKES: Launching without onboarding flow. No analytics from day
   ],
 
   // ═══════════════════════════════════════════
-  // 3. CUSTOMER SUPPORT BOT
+  // 3. CUSTOMER SUPPORT PRO
   // ═══════════════════════════════════════════
-  "customer-support-bot": [
+  "customer-support": [
     {
       title: "Customer Support Automation and AI Integration (2025-2026)",
       content: `AI-Powered Support Automation — Current State of the Art:

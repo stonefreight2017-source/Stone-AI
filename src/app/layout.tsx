@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Stone AI — Local-First AI Chat",
     description:
-      "Private, fast AI chat powered by local GPU inference. 47 specialized AI agents. No data leaves your infrastructure unless you choose.",
+      "Private, fast AI chat powered by local GPU inference. 38 specialized AI agents. No data leaves your infrastructure unless you choose.",
     url: "https://stone-ai.net",
     siteName: "Stone AI",
     type: "website",
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Stone AI — Local-First AI Chat",
     description:
-      "Private, fast AI chat powered by local GPU inference. 47 specialized AI agents.",
+      "Private, fast AI chat powered by local GPU inference. 38 specialized AI agents.",
   },
   metadataBase: new URL("https://stone-ai.net"),
 };

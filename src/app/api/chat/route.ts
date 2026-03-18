@@ -132,6 +132,7 @@ export async function POST(req: NextRequest) {
             description: true,
             systemPrompt: true,
             requiredTier: true,
+            isActive: true,
           },
         },
         messages: {
@@ -145,7 +146,15 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Conversation not found" }, { status: 404 });
     }
 
-    // 3b. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
+    // 3b. DEACTIVATED AGENT CHECK — block messages to deactivated agents
+    if (conversation.agent && !conversation.agent.isActive) {
+      return Response.json(
+        { error: "This agent is currently unavailable", code: "AGENT_DEACTIVATED" },
+        { status: 403 }
+      );
+    }
+
+    // 3c. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
     if (conversation.agent) {
       if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier, conversation.agent.slug)) {
         logAuditEvent({
@@ -168,7 +177,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 3c. AGENT EXPLOITATION GUARD — check every user message before it reaches the LLM
+    // 3d. AGENT EXPLOITATION GUARD — check every user message before it reaches the LLM
     if (conversation.agent) {
       const guardResult = guardCheck(conversation.agent.slug, message, tier, conversationId);
       if (!guardResult.allowed) {

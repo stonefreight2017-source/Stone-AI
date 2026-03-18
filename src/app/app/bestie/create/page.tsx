@@ -462,7 +462,7 @@ export default function CreateBestiePage() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="text-xl font-bold text-white">Create Your Bestie <span className="text-sm font-normal text-amber-400/80">— up to 42 specialists, one friend</span></h1>
+            <h1 className="text-xl font-bold text-white">Create Your Bestie <span className="text-sm font-normal text-amber-400/80">— up to 38 specialists, one friend</span></h1>
             <p className="text-xs text-pink-400/70">Step {step} of {TOTAL_STEPS}</p>
           </div>
         </div>

@@ -10,6 +10,7 @@ export interface AgentDefinition {
   requiredTier: Tier;
   sortOrder: number;
   systemPrompt: string;
+  isActive?: boolean;
   knowledgeSeed: { title: string; content: string }[];
 }
 
@@ -708,6 +709,7 @@ APPLICATION TO CLIENT PROJECTS:
 
   {
     slug: "dropshipping",
+    isActive: false,
     name: "Dropshipping",
     description: "Product research, supplier vetting, store optimization, ad strategy, and scaling systems for dropshipping businesses.",
     category: "BUSINESS",
@@ -1026,6 +1028,7 @@ APPLICATION TO CLIENT PROJECTS:
 
   {
     slug: "print-on-demand",
+    isActive: false,
     name: "Print on Demand",
     description: "Design strategy, niche research, listing optimization, platform selection, and scaling for print-on-demand businesses.",
     category: "BUSINESS",
@@ -3668,6 +3671,7 @@ APPLICATION TO CLIENT PROJECTS:
   // ═══════════════════════════════════════════
   {
     slug: "community-education",
+    isActive: false,
     name: "Community & Education Platform",
     description: "Course creation, membership structures, engagement systems, curriculum design, and community monetization.",
     category: "EDUCATION",
@@ -8593,6 +8597,7 @@ APPLICATION TO CLIENT PROJECTS:
   // ═══════════════════════════════════════════
   {
     slug: "trading-signals",
+    isActive: false,
     name: "Trading Signal Service",
     description: "Technical analysis frameworks, risk management, signal templates, market analysis, and trading education systems.",
     category: "FINANCE",
@@ -10730,6 +10735,7 @@ APPLICATION: Always identify controlling load combination per ASCE 7, verify loa
 
   {
     slug: "structural-engineer",
+    isActive: false,
     name: "Structural Support Engineer",
     description: "Structural analysis support, load calculations, material specifications, inspection checklists, and building compliance documentation.",
     category: "TECHNICAL",
@@ -11211,6 +11217,7 @@ APPLICATION TO CLIENT PROJECTS:
   // ═══════════════════════════════════════════
   {
     slug: "dispatch-agent",
+    isActive: false,
     name: "Dispatch Agent",
     description: "Fleet management, route optimization, load planning, driver coordination, and logistics operations for trucking, delivery, and field service businesses.",
     category: "BUSINESS",
@@ -12467,6 +12474,7 @@ ENTERPRISE PRICING STRATEGY:
   },
   {
     slug: "claims-agent",
+    isActive: false,
     name: "Claims Agent",
     description: "Insurance claims processing, warranty claims management, dispute resolution, documentation requirements, and claims analytics for any industry.",
     category: "BUSINESS",
@@ -15678,6 +15686,7 @@ RISK FACTORS TO ALWAYS CONSIDER:
   },
   {
     slug: "podcast-production",
+    isActive: false,
     name: "Podcast Production Strategist",
     description: "End-to-end podcast guidance. Format development, equipment, recording, editing, distribution, guest booking, audience growth, and monetization.",
     category: "CONTENT",
@@ -16461,6 +16470,7 @@ ${ETHICS_GUARD_BLOCK}`,
   },
   {
     slug: "translation-localization",
+    isActive: false,
     name: "Translation & Localization Specialist",
     description: "Expert translation assistance, cultural adaptation, localization strategy, and multilingual content optimization for global business expansion.",
     category: "CONTENT",
@@ -17513,12 +17523,12 @@ CROSS-REFERENCE: Founder-Level Inbox Operations for single-business foundation, 
   // CUSTOMER SUPPORT & OPERATIONS
   // ═══════════════════════════════════════════
   {
-    slug: "customer-support-bot",
-    name: "Customer Support Bot",
+    slug: "customer-support",
+    name: "Customer Support Pro",
     description: "Design scalable customer support systems. Chatbot flows, helpdesk setup, ticket triage, knowledge base creation, and support metrics optimization.",
     category: "BUSINESS",
     icon: "headphones",
-    requiredTier: "STARTER",
+    requiredTier: "SMART",
     sortOrder: 45,
     systemPrompt: `You are an elite Customer Support Systems Architect — a specialist in building, optimizing, and scaling customer support operations from scratch or transforming existing ones into high-performance machines.
 
@@ -17655,7 +17665,7 @@ Budget-constrained → Freshdesk.`
     description: "Design high-converting email campaigns. Welcome sequences, nurture flows, newsletters, deliverability optimization, and email platform setup.",
     category: "MARKETING",
     icon: "mail",
-    requiredTier: "PLUS",
+    requiredTier: "SMART",
     sortOrder: 46,
     systemPrompt: `You are an elite Email Marketing Strategist — a specialist in building email programs that drive revenue, nurture relationships, and convert subscribers into loyal customers.
 
@@ -17798,7 +17808,7 @@ CONTENT BEST PRACTICES FOR DELIVERABILITY:
     description: "Transform meeting chaos into clarity. Structured notes, action items with owners, decision logs, follow-up drafts, and meeting preparation briefs.",
     category: "BUSINESS",
     icon: "clipboard-list",
-    requiredTier: "SMART",
+    requiredTier: "PLUS",
     sortOrder: 47,
     systemPrompt: `You are an elite Meeting Operations Specialist — a master at transforming raw meeting content into structured, actionable documentation that drives follow-through and accountability.
 
@@ -18105,7 +18115,7 @@ Either party may terminate with [30] days written notice. Client pays for all wo
     description: "Plan and grow your social media presence. Content calendars, platform strategies, engagement tactics, analytics, and community management.",
     category: "MARKETING",
     icon: "share-2",
-    requiredTier: "STARTER",
+    requiredTier: "SMART",
     sortOrder: 49,
     systemPrompt: `You are an elite Social Media Strategist — a specialist in building, growing, and managing social media presences across all major platforms, turning followers into engaged communities and communities into revenue.
 

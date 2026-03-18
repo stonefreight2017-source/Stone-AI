@@ -19,7 +19,7 @@ export {
 export { checkInbox, type ParsedCommand, type InboxMessage, type InboxResult } from "./inbox";
 export { routeCommand, routeCommands, getAgentQueue, getAllQueues, clearAgentQueue, type QueuedCommand } from "./command-router";
 export { processIncomingEmails, triageEmail, type TriageDecision } from "./inbox-manager";
-export { generateDailyDigest, generateDigestHtml, addToDigest, getPendingCount, clearPending } from "./daily-digest";
+// Daily digest exports removed — Forge disabled
 export { sendAutoResponses } from "./auto-responder";
 export { sendOutboundEmail, type OutboundEmailPayload, type OutboundEmailResult } from "./outbound";
 export {

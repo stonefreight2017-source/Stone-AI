@@ -155,9 +155,9 @@ export function BillingClient({
   const TIER_DETAILS: Record<string, { tagline: string; features: string[]; whyUpgrade: string; highlight?: string }> = {
     STARTER: {
       tagline: "Everything you need to plan and launch your first business",
-      whyUpgrade: "Best for: solo founders and side hustlers who are just getting started. You get 16 AI specialists to write your business plan, research your market, and help you launch. 250 messages/day is enough for a couple of solid working sessions — like hiring a part-time team for $20/mo.",
+      whyUpgrade: "Best for: solo founders and side hustlers who are just getting started. You get 13 AI specialists to write your business plan, research your market, and help you launch. 250 messages/day is enough for a couple of solid working sessions — like hiring a part-time team for $20/mo.",
       features: [
-        "16 AI agents — marketing, finance, strategy, content, and more (covers what a solo founder needs)",
+        "13 AI agents — marketing, finance, strategy, content, and more (covers what a solo founder needs)",
         "250 messages a day — about 2-3 solid working sessions with your AI team",
         "10 premium answers/day — use these for big decisions, deep analysis, or long-form content",
         "Conversation export — download and share your conversations with clients or partners",
@@ -172,13 +172,13 @@ export function BillingClient({
       highlight: "Most Popular",
       whyUpgrade: "Best for: growing businesses with 1-5 people. You've launched and now you need to scale. 500 messages/day handles a full workday of AI-assisted marketing, content, and strategy. This is the sweet spot for most small businesses.",
       features: [
-        "30 AI agents — covers every business function (marketing, sales, legal, coding, HR, design, and more)",
+        "26 AI agents — covers every business function (marketing, sales, legal, coding, design, and more)",
         "500 messages a day — enough for a full workday of AI-assisted work across multiple projects",
         "15 premium answers/day — for strategy sessions, in-depth research, or complex writing tasks",
         "Conversation export — download and share your conversations",
         "1.5x longer responses — more detailed, thorough answers from every agent",
         "3 concurrent chats — run multiple conversations at once",
-        "1 AI Bestie — powered by 30 specialist agents — career, finance, wellness, and more",
+        "1 AI Bestie — powered by 26 specialist agents — career, finance, wellness, and more",
         "Commercial rights — use anything AI creates in your business, no attribution required",
       ],
     },
@@ -186,14 +186,14 @@ export function BillingClient({
       tagline: "Your full AI-powered business command center",
       whyUpgrade: "Best for: established businesses with 5-20 people, or founders running multiple projects. 1,000 messages/day means your whole team can use AI all day long. Early access to new agents and features 30 days before everyone else. This replaces hiring 2-3 junior employees.",
       features: [
-        "39 AI agents — nearly every specialist available to your whole team",
+        "36 AI agents — nearly every specialist available to your whole team",
         "1,000 messages a day — enough for a team of 5-20 to use AI throughout the workday",
         "30 premium answers/day — deep strategy, board-ready reports, complex financial analysis",
         "6,000 token max responses — the longest, most detailed answers on the platform",
         "4 concurrent chats — run multiple conversations at once",
         "60 messages of context memory — AI remembers more of your conversation history",
         "Early access — try new agents and features 30 days before everyone else",
-        "1 AI Bestie — powered by 39 specialist agents — nearly every specialist on call, every day",
+        "1 AI Bestie — powered by 36 specialist agents — nearly every specialist on call, every day",
         "1.5x referral rewards — earn more when you bring others to Stone AI",
       ],
     },
@@ -206,11 +206,11 @@ export function BillingClient({
         "50 premium answers/day — the highest allocation for agencies handling multiple client projects",
         "API access — build your own apps, chatbots, or tools powered by Stone AI (your clients never see us)",
         "White-label — put your logo, your colors, your domain on it. Clients think it's yours",
-        "All 47 agents — every specialist on the platform",
+        "All 38 agents — every specialist on the platform",
         "8,000 token max responses — the longest, most detailed answers available",
         "80 messages of context memory — AI remembers your full conversation history",
         "2x referral rewards — earn double commission when you bring others to Stone AI",
-        "1 AI Bestie — powered by all 47 specialist agents — a genius operator across your entire business",
+        "1 AI Bestie — powered by all 38 specialist agents — a genius across your entire business",
         "Everything in Executive, plus dedicated priority support",
       ],
     },
@@ -562,7 +562,7 @@ export function BillingClient({
               <div className="space-y-2.5">
                 <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wide">What you get:</p>
                 {tierDetail.features.map((f) => {
-                  const isBold = f.startsWith("Unlimited") || f.startsWith("Everything") || f.startsWith("All 42");
+                  const isBold = f.startsWith("Unlimited") || f.startsWith("Everything") || f.startsWith("All 38");
                   return (
                     <div key={f} className="flex items-start gap-2.5 text-sm">
                       <Check className={`h-4 w-4 shrink-0 mt-0.5 ${isPro ? "text-amber-400" : tierColor.accent}`} />
