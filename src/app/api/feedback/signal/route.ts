@@ -1,21 +1,31 @@
 import { NextRequest } from "next/server";
+import { z } from "zod";
 import { getOrCreateUser } from "@/lib/auth";
 import { db } from "@/lib/db";
+
+const signalSchema = z.object({
+  messageId: z.string().min(1),
+  conversationId: z.string().min(1),
+  signal: z.enum(["positive", "negative"]),
+}).strict();
 
 export async function POST(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
 
-    const body = await req.json();
-    const { messageId, conversationId, signal } = body;
-
-    if (!messageId || !conversationId || !signal) {
-      return Response.json({ error: "messageId, conversationId, and signal are required" }, { status: 400 });
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return Response.json({ error: "Invalid JSON" }, { status: 400 });
     }
 
-    if (signal !== "positive" && signal !== "negative") {
-      return Response.json({ error: "signal must be 'positive' or 'negative'" }, { status: 400 });
+    const parsed = signalSchema.safeParse(body);
+    if (!parsed.success) {
+      return Response.json({ error: "Invalid input" }, { status: 400 });
     }
+
+    const { messageId, conversationId, signal } = parsed.data;
 
     // Verify conversation ownership
     const conversation = await db.conversation.findFirst({
