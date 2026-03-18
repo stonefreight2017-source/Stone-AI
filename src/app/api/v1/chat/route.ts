@@ -170,7 +170,7 @@ export async function POST(req: NextRequest) {
 
   if (agentSlug) {
     agentRecord = await db.agent.findFirst({
-      where: { slug: agentSlug, isActive: true },
+      where: { slug: agentSlug },
       select: {
         id: true,
         slug: true,

@@ -19,7 +19,6 @@ export async function GET() {
 
     const agents = await db.agent.findMany({
       where: {
-        isActive: true,
         // Hide internal agents from non-admin users
         ...(!isAdmin && { slug: { notIn: [...HIDDEN_AGENTS] } }),
       },

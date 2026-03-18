@@ -132,7 +132,6 @@ export async function POST(req: NextRequest) {
             description: true,
             systemPrompt: true,
             requiredTier: true,
-            isActive: true,
           },
         },
         messages: {
@@ -146,8 +145,8 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Conversation not found" }, { status: 404 });
     }
 
-    // 3b. DEACTIVATED AGENT CHECK — block messages to deactivated agents
-    if (conversation.agent && !conversation.agent.isActive) {
+    // 3b. DEACTIVATED AGENT CHECK — block messages to deactivated agents (safe for pre-migration DBs)
+    if (conversation.agent && 'isActive' in conversation.agent && !(conversation.agent as Record<string, unknown>).isActive) {
       return Response.json(
         { error: "This agent is currently unavailable", code: "AGENT_DEACTIVATED" },
         { status: 403 }
