@@ -59,11 +59,11 @@ export async function POST(req: NextRequest) {
       if (body?.agentId) {
         const agent = await db.agent.findUnique({
           where: { id: body.agentId },
-          select: { id: true, slug: true, name: true, requiredTier: true },
+          select: { id: true, slug: true, name: true, requiredTier: true, isActive: true },
         });
         if (agent) {
-          // Block deactivated agents — check isActive if column exists (safe for pre-migration DBs)
-          if ('isActive' in agent && !(agent as Record<string, unknown>).isActive) {
+          // Block deactivated agents
+          if (!agent.isActive) {
             return NextResponse.json(
               { error: "This agent is currently unavailable" },
               { status: 404 }
