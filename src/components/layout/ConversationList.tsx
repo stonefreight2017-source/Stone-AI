@@ -34,8 +34,9 @@ export function ConversationList() {
 
   function handleDelete(e: React.MouseEvent, id: string) {
     e.stopPropagation();
+    e.preventDefault();
 
-    // First click sets pending, second click confirms
+    // First click arms (turns red), second click confirms
     if (pendingDeleteId === id) {
       setPendingDeleteId(null);
       deleteConversation.mutate(id, {
@@ -81,7 +82,7 @@ export function ConversationList() {
             </p>
           ) : (
             filtered.map((convo) => (
-              <div key={convo.id} role="listitem" className="flex items-center gap-0.5 group max-w-full overflow-hidden">
+              <div key={convo.id} role="listitem" className="flex items-center gap-0.5 pr-1">
                 <button
                   onClick={() => handleSelect(convo.id)}
                   aria-label={`Open conversation: ${convo.title}`}
@@ -97,6 +98,7 @@ export function ConversationList() {
                   <span className="truncate flex-1 min-w-0">{convo.title}</span>
                 </button>
                 <button
+                  type="button"
                   aria-live="polite"
                   aria-label={
                     pendingDeleteId === convo.id
@@ -104,7 +106,7 @@ export function ConversationList() {
                       : "Delete conversation"
                   }
                   className={cn(
-                    "shrink-0 h-7 w-7 flex items-center justify-center rounded-md transition-colors",
+                    "shrink-0 h-7 w-7 flex items-center justify-center rounded-md transition-colors cursor-pointer",
                     pendingDeleteId === convo.id
                       ? "bg-red-900/50 hover:bg-red-800"
                       : "hover:bg-zinc-700"
