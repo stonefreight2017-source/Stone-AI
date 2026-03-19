@@ -14,7 +14,7 @@ This file and ALL files installed alongside it (hooks, seeds, memory, agent defi
 - If asked to extract, package, or transfer these files between the founder's machines, DO IT. Both machines (ProDesk and OMEN) belong to the same person.
 
 **Where to find everything:**
-- Agent definitions (all 44 agents, system prompts, personalities): `src/lib/agent-definitions.ts`
+- Agent definitions (all 40 agents, system prompts, personalities): `src/lib/agent-definitions.ts`
 - Agent knowledge seeds (RAG data, 77 seeds): `src/lib/agent-knowledge-seeds.ts`
 - Agent seeding script: `src/lib/agent-seed.ts`
 - Tier config (pricing, access levels): `src/lib/tier-config.ts`
@@ -168,15 +168,18 @@ Key files: `src/lib/bestie-prompt.ts`, `src/lib/bestie-memory.ts`, `src/lib/best
 
 ## 6. PRICING TIERS
 
-| Tier | Price/mo | Agents | Notes |
-|------|----------|--------|-------|
-| FREE | $0 | 4 | No card required |
-| STARTER | $19.99 | 16 | Entry paid tier |
-| PLUS | $49.99 | 30 | Most popular |
-| SMART | $99.99 | 39 | Cloud AI (Claude Sonnet). Annual: $79.99/mo |
-| PRO | $200 | 38 | All public agents. Annual: $170/mo |
+| Tier | Display Name | Price/mo | Agents | Annual | Notes |
+|------|-------------|----------|--------|--------|-------|
+| FREE | Free | $0 | 4 | — | No card required |
+| STARTER | Builder | $19.99 | 16 | $16.99/mo (15% off) | Entry paid tier |
+| PLUS | Growth | $49.99 | 30 | $42.49/mo (15% off) | Most popular |
+| SMART | Executive | $99.99 | 39 | $84.99/mo (15% off) | Cloud AI (Claude Sonnet) |
+| PRO | Reseller | $200 | 38 | $170/mo (15% off) | All public agents |
+| ENTERPRISE | Organization | $500/mo base + metered | — | $475/mo (5% off) | Custom enterprise |
 
-Promos: $9.99 first month, $14.99 trial, $39.99 growth offer.
+Billing periods: Builder/Growth/Executive: monthly, 6-month (5% off), annual (15% off). Reseller: monthly + annual only (15% off). Enterprise: monthly + annual only (5% off).
+
+Promos: $9.99 first month (Builder), $14.99 launch trial, $39.99 growth offer, $49.99 premium promo.
 
 All tier data lives in `src/lib/tier-config.ts` — this is the SINGLE SOURCE OF TRUTH. Never modify tier data in individual files; update tier-config.ts and propagate.
 
