@@ -79,7 +79,7 @@ export default function LandingPage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-zinc-400 max-w-2xl mx-auto mb-4 leading-relaxed">
-            42 AI specialists. Local GPU inference. Your data stays yours.
+            38 AI specialists. Local GPU inference. Your data stays yours.
           </p>
           <p className="text-base text-zinc-400 max-w-md mx-auto mb-10">
             One platform. Instant responses. Starting at $0.
@@ -262,7 +262,7 @@ export default function LandingPage() {
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
           <ScrollSection>
             <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              42 specialists. <span className="text-zinc-400">Zero salaries.</span>
+              38 specialists. <span className="text-zinc-400">Zero salaries.</span>
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
               Each agent is a domain specialist with persistent memory and industry frameworks.
@@ -427,7 +427,7 @@ export default function LandingPage() {
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
               The same tasks. A fraction of the time. Here&apos;s what changes
-              when 42 specialists handle the heavy lifting.
+              when 38 specialists handle the heavy lifting.
             </p>
           </ScrollSection>
 
@@ -652,7 +652,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">
-              42 agents. A companion that knows you. A community that has your back.
+              38 agents. A companion that knows you. A community that has your back.
               And it starts at $0.
             </p>
           </AnimateOnScroll>
@@ -661,7 +661,7 @@ export default function LandingPage() {
           <AnimateOnScroll delay={0.25}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12 max-w-2xl mx-auto">
               {[
-                { label: "42 AI Agents", live: true },
+                { label: "38 AI Agents", live: true },
                 { label: "AI Bestie", live: true },
                 { label: "Community", live: true },
                 { label: "API Access", live: true },

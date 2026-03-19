@@ -145,7 +145,7 @@ export default function LandingPageD() {
             {/* Left: Copy */}
             <div className="text-left">
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight mb-4">
-                <span className="text-amber-400">42 AI specialists.</span>
+                <span className="text-amber-400">38 AI specialists.</span>
                 <br />
                 One platform.
                 <br />
@@ -182,7 +182,7 @@ export default function LandingPageD() {
         <div className="border-y border-zinc-800/60 bg-zinc-900/40 py-5">
           <div className="max-w-5xl mx-auto flex flex-wrap justify-center gap-8 sm:gap-12 px-6">
             <TrustBadge icon={Users} text="500+ builders" />
-            <TrustBadge icon={Bot} text="42 specialists" />
+            <TrustBadge icon={Bot} text="38 specialists" />
             <TrustBadge icon={Lock} text="AES-256 encrypted" />
             <TrustBadge icon={DollarSign} text="$0 to start" />
           </div>
@@ -300,7 +300,7 @@ export default function LandingPageD() {
           </StaggerCard>
           <StaggerCard>
             <TestimonialCard
-              quote="We onboarded our whole team in a day. 42 agents across every department we need. The ROI was obvious by week one."
+              quote="We onboarded our whole team in a day. 38 agents across every department we need. The ROI was obvious by week one."
               name="Priya Kapoor"
               role="Agency Owner, 12 employees"
             />
@@ -324,7 +324,7 @@ export default function LandingPageD() {
             <span className="text-amber-400">Start working with it.</span>
           </h2>
           <p className="text-zinc-400 mb-8 max-w-md mx-auto">
-            42 specialists. Zero setup. Your first agent is free.
+            38 specialists. Zero setup. Your first agent is free.
           </p>
           <Button asChild size="lg" className="bg-amber-500 hover:bg-amber-400 text-black font-semibold text-lg px-10">
             <Link href="/sign-up">

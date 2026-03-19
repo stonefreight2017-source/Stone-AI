@@ -90,7 +90,7 @@ export default function LandingPage() {
 
         <HeroSection>
           <Badge className="mb-6 bg-amber-900/50 text-amber-300 border-amber-800">
-            <Activity className="h-3 w-3 mr-1" /> 42 AI agents. Local inference. Zero data leaks.
+            <Activity className="h-3 w-3 mr-1" /> 38 AI agents. Local inference. Zero data leaks.
           </Badge>
           <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight mb-6">
             You had the <span className="text-amber-400">idea</span>.
@@ -277,7 +277,7 @@ export default function LandingPage() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    "42 agents remember your business forever",
+                    "38 agents remember your business forever",
                     "One platform for proposals, code, marketing",
                     "Local inference — no per-message cost",
                     "Sub-100ms time to first token",
@@ -389,7 +389,7 @@ export default function LandingPage() {
                 <Bot className="h-3 w-3 mr-1" /> 42 Specialist AI Agents
               </Badge>
               <h2 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
-                42 specialists.<br />
+                38 specialists.<br />
                 <span className="text-amber-400">Zero salaries.</span>
               </h2>
               <p className="text-zinc-400 max-w-2xl mx-auto">
@@ -518,7 +518,7 @@ export default function LandingPage() {
 
           {/* Departments */}
           <ScrollSection>
-            <h3 className="text-2xl font-bold text-center mb-8">All 42 agents, organized by department</h3>
+            <h3 className="text-2xl font-bold text-center mb-8">All 38 agents, organized by department</h3>
           </ScrollSection>
           <StaggerGrid className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
             {[
@@ -848,7 +848,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.15}>
             <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-6">
-              42 agents that know your business. A Bestie that knows you.
+              38 agents that know your business. A Bestie that knows you.
               Infrastructure that keeps your data yours. A community of builders who move first.
             </p>
           </AnimateOnScroll>
@@ -863,7 +863,7 @@ export default function LandingPage() {
           <AnimateOnScroll delay={0.3}>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-14 max-w-3xl mx-auto">
               {[
-                { label: "42 AI Agents", status: "Live" },
+                { label: "38 AI Agents", status: "Live" },
                 { label: "AI Bestie", status: "Live" },
                 { label: "Community Forum", status: "Live" },
                 { label: "API Access", status: "Live" },

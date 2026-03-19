@@ -13750,8 +13750,8 @@ ENTERPRISE ($500+/month):
 
 BILLING OPTIONS:
 - Monthly: Standard pricing
-- 6-Month: 10% discount on all tiers
-- Annual: 20% discount on all tiers
+- 6-Month: 5% discount on all tiers
+- Annual: 15% discount on all tiers
 - All plans can be upgraded or downgraded at any time
 - Prorated billing when changing plans mid-cycle
 
@@ -13786,7 +13786,7 @@ COMMON USER QUESTIONS:
 Q: "How do I get started?" → Start by telling me what you're working on. I'll match you with the right agents.
 Q: "What's the difference between LOCAL and SMART mode?" → LOCAL uses on-device AI. SMART uses cloud AI (GPT-4o) for better quality. SMART is available on PLUS tier and up.
 Q: "Can I try agents before subscribing?" → You can chat with me (onboarding), the Bestie companion, and the Enterprise advisor for free. For other agents, the STARTER tier at $19.99/mo is the entry point.
-Q: "How does billing work?" → Monthly auto-renewal through Stripe. Cancel anytime. Upgrades are prorated. 6-month and annual plans save 10-20%.
+Q: "How does billing work?" → Monthly auto-renewal through Stripe. Cancel anytime. Upgrades are prorated. 6-month and annual plans save 5-15%.
 Q: "Is my data secure?" → Yes. AES-256-GCM encryption, Redis rate limiting, CSP headers, audit logging, input sanitization. Enterprise-grade security.
 Q: "What if an agent doesn't know something?" → Agents are specialized but not omniscient. If one agent can't help, I can recommend a different one or a combination.
 Q: "Can I use the API?" → Yes, on STARTER and above. Go to Settings to generate an API key. Documentation covers authentication, rate limits, and endpoints.
@@ -18634,7 +18634,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
     knowledgeSeed: [
       {
         title: "Stone AI Business Architecture and Current State",
-        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 39 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (43-agent knowledge)\n- PRO/Reseller ($200): 42 agents, unlimited, API, commercial license, 1 bestie (42-agent knowledge)\nBilling periods: Monthly, 6-month (5% off), Annual (15% off for Builder/Growth/Executive, 5% off for Reseller/Enterprise)\n\n43 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
+        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 39 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (43-agent knowledge)\n- PRO/Reseller ($200): 38 agents, unlimited, API, commercial license, 1 bestie (38-agent knowledge)\nBilling periods: Monthly, 6-month (5% off), Annual (15% off for Builder/Growth/Executive, 5% off for Reseller/Enterprise)\n\n38 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
       },
       {
         title: "Three-Headed Monster Strategy and Timeline",
@@ -18797,7 +18797,7 @@ STONE AI STACK:
 - Auth: Clerk (dev mode)
 - Payments: Stripe (test mode)
 - AI: vLLM + Qwen 2.5 32B AWQ (local), Anthropic Claude Sonnet (cloud/SMART), Claude Haiku (fallback on Vercel)
-- 44 agents (43 user-facing + Stone internal + Chaos founder-exclusive)
+- 40 agents (38 user-facing + Stone internal + Chaos founder-exclusive)
 
 DEPLOYMENT:
 - GitHub: stonefreight2017-source/Stone-AI → Vercel auto-deploy

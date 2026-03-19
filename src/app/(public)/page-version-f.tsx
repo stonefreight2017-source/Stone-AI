@@ -192,7 +192,7 @@ export default function LandingPageF() {
             {/* Left: Copy */}
             <div>
               <Badge className="bg-amber-900/40 text-amber-300 border-amber-800/50 mb-4">
-                <Sparkles className="h-3 w-3 mr-1" /> Now with 42 AI specialists
+                <Sparkles className="h-3 w-3 mr-1" /> Now with 38 AI specialists
               </Badge>
               <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight mb-4">
                 AI agents that produce{" "}
@@ -252,7 +252,7 @@ export default function LandingPageF() {
         <ScrollSection>
           <h2 className="text-2xl font-bold text-center mb-10">How it works</h2>
           <div className="grid sm:grid-cols-3 gap-8">
-            <StepCard step={1} icon={Users} title="Pick an agent" desc="Choose from 42 specialists across 6 departments" />
+            <StepCard step={1} icon={Users} title="Pick an agent" desc="Choose from 38 specialists across 6 departments" />
             <StepCard step={2} icon={MessageSquare} title="Describe your task" desc="Tell the agent what you need in plain language" />
             <StepCard step={3} icon={Check} title="Get real deliverables" desc="Plans, copy, code, analysis — ready to use" />
           </div>
@@ -429,7 +429,7 @@ export default function LandingPageF() {
                 role: "Startup Founder",
               },
               {
-                quote: "42 agents, one platform, zero learning curve. This is how AI should work.",
+                quote: "38 agents, one platform, zero learning curve. This is how AI should work.",
                 name: "Priya K.",
                 role: "Agency Owner",
               },
@@ -466,7 +466,7 @@ export default function LandingPageF() {
           <div className="border border-zinc-800 rounded-xl px-6 bg-zinc-900/30">
             <FAQItem
               q="What makes Stone AI different from ChatGPT?"
-              a="ChatGPT is one general assistant. Stone AI gives you 42 specialized agents — each trained for a specific domain like marketing, finance, legal, or code. Plus, our local inference means your data never leaves your machine."
+              a="ChatGPT is one general assistant. Stone AI gives you 38 specialized agents — each trained for a specific domain like marketing, finance, legal, or code. Plus, our local inference means your data never leaves your machine."
             />
             <FAQItem
               q="Do I need a GPU for local inference?"
@@ -497,7 +497,7 @@ export default function LandingPageF() {
                 Ready to meet your team?
               </h2>
               <p className="text-amber-900 text-sm">
-                42 specialists. Zero setup. Free forever tier.
+                38 specialists. Zero setup. Free forever tier.
               </p>
             </div>
             <Button asChild size="lg" className="bg-black hover:bg-zinc-900 text-white font-semibold px-8 shrink-0">

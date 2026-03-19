@@ -10,6 +10,7 @@ interface Message {
 
 interface SalesWidgetProps {
   configSnapshot: string;
+  variant?: "enterprise" | "landing";
 }
 
 const SESSION_KEY = "stone-ai-sales-session";
@@ -37,7 +38,23 @@ function saveSession(sessionId: string, messages: Message[]) {
   );
 }
 
-export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
+const GREETINGS: Record<string, { title: string; greeting: string; placeholder: string }> = {
+  enterprise: {
+    title: "Enterprise Advisor",
+    greeting:
+      "Hi there! I'm your Enterprise Advisor. I can help you configure the perfect plan, answer pricing questions, or walk you through our security and compliance capabilities. What are you looking to solve?",
+    placeholder: "Ask about enterprise plans...",
+  },
+  landing: {
+    title: "Stone AI",
+    greeting:
+      "Hey! Looking for the right plan? I can help you find the perfect fit, answer questions about our agents, or walk you through what Stone AI can do for you.",
+    placeholder: "Ask me anything about Stone AI...",
+  },
+};
+
+export function SalesWidget({ configSnapshot, variant = "enterprise" }: SalesWidgetProps) {
+  const copy = GREETINGS[variant] ?? GREETINGS.enterprise;
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -68,8 +85,7 @@ export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
       if (messages.length === 0) {
         const greeting: Message = {
           role: "assistant",
-          content:
-            "Hi there! I'm your Enterprise Advisor. I can help you configure the perfect plan, answer pricing questions, or walk you through our security and compliance capabilities. What are you looking to solve?",
+          content: copy.greeting,
         };
         setMessages([greeting]);
         saveSession(sessionId, [greeting]);
@@ -222,7 +238,7 @@ export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
                 <MessageCircle className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-white">Enterprise Advisor</p>
+                <p className="text-sm font-semibold text-white">{copy.title}</p>
                 <p className="text-xs text-emerald-400">Online</p>
               </div>
             </div>
@@ -270,8 +286,8 @@ export function SalesWidget({ configSnapshot }: SalesWidgetProps) {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about enterprise plans..."
-                aria-label="Ask about enterprise plans"
+                placeholder={copy.placeholder}
+                aria-label={copy.placeholder}
                 disabled={streaming}
                 className="flex-1 bg-zinc-900 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 disabled:opacity-50"
               />

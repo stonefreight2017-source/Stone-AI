@@ -83,6 +83,26 @@ const cloudFallbackEnabled = process.env.ENABLE_CLOUD_FALLBACK === "true";
 const forceCloudSmart = process.env.FORCE_CLOUD_SMART === "true";
 
 /**
+ * Probe whether vLLM is reachable by hitting its /models endpoint.
+ * Returns true if vLLM responds within 3 seconds, false otherwise.
+ * Used by cloud fallback logic to decide whether to route to Anthropic.
+ */
+async function isVllmReachable(): Promise<boolean> {
+  const vllmUrl = process.env.VLLM_BASE_URL?.trim() ?? "http://localhost:8000/v1";
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    const res = await globalThis.fetch(`${vllmUrl}/models`, {
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Get the appropriate model based on request mode and user tier.
  *
  * ═══ vLLM-FIRST ROUTING (Palace Independence) ═══
@@ -93,7 +113,7 @@ const forceCloudSmart = process.env.FORCE_CLOUD_SMART === "true";
  *
  * Cloud fallback (Anthropic) is OPTIONAL and controlled by env vars:
  *   - FORCE_CLOUD_SMART=true → SMART mode uses Claude Sonnet instead of vLLM
- *   - ENABLE_CLOUD_FALLBACK=true → If vLLM URL is localhost on Vercel, fall back to cloud
+ *   - ENABLE_CLOUD_FALLBACK=true → Falls back to Anthropic when vLLM is unreachable
  *
  * For Vercel deployment, set VLLM_BASE_URL=https://vllm.stone-ai.net/v1
  * to route through the Cloudflare tunnel to the Palace's vLLM server.
@@ -128,6 +148,40 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
   // Prefer env var over tier config (env var is environment-specific, tier config is code)
   const model = process.env.VLLM_MODEL?.trim() ?? tierLocalModel ?? "/home/stones/models/qwen3-32b-awq";
   return vllm(model);
+}
+
+/**
+ * Get model with cloud fallback — for customer-facing endpoints.
+ *
+ * Tries vLLM first. If vLLM is unreachable AND cloud fallback is enabled
+ * (or forceFallback is true), returns Anthropic Haiku instead.
+ * This ensures customer-facing features like the enterprise sales chat
+ * never show a blank spinner — a broken sales chat loses customers.
+ */
+export async function getModelWithFallback(
+  mode: "LOCAL" | "SMART",
+  tierLocalModel?: string,
+  forceFallback = false,
+): Promise<ReturnType<typeof getModel>> {
+  const shouldFallback = cloudFallbackEnabled || forceFallback;
+
+  // If no fallback configured, just return the normal model
+  if (!shouldFallback || !process.env.ANTHROPIC_API_KEY) {
+    return getModel(mode, tierLocalModel);
+  }
+
+  // Check if vLLM is reachable
+  const reachable = await isVllmReachable();
+  if (reachable) {
+    return getModel(mode, tierLocalModel);
+  }
+
+  // vLLM is down — fall back to cloud
+  console.warn("[ai] vLLM unreachable, falling back to Anthropic cloud");
+  if (mode === "SMART") {
+    return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
+  }
+  return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
 }
 
 /**

@@ -196,7 +196,7 @@ export const EGG_TYPE_BLOCKS: Record<EggType, string> = {
 };
 
 // ---------------------------------------------------------------------------
-// 4. AGENT_EGG_MAP — All 42 user-facing agent slugs mapped to egg type
+// 4. AGENT_EGG_MAP — All 38 user-facing agent slugs mapped to egg type
 // ---------------------------------------------------------------------------
 
 /**

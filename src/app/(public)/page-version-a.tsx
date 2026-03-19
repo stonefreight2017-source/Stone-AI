@@ -78,14 +78,14 @@ export default function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div>
               <Badge className="mb-4 bg-amber-500/10 text-amber-400 border-amber-500/20 text-xs">
-                42 AI agents. 1 platform. $0 to start.
+                38 AI agents. 1 platform. $0 to start.
               </Badge>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1] mb-4">
                 AI that works<br />
                 <span className="text-amber-400">for</span> you.
               </h1>
               <p className="text-lg text-zinc-400 mb-6 leading-relaxed max-w-md">
-                Local GPU inference. 42 specialist agents. Persistent memory.
+                Local GPU inference. 38 specialist agents. Persistent memory.
                 Your data stays private by default.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
@@ -205,7 +205,7 @@ export default function LandingPage() {
 
         {/* TAB 2: Your Team */}
         <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-3">42 specialists. One platform.</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-3">38 specialists. One platform.</h2>
           <p className="text-zinc-400 mb-10 max-w-lg">
             Domain specialists with persistent memory. They produce deliverables, not chat responses.
           </p>
@@ -437,7 +437,7 @@ export default function LandingPage() {
       <section className="px-4 sm:px-6 py-20 sm:py-28 max-w-3xl mx-auto text-center">
         <AnimateOnScroll>
           <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            42 agents.<br />$0 to start.
+            38 agents.<br />$0 to start.
           </h2>
           <p className="text-zinc-400 mb-8">No credit card. Free tier: 4 agents, 100 msgs/day.</p>
         </AnimateOnScroll>

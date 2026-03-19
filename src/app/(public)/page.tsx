@@ -43,6 +43,7 @@ import { useT } from "./use-translation";
 import { PricingSection } from "./pricing-section";
 import { LandingTabs } from "./landing-tabs";
 import { DepartmentTabs } from "./department-tabs";
+import { SalesWidget } from "@/components/sales/SalesWidget";
 import {
   HeroSection,
   ScrollSection,
@@ -1004,6 +1005,9 @@ function LandingPageContent() {
         </div>
       </footer>
       </div>{/* close z-10 content wrapper */}
+
+      {/* Floating Sales Chat Widget */}
+      <SalesWidget configSnapshot="" variant="landing" />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import { streamText } from "ai";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { getModel } from "@/lib/ai";
+import { getModelWithFallback } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { sanitizeUserInput, wrapSystemPrompt, getClientIp, validateOrigin } from "@/lib/security";
@@ -112,22 +112,39 @@ export async function POST(req: NextRequest) {
     basePrompt + configSection + (ragContext ? "\n\n" + ragContext : "")
   );
 
-  // Stream response
+  // Stream response — enterprise chat ALWAYS forces cloud fallback because
+  // a broken sales chat loses customers. If vLLM is down, Haiku takes over.
   try {
+    const model = await getModelWithFallback("LOCAL", undefined, true);
+
     const result = streamText({
-      model: getModel("LOCAL"),
+      model,
       system: systemPrompt,
       messages: sanitizedMessages,
       maxOutputTokens: 1024,
+      onError: ({ error }) => {
+        console.error("[enterprise-chat] Stream error:", error);
+      },
     });
 
-    // Return plain text stream (no Vercel AI SDK data protocol — widget uses raw fetch)
+    // Consume the stream to catch errors — if the stream fails mid-flight,
+    // the client will see an incomplete response rather than infinite spinner.
+    // The toTextStreamResponse() handles this by closing the stream on error.
     return result.toTextStreamResponse();
-  } catch {
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+  } catch (err) {
+    console.error("[enterprise-chat] Model connection failed:", err);
+    return new Response(
+      JSON.stringify({
+        error: "Our AI is warming up. Please try again in a moment.",
+      }),
+      {
+        status: 503,
+        headers: {
+          "Content-Type": "application/json",
+          "Retry-After": "5",
+        },
+      }
+    );
   }
 }
 

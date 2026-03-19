@@ -96,7 +96,7 @@ export default function LandingPageE() {
               <span className="text-white">is ready.</span>
             </h1>
             <p className="text-xl sm:text-2xl text-zinc-400 max-w-xl mx-auto mb-12 leading-relaxed">
-              42 specialist agents. Local inference. From $0/month.
+              38 specialist agents. Local inference. From $0/month.
             </p>
             <Button asChild size="lg" className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold text-lg px-10">
               <Link href="/sign-up">
@@ -200,7 +200,7 @@ export default function LandingPageE() {
           <StaggerGrid className="grid md:grid-cols-3 gap-10">
             <StaggerCard>
               <CinematicTestimonial
-                quote="Stone AI replaced my entire freelance team. 42 agents, zero overhead. I shipped my MVP in a weekend."
+                quote="Stone AI replaced my entire freelance team. 38 agents, zero overhead. I shipped my MVP in a weekend."
                 name="Alex Rivera"
                 role="Solo Founder"
               />
