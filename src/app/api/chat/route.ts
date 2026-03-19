@@ -424,9 +424,12 @@ export async function POST(req: NextRequest) {
       const hasLocationKeyword = locationKeywords.some((kw) => combinedContext.includes(kw));
       const zipMatch = message.match(/\b(\d{5})\b/);
 
+      console.log(`[web-search-detect] msg="${message.substring(0, 50)}" hasKW=${hasLocationKeyword} zip=${zipMatch?.[1] ?? "none"} histLen=${history.length}`);
+
       if (hasLocationKeyword || zipMatch) {
         searchPromise = (async () => {
           const hasQuota = await checkSearchQuota(user.id, tier);
+          console.log(`[web-search-quota] hasQuota=${hasQuota} tier=${tier}`);
           if (!hasQuota) return "";
 
           // Build search query from conversation context, not just current message
@@ -460,10 +463,13 @@ export async function POST(req: NextRequest) {
             searchQuery = message.replace(/\b\d{5}\b/, locationStr);
           }
 
+          console.log(`[web-search-query] query="${searchQuery.substring(0, 100)}" provider=serper keySet=${!!process.env.SERPER_API_KEY}`);
           const searchResponse = await searchWeb(searchQuery, 5);
+          console.log(`[web-search-result] provider=${searchResponse.provider} count=${searchResponse.results.length} cached=${searchResponse.cached}`);
           if (searchResponse.results.length > 0) {
             const formatted = formatSearchResults(searchResponse.results);
             await incrementSearchUsage(user.id);
+            console.log(`[web-search-injected] ${formatted.substring(0, 200)}`);
             return `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${formatted}\n</web_search_data>`;
           }
           return "";
