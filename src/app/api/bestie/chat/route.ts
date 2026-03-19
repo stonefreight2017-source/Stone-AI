@@ -68,7 +68,14 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const parsed = bestieChatSchema.safeParse(body);
+    // Strip extra fields before .strict() validation (same fix as /api/chat)
+    const sanitizedBody = {
+      message: b.message,
+      conversationId: b.conversationId,
+      mode: b.mode ?? "LOCAL",
+    };
+
+    const parsed = bestieChatSchema.safeParse(sanitizedBody);
     if (!parsed.success) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
