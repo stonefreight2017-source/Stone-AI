@@ -2,7 +2,7 @@
  * Multi-Language UI (i18n) — 6 Languages
  *
  * Matches the Bestie companion language support:
- * English, Spanish, French, Portuguese, Japanese, Korean.
+ * English, Chinese, Spanish, Hindi, French, Arabic.
  *
  * Usage:
  *   import { t, getLocale, setLocale, LOCALES } from "@/lib/i18n";

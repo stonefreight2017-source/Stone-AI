@@ -21,7 +21,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY) as LangCode | null;
-      if (saved) setLangState(saved);
+      if (saved) {
+        setLangState(saved);
+        document.documentElement.dir = saved === "ar" ? "rtl" : "ltr";
+      }
     } catch {
       // localStorage not available
     }
@@ -32,6 +35,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     try {
       localStorage.setItem(STORAGE_KEY, newLang);
       document.documentElement.lang = newLang;
+      document.documentElement.dir = newLang === "ar" ? "rtl" : "ltr";
     } catch {
       // localStorage not available
     }

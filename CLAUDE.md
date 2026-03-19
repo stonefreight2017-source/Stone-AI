@@ -64,9 +64,9 @@ Founder (absolute authority)
 
 ---
 
-## 2. THE AGENT SYSTEM — 44 Agents
+## 2. THE AGENT SYSTEM — 40 Agents
 
-44 total agents: 42 user-facing (across 5 tiers) + Stone (internal strategy, Head 1) + Chaos (#44, founder-only, HIDDEN from all users).
+40 total agents: 38 user-facing (across 5 tiers) + Stone (internal strategy, Head 1) + Chaos (#44, founder-only, HIDDEN from all users).
 
 ### Key Files
 
@@ -123,7 +123,7 @@ Key files: `src/lib/bestie-prompt.ts`, `src/lib/bestie-memory.ts`, `src/lib/best
 
 ### Business 1: Stone AI (THIS REPO)
 - **URL**: stone-ai.net / app.stone-ai.net
-- **What**: Web SaaS — 42 AI agents available to users across 5 tiers
+- **What**: Web SaaS — 38 AI agents available to users across 5 tiers
 - **Status**: LIVE
 - **GitHub**: stonefreight2017-source/Stone-AI
 
@@ -174,7 +174,7 @@ Key files: `src/lib/bestie-prompt.ts`, `src/lib/bestie-memory.ts`, `src/lib/best
 | STARTER | $19.99 | 16 | Entry paid tier |
 | PLUS | $49.99 | 30 | Most popular |
 | SMART | $99.99 | 39 | Cloud AI (Claude Sonnet). Annual: $79.99/mo |
-| PRO | $200 | 42 | All public agents. Annual: $170/mo |
+| PRO | $200 | 38 | All public agents. Annual: $170/mo |
 
 Promos: $9.99 first month, $14.99 trial, $39.99 growth offer.
 
