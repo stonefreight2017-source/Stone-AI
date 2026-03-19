@@ -2,11 +2,16 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { createAnthropic } from "@ai-sdk/anthropic";
 
 /**
- * Custom fetch wrapper for vLLM that injects chat_template_kwargs
- * to disable Qwen3's <think> reasoning mode.
+ * Custom fetch wrapper for vLLM that:
+ * 1. Injects chat_template_kwargs to disable Qwen3's <think> reasoning mode
+ * 2. Detects Cloudflare 403 JavaScript challenges and throws a clear error
  *
- * Without this, Qwen3 spends the entire token budget on invisible
+ * Without (1), Qwen3 spends the entire token budget on invisible
  * internal reasoning (<think> tags) and returns ZERO visible output.
+ *
+ * Without (2), Vercel serverless functions get a 403 HTML page from
+ * Cloudflare's Bot Fight Mode when calling vllm.stone-ai.net, and the
+ * AI SDK silently returns an empty response instead of triggering fallback.
  */
 const vllmFetch: typeof globalThis.fetch = async (input, init) => {
   if (init?.body && typeof init.body === "string") {
@@ -18,7 +23,27 @@ const vllmFetch: typeof globalThis.fetch = async (input, init) => {
       // Not JSON — pass through unchanged
     }
   }
-  return globalThis.fetch(input, init);
+
+  // Add browser User-Agent so Cloudflare Bot Fight Mode doesn't block the request
+  const headers = new Headers(init?.headers);
+  if (!headers.has("User-Agent")) {
+    headers.set("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36");
+  }
+  init = { ...init, headers };
+
+  const response = await globalThis.fetch(input, init);
+
+  // Detect Cloudflare JavaScript challenge (403 with HTML instead of JSON).
+  // This happens when Vercel's serverless IPs are flagged by Cloudflare's
+  // Bot Fight Mode / Browser Integrity Check on the vllm.stone-ai.net tunnel.
+  if (response.status === 403) {
+    const contentType = response.headers.get("content-type") ?? "";
+    if (contentType.includes("text/html")) {
+      throw new Error("VLLM_CLOUDFLARE_BLOCKED: Cloudflare returned 403 JS challenge — vLLM tunnel unreachable from this environment");
+    }
+  }
+
+  return response;
 };
 
 /**
@@ -73,14 +98,14 @@ export const cloud = createAnthropic({
  * Set ENABLE_CLOUD_FALLBACK=true in .env to allow falling back to
  * Anthropic when vLLM is unreachable. Default: false (full independence).
  */
-const cloudFallbackEnabled = process.env.ENABLE_CLOUD_FALLBACK === "true";
+const cloudFallbackEnabled = process.env.ENABLE_CLOUD_FALLBACK?.trim() === "true";
 
 /**
  * Whether to force SMART mode to use Anthropic cloud instead of vLLM.
  * Set FORCE_CLOUD_SMART=true in .env to route SMART requests to Claude Sonnet.
  * Default: false (SMART mode uses vLLM like everything else).
  */
-const forceCloudSmart = process.env.FORCE_CLOUD_SMART === "true";
+const forceCloudSmart = process.env.FORCE_CLOUD_SMART?.trim() === "true";
 
 /**
  * Get the appropriate model based on request mode and user tier.
@@ -122,6 +147,14 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
   // LOCAL mode: always vLLM
   // On Vercel with localhost URL (no tunnel configured): fall back to cloud if enabled
   if (isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
+    return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
+  }
+
+  // On Vercel with cloud fallback enabled: use cloud provider directly.
+  // This handles the case where VLLM_BASE_URL points to a Cloudflare tunnel
+  // but Cloudflare's Bot Fight Mode blocks Vercel's serverless function IPs
+  // with a 403 JavaScript challenge.
+  if (isVercel && cloudFallbackEnabled && process.env.ANTHROPIC_API_KEY) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
