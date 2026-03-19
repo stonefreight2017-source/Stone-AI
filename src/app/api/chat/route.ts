@@ -40,7 +40,7 @@ import { buildMemoryContext } from "@/lib/agent-memory";
 import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
-import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK } from "@/lib/agent-shared-prompts";
+import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK, FINAL_BEHAVIOR_OVERRIDE } from "@/lib/agent-shared-prompts";
 import { buildTierCapabilityBlock } from "@/lib/tier-capabilities";
 import { assemblePrompt, getTokenEstimate } from "@/lib/golden-egg";
 import { buildAnswerContext } from "@/lib/answer-bank";
@@ -527,6 +527,9 @@ export async function POST(req: NextRequest) {
       basePrompt += "\n\n" + VERIFICATION_BLOCK;
       basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
     }
+
+    // Final behavior override — placed last for maximum weight with the model
+    basePrompt += "\n\n" + FINAL_BEHAVIOR_OVERRIDE;
 
     // Wrap with anti-injection security directives
     const systemPrompt = wrapSystemPrompt(basePrompt);
