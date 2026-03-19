@@ -80,10 +80,10 @@ export interface TierConfig {
  *
  * DB Enum  | Display Name | Monthly | Agents | Cloud AI         | Max API Cost/mo | Margin @100%
  * FREE     | Free         | $0      | 4      | 5 lifetime creds | $0.13 once      | N/A
- * STARTER  | Builder      | $19.99  | 16     | 10/day           | ~$5.50          | 73%
- * PLUS     | Growth       | $49.99  | 30     | 15/day           | ~$12            | 76%
- * SMART    | Executive    | $99.99  | 39     | 30/day           | ~$27            | 73%  | Annual: $84.99/mo (15% off)
- * PRO      | Reseller     | $200    | 42     | 50/day           | ~$55            | 73%
+ * STARTER  | Builder      | $19.99  | 13     | 10/day           | ~$5.50          | 73%
+ * PLUS     | Growth       | $49.99  | 26     | 15/day           | ~$12            | 76%
+ * SMART    | Executive    | $99.99  | 36     | 30/day           | ~$27            | 73%  | Annual: $84.99/mo (15% off)
+ * PRO      | Reseller     | $200    | 38     | 50/day           | ~$55            | 73%
  *
  * LOCAL (Stone Engine) = UNLIMITED on all tiers ($0 cost, RTX 5090)
  *
@@ -156,7 +156,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 19.99,
     stripePriceEnvKey: "STRIPE_PRICE_STARTER",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 16,
+    agentCount: 13,
     tagline: "Plan and start your business",
     limits: {
       messagesPerDay: 250,
@@ -202,7 +202,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 49.99,
     stripePriceEnvKey: "STRIPE_PRICE_PLUS",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 30,
+    agentCount: 26,
     tagline: "Plan, start, and maintain your business",
     limits: {
       messagesPerDay: 500,
@@ -248,7 +248,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 39,
+    agentCount: 36,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
       messagesPerDay: 1_000,
@@ -294,7 +294,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     price: 200,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
     localModel: "/mnt/c/models/qwen3-32b-awq",
-    agentCount: 42,
+    agentCount: 38,
     tagline: "Full platform access with reseller capabilities",
     limits: {
       messagesPerDay: 3_000,
@@ -335,10 +335,64 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     priority: 4,
     cloudFallback: true,
   },
+  ENTERPRISE: {
+    name: "Organization",
+    price: 500,
+    stripePriceEnvKey: "STRIPE_PRICE_ENTERPRISE",
+    localModel: "/mnt/c/models/qwen3-32b-awq",
+    agentCount: 38,
+    tagline: "Deploy AI across your entire organization",
+    limits: {
+      messagesPerDay: 50000,
+      tokensPerMonth: 500_000_000,
+      maxResponseTokens: 16_000,
+      concurrentRequests: 20,
+      requestsPerMinute: 100,
+      smartMessagesPerDay: 1000,
+      smartMaxResponseTokens: 4_000,
+      smartContextMessages: 30,
+      smartTokensPerMonth: 10_000_000,
+    },
+    perks: {
+      contextMessages: 100,
+      autoRouting: false,           // Coming Soon — auto-routing not yet built
+      conversationExport: true,
+      priorityQueue: false,        // Coming Soon — priority queue not yet built
+      apiAccess: true,
+      commercialLicense: true,
+      earlyAccess: true,
+      agentBuilder: false,          // Coming Soon — agent builder not yet built
+      referralMultiplier: 2,
+      maxBesties: 2,
+      maxDocuments: 100,
+      webSearchesPerDay: 1000,
+      codeExecutionsPerDay: 0,     // Coming Soon — code sandbox Docker image not yet built
+      fileUploadAnalysis: true,
+      voiceInteraction: false,     // Coming Soon — faster-whisper not yet running
+      pluginIntegrations: 0,        // Coming Soon — plugin integrations not yet built
+      teamWorkspace: false,         // Coming Soon — team workspace not yet built
+      customModelFineTuning: false, // Coming Soon — custom model fine-tuning not yet built
+      soc2Compliance: false,       // Not yet certified — requires actual SOC 2 audit
+      hipaaCompliance: false,      // Not yet certified — requires actual HIPAA compliance program
+      mobileApp: true,
+    },
+    allowedModes: ["LOCAL", "SMART", "PRIORITY"],
+    priority: 5,
+    cloudFallback: true,
+  },
 } as const;
 
+export const CREDIT_PACK_PRICES = {
+  STARTER:  { credits: 10,  price: 199,  stripePriceEnvKey: "STRIPE_PRICE_CREDITS_STARTER" },
+  STANDARD: { credits: 25,  price: 399,  stripePriceEnvKey: "STRIPE_PRICE_CREDITS_STANDARD" },
+  POWER:    { credits: 50,  price: 699,  stripePriceEnvKey: "STRIPE_PRICE_CREDITS_POWER" },
+  BULK:     { credits: 100, price: 1199, stripePriceEnvKey: "STRIPE_PRICE_CREDITS_BULK" },
+} as const;
+
+export type CreditPackTier = keyof typeof CREDIT_PACK_PRICES;
+
 // Ordered tier list for progression logic
-const TIER_ORDER: Tier[] = ["FREE", "STARTER", "PLUS", "SMART", "PRO"];
+const TIER_ORDER: Tier[] = ["FREE", "STARTER", "PLUS", "SMART", "PRO", "ENTERPRISE"];
 
 export function getTierConfig(tier: Tier): TierConfig {
   return TIER_CONFIG[tier];
@@ -376,9 +430,9 @@ export type BillingPeriod = "monthly" | "semiannual" | "annual";
  *   - 6-month: 5% off
  *   - Annual: 15% off
  *
- * NOTE: PRO (Reseller) and Enterprise use REDUCED discounts:
- *   - PRO (Reseller): Annual only, 5% off ($200 → $190/mo)
- *   - Enterprise: Annual only, 5% off (custom engagement)
+ * NOTE: PRO (Reseller) and Enterprise have custom annual discounts:
+ *   - PRO (Reseller): Annual only, 15% off ($200 → $170/mo = $2,040/yr)
+ *   - Enterprise: Annual only, 5% off ($500 → $475/mo)
  * These special cases are defined in pricing-section.tsx (price6month / priceAnnual fields).
  */
 export const BILLING_PERIODS: { key: BillingPeriod; label: string; discount: number; months: number }[] = [
@@ -488,15 +542,16 @@ export function isInternalAgent(slug: string): boolean {
  * minimum user tier needed to access it.
  *
  * requiredTier "FREE"    → all users (priority >= 0)         — 4 agents
- * requiredTier "STARTER" → STARTER / Builder+ (priority >= 1) — +12 = 16 cumulative
- * requiredTier "PLUS"    → PLUS / Growth+ (priority >= 2)     — +14 = 30 cumulative
- * requiredTier "SMART"   → SMART / Executive+ (priority >= 3) — +9  = 39 cumulative
- * requiredTier "PRO"     → PRO / Reseller only (priority >= 4) — +3  = 42 cumulative
+ * requiredTier "STARTER" → STARTER / Builder+ (priority >= 1) — +9  = 13 cumulative
+ * requiredTier "PLUS"    → PLUS / Growth+ (priority >= 2)     — +13 = 26 cumulative
+ * requiredTier "SMART"   → SMART / Executive+ (priority >= 3) — +10 = 36 cumulative
+ * requiredTier "PRO"     → PRO / Reseller only (priority >= 4) — +2  = 38 cumulative
  *
  * Internal agents (Stone, Cardinal, Chaos, Rush, Computer Wiz, Executive Inbox Manager)
  * are EXCLUDED from user-facing access entirely — pass their slug to block them.
+ * 9 agents are deactivated (isActive: false) and excluded from counts.
  *
- * Result: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=42 user-facing agents
+ * Result: FREE=4, STARTER=13, PLUS=26, SMART=36, PRO=38 active user-facing agents
  */
 export function canAccessAgent(userTier: Tier, agentRequiredTier: Tier, agentSlug?: string): boolean {
   // Internal agents are NEVER accessible to regular users
@@ -516,4 +571,5 @@ export const TIER_DISPLAY = [
   { key: "PLUS" as Tier, name: "Growth", price: 49.99, badge: "indigo", popular: true },
   { key: "SMART" as Tier, name: "Executive", price: 99.99, badge: "purple", popular: false },
   { key: "PRO" as Tier, name: "Reseller", price: 200, badge: "amber", popular: false },
+  { key: "ENTERPRISE" as Tier, name: "Organization", price: 500, badge: "emerald", popular: false },
 ] as const;

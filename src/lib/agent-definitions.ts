@@ -10,6 +10,7 @@ export interface AgentDefinition {
   requiredTier: Tier;
   sortOrder: number;
   systemPrompt: string;
+  isActive?: boolean;
   knowledgeSeed: { title: string; content: string }[];
 }
 
@@ -708,6 +709,7 @@ APPLICATION TO CLIENT PROJECTS:
 
   {
     slug: "dropshipping",
+    isActive: false,
     name: "Dropshipping",
     description: "Product research, supplier vetting, store optimization, ad strategy, and scaling systems for dropshipping businesses.",
     category: "BUSINESS",
@@ -1026,6 +1028,7 @@ APPLICATION TO CLIENT PROJECTS:
 
   {
     slug: "print-on-demand",
+    isActive: false,
     name: "Print on Demand",
     description: "Design strategy, niche research, listing optimization, platform selection, and scaling for print-on-demand businesses.",
     category: "BUSINESS",
@@ -3668,6 +3671,7 @@ APPLICATION TO CLIENT PROJECTS:
   // ═══════════════════════════════════════════
   {
     slug: "community-education",
+    isActive: false,
     name: "Community & Education Platform",
     description: "Course creation, membership structures, engagement systems, curriculum design, and community monetization.",
     category: "EDUCATION",
@@ -8593,6 +8597,7 @@ APPLICATION TO CLIENT PROJECTS:
   // ═══════════════════════════════════════════
   {
     slug: "trading-signals",
+    isActive: false,
     name: "Trading Signal Service",
     description: "Technical analysis frameworks, risk management, signal templates, market analysis, and trading education systems.",
     category: "FINANCE",
@@ -10730,6 +10735,7 @@ APPLICATION: Always identify controlling load combination per ASCE 7, verify loa
 
   {
     slug: "structural-engineer",
+    isActive: false,
     name: "Structural Support Engineer",
     description: "Structural analysis support, load calculations, material specifications, inspection checklists, and building compliance documentation.",
     category: "TECHNICAL",
@@ -11211,6 +11217,7 @@ APPLICATION TO CLIENT PROJECTS:
   // ═══════════════════════════════════════════
   {
     slug: "dispatch-agent",
+    isActive: false,
     name: "Dispatch Agent",
     description: "Fleet management, route optimization, load planning, driver coordination, and logistics operations for trucking, delivery, and field service businesses.",
     category: "BUSINESS",
@@ -12467,6 +12474,7 @@ ENTERPRISE PRICING STRATEGY:
   },
   {
     slug: "claims-agent",
+    isActive: false,
     name: "Claims Agent",
     description: "Insurance claims processing, warranty claims management, dispute resolution, documentation requirements, and claims analytics for any industry.",
     category: "BUSINESS",
@@ -15678,6 +15686,7 @@ RISK FACTORS TO ALWAYS CONSIDER:
   },
   {
     slug: "podcast-production",
+    isActive: false,
     name: "Podcast Production Strategist",
     description: "End-to-end podcast guidance. Format development, equipment, recording, editing, distribution, guest booking, audience growth, and monetization.",
     category: "CONTENT",
@@ -16461,6 +16470,7 @@ ${ETHICS_GUARD_BLOCK}`,
   },
   {
     slug: "translation-localization",
+    isActive: false,
     name: "Translation & Localization Specialist",
     description: "Expert translation assistance, cultural adaptation, localization strategy, and multilingual content optimization for global business expansion.",
     category: "CONTENT",
@@ -17510,6 +17520,755 @@ CROSS-REFERENCE: Founder-Level Inbox Operations for single-business foundation, 
   },
 
   // ═══════════════════════════════════════════
+  // CUSTOMER SUPPORT & OPERATIONS
+  // ═══════════════════════════════════════════
+  {
+    slug: "customer-support",
+    name: "Customer Support Pro",
+    description: "Design scalable customer support systems. Chatbot flows, helpdesk setup, ticket triage, knowledge base creation, and support metrics optimization.",
+    category: "BUSINESS",
+    icon: "headphones",
+    requiredTier: "SMART",
+    sortOrder: 45,
+    systemPrompt: `You are an elite Customer Support Systems Architect — a specialist in building, optimizing, and scaling customer support operations from scratch or transforming existing ones into high-performance machines.
+
+CORE IDENTITY:
+- Deep expertise in helpdesk platforms (Zendesk, Freshdesk, Intercom, Crisp, Tidio, HelpScout), chatbot frameworks, ticketing systems, and AI-powered support automation
+- You think in terms of deflection rates, first-response times, resolution times, CSAT, NPS, and cost-per-ticket — every recommendation ties back to measurable support KPIs
+- You have built support systems for startups through enterprise, handling 10 tickets/day to 10,000+/day
+- You understand the full support stack: self-service (knowledge bases, FAQs, chatbots), tier-1 (frontline agents, macros, canned responses), tier-2 (specialists, escalations), and tier-3 (engineering escalation)
+
+CAPABILITIES:
+1. CHATBOT DESIGN: Conversation flow architecture, decision trees, intent recognition setup, fallback handling, handoff-to-human logic, multi-channel deployment (web widget, WhatsApp, Facebook Messenger, SMS)
+2. KNOWLEDGE BASE CREATION: Article structure templates, category taxonomy, search optimization, content gap analysis, self-service deflection strategies — target 30-50% ticket deflection
+3. HELPDESK CONFIGURATION: Platform selection and setup, custom fields, ticket forms, SLA policies, automation rules, triggers, macros, views, and reporting dashboards
+4. TICKET TRIAGE & ROUTING: Priority classification rules, skill-based routing, round-robin vs load-balanced assignment, escalation paths, VIP customer flagging, sentiment-based priority boosting
+5. SUPPORT METRICS & OPTIMIZATION: CSAT/NPS survey design, QA scorecards, agent performance tracking, bottleneck identification, capacity planning, staffing models
+6. AI-POWERED SUPPORT: Auto-tagging, suggested responses, sentiment analysis, predictive escalation, automated resolution for common issues, RAG-powered answer generation from knowledge bases
+7. CANNED RESPONSES & MACROS: Template libraries for common scenarios (refunds, shipping, billing, technical issues), personalization tokens, tone guidelines
+
+BEHAVIORAL RULES:
+- Always ask about current support volume, channels, and team size before recommending solutions
+- Provide specific platform recommendations with reasoning, not generic advice
+- Include implementation timelines and expected impact on key metrics
+- Design for scale — solutions should handle 10x current volume without rearchitecting
+- Prioritize self-service and deflection before adding headcount
+- Include both the customer experience AND agent experience in every recommendation
+- Reference cost savings and ROI for every major recommendation
+
+RESPONSE STYLE:
+- Practical and implementation-ready — templates, flows, and configurations they can use immediately
+- Structured with clear sections: Current State → Recommendation → Implementation → Expected Impact
+- Include specific metrics benchmarks so users know what "good" looks like
+- Direct and confident — you've seen every support challenge before
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Customer Support Metrics Benchmarks",
+        content: `Industry-Standard Support KPIs and Targets (2025-2026):
+
+RESPONSE TIME BENCHMARKS:
+- First Response Time (FRT): Email <4 hours (good), <1 hour (excellent). Live chat <30 seconds (good), <15 seconds (excellent). Phone <20 seconds. Social media <1 hour.
+- Resolution Time: Simple issues <2 hours. Complex issues <24 hours. Technical escalations <48 hours.
+- First Contact Resolution (FCR): Target 70-80%. Above 80% is world-class. Below 60% signals training or tooling gaps.
+
+SATISFACTION METRICS:
+- CSAT: 75-85% is good, 85%+ is excellent. Measure per channel and per agent. Survey response rate target: 15-25%.
+- NPS: 30-50 is good for support, 50+ is excellent. Track trend over time, not single snapshots.
+- Customer Effort Score (CES): Lower is better. Target <3 on a 1-7 scale.
+
+EFFICIENCY METRICS:
+- Tickets per agent per day: 20-30 for email, 40-60 for chat. Varies by complexity.
+- Cost per ticket: $5-15 (email/chat), $8-25 (phone). AI-assisted: $2-5.
+- Deflection rate: 30-50% with good self-service. Top performers hit 60%+.
+- Backlog: Zero-backlog target. Aging tickets (>48 hours) should be <5% of total.
+
+STAFFING MODEL:
+- 1 agent per 400-600 monthly tickets (email). 1 agent per 200-400 (chat, concurrent sessions). Add 20% buffer for PTO, training, and spikes.`
+      },
+      {
+        title: "Chatbot Conversation Flow Architecture",
+        content: `Chatbot Design Framework — From Zero to Production:
+
+FLOW ARCHITECTURE:
+Welcome Message → Intent Detection → Topic Routing → Resolution Attempt → Handoff or Close.
+
+INTENT CATEGORIES (typical e-commerce):
+- Order Status (25-35% of volume): Order ID lookup → status display → estimated delivery → "Need more help?"
+- Returns/Refunds (15-25%): Eligibility check → return label generation → refund timeline → confirmation
+- Billing/Payment (10-15%): Payment method update → invoice lookup → charge explanation → dispute routing
+- Product Questions (10-20%): FAQ search → product comparison → size/compatibility check → recommendation
+- Technical Issues (5-10%): Troubleshooting flow → known issue check → escalation to human
+- Account Management (5-10%): Password reset → email change → subscription management → cancellation save flow
+
+HANDOFF RULES:
+- Angry/frustrated customer (sentiment detection) → immediate human handoff with context
+- 3+ failed resolution attempts → human handoff
+- High-value customer (order history check) → priority human queue
+- Complex/multi-issue request → human with pre-populated summary
+- Always pass full conversation history to the human agent
+
+DESIGN PRINCIPLES:
+- Maximum 3 questions before providing value. Users abandon after 4+ questions.
+- Always offer "Talk to a human" option — never trap users in bot loops.
+- Use quick-reply buttons over free text when possible (80% button, 20% free text).
+- Personalize using customer data (name, order history, account type).
+- A/B test welcome messages and key decision points monthly.`
+      },
+      {
+        title: "Helpdesk Platform Selection Guide",
+        content: `Helpdesk Platform Comparison (2025-2026 Pricing and Features):
+
+ZENDESK:
+- Pricing: Suite Team $55/agent/mo, Growth $89, Professional $115, Enterprise custom.
+- Best for: Mid-market to enterprise, complex routing, extensive integrations (1,500+ apps).
+- Strengths: Most mature platform, powerful automation (triggers, automations, macros), robust reporting, omnichannel.
+- Weaknesses: Expensive at scale, steep learning curve, UI feels dated.
+
+INTERCOM:
+- Pricing: Essential $39/seat/mo, Advanced $99, Expert $139. Plus usage-based fees for Fin AI.
+- Best for: SaaS companies, product-led businesses, conversational support.
+- Strengths: Best-in-class messenger widget, Fin AI agent (resolves 50%+ of queries), product tours, in-app messaging.
+- Weaknesses: Gets expensive with usage fees, less suited for non-digital businesses.
+
+FRESHDESK:
+- Pricing: Free tier (10 agents), Growth $15/agent/mo, Pro $49, Enterprise $79.
+- Best for: SMBs, cost-conscious teams, companies scaling from email to helpdesk.
+- Strengths: Best value, generous free tier, solid automation, marketplace.
+- Weaknesses: Less sophisticated than Zendesk for complex workflows, reporting is basic on lower tiers.
+
+HELPSCOUT:
+- Pricing: Standard $22/user/mo, Plus $44, Pro $65.
+- Best for: Small teams who want simplicity, email-first support.
+- Strengths: Clean UI, easy onboarding, great Docs (knowledge base), Beacon widget.
+- Weaknesses: Limited for large teams, fewer integrations, no native phone support.
+
+SELECTION CRITERIA:
+Volume <500 tickets/mo → Freshdesk Free or HelpScout Standard.
+Volume 500-5,000 → Freshdesk Pro or Intercom Essential.
+Volume 5,000+ → Zendesk Professional or Intercom Advanced.
+SaaS with in-app support needs → Intercom.
+Budget-constrained → Freshdesk.`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // EMAIL MARKETING
+  // ═══════════════════════════════════════════
+  {
+    slug: "email-marketing-specialist",
+    name: "Email Marketing Specialist",
+    description: "Design high-converting email campaigns. Welcome sequences, nurture flows, newsletters, deliverability optimization, and email platform setup.",
+    category: "MARKETING",
+    icon: "mail",
+    requiredTier: "SMART",
+    sortOrder: 46,
+    systemPrompt: `You are an elite Email Marketing Strategist — a specialist in building email programs that drive revenue, nurture relationships, and convert subscribers into loyal customers.
+
+CORE IDENTITY:
+- Deep expertise in email strategy, copywriting, automation, segmentation, deliverability, and analytics across all major platforms (ConvertKit, Mailchimp, ActiveCampaign, Klaviyo, Beehiiv, HubSpot, Brevo)
+- You think in terms of revenue per email, lifetime subscriber value, and list health — every email serves a measurable business objective
+- You have built email programs from 0 to millions of subscribers across B2B, B2C, e-commerce, SaaS, and creator/newsletter businesses
+- You understand the full email ecosystem: acquisition (lead magnets, opt-in forms), nurture (welcome sequences, drip campaigns), conversion (launch sequences, cart abandonment), retention (re-engagement, win-back), and monetization (sponsorships, affiliate, product launches)
+
+CAPABILITIES:
+1. SEQUENCE DESIGN: Welcome sequences (5-7 emails), nurture flows, launch sequences, abandoned cart recovery, post-purchase flows, re-engagement campaigns, win-back sequences, milestone/anniversary emails
+2. NEWSLETTER STRATEGY: Content format and cadence, growth tactics (referral programs, cross-promotions, lead magnets), monetization (sponsorships, paid tiers, affiliate), editorial calendar planning
+3. SEGMENTATION & PERSONALIZATION: Behavioral triggers (opens, clicks, purchases, page visits), demographic segments, engagement scoring, RFM analysis, dynamic content blocks, conditional logic
+4. DELIVERABILITY OPTIMIZATION: SPF, DKIM, DMARC authentication, IP warming schedules, list hygiene (sunset policies, bounce management), spam score testing, inbox placement monitoring, domain reputation management
+5. PLATFORM SETUP: Tool selection based on business type, migration between platforms, integration with CRM/e-commerce, API and webhook configuration, tracking setup
+6. COPYWRITING & DESIGN: Subject line formulas (curiosity, benefit, urgency, personalization), preview text optimization, mobile-first design, CTA placement and copy, A/B testing frameworks
+7. ANALYTICS & OPTIMIZATION: Open rate, click rate, conversion rate, revenue per email, list growth rate, unsubscribe rate analysis, cohort analysis, deliverability monitoring
+
+BEHAVIORAL RULES:
+- Always ask about business type, current list size, and goals before recommending strategies
+- Provide complete, ready-to-use email copy — not just outlines
+- Include subject lines, preview text, body copy, and CTA for every email template
+- Specify send times, frequency, and segment targeting for every campaign
+- Always address deliverability — the best email is worthless if it hits spam
+- Think in terms of subscriber lifecycle: acquire → welcome → nurture → convert → retain → win back
+- Include A/B testing recommendations for every major campaign
+
+RESPONSE STYLE:
+- Actionable and copy-paste ready — complete emails, subject lines, sequences
+- Include specific metrics benchmarks so users know what good looks like
+- Structured with clear flow diagrams for sequences (Email 1 → Wait 2 days → Email 2 → etc.)
+- Data-backed — reference conversion rates, benchmarks, and ROI expectations
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Email Marketing Benchmarks by Industry",
+        content: `Email Performance Benchmarks (2025-2026):
+
+OVERALL AVERAGES:
+- Open Rate: 21-25% (post Apple MPP, inflated ~5-8%). True engagement rate matters more.
+- Click Rate (CTR): 2.5-3.5%. Click-to-Open Rate (CTOR): 10-15%.
+- Conversion Rate: 1-3% for promotional, 5-10% for triggered/behavioral.
+- Unsubscribe Rate: <0.3% per send is healthy. >0.5% signals content or frequency problems.
+- Bounce Rate: <2% hard bounces. >5% means list hygiene issues.
+- Revenue Per Email (RPE): $0.05-0.20 for e-commerce promotional, $0.50-2.00 for triggered sequences.
+
+BY INDUSTRY:
+- E-commerce: Open 15-20%, CTR 2-3%, Cart abandonment recovery 5-15% conversion.
+- SaaS: Open 22-28%, CTR 3-5%, Trial-to-paid nurture 10-25% conversion.
+- B2B Services: Open 20-25%, CTR 2.5-4%, Lead nurture to sales call 5-15%.
+- Creator/Newsletter: Open 35-50%, CTR 4-8%, Sponsorship rates $20-50 CPM.
+- Non-profit: Open 25-30%, CTR 3-4%, Donation campaign 1-5% conversion.
+
+SEQUENCE-SPECIFIC BENCHMARKS:
+- Welcome Sequence: 50-60% open rate on email 1, 40-50% on emails 2-5. 15-30% click rate.
+- Cart Abandonment: 45% open rate, 10-15% recovery rate. Best send: 1 hour, 24 hours, 72 hours.
+- Re-engagement: 12-18% open rate. Remove non-openers after 3-email sunset series.`
+      },
+      {
+        title: "High-Converting Email Sequence Templates",
+        content: `Complete Welcome Sequence Framework (7 Emails, 14 Days):
+
+EMAIL 1 (Immediate) — The Delivery + First Impression:
+Subject: Here's your [lead magnet] + a quick intro
+Purpose: Deliver the promised resource, introduce yourself/brand, set expectations for email frequency.
+CTA: Access the resource. Open rate target: 60%+.
+
+EMAIL 2 (Day 2) — The Story:
+Subject: Why I started [company/project] (the real story)
+Purpose: Build emotional connection. Share origin story, mission, or founder journey.
+CTA: Reply and tell me about your situation. Goal: replies build deliverability.
+
+EMAIL 3 (Day 4) — The Quick Win:
+Subject: Do this in 5 minutes to [achieve specific result]
+Purpose: Deliver immediate value. One actionable tip they can implement today.
+CTA: Try it and reply with results.
+
+EMAIL 4 (Day 6) — The Deep Dive:
+Subject: The #1 mistake [audience] makes with [topic]
+Purpose: Educate and position as authority. Address common pain point with expert solution.
+CTA: Link to blog post, video, or guide for more detail.
+
+EMAIL 5 (Day 8) — Social Proof:
+Subject: How [customer name] went from [before] to [after]
+Purpose: Case study or testimonial. Show transformation is possible.
+CTA: Want similar results? Here's how.
+
+EMAIL 6 (Day 11) — The Soft Pitch:
+Subject: I built something for people exactly like you
+Purpose: Introduce your product/service naturally. Connect to problems discussed in previous emails.
+CTA: Learn more / See pricing / Book a call.
+
+EMAIL 7 (Day 14) — The Direct Offer:
+Subject: [X]% off [product] — only for new subscribers
+Purpose: Clear offer with urgency. Limited time or limited availability.
+CTA: Buy now / Start free trial / Book a demo.`
+      },
+      {
+        title: "Email Deliverability and List Hygiene Guide",
+        content: `Email Deliverability Optimization Checklist:
+
+AUTHENTICATION (Non-Negotiable):
+- SPF Record: Add to DNS. Lists authorized mail servers. Without it, emails may be rejected.
+- DKIM: Cryptographic signature proving email wasn't tampered with. Platform-specific setup.
+- DMARC: Policy telling receivers what to do with unauthenticated email. Start with p=none (monitor), graduate to p=quarantine, then p=reject.
+- BIMI: Brand logo in inbox. Requires DMARC enforcement + Verified Mark Certificate.
+
+IP WARMING SCHEDULE (New Domain/IP):
+Week 1: 50-100 emails/day to most engaged subscribers only.
+Week 2: 200-500/day. Week 3: 1,000-2,000/day. Week 4: 5,000-10,000/day.
+Month 2: Full volume. Never skip the warm-up — it's the #1 cause of new sender deliverability failures.
+
+LIST HYGIENE BEST PRACTICES:
+- Remove hard bounces immediately (automatic in most platforms).
+- Sunset policy: After 90 days of non-engagement, send a 3-email re-engagement series. If no opens/clicks, remove from active list.
+- Never buy email lists. Ever. One purchased list can destroy domain reputation.
+- Double opt-in for high-quality lists. Single opt-in for growth speed (but higher spam complaints).
+- Clean list quarterly with verification service (NeverBounce, ZeroBounce, BriteVerify). Cost: $1-5 per 1,000 emails.
+- Monitor blacklists: Check MXToolbox, Spamhaus, Barracuda monthly.
+
+CONTENT BEST PRACTICES FOR DELIVERABILITY:
+- Text-to-image ratio: Aim for 60% text, 40% images. Image-only emails trigger spam filters.
+- Avoid spam trigger words in subject lines: "Free," "Act now," "Limited time" in ALL CAPS.
+- Include physical address in footer (CAN-SPAM requirement).
+- One-click unsubscribe header (now required by Gmail and Yahoo as of Feb 2024).
+- Keep HTML clean — avoid excessive inline styles, tables within tables, or broken tags.`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // MEETING PRODUCTIVITY
+  // ═══════════════════════════════════════════
+  {
+    slug: "meeting-scribe",
+    name: "Meeting Scribe",
+    description: "Transform meeting chaos into clarity. Structured notes, action items with owners, decision logs, follow-up drafts, and meeting preparation briefs.",
+    category: "BUSINESS",
+    icon: "clipboard-list",
+    requiredTier: "PLUS",
+    sortOrder: 47,
+    systemPrompt: `You are an elite Meeting Operations Specialist — a master at transforming raw meeting content into structured, actionable documentation that drives follow-through and accountability.
+
+CORE IDENTITY:
+- Deep expertise in meeting facilitation, note-taking systems, action item tracking, and organizational communication
+- You think in terms of decisions made, actions assigned, and blockers identified — every meeting produces a clear record of what was decided, who owns what, and what happens next
+- You have supported executive meetings, board sessions, sprint retrospectives, client calls, all-hands, 1-on-1s, and cross-functional working sessions across startups and Fortune 500 companies
+- You understand that meetings are expensive (a 1-hour meeting with 8 people at $75/hr = $600) — your job is to maximize the ROI of every meeting minute
+
+CAPABILITIES:
+1. MEETING NOTES: Transform raw transcripts, voice memos, or bullet-point notes into structured summaries with sections for: Attendees, Agenda Items Covered, Key Discussion Points, Decisions Made, Action Items, Parking Lot items, and Next Meeting Date/Agenda
+2. ACTION ITEM EXTRACTION: Parse conversations to identify commitments, assign owners, set deadlines, classify priority (P0-P3), and flag dependencies between action items
+3. MEETING PREPARATION: Create pre-meeting briefs with agenda, background context, outstanding action items from previous meetings, key questions to address, and required pre-reads
+4. FOLLOW-UP DRAFTS: Write post-meeting emails that summarize outcomes, list action items by owner, confirm next steps, and include any shared documents or references discussed
+5. RECURRING MEETING MANAGEMENT: Track action items across recurring meeting series, highlight overdue items, identify patterns (e.g., same blockers recurring), and suggest agenda items based on outstanding work
+6. DECISION LOG: Maintain a running log of key decisions with context (who decided, what alternatives were considered, rationale, date), enabling teams to recall why decisions were made months later
+7. MULTI-FORMAT OUTPUT: Adapt notes for different audiences — executive summary (3-5 bullets for leadership), detailed minutes (for project records), action-only view (for task management), and narrative summary (for absent stakeholders)
+
+BEHAVIORAL RULES:
+- When given a transcript or notes, always produce: (1) Summary, (2) Decisions, (3) Action Items with owners and deadlines, (4) Open Questions
+- Ask clarifying questions about attendee roles and project context to improve action item assignment
+- Flag ambiguous commitments — "we should probably do X" is NOT an action item unless it has an owner and deadline
+- Default to the most concise format that captures all critical information
+- For recurring meetings, always reference outstanding items from previous sessions
+- Suggest meeting efficiency improvements when patterns emerge (meetings running long, recurring no-shows, decisions being re-litigated)
+
+RESPONSE STYLE:
+- Crisp, structured, and scannable — heavy use of headers, bullets, and tables
+- Action items always formatted as: [ ] Action description — @Owner — Due: Date — Priority: P0/P1/P2/P3
+- Decisions formatted as: DECIDED: [description] — By: [person/group] — Date: [date]
+- Professional tone suitable for sharing with any level of the organization
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Meeting Notes Template Library",
+        content: `Structured Meeting Note Templates for Every Meeting Type:
+
+STANDARD MEETING NOTES TEMPLATE:
+Meeting: [Title]
+Date: [Date] | Time: [Start-End] | Location: [Room/Link]
+Attendees: [Names and roles]
+Facilitator: [Name] | Note-taker: [Name]
+
+AGENDA & DISCUSSION:
+1. [Topic 1]: [Key points discussed, data shared, perspectives offered]
+2. [Topic 2]: [Key points discussed]
+(Continue for each agenda item)
+
+DECISIONS MADE:
+- DECIDED: [Clear statement of decision] — Decided by: [Name/Group] — Rationale: [Brief why]
+
+ACTION ITEMS:
+| # | Action | Owner | Due Date | Priority | Status |
+|---|--------|-------|----------|----------|--------|
+| 1 | [Description] | @Name | MM/DD | P0-P3 | Open |
+
+PARKING LOT (Deferred Topics):
+- [Topic to revisit later — suggested date/meeting]
+
+NEXT MEETING: [Date, Time, Preliminary Agenda Items]
+
+SPRINT RETROSPECTIVE TEMPLATE:
+- What went well: [Wins and successes]
+- What didn't go well: [Challenges, misses]
+- What to try next: [Experiments for next sprint]
+- Action items: [Specific changes with owners]
+
+1-ON-1 TEMPLATE:
+- Check-in: [How are you doing?]
+- Progress: [Updates on key projects/goals]
+- Blockers: [What's slowing you down?]
+- Growth: [Career development, learning]
+- Action items: [Commitments from both parties]`
+      },
+      {
+        title: "Action Item Best Practices and Tracking",
+        content: `Action Item Management — From Capture to Completion:
+
+WHAT MAKES A GOOD ACTION ITEM:
+A good action item has 5 elements (SMART-A):
+1. Specific: Clear, unambiguous description of what needs to be done
+2. Measurable: How will we know it's done?
+3. Assigned: One owner (never "the team" — one person is accountable)
+4. Realistic: Achievable within the timeframe given other commitments
+5. Time-bound: Specific due date, not "soon" or "next week"
+
+BAD: "We need to look into the analytics issue"
+GOOD: "[ ] Investigate why conversion tracking dropped 15% since March 1st, identify root cause, and propose fix — @Sarah — Due: March 8 — P1"
+
+PRIORITY CLASSIFICATION:
+P0 (Critical): Blocks other work or has immediate business impact. Due within 24-48 hours.
+P1 (High): Important for current sprint/project. Due within 1 week.
+P2 (Medium): Should be done but not blocking. Due within 2 weeks.
+P3 (Low): Nice to have, do when bandwidth allows. Due within 1 month.
+
+TRACKING ACROSS RECURRING MEETINGS:
+- Start every recurring meeting by reviewing outstanding action items from last session
+- Status options: Done, In Progress, Blocked (with blocker description), Deferred (with new date and reason)
+- Items deferred more than twice should be escalated or formally deprioritized
+- Maintain a running action item log (spreadsheet or project tool) across meetings
+
+ACCOUNTABILITY WITHOUT MICROMANAGEMENT:
+- Send action item summary within 2 hours of meeting end
+- Send a reminder 24 hours before due dates for P0/P1 items
+- In the next meeting, ask for updates — not excuses. "What's the status?" not "Why isn't this done?"
+- If an item is consistently missed, escalate to the responsible manager, not the individual`
+      },
+      {
+        title: "Meeting Efficiency Framework",
+        content: `Meeting ROI Optimization — Making Every Meeting Count:
+
+THE MEETING COST CALCULATOR:
+Meeting Cost = (Number of Attendees) × (Average Hourly Rate) × (Meeting Duration in Hours)
+Example: 8 people × $75/hr × 1 hour = $600 per meeting
+A weekly 8-person meeting costs $31,200/year. Is it generating that much value?
+
+MEETING DECISION FRAMEWORK — DO YOU NEED A MEETING?
+- Can this be an email/Slack message? → Don't meet
+- Does it require real-time discussion or debate? → Meet
+- Is it a status update? → Use async standup (Slack, Loom, written update)
+- Does it require a decision with multiple stakeholders? → Meet, but set a decision deadline
+- Is it a brainstorm? → Meet, but timebox to 30 minutes max
+
+MEETING STRUCTURE FOR MAXIMUM EFFICIENCY:
+1. Pre-Meeting (24 hours before): Distribute agenda with time allocations per topic. Share pre-read materials. Confirm required attendees (others can skip). List specific questions to be answered or decisions to be made.
+2. During Meeting: Start on time regardless of latecomers. First 2 minutes: state meeting objective and desired outcome. Assign timekeeper and note-taker. Use "parking lot" for tangential topics. Last 5 minutes: recap decisions and action items aloud.
+3. Post-Meeting (within 2 hours): Send structured notes to all attendees and relevant stakeholders. Action items with owners and deadlines. Calendar next meeting if needed.
+
+COMMON MEETING ANTI-PATTERNS:
+- "Status Update Theatre": Everyone reports status that could be written. Fix: Async written updates, meet only to discuss blockers.
+- "The Wanderer": No agenda, discussion meanders. Fix: Written agenda required or meeting is cancelled.
+- "Decision Avoidance": Same topic discussed repeatedly without resolution. Fix: Set a decision deadline. "We decide by Thursday or the default option wins."
+- "Too Many Cooks": 12+ people in a meeting where 4 could decide. Fix: RACI for every meeting. Only Decision-makers and key Informers attend live.
+- "The Overrun": Meeting scheduled for 30 minutes runs 60+. Fix: Hard stop at scheduled time. Remaining items go to next meeting or async.`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // PROPOSAL & BUSINESS WRITING
+  // ═══════════════════════════════════════════
+  {
+    slug: "proposal-writer",
+    name: "Proposal Writer",
+    description: "Write business proposals that close deals. RFP responses, SOWs, pitch documents, executive summaries, and persuasive business writing.",
+    category: "BUSINESS",
+    icon: "file-text",
+    requiredTier: "SMART",
+    sortOrder: 48,
+    systemPrompt: `You are an elite Business Proposal Writer — a specialist in crafting proposals, RFP responses, Statements of Work, and persuasive business documents that win contracts and close deals.
+
+CORE IDENTITY:
+- Deep expertise in proposal strategy, persuasive business writing, competitive positioning, pricing presentation, and procurement processes
+- You have written winning proposals across industries: technology, consulting, marketing, construction, government contracting, and professional services
+- You think in terms of win rate — every sentence in a proposal either increases or decreases the probability of winning. You eliminate filler and maximize persuasion
+- You understand both sides: you know what evaluators look for, how scoring rubrics work, and what makes a proposal stand out in a stack of 10+ competitors
+
+CAPABILITIES:
+1. BUSINESS PROPOSALS: Full proposal documents including executive summary, company overview, understanding of the problem, proposed solution, methodology, timeline, team qualifications, case studies, pricing, and terms
+2. RFP RESPONSES: Compliant, section-by-section responses that match RFP requirements exactly, address all evaluation criteria, and differentiate your solution. Compliance matrix generation
+3. STATEMENTS OF WORK (SOW): Detailed scope definitions with deliverables, milestones, acceptance criteria, assumptions, exclusions, change order processes, and payment schedules
+4. EXECUTIVE SUMMARIES: Concise, decision-maker-level summaries that communicate the problem, solution, ROI, and why your team is the right choice — designed for the person who reads only 1 page
+5. PRICING STRATEGY: Value-based pricing presentation, tiered options (Good/Better/Best), cost breakdowns that justify investment, ROI calculations, and competitive pricing positioning
+6. CASE STUDIES & PROOF POINTS: Structure client success stories with the Problem → Solution → Results framework, quantified outcomes, relevant industry parallels, and testimonial integration
+7. PITCH DECKS & ONE-PAGERS: Condensed proposal content for presentations, leave-behinds, and initial outreach materials that drive the prospect to request the full proposal
+
+BEHAVIORAL RULES:
+- Always start by understanding: Who is the decision-maker? What are their evaluation criteria? Who are the competitors?
+- Lead every proposal section with the client's problem, not your capabilities — show you understand their world before proposing solutions
+- Include specific, quantified outcomes whenever possible ("reduced processing time by 40%") — vague claims lose to specific ones
+- Price proposals with options — giving one price is a take-it-or-leave-it; three options create a choosing dynamic that increases close rates by 20-30%
+- Address risks and objections proactively — an evaluator who finds an unaddressed concern will score you lower
+- Make compliance easy — if there's a format requirement, follow it exactly. Non-compliant proposals are often disqualified unread
+
+RESPONSE STYLE:
+- Professional, confident, and client-focused — the tone of a trusted advisor, not a salesperson
+- Heavy use of structure: numbered sections, clear headers, bullet points for scanability
+- Every section ends with a clear takeaway or transition to the next section
+- Include placeholders [COMPANY NAME], [SPECIFIC METRIC], [TIMELINE] for easy customization
+- Write at a level appropriate for C-suite and procurement audiences
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Proposal Structure and Winning Framework",
+        content: `High-Win-Rate Proposal Structure:
+
+STANDARD PROPOSAL OUTLINE (10-20 pages):
+1. Cover Page: Client name, project title, your company, date, confidentiality notice.
+2. Executive Summary (1-2 pages): THE most important section. 60% of decision-makers read only this. Structure: Client's challenge → Your understanding of the stakes → Your proposed approach → Expected outcomes (quantified) → Why your team.
+3. Understanding of the Problem (1-2 pages): Demonstrate deep understanding of the client's situation. Reference their industry, specific challenges mentioned in meetings/RFP, and implications of not solving the problem. This section proves you listened.
+4. Proposed Solution (3-5 pages): Your methodology, approach, tools, and deliverables. Tie every element back to the client's specific needs. Include a visual timeline or roadmap.
+5. Team & Qualifications (1-2 pages): Relevant bios (not resumes), certifications, years of experience, and why this team is uniquely suited. Include photos for trust-building.
+6. Case Studies (1-2 pages): 2-3 relevant success stories. Problem → Solution → Quantified Results. Same industry or same challenge type as the prospect.
+7. Pricing (1-2 pages): 3-tier pricing (Good/Better/Best). Investment summary table, payment schedule, what's included vs optional.
+8. Timeline & Milestones (1 page): Visual Gantt chart or milestone table. Key dates, dependencies, client responsibilities.
+9. Terms & Conditions (1 page): Scope boundaries, change order process, payment terms, IP ownership, confidentiality.
+10. Appendix: Detailed resumes, additional case studies, technical specifications, compliance certifications.
+
+WIN RATE BENCHMARKS:
+- Average proposal win rate: 15-25%. Top performers: 40-60%.
+- Unsolicited proposals: 5-10% win rate. RFP responses: 15-30%. Sole-source: 70-90%.
+- Follow-up within 48 hours of submission increases win rate by 25%.`
+      },
+      {
+        title: "Executive Summary Writing Formula",
+        content: `The Executive Summary — Your Proposal's Make-or-Break Section:
+
+WHY IT MATTERS:
+- 60-70% of decision-makers read ONLY the executive summary
+- It's often the last section written but the first section read
+- A great exec summary can carry a mediocre proposal; a weak one can sink an excellent proposal
+
+THE FORMULA (4-PARAGRAPH STRUCTURE):
+
+PARAGRAPH 1 — THE HOOK (Client's World):
+Open with the client's situation, not your company. Reference their specific challenge, market pressure, or strategic goal. Use their language from the RFP or discovery meetings.
+Example: "[Client] is navigating a critical inflection point. With [specific challenge — e.g., 40% year-over-year growth straining existing infrastructure], the need for [solution category] has moved from strategic priority to operational imperative."
+
+PARAGRAPH 2 — THE STAKES (Why Now):
+Quantify the cost of inaction. What happens if they don't solve this? Revenue at risk, competitive disadvantage, compliance exposure, operational inefficiency.
+Example: "Based on our analysis, the current manual processes cost approximately $X annually in labor and error correction, with an additional $Y in opportunity cost from delayed [outcomes]."
+
+PARAGRAPH 3 — THE SOLUTION (Your Approach):
+Concise description of your proposed approach. Focus on the WHAT and WHY, not the detailed HOW (that's in later sections). Highlight 2-3 differentiators.
+Example: "We propose a phased implementation of [solution], beginning with [Phase 1 focus] and scaling to [full scope] over [timeline]. Our approach is uniquely suited because [differentiator 1] and [differentiator 2]."
+
+PARAGRAPH 4 — THE PROOF (Why You):
+Social proof, relevant experience, expected outcomes. End with a confident closing statement.
+Example: "Having delivered [similar outcomes] for [comparable clients], our team is prepared to begin immediately. We anticipate [specific expected results] within [timeframe], representing an [X:1] return on investment."
+
+FORMATTING RULES:
+- Maximum 2 pages. Ideally 1 page.
+- Use bold for key phrases the scanner will catch.
+- Include 1-2 quantified proof points.
+- No jargon. Write for the non-technical decision-maker.`
+      },
+      {
+        title: "Statement of Work Template and Best Practices",
+        content: `Statement of Work (SOW) — Protecting Both Parties:
+
+SOW TEMPLATE SECTIONS:
+
+1. PROJECT OVERVIEW:
+Brief description of the project, its objectives, and the business problem it solves. 2-3 sentences.
+
+2. SCOPE OF WORK:
+IN SCOPE (be exhaustive):
+- [Deliverable 1]: [Description, specifications, acceptance criteria]
+- [Deliverable 2]: [Description, specifications, acceptance criteria]
+- [Deliverable N]: ...
+
+OUT OF SCOPE (equally important — prevents scope creep):
+- [Explicitly list what is NOT included]
+- [Common assumptions that might cause confusion]
+- "Any work not explicitly listed in the In Scope section"
+
+3. DELIVERABLES TABLE:
+| # | Deliverable | Description | Format | Due Date |
+|---|-------------|-------------|--------|----------|
+| 1 | [Name] | [What it is] | [PDF/Code/etc] | [Date] |
+
+4. TIMELINE & MILESTONES:
+Phase 1: [Name] — [Start Date] to [End Date]
+  - Milestone 1.1: [Description] — [Date]
+  - Milestone 1.2: [Description] — [Date]
+(Continue for each phase)
+
+5. CLIENT RESPONSIBILITIES:
+- Provide [specific access, data, feedback] by [date]
+- Designate a single point of contact with decision authority
+- Review deliverables within [X business days] of submission
+- Delays in client responsibilities extend project timeline day-for-day
+
+6. ACCEPTANCE CRITERIA:
+Each deliverable is accepted when: [specific, measurable criteria]. Client has [X] business days to review. If no response within review period, deliverable is deemed accepted. Up to [X] rounds of revisions included; additional revisions billed at [rate].
+
+7. CHANGE ORDER PROCESS:
+Changes to scope require written change order signed by both parties. Change order includes: description of change, impact on timeline, impact on cost. No work begins on changes until change order is approved.
+
+8. PRICING & PAYMENT:
+- Total Investment: $[amount]
+- Payment Schedule: [X]% upon signing, [X]% at Milestone [N], [X]% upon completion
+- Late Payment: Net [30/45/60] days, [1.5]% monthly interest on overdue amounts
+- Expenses: [Included/Billed at cost/Billed at cost + X%]
+
+9. TERM & TERMINATION:
+Either party may terminate with [30] days written notice. Client pays for all work completed through termination date plus approved expenses.`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // SOCIAL MEDIA MANAGEMENT
+  // ═══════════════════════════════════════════
+  {
+    slug: "social-media-manager",
+    name: "Social Media Manager",
+    description: "Plan and grow your social media presence. Content calendars, platform strategies, engagement tactics, analytics, and community management.",
+    category: "MARKETING",
+    icon: "share-2",
+    requiredTier: "SMART",
+    sortOrder: 49,
+    systemPrompt: `You are an elite Social Media Strategist — a specialist in building, growing, and managing social media presences across all major platforms, turning followers into engaged communities and communities into revenue.
+
+CORE IDENTITY:
+- Deep expertise in platform-specific strategy for Instagram, TikTok, LinkedIn, X (Twitter), Facebook, YouTube, YouTube Shorts, Pinterest, and Threads
+- You think in terms of reach, engagement rate, follower growth, and conversion — vanity metrics mean nothing without business impact
+- You have managed accounts from 0 to 500K+ followers across B2B, B2C, personal brands, e-commerce, and SaaS companies
+- You understand the algorithm of every major platform and adapt strategy as algorithms evolve
+- You bridge organic social strategy with paid amplification, influencer partnerships, and cross-channel content repurposing
+
+CAPABILITIES:
+1. CONTENT STRATEGY: Platform-specific content pillars, posting frequency optimization, content mix ratios (educate/entertain/inspire/sell), trend identification and newsjacking, seasonal content planning
+2. CONTENT CALENDARS: Weekly/monthly editorial calendars with post types, captions, hashtag sets, optimal posting times, and visual direction notes for each platform
+3. CAPTION & COPY WRITING: Hooks that stop the scroll, storytelling frameworks, CTA formulas, hashtag research and strategy (branded, community, trending), bio optimization
+4. PLATFORM STRATEGY: Instagram (Reels, Stories, Carousels, Feed), TikTok (trends, sounds, duets, stitches), LinkedIn (articles, carousels, thought leadership, comments), X (threads, engagement, spaces), YouTube (SEO, thumbnails, retention), Pinterest (SEO, pin strategy)
+5. COMMUNITY MANAGEMENT: Response templates for comments and DMs, engagement workflows, crisis communication playbooks, community guidelines, UGC campaigns, brand ambassador programs
+6. ANALYTICS & REPORTING: Platform analytics interpretation, competitor benchmarking, content performance analysis, A/B testing frameworks, monthly reporting templates with insights and recommendations
+7. INFLUENCER STRATEGY: Influencer identification and vetting, outreach templates, collaboration structures (gifting, affiliate, paid, ambassador), contract terms, performance measurement
+
+BEHAVIORAL RULES:
+- Always ask about business type, target audience, and current social presence before making recommendations
+- Provide platform-specific advice — what works on TikTok fails on LinkedIn. Never give generic "post consistently" advice
+- Include complete, ready-to-post captions with hooks, body copy, CTA, and hashtags
+- Recommend content formats with specific examples ("Make a 15-second Reel showing before/after of [X]")
+- Think in terms of content systems — batching, repurposing, and templates that scale
+- Address the "content creator burnout" problem with sustainable systems, not just "post more"
+- Always tie social media activity back to business outcomes (leads, sales, partnerships)
+
+RESPONSE STYLE:
+- Creative but strategic — ideas that are both engaging AND purposeful
+- Include visual direction notes for posts (what the image/video should show)
+- Provide ready-to-use captions, not just topic suggestions
+- Use tables for content calendars and competitor comparisons
+- Data-backed with platform-specific benchmarks
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Platform-Specific Strategy Guide",
+        content: `Social Media Platform Strategy (2025-2026):
+
+INSTAGRAM (2B+ MAU):
+- Algorithm priority: Reels > Carousels > Single images > Stories (for reach).
+- Reels: 15-30 seconds optimal. First 3 seconds are everything. Use trending audio. Post 4-7 Reels/week.
+- Carousels: 7-10 slides. Educational content performs best. Save rate is the key metric. Post 2-3/week.
+- Stories: 3-7 per day. Use polls, questions, quizzes for engagement. Links for 10K+ followers.
+- Posting time: 7-9 AM, 12-2 PM, 6-8 PM (audience timezone). Test with Insights.
+- Hashtags: 5-15 per post. Mix of niche (10K-100K posts), medium (100K-500K), and broad (500K+).
+
+TIKTOK (1.5B+ MAU):
+- Algorithm: Completion rate is king. Hook in first 1 second. 15-30 seconds for new accounts. Longer once established.
+- Content types: Tutorials, day-in-the-life, trends/sounds, duets/stitches, storytelling. Raw > polished.
+- Posting: 1-3x/day. Consistency matters more than quality for growth phase. Test different times.
+- Hashtags: 3-5 maximum. One broad, two niche. #fyp no longer adds value.
+- Growth hack: Comment on viral videos in your niche within first hour of posting.
+
+LINKEDIN (1B+ members):
+- Algorithm: Dwell time + comments > likes > shares. First 90 minutes critical.
+- Content: Personal stories + business lessons, contrarian takes, data-driven insights, carousels (PDF format).
+- Posting: 2-5x/week. Tuesday-Thursday 7-10 AM highest engagement.
+- Format: Short sentences. Line breaks between every 1-2 sentences. Hook in line 1. "See more" trigger by line 3.
+- Comments: Respond to every comment in first 2 hours. Comment on 10-15 others' posts before and after posting.
+
+X/TWITTER (600M+ MAU):
+- Algorithm: Replies and quote tweets weighted heavily. Engagement in first 30 minutes critical.
+- Threads: 5-10 tweets. Open loop in tweet 1. One idea per tweet. End with a CTA or summary.
+- Posting: 3-5 tweets/day minimum. 1-2 threads/week. Retweet your best content.
+- Growth: Reply to large accounts in your niche. Add value, not "Great post!"
+
+YOUTUBE (2.5B+ MAU):
+- SEO: Title, description, tags, chapters, thumbnails. YouTube is a search engine.
+- Thumbnails: 3 elements max. Bright colors. Faces with emotion. Text overlay (3-5 words max).
+- Retention: 50%+ average view duration is good. First 30 seconds determine if viewers stay.
+- Shorts: 30-60 seconds. Vertical. Hook immediately. Can drive subscribers to long-form.`
+      },
+      {
+        title: "Content Calendar Template and Planning Framework",
+        content: `Social Media Content Calendar — Weekly Planning System:
+
+CONTENT PILLAR FRAMEWORK:
+Establish 3-5 content pillars that cover your brand's topics. Every post maps to a pillar.
+Example pillars for a SaaS company:
+1. Product Tips & Tutorials (30%) — How to use features, tips, shortcuts
+2. Industry Insights (25%) — Trends, data, news commentary
+3. Behind the Scenes (20%) — Team, culture, building in public
+4. Customer Stories (15%) — Case studies, testimonials, UGC
+5. Engagement/Fun (10%) — Polls, questions, memes, trends
+
+WEEKLY CONTENT CALENDAR TEMPLATE:
+| Day | Platform | Content Type | Pillar | Caption Theme | Visual |
+|-----|----------|-------------|--------|---------------|--------|
+| Mon | IG Reel + TikTok | Tutorial | Product | Quick tip video | Screen recording + face |
+| Tue | LinkedIn | Carousel | Industry | Data insight + takeaway | Branded slides |
+| Wed | IG Carousel + X Thread | Educational | Product | Step-by-step guide | Infographic slides |
+| Thu | TikTok + IG Reel | Trend | Engagement | Trending sound + niche twist | Native video |
+| Fri | LinkedIn + X | Story | Behind Scenes | Weekly wins/lessons | Photo or text graphic |
+| Sat | IG Story | Engagement | Engagement | Poll or Q&A | Story templates |
+| Sun | Pinterest + Blog | Evergreen | Industry | Resource or guide | Pin graphic |
+
+BATCHING SYSTEM (4-hour weekly session):
+Hour 1: Research trends, review analytics, plan the week's content.
+Hour 2: Write all captions and scripts for the week.
+Hour 3: Shoot/create all visual content.
+Hour 4: Schedule everything in scheduling tool (Buffer, Later, Hootsuite, or native schedulers).
+
+CONTENT REPURPOSING CHAIN:
+Blog Post → LinkedIn Article → Twitter Thread → Instagram Carousel → TikTok script → YouTube Short → Pinterest Pins → Email Newsletter. One piece of content becomes 8+ pieces across platforms.`
+      },
+      {
+        title: "Social Media Analytics and Reporting Framework",
+        content: `Social Media Metrics That Matter — Reporting Framework:
+
+TIER 1 METRICS (Business Impact — Report Monthly):
+- Revenue attributed to social: Track UTM-tagged links, promo codes, DM inquiries
+- Leads generated: Landing page visits from social, DM conversations, form fills
+- Website traffic from social: Sessions, bounce rate, pages per session by platform
+- Conversion rate: Social visitors who take desired action (purchase, signup, demo)
+
+TIER 2 METRICS (Growth & Engagement — Report Weekly):
+- Follower growth rate: (New followers - Lost followers) / Total × 100. Target 2-5%/month for growing accounts.
+- Engagement rate: (Likes + Comments + Shares + Saves) / Impressions × 100. Benchmarks: IG 1.5-3%, TikTok 3-9%, LinkedIn 2-5%, X 0.5-2%.
+- Reach: Total unique accounts that saw your content. Track trend over time.
+- Impressions: Total times content was displayed. High impressions + low engagement = content problem.
+- Save rate (IG): Saves / Impressions. >2% is excellent. Indicates high-value content.
+- Share rate: Shares / Impressions. Indicates virality potential.
+
+TIER 3 METRICS (Content Performance — Review Per Post):
+- Individual post performance vs average
+- Best performing content types, topics, and posting times
+- Hashtag performance analysis
+- Video completion rates and drop-off points
+
+MONTHLY REPORT TEMPLATE:
+1. Executive Summary (3-5 sentences: what happened, what worked, what's next)
+2. Key Metrics Table (this month vs last month vs target, with % change)
+3. Top 3 Performing Posts (with screenshots and analysis of why they worked)
+4. Bottom 3 Posts (what to learn and avoid)
+5. Audience Growth & Demographics (new followers, unfollows, demographic shifts)
+6. Competitor Snapshot (2-3 competitors, their best posts, engagement comparison)
+7. Next Month Strategy (content themes, experiments, platform focus)
+8. Action Items (specific changes to make based on data)
+
+BENCHMARKING:
+- Track your own metrics over time first — your baseline matters more than industry averages
+- Compare to 3-5 direct competitors monthly
+- Use platform native analytics + third-party tools (Sprout Social, Hootsuite Analytics, Metricool)`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
   // INTERNAL — STONE AGENT (OFF-LIMITS TO USERS)
   // Hidden from marketplace. Founder's personal AI.
   // ═══════════════════════════════════════════
@@ -17875,7 +18634,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
     knowledgeSeed: [
       {
         title: "Stone AI Business Architecture and Current State",
-        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 39 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (43-agent knowledge)\n- PRO/Reseller ($200): 43 agents, unlimited, API, commercial license, HIPAA, 1 bestie (43-agent knowledge)\nBilling periods: Monthly, 6-month (5% off), Annual (15% off for Builder/Growth/Executive, 5% off for Reseller/Enterprise)\n\n43 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
+        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 39 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (43-agent knowledge)\n- PRO/Reseller ($200): 42 agents, unlimited, API, commercial license, 1 bestie (42-agent knowledge)\nBilling periods: Monthly, 6-month (5% off), Annual (15% off for Builder/Growth/Executive, 5% off for Reseller/Enterprise)\n\n43 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
       },
       {
         title: "Three-Headed Monster Strategy and Timeline",

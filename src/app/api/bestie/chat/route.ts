@@ -264,8 +264,10 @@ export async function POST(req: NextRequest) {
             mode: mode as Mode,
             model:
               mode === "SMART"
-                ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
-                : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
+                ? (process.env.FORCE_CLOUD_SMART === "true"
+                    ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
+                    : (process.env.VLLM_SMART_MODEL ?? process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq"))
+                : (process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq"),
             tokensIn: tokenUsage?.inputTokens ?? 0,
             tokensOut: tokenUsage?.outputTokens ?? 0,
           },

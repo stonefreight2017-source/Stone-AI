@@ -24,7 +24,8 @@ import { z } from "zod";
 import { authenticateApiKey } from "@/lib/api-keys";
 import { db } from "@/lib/db";
 import { getModel, SYSTEM_PROMPT } from "@/lib/ai";
-import { getTierConfig, canAccessAgent } from "@/lib/tier-config";
+import { getTierConfig, canAccessAgent, isInternalAgent } from "@/lib/tier-config";
+import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import {
   checkQuota,
   checkSmartQuota,
@@ -169,6 +170,16 @@ export async function POST(req: NextRequest) {
   } | null = null;
 
   if (agentSlug) {
+    // Block access to internal agents (Stone, Chaos, Cardinal, Rush, Computer Wiz)
+    if (isInternalAgent(agentSlug)) {
+      return apiError(
+        "Agent not found or inactive: " + agentSlug,
+        "invalid_request_error",
+        "agent_not_found",
+        404
+      );
+    }
+
     agentRecord = await db.agent.findFirst({
       where: { slug: agentSlug, isActive: true },
       select: {
@@ -205,7 +216,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    systemPrompt = agentRecord.systemPrompt;
+    systemPrompt = wrapSystemPrompt(agentRecord.systemPrompt);
   }
 
   // 5. SMART mode quota check
@@ -244,11 +255,12 @@ export async function POST(req: NextRequest) {
   }
 
   // 8. Build messages array for the model
+  // Sanitize user messages to strip prompt injection patterns
   // If the caller provides their own system message, skip our system prompt
   const hasSystemMessage = messages.some((m) => m.role === "system");
   const modelMessages = messages.map((m) => ({
     role: m.role as "system" | "user" | "assistant",
-    content: m.content,
+    content: m.role === "user" ? sanitizeUserInput(m.content) : m.content,
   }));
 
   // 9. Select model and determine token limits
@@ -270,8 +282,10 @@ export async function POST(req: NextRequest) {
   const created = Math.floor(Date.now() / 1000);
   const modelName =
     mode === "SMART"
-      ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
-      : (process.env.VLLM_MODEL ?? "meta-llama/Llama-3.1-70B-Instruct");
+      ? (process.env.FORCE_CLOUD_SMART === "true"
+          ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
+          : (process.env.VLLM_SMART_MODEL ?? process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq"))
+      : (process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq");
 
   // ---------------------------------------------------------------------------
   // 10a. Streaming response (SSE, OpenAI-compatible)

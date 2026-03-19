@@ -13,6 +13,7 @@ enum Tier {
   PLUS
   SMART
   PRO
+  ENTERPRISE
 }
 
 enum SubscriptionStatus {
@@ -51,6 +52,7 @@ model User {
   freeTrialEndsAt      DateTime?
   enhancedTrialUsed    Boolean            @default(false)
   smartCreditsRemaining Int               @default(5)
+  smartCreditsBonus     Int               @default(0)
   onboardingCompleted  Boolean            @default(false)
   onboardingStep       Int                @default(0)
   onboardingGoals      String[]           @default([])

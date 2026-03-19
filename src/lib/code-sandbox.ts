@@ -89,6 +89,7 @@ const EXECUTION_LIMITS: Record<string, number> = {
   PLUS: 30,
   SMART: 100,
   PRO: 500,
+  ENTERPRISE: 1000,
 };
 
 // ═══ Validation ═══

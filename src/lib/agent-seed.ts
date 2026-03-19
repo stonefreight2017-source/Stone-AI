@@ -10,7 +10,7 @@ export async function seedAgents() {
   console.log(`Seeding ${AGENT_DEFINITIONS.length} agents...`);
 
   for (const def of AGENT_DEFINITIONS) {
-    // Upsert agent
+    // Upsert agent (respect isActive flag from definitions)
     const agent = await db.agent.upsert({
       where: { slug: def.slug },
       create: {
@@ -22,6 +22,7 @@ export async function seedAgents() {
         systemPrompt: def.systemPrompt,
         requiredTier: def.requiredTier,
         sortOrder: def.sortOrder,
+        isActive: def.isActive ?? true,
       },
       update: {
         name: def.name,
@@ -31,6 +32,7 @@ export async function seedAgents() {
         systemPrompt: def.systemPrompt,
         requiredTier: def.requiredTier,
         sortOrder: def.sortOrder,
+        isActive: def.isActive ?? true,
       },
     });
 

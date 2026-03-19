@@ -91,7 +91,7 @@ export async function POST(req: NextRequest) {
   const agentId = await getAgentId();
   let ragContext = "";
   if (agentId) {
-    ragContext = await buildRagContext(agentId, lastUserMsg.content, { userTier: "PRO" });
+    ragContext = await buildRagContext(agentId, lastUserMsg.content, { userTier: "ENTERPRISE" });
   }
 
   // Build system prompt
@@ -159,7 +159,7 @@ Stone AI is an AI platform with 43 specialist agents (marketing, finance, coding
 - **Support**: Standard (included, email, 48h response), Priority (+$250/mo, 8h response, chat support), Dedicated (+$600/mo, 2h response, Slack + phone)
 - **Uptime SLA**: 99.5% (included), 99.9% (+$150/mo), 99.99% (+$400/mo)
 - **Security add-ons**: Audit log export (+$100/mo), Compliance reports (+$250/mo)
-- **Model options**: Standard — Llama 3.1 70B + GPT-4o (included), Custom fine-tuning (+$600/mo), Dedicated GPU (custom quote)
+- **Model options**: Standard — Qwen 2.5 32B + GPT-4o (included), Dedicated GPU (custom quote)
 - **Response token limits**: 32K (included), 64K (+$200/mo), 128K (+$400/mo)
 - **Billing**: Monthly or Annual (5% off). No 6-month discount for enterprise.
 - **AI Spend Financing**: Net 30 (no fees), Net 60 (no fees), Net 90 (no fees, annual commitment required)

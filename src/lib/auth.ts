@@ -25,22 +25,45 @@ export async function getOrCreateUser(): Promise<User> {
     throw new Error("User has no email address");
   }
 
-  const user = await db.user.upsert({
-    where: { clerkId: userId },
-    update: {
-      email,
-      name: clerkUser.firstName
-        ? `${clerkUser.firstName}${clerkUser.lastName ? ` ${clerkUser.lastName}` : ""}`
-        : undefined,
-    },
-    create: {
-      clerkId: userId,
-      email,
-      name: clerkUser.firstName
-        ? `${clerkUser.firstName}${clerkUser.lastName ? ` ${clerkUser.lastName}` : ""}`
-        : null,
-    },
-  });
+  const name = clerkUser.firstName
+    ? `${clerkUser.firstName}${clerkUser.lastName ? ` ${clerkUser.lastName}` : ""}`
+    : null;
+
+  let user: User;
+  try {
+    user = await db.user.upsert({
+      where: { clerkId: userId },
+      update: {
+        email,
+        name: name ?? undefined,
+      },
+      create: {
+        clerkId: userId,
+        email,
+        name,
+      },
+    });
+  } catch (e: unknown) {
+    // Handle case where user signed up with email, then signs in with Google OAuth
+    // (different clerkId, same email — unique constraint violation on email)
+    if (
+      typeof e === "object" &&
+      e !== null &&
+      "code" in e &&
+      (e as { code: string }).code === "P2002"
+    ) {
+      // Link the existing email-based account to this OAuth clerkId
+      user = await db.user.update({
+        where: { email },
+        data: {
+          clerkId: userId,
+          name: name ?? undefined,
+        },
+      });
+    } else {
+      throw e;
+    }
+  }
 
   // Auto-expire free trial: revert to FREE if trial has ended and no active subscription
   if (

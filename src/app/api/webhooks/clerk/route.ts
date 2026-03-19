@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
       event: "admin.action",
       metadata: { action: "clerk_webhook_invalid_signature", error: message },
     });
-    return Response.json({ error: "Invalid signature" }, { status: 400 });
+    return Response.json({ error: "Bad request" }, { status: 400 });
   }
 
   const { type, data } = event;

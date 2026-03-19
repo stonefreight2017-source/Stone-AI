@@ -16,7 +16,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { checkInbox } from "@/lib/alert-system/inbox";
 import { processIncomingEmails } from "@/lib/alert-system/inbox-manager";
 import { sendAutoResponses } from "@/lib/alert-system/auto-responder";
-import { addToDigest, generateDailyDigest, getPendingCount } from "@/lib/alert-system/daily-digest";
+// Daily digest removed — Forge disabled
 import { runReminderCycle, parseApprovalResponse, processBatchResponse, getPendingBatches } from "@/lib/alert-system/content-approval";
 import { checkTrialReminders } from "@/lib/alert-system/trial-reminder";
 
@@ -49,10 +49,9 @@ export async function GET(req: NextRequest) {
   report.messagesRead = inboxResult.messages.length;
 
   if (inboxResult.messages.length === 0) {
-    // No new messages — still run reminder cycle, trial reminders, and check digest
+    // No new messages — still run reminder cycle and trial reminders
     const reminderResult = await runReminderCycle();
     const trialReminderResult = await checkTrialReminders();
-    const digestResult = await maybeRunDigest();
     return NextResponse.json(
       {
         success: true,
@@ -66,8 +65,6 @@ export async function GET(req: NextRequest) {
           batchesRolled: reminderResult.rolled,
         },
         trialReminders: trialReminderResult,
-        digestPending: getPendingCount(),
-        digestSent: digestResult.sent,
         durationMs: Date.now() - startTime,
       },
       { status: 200 }
@@ -134,14 +131,7 @@ export async function GET(req: NextRequest) {
   const trialReminderResult = await checkTrialReminders();
   report.trialReminders = trialReminderResult;
 
-  // --- Step 7: Add non-immediate decisions to digest queue ---
-  addToDigest(triageResult.decisions);
-  report.digestPending = getPendingCount();
-
-  // --- Step 8: Maybe send daily digest (7:00 AM ET window) ---
-  const digestResult = await maybeRunDigest();
-  report.digestSent = digestResult.sent;
-  if (digestResult.error) report.digestError = digestResult.error;
+  // Steps 7-8: Daily digest removed (Forge disabled)
 
   report.durationMs = Date.now() - startTime;
 
@@ -164,39 +154,4 @@ export async function GET(req: NextRequest) {
   );
 }
 
-/**
- * Check if it's within the 7:00 AM ET digest window (6:45 - 7:15 AM).
- * If yes and there are pending items, fire the digest.
- */
-async function maybeRunDigest(): Promise<{
-  sent: boolean;
-  error?: string;
-}> {
-  const pending = getPendingCount();
-  if (pending === 0) return { sent: false };
-
-  // Check if we're in the 7:00 AM ET window
-  const now = new Date();
-  const etTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "America/New_York" })
-  );
-  const hour = etTime.getHours();
-  const minute = etTime.getMinutes();
-
-  // Window: 6:45 AM - 7:15 AM ET
-  const inWindow =
-    (hour === 6 && minute >= 45) || (hour === 7 && minute <= 15);
-
-  if (!inWindow) return { sent: false };
-
-  try {
-    const result = await generateDailyDigest();
-    if (!result.success) {
-      return { sent: false, error: result.error };
-    }
-    return { sent: true };
-  } catch (err) {
-    const errMsg = err instanceof Error ? err.message : String(err);
-    return { sent: false, error: errMsg };
-  }
-}
+// maybeRunDigest removed — Forge/digest system disabled

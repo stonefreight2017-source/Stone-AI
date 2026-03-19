@@ -16,10 +16,10 @@ export async function GET() {
   try {
     const user = await getOrCreateUser();
 
-    // Only Pro tier can use API keys
-    if ((user.tier as Tier) !== "PRO") {
+    // Only Pro and Enterprise tiers can use API keys
+    if ((user.tier as Tier) !== "PRO" && (user.tier as Tier) !== "ENTERPRISE") {
       return NextResponse.json(
-        { error: "API access requires Pro tier" },
+        { error: "API access requires Pro or Enterprise tier" },
         { status: 403 }
       );
     }
@@ -50,9 +50,9 @@ export async function POST(req: NextRequest) {
   try {
     const user = await getOrCreateUser();
 
-    if ((user.tier as Tier) !== "PRO") {
+    if ((user.tier as Tier) !== "PRO" && (user.tier as Tier) !== "ENTERPRISE") {
       return NextResponse.json(
-        { error: "API access requires Pro tier" },
+        { error: "API access requires Pro or Enterprise tier" },
         { status: 403 }
       );
     }

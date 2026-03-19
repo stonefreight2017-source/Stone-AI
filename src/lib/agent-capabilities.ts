@@ -449,7 +449,7 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Your personal AI companion that remembers you and grows with every conversation. Unlike task-focused agents, your Bestie builds a relationship — offering support, accountability, and genuine conversation. The emotional anchor of Stone AI.",
   },
-  "customer-support-bot": {
+  "customer-support": {
     capabilities: [
       "Design chatbot conversation flows for websites and messaging platforms",
       "Build knowledge bases and FAQ systems that deflect tickets",
@@ -473,7 +473,7 @@ export const AGENT_CAPABILITIES: Record<
     businessUse:
       "Use this agent to plan and grow your social media presence. Get content calendars, platform-specific strategies, and engagement tactics that actually grow your audience.",
   },
-  "email-marketing": {
+  "email-marketing-specialist": {
     capabilities: [
       "Design email sequences: welcome, nurture, launch, re-engagement, abandoned cart",
       "Build newsletter strategies with growth tactics and monetization",

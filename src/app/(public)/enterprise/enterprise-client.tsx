@@ -30,27 +30,24 @@ import { SalesWidget } from "@/components/sales/SalesWidget";
 // ─── Pricing Constants ───────────────────────────────────────────────
 
 const BASE_PRICE = 500;
-const BASE_SEATS = 3;
-const BASE_API_REQUESTS = 5_000;
-const BASE_CONCURRENT = 5;
+const BASE_SEATS = 5;
+const PER_SEAT = 15;
 
-const SEAT_TIERS = [
-  { min: 4, max: 25, perSeat: 75 },
-  { min: 26, max: 50, perSeat: 60 },
+const LOCAL_REQUEST_OPTIONS = [
+  { label: "5K/day", value: 5_000, cost: 0, desc: "Included in base" },
+  { label: "15K/day", value: 15_000, cost: 100, desc: "High-volume local inference" },
+  { label: "30K/day", value: 30_000, cost: 200, desc: "Heavy workload capacity" },
+  { label: "60K/day", value: 60_000, cost: 350, desc: "Enterprise-scale throughput" },
+  { label: "100K/day", value: 100_000, cost: 500, desc: "Maximum local capacity" },
 ] as const;
 
-const API_OPTIONS = [
-  { label: "5K/day", value: 5_000, cost: 0 },
-  { label: "15K/day", value: 15_000, cost: 250 },
-  { label: "30K/day", value: 30_000, cost: 500 },
-  { label: "60K/day", value: 60_000, cost: 900 },
-] as const;
-
-const CONCURRENT_OPTIONS = [
-  { label: "5", value: 5, cost: 0 },
-  { label: "15", value: 15, cost: 150 },
-  { label: "30", value: 30, cost: 300 },
-  { label: "50", value: 50, cost: 500 },
+const SMART_REQUEST_OPTIONS = [
+  { label: "None", value: 0, cost: 0, desc: "Local models only" },
+  { label: "500/day", value: 500, cost: 750, desc: "Light cloud AI usage" },
+  { label: "1,500/day", value: 1_500, cost: 2_500, desc: "Moderate cloud AI usage" },
+  { label: "3,000/day", value: 3_000, cost: 4_500, desc: "Heavy cloud AI usage" },
+  { label: "5,000/day", value: 5_000, cost: 7_500, desc: "Maximum cloud AI capacity" },
+  { label: "Custom", value: -1, cost: 0, desc: "Custom volume — contact sales", isCustom: true },
 ] as const;
 
 const SUPPORT_OPTIONS = [
@@ -88,12 +85,6 @@ const MODEL_OPTIONS = [
     desc: "Qwen 2.5 32B + GPT-4o",
   },
   {
-    label: "Custom Fine-Tuning",
-    value: "fine-tuning",
-    cost: 600,
-    desc: "Fine-tuned models for your domain",
-  },
-  {
     label: "Dedicated GPU",
     value: "dedicated-gpu",
     cost: 0,
@@ -108,9 +99,15 @@ const TOKEN_OPTIONS = [
   { label: "128K tokens", value: 128_000, cost: 400 },
 ] as const;
 
+function calcSeatDiscount(seats: number): { rate: number; label: string } {
+  if (seats >= 100) return { rate: 0.20, label: "20% volume discount (100+ seats)" };
+  if (seats >= 50) return { rate: 0.15, label: "15% volume discount (50+ seats)" };
+  if (seats >= 25) return { rate: 0.10, label: "10% volume discount (25+ seats)" };
+  return { rate: 0, label: "" };
+}
+
 const BILLING_PERIODS = [
   { key: "monthly", label: "Monthly", discount: 0, months: 1 },
-  { key: "semiannual", label: "6 Months", discount: 0, months: 6 },
   { key: "annual", label: "Annual", discount: 5, months: 12 },
 ] as const;
 
@@ -152,8 +149,8 @@ const STEPS = [
 
 interface Config {
   seats: number;
-  apiRequests: number;
-  concurrent: number;
+  localRequests: number;
+  smartRequests: number;
   support: string;
   sla: string;
   auditLogExport: boolean;
@@ -167,33 +164,6 @@ interface Config {
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────
-
-function calcSeatCost(seats: number): number {
-  if (seats <= BASE_SEATS) return 0;
-  let cost = 0;
-  const extra = seats - BASE_SEATS;
-  for (const tier of SEAT_TIERS) {
-    const seatsInTier = Math.min(
-      Math.max(0, seats - (tier.min - 1)),
-      tier.max - tier.min + 1
-    );
-    if (seatsInTier > 0 && seats >= tier.min) {
-      cost += seatsInTier * tier.perSeat;
-    }
-  }
-  // For seats > 50, use the higher tier rate
-  if (extra > 0 && seats <= BASE_SEATS + (SEAT_TIERS[0].max - BASE_SEATS)) {
-    cost = Math.min(extra, SEAT_TIERS[0].max - BASE_SEATS) * SEAT_TIERS[0].perSeat;
-  }
-  // Recalculate properly
-  cost = 0;
-  for (let s = BASE_SEATS + 1; s <= seats; s++) {
-    if (s <= 25) cost += 75;
-    else if (s <= 50) cost += 60;
-    else cost += 60; // 50+ uses same rate as tier 2
-  }
-  return cost;
-}
 
 function findOption<T extends { value: string | number }>(
   options: readonly T[],
@@ -223,8 +193,8 @@ export function EnterpriseConfigurator() {
 
   const [config, setConfig] = useState<Config>({
     seats: 5,
-    apiRequests: 5_000,
-    concurrent: 5,
+    localRequests: 5_000,
+    smartRequests: 0,
     support: "standard",
     sla: "99.5",
     auditLogExport: false,
@@ -250,13 +220,29 @@ export function EnterpriseConfigurator() {
   // ─── Pricing Calculation ─────────────────────────────────
 
   const pricing = useMemo(() => {
-    const seatCost = calcSeatCost(config.seats);
-    const apiCost =
-      findOption(API_OPTIONS, config.apiRequests)?.cost ?? 0;
-    const concurrentCost =
-      findOption(CONCURRENT_OPTIONS, config.concurrent)?.cost ?? 0;
-    const supportCost =
-      findOption(SUPPORT_OPTIONS, config.support)?.cost ?? 0;
+    // Seat costs
+    const extraSeats = Math.max(0, config.seats - BASE_SEATS);
+    const seatCost = extraSeats * PER_SEAT;
+
+    // Platform fee (base + seats) — volume discounts apply to seats only
+    const seatDiscount = calcSeatDiscount(config.seats);
+    const seatDiscountAmount = seatCost * seatDiscount.rate;
+    const platformFeeRaw = BASE_PRICE + seatCost;
+    const platformDiscount = seatDiscountAmount;
+    const platformFee = platformFeeRaw - platformDiscount;
+
+    // Usage costs — LOCAL + SMART (no volume discounts on compute)
+    const localOpt = LOCAL_REQUEST_OPTIONS.find((o) => o.value === config.localRequests);
+    const localCost = localOpt?.cost ?? 0;
+
+    const smartOpt = SMART_REQUEST_OPTIONS.find((o) => o.value === config.smartRequests);
+    const smartCost = smartOpt?.cost ?? 0;
+    const isSmartCustom = config.smartRequests === -1;
+
+    const usageCost = localCost + smartCost;
+
+    // Other add-ons (support tier, SLA, security, models, tokens)
+    const supportCost = findOption(SUPPORT_OPTIONS, config.support)?.cost ?? 0;
     const slaCost = findOption(SLA_OPTIONS, config.sla)?.cost ?? 0;
     const auditCost = config.auditLogExport ? 100 : 0;
     const complianceCost = config.complianceReports ? 250 : 0;
@@ -264,76 +250,65 @@ export function EnterpriseConfigurator() {
     const modelCost = modelOpt?.cost ?? 0;
     const needsCustomQuote =
       "customQuote" in (modelOpt ?? {}) && (modelOpt as { customQuote?: boolean })?.customQuote;
-    const tokenCost =
-      findOption(TOKEN_OPTIONS, config.responseTokens)?.cost ?? 0;
+    const tokenCost = findOption(TOKEN_OPTIONS, config.responseTokens)?.cost ?? 0;
 
-    const monthly =
-      BASE_PRICE +
-      seatCost +
-      apiCost +
-      concurrentCost +
-      supportCost +
-      slaCost +
-      auditCost +
-      complianceCost +
-      modelCost +
-      tokenCost;
+    const otherAddOns = supportCost + slaCost + auditCost + complianceCost + modelCost + tokenCost;
 
-    const period = BILLING_PERIODS.find(
-      (p) => p.key === config.billingPeriod
-    )!;
+    const monthly = platformFee + usageCost + otherAddOns;
+
+    const period = BILLING_PERIODS.find((p) => p.key === config.billingPeriod)!;
     const discountedMonthly = monthly * (1 - period.discount / 100);
     const total = discountedMonthly * period.months;
 
+    // Local requests label
+    const localLabel = localOpt
+      ? `${(config.localRequests / 1000).toFixed(0)}K`
+      : "5K";
+
+    // Smart requests label
+    const smartLabel = isSmartCustom
+      ? "Custom"
+      : config.smartRequests === 0
+      ? "0"
+      : `${config.smartRequests >= 1000 ? `${(config.smartRequests / 1000).toFixed(config.smartRequests % 1000 === 0 ? 0 : 1)}K` : config.smartRequests}`;
+
     return {
-      base: BASE_PRICE,
+      platformFee,
+      platformFeeRaw,
+      platformDiscount,
+      seatDiscount,
       seatCost,
-      apiCost,
-      concurrentCost,
+      localCost,
+      smartCost,
+      usageCost,
       supportCost,
       slaCost,
       auditCost,
       complianceCost,
       modelCost,
       tokenCost,
+      otherAddOns,
       monthly,
       discountedMonthly,
       total,
       period,
       needsCustomQuote,
+      isSmartCustom,
+      localLabel,
+      smartLabel,
       lineItems: [
-        { label: "Base plan", cost: BASE_PRICE },
-        ...(seatCost > 0
-          ? [
-              {
-                label: `${config.seats} seats (+${config.seats - BASE_SEATS} extra)`,
-                cost: seatCost,
-              },
-            ]
+        { label: `Platform base ($${BASE_PRICE}/mo + ${config.seats} seats)`, cost: platformFeeRaw },
+        ...(platformDiscount > 0
+          ? [{ label: seatDiscount.label, cost: -platformDiscount }]
           : []),
-        ...(apiCost > 0
-          ? [
-              {
-                label: `${(config.apiRequests / 1000).toFixed(0)}K API requests/day`,
-                cost: apiCost,
-              },
-            ]
+        ...(localCost > 0
+          ? [{ label: `Local requests: ${localLabel}/day`, cost: localCost }]
           : []),
-        ...(concurrentCost > 0
-          ? [
-              {
-                label: `${config.concurrent} concurrent connections`,
-                cost: concurrentCost,
-              },
-            ]
+        ...(smartCost > 0
+          ? [{ label: `SMART requests: ${smartLabel}/day`, cost: smartCost }]
           : []),
         ...(supportCost > 0
-          ? [
-              {
-                label: `${findOption(SUPPORT_OPTIONS, config.support)?.label} support`,
-                cost: supportCost,
-              },
-            ]
+          ? [{ label: `${findOption(SUPPORT_OPTIONS, config.support)?.label} support`, cost: supportCost }]
           : []),
         ...(slaCost > 0
           ? [{ label: `${config.sla}% SLA`, cost: slaCost }]
@@ -345,20 +320,10 @@ export function EnterpriseConfigurator() {
           ? [{ label: "Compliance reports", cost: complianceCost }]
           : []),
         ...(modelCost > 0
-          ? [
-              {
-                label: `${findOption(MODEL_OPTIONS, config.model)?.label} models`,
-                cost: modelCost,
-              },
-            ]
+          ? [{ label: `${findOption(MODEL_OPTIONS, config.model)?.label} models`, cost: modelCost }]
           : []),
         ...(tokenCost > 0
-          ? [
-              {
-                label: `${(config.responseTokens / 1000).toFixed(0)}K response tokens`,
-                cost: tokenCost,
-              },
-            ]
+          ? [{ label: `${(config.responseTokens / 1000).toFixed(0)}K response tokens`, cost: tokenCost }]
           : []),
       ],
     };
@@ -369,8 +334,8 @@ export function EnterpriseConfigurator() {
   const configSnapshot = useMemo(() => {
     const lines = [
       `Seats: ${config.seats}`,
-      `API Requests: ${(config.apiRequests / 1000).toFixed(0)}K/day`,
-      `Concurrent: ${config.concurrent}`,
+      `Local Requests: ${(config.localRequests / 1000).toFixed(0)}K/day`,
+      `SMART Requests: ${config.smartRequests === -1 ? "Custom" : config.smartRequests === 0 ? "None" : `${config.smartRequests}/day`}`,
       `Support: ${config.support}`,
       `SLA: ${config.sla}%`,
       `Model: ${config.model}`,
@@ -379,10 +344,12 @@ export function EnterpriseConfigurator() {
       config.auditLogExport ? "Audit log export: Yes" : "",
       config.complianceReports ? "Compliance reports: Yes" : "",
       config.financing !== "none" ? `Financing: ${config.financing}` : "",
+      `Platform fee: ${formatMoney(pricing.platformFee)}/mo`,
+      `Usage: ${formatMoney(pricing.usageCost)}/mo`,
       `Estimated: ${formatMoney(pricing.discountedMonthly)}/mo`,
     ].filter(Boolean);
     return lines.join("\n");
-  }, [config, pricing.discountedMonthly]);
+  }, [config, pricing.discountedMonthly, pricing.platformFee, pricing.usageCost]);
 
   // ─── Submit ──────────────────────────────────────────────
 
@@ -578,19 +545,24 @@ export function EnterpriseConfigurator() {
       case 0:
         return (
           <div className="space-y-8">
+            {/* Team Size */}
             <div>
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
                 <Users className="h-5 w-5 text-emerald-400" /> Team Size
               </h3>
               <p className="text-sm text-zinc-400 mb-4">
-                Base includes {BASE_SEATS} seats. $75/seat for 4-25, $60/seat
-                for 26-50.
+                {BASE_SEATS} seats included in base. ${PER_SEAT}/seat/mo for additional seats.
+                {pricing.seatDiscount.rate > 0 && (
+                  <span className="text-emerald-400 ml-1">
+                    {pricing.seatDiscount.label}
+                  </span>
+                )}
               </p>
               <div className="flex items-center gap-4">
                 <input
                   type="range"
-                  min={3}
-                  max={100}
+                  min={5}
+                  max={200}
                   value={config.seats}
                   onChange={(e) => update("seats", Number(e.target.value))}
                   className="flex-1 h-2 rounded-lg appearance-none cursor-pointer accent-emerald-500 bg-zinc-700"
@@ -606,26 +578,33 @@ export function EnterpriseConfigurator() {
                 <p className="text-sm text-emerald-400 mt-2">
                   +{formatMoney(pricing.seatCost)}/mo for{" "}
                   {config.seats - BASE_SEATS} extra seats
+                  {pricing.seatDiscount.rate > 0 && (
+                    <span className="text-amber-400 ml-2">
+                      (−{formatMoney(pricing.platformDiscount)} discount applied to platform fee)
+                    </span>
+                  )}
                 </p>
               )}
             </div>
 
             <Separator className="bg-zinc-800" />
 
+            {/* Local Requests */}
             <div>
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
-                <Zap className="h-5 w-5 text-emerald-400" /> API Requests / Day
+                <Server className="h-5 w-5 text-emerald-400" /> Local Requests / Day
               </h3>
               <p className="text-sm text-zinc-400 mb-4">
-                Each request consumes GPU cycles and bandwidth.
+                On-premise GPU inference via Qwen 2.5 32B. 5K/day included in base.
               </p>
               <div className="grid grid-cols-2 gap-3">
-                {API_OPTIONS.map((opt) => (
+                {LOCAL_REQUEST_OPTIONS.map((opt) => (
                   <OptionCard
                     key={opt.value}
-                    selected={config.apiRequests === opt.value}
-                    onClick={() => update("apiRequests", opt.value)}
+                    selected={config.localRequests === opt.value}
+                    onClick={() => update("localRequests", opt.value)}
                     label={opt.label}
+                    desc={opt.desc}
                     cost={opt.cost}
                   />
                 ))}
@@ -634,25 +613,47 @@ export function EnterpriseConfigurator() {
 
             <Separator className="bg-zinc-800" />
 
+            {/* SMART Requests */}
             <div>
               <h3 className="text-lg font-semibold mb-1 flex items-center gap-2">
-                <Server className="h-5 w-5 text-emerald-400" /> Concurrent
-                Connections
+                <Brain className="h-5 w-5 text-emerald-400" /> SMART Requests / Day
               </h3>
               <p className="text-sm text-zinc-400 mb-4">
-                Concurrency reserves GPU memory for simultaneous requests.
+                Cloud AI inference via Claude Sonnet. Choose &quot;None&quot; for local-only deployment.
               </p>
               <div className="grid grid-cols-2 gap-3">
-                {CONCURRENT_OPTIONS.map((opt) => (
+                {SMART_REQUEST_OPTIONS.map((opt) => (
                   <OptionCard
                     key={opt.value}
-                    selected={config.concurrent === opt.value}
-                    onClick={() => update("concurrent", opt.value)}
-                    label={`${opt.label} connections`}
+                    selected={config.smartRequests === opt.value}
+                    onClick={() => {
+                      if ("isCustom" in opt && opt.isCustom) {
+                        update("smartRequests", -1);
+                      } else {
+                        update("smartRequests", opt.value);
+                      }
+                    }}
+                    label={opt.label}
+                    desc={opt.desc}
                     cost={opt.cost}
+                    customQuote={"isCustom" in opt && (opt as { isCustom?: boolean }).isCustom}
                   />
                 ))}
               </div>
+              {config.smartRequests === -1 && (
+                <div className="mt-4 bg-amber-900/20 border border-amber-800 rounded-lg p-4 text-center">
+                  <p className="text-amber-300 text-sm mb-3">
+                    Custom SMART request volume requires a tailored quote.
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="border-amber-700 text-amber-300 hover:bg-amber-900/30"
+                    onClick={() => setStep(3)}
+                  >
+                    Contact Sales <Send className="h-4 w-4 ml-2" />
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         );
@@ -713,7 +714,7 @@ export function EnterpriseConfigurator() {
                 <Lock className="h-5 w-5 text-emerald-400" /> Security Add-ons
               </h3>
               <p className="text-sm text-zinc-400 mb-4">
-                SSO/SAML is included in all enterprise plans.
+                SSO/SAML is included in all enterprise plans. Enterprise security features available — contact sales for compliance requirements.
               </p>
               <div className="space-y-3">
                 <CheckboxCard
@@ -793,22 +794,80 @@ export function EnterpriseConfigurator() {
                     className="flex items-center justify-between py-2 px-3 rounded-lg bg-zinc-800/50"
                   >
                     <span className="text-zinc-300">{item.label}</span>
-                    <span className="text-white font-medium">
-                      {formatMoney(item.cost)}/mo
+                    <span className={`font-medium ${item.cost < 0 ? "text-amber-400" : "text-white"}`}>
+                      {item.cost < 0 ? "−" : ""}{formatMoney(Math.abs(item.cost))}/mo
                     </span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {pricing.needsCustomQuote && (
+            {(pricing.needsCustomQuote || pricing.isSmartCustom) && (
               <div className="bg-amber-900/20 border border-amber-800 rounded-lg p-4">
                 <p className="text-amber-300 text-sm">
-                  Dedicated GPU pricing will be quoted separately based on your
-                  workload requirements.
+                  {pricing.isSmartCustom
+                    ? "Custom SMART request volume will be quoted separately based on your requirements."
+                    : "Dedicated GPU pricing will be quoted separately based on your workload requirements."}
                 </p>
               </div>
             )}
+
+            <Separator className="bg-zinc-800" />
+
+            {/* Split Pricing Summary */}
+            <div className="bg-zinc-800/80 rounded-lg p-5 space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-zinc-400">Platform fee</span>
+                <span className="text-white font-medium">
+                  {formatMoney(pricing.platformFee)}/mo
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-zinc-400">Estimated usage</span>
+                <span className="text-white font-medium">
+                  {pricing.isSmartCustom ? "TBD" : `${formatMoney(pricing.usageCost)}/mo`}
+                </span>
+              </div>
+              {pricing.otherAddOns > 0 && (
+                <div className="flex items-center justify-between">
+                  <span className="text-zinc-400">Add-ons</span>
+                  <span className="text-white font-medium">
+                    {formatMoney(pricing.otherAddOns)}/mo
+                  </span>
+                </div>
+              )}
+              <Separator className="bg-zinc-700" />
+              <div className="flex items-center justify-between">
+                <span className="text-white font-semibold">Total estimated</span>
+                <span className="text-2xl font-bold text-white">
+                  {pricing.isSmartCustom ? "Contact Sales" : `${formatMoney(pricing.discountedMonthly)}/mo`}
+                </span>
+              </div>
+              {pricing.period.discount > 0 && !pricing.isSmartCustom && (
+                <p className="text-sm text-emerald-400">
+                  <span className="line-through text-zinc-400 mr-2">
+                    {formatMoney(pricing.monthly)}
+                  </span>
+                  {pricing.period.discount}% off
+                </p>
+              )}
+
+              {/* Included breakdown */}
+              <div className="mt-2 pt-3 border-t border-zinc-700">
+                <p className="text-xs text-zinc-400">
+                  Included: {pricing.localLabel} local requests/day
+                  {config.smartRequests > 0 && !pricing.isSmartCustom && (
+                    <> + {pricing.smartLabel} SMART requests/day</>
+                  )}
+                  {config.smartRequests === 0 && " (local only)"}
+                </p>
+                {(config.smartRequests > 0 || pricing.isSmartCustom) && (
+                  <p className="text-xs text-zinc-400 mt-1">
+                    Overage: $0.10/SMART request (auto-billed monthly)
+                  </p>
+                )}
+              </div>
+            </div>
 
             <Separator className="bg-zinc-800" />
 
@@ -883,39 +942,6 @@ export function EnterpriseConfigurator() {
                   )}
                 </div>
               )}
-            </div>
-
-            <Separator className="bg-zinc-800" />
-
-            {/* Total */}
-            <div className="bg-zinc-800/80 rounded-lg p-5">
-              <div className="flex items-end justify-between">
-                <div>
-                  <p className="text-sm text-zinc-400">Estimated Monthly</p>
-                  <p className="text-3xl font-bold text-white">
-                    {formatMoney(pricing.discountedMonthly)}
-                    <span className="text-base text-zinc-400 font-normal">
-                      /mo
-                    </span>
-                  </p>
-                  {pricing.period.discount > 0 && (
-                    <p className="text-sm text-emerald-400 mt-1">
-                      <span className="line-through text-zinc-400 mr-2">
-                        {formatMoney(pricing.monthly)}
-                      </span>
-                      {pricing.period.discount}% off
-                    </p>
-                  )}
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-zinc-400">
-                    {pricing.period.label} total
-                  </p>
-                  <p className="text-xl font-bold text-white">
-                    {formatMoney(pricing.total)}
-                  </p>
-                </div>
-              </div>
             </div>
 
             <Separator className="bg-zinc-800" />
@@ -1065,8 +1091,8 @@ export function EnterpriseConfigurator() {
                     {pricing.lineItems.map((item, i) => (
                       <div key={i} className="flex justify-between">
                         <span className="text-zinc-400">{item.label}</span>
-                        <span className="text-zinc-300">
-                          {formatMoney(item.cost)}
+                        <span className={item.cost < 0 ? "text-amber-400" : "text-zinc-300"}>
+                          {item.cost < 0 ? "−" : ""}{formatMoney(Math.abs(item.cost))}
                         </span>
                       </div>
                     ))}
@@ -1074,11 +1100,26 @@ export function EnterpriseConfigurator() {
 
                   <Separator className="bg-zinc-800 my-4" />
 
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-zinc-400">Platform</span>
+                      <span className="text-zinc-300">{formatMoney(pricing.platformFee)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-zinc-400">Usage</span>
+                      <span className="text-zinc-300">
+                        {pricing.isSmartCustom ? "TBD" : formatMoney(pricing.usageCost)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <Separator className="bg-zinc-800 my-3" />
+
                   <div className="flex justify-between items-end">
                     <div>
-                      <p className="text-xs text-zinc-400">Monthly</p>
+                      <p className="text-xs text-zinc-400">Total</p>
                       <p className="text-2xl font-bold text-white">
-                        {formatMoney(pricing.discountedMonthly)}
+                        {pricing.isSmartCustom ? "TBD" : formatMoney(pricing.discountedMonthly)}
                       </p>
                     </div>
                     {pricing.period.discount > 0 && (
@@ -1088,9 +1129,9 @@ export function EnterpriseConfigurator() {
                     )}
                   </div>
 
-                  {pricing.needsCustomQuote && (
+                  {(pricing.needsCustomQuote || pricing.isSmartCustom) && (
                     <p className="text-xs text-amber-400 mt-2">
-                      + Dedicated GPU (custom quote)
+                      {pricing.isSmartCustom ? "Custom SMART volume (contact sales)" : "+ Dedicated GPU (custom quote)"}
                     </p>
                   )}
                 </div>

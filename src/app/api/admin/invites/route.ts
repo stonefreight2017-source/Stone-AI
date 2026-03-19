@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import crypto from "crypto";
 
 const createInviteSchema = z.object({
-  tier: z.enum(["FREE", "STARTER", "PLUS", "SMART", "PRO"]),
+  tier: z.enum(["FREE", "STARTER", "PLUS", "SMART", "PRO", "ENTERPRISE"]),
   maxUses: z.number().int().min(1).max(1000).default(1),
   expiresInDays: z.number().int().min(1).max(365).optional(),
 }).strict();

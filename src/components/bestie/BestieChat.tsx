@@ -13,7 +13,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { useAppStore } from "@/store/app-store";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
-import type { ChatError } from "@/types";
+import { CreditPackOffer } from "@/components/chat/CreditPackOffer";
+import type { ChatError, SmartQuotaExceededError } from "@/types";
 
 const DEFAULT_REDISCLOSURE_MS = 3 * 60 * 60 * 1000; // 3 hours fallback (NY law)
 const DEFAULT_CRISIS_RESOURCES = "988 Suicide & Crisis Lifeline (call or text 988), Crisis Text Line (text HOME to 741741), or call 911";
@@ -235,6 +236,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
   // Latency tracking
   const sendTimeRef = useRef<number>(0);
   const [latencyMap, setLatencyMap] = useState<Record<string, number>>({});
+  const [smartCapError, setSmartCapError] = useState<SmartQuotaExceededError | null>(null);
   const firstTokenCaptured = useRef(false);
 
   const {
@@ -261,7 +263,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         }
         if (parsed.code === "SMART_QUOTA_EXCEEDED") {
           setSelectedMode("LOCAL");
-          toast.error(parsed.message || "Smart mode limit reached. Switched to Local mode.");
+          setSmartCapError(parsed as SmartQuotaExceededError);
           return;
         }
         if (parsed.code === "RATE_LIMITED") {
@@ -615,8 +617,15 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         )}
       </div>
 
+      {/* Smart cap — credit pack offer */}
+      {smartCapError && (
+        <div className="px-4 py-2 flex justify-center">
+          <CreditPackOffer smartUsage={smartCapError.smartUsage} />
+        </div>
+      )}
+
       {/* Error */}
-      {chatError && (
+      {chatError && !smartCapError && (
         <div className="px-4 py-2 bg-red-900/30 border-t border-red-800 text-red-300 text-sm text-center">
           {chatError.message}
         </div>

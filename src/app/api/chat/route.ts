@@ -38,7 +38,8 @@ import { buildMemoryContext } from "@/lib/agent-memory";
 import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
-import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK } from "@/lib/agent-shared-prompts";
+import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK } from "@/lib/agent-shared-prompts";
+import { buildTierCapabilityBlock } from "@/lib/tier-capabilities";
 import { assemblePrompt, getTokenEstimate } from "@/lib/golden-egg";
 import { buildAnswerContext } from "@/lib/answer-bank";
 import { guardCheck, buildGuardPrompt } from "@/lib/agent-guard";
@@ -131,6 +132,7 @@ export async function POST(req: NextRequest) {
             description: true,
             systemPrompt: true,
             requiredTier: true,
+            isActive: true,
           },
         },
         messages: {
@@ -144,7 +146,15 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Conversation not found" }, { status: 404 });
     }
 
-    // 3b. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
+    // 3b. DEACTIVATED AGENT CHECK — block messages to deactivated agents
+    if (conversation.agent && !conversation.agent.isActive) {
+      return Response.json(
+        { error: "This agent is currently unavailable", code: "AGENT_DEACTIVATED" },
+        { status: 403 }
+      );
+    }
+
+    // 3c. AGENT TIER ENFORCEMENT — users cannot use agents above their tier
     if (conversation.agent) {
       if (!canAccessAgent(tier, conversation.agent.requiredTier as Tier, conversation.agent.slug)) {
         logAuditEvent({
@@ -167,7 +177,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // 3c. AGENT EXPLOITATION GUARD — check every user message before it reaches the LLM
+    // 3d. AGENT EXPLOITATION GUARD — check every user message before it reaches the LLM
     if (conversation.agent) {
       const guardResult = guardCheck(conversation.agent.slug, message, tier, conversationId);
       if (!guardResult.allowed) {
@@ -238,39 +248,58 @@ export async function POST(req: NextRequest) {
       } else {
         const smartQuota = await checkSmartQuota(user.id, tier);
         if (!smartQuota.allowed) {
-          const nextTier = getNextTier(tier);
-          const nextConfig = nextTier ? getTierConfig(nextTier) : null;
-          logAuditEvent({
-            event: "smart.quota_exceeded",
-            userId: user.id,
-            metadata: {
-              smartSentToday: smartQuota.smartMessagesSentToday,
-              smartLimit: smartQuota.smartMessagesPerDay,
-            },
+          // Check for bonus credits before rejecting
+          const currentUser = await db.user.findUnique({
+            where: { id: user.id },
+            select: { smartCreditsBonus: true },
           });
-          return Response.json(
-            {
-              error: `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue with Cloud AI.`,
-              code: "SMART_QUOTA_EXCEEDED",
-              smartUsage: {
-                sent: smartQuota.smartMessagesSentToday,
-                limit: smartQuota.smartMessagesPerDay,
+
+          if (currentUser && currentUser.smartCreditsBonus > 0) {
+            // Deduct a bonus credit and allow the request
+            await db.user.update({
+              where: { id: user.id },
+              data: { smartCreditsBonus: { decrement: 1 } },
+            });
+            logAuditEvent({
+              event: "admin.action",
+              userId: user.id,
+              metadata: {
+                action: "bonus_credit_used",
+                remaining: currentUser.smartCreditsBonus - 1,
               },
-              suggestion: "LOCAL",
-              creditPacks: [
-                { credits: 10, price: 1.99 },
-                { credits: 25, price: 3.99 },
-                { credits: 50, price: 6.99 },
-              ],
-              upgrade: nextTier && nextConfig ? {
-                nextTier,
-                nextTierName: nextConfig.name,
-                nextTierPrice: nextConfig.price,
-                smartPerDay: nextConfig.limits.smartMessagesPerDay,
-              } : null,
-            },
-            { status: 429 }
-          );
+            });
+            // Fall through — request is allowed via bonus credit
+          } else {
+            const nextTier = getNextTier(tier);
+            const nextConfig = nextTier ? getTierConfig(nextTier) : null;
+            logAuditEvent({
+              event: "smart.quota_exceeded",
+              userId: user.id,
+              metadata: {
+                smartSentToday: smartQuota.smartMessagesSentToday,
+                smartLimit: smartQuota.smartMessagesPerDay,
+              },
+            });
+            return Response.json(
+              {
+                error: `You've reached your daily Cloud AI limit (${smartQuota.smartMessagesPerDay}/day). Stone Engine is still unlimited, or purchase credits to continue with Cloud AI.`,
+                code: "SMART_QUOTA_EXCEEDED",
+                smartUsage: {
+                  sent: smartQuota.smartMessagesSentToday,
+                  limit: smartQuota.smartMessagesPerDay,
+                },
+                suggestion: "LOCAL",
+                creditPacks: true,
+                upgrade: nextTier && nextConfig ? {
+                  nextTier,
+                  nextTierName: nextConfig.name,
+                  nextTierPrice: nextConfig.price,
+                  smartPerDay: nextConfig.limits.smartMessagesPerDay,
+                } : null,
+              },
+              { status: 429 }
+            );
+          }
         }
       }
     }
@@ -376,7 +405,24 @@ export async function POST(req: NextRequest) {
     if (conversation.agent) {
       const agent = conversation.agent;
 
-      // Golden Egg A/B: use compact universal shell or legacy full systemPrompt
+      // ═══ PROMPT ASSEMBLY — PREFIX CACHING OPTIMIZED ═══
+      // STATIC PREFIX (identical per agent, cached by vLLM):
+      //   1. GENERAL_KNOWLEDGE_BLOCK
+      //   2. RESPONSE_QUALITY_BLOCK
+      //   3. Agent specialist systemPrompt (Golden Egg or legacy)
+      //   4. Guard prompt + disclaimers (static per agent)
+      //   5. VERIFICATION_BLOCK (compressed)
+      //   6. OUTPUT_CAPABILITIES_BLOCK (compressed)
+      // DYNAMIC SUFFIX (changes per request, NOT cached):
+      //   7. TACI tier block (varies by user tier)
+      //   8. Answer bank + RAG context (varies by query)
+      //   9. User memory / long-term memory
+      //  10. User's current message (in history)
+
+      // --- STATIC PREFIX ---
+
+      // 1 & 2. General Knowledge + Response Quality (universal, identical every request)
+      // 3. Agent specialist systemPrompt
       if (USE_GOLDEN_EGG) {
         try {
           basePrompt = assemblePrompt(agent.slug, {
@@ -393,7 +439,9 @@ export async function POST(req: NextRequest) {
         basePrompt = agent.systemPrompt;
       }
 
-      // Inject agent guard prompt (golden egg only — reinforces boundaries at model level)
+      basePrompt = GENERAL_KNOWLEDGE_BLOCK + "\n\n" + RESPONSE_QUALITY_BLOCK + "\n\n" + basePrompt;
+
+      // 4a. Guard prompt (static per agent, golden egg only)
       if (USE_GOLDEN_EGG) {
         const guardPrompt = buildGuardPrompt(agent.slug, tier);
         if (guardPrompt) {
@@ -401,7 +449,27 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Answer Injection — check for verified answers before RAG (golden egg only)
+      // 4b. Professional disclaimers (static per agent slug)
+      const disclaimers = getDisclaimerPrompts(agent.slug);
+      if (disclaimers) {
+        basePrompt += disclaimers;
+      }
+
+      // 5. Compressed verification protocol
+      basePrompt += "\n\n" + VERIFICATION_BLOCK;
+
+      // 6. Compressed output format
+      basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
+
+      // --- DYNAMIC SUFFIX ---
+
+      // 7. Tier-aware capability enhancements (TACI — varies by user tier)
+      const tierCapabilityBlock = buildTierCapabilityBlock(agent.slug, tier);
+      if (tierCapabilityBlock) {
+        basePrompt += tierCapabilityBlock;
+      }
+
+      // 8a. Answer Injection — check for verified answers before RAG (golden egg only)
       let answerContext: string | null = null;
       if (USE_GOLDEN_EGG) {
         answerContext = await buildAnswerContext(agent.slug, message);
@@ -413,9 +481,7 @@ export async function POST(req: NextRequest) {
         }
       }
 
-      // Inject RAG knowledge context (token-budgeted)
-      // Combined RAG + memory budget: 4000 tokens. Split: 3000 RAG, 1000 memory.
-      // If answer bank hit, reduce RAG budget — verified answer takes priority.
+      // 8b. RAG knowledge context (token-budgeted, varies by query)
       const RAG_TOKEN_BUDGET = answerContext ? 1000 : 3000;
       const MEMORY_TOKEN_BUDGET = 1000;
 
@@ -428,7 +494,7 @@ export async function POST(req: NextRequest) {
         basePrompt += ragContext;
       }
 
-      // Inject user-specific memory (token-budgeted)
+      // 9a. User-specific memory (token-budgeted, varies by user)
       const memoryContext = await buildMemoryContext(agent.id, user.id, {
         maxTokens: MEMORY_TOKEN_BUDGET,
       });
@@ -436,7 +502,7 @@ export async function POST(req: NextRequest) {
         basePrompt += memoryContext;
       }
 
-      // Long-term memory (MemGPT-style working + recall memory)
+      // 9b. Long-term memory (MemGPT-style working + recall memory)
       try {
         const longMemoryContext = await buildMemoryPrompt(agent.id, user.id);
         if (longMemoryContext) {
@@ -445,19 +511,11 @@ export async function POST(req: NextRequest) {
       } catch {
         // Long-term memory is best-effort
       }
-
-      // Inject professional disclaimers for regulated domains
-      const disclaimers = getDisclaimerPrompts(agent.slug);
-      if (disclaimers) {
-        basePrompt += disclaimers;
-      }
+    } else {
+      // Non-agent conversations: still get verification + output format
+      basePrompt += "\n\n" + VERIFICATION_BLOCK;
+      basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
     }
-
-    // Inject output capabilities (charts, tables, code blocks, markdown)
-    basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
-
-    // Inject verification protocol (applies to all agents)
-    basePrompt += "\n\n" + VERIFICATION_BLOCK;
 
     // Wrap with anti-injection security directives
     const systemPrompt = wrapSystemPrompt(basePrompt);
@@ -523,8 +581,10 @@ export async function POST(req: NextRequest) {
               content: text,
               mode: mode as Mode,
               model: mode === "SMART"
-                ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
-                : (process.env.VLLM_MODEL ?? "llama-3.1-70b"),
+                ? (process.env.FORCE_CLOUD_SMART === "true"
+                    ? (process.env.SMART_MODEL ?? "claude-sonnet-4-20250514")
+                    : (process.env.VLLM_SMART_MODEL ?? process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq"))
+                : (process.env.VLLM_MODEL ?? "/mnt/c/models/qwen3-32b-awq"),
               tokensIn: tokenUsage?.inputTokens ?? 0,
               tokensOut: tokenUsage?.outputTokens ?? 0,
             },

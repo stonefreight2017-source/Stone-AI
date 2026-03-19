@@ -11,7 +11,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 const checkoutSchema = z.object({
-  tier: z.enum(["STARTER", "PLUS", "SMART", "PRO"]),
+  tier: z.enum(["STARTER", "PLUS", "SMART", "PRO", "ENTERPRISE"]),
   period: z.enum(["monthly", "semiannual", "annual"]).optional().default("monthly"),
   trial: z.boolean().optional().default(false),
   firstMonthDeal: z.boolean().optional().default(false),

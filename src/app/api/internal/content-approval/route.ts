@@ -8,6 +8,7 @@
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
 import {
   addBatch,
   getPendingBatches,
@@ -68,57 +69,77 @@ export async function GET(req: NextRequest) {
  * Send reminder now:
  *   { action: "remind", batchId: "batch-001" }
  */
+const addBatchSchema = z.object({
+  action: z.literal("add"),
+  batchId: z.string().min(1).max(200),
+  scheduledWindow: z.enum(["09:00", "13:00", "19:00"]),
+  items: z.array(z.object({
+    id: z.string(),
+    brand: z.enum(["stone-ai", "stone-ai-tools", "best-ai", "best-ai-mobile", "stone-ai-corporate"]),
+    platform: z.string(),
+    format: z.string(),
+    summary: z.string(),
+    draftedBy: z.enum(["stone", "cardinal", "marketing-strategist"]),
+    status: z.enum(["pending", "approved", "rejected", "revision_requested"]),
+  }).strict()).min(1),
+  visualHtmlFile: z.string().max(500).nullable().optional(),
+}).strict();
+
+const respondSchema = z.object({
+  action: z.literal("respond"),
+  batchId: z.string().min(1).max(200),
+  response: z.enum(["APPROVE", "REJECT", "REQUEST CHANGES"]),
+  itemId: z.string().max(200).optional(),
+}).strict();
+
+const remindSchema = z.object({
+  action: z.literal("remind"),
+  batchId: z.string().min(1).max(200),
+}).strict();
+
+const postBodySchema = z.discriminatedUnion("action", [addBatchSchema, respondSchema, remindSchema]);
+
 export async function POST(req: NextRequest) {
   if (!checkAuth(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const { action } = body;
+  let rawBody: unknown;
+  try {
+    rawBody = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
 
-  if (action === "add") {
-    const { batchId, scheduledWindow, items, visualHtmlFile } = body;
-    if (!batchId || !scheduledWindow || !items || !Array.isArray(items)) {
-      return NextResponse.json(
-        { error: "Required: batchId, scheduledWindow, items[]" },
-        { status: 400 }
-      );
-    }
+  const parsed = postBodySchema.safeParse(rawBody);
+  if (!parsed.success) {
+    return NextResponse.json(
+      { error: "Validation failed", details: parsed.error.flatten() },
+      { status: 400 }
+    );
+  }
 
+  const body = parsed.data;
+
+  if (body.action === "add") {
     const batch = addBatch({
-      batchId,
-      scheduledWindow,
+      batchId: body.batchId,
+      scheduledWindow: body.scheduledWindow,
       scheduledDate: getTodayET(),
-      items: items as ContentItem[],
-      visualHtmlFile: visualHtmlFile || null,
+      items: body.items as ContentItem[],
+      visualHtmlFile: body.visualHtmlFile || null,
     });
 
     return NextResponse.json({ success: true, batch });
   }
 
-  if (action === "respond") {
-    const { batchId, response, itemId } = body;
-    if (!batchId || !response) {
-      return NextResponse.json(
-        { error: "Required: batchId, response (APPROVE|REJECT|REQUEST CHANGES)" },
-        { status: 400 }
-      );
-    }
-
-    if (!["APPROVE", "REJECT", "REQUEST CHANGES"].includes(response)) {
-      return NextResponse.json(
-        { error: "response must be APPROVE, REJECT, or REQUEST CHANGES" },
-        { status: 400 }
-      );
-    }
-
-    const result = processBatchResponse(batchId, response, itemId);
+  if (body.action === "respond") {
+    const result = processBatchResponse(body.batchId, body.response, body.itemId);
     return NextResponse.json({ success: result.success, message: result.message });
   }
 
-  if (action === "remind") {
-    const { batchId } = body;
-    const batch = getBatch(batchId);
+  if (body.action === "remind") {
+    const batch = getBatch(body.batchId);
     if (!batch) return NextResponse.json({ error: "Batch not found" }, { status: 404 });
 
     const result = await sendBatchReminder(batch);

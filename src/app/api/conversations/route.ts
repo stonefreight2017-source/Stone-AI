@@ -59,9 +59,16 @@ export async function POST(req: NextRequest) {
       if (body?.agentId) {
         const agent = await db.agent.findUnique({
           where: { id: body.agentId },
-          select: { id: true, slug: true, name: true, requiredTier: true },
+          select: { id: true, slug: true, name: true, requiredTier: true, isActive: true },
         });
         if (agent) {
+          // Block deactivated agents
+          if (!agent.isActive) {
+            return NextResponse.json(
+              { error: "This agent is currently unavailable" },
+              { status: 404 }
+            );
+          }
           // ENFORCE AGENT TIER CHECK at conversation creation
           if (!canAccessAgent(user.tier as Tier, agent.requiredTier as Tier, agent.slug)) {
             return NextResponse.json(

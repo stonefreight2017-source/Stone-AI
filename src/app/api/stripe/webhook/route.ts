@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { mapPriceToTier, PROMO_PRICES, type PromoKey } from "@/lib/tier-config";
 import { logAuditEvent } from "@/lib/audit";
+import { checkAndProcessReferralRewards } from "@/lib/referral-rewards";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-02-25.clover",
@@ -79,6 +80,30 @@ function matchPromoKey(priceId: string): PromoKey | null {
 async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
   const userId = session.metadata?.userId;
   if (!userId) return;
+
+  // Credit pack purchase (one-time payment, no subscription)
+  if (session.metadata?.type === "credit_pack" && session.metadata?.packTier) {
+    const credits = parseInt(session.metadata.credits, 10);
+    if (credits > 0) {
+      await db.user.update({
+        where: { id: userId },
+        data: {
+          smartCreditsBonus: { increment: credits },
+        },
+      });
+
+      logAuditEvent({
+        event: "admin.action",
+        userId,
+        metadata: {
+          action: "credit_pack_purchased",
+          packTier: session.metadata.packTier,
+          credits,
+        },
+      });
+    }
+    return;
+  }
 
   const subscriptionId =
     typeof session.subscription === "string"
@@ -175,6 +200,27 @@ async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
     userId: user.id,
     metadata: { newTier: newTier ?? user.tier, status: subscription.status },
   });
+
+  // ═══ Referral Reward Check ═══
+  // If the subscription is active and 30+ days old, check if this user was
+  // referred and process rewards for the referrer.
+  if (subscriptionStatus === "ACTIVE" && user.referredBy) {
+    // Qualify any PENDING referrals for this user (first time reaching ACTIVE)
+    await db.referral.updateMany({
+      where: {
+        referredUserId: user.id,
+        status: "PENDING",
+      },
+      data: {
+        status: "QUALIFIED",
+        qualifiedAt: new Date(),
+      },
+    });
+
+    // Check 30-day threshold and distribute rewards if eligible
+    const subscriptionCreatedAt = new Date(subscription.created * 1000);
+    await checkAndProcessReferralRewards(user.id, subscriptionCreatedAt);
+  }
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {

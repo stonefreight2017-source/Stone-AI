@@ -6,7 +6,7 @@ import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 
 const TIER_RANK: Record<string, number> = {
-  FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4,
+  FREE: 0, STARTER: 1, PLUS: 2, SMART: 3, PRO: 4, ENTERPRISE: 5,
 };
 
 const redeemSchema = z.object({

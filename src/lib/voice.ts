@@ -56,6 +56,7 @@ const VOICE_MINUTES_BY_TIER: Record<string, number> = {
   PLUS: 30,
   SMART: 60,
   PRO: Infinity,
+  ENTERPRISE: Infinity,
 };
 
 /** Default voices for edge-tts by locale */
