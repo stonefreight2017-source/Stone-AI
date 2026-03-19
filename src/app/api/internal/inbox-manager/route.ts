@@ -20,12 +20,30 @@ import { sendAutoResponses } from "@/lib/alert-system/auto-responder";
 import { runReminderCycle, parseApprovalResponse, processBatchResponse, getPendingBatches } from "@/lib/alert-system/content-approval";
 import { checkTrialReminders } from "@/lib/alert-system/trial-reminder";
 
-export async function GET(req: NextRequest) {
-  // Auth: require internal secret
-  const secret = req.headers.get("x-alert-secret");
+function authorize(req: NextRequest): boolean {
   const expected = process.env.INTERNAL_ALERT_SECRET;
+  if (!expected) return false;
 
-  if (!expected || secret !== expected) {
+  // Support x-alert-secret header (legacy / Palace poller)
+  const secretHeader = req.headers.get("x-alert-secret");
+  if (secretHeader === expected) return true;
+
+  // Support Authorization: Bearer <secret> (Vercel cron / standard auth)
+  const authHeader = req.headers.get("authorization");
+  if (authHeader) {
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    if (token === expected) return true;
+  }
+
+  // Support x-internal-secret header
+  const internalHeader = req.headers.get("x-internal-secret");
+  if (internalHeader === expected) return true;
+
+  return false;
+}
+
+export async function GET(req: NextRequest) {
+  if (!authorize(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

@@ -21,12 +21,27 @@ const outboundSchema = z
   })
   .strict();
 
-export async function POST(req: NextRequest) {
-  // Auth: require internal secret
-  const secret = req.headers.get("x-alert-secret");
+function authorize(req: NextRequest): boolean {
   const expected = process.env.INTERNAL_ALERT_SECRET;
+  if (!expected) return false;
 
-  if (!expected || secret !== expected) {
+  const secretHeader = req.headers.get("x-alert-secret");
+  if (secretHeader === expected) return true;
+
+  const authHeader = req.headers.get("authorization");
+  if (authHeader) {
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    if (token === expected) return true;
+  }
+
+  const internalHeader = req.headers.get("x-internal-secret");
+  if (internalHeader === expected) return true;
+
+  return false;
+}
+
+export async function POST(req: NextRequest) {
+  if (!authorize(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

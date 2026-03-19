@@ -31,6 +31,7 @@ const isPublicRoute = createRouteMatcher([
   "/api/enterprise/(.*)",
   "/api/v1/(.*)", // API key auth handled separately
   "/api/internal/(.*)", // Internal alert system — secured by x-alert-secret header
+  "/pricing",
   "/accessibility",
   "/refund-policy",
   "/sla",
