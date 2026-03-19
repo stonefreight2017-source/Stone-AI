@@ -21,9 +21,22 @@ import {
 } from "@/lib/alert-system/content-approval";
 
 function checkAuth(req: NextRequest): boolean {
-  const secret = req.headers.get("x-alert-secret");
   const expected = process.env.INTERNAL_ALERT_SECRET;
-  return !!expected && secret === expected;
+  if (!expected) return false;
+
+  const secretHeader = req.headers.get("x-alert-secret");
+  if (secretHeader === expected) return true;
+
+  const authHeader = req.headers.get("authorization");
+  if (authHeader) {
+    const token = authHeader.replace(/^Bearer\s+/i, "");
+    if (token === expected) return true;
+  }
+
+  const internalHeader = req.headers.get("x-internal-secret");
+  if (internalHeader === expected) return true;
+
+  return false;
 }
 
 /**
