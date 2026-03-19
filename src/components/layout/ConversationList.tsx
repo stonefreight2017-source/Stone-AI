@@ -81,7 +81,7 @@ export function ConversationList() {
             </p>
           ) : (
             filtered.map((convo) => (
-              <div key={convo.id} role="listitem" className="flex items-center gap-0.5 group">
+              <div key={convo.id} role="listitem" className="flex items-center gap-0.5 group max-w-full overflow-hidden">
                 <button
                   onClick={() => handleSelect(convo.id)}
                   aria-label={`Open conversation: ${convo.title}`}
