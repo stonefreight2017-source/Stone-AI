@@ -1,3 +1,5 @@
+export const maxDuration = 60;
+
 /**
  * ═══ PERFORMANCE HOT PATH ═══
  * This is the most-called route in the entire app.
@@ -662,7 +664,19 @@ export async function POST(req: NextRequest) {
         },
       });
     } catch (streamError) {
-      console.error("POST /api/chat: streamText() failed:", streamError instanceof Error ? streamError.message : streamError);
+      const errMsg = streamError instanceof Error ? streamError.message : String(streamError);
+      const errStack = streamError instanceof Error ? streamError.stack : "";
+      const errName = streamError instanceof Error ? streamError.name : "Unknown";
+      console.error("POST /api/chat: streamText() FAILED", {
+        errorName: errName,
+        errorMessage: errMsg,
+        errorStack: errStack,
+        mode,
+        vllmBaseUrl: process.env.VLLM_BASE_URL?.slice(0, 40),
+        vllmModel: process.env.VLLM_MODEL,
+        hasVllmKey: !!process.env.VLLM_API_KEY,
+        isVercel: !!process.env.VERCEL,
+      });
       await concurrency.release();
       // Return error as a readable text stream so it appears in the chat bubble
       return new Response(AI_ERROR_MESSAGE, {
