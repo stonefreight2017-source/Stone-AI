@@ -2,7 +2,7 @@
  * Web Search Module — Stone AI
  *
  * Provides web search capabilities for agents via external search APIs.
- * Supports Serper (primary) and Brave Search (fallback) providers.
+ * Supports Serper (primary), Brave Search (fallback), and DuckDuckGo (emergency fallback) providers.
  *
  * Usage:
  *   import { searchWeb, formatSearchResults, checkSearchQuota } from "@/lib/web-search";
@@ -18,6 +18,7 @@
  * Environment variables:
  *   SERPER_API_KEY       — Google Serper API key (primary)
  *   BRAVE_SEARCH_API_KEY — Brave Search API key (fallback)
+ *   (none for DDG)       — DuckDuckGo requires no API key (emergency fallback)
  *
  * Rate limiting:
  *   Daily search quota is defined per tier in tier-config.ts (webSearchesPerDay).
@@ -28,6 +29,7 @@
  *   Search should never block or break a chat response.
  */
 
+import { search as ddgSearch, SafeSearchType } from "duck-duck-scrape";
 import { db } from "./db";
 import { getTierConfig } from "./tier-config";
 import type { Tier } from "./tier-config";
@@ -48,7 +50,7 @@ export interface SearchResult {
 
 export interface SearchResponse {
   results: SearchResult[];
-  provider: "serper" | "brave" | "none";
+  provider: "serper" | "brave" | "ddg" | "none";
   query: string;
   cached: boolean;
 }
@@ -83,9 +85,10 @@ interface BraveSearchResponse {
 const DEFAULT_NUM_RESULTS = 5;
 const MAX_NUM_RESULTS = 10;
 const SEARCH_TIMEOUT_MS = 8_000;
+const DDG_TIMEOUT_MS = 4_000;
 
 /** In-memory cache to avoid duplicate API calls within a short window */
-const searchCache = new Map<string, { results: SearchResult[]; provider: "serper" | "brave"; expiry: number }>();
+const searchCache = new Map<string, { results: SearchResult[]; provider: "serper" | "brave" | "ddg"; expiry: number }>();
 const CACHE_TTL_MS = 5 * 60_000; // 5 minutes
 
 // Clean up expired cache entries every 10 minutes
@@ -101,7 +104,7 @@ setInterval(() => {
 // ═══════════════════════════════════════════════════════════
 
 /**
- * Search the web using available providers (Serper primary, Brave fallback).
+ * Search the web using available providers (Serper primary, Brave fallback, DDG emergency).
  * Returns empty array on failure — never throws.
  *
  * @param query    - The search query string
@@ -151,7 +154,14 @@ export async function searchWeb(
     }
   }
 
-  // Both providers failed or unconfigured
+  // Try DuckDuckGo (emergency fallback — no API key required)
+  const ddgResults = await searchDDG(trimmedQuery, count);
+  if (ddgResults.length > 0) {
+    searchCache.set(cacheKey, { results: ddgResults, provider: "ddg", expiry: Date.now() + CACHE_TTL_MS });
+    return { results: ddgResults, provider: "ddg", query: trimmedQuery, cached: false };
+  }
+
+  // All providers failed or unconfigured
   if (!serperKey && !braveKey) {
     console.warn("[web-search] No search API keys configured (SERPER_API_KEY or BRAVE_SEARCH_API_KEY)");
   }
@@ -272,6 +282,56 @@ async function searchBrave(
       console.warn("[web-search] Brave request timed out");
     } else {
       console.warn("[web-search] Brave error:", error instanceof Error ? error.message : "unknown");
+    }
+    return [];
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Provider: DuckDuckGo (emergency fallback — no API key)
+// ═══════════════════════════════════════════════════════════
+
+async function searchDDG(
+  query: string,
+  numResults: number
+): Promise<SearchResult[]> {
+  try {
+    const results = await Promise.race([
+      ddgSearch(query, { safeSearch: SafeSearchType.MODERATE }),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("DDG request timed out")), DDG_TIMEOUT_MS)
+      ),
+    ]);
+
+    if (results.noResults || !results.results?.length) {
+      return [];
+    }
+
+    return results.results
+      .filter(
+        (r): r is typeof r & { title: string; url: string } =>
+          typeof r.title === "string" && typeof r.url === "string"
+      )
+      .slice(0, numResults)
+      .map((r) => ({
+        title: r.title,
+        url: r.url,
+        snippet: r.description ?? "",
+        source: r.hostname ?? extractDomain(r.url),
+      }));
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "unknown";
+
+    // DDG rate-limit detection — bail immediately, no point retrying
+    if (message.includes("anomaly")) {
+      console.warn("[web-search] DDG rate-limited (anomaly detected)");
+      return [];
+    }
+
+    if (message.includes("timed out")) {
+      console.warn("[web-search] DDG request timed out");
+    } else {
+      console.warn("[web-search] DDG error:", message);
     }
     return [];
   }
