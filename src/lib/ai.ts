@@ -188,7 +188,7 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
       ?? process.env.VLLM_MODEL?.trim()
       ?? tierLocalModel
       ?? "/home/stones/models/qwen3-32b-awq";
-    return vllm(smartModel);
+    return vllm.chat(smartModel);
   }
 
   // LOCAL mode: always vLLM
@@ -207,7 +207,7 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
 
   // Prefer env var over tier config (env var is environment-specific, tier config is code)
   const model = process.env.VLLM_MODEL?.trim() ?? tierLocalModel ?? "/home/stones/models/qwen3-32b-awq";
-  return vllm(model);
+  return vllm.chat(model);
 }
 
 /**
