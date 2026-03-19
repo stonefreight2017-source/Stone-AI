@@ -603,9 +603,11 @@ export async function POST(req: NextRequest) {
     // 9c. Inject web search results (if any) — await parallel search, placed before final override
     // CRITICAL: Search is best-effort. If it fails for ANY reason (missing DB column,
     // API timeout, network error), chat MUST still work. Never let search crash the endpoint.
+    console.warn(`[web-search-inject] searchPromise=${searchPromise ? "EXISTS" : "NULL"}`);
     if (searchPromise) {
       try {
         const searchResultsBlock = await searchPromise;
+        console.warn(`[web-search-inject] blockLength=${searchResultsBlock?.length ?? 0} hasContent=${!!searchResultsBlock} first100=${(searchResultsBlock || "EMPTY").substring(0, 100)}`);
         if (searchResultsBlock) {
           basePrompt += searchResultsBlock;
         }
