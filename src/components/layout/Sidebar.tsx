@@ -93,14 +93,14 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
 
       <Separator className="bg-zinc-800" />
 
-      {/* Conversation List — capped so nav links stay visible */}
-      <div className="min-h-0 py-2" style={{ flex: "1 1 0%", maxHeight: "40vh" }}>
+      {/* Conversation List — capped so nav links always visible */}
+      <div className="flex-1 min-h-0 max-h-[40vh] overflow-hidden py-2">
         <ConversationList />
       </div>
 
       <Separator className="bg-zinc-800" />
 
-      {/* Footer Nav — scrollable when sidebar is short */}
+      {/* Footer Nav */}
       <div className="p-3 space-y-1 overflow-y-auto shrink-0">
         <Button
           variant="ghost"
