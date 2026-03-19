@@ -7,10 +7,6 @@ export const BESTIE_LANGUAGES = [
   "hi",
   "fr",
   "ar",
-  "pt",
-  "ja",
-  "bn",
-  "de",
 ] as const;
 
 export type BestieLanguage = (typeof BESTIE_LANGUAGES)[number];
@@ -22,10 +18,6 @@ export const BESTIE_LANGUAGE_LABELS: Record<BestieLanguage, string> = {
   hi: "Hindi",
   fr: "French",
   ar: "Arabic",
-  pt: "Portuguese",
-  ja: "Japanese",
-  bn: "Bengali",
-  de: "German",
 };
 
 export const BESTIE_TRAITS = [
