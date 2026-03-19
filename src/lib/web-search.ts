@@ -69,6 +69,34 @@ interface SerperResponse {
   organic?: SerperOrganicResult[];
 }
 
+export interface PlaceResult {
+  title: string;
+  address?: string;
+  phone?: string;
+  rating?: number;
+  ratingCount?: number;
+  priceLevel?: string;
+  category?: string;
+  cid?: string;
+  latitude?: number;
+  longitude?: number;
+}
+
+interface SerperPlacesResponse {
+  places?: Array<{
+    title?: string;
+    address?: string;
+    phone?: string;
+    rating?: number;
+    ratingCount?: number;
+    priceLevel?: string;
+    category?: string;
+    cid?: string;
+    latitude?: number;
+    longitude?: number;
+  }>;
+}
+
 interface BraveWebResult {
   title?: string;
   url?: string;
@@ -116,7 +144,8 @@ setInterval(() => {
  */
 export async function searchWeb(
   query: string,
-  numResults: number = DEFAULT_NUM_RESULTS
+  numResults: number = DEFAULT_NUM_RESULTS,
+  searchType: "search" | "places" = "search"
 ): Promise<SearchResponse> {
   const count = Math.min(Math.max(numResults, 1), MAX_NUM_RESULTS);
   const trimmedQuery = query.trim();
@@ -126,7 +155,7 @@ export async function searchWeb(
   }
 
   // Check cache first
-  const cacheKey = `${trimmedQuery.toLowerCase()}:${count}`;
+  const cacheKey = `${trimmedQuery.toLowerCase()}:${count}:${searchType}`;
   const cached = searchCache.get(cacheKey);
   if (cached && Date.now() < cached.expiry) {
     return {
@@ -137,9 +166,40 @@ export async function searchWeb(
     };
   }
 
-  // Try Serper (primary) — via proxy if SERPER_PROXY_URL is set, otherwise direct
+  // For "places" searchType, try Serper Places endpoint first for rich structured data
   const serperProxyUrl = process.env.SERPER_PROXY_URL;
   const serperKey = process.env.SERPER_API_KEY;
+
+  if (searchType === "places" && (serperProxyUrl || serperKey)) {
+    const placesResults = await searchSerperPlaces(trimmedQuery, count, serperKey ?? "", serperProxyUrl);
+    if (placesResults.length > 0) {
+      // Map PlaceResult to SearchResult with rich structured snippets
+      const mapped: SearchResult[] = placesResults.map((place) => {
+        const snippetParts: string[] = [];
+        if (place.address) snippetParts.push(`Address: ${place.address}`);
+        if (place.phone) snippetParts.push(`Phone: ${place.phone}`);
+        if (place.rating != null) {
+          let ratingStr = `Rating: ${place.rating}/5`;
+          if (place.ratingCount != null) ratingStr += ` (${place.ratingCount.toLocaleString()} reviews)`;
+          snippetParts.push(ratingStr);
+        }
+        if (place.priceLevel) snippetParts.push(`Price: ${place.priceLevel}`);
+        if (place.category) snippetParts.push(`Category: ${place.category}`);
+
+        return {
+          title: place.title,
+          url: place.cid ? `https://www.google.com/maps?cid=${place.cid}` : "",
+          snippet: snippetParts.join(" | "),
+          source: "Google Maps",
+        };
+      });
+
+      searchCache.set(cacheKey, { results: mapped, provider: "serper", expiry: Date.now() + CACHE_TTL_MS });
+      return { results: mapped, provider: "serper", query: trimmedQuery, cached: false };
+    }
+  }
+
+  // Try Serper organic search (primary) — via proxy if SERPER_PROXY_URL is set, otherwise direct
   if (serperProxyUrl || serperKey) {
     const serperResults = await searchSerper(trimmedQuery, count, serperKey ?? "", serperProxyUrl);
     if (serperResults.length > 0) {
@@ -235,6 +295,76 @@ async function searchSerper(
       console.warn("[web-search] Serper request timed out");
     } else {
       console.warn("[web-search] Serper error:", error instanceof Error ? error.message : "unknown");
+    }
+    return [];
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+// Provider: Serper Places (Google Maps structured data)
+// ═══════════════════════════════════════════════════════════
+
+async function searchSerperPlaces(
+  query: string,
+  numResults: number,
+  apiKey: string,
+  proxyUrl?: string
+): Promise<PlaceResult[]> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), SEARCH_TIMEOUT_MS);
+
+    // Use proxy if available, otherwise direct to Serper.
+    // The proxy forwards ALL body params including `type`.
+    const url = proxyUrl ?? "https://google.serper.dev/places";
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (!proxyUrl) {
+      headers["X-API-KEY"] = apiKey;
+    }
+
+    const response = await fetch(url, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({
+        q: query,
+        num: numResults,
+        type: "places",
+      }),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      console.warn(`[web-search] Serper Places returned ${response.status}: ${response.statusText}`);
+      return [];
+    }
+
+    const data = (await response.json()) as SerperPlacesResponse;
+    const places = data.places ?? [];
+
+    return places
+      .filter((p): p is typeof p & { title: string } => typeof p.title === "string")
+      .slice(0, numResults)
+      .map((p) => ({
+        title: p.title,
+        address: p.address,
+        phone: p.phone,
+        rating: p.rating,
+        ratingCount: p.ratingCount,
+        priceLevel: p.priceLevel,
+        category: p.category,
+        cid: p.cid,
+        latitude: p.latitude,
+        longitude: p.longitude,
+      }));
+  } catch (error) {
+    if (error instanceof Error && error.name === "AbortError") {
+      console.warn("[web-search] Serper Places request timed out");
+    } else {
+      console.warn("[web-search] Serper Places error:", error instanceof Error ? error.message : "unknown");
     }
     return [];
   }
@@ -364,26 +494,55 @@ async function searchDDG(
 export function formatSearchResults(results: SearchResult[]): string {
   if (results.length === 0) return "";
 
+  // Detect if results contain structured place data (pipe-delimited Address/Phone/Rating fields)
+  const isPlaceData = results.some((r) => r.snippet && /Address:/.test(r.snippet));
+
   const formatted = results
     .map((r, i) => {
-      const parts = [`[${i + 1}] ${r.title}`];
-      if (r.snippet) parts.push(`    ${r.snippet}`);
-      parts.push(`    Source: ${r.url}`);
-      if (r.date) parts.push(`    Date: ${r.date}`);
-      return parts.join("\n");
+      if (isPlaceData && r.snippet) {
+        // Structured place result — format each field on its own line for clarity
+        const parts = [`[${i + 1}] ${r.title}`];
+        const fields = r.snippet.split(" | ");
+        for (const field of fields) {
+          parts.push(`    ${field.trim()}`);
+        }
+        if (r.url) parts.push(`    Map: ${r.url}`);
+        return parts.join("\n");
+      } else {
+        // Standard web result
+        const parts = [`[${i + 1}] ${r.title}`];
+        if (r.snippet) parts.push(`    ${r.snippet}`);
+        if (r.url) parts.push(`    Source: ${r.url}`);
+        if (r.date) parts.push(`    Date: ${r.date}`);
+        return parts.join("\n");
+      }
     })
     .join("\n\n");
 
+  const header = isPlaceData
+    ? [
+        "",
+        "═══ VERIFIED PLACES RESULTS (Google Maps) ═══",
+        "These are REAL places from a live Google Maps search with verified addresses, phone numbers, and ratings.",
+        "You MUST present ALL of these places to the user with their full details (address, phone, rating, price).",
+        "Do NOT ignore any results. Do NOT make up details not listed here. Do NOT add businesses not in this list.",
+        "Format each result clearly with name, address, phone number, rating, and price level when available.",
+        "",
+      ]
+    : [
+        "",
+        "═══ VERIFIED WEB SEARCH RESULTS ═══",
+        "These are REAL results from a live Google search. You MUST use these results to answer.",
+        "Do NOT ignore these results. Do NOT make up your own business names or addresses.",
+        "Present ONLY the businesses listed below. Add no others.",
+        "",
+      ];
+
   return [
-    "",
-    "═══ VERIFIED WEB SEARCH RESULTS ═══",
-    "These are REAL results from a live Google search. You MUST use these results to answer.",
-    "Do NOT ignore these results. Do NOT make up your own business names or addresses.",
-    "Present ONLY the businesses listed below. Add no others.",
-    "",
+    ...header,
     formatted,
     "",
-    "═══ END VERIFIED RESULTS ═══",
+    isPlaceData ? "═══ END VERIFIED PLACES ═══" : "═══ END VERIFIED RESULTS ═══",
   ].join("\n");
 }
 

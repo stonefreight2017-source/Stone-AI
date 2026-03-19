@@ -463,8 +463,9 @@ export async function POST(req: NextRequest) {
             searchQuery = message.replace(/\b\d{5}\b/, locationStr);
           }
 
-          console.warn(`[web-search-query] query="${searchQuery.substring(0, 100)}" provider=serper keySet=${!!process.env.SERPER_API_KEY}`);
-          const searchResponse = await searchWeb(searchQuery, 5);
+          const searchTypeParam = hasLocationKeyword ? "places" as const : "search" as const;
+          console.warn(`[web-search-query] query="${searchQuery.substring(0, 100)}" type=${searchTypeParam} provider=serper keySet=${!!process.env.SERPER_API_KEY}`);
+          const searchResponse = await searchWeb(searchQuery, 5, searchTypeParam);
           console.warn(`[web-search-result] provider=${searchResponse.provider} count=${searchResponse.results.length} cached=${searchResponse.cached}`);
           if (searchResponse.results.length > 0) {
             const formatted = formatSearchResults(searchResponse.results);
