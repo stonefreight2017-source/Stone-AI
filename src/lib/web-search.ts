@@ -16,7 +16,10 @@
  *   }
  *
  * Environment variables:
- *   SERPER_API_KEY       — Google Serper API key (primary)
+ *   SERPER_API_KEY       — Google Serper API key (primary, not needed when using proxy)
+ *   SERPER_PROXY_URL     — Optional proxy URL for Serper (e.g., https://serper.stone-ai.net)
+ *                          When set, requests go through the proxy which adds the API key.
+ *                          Used to bypass datacenter IP blocking on Vercel.
  *   BRAVE_SEARCH_API_KEY — Brave Search API key (fallback)
  *   (none for DDG)       — DuckDuckGo requires no API key (emergency fallback)
  *
@@ -134,10 +137,11 @@ export async function searchWeb(
     };
   }
 
-  // Try Serper (primary)
+  // Try Serper (primary) — via proxy if SERPER_PROXY_URL is set, otherwise direct
+  const serperProxyUrl = process.env.SERPER_PROXY_URL;
   const serperKey = process.env.SERPER_API_KEY;
-  if (serperKey) {
-    const serperResults = await searchSerper(trimmedQuery, count, serperKey);
+  if (serperProxyUrl || serperKey) {
+    const serperResults = await searchSerper(trimmedQuery, count, serperKey ?? "", serperProxyUrl);
     if (serperResults.length > 0) {
       searchCache.set(cacheKey, { results: serperResults, provider: "serper", expiry: Date.now() + CACHE_TTL_MS });
       return { results: serperResults, provider: "serper", query: trimmedQuery, cached: false };
@@ -176,18 +180,27 @@ export async function searchWeb(
 async function searchSerper(
   query: string,
   numResults: number,
-  apiKey: string
+  apiKey: string,
+  proxyUrl?: string
 ): Promise<SearchResult[]> {
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), SEARCH_TIMEOUT_MS);
 
-    const response = await fetch("https://google.serper.dev/search", {
+    // When a proxy URL is set, POST to the proxy instead of Serper directly.
+    // The proxy forwards to google.serper.dev and injects the API key server-side,
+    // bypassing datacenter IP blocking on Vercel.
+    const url = proxyUrl ?? "https://google.serper.dev/search";
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (!proxyUrl) {
+      headers["X-API-KEY"] = apiKey;
+    }
+
+    const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "X-API-KEY": apiKey,
-        "Content-Type": "application/json",
-      },
+      headers,
       body: JSON.stringify({
         q: query,
         num: numResults,
