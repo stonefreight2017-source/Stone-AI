@@ -15,7 +15,6 @@ import { cn } from "@/lib/utils";
 export function ConversationList() {
   const router = useRouter();
   const [search, setSearch] = useState("");
-  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
   const { data, isLoading } = useConversations();
   const deleteConversation = useDeleteConversation();
   const { activeChatId, setActiveChatId } = useAppStore();
@@ -36,26 +35,18 @@ export function ConversationList() {
     e.stopPropagation();
     e.preventDefault();
 
-    // First click arms (turns red), second click confirms
-    if (pendingDeleteId === id) {
-      setPendingDeleteId(null);
-      deleteConversation.mutate(id, {
-        onSuccess: () => {
-          toast.success("Conversation deleted");
-          if (activeChatId === id) {
-            setActiveChatId(null);
-            router.push("/app");
-          }
-        },
-        onError: () => {
-          toast.error("Failed to delete conversation");
-        },
-      });
-    } else {
-      setPendingDeleteId(id);
-      // Auto-cancel after 3 seconds
-      setTimeout(() => setPendingDeleteId((prev) => (prev === id ? null : prev)), 3000);
-    }
+    deleteConversation.mutate(id, {
+      onSuccess: () => {
+        toast.success("Conversation deleted");
+        if (activeChatId === id) {
+          setActiveChatId(null);
+          router.push("/app");
+        }
+      },
+      onError: () => {
+        toast.error("Failed to delete conversation");
+      },
+    });
   }
 
   return (
@@ -99,32 +90,15 @@ export function ConversationList() {
                 </button>
                 <button
                   type="button"
-                  aria-live="polite"
-                  aria-label={
-                    pendingDeleteId === convo.id
-                      ? "Click again to confirm delete"
-                      : "Delete conversation"
-                  }
-                  className={cn(
-                    "shrink-0 h-7 w-7 flex items-center justify-center rounded-md transition-colors cursor-pointer",
-                    pendingDeleteId === convo.id
-                      ? "bg-red-900/50 hover:bg-red-800"
-                      : "hover:bg-zinc-700"
-                  )}
+                  aria-label="Delete conversation"
+                  className="shrink-0 h-7 w-7 flex items-center justify-center rounded-md transition-colors cursor-pointer hover:bg-zinc-700"
                   onClick={(e) => handleDelete(e, convo.id)}
                   disabled={deleteConversation.isPending}
                 >
                   {deleteConversation.isPending ? (
                     <Loader2 className="h-3.5 w-3.5 animate-spin text-zinc-400" />
                   ) : (
-                    <Trash2
-                      className={cn(
-                        "h-3.5 w-3.5",
-                        pendingDeleteId === convo.id
-                          ? "text-red-400"
-                          : "text-zinc-500 hover:text-zinc-300"
-                      )}
-                    />
+                    <Trash2 className="h-3.5 w-3.5 text-zinc-500 hover:text-zinc-300" />
                   )}
                 </button>
               </div>

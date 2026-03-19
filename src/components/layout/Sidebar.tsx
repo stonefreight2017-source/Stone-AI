@@ -93,8 +93,8 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
 
       <Separator className="bg-zinc-800" />
 
-      {/* Conversation List — capped so nav links always visible */}
-      <div className="flex-1 min-h-0 max-h-[40vh] py-2">
+      {/* Conversation List — fills remaining space, overflow clipped (ScrollArea handles internal scrolling) */}
+      <div className="flex-1 min-h-0 overflow-hidden py-2">
         <ConversationList />
       </div>
 
