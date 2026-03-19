@@ -46,12 +46,18 @@ export interface ServiceUnavailableError {
   canUpgradeForFallback: boolean;
 }
 
+export interface TooManyConcurrentError {
+  code: "TOO_MANY_CONCURRENT";
+  error: string;
+}
+
 export type ChatError =
   | TierMismatchError
   | QuotaExceededError
   | SmartQuotaExceededError
   | RateLimitedError
-  | ServiceUnavailableError;
+  | ServiceUnavailableError
+  | TooManyConcurrentError;
 
 export interface UpgradeOfferData {
   id: string;

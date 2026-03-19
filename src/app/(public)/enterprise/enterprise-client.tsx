@@ -82,7 +82,7 @@ const MODEL_OPTIONS = [
     label: "Standard",
     value: "standard",
     cost: 0,
-    desc: "Qwen 2.5 32B + GPT-4o",
+    desc: "Qwen 2.5 32B + Anthropic Claude",
   },
   {
     label: "Dedicated GPU",
@@ -739,7 +739,7 @@ export function EnterpriseConfigurator() {
                 <Brain className="h-5 w-5 text-emerald-400" /> Model Options
               </h3>
               <p className="text-sm text-zinc-400 mb-4">
-                Standard includes Qwen 2.5 32B + GPT-4o.
+                Standard includes Qwen 2.5 32B + Anthropic Claude.
               </p>
               <div className="space-y-3">
                 {MODEL_OPTIONS.map((opt) => (

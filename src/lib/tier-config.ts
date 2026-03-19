@@ -525,8 +525,10 @@ export function mapPriceToTier(priceId: string): Tier | null {
  * rush — Royal Guard (The Breacher, FOUNDER-ONLY)
  * computer-wiz — Royal Guard (The Diagnostician)
  * executive-inbox-manager — Internal ops agent (founder-only)
+ * pipeline — Agent #46 (The Integrator, FOUNDER-ONLY)
+ * forge — Agent #47 (The Creator, FOUNDER-ONLY)
  */
-export const INTERNAL_AGENT_SLUGS = ["stone", "chaos", "cardinal", "rush", "computer-wiz", "executive-inbox-manager"] as const;
+export const INTERNAL_AGENT_SLUGS = ["stone", "chaos", "cardinal", "rush", "computer-wiz", "executive-inbox-manager", "pipeline", "forge"] as const;
 
 /**
  * Check if an agent slug belongs to an internal (non-user-facing) agent.

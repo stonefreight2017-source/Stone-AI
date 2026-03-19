@@ -51,7 +51,7 @@ const GETTING_STARTED = [
       "Each agent is a specialist — pick the one that matches your task (e.g., Copywriting, Web Dev, Marketing).",
       "Click an agent to start a new conversation with it. The agent already knows its specialty.",
       "The agent remembers your preferences across sessions, so it gets better the more you use it.",
-      "Agents are available on Plus ($29.99/mo) and above.",
+      "Agents are available on Growth ($49.99/mo) and above.",
     ],
   },
   {
@@ -60,10 +60,10 @@ const GETTING_STARTED = [
     steps: [
       "Go to \"Billing\" in the sidebar to see your current plan and usage.",
       "Free plan: Local AI chat with generous daily usage — no credit card needed.",
-      "Starter ($9.99/mo): 4x faster speed, longer responses, extended context.",
-      "Plus ($29.99/mo): 11 AI Specialist Agents, 2 concurrent chats, conversation export.",
-      "Smart ($69.99/mo): 26 agents, GPT-4o Smart mode, cloud fallback so it never goes down.",
-      "Pro ($199/mo): All 30 agents, API access, priority speed, 10 concurrent chats.",
+      "Builder ($19.99/mo): Extended context, longer responses, conversation export.",
+      "Growth ($49.99/mo): 26 agents, commercial license, 3 concurrent chats.",
+      "Executive ($99.99/mo): 36 agents, cloud AI (Anthropic Claude) Smart mode, early access to new agents.",
+      "Reseller ($200/mo): All 38 agents, API access, priority speed, 6 concurrent chats.",
       "You can upgrade or downgrade anytime. No contracts.",
     ],
   },
@@ -119,7 +119,7 @@ const HOW_TO_GUIDES = [
 const FAQ_ITEMS = [
   {
     q: "Is my data private?",
-    a: "Yes. On the Free and Starter plans, all your conversations are processed on a local GPU — your data never leaves the network. On Smart and Pro plans, when you use GPT-4o Smart mode, your message is sent to OpenAI's API for that specific response only. Local mode is always available as the default.",
+    a: "Yes. On the Free and Builder plans, all your conversations are processed on a local GPU — your data never leaves the network. On Executive and Reseller plans, when you use cloud AI Smart mode, your message is sent to Anthropic Claude for that specific response only. Local mode is always available as the default.",
   },
   {
     q: "How do I upgrade or downgrade my plan?",
@@ -135,7 +135,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What's the difference between Local and Smart mode?",
-    a: "Local mode runs on our own GPU — it's extremely fast (under 100ms) and completely private. Smart mode sends your message to GPT-4o for the most advanced AI reasoning. Smart mode is available on Smart ($69.99) and Pro ($199) plans.",
+    a: "Local mode runs on our own GPU — it's extremely fast (under 100ms) and completely private. Smart mode sends your message to Anthropic Claude for the most advanced AI reasoning. Smart mode is available on Executive ($99.99) and Reseller ($200) plans.",
   },
   {
     q: "How do AI Agents work?",
@@ -143,7 +143,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "What is the API and who is it for?",
-    a: "The API lets developers build their own apps using Stone AI™ as the backend. It's available on the Pro plan ($199/mo). You get an API key from Settings and can send requests programmatically. This is for developers who want to integrate AI into their products.",
+    a: "The API lets developers build their own apps using Stone AI™ as the backend. It's available on the Reseller plan ($200/mo). You get an API key from Settings and can send requests programmatically. This is for developers who want to integrate AI into their products.",
   },
   {
     q: "My response was cut off. Why?",

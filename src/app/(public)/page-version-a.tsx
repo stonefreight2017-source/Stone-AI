@@ -168,7 +168,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="space-y-2.5">
-                {["GPT-4o for complex reasoning", "You choose when data goes to cloud", "Daily cap + credit packs", "Clearly labeled in every chat"].map((t) => (
+                {["Anthropic Claude for complex reasoning", "You choose when data goes to cloud", "Daily cap + credit packs", "Clearly labeled in every chat"].map((t) => (
                   <div key={t} className="flex items-center gap-2 text-sm text-zinc-300">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" /> {t}
                   </div>

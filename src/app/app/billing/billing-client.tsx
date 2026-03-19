@@ -79,8 +79,8 @@ export function BillingClient({
 
   const PERIOD_INFO = {
     monthly: { label: "Monthly", discount: 0, months: 1 },
-    semiannual: { label: "6 Months", discount: 10, months: 6 },
-    annual: { label: "Annual", discount: 20, months: 12 },
+    semiannual: { label: "6 Months", discount: 5, months: 6 },
+    annual: { label: "Annual", discount: 15, months: 12 },
   } as const;
 
   const upgradeTiers = tiers.filter((t) => t.key !== "FREE");
@@ -686,7 +686,7 @@ export function BillingClient({
             </p>
             <p>
               <strong className="text-zinc-300">What are &quot;premium answers&quot;?</strong>{" "}
-              These are powered by GPT-4o — a more advanced AI that gives deeper, longer, and more accurate responses. Regular messages use our fast local AI (unlimited). Premium is for when you need the best possible answer.
+              These are powered by Anthropic Claude — a more advanced cloud AI that gives deeper, longer, and more accurate responses. Regular messages use our fast local AI (unlimited). Premium is for when you need the best possible answer.
             </p>
             <p>
               <strong className="text-zinc-300">What are &quot;saved documents&quot;?</strong>{" "}

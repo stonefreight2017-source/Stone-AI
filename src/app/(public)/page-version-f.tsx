@@ -364,7 +364,7 @@ export default function LandingPageF() {
               </div>
               <ul className="space-y-3 text-sm">
                 {[
-                  { label: "Model", value: "GPT-4o" },
+                  { label: "Model", value: "Anthropic Claude" },
                   { label: "Runs on", value: "Cloud" },
                   { label: "Latency", value: "~2-5s" },
                   { label: "Strength", value: "Complex reasoning" },

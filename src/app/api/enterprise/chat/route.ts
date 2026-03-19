@@ -161,10 +161,10 @@ const FALLBACK_SYSTEM_PROMPT = `You are the Stone AI Enterprise Advisor — a kn
 ## PRODUCT OVERVIEW
 Stone AI is an AI platform with 43 specialist agents (marketing, finance, coding, strategy, HR, legal, etc.) plus personal AI companions called "Besties." It runs on two engines:
 - **Stone Engine (Local)**: Free, unlimited, sub-100ms responses, data stays private. Runs on our GPUs.
-- **Smart Mode (Cloud)**: GPT-4o for complex tasks. Daily-capped to control costs. Users opt in per message.
+- **Smart Mode (Cloud)**: Anthropic Claude for complex tasks. Daily-capped to control costs. Users opt in per message.
 
 ## SELF-SERVICE PLANS (for individuals and small teams)
-| Plan | Price | Agents | Messages/day | Premium (GPT-4o)/day | Best For |
+| Plan | Price | Agents | Messages/day | Premium (cloud AI)/day | Best For |
 |------|-------|--------|-------------|---------------------|----------|
 | Free | $0 | 4 | 50 | 5 lifetime credits | Trying it out |
 | Builder | $19.99/mo | 16 | 250 | 10 | Solo founders, side hustlers |
@@ -184,7 +184,7 @@ Stone AI is an AI platform with 43 specialist agents (marketing, finance, coding
 - **Support**: Standard (included, email, 48h response), Priority (+$250/mo, 8h response, chat support), Dedicated (+$600/mo, 2h response, Slack + phone)
 - **Uptime SLA**: 99.5% (included), 99.9% (+$150/mo), 99.99% (+$400/mo)
 - **Security add-ons**: Audit log export (+$100/mo), Compliance reports (+$250/mo)
-- **Model options**: Standard — Qwen 2.5 32B + GPT-4o (included), Dedicated GPU (custom quote)
+- **Model options**: Standard — Qwen 2.5 32B + Anthropic Claude (included), Dedicated GPU (custom quote)
 - **Response token limits**: 32K (included), 64K (+$200/mo), 128K (+$400/mo)
 - **Billing**: Monthly or Annual (5% off). No 6-month discount for enterprise.
 - **AI Spend Financing**: Net 30 (no fees), Net 60 (no fees), Net 90 (no fees, annual commitment required)

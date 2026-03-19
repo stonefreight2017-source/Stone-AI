@@ -144,7 +144,7 @@ export default function LandingPage() {
             </h2>
             <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
               Local mode runs on our GPU — fast, free, and private.
-              Smart mode adds GPT-4o when you need it — opt-in, clearly labeled.
+              Smart mode adds Anthropic Claude when you need it — opt-in, clearly labeled.
             </p>
           </ScrollSection>
 
@@ -199,11 +199,11 @@ export default function LandingPage() {
                 <div className="space-y-3 text-sm text-zinc-300">
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>GPT-4o for complex reasoning</span>
+                    <span>Anthropic Claude for complex reasoning</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
-                    <span>Data sent to OpenAI (you opt in per message)</span>
+                    <span>Data sent to Anthropic (you opt in per message)</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Check className="h-4 w-4 text-blue-400 shrink-0" />
@@ -226,7 +226,7 @@ export default function LandingPage() {
             {[
               { step: "1", title: "Sign up free", desc: "No credit card. Instant access to 4 agents and generous daily limits." },
               { step: "2", title: "Chat locally", desc: "Messages go to our GPU. Sub-100ms first token. Your data stays private in Local Mode." },
-              { step: "3", title: "Add Smart mode", desc: "Upgrade to unlock GPT-4o, more agents, and cloud AI when you choose." },
+              { step: "3", title: "Add Smart mode", desc: "Upgrade to unlock Anthropic Claude, more agents, and cloud AI when you choose." },
             ].map((s) => (
               <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
                 <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5">

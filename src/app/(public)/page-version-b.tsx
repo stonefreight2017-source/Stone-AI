@@ -216,7 +216,7 @@ export default function LandingPage() {
 
           <AnimateOnScroll delay={0.3}>
             <p className="text-xs text-zinc-400 mt-4 text-center max-w-lg mx-auto">
-              Local mode performance varies by GPU hardware. Smart mode routes to GPT-4o cloud API
+              Local mode performance varies by GPU hardware. Smart mode routes to Anthropic Claude cloud API
               when needed, with latency similar to other cloud providers.
             </p>
           </AnimateOnScroll>
@@ -364,7 +364,7 @@ export default function LandingPage() {
           {[
             { step: "01", title: "Sign up", desc: "Free tier. No credit card. Instant access to 4 agents with generous daily limits.", icon: Fingerprint },
             { step: "02", title: "Chat locally", desc: "Your messages hit a local GPU — not OpenAI, not the cloud. Sub-100ms first token.", icon: Cpu },
-            { step: "03", title: "Scale up", desc: "Need GPT-4o? Upgrade to unlock Smart mode, more agents, and API access.", icon: Layers },
+            { step: "03", title: "Scale up", desc: "Need cloud AI? Upgrade to unlock Smart mode, more agents, and API access.", icon: Layers },
           ].map((s) => (
             <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
               <div className="rounded-xl border border-zinc-800 bg-zinc-950/50 p-6 hover:border-cyan-800/30 transition-colors">

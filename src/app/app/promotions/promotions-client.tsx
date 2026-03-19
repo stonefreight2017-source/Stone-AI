@@ -757,7 +757,7 @@ export function PromotionsClient({
               </tr>
               <tr className="border-b border-zinc-800/50">
                 <td className="py-3 px-2">
-                  <p className="text-zinc-300 font-medium text-xs">Premium answers (GPT-4o) per day</p>
+                  <p className="text-zinc-300 font-medium text-xs">Premium answers (cloud AI) per day</p>
                   <p className="text-[10px] text-zinc-400">Use these for hard questions (strategy, analysis, long-form writing). Regular AI handles everyday tasks for free.</p>
                 </td>
                 <td className="text-center py-3 px-2 text-zinc-300">5 total*</td>

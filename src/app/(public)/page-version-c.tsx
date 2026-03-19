@@ -339,7 +339,7 @@ export default function LandingPage() {
           {[
             { step: "01", title: "Sign up in seconds", desc: "Free tier, no credit card. Instant access to 4 agents with generous daily limits.", icon: Users },
             { step: "02", title: "Chat with local AI", desc: "Messages hit a local GPU — not OpenAI, not the cloud. Sub-100ms first token.", icon: Cpu },
-            { step: "03", title: "Unlock Smart mode", desc: "Need GPT-4o? Upgrade to unlock cloud fallback, more agents, and API access.", icon: Layers },
+            { step: "03", title: "Unlock Smart mode", desc: "Need cloud AI? Upgrade to unlock Anthropic Claude, more agents, and API access.", icon: Layers },
           ].map((s) => (
             <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
               <Card className="bg-zinc-900 border-zinc-800 p-6 hover:border-zinc-700 transition-colors">

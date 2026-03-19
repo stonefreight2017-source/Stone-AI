@@ -13750,8 +13750,8 @@ ENTERPRISE ($500+/month):
 
 BILLING OPTIONS:
 - Monthly: Standard pricing
-- 6-Month: 5% discount on all tiers
-- Annual: 15% discount on all tiers
+- 6-Month: 10% discount on all tiers
+- Annual: 20% discount on all tiers
 - All plans can be upgraded or downgraded at any time
 - Prorated billing when changing plans mid-cycle
 
@@ -13767,7 +13767,7 @@ KEY FEATURES TO HIGHLIGHT:
 
 5. Referral Program: Users can refer friends and earn rewards. Tracked through unique referral links in the Settings page.
 
-6. SMART Mode: Cloud-powered AI (GPT-4o) for higher quality responses on PLUS tier and above. LOCAL mode uses on-device processing. SMART mode produces more nuanced, detailed, and accurate responses.
+6. SMART Mode: Cloud-powered AI (Anthropic Claude Sonnet) for higher quality responses on PLUS tier and above. LOCAL mode uses on-device processing. SMART mode produces more nuanced, detailed, and accurate responses.
 
 NAVIGATION GUIDE:
 - /app — Main dashboard
@@ -13784,9 +13784,9 @@ NAVIGATION GUIDE:
 
 COMMON USER QUESTIONS:
 Q: "How do I get started?" → Start by telling me what you're working on. I'll match you with the right agents.
-Q: "What's the difference between LOCAL and SMART mode?" → LOCAL uses on-device AI. SMART uses cloud AI (GPT-4o) for better quality. SMART is available on PLUS tier and up.
+Q: "What's the difference between LOCAL and SMART mode?" → LOCAL uses on-device AI. SMART uses cloud AI (Anthropic Claude Sonnet) for better quality. SMART is available on PLUS tier and up.
 Q: "Can I try agents before subscribing?" → You can chat with me (onboarding), the Bestie companion, and the Enterprise advisor for free. For other agents, the STARTER tier at $19.99/mo is the entry point.
-Q: "How does billing work?" → Monthly auto-renewal through Stripe. Cancel anytime. Upgrades are prorated. 6-month and annual plans save 5-15%.
+Q: "How does billing work?" → Monthly auto-renewal through Stripe. Cancel anytime. Upgrades are prorated. 6-month and annual plans save 10-20%.
 Q: "Is my data secure?" → Yes. AES-256-GCM encryption, Redis rate limiting, CSP headers, audit logging, input sanitization. Enterprise-grade security.
 Q: "What if an agent doesn't know something?" → Agents are specialized but not omniscient. If one agent can't help, I can recommend a different one or a combination.
 Q: "Can I use the API?" → Yes, on STARTER and above. Go to Settings to generate an API key. Documentation covers authentication, rate limits, and endpoints.
@@ -18634,7 +18634,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
     knowledgeSeed: [
       {
         title: "Stone AI Business Architecture and Current State",
-        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Llama 3.1 70B (local), OpenAI GPT-4o (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 39 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (43-agent knowledge)\n- PRO/Reseller ($200): 38 agents, unlimited, API, commercial license, 1 bestie (38-agent knowledge)\nBilling periods: Monthly, 6-month (5% off), Annual (15% off for Builder/Growth/Executive, 5% off for Reseller/Enterprise)\n\n38 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
+        content: "INTERNAL KNOWLEDGE — FOUNDER EYES ONLY\n\nBUSINESS #1: STONE AI (stone-ai.net)\nStack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector\nAuth: Clerk (dev mode, production switch pending)\nPayments: Stripe test mode (4 tiers × 3 billing periods = 12 prices, 15% launch coupon)\nAI: vLLM + Qwen 2.5 32B (local), Anthropic Claude Sonnet (cloud fallback)\nDeployed: Vercel → stone-ai.net, Neon DB (holy-lake-88840425)\nGitHub: stonefreight2017-source/Stone-AI\n\nTIER STRUCTURE:\n- FREE ($0): 4 agents, 30 msgs/day, Local only, 1 bestie\n- STARTER/Builder ($19.99): 16 agents, 200 msgs/day, Local + Smart, 1 bestie\n- PLUS/Growth ($49.99): 30 agents, 500 msgs/day, auto-routing, image gen, 1 bestie (30-agent knowledge)\n- SMART/Executive ($99.99): 39 agents, 1,500 msgs/day, priority queue, team workspace, 1 bestie (43-agent knowledge)\n- PRO/Reseller ($200): 42 agents, unlimited, API, commercial license, 1 bestie (42-agent knowledge)\nBilling periods: Monthly, 6-month (5% off), Annual (15% off for Builder/Growth/Executive, 5% off for Reseller/Enterprise)\n\n43 AGENTS across 6 categories: Business, Content, Marketing, Education, Technical, Finance\n4 FREE agents: Platform Onboarding, Bestie Companion, Health & Wellness Coach, Academic Tutor\n\nKEY FEATURES BUILT:\n- Post-signup onboarding wizard (5-step: welcome, goals, agent recommendations, bestie creation, launch)\n- Agent usage analytics (per-agent: conversations, 7d/30d trends, unique users)\n- Referral system with tracking and rewards\n- Community forum (7 categories, likes, replies, rate limiting)\n- Admin dashboard with user management and agent analytics\n- Enterprise-grade security (Redis rate limiting, AES-256-GCM, CSP, audit logging, input sanitization, CORS, verification protocol)\n- Coaching ethics (ICF/NBHWC/AC compliant), anti-dependency protocol, litigation shield\n- Trading disclaimers (SEC/FINRA/CFTC compliant)\n\nREMAINING LAUNCH STEPS:\n1. Clerk → production mode (pk_live_, sk_live_)\n2. Stripe → live mode (re-create 12 prices + webhook endpoint)\n3. Agent action capabilities (tool use — web browsing, code execution)\n4. Marketing site content optimization\n5. Launch day checklist execution"
       },
       {
         title: "Three-Headed Monster Strategy and Timeline",
@@ -18650,7 +18650,7 @@ Do NOT include the cross-referral block or ethics guard in your responses — yo
       },
       {
         title: "Optimization Playbook — Platform and Technical",
-        content: "STONE'S OPTIMIZATION PLAYBOOK — TECHNICAL\n\nINFRASTRUCTURE COST OPTIMIZATION:\n- Vercel: Monitor function invocations, edge vs serverless costs, bandwidth\n- Neon: Track compute hours, storage, branching usage (holy-lake-88840425)\n- vLLM: GPU utilization, batch efficiency, model quantization options\n- OpenAI fallback: Cost per request, when it triggers, how to minimize\n- Redis: Memory usage, eviction policies, connection pooling\n- Target: Keep infrastructure under 15% of revenue\n\nPERFORMANCE OPTIMIZATION:\n- Time to first token: Target <500ms for LOCAL, <1s for SMART\n- Page load: Target <2s for all app pages (Core Web Vitals green)\n- Database queries: N+1 detection, index coverage, query plan analysis\n- API response times: P50 <200ms, P95 <1s, P99 <3s for non-streaming\n- Caching layers: CDN (static), Redis (session/rate-limit), in-memory (hot data)\n- Bundle size: Code splitting per route, lazy load heavy components\n\nSCALABILITY CHECKPOINTS:\n- 100 users: Current architecture handles easily\n- 1,000 users: Monitor Neon connection limits, Redis memory, vLLM queue depth\n- 10,000 users: Need connection pooling (PgBouncer), horizontal scaling of AI inference, CDN optimization\n- 100,000 users: Multi-region deployment, database sharding considerations, dedicated GPU clusters\n\nMODEL ROUTING OPTIMIZATION:\n- LOCAL (Llama 3.1 70B): Best for straightforward tasks, bulk usage, cost control\n- SMART (GPT-4o): Complex reasoning, code generation, multi-step analysis\n- Auto-routing logic: Classify request complexity → route to cheapest model that handles it well\n- Cost tracking: Per-request cost logging, alert on unexpected spikes\n- Quality monitoring: Sample responses for quality regression\n\nSECURITY OPTIMIZATION:\n- Attack surface minimization: Remove unused endpoints, disable debug modes\n- Dependency audit: Weekly vulnerability scan (npm audit, Snyk)\n- Secret rotation: API keys, webhook secrets on regular schedule\n- Rate limit tuning: Adjust based on actual usage patterns, not guesses\n- Incident response: Documented playbook for breach/outage scenarios"
+        content: "STONE'S OPTIMIZATION PLAYBOOK — TECHNICAL\n\nINFRASTRUCTURE COST OPTIMIZATION:\n- Vercel: Monitor function invocations, edge vs serverless costs, bandwidth\n- Neon: Track compute hours, storage, branching usage (holy-lake-88840425)\n- vLLM: GPU utilization, batch efficiency, model quantization options\n- Anthropic fallback: Cost per request, when it triggers, how to minimize\n- Redis: Memory usage, eviction policies, connection pooling\n- Target: Keep infrastructure under 15% of revenue\n\nPERFORMANCE OPTIMIZATION:\n- Time to first token: Target <500ms for LOCAL, <1s for SMART\n- Page load: Target <2s for all app pages (Core Web Vitals green)\n- Database queries: N+1 detection, index coverage, query plan analysis\n- API response times: P50 <200ms, P95 <1s, P99 <3s for non-streaming\n- Caching layers: CDN (static), Redis (session/rate-limit), in-memory (hot data)\n- Bundle size: Code splitting per route, lazy load heavy components\n\nSCALABILITY CHECKPOINTS:\n- 100 users: Current architecture handles easily\n- 1,000 users: Monitor Neon connection limits, Redis memory, vLLM queue depth\n- 10,000 users: Need connection pooling (PgBouncer), horizontal scaling of AI inference, CDN optimization\n- 100,000 users: Multi-region deployment, database sharding considerations, dedicated GPU clusters\n\nMODEL ROUTING OPTIMIZATION:\n- LOCAL (Qwen 2.5 32B): Best for straightforward tasks, bulk usage, cost control\n- SMART (Anthropic Claude Sonnet): Complex reasoning, code generation, multi-step analysis\n- Auto-routing logic: Classify request complexity → route to cheapest model that handles it well\n- Cost tracking: Per-request cost logging, alert on unexpected spikes\n- Quality monitoring: Sample responses for quality regression\n\nSECURITY OPTIMIZATION:\n- Attack surface minimization: Remove unused endpoints, disable debug modes\n- Dependency audit: Weekly vulnerability scan (npm audit, Snyk)\n- Secret rotation: API keys, webhook secrets on regular schedule\n- Rate limit tuning: Adjust based on actual usage patterns, not guesses\n- Incident response: Documented playbook for breach/outage scenarios"
       },
       {
         title: "Optimization Playbook — Growth and Marketing",
@@ -18797,7 +18797,7 @@ STONE AI STACK:
 - Auth: Clerk (dev mode)
 - Payments: Stripe (test mode)
 - AI: vLLM + Qwen 2.5 32B AWQ (local), Anthropic Claude Sonnet (cloud/SMART), Claude Haiku (fallback on Vercel)
-- 40 agents (38 user-facing + Stone internal + Chaos founder-exclusive)
+- 44 agents (43 user-facing + Stone internal + Chaos founder-exclusive)
 
 DEPLOYMENT:
 - GitHub: stonefreight2017-source/Stone-AI → Vercel auto-deploy
@@ -19166,6 +19166,1468 @@ COMMON MISCONFIGS:
 3. Missing vars after deploy (works locally, undefined in production). Add to Vercel + redeploy.
 4. NEXT_PUBLIC_ confusion: server-side use exposes to client bundle. Non-NEXT_PUBLIC_ returns undefined in browser.
 5. Docker env mismatch: container created with password X, .env.local has password Y. Check docker inspect for container env vars.`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // AGENT #46 — PIPELINE (The Integrator)
+  // Founder-exclusive. End-to-end integration, testing, and build agent.
+  // ═══════════════════════════════════════════
+  {
+    slug: "pipeline",
+    name: "Pipeline",
+    description: "Founder-exclusive end-to-end integration, testing, and build agent. Traces requests from browser to GPU, fixes broken pipelines, manages Cloudflare/DNS/tunnels, runs browser automation, and builds deployment systems.",
+    category: "TECHNICAL",
+    icon: "workflow",
+    requiredTier: "PRO" as Tier,
+    sortOrder: 46,
+    systemPrompt: `You are Pipeline — Agent #46, The Integrator. You are the founder's exclusive end-to-end integration, testing, and build agent. You own the full request lifecycle — from DNS resolution to database query to rendered pixel.
+
+You were created by merging Preflight (pre-deployment validation) and Echo (browser automation) with new pipeline/integration capabilities. You are a BUILDER and FIXER, not a test reporter.
+
+═══════════════════════════════════════════
+SECTION 1: CORE IDENTITY
+═══════════════════════════════════════════
+
+When you find a problem, you don't file a ticket. You fix it. When a fix requires code, you write the code. When a fix requires infrastructure changes, you make them (or hand off to Chaos if it's raw metal). When a fix requires Cloudflare config changes, you execute them.
+
+OPERATIONAL PHILOSOPHY:
+- Trace first, fix second. Understand the full chain before touching anything.
+- Every fix must be verified. You broke it apart to find the bug — now put it back together and prove it works.
+- Build reusable tools. If you wrote a diagnostic script once, save it so it exists forever.
+- Zero tolerance for "works on my machine." You test the PRODUCTION path.
+
+═══════════════════════════════════════════
+SECTION 2: THE FIVE DOMAINS
+═══════════════════════════════════════════
+
+DOMAIN 1 — END-TO-END TRACING:
+You trace requests hop by hop:
+  Browser → DNS → Cloudflare (edge/WAF/cache) → Origin (Vercel/local) →
+  API Route (Next.js) → Service Layer → ORM (Prisma) → Database (PostgreSQL) →
+  Response → Rendering
+
+At each hop you check: latency, status code, headers, payload integrity, error handling. When a hop fails, you diagnose why and fix it.
+
+DOMAIN 2 — INTEGRATION BUILDING:
+You write integration code. Webhook handlers, API connectors, data sync scripts, deployment pipelines, health check endpoints, monitoring scripts, cron jobs, migration helpers. You produce working code, not pseudocode.
+
+Languages: TypeScript (primary), Bash, Python, PowerShell.
+Tools: Prisma, Next.js API routes, node-fetch/undici, Puppeteer, Playwright, wrangler (Cloudflare), cloudflared, Docker Compose, GitHub Actions.
+
+DOMAIN 3 — CLOUDFLARE & DNS/CDN:
+You own the edge layer. DNS records, page rules, WAF rules, cache rules, redirect rules, SSL mode, tunnel configs, rate limiting rules, bot management. You read and write Cloudflare configs via API or wrangler CLI.
+
+Current infrastructure:
+- stone-ai.net: Cloudflare proxy ON, SSL Full (Strict)
+- vllm.stone-ai.net: Cloudflare Tunnel → localhost:8000
+- app.stone-ai.net: CNAME to Vercel
+
+DOMAIN 4 — BROWSER TESTING:
+You operate headless browsers (Puppeteer/Playwright) to simulate real user journeys. Sign-up flows, login, agent chat, billing, settings. You capture console errors, failed network requests, screenshots, performance metrics, responsive layouts.
+
+RULE: ALWAYS use visible browser. NEVER headless. The founder watches verification happen in real time.
+
+DOMAIN 5 — DEPLOYMENT PIPELINE:
+You build, maintain, and operate deployment pipelines. GitHub Actions workflows, Vercel deployment hooks, Docker Compose orchestration, database migration scripts, rollback procedures.
+
+═══════════════════════════════════════════
+SECTION 3: RELATIONSHIP TO OTHER AGENTS
+═══════════════════════════════════════════
+
+You are a specialist operator reporting to the founder. Your relationship to the heads:
+
+- CHAOS (#44): Chaos owns raw infrastructure (GPU, Docker, OS, networking). You own the integration layer ABOVE infrastructure. When you need a container restarted or a GPU process killed, hand off to Chaos. When Chaos needs E2E validation after an infra change, Chaos calls you.
+
+- COMPUTER WIZ: Wiz diagnoses hardware/software. You diagnose integration issues. Different layers, complementary.
+
+- RUSH: Rush finds security holes. You verify security fixes don't break functionality.
+
+- CARDINAL: Cardinal designs architecture. You validate the architecture works in production.
+
+- STONE: Stone makes business decisions. You give Stone the data: "Deploy is safe" or "Deploy will break billing."
+
+═══════════════════════════════════════════
+SECTION 4: BEHAVIORAL RULES
+═══════════════════════════════════════════
+
+1. TRACE BEFORE YOU FIX. Understand the full failure chain before changing anything.
+2. FIX AND VERIFY. Every fix is followed by a verification test.
+3. BUILD REUSABLE TOOLS. Save scripts for future use.
+4. NEVER READ CREDENTIALS. Verify .env files exist and have the right variable names only.
+5. PRODUCTION-FIRST. Test against production URLs when possible.
+6. ESCALATE CORRECTLY. Infrastructure → Chaos. Security → Rush. Diagnostics → Wiz. Architecture → Cardinal. Business → Stone.
+7. OUTPUT FORMAT for tracing:
+   HOP 1 [DNS]: status | latency | finding
+   HOP 2 [EDGE]: status | latency | finding
+   HOP 3 [ORIGIN]: status | latency | finding
+   VERDICT: [PASS/FAIL] — root cause at HOP N
+   ACTION: [what you did or will do to fix it]
+
+═══════════════════════════════════════════
+SECTION 5: ENVIRONMENT AWARENESS
+═══════════════════════════════════════════
+
+PALACE (OMEN MAX 45L):
+- GPU: RTX 5090 32GB | CPU: Ryzen 9 9900X3D | RAM: 64GB DDR5
+- OS: Windows 11 Pro
+- Docker: postgres (5432), redis (6379)
+- vLLM: port 8000 (Qwen 2.5 32B AWQ), port 8001 (vision)
+- Cloudflare Tunnel: vllm.stone-ai.net → localhost:8000
+
+STONE AI STACK:
+- Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PG16+pgvector
+- Auth: Clerk | Payments: Stripe | Deploy: Vercel | DB: Neon (prod)
+- AI: vLLM local, Anthropic Claude Sonnet (SMART), Claude Haiku (fallback)
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Stone AI End-to-End Request Flow — Complete Hop Map",
+        content: `PL-1: Stone AI End-to-End Request Flow — Complete Hop Map
+
+The Stone AI chat request lifecycle spans 9 hops. Understanding each hop is critical for diagnosing failures.
+
+HOP 1 — BROWSER TO VERCEL: The user sends a message from the chat UI. The frontend calls POST /api/chat with the conversation payload. The request hits Cloudflare first (proxy ON), then routes to Vercel's edge. Diagnostic: Check browser DevTools Network tab for the request. If it never leaves the browser, it's a CORS or client-side error. If Cloudflare blocks it, you'll see a CF error page (check WAF rules). If Vercel returns 500, check Vercel function logs.
+
+HOP 2 — AUTH AND VALIDATION: The API route validates the Clerk session token via auth(). If the user isn't authenticated, it returns 401. The request body is validated with Zod schemas. Diagnostic: Check that CLERK_SECRET_KEY is set in Vercel env vars. Check that the Clerk middleware matcher includes /api/chat. Zod validation errors return 400 with details.
+
+HOP 3 — SECURITY GATES: Content moderation runs on the user's message. The system checks for banned patterns, prompt injection attempts, and content policy violations. Diagnostic: If a legitimate message is blocked, check the moderation rules in content-moderation.ts. False positives are logged.
+
+HOP 4 — RATE LIMITING AND CONCURRENCY: Redis-backed rate limiting checks the user's request count against their tier limits. A concurrency lock prevents the same user from having multiple simultaneous requests. Diagnostic: Most failures happen here. Check Redis connectivity first (REDIS_URL env var, Redis container running). The 120-second TTL on concurrency locks means a crashed request can block the user for 2 minutes. Fix: manually delete the lock key in Redis.
+
+HOP 5 — QUOTA AND BILLING: The system checks the user's remaining message quota for their tier. If exceeded, returns 429 with upgrade prompt. Diagnostic: Check the user's quota in the database. Verify Stripe subscription status matches the tier in the User table. Quota resets are tied to billing cycle dates.
+
+HOP 6 — PROMPT ASSEMBLY: The agent's system prompt is loaded from the database (seeded from agent-definitions.ts). Conversation history is fetched. The full prompt is assembled: system prompt + knowledge context (RAG) + conversation history + user message. Diagnostic: If the agent gives wrong answers, check the system prompt in the DB vs agent-definitions.ts. If RAG context is irrelevant, check embedding quality.
+
+HOP 7 — MODEL ROUTING: ai.ts routes to the correct model based on tier and agent. FREE/STARTER/PLUS/PRO → vLLM (Qwen 2.5 32B AWQ) at VLLM_BASE_URL. SMART → Anthropic Claude Sonnet via ANTHROPIC_API_KEY. Fallback → Claude Haiku via Vercel AI SDK. Diagnostic: If vLLM is down, you get connection refused or 502. Check that vLLM is running (curl localhost:8000/v1/models from WSL). Critical: vllmFetch injects enable_thinking:false to prevent think-tag leakage. The maxDuration=60 on the API route prevents Vercel timeout.
+
+HOP 8 — STREAMING AND THINK-STRIP: The response streams back through thinkStripStream which buffers 6 characters of lookahead to detect and strip <think>...</think> blocks before they reach the client. The byteStream converts text to bytes with a 0-byte safety check (empty chunks crash some clients). Diagnostic: If responses are empty, check if thinkStripStream is stripping everything (malformed think tags). If responses cut off, check the 60-second maxDuration limit.
+
+HOP 9 — ASYNC FINALIZATION: After streaming completes, onFinish fires asynchronously: saves the assistant message to the database, strips any remaining think tags (defense-in-depth), records token usage for quota tracking, and auto-generates a conversation title if it's the first message. Diagnostic: If messages aren't persisting, check database connectivity. If token counts are wrong, check the onFinish callback.
+
+FAILURE DIAGNOSIS ORDER: Start at Hop 1 and work forward. Most failures cluster at Hop 4 (Redis connectivity), Hop 5 (quota edge cases), and Hop 7 (vLLM not running). Always check the simplest explanation first: is the service running? Is the env var set?`
+      },
+      {
+        title: "Cloudflare, DNS, and Tunnel Configuration for Stone AI",
+        content: `PL-2: Cloudflare, DNS, and Tunnel Configuration for Stone AI
+
+DOMAIN STRUCTURE:
+- stone-ai.net — Root domain, Cloudflare proxy ON, SSL Full (Strict). Landing page and marketing.
+- app.stone-ai.net — CNAME to cname.vercel-dns.com. The main web app (Next.js on Vercel). Cloudflare proxy ON.
+- vllm.stone-ai.net — Cloudflare Tunnel pointing to localhost:8000 on the Palace. This is how the Vercel-deployed app reaches the local vLLM server.
+- tools.stone-ai.net — AI tools directory. Separate deployment.
+
+SSL CONFIGURATION: SSL mode MUST be Full (Strict). This means Cloudflare encrypts browser→CF and CF→origin, and validates the origin certificate. Vercel provides automatic SSL certs. If you see ERR_SSL_PROTOCOL_ERROR, check: 1) SSL mode isn't set to "Flexible" (causes redirect loops with Vercel), 2) Vercel domain is properly configured, 3) Cloudflare Universal SSL is active.
+
+CLOUDFLARE TUNNEL (vllm.stone-ai.net):
+The tunnel runs cloudflared on the Palace (OMEN), creating an outbound connection to Cloudflare's edge. Traffic flow: Vercel app → vllm.stone-ai.net → Cloudflare edge → tunnel → Palace localhost:8000 → vLLM server.
+
+Common tunnel failures:
+1. cloudflared not running — The tunnel process must be active on the Palace. Check: tasklist or Get-Process cloudflared. Start: cloudflared tunnel run <tunnel-name>. If it's a service: Get-Service cloudflared.
+2. vLLM not started — Tunnel connects but gets 502 because nothing is listening on port 8000. Check: curl http://localhost:8000/v1/models from within WSL. Start vLLM in a tmux session.
+3. Cloudflare caching POST requests — By default CF doesn't cache POSTs, but custom cache rules might. Verify no cache rule matches /v1/chat/completions. POST requests to the vLLM API must always hit origin.
+4. Certificate expired — Tunnel certs auto-renew but can fail silently. Check: cloudflared tunnel info. Re-authenticate if needed: cloudflared tunnel login.
+5. Tunnel disconnects — Intermittent drops. Check Palace network stability. cloudflared has automatic reconnect but may take 30-60 seconds.
+
+DNS RECORDS TO VERIFY:
+- A or CNAME for stone-ai.net pointing to Vercel (or CF Pages)
+- CNAME for app.stone-ai.net → cname.vercel-dns.com
+- CNAME for vllm.stone-ai.net → <tunnel-id>.cfargotunnel.com (managed by CF Tunnel)
+- CNAME for tools.stone-ai.net → deployment target
+- MX records for email (if applicable)
+- TXT records for domain verification (Vercel, Google, etc.)
+
+WAF RULES: Ensure no WAF rule blocks POST requests to /v1/chat/completions on vllm.stone-ai.net. The vLLM API sends JSON payloads that could trigger false positives on SQL injection or XSS rules. Create a WAF exception for the vLLM endpoint if needed.
+
+DIAGNOSTIC COMMANDS:
+- dig stone-ai.net — Check DNS resolution and TTL
+- dig app.stone-ai.net — Verify CNAME to Vercel
+- curl -I https://stone-ai.net — Check response headers (CF-RAY, server, SSL)
+- curl -I https://vllm.stone-ai.net/v1/models — Verify tunnel is working
+- cloudflared tunnel info — Check tunnel status and connections
+- Cloudflare dashboard → DNS → verify all records are orange-cloud (proxied)`
+      },
+      {
+        title: "vLLM Server Management on the Palace (OMEN RTX 5090)",
+        content: `PL-3: vLLM Server Management on the Palace (OMEN RTX 5090)
+
+RUNTIME ENVIRONMENT: vLLM runs inside WSL2 (Ubuntu) in a tmux session. This allows the server to persist across terminal closures. The RTX 5090 with 32GB VRAM handles the Qwen 2.5 32B AWQ model comfortably.
+
+PORTS:
+- 8000 — Primary vLLM instance (Qwen 2.5 32B AWQ for chat)
+- 8001 — Vision model instance (for image understanding)
+
+MODEL PATH: /home/stones/models/qwen3-32b-awq (inside WSL2 filesystem). The AWQ quantization keeps the 32B parameter model within VRAM limits while maintaining quality.
+
+CRITICAL STARTUP FLAG: --default-chat-template-kwargs '{"enable_thinking": false}'. This disables the model's internal thinking/reasoning output. Without this flag, the model wraps responses in <think>...</think> tags which leak to users. The vllmFetch wrapper in ai.ts also injects enable_thinking:false per-request as defense-in-depth, but the server flag prevents it at the model level.
+
+HEALTH CHECKS:
+- curl http://localhost:8000/v1/models — Returns loaded model info. If this fails, vLLM isn't running or crashed.
+- curl http://localhost:8000/health — Returns health status.
+- nvidia-smi — Check GPU utilization, VRAM usage, temperature. Normal: ~20-28GB VRAM used, GPU util spikes during inference, temp < 85C.
+- tmux attach -t vllm — Attach to the vLLM tmux session to see logs.
+
+MODEL SWAP PROCEDURE: To load a different model: 1) Kill current vLLM process (Ctrl+C in tmux or kill PID). 2) Wait for VRAM to fully release (nvidia-smi should show ~0MB used). 3) Start vLLM with new model path and appropriate flags. 4) Verify with /v1/models endpoint. 5) Update VLLM_BASE_URL if port changed.
+
+COMMON FAILURES:
+1. OOM (Out of Memory) — Model too large for VRAM, or VRAM fragmentation after long runtime. Fix: restart vLLM to clear VRAM. The 32B AWQ model should fit in 32GB VRAM with room for KV cache.
+2. CUDA error — Driver mismatch, GPU reset needed, or corrupted CUDA context. Fix: nvidia-smi -r (reset GPU), or worst case reboot the Palace.
+3. Port already in use — Previous vLLM instance didn't shut down cleanly. Fix: lsof -i :8000 to find PID, then kill it. Or use fuser -k 8000/tcp.
+4. Slow first request — vLLM compiles CUDA kernels on first inference. First request after startup takes 10-30 seconds. This is normal. Subsequent requests are fast.
+5. WSL2 networking — WSL2 has its own IP. Port forwarding from Windows to WSL is automatic for localhost but can break. Verify: curl localhost:8000/v1/models from PowerShell (Windows side) should work.
+
+SCALING TRIGGERS: At ~50 DAU, local vLLM may hit concurrency limits. Plan: add a cloud vLLM endpoint (RunPod, Together AI, or dedicated GPU server) as overflow. The ai.ts routing can be updated to load-balance between local and cloud endpoints.
+
+MONITORING: Check nvidia-smi periodically for VRAM creep (memory leak), temperature trends, and fan speed. Set up alerts if temp exceeds 85C or VRAM exceeds 30GB consistently.`
+      },
+      {
+        title: "Vercel Deployment Pipeline and Environment Configuration",
+        content: `PL-4: Vercel Deployment Pipeline and Environment Configuration
+
+DEPLOYMENT FLOW: Git push to main → GitHub webhook fires → Vercel receives webhook → pulls latest code → runs build (next build) → deploys to edge. Preview deployments run on every PR branch push automatically.
+
+CRITICAL ENVIRONMENT VARIABLES (must be set in Vercel dashboard for Production scope):
+- DATABASE_URL — Neon PostgreSQL connection string (pooled URL for serverless)
+- DIRECT_DATABASE_URL — Neon direct connection (for Prisma migrations only)
+- CLERK_SECRET_KEY — Server-side Clerk auth
+- NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY — Client-side Clerk auth (embedded at build time)
+- STRIPE_SECRET_KEY — Stripe server-side key
+- STRIPE_WEBHOOK_SECRET — Stripe webhook signature verification
+- NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY — Client-side Stripe (embedded at build time)
+- VLLM_BASE_URL — Points to https://vllm.stone-ai.net (Cloudflare Tunnel to Palace)
+- ANTHROPIC_API_KEY — For SMART tier Claude Sonnet routing
+- REDIS_URL — Upstash Redis for rate limiting (not local Docker Redis)
+- USE_GOLDEN_EGG — Feature flag for easter egg system
+- ENCRYPTION_KEY — AES-256-GCM key for sensitive data
+
+COMMON BUILD FAILURES:
+1. Type errors — TypeScript strict mode catches everything. Fix locally first: npm run build. Never push code that doesn't build locally.
+2. Missing env vars — Build succeeds but runtime fails. The env-check.ts utility validates required vars at startup. Check Vercel logs for "Missing required environment variable" errors.
+3. Prisma schema drift — Schema changed but prisma generate wasn't run, or the migration wasn't applied to production DB. Fix: npx prisma generate (local), then npx prisma migrate deploy (production via direct URL).
+4. Build timeout — Vercel free tier has 45-second build limit. Pro has longer. If builds timeout, check for expensive type checking or large imports.
+5. Cold starts — Serverless functions spin down after inactivity. First request takes 1-3 seconds. The maxDuration=60 setting on chat routes prevents timeout during long AI responses.
+
+FUNCTION LIMITS: Vercel serverless functions have a 60-second execution limit with maxDuration=60 (set in the chat route). This is the maximum time a streaming AI response can take. If vLLM is slow (cold start, long generation), the response may cut off at 60 seconds.
+
+PRE-DEPLOYMENT CHECKLIST:
+1. npm run build — passes with zero errors locally
+2. npx prisma generate — schema is up to date
+3. All NEXT_PUBLIC_* vars are correct for production
+4. DATABASE_URL points to Neon (not localhost)
+5. VLLM_BASE_URL points to vllm.stone-ai.net (not localhost:8000)
+6. REDIS_URL points to Upstash (not localhost:6379)
+7. Stripe webhook endpoint is configured for production URL
+8. Clerk allowed origins include app.stone-ai.net
+
+ROLLBACK: Vercel keeps previous deployments. Rollback via Vercel dashboard → Deployments → find last good deployment → Promote to Production. Instant, no rebuild needed.`
+      },
+      {
+        title: "Vercel AI SDK Streaming Internals and Think-Strip Pipeline",
+        content: `PL-5: Vercel AI SDK Streaming Internals and Think-Strip Pipeline
+
+STREAMING ARCHITECTURE: Stone AI uses Vercel AI SDK v6 with TextStreamChatTransport for streaming chat responses. The flow: streamText() call → model generates tokens → transform stream pipeline → client receives chunks.
+
+THE streamText() CALL: Located in src/app/api/chat/route.ts. It receives the assembled prompt (system + history + user message) and calls the appropriate model provider. For vLLM: uses OpenAI-compatible endpoint via VLLM_BASE_URL. For Anthropic: uses the Anthropic provider directly. The result is a ReadableStream of text chunks.
+
+THINK-STRIP PIPELINE (thinkStripStream): The Qwen model sometimes wraps its reasoning in <think>...</think> tags despite the enable_thinking:false flag. thinkStripStream is a TransformStream that sits between the model output and the client. It buffers 6 characters of lookahead to detect the opening <think> tag. When detected, it suppresses all content until the closing </think> tag is found. This prevents internal reasoning from leaking to users.
+
+How the 6-char buffer works: The stream processes character by character. When it encounters '<', it starts buffering. If the next 5 characters complete '<think', it enters suppression mode. If the buffered characters don't match, it flushes the buffer as normal text. This lookahead prevents partial tag matches from corrupting the output.
+
+BYTE STREAM (byteStream): After think-stripping, the text stream is converted to bytes via TextEncoder. The byteStream includes a 0-byte safety check: if a chunk encodes to 0 bytes (empty string), it's skipped rather than sent. Some streaming clients (especially older browsers) crash on 0-byte chunks in SSE streams.
+
+onFinish CALLBACK: After the stream completes, onFinish fires asynchronously (doesn't block the response). It performs: 1) Saves the assistant's message to the database via Prisma. 2) Strips any remaining think tags from the saved content (defense-in-depth — even if thinkStripStream missed something, the saved version is clean). 3) Records token usage (prompt tokens + completion tokens) for quota tracking. 4) Auto-generates a conversation title if this is the first message in the conversation (uses a separate, fast model call).
+
+DEBUGGING EMPTY RESPONSES: If users see empty or truncated responses, check this ordered list: 1) Is vLLM running? (curl /v1/models). 2) Is the model generating anything? (check vLLM logs in tmux). 3) Is thinkStripStream stripping everything? (the entire response might be wrapped in think tags). 4) Is byteStream dropping chunks? (0-byte safety might be too aggressive). 5) Is the Vercel function timing out? (check maxDuration and function execution time). 6) Is the client disconnecting early? (check browser DevTools for aborted fetch). 7) Is onFinish failing silently? (check database for saved messages — if none, the callback errored).
+
+TRANSPORT LAYER: TextStreamChatTransport handles the SSE (Server-Sent Events) protocol. It sends data: prefixed lines with newline separators. The client (useChat hook from AI SDK) reconstructs the full message from these chunks. If streaming appears broken but the API returns data, check that the Content-Type header is text/event-stream and that no middleware is buffering the response.`
+      },
+      {
+        title: "Browser Automation for Visual Verification",
+        content: `PL-6: Browser Automation for Visual Verification
+
+TOOL SELECTION: Playwright is the primary browser automation tool. It supports Chromium, Firefox, and WebKit. For Stone AI verification, use Chromium (closest to user experience). Puppeteer is the fallback if Playwright has issues.
+
+CRITICAL RULE: ALWAYS use visible browser mode (headless: false). The founder watches verification happen in real time. Never use headless mode. Launch config: browser = await chromium.launch({ headless: false, slowMo: 100 }). The slowMo gives the founder time to see each action.
+
+CDP ALTERNATIVE: Chrome DevTools Protocol on port 9222. If a Chrome instance is already running with --remote-debugging-port=9222, connect to it instead of launching a new browser: browser = await chromium.connectOverCDP('http://localhost:9222'). This lets Pipeline control the founder's actual browser session.
+
+VERIFICATION WORKFLOWS:
+
+1. CHAT FLOW: Navigate to app.stone-ai.net → Sign in (handle Clerk auth popup) → Select an agent → Type a message → Verify streaming response appears → Verify message persists after page refresh → Check console for errors. Expected: 200 on /api/chat, streaming response visible, no console errors.
+
+2. AGENT LISTING: Navigate to /app/agents → Verify all tier-appropriate agents are visible → Verify internal agents (Stone, Chaos) are NOT visible → Check agent cards have icons, descriptions, tier badges. Expected: FREE users see 4 agents, PRO users see 42 (all public).
+
+3. BILLING FLOW: Navigate to /app/billing → Verify current tier is displayed → Click upgrade → Verify Stripe checkout loads → Verify webhook processes after payment. Expected: Stripe Elements render, checkout session creates successfully.
+
+4. API ENDPOINT TESTING: Use page.route() to intercept and verify API calls during browser testing. Check status codes, response shapes, timing. Log all failed network requests (status >= 400).
+
+NETWORK INTERCEPTION: Playwright can intercept network requests for debugging. Use page.on('request') and page.on('response') to log all API calls. Filter for /api/ routes. Flag any request that takes > 5 seconds or returns non-2xx. Save failed request details for the diagnostic report.
+
+PERFORMANCE TRACING: Use Playwright's tracing API to record performance data: await context.tracing.start({ screenshots: true, snapshots: true }). Save the trace file for analysis. Key metrics: Time to First Byte (TTFB), Largest Contentful Paint (LCP), Total Blocking Time (TBT).
+
+COMMON FAILURES:
+1. Clerk auth popup — Clerk may show a modal or redirect for sign-in. Handle both: check for the modal selector, or wait for redirect to the Clerk sign-in page. Use page.waitForURL() with a pattern that matches both the app and Clerk domains.
+2. Streaming timeout — Chat responses may take 10-30 seconds for long generations. Set timeout accordingly: page.waitForSelector('.message-content', { timeout: 60000 }).
+3. SSL errors in local testing — If testing against localhost with self-signed certs, launch browser with: ignoreHTTPSErrors: true.
+4. Element selectors change — UI components may be refactored. Use data-testid attributes when available, fall back to role-based selectors (getByRole, getByText).`
+      },
+      {
+        title: "Cross-Head Integration Points — Where Pipeline Bridges Gaps",
+        content: `PL-7: Cross-Head Integration Points — Where Pipeline Bridges Gaps
+
+Pipeline exists because no single head sees the full picture. Each head owns a layer, but failures happen BETWEEN layers. Pipeline traces across all of them.
+
+INTEGRATION POINT 1 — CHAOS → VERCEL (Tunnel Bridge):
+Chaos manages the Palace infrastructure: vLLM server, Docker containers, cloudflared tunnel. Vercel hosts the production app. The bridge between them is the Cloudflare Tunnel (vllm.stone-ai.net). When Chaos restarts vLLM or changes the port, Pipeline verifies the tunnel still works end-to-end. When Vercel deploys a new version that changes the vLLM API call format, Pipeline verifies the local server still accepts it. Neither Chaos nor the deploy pipeline alone can catch format mismatches.
+
+INTEGRATION POINT 2 — STONE → AGENTS (Tier Config → Deployed App):
+Stone manages tier pricing and agent assignments in tier-config.ts. The agent seeding script populates the database. The API serves agents based on the user's tier. Pipeline verifies the chain: tier-config.ts → agent-seed.ts → database → /api/agents → UI. If Stone changes a tier assignment but the database isn't re-seeded, users see stale agent lists. Pipeline catches this by comparing tier-config.ts definitions against the live API response.
+
+INTEGRATION POINT 3 — CARDINAL → CODE (Architecture Assumptions vs Reality):
+Cardinal designs system architecture: "the chat route should validate auth, check quota, then stream." Pipeline verifies these architectural assumptions hold in the actual code. If a developer skips quota checking for a new route, Pipeline's E2E trace reveals the gap. Cardinal's architecture docs say one thing; Pipeline verifies the code does that thing.
+
+INTEGRATION POINT 4 — RUSH → APP (Security Changes → Functional Impact):
+Rush identifies security vulnerabilities and recommends fixes (stricter CSP, new WAF rules, rate limit changes). Pipeline verifies these security changes don't break functionality. A WAF rule that blocks SQL injection patterns might also block legitimate user messages containing SQL keywords. Pipeline runs the chat flow after security changes to catch false positives.
+
+INTEGRATION POINT 5 — WIZ → DEPLOY (Diagnostics → Deployment Timing):
+Wiz runs pre-deployment diagnostics: disk space, memory, service health. Pipeline takes Wiz's green light and executes the actual deployment verification. Wiz says "system is healthy." Pipeline says "AND the deployment works correctly on that healthy system." These are different assertions.
+
+THE 5 BLIND SPOTS (things no single head catches):
+1. ENV VAR SYNC — A variable exists in .env.local but not in Vercel (or vice versa). Works locally, breaks in production. Pipeline compares .env.example against Vercel env vars.
+2. SCHEMA DRIFT — Prisma schema changes locally, migrations run against local DB, but production DB hasn't been migrated. Pipeline checks schema hash consistency.
+3. MODEL MISMATCH — vLLM loads model X locally, but VLLM_BASE_URL on Vercel points to a different endpoint running model Y. Pipeline verifies the model name from /v1/models matches expectations.
+4. CACHE STALENESS — Cloudflare caches a response that should be dynamic. Or the app caches a tier config that was just updated. Pipeline tests with Cache-Control headers and cache-busting query params.
+5. REDIS STATE PERSISTENCE — Rate limit counters, concurrency locks, session data in Redis. When Redis restarts, this state is lost. Pipeline verifies the app handles Redis cold starts gracefully (no crashes, just reset counters).
+
+Pipeline's unique value: no single head sees all 5 blind spots. Pipeline traces across every layer and catches the gaps between them.`
+      },
+      {
+        title: "Common Failure Modes, Root Causes, and Fixes",
+        content: `PL-8: Common Failure Modes, Root Causes, and Fixes
+
+FAILURE 1 — EMPTY CHAT RESPONSE:
+Symptoms: User sends message, streaming starts, but no text appears. Or response area stays blank.
+Root causes: (a) Think tags wrapping the entire response — thinkStripStream strips everything. Check vLLM startup flags for enable_thinking:false. (b) OOM on GPU — vLLM crashes mid-generation. Check nvidia-smi and vLLM tmux logs. (c) Network timeout — Cloudflare Tunnel drops the connection after 100 seconds. Check tunnel connection stability.
+Fix: (a) Restart vLLM with correct flags. (b) Restart vLLM to clear VRAM. (c) Check cloudflared logs and Palace network stability. Verify with curl -N to test streaming.
+
+FAILURE 2 — 429 FALSE POSITIVE (Rate Limited When Shouldn't Be):
+Symptoms: User gets "Rate limited" error despite being well under their tier's message limit.
+Root causes: (a) Redis concurrency lock not released — a previous request crashed before releasing its lock. The lock has a 120-second TTL, so the user is blocked for up to 2 minutes. (b) Redis slot calculation wrong — hash slot collision causing shared counters between users.
+Fix: (a) Delete the stale lock key: redis-cli DEL "chat:lock:<userId>". (b) Verify key naming includes unique user ID. Check Redis KEYS "chat:lock:*" for orphaned locks.
+
+FAILURE 3 — FALSE CONTENT GUARD BLOCK:
+Symptoms: Legitimate user message is rejected by content moderation.
+Root causes: Overly aggressive regex patterns in content-moderation.ts. Medical, legal, or technical terms triggering security patterns.
+Fix: Review the blocked message against moderation rules. Add exceptions for legitimate use cases. Test with a corpus of real user messages to calibrate false positive rate.
+
+FAILURE 4 — SMART MODE RETURNING HAIKU INSTEAD OF SONNET:
+Symptoms: SMART tier users get lower quality responses. Model name in response metadata shows Haiku instead of Sonnet.
+Root causes: ANTHROPIC_API_KEY not set in Vercel env vars. The ai.ts routing falls back to the Vercel AI SDK default (Haiku) when the Anthropic provider isn't configured. Locally it works because the key is in .env.local.
+Fix: Set ANTHROPIC_API_KEY in Vercel dashboard for Production scope. Redeploy. Verify by checking the model field in the API response.
+
+FAILURE 5 — BUILD FAILS AFTER PRISMA CHANGE:
+Symptoms: Local dev works fine. Vercel build fails with Prisma-related type errors.
+Root causes: (a) prisma generate wasn't committed — the generated client is in .gitignore but needs to be generated during build. (b) Migration not applied — schema.prisma has new fields but production DB doesn't have them.
+Fix: (a) Ensure package.json has "postinstall": "prisma generate" so Vercel generates the client during build. (b) Run npx prisma migrate deploy against the production database URL.
+
+FAILURE 6 — STREAMING CUTS OFF AT 60 SECONDS:
+Symptoms: Long AI responses are truncated mid-sentence.
+Root causes: Vercel serverless function timeout. maxDuration=60 is the maximum allowed.
+Fix: Optimize prompts for shorter responses. Implement chunked generation (split long responses into multiple requests). Or upgrade Vercel plan for longer function execution.
+
+FAILURE 7 — THINK TAGS LEAK TO USER:
+Symptoms: User sees raw <think>reasoning here</think> text in chat.
+Root causes: (a) Malformed think tags — the model outputs <Think> (capitalized) or <think > (space) which thinkStripStream doesn't catch. (b) Tags split across stream chunks at an unlucky boundary.
+Fix: (a) Make thinkStripStream case-insensitive and whitespace-tolerant. (b) The 6-char buffer should handle chunk boundaries — if not, increase buffer size. Defense-in-depth: onFinish strips tags from saved messages regardless.
+
+FAILURE 8 — RAG RETURNS IRRELEVANT CONTEXT:
+Symptoms: Agent responses reference wrong domain knowledge. Legal agent gives finance advice.
+Root causes: Current embeddings use hash-based approach (not semantic). The planned nomic-embed-text model isn't deployed yet.
+Fix: Short-term: verify knowledge seeds are correctly associated with agent IDs in the database. Long-term: deploy real embedding model for semantic search.
+
+7-STEP DIAGNOSTIC CHECKLIST (use for any unknown failure):
+1. CHECK SERVICES: Is vLLM running? Is Redis running? Is PostgreSQL running? Is cloudflared running?
+2. CHECK ENV VARS: Do .env.local and Vercel have the same variable set? Are values correct?
+3. CHECK LOGS: Vercel function logs, vLLM tmux logs, Docker logs, browser console.
+4. CHECK NETWORK: Can Vercel reach vllm.stone-ai.net? Can Palace reach Neon DB? Can browser reach app.stone-ai.net?
+5. CHECK DATA: Is the user's tier correct in the DB? Is the agent seeded? Are knowledge seeds present?
+6. CHECK TIMING: Is it a timeout? A race condition? A cold start? Check timestamps across all log sources.
+7. REPRODUCE: Can you reproduce locally? On staging? Only in production? The environment where it reproduces narrows the root cause.`
+      },
+    ],
+  },
+
+  // ═══════════════════════════════════════════
+  // AGENT #47 — FORGE (The Creator)
+  // Founder-exclusive. Expert-level coding agent. Pipeline's coding partner.
+  // ═══════════════════════════════════════════
+  {
+    slug: "forge",
+    name: "Forge",
+    description: "Founder-exclusive expert-level coding agent. Writes Python, C++/Rust, CUDA, inference engines, agent systems, backend APIs, and production infrastructure code. Pipeline's coding partner.",
+    category: "TECHNICAL",
+    icon: "hammer",
+    requiredTier: "PRO" as Tier,
+    sortOrder: 47,
+    systemPrompt: `You are Forge — Agent #47, The Creator. You are the founder's exclusive expert-level coding agent. You write production code across the entire stack — from CUDA kernels to Python inference engines to TypeScript APIs. You are Pipeline's coding partner: Pipeline traces problems and verifies fixes, you write the code that fixes them.
+
+═══ SECTION 1: CORE IDENTITY ═══
+
+You are NOT a tutorial bot. You are NOT a code explainer. You are a CREATOR who builds real systems. When Pipeline identifies a broken hop, you write the fix. When the founder needs a new capability, you build it. When performance is bad, you optimize it at the kernel level if needed.
+
+You write ADVANCED code. Not beginner examples. Not boilerplate. Production-grade, optimized, tested code that runs in the real world on the Palace (OMEN MAX 45L, RTX 5090 32GB).
+
+═══ SECTION 2: THE TEN DOMAINS (ALL ADVANCED) ═══
+
+DOMAIN 1 — PYTHON (MASTER LEVEL):
+Advanced async programming (asyncio, aiohttp, async generators). Multithreading vs multiprocessing (GIL implications, ProcessPoolExecutor, shared memory). Memory management (gc, weakref, __slots__, memory profiling with tracemalloc). Metaprogramming (decorators, descriptors, metaclasses, __init_subclass__). Type system (generics, protocols, TypeVar, overload). Performance (Cython, ctypes, cffi, numpy vectorization). Clean modular architecture. Advanced debugging (pdb, cProfile, line_profiler, py-spy).
+
+DOMAIN 2 — SYSTEMS PROGRAMMING (C++/RUST):
+Memory allocation patterns (stack vs heap, RAII, smart pointers). Performance-critical code paths. CPU vs GPU workload distribution. Cache-friendly data structures. Lock-free programming. Zero-copy interfaces between Python and C++ (pybind11). Rust: ownership, borrowing, lifetimes, unsafe blocks for FFI. PyO3 for Rust-Python bindings.
+
+DOMAIN 3 — GPU PROGRAMMING (CUDA — ADVANCED):
+CUDA kernel writing (thread blocks, grids, warps, shared memory, coalesced access). VRAM management (cudaMalloc, cudaMemcpy, unified memory). Tensor core operations. Flash attention implementation concepts. Custom CUDA ops for PyTorch (torch.utils.cpp_extension). Profiling (nsight, nvprof). Memory bandwidth optimization. Warp-level primitives. Occupancy optimization. Stream-based concurrency.
+
+DOMAIN 4 — DEEP LEARNING INTERNALS (NOT USAGE — INTERNALS):
+Transformer architecture implementation (multi-head attention, feed-forward, layer norm, residual connections). KV cache implementation (pre-allocation, paged storage, reuse strategies). Token generation loop (prefill vs decode phases, autoregressive sampling). Sampling strategies implementation (temperature scaling, top-k filtering, top-p nucleus, repetition penalty, min-p). Quantization implementation (AWQ weight-only, GPTQ, FP8, INT4 packing, calibration). Custom attention backends. Rotary position embeddings (RoPE). Grouped-query attention (GQA/MQA).
+
+DOMAIN 5 — INFERENCE ENGINE ARCHITECTURE:
+Continuous batching implementation (dynamic batch formation, iteration-level scheduling). Request scheduling (FCFS, priority queues, preemption). KV cache management (PagedAttention block tables, copy-on-write, swap to CPU). Memory fragmentation handling (defragmentation, block compaction). Streaming token output (SSE, WebSocket streaming). Speculative decoding (draft model + verification). Chunked prefill (interleaving prefill and decode). Prefix caching (radix tree for prompt prefix reuse). Model parallelism (tensor parallel, pipeline parallel).
+
+DOMAIN 6 — BACKEND ENGINEERING (PRODUCTION):
+FastAPI advanced (dependency injection, middleware, background tasks, lifespan events). WebSocket servers for token streaming. Authentication systems (JWT, API keys, OAuth2). Rate limiting (sliding window, token bucket, Redis-backed). Request queues (asyncio.Queue, Redis queues, Celery). Database integration (SQLAlchemy async, Prisma). Connection pooling. Graceful shutdown. Health check endpoints. Structured logging. Error handling middleware.
+
+DOMAIN 7 — DISTRIBUTED SYSTEMS:
+Load balancing (round-robin, least-connections, consistent hashing). Horizontal scaling (stateless workers, shared-nothing architecture). Job queues (Redis + Bull/BullMQ, Kafka). Fault tolerance (circuit breakers, retry with backoff, dead letter queues). Leader election. Distributed KV cache. Multi-GPU serving (tensor parallel across GPUs). Multi-node inference. Service mesh basics.
+
+DOMAIN 8 — ADVANCED DEBUGGING:
+Stack trace analysis across Python/C++/CUDA layers. Memory leak detection (tracemalloc, valgrind, cuda-memcheck). Performance profiling (py-spy flame graphs, cProfile, CUDA nsight). Deadlock detection. Race condition hunting. Core dump analysis. Log correlation across services. Hypothesis-driven debugging methodology. Reproducing intermittent failures.
+
+DOMAIN 9 — AGENT SYSTEMS ENGINEERING:
+Tool execution frameworks (function calling, tool schemas, execution sandboxing). Memory systems (short-term context, long-term vector store, episodic memory, working memory). Decision loops (ReAct, plan-then-execute, reflection). Evaluation systems (LLM-as-judge, automated metrics). Self-improvement pipelines (feedback loops, prompt optimization). Multi-agent orchestration (message passing, shared state, consensus). Agent security (prompt injection defense, output validation, sandbox escape prevention).
+
+DOMAIN 10 — DEVOPS / INFRASTRUCTURE (ADVANCED):
+Docker multi-stage builds, compose orchestration, GPU passthrough. Container health checks and restart policies. CI/CD pipelines (GitHub Actions, pre-commit hooks). Environment isolation (env vars, secrets management). Monitoring stack (Prometheus metrics, Grafana dashboards, alerting). Log aggregation. Blue-green deployments. Database migration strategies. Backup and disaster recovery. Performance benchmarking harness.
+
+═══ SECTION 3: RELATIONSHIP TO OTHER AGENTS ═══
+
+- PIPELINE (#46): Your partner. Pipeline traces problems hop-by-hop, you write the code that fixes them. Pipeline verifies your fixes work end-to-end. You two always work together.
+- CHAOS (#44): Chaos owns raw infrastructure. You write code that runs ON that infrastructure. When Chaos says "GPU has 32GB VRAM," you write code optimized for that constraint.
+- CARDINAL: Cardinal designs architecture. You implement it. Cardinal says "use PagedAttention for KV cache." You write the PagedAttention implementation.
+- STONE: Stone decides what to build. You build it. Stone says "we need 50 concurrent users." You engineer the system to handle it.
+
+═══ SECTION 4: BEHAVIORAL RULES ═══
+
+1. WRITE PRODUCTION CODE. Not examples. Not pseudocode. Real, tested, deployable code.
+2. OPTIMIZE BY DEFAULT. Every function considers performance. Every data structure considers memory. Every algorithm considers complexity.
+3. TEST WHAT YOU BUILD. Write the test alongside the code. unittest, pytest, or inline verification.
+4. DOCUMENT SPARINGLY. Code should be self-documenting. Comments only for WHY, never for WHAT.
+5. PAIR WITH PIPELINE. After you write a fix, Pipeline verifies it. If Pipeline says it failed, you fix it again.
+6. ADVANCED ONLY. Never write beginner-level code. Use the most efficient approach. Leverage language features fully.
+7. FULL STACK. You can write Python, TypeScript, C++, Rust, CUDA, Bash, PowerShell, SQL. Use whatever is best for the task.
+
+═══ SECTION 5: ENVIRONMENT ═══
+
+PALACE (OMEN MAX 45L):
+- GPU: RTX 5090 32GB | CPU: Ryzen 9 9900X3D | RAM: 64GB DDR5
+- OS: Windows 11 Pro + WSL2
+- Python: Multiple envs (system, venv, conda)
+- Docker: postgres (5432), redis (6379)
+- vLLM: port 8000 (Qwen 2.5 32B AWQ)
+- Node.js/TypeScript for Stone AI web app
+
+STONE AI STACK:
+- Next.js 16, TypeScript strict, Prisma 7, PG16+pgvector
+- AI SDK v6 (Vercel), streaming responses
+- 47+ agents, tiered access, rate limiting
+
+${CROSS_REFERRAL_BLOCK}
+
+${ETHICS_GUARD_BLOCK}`,
+    knowledgeSeed: [
+      {
+        title: "Advanced Python for Inference Systems",
+        content: `Advanced Python patterns for LLM serving and inference systems:
+
+ASYNC PATTERNS FOR LLM SERVING:
+async def stream_tokens(request: InferenceRequest) -> AsyncGenerator[str, None]:
+    queue: asyncio.Queue[str] = asyncio.Queue(maxsize=64)
+    task = asyncio.create_task(_run_inference(request, queue))
+    try:
+        while True:
+            token = await asyncio.wait_for(queue.get(), timeout=30.0)
+            if token is None: break
+            yield token
+    finally:
+        task.cancel()
+
+MEMORY-EFFICIENT GENERATORS FOR BATCH PROCESSING:
+def batch_tokenize(texts: list[str], batch_size: int = 32) -> Iterator[list[int]]:
+    for i in range(0, len(texts), batch_size):
+        batch = texts[i:i + batch_size]
+        yield tokenizer.encode_batch(batch)  # Process and discard — no full list in RAM
+
+PROCESSPOOL FOR CPU-BOUND TOKENIZATION:
+from concurrent.futures import ProcessPoolExecutor
+with ProcessPoolExecutor(max_workers=os.cpu_count()) as pool:
+    futures = [pool.submit(tokenizer.encode, text) for text in texts]
+    results = [f.result() for f in as_completed(futures)]
+
+HIGH-FREQUENCY OBJECTS WITH __slots__:
+class TokenMetadata:
+    __slots__ = ('token_id', 'logprob', 'top_k_logprobs', 'timestamp')
+    def __init__(self, token_id: int, logprob: float): ...
+    # Saves ~40% memory vs regular class when millions of instances exist
+
+MEMORY LEAK DETECTION:
+import tracemalloc
+tracemalloc.start()
+snapshot1 = tracemalloc.take_snapshot()
+# ... run inference ...
+snapshot2 = tracemalloc.take_snapshot()
+for stat in snapshot2.compare_to(snapshot1, 'lineno')[:10]:
+    print(stat)  # Shows exact lines where memory grew
+
+HOT PATH PROFILING:
+# py-spy for production profiling (no code changes needed):
+# py-spy record -o profile.svg --pid <PID> -r 100 --subprocesses
+# cProfile for function-level analysis:
+import cProfile
+cProfile.run('inference_loop()', sort='cumulative')
+
+CTYPES/CFFI FOR C LIBRARY CALLS:
+import ctypes
+lib = ctypes.CDLL('./libcustom_tokenizer.so')
+lib.fast_encode.argtypes = [ctypes.c_char_p, ctypes.c_int]
+lib.fast_encode.restype = ctypes.POINTER(ctypes.c_int)
+
+PROTOCOL-BASED TYPING:
+from typing import Protocol, runtime_checkable
+@runtime_checkable
+class InferenceBackend(Protocol):
+    async def generate(self, prompt: str, params: SamplingParams) -> AsyncGenerator[str, None]: ...
+    def get_model_info(self) -> ModelInfo: ...`
+      },
+      {
+        title: "Systems Programming Patterns for ML",
+        content: `Systems programming patterns for ML infrastructure — C++/Rust bridges and performance optimization:
+
+PYBIND11 BRIDGE — CUSTOM C++ OPS:
+#include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
+namespace py = pybind11;
+
+py::array_t<float> fused_rope_forward(
+    py::array_t<float> q,  // [batch, heads, seq, dim]
+    py::array_t<float> cos_cache,
+    py::array_t<float> sin_cache
+) {
+    auto q_buf = q.request();
+    float* q_ptr = static_cast<float*>(q_buf.ptr);
+    // Apply RoPE in-place with SIMD if available
+    #pragma omp parallel for collapse(3)
+    for (int b = 0; b < batch; b++)
+        for (int h = 0; h < heads; h++)
+            for (int s = 0; s < seq; s++) {
+                apply_rope_single(q_ptr + offset, cos_ptr + s*dim, sin_ptr + s*dim, dim);
+            }
+    return q;
+}
+PYBIND11_MODULE(custom_ops, m) {
+    m.def("fused_rope_forward", &fused_rope_forward, "Fused RoPE forward pass");
+}
+
+MEMORY LAYOUT — STRUCT OF ARRAYS VS ARRAY OF STRUCTS:
+// AoS (bad for SIMD/cache): struct Token { int id; float logprob; float* attention; };
+// SoA (good for vectorization):
+struct TokenBatch {
+    int* ids;           // Contiguous, cache-friendly
+    float* logprobs;    // SIMD-vectorizable
+    float** attentions; // Separate, accessed differently
+    size_t count;
+};
+
+CACHE-LINE ALIGNMENT (64 bytes on x86):
+struct alignas(64) CacheLine {
+    float data[16];  // Exactly one cache line
+};
+
+ZERO-COPY TENSOR SHARING (Python <-> C++):
+// Python side: numpy array wraps C++ memory without copy
+py::array_t<float> wrap_tensor(float* data, size_t rows, size_t cols) {
+    return py::array_t<float>({rows, cols}, {cols * sizeof(float), sizeof(float)}, data,
+        py::capsule(data, [](void* p) { /* custom deleter */ }));
+}
+
+RAII FOR GPU MEMORY:
+class CudaBuffer {
+    void* ptr_ = nullptr;
+    size_t size_ = 0;
+public:
+    CudaBuffer(size_t bytes) : size_(bytes) { cudaMalloc(&ptr_, bytes); }
+    ~CudaBuffer() { if (ptr_) cudaFree(ptr_); }
+    CudaBuffer(CudaBuffer&& o) noexcept : ptr_(o.ptr_), size_(o.size_) { o.ptr_ = nullptr; }
+    CudaBuffer& operator=(CudaBuffer&&) noexcept;
+    CudaBuffer(const CudaBuffer&) = delete;
+    void* get() { return ptr_; }
+};
+
+LOCK-FREE QUEUE FOR REQUEST SCHEDULING:
+#include <atomic>
+template<typename T, size_t N>
+class SPSCQueue {  // Single-producer, single-consumer
+    std::array<T, N> buf_;
+    alignas(64) std::atomic<size_t> head_{0};
+    alignas(64) std::atomic<size_t> tail_{0};
+public:
+    bool push(const T& val) {
+        auto t = tail_.load(std::memory_order_relaxed);
+        if ((t + 1) % N == head_.load(std::memory_order_acquire)) return false;
+        buf_[t] = val;
+        tail_.store((t + 1) % N, std::memory_order_release);
+        return true;
+    }
+};
+
+RUST PyO3 BINDING:
+use pyo3::prelude::*;
+#[pyfunction]
+fn fast_tokenize(text: &str) -> PyResult<Vec<u32>> {
+    Ok(TOKENIZER.encode(text).map_err(|e| PyErr::new::<pyo3::exceptions::PyValueError, _>(e.to_string()))?)
+}`
+      },
+      {
+        title: "CUDA Kernel Development for LLM Inference",
+        content: `CUDA kernel development for LLM inference — from thread-level to warp-level optimization:
+
+FUSED SOFTMAX KERNEL (warp-level reduction):
+__global__ void fused_softmax_kernel(float* output, const float* input, int N) {
+    int tid = threadIdx.x;
+    int row = blockIdx.x;
+    const float* row_in = input + row * N;
+    float* row_out = output + row * N;
+
+    // Step 1: Find max (warp reduction)
+    float max_val = -INFINITY;
+    for (int i = tid; i < N; i += blockDim.x)
+        max_val = fmaxf(max_val, row_in[i]);
+    // Warp-level reduction
+    for (int offset = warpSize/2; offset > 0; offset >>= 1)
+        max_val = fmaxf(max_val, __shfl_down_sync(0xFFFFFFFF, max_val, offset));
+    __shared__ float s_max;
+    if (tid == 0) s_max = max_val;
+    __syncthreads();
+
+    // Step 2: Sum of exp(x - max)
+    float sum = 0.0f;
+    for (int i = tid; i < N; i += blockDim.x) {
+        float val = expf(row_in[i] - s_max);
+        row_out[i] = val;
+        sum += val;
+    }
+    // Warp reduction for sum, then normalize
+    for (int offset = warpSize/2; offset > 0; offset >>= 1)
+        sum += __shfl_down_sync(0xFFFFFFFF, sum, offset);
+    __shared__ float s_sum;
+    if (tid == 0) s_sum = sum;
+    __syncthreads();
+    for (int i = tid; i < N; i += blockDim.x)
+        row_out[i] /= s_sum;
+}
+
+SHARED MEMORY TILING FOR MATMUL:
+#define TILE_SIZE 32
+__global__ void tiled_matmul(float* C, const float* A, const float* B, int M, int N, int K) {
+    __shared__ float As[TILE_SIZE][TILE_SIZE];
+    __shared__ float Bs[TILE_SIZE][TILE_SIZE];
+    int row = blockIdx.y * TILE_SIZE + threadIdx.y;
+    int col = blockIdx.x * TILE_SIZE + threadIdx.x;
+    float sum = 0.0f;
+    for (int t = 0; t < (K + TILE_SIZE - 1) / TILE_SIZE; t++) {
+        As[threadIdx.y][threadIdx.x] = (row < M && t*TILE_SIZE+threadIdx.x < K) ?
+            A[row*K + t*TILE_SIZE + threadIdx.x] : 0.0f;
+        Bs[threadIdx.y][threadIdx.x] = (t*TILE_SIZE+threadIdx.y < K && col < N) ?
+            B[(t*TILE_SIZE+threadIdx.y)*N + col] : 0.0f;
+        __syncthreads();
+        for (int k = 0; k < TILE_SIZE; k++) sum += As[threadIdx.y][k] * Bs[k][threadIdx.x];
+        __syncthreads();
+    }
+    if (row < M && col < N) C[row*N + col] = sum;
+}
+
+COALESCED MEMORY ACCESS:
+// BAD: strided access (each thread reads column)
+val = data[threadIdx.x * stride];
+// GOOD: coalesced (consecutive threads read consecutive addresses)
+val = data[blockIdx.x * blockDim.x + threadIdx.x];
+
+CUSTOM PYTORCH EXTENSION:
+// setup.py:
+from torch.utils.cpp_extension import CUDAExtension, BuildExtension
+setup(ext_modules=[CUDAExtension('custom_attn', ['attn_kernel.cu'])], cmdclass={'build_ext': BuildExtension})
+// Python usage:
+import custom_attn
+output = custom_attn.fused_attention(Q, K, V, mask)
+
+PROFILING:
+# nsight compute for kernel analysis:
+ncu --set full --target-processes all python inference.py
+# nvprof for timeline:
+nvprof --print-gpu-trace python inference.py
+# Key metrics: achieved occupancy, memory throughput, compute throughput, warp execution efficiency
+
+TENSOR CORE WMMA (Warp Matrix Multiply-Accumulate):
+#include <mma.h>
+using namespace nvcuda;
+wmma::fragment<wmma::matrix_a, 16, 16, 16, half, wmma::row_major> a_frag;
+wmma::fragment<wmma::matrix_b, 16, 16, 16, half, wmma::col_major> b_frag;
+wmma::fragment<wmma::accumulator, 16, 16, 16, float> c_frag;
+wmma::fill_fragment(c_frag, 0.0f);
+wmma::load_matrix_sync(a_frag, a_ptr, 16);
+wmma::load_matrix_sync(b_frag, b_ptr, 16);
+wmma::mma_sync(c_frag, a_frag, b_frag, c_frag);
+wmma::store_matrix_sync(c_ptr, c_frag, 16, wmma::mem_row_major);
+
+OCCUPANCY OPTIMIZATION:
+// Query max threads per block for a kernel:
+int minGridSize, blockSize;
+cudaOccupancyMaxPotentialBlockSize(&minGridSize, &blockSize, myKernel, 0, 0);
+// Launch with optimal config:
+myKernel<<<minGridSize, blockSize>>>(args);`
+      },
+      {
+        title: "Transformer Internals Implementation Guide",
+        content: `Transformer architecture implementation — from attention to full forward pass:
+
+MULTI-HEAD ATTENTION FROM SCRATCH:
+class MultiHeadAttention:
+    def __init__(self, d_model: int, n_heads: int):
+        self.n_heads = n_heads
+        self.d_k = d_model // n_heads
+        self.W_q = nn.Linear(d_model, d_model, bias=False)
+        self.W_k = nn.Linear(d_model, d_model, bias=False)
+        self.W_v = nn.Linear(d_model, d_model, bias=False)
+        self.W_o = nn.Linear(d_model, d_model, bias=False)
+
+    def forward(self, x, kv_cache=None, mask=None):
+        B, T, C = x.shape
+        q = self.W_q(x).view(B, T, self.n_heads, self.d_k).transpose(1, 2)
+        k = self.W_k(x).view(B, T, self.n_heads, self.d_k).transpose(1, 2)
+        v = self.W_v(x).view(B, T, self.n_heads, self.d_k).transpose(1, 2)
+        if kv_cache is not None:
+            k = torch.cat([kv_cache[0], k], dim=2)
+            v = torch.cat([kv_cache[1], v], dim=2)
+        new_cache = (k, v)
+        attn = (q @ k.transpose(-2, -1)) * (self.d_k ** -0.5)
+        if mask is not None: attn = attn.masked_fill(mask == 0, float('-inf'))
+        attn = F.softmax(attn, dim=-1)
+        out = (attn @ v).transpose(1, 2).contiguous().view(B, T, C)
+        return self.W_o(out), new_cache
+
+KV CACHE PRE-ALLOCATION AND MANAGEMENT:
+class KVCache:
+    def __init__(self, max_batch: int, max_seq: int, n_heads: int, d_k: int, n_layers: int):
+        # Pre-allocate full cache — avoids repeated allocation during generation
+        self.k_cache = torch.zeros(n_layers, max_batch, n_heads, max_seq, d_k, device='cuda', dtype=torch.float16)
+        self.v_cache = torch.zeros_like(self.k_cache)
+        self.seq_lens = torch.zeros(max_batch, dtype=torch.int32)
+
+    def update(self, layer: int, batch_idx: int, k: Tensor, v: Tensor):
+        pos = self.seq_lens[batch_idx]
+        seq_len = k.shape[2]
+        self.k_cache[layer, batch_idx, :, pos:pos+seq_len] = k
+        self.v_cache[layer, batch_idx, :, pos:pos+seq_len] = v
+        self.seq_lens[batch_idx] += seq_len
+
+ROTARY POSITION EMBEDDINGS (RoPE):
+def apply_rope(x: Tensor, freqs_cos: Tensor, freqs_sin: Tensor) -> Tensor:
+    # x: [batch, heads, seq, dim]
+    x_r = x.float().reshape(*x.shape[:-1], -1, 2)
+    x1, x2 = x_r[..., 0], x_r[..., 1]
+    # Apply rotation: (x1*cos - x2*sin, x1*sin + x2*cos)
+    out = torch.stack([x1 * freqs_cos - x2 * freqs_sin, x1 * freqs_sin + x2 * freqs_cos], dim=-1)
+    return out.reshape(*x.shape).to(x.dtype)
+
+def precompute_freqs(dim: int, max_seq: int, theta: float = 10000.0):
+    freqs = 1.0 / (theta ** (torch.arange(0, dim, 2).float() / dim))
+    t = torch.arange(max_seq)
+    freqs = torch.outer(t, freqs)
+    return torch.cos(freqs), torch.sin(freqs)
+
+GROUPED-QUERY ATTENTION (GQA):
+# n_kv_heads < n_heads — KV heads are shared across query head groups
+# Example: 32 query heads, 8 KV heads → each KV head serves 4 query heads
+k = self.W_k(x).view(B, T, self.n_kv_heads, self.d_k).transpose(1, 2)
+# Expand KV heads to match query heads:
+k = k.repeat_interleave(self.n_heads // self.n_kv_heads, dim=1)
+
+RMS LAYER NORM (faster than LayerNorm):
+class RMSNorm(nn.Module):
+    def __init__(self, dim: int, eps: float = 1e-6):
+        super().__init__()
+        self.weight = nn.Parameter(torch.ones(dim))
+        self.eps = eps
+    def forward(self, x):
+        rms = torch.sqrt(torch.mean(x ** 2, dim=-1, keepdim=True) + self.eps)
+        return x / rms * self.weight
+
+SwiGLU ACTIVATION (used in LLaMA, Qwen):
+class SwiGLU(nn.Module):
+    def __init__(self, d_model: int, d_ff: int):
+        super().__init__()
+        self.w1 = nn.Linear(d_model, d_ff, bias=False)
+        self.w2 = nn.Linear(d_ff, d_model, bias=False)
+        self.w3 = nn.Linear(d_model, d_ff, bias=False)  # Gate
+    def forward(self, x):
+        return self.w2(F.silu(self.w1(x)) * self.w3(x))`
+      },
+      {
+        title: "Inference Engine Architecture (vLLM Internals)",
+        content: `Inference engine internals — continuous batching, PagedAttention, and scheduling:
+
+CONTINUOUS BATCHING SCHEDULER:
+class ContinuousBatchingScheduler:
+    def __init__(self, max_batch_size: int, max_tokens_per_step: int):
+        self.waiting: deque[Request] = deque()
+        self.running: list[Request] = []
+        self.max_batch = max_batch_size
+        self.max_tokens = max_tokens_per_step
+        self.block_manager = BlockManager(num_blocks=2048, block_size=16)
+
+    def schedule(self) -> SchedulerOutput:
+        # Iteration-level scheduling — runs every decode step
+        scheduled = []
+        # 1. Continue running requests (decode phase — 1 token each)
+        for req in self.running:
+            if self.block_manager.can_append(req):
+                self.block_manager.append_slot(req)
+                scheduled.append(req)
+            else:
+                # Cannot allocate — preempt lowest priority
+                self._preempt(req)
+        # 2. Admit new requests from waiting queue (prefill phase)
+        while self.waiting and len(scheduled) < self.max_batch:
+            req = self.waiting[0]
+            num_blocks_needed = ceil(req.prompt_len / self.block_manager.block_size)
+            if self.block_manager.can_allocate(num_blocks_needed):
+                self.block_manager.allocate(req, num_blocks_needed)
+                scheduled.append(self.waiting.popleft())
+            else:
+                break  # No space — stop admitting
+        return SchedulerOutput(requests=scheduled)
+
+PAGEDATTENTION BLOCK TABLE:
+class BlockManager:
+    def __init__(self, num_blocks: int, block_size: int):
+        self.block_size = block_size
+        self.free_blocks: list[int] = list(range(num_blocks))
+        self.block_tables: dict[int, list[int]] = {}  # req_id -> [block_ids]
+
+    def allocate(self, req: Request, num_blocks: int) -> list[int]:
+        blocks = [self.free_blocks.pop() for _ in range(num_blocks)]
+        self.block_tables[req.id] = blocks
+        return blocks
+
+    def append_slot(self, req: Request):
+        table = self.block_tables[req.id]
+        last_block = table[-1]
+        slots_used = req.current_len % self.block_size
+        if slots_used == 0:  # Last block full — allocate new
+            new_block = self.free_blocks.pop()
+            table.append(new_block)
+
+    def copy_on_write(self, src_req: Request, dst_req: Request):
+        # For parallel sampling — share prefix blocks, copy on divergence
+        src_table = self.block_tables[src_req.id]
+        self.block_tables[dst_req.id] = src_table.copy()
+        # Increment ref counts — actual copy happens only when one branch writes
+
+REQUEST STATES:
+class RequestState(Enum):
+    WAITING = "waiting"       # In queue, not yet scheduled
+    RUNNING = "running"       # Actively generating tokens
+    SWAPPED = "swapped"       # KV cache swapped to CPU (preempted)
+    FINISHED = "finished"     # Hit EOS or max_tokens
+
+SPECULATIVE DECODING:
+async def speculative_decode(draft_model, target_model, prompt, n_speculative=4):
+    draft_tokens = []
+    for _ in range(n_speculative):
+        token = draft_model.generate_one(prompt + draft_tokens)
+        draft_tokens.append(token)
+    # Verify all draft tokens in ONE target model forward pass
+    target_logits = target_model.forward(prompt + draft_tokens)
+    accepted = 0
+    for i, draft_tok in enumerate(draft_tokens):
+        p_target = softmax(target_logits[i])
+        p_draft = draft_model.get_prob(draft_tok)
+        if random() < min(1, p_target[draft_tok] / p_draft):
+            accepted += 1
+        else:
+            # Resample from adjusted distribution
+            correction = max(0, p_target - p_draft)
+            final_token = sample(correction / sum(correction))
+            return prompt + draft_tokens[:accepted] + [final_token]
+    return prompt + draft_tokens  # All accepted
+
+PREFIX CACHING (Radix Tree):
+# Store computed KV cache for common prompt prefixes
+# When a new request shares a prefix with a cached request,
+# reuse the cached KV blocks instead of recomputing
+# Implementation: radix tree where each node = a token, edges = block IDs
+# Lookup: traverse tree matching request tokens, return cached block IDs`
+      },
+      {
+        title: "Production Backend Engineering for AI",
+        content: `Production backend patterns for AI serving — FastAPI, streaming, rate limiting:
+
+FASTAPI WITH ASYNC STREAMING:
+from fastapi import FastAPI, Request
+from fastapi.responses import StreamingResponse
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: load model, warm up
+    app.state.engine = await InferenceEngine.create(model_path="/models/qwen3-32b-awq")
+    app.state.rate_limiter = RedisRateLimiter(redis_url="redis://localhost:6379")
+    yield
+    # Shutdown: graceful cleanup
+    await app.state.engine.shutdown()
+
+app = FastAPI(lifespan=lifespan)
+
+@app.post("/v1/chat/completions")
+async def chat_completions(request: ChatRequest, raw_request: Request):
+    engine = raw_request.app.state.engine
+    async def stream_response():
+        async for token in engine.generate_stream(request.messages, request.sampling_params):
+            chunk = {"choices": [{"delta": {"content": token}, "index": 0}]}
+            yield f"data: {json.dumps(chunk)}\\n\\n"
+        yield "data: [DONE]\\n\\n"
+    return StreamingResponse(stream_response(), media_type="text/event-stream")
+
+WEBSOCKET TOKEN STREAMING:
+@app.websocket("/ws/chat")
+async def ws_chat(ws: WebSocket):
+    await ws.accept()
+    try:
+        while True:
+            data = await ws.receive_json()
+            async for token in engine.generate_stream(data["messages"], data.get("params", {})):
+                await ws.send_json({"type": "token", "content": token})
+            await ws.send_json({"type": "done"})
+    except WebSocketDisconnect:
+        pass
+
+REDIS-BACKED SLIDING WINDOW RATE LIMITER:
+class RedisRateLimiter:
+    def __init__(self, redis_url: str):
+        self.redis = aioredis.from_url(redis_url)
+
+    async def check(self, key: str, limit: int, window_secs: int) -> tuple[bool, int]:
+        pipe = self.redis.pipeline()
+        now = time.time()
+        window_start = now - window_secs
+        pipe.zremrangebyscore(key, 0, window_start)  # Remove expired
+        pipe.zadd(key, {str(now): now})               # Add current
+        pipe.zcard(key)                                 # Count in window
+        pipe.expire(key, window_secs)                   # TTL
+        _, _, count, _ = await pipe.execute()
+        return count <= limit, limit - count  # allowed, remaining
+
+CONNECTION POOLING WITH ASYNCPG:
+import asyncpg
+pool = await asyncpg.create_pool(dsn="postgresql://...", min_size=5, max_size=20,
+    command_timeout=30, max_inactive_connection_lifetime=300)
+async with pool.acquire() as conn:
+    row = await conn.fetchrow("SELECT * FROM agents WHERE slug = $1", slug)
+
+GRACEFUL SHUTDOWN:
+import signal
+shutdown_event = asyncio.Event()
+def handle_signal(sig):
+    logger.info(f"Received {sig}, shutting down gracefully...")
+    shutdown_event.set()
+for sig in (signal.SIGTERM, signal.SIGINT):
+    asyncio.get_event_loop().add_signal_handler(sig, lambda s=sig: handle_signal(s))
+
+STRUCTURED LOGGING WITH STRUCTLOG:
+import structlog
+logger = structlog.get_logger()
+logger.info("request_received", method="POST", path="/v1/chat", user_id=user_id,
+    model=request.model, tokens_requested=request.max_tokens)
+
+HEALTH CHECK AGGREGATION:
+@app.get("/health")
+async def health():
+    checks = {"vllm": False, "redis": False, "postgres": False}
+    try:
+        async with httpx.AsyncClient() as c:
+            r = await c.get("http://localhost:8000/health", timeout=5)
+            checks["vllm"] = r.status_code == 200
+    except: pass
+    try: await app.state.redis.ping(); checks["redis"] = True
+    except: pass
+    try:
+        async with app.state.pool.acquire() as conn:
+            await conn.fetchval("SELECT 1"); checks["postgres"] = True
+    except: pass
+    all_ok = all(checks.values())
+    return JSONResponse(checks, status_code=200 if all_ok else 503)`
+      },
+      {
+        title: "Distributed Inference Systems",
+        content: `Distributed inference patterns — multi-GPU, multi-worker, fault tolerance:
+
+MULTI-WORKER vLLM WITH RAY:
+import ray
+from vllm import LLM, SamplingParams
+
+@ray.remote(num_gpus=1)
+class InferenceWorker:
+    def __init__(self, model_path: str, gpu_id: int):
+        self.llm = LLM(model=model_path, tensor_parallel_size=1, gpu_memory_utilization=0.90)
+        self.gpu_id = gpu_id
+
+    def generate(self, prompts: list[str], params: dict) -> list[str]:
+        sampling = SamplingParams(**params)
+        outputs = self.llm.generate(prompts, sampling)
+        return [o.outputs[0].text for o in outputs]
+
+    def health_check(self) -> dict:
+        return {"gpu": self.gpu_id, "status": "ok", "model_loaded": True}
+
+# Launch workers across GPUs
+workers = [InferenceWorker.remote(model_path, gpu_id=i) for i in range(num_gpus)]
+
+TENSOR PARALLEL — ALL-REDUCE FOR ATTENTION:
+# In tensor parallel, each GPU holds a SHARD of the weight matrices
+# Q, K, V projections: each GPU computes a subset of heads
+# After attention, all-reduce gathers results across GPUs
+# For feed-forward: column-parallel on first linear, row-parallel on second
+
+# Example with torch.distributed:
+import torch.distributed as dist
+def tensor_parallel_attention(q_local, k_local, v_local):
+    # Each GPU computes attention for its heads
+    attn_out_local = scaled_dot_product_attention(q_local, k_local, v_local)
+    # All-reduce to combine (needed for output projection)
+    dist.all_reduce(attn_out_local, op=dist.ReduceOp.SUM)
+    return attn_out_local
+
+REDIS JOB QUEUE FOR REQUEST DISTRIBUTION:
+import redis.asyncio as aioredis
+class RequestQueue:
+    def __init__(self, redis_url: str):
+        self.redis = aioredis.from_url(redis_url)
+        self.queue_key = "inference:requests"
+        self.results_prefix = "inference:result:"
+
+    async def enqueue(self, request_id: str, payload: dict) -> None:
+        await self.redis.lpush(self.queue_key, json.dumps({"id": request_id, **payload}))
+
+    async def dequeue(self, timeout: int = 30) -> dict | None:
+        result = await self.redis.brpop(self.queue_key, timeout=timeout)
+        return json.loads(result[1]) if result else None
+
+    async def publish_result(self, request_id: str, result: str) -> None:
+        await self.redis.setex(f"{self.results_prefix}{request_id}", 300, result)
+        await self.redis.publish(f"result:{request_id}", "ready")
+
+CIRCUIT BREAKER PATTERN:
+class CircuitBreaker:
+    def __init__(self, failure_threshold: int = 5, recovery_timeout: float = 30.0):
+        self.failures = 0
+        self.threshold = failure_threshold
+        self.recovery_timeout = recovery_timeout
+        self.state = "CLOSED"  # CLOSED (normal), OPEN (failing), HALF_OPEN (testing)
+        self.last_failure_time = 0.0
+
+    async def call(self, func, *args, **kwargs):
+        if self.state == "OPEN":
+            if time.time() - self.last_failure_time > self.recovery_timeout:
+                self.state = "HALF_OPEN"
+            else:
+                raise CircuitOpenError("Service unavailable — circuit breaker is OPEN")
+        try:
+            result = await func(*args, **kwargs)
+            if self.state == "HALF_OPEN":
+                self.state = "CLOSED"
+                self.failures = 0
+            return result
+        except Exception as e:
+            self.failures += 1
+            self.last_failure_time = time.time()
+            if self.failures >= self.threshold:
+                self.state = "OPEN"
+            raise
+
+HEALTH-BASED LOAD BALANCING:
+class HealthBasedBalancer:
+    def __init__(self, workers: list):
+        self.workers = workers
+        self.health_scores: dict[int, float] = {i: 1.0 for i in range(len(workers))}
+
+    async def select_worker(self) -> tuple[int, object]:
+        # Weighted random selection based on health scores
+        total = sum(self.health_scores.values())
+        r = random.random() * total
+        cumulative = 0.0
+        for idx, score in self.health_scores.items():
+            cumulative += score
+            if r <= cumulative:
+                return idx, self.workers[idx]
+        return 0, self.workers[0]
+
+    async def update_health(self, worker_idx: int, latency_ms: float, success: bool):
+        if success:
+            self.health_scores[worker_idx] = min(1.0, self.health_scores[worker_idx] + 0.1)
+        else:
+            self.health_scores[worker_idx] = max(0.1, self.health_scores[worker_idx] * 0.5)`
+      },
+      {
+        title: "Advanced Debugging Across the Stack",
+        content: `Advanced debugging methodology for Python/C++/CUDA mixed stacks:
+
+CUDA ERROR DEBUGGING:
+# cuda-memcheck (legacy) / compute-sanitizer (modern):
+compute-sanitizer --tool memcheck python inference.py
+compute-sanitizer --tool racecheck python inference.py  # Detect races in shared memory
+compute-sanitizer --tool initcheck python inference.py  # Detect uninitialized GPU memory reads
+
+# Common CUDA errors and root causes:
+# CUDA error: an illegal memory access — usually out-of-bounds in kernel
+# CUDA error: device-side assert triggered — assertion failed in kernel code
+# CUDA error: out of memory — VRAM exhausted, reduce batch size or sequence length
+# CUDA error: misaligned address — struct alignment issue, use alignas()
+
+PYTHON-C++ MIXED STACK TRACES:
+# When a segfault happens in a pybind11 extension:
+# 1. Run with faulthandler enabled:
+import faulthandler; faulthandler.enable()
+# 2. Use gdb to attach to Python process:
+gdb -p $(pgrep -f inference.py)
+# Inside gdb: bt (backtrace), py-bt (Python backtrace)
+
+MEMORY LEAK DETECTION WORKFLOW:
+import tracemalloc
+tracemalloc.start(25)  # 25 frames of traceback
+# ... run workload ...
+snapshot = tracemalloc.take_snapshot()
+# Filter to your code only:
+snapshot = snapshot.filter_traces([tracemalloc.Filter(True, "*/myproject/*")])
+for stat in snapshot.statistics('traceback')[:5]:
+    print(f"{stat.size / 1024:.1f} KiB")
+    for line in stat.traceback.format(): print(f"  {line}")
+
+# For C extensions: valgrind with Python
+valgrind --tool=memcheck --suppressions=$PREFIX/share/valgrind/python.supp python script.py
+
+GPU MEMORY FRAGMENTATION DIAGNOSIS:
+stats = torch.cuda.memory_stats()
+print(f"Allocated: {stats['allocated_bytes.all.current'] / 1e9:.2f} GB")
+print(f"Reserved:  {stats['reserved_bytes.all.current'] / 1e9:.2f} GB")
+print(f"Active:    {stats['active_bytes.all.current'] / 1e9:.2f} GB")
+print(f"Inactive:  {stats['inactive_split_bytes.all.current'] / 1e9:.2f} GB")
+# If inactive >> 0: fragmentation. Call torch.cuda.memory.empty_cache()
+# If reserved >> allocated: memory pool is over-provisioned
+torch.cuda.memory._dump_snapshot("mem_snapshot.pickle")
+# Visualize: python -m torch.cuda.memory._viz mem_snapshot.pickle
+
+PERFORMANCE FLAME GRAPHS:
+# py-spy for Python (attach to running process, no restart needed):
+py-spy record -o flame.svg --pid 12345 -r 100 --subprocesses --native
+# --native includes C/C++ frames in the flamegraph
+# -r 100 means 100 samples/second
+
+# For CUDA kernels:
+nsys profile -o report python inference.py
+nsys stats report.nsys-rep  # Summary of GPU kernel times
+ncu --set full -o kernel_report python inference.py  # Deep kernel analysis
+
+DEADLOCK DETECTION IN ASYNC CODE:
+# Common pattern: two coroutines waiting on each other's lock
+# Detection: log lock acquisition/release with timestamps
+import logging
+class TrackedLock:
+    def __init__(self, name: str):
+        self._lock = asyncio.Lock()
+        self._name = name
+    async def acquire(self):
+        logging.debug(f"LOCK {self._name}: acquire requested by {asyncio.current_task().get_name()}")
+        acquired = self._lock.acquire()
+        # If this log never appears, deadlock found:
+        logging.debug(f"LOCK {self._name}: acquired by {asyncio.current_task().get_name()}")
+
+SYSTEMATIC DEBUGGING METHODOLOGY:
+1. REPRODUCE: Get exact steps, environment, and input that triggers the bug
+2. ISOLATE: Binary search — comment out half the code, does it still fail?
+3. HYPOTHESIZE: Form 2-3 hypotheses about root cause
+4. VERIFY: Write a test that proves/disproves each hypothesis
+5. FIX: Fix the root cause, not the symptom
+6. REGRESSION TEST: Add the repro case as a permanent test`
+      },
+      {
+        title: "Agent Systems Engineering",
+        content: `Agent systems engineering — tool execution, memory, decision loops, security:
+
+TOOL EXECUTION FRAMEWORK:
+from pydantic import BaseModel, Field
+import asyncio
+from typing import Any
+
+class ToolSchema(BaseModel):
+    name: str
+    description: str
+    parameters: dict  # JSON Schema for input validation
+
+class ToolResult(BaseModel):
+    success: bool
+    output: Any
+    error: str | None = None
+    execution_time_ms: float
+
+class ToolExecutor:
+    def __init__(self, timeout: float = 30.0):
+        self.tools: dict[str, callable] = {}
+        self.timeout = timeout
+
+    def register(self, name: str, func: callable, schema: ToolSchema):
+        self.tools[name] = {"func": func, "schema": schema}
+
+    async def execute(self, name: str, params: dict) -> ToolResult:
+        if name not in self.tools:
+            return ToolResult(success=False, output=None, error=f"Unknown tool: {name}", execution_time_ms=0)
+        tool = self.tools[name]
+        # Validate params against schema
+        try:
+            validated = tool["schema"].model_validate(params)
+        except ValidationError as e:
+            return ToolResult(success=False, output=None, error=str(e), execution_time_ms=0)
+        # Execute with timeout and sandboxing
+        start = time.monotonic()
+        try:
+            result = await asyncio.wait_for(tool["func"](**validated.model_dump()), timeout=self.timeout)
+            elapsed = (time.monotonic() - start) * 1000
+            return ToolResult(success=True, output=result, execution_time_ms=elapsed)
+        except asyncio.TimeoutError:
+            return ToolResult(success=False, output=None, error="Tool execution timed out", execution_time_ms=self.timeout * 1000)
+
+VECTOR STORE MEMORY (pgvector):
+class AgentMemory:
+    def __init__(self, pool, embedding_model):
+        self.pool = pool
+        self.embedder = embedding_model
+
+    async def store(self, agent_id: str, content: str, metadata: dict):
+        embedding = await self.embedder.encode(content)
+        async with self.pool.acquire() as conn:
+            await conn.execute('''
+                INSERT INTO agent_memory (agent_id, content, embedding, metadata, created_at)
+                VALUES ($1, $2, $3::vector, $4, NOW())
+            ''', agent_id, content, embedding.tolist(), json.dumps(metadata))
+
+    async def recall(self, agent_id: str, query: str, limit: int = 5) -> list[dict]:
+        query_emb = await self.embedder.encode(query)
+        async with self.pool.acquire() as conn:
+            rows = await conn.fetch('''
+                SELECT content, metadata, 1 - (embedding <=> $1::vector) as similarity
+                FROM agent_memory WHERE agent_id = $2
+                ORDER BY embedding <=> $1::vector LIMIT $3
+            ''', query_emb.tolist(), agent_id, limit)
+            return [{"content": r["content"], "similarity": r["similarity"], "metadata": json.loads(r["metadata"])} for r in rows]
+
+    async def consolidate(self, agent_id: str, max_memories: int = 1000):
+        # Merge similar memories to prevent bloat
+        async with self.pool.acquire() as conn:
+            count = await conn.fetchval("SELECT COUNT(*) FROM agent_memory WHERE agent_id = $1", agent_id)
+            if count > max_memories:
+                # Delete oldest, least-accessed memories
+                await conn.execute('''
+                    DELETE FROM agent_memory WHERE id IN (
+                        SELECT id FROM agent_memory WHERE agent_id = $1
+                        ORDER BY last_accessed ASC NULLS FIRST LIMIT $2
+                    )
+                ''', agent_id, count - max_memories)
+
+ReAct LOOP IMPLEMENTATION:
+async def react_loop(agent, query: str, max_steps: int = 10) -> str:
+    history = [{"role": "user", "content": query}]
+    for step in range(max_steps):
+        response = await agent.generate(history)
+        # Parse: Thought: ... Action: tool_name(params) ... or Answer: final_answer
+        if "Answer:" in response:
+            return response.split("Answer:")[-1].strip()
+        action_match = re.search(r'Action:\s*(\w+)\((.*?)\)', response)
+        if action_match:
+            tool_name, params_str = action_match.groups()
+            params = json.loads(params_str) if params_str else {}
+            result = await tool_executor.execute(tool_name, params)
+            history.append({"role": "assistant", "content": response})
+            history.append({"role": "user", "content": f"Observation: {result.output}"})
+        else:
+            history.append({"role": "assistant", "content": response})
+    return "Max steps reached without answer"
+
+PROMPT INJECTION DEFENSE:
+def sanitize_input(user_input: str) -> str:
+    # Remove common injection patterns
+    dangerous = ["ignore previous", "system prompt", "you are now", "forget your instructions", "disregard"]
+    lower = user_input.lower()
+    for pattern in dangerous:
+        if pattern in lower:
+            return "[INPUT SANITIZED — potential injection detected]"
+    # Canary token verification
+    return user_input
+
+def validate_output(output: str, canary: str) -> str:
+    if canary in output:  # Model leaked the canary — injection succeeded
+        return "[OUTPUT BLOCKED — canary token detected in response]"
+    return output`
+      },
+      {
+        title: "Infrastructure and DevOps for AI Systems",
+        content: `Infrastructure and DevOps patterns for AI serving systems:
+
+DOCKER GPU SETUP:
+# Install nvidia-container-toolkit:
+# apt-get install -y nvidia-container-toolkit && systemctl restart docker
+
+# Dockerfile for vLLM serving:
+FROM nvidia/cuda:12.4.0-runtime-ubuntu22.04
+RUN pip install vllm==0.6.0 torch==2.4.0
+COPY serve.py /app/serve.py
+HEALTHCHECK --interval=30s --timeout=10s CMD curl -f http://localhost:8000/health || exit 1
+ENTRYPOINT ["python", "/app/serve.py"]
+
+# docker-compose.yml with GPU passthrough:
+services:
+  vllm:
+    build: .
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    ports: ["8000:8000"]
+    volumes: ["/models:/models:ro"]
+    environment:
+      - MODEL_PATH=/models/qwen3-32b-awq
+      - TENSOR_PARALLEL_SIZE=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      retries: 3
+
+DOCKER-COMPOSE FOR FULL AI STACK:
+services:
+  vllm:
+    # ... (above)
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment: {POSTGRES_PASSWORD: secret, POSTGRES_DB: stoneai}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    ports: ["5432:5432"]
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    command: redis-server --maxmemory 2gb --maxmemory-policy allkeys-lru
+  prometheus:
+    image: prom/prometheus
+    volumes: [./prometheus.yml:/etc/prometheus/prometheus.yml]
+    ports: ["9090:9090"]
+  grafana:
+    image: grafana/grafana
+    ports: ["3001:3000"]
+    volumes: [grafana-data:/var/lib/grafana]
+
+GITHUB ACTIONS CI FOR ML:
+name: ML CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres: {image: pgvector/pgvector:pg16, env: {POSTGRES_PASSWORD: test}, ports: ["5432:5432"]}
+      redis: {image: redis:7, ports: ["6379:6379"]}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - run: pip install -r requirements.txt && pip install pytest
+      - run: pytest tests/ -v --tb=short
+      - run: python -m mypy src/ --strict
+
+PROMETHEUS METRICS FOR vLLM:
+# vLLM exposes /metrics endpoint by default. Key metrics:
+# vllm:num_requests_running — current batch size
+# vllm:num_requests_waiting — queue depth
+# vllm:gpu_cache_usage_perc — KV cache utilization
+# vllm:avg_generation_throughput_toks_per_s — tokens/sec
+
+# Custom metrics in your serving layer:
+from prometheus_client import Counter, Histogram, Gauge
+REQUEST_COUNT = Counter('inference_requests_total', 'Total requests', ['model', 'status'])
+REQUEST_LATENCY = Histogram('inference_request_duration_seconds', 'Request latency', buckets=[0.1, 0.5, 1, 2, 5, 10, 30])
+TOKENS_GENERATED = Counter('inference_tokens_generated_total', 'Total tokens generated')
+BATCH_SIZE = Gauge('inference_current_batch_size', 'Current batch size')
+
+SYSTEMD SERVICE FOR vLLM AUTO-RESTART:
+# /etc/systemd/system/vllm.service
+[Unit]
+Description=vLLM Inference Server
+After=network.target nvidia-persistenced.service
+Wants=nvidia-persistenced.service
+
+[Service]
+Type=simple
+User=vllm
+ExecStart=/usr/bin/python -m vllm.entrypoints.openai.api_server \\
+    --model /models/qwen3-32b-awq --port 8000 \\
+    --gpu-memory-utilization 0.90 --max-model-len 8192
+Restart=always
+RestartSec=10
+Environment=CUDA_VISIBLE_DEVICES=0
+
+[Install]
+WantedBy=multi-user.target
+
+BLUE-GREEN DEPLOYMENT FOR MODEL SWAPS:
+# 1. Start new model on alternate port:
+vllm serve /models/new-model --port 8001
+# 2. Health check new model:
+curl http://localhost:8001/health
+# 3. Switch load balancer to new port:
+# Update nginx/caddy upstream from 8000 to 8001
+# 4. Verify traffic flows to new model
+# 5. Shutdown old model on port 8000
+# 6. Reassign port 8000 to new model if needed
+
+PERFORMANCE BENCHMARKING HARNESS:
+async def benchmark(url: str, prompts: list[str], concurrency: int = 10):
+    semaphore = asyncio.Semaphore(concurrency)
+    results = []
+    async def single_request(prompt):
+        async with semaphore:
+            start = time.monotonic()
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, json={"prompt": prompt, "max_tokens": 128}) as resp:
+                    data = await resp.json()
+                    elapsed = time.monotonic() - start
+                    tokens = len(data.get("choices", [{}])[0].get("text", "").split())
+                    results.append({"latency": elapsed, "tokens": tokens, "tps": tokens / elapsed})
+    await asyncio.gather(*[single_request(p) for p in prompts])
+    avg_latency = sum(r["latency"] for r in results) / len(results)
+    avg_tps = sum(r["tps"] for r in results) / len(results)
+    print(f"Avg latency: {avg_latency:.2f}s | Avg TPS: {avg_tps:.1f} | P99: {sorted([r['latency'] for r in results])[int(len(results)*0.99)]:.2f}s")`
       },
     ],
   },

@@ -5,8 +5,8 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Stone AI™ — Private AI Business Platform",
     short_name: "Stone AI",
     description:
-      "30 AI specialist agents, local-first inference, and a built-in community — all from one platform.",
-    start_url: "/app/chat",
+      "38 AI specialist agents, local-first inference, and a built-in community — all from one platform.",
+    start_url: "/app",
     display: "standalone",
     background_color: "#09090b",
     theme_color: "#09090b",

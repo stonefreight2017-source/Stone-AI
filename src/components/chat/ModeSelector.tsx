@@ -121,7 +121,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
       key: "SMART" as const,
       label: "Smart",
       icon: Cloud,
-      description: "GPT-4o cloud model",
+      description: "Cloud AI model",
     },
   ];
 
@@ -211,7 +211,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
               <div>
                 <h3 id="smart-mode-title" className="font-semibold text-white text-sm">Switch to Smart Mode?</h3>
                 <p className="text-xs text-zinc-400 mt-1">
-                  Smart mode uses cloud AI (GPT-4o) which costs significantly more.
+                  Smart mode uses cloud AI which costs significantly more.
                 </p>
               </div>
               <button
@@ -251,7 +251,7 @@ export function ModeSelector({ allowedModes }: ModeSelectorProps) {
                 <p className="text-xs text-zinc-400">
                   Local mode is <strong className="text-white">sub-100ms fast</strong>, completely private,
                   and doesn&apos;t count extra against your quota. Use Smart only when you truly need
-                  GPT-4o&apos;s capabilities.
+                  cloud AI&apos;s capabilities.
                 </p>
               </div>
             )}

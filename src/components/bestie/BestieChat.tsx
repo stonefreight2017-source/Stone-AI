@@ -261,6 +261,15 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
           toast.error("Slow down — too many requests. Try again in a moment.");
           return;
         }
+        if (parsed.code === "TOO_MANY_CONCURRENT") {
+          toast.error(parsed.error || "Too many simultaneous requests. Please wait for a response.");
+          return;
+        }
+        // For any other structured error, show its message cleanly
+        if ("message" in parsed && parsed.message) {
+          toast.error(parsed.message);
+          return;
+        }
       } catch {
         // Not a structured error
       }
@@ -586,7 +595,15 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
       {/* Error */}
       {chatError && !smartCapError && (
         <div className="px-4 py-2 bg-red-900/30 border-t border-red-800 text-red-300 text-sm text-center">
-          {chatError.message}
+          {(() => {
+            try {
+              const parsed = JSON.parse(chatError.message);
+              if (parsed.error) return parsed.error;
+            } catch {
+              // not JSON
+            }
+            return chatError.message;
+          })()}
         </div>
       )}
 

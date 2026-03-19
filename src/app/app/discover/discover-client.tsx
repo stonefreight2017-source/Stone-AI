@@ -121,7 +121,7 @@ const TIER_WORLDS: TierWorld[] = [
       "Content strategy and creation",
       "Lead generation systems",
       "Conversation export",
-      "10 GPT-4o premium answers/day",
+      "10 cloud AI premium answers/day",
     ],
     atmosphere:
       "The studio got an upgrade. Still cozy, but now there's room to spread out. A proper desk, better lighting, and that feeling of — okay, I'm actually doing this.",
@@ -154,7 +154,7 @@ const TIER_WORLDS: TierWorld[] = [
     capabilities: [
       "26 specialized agents unlocked",
       "Voice chat",
-      "15 GPT-4o premium answers/day",
+      "15 cloud AI premium answers/day",
       "Auto-routing picks the best model",
       "25 web lookups/day",
       "Commercial rights included",
@@ -446,7 +446,7 @@ export function DiscoverClient({ currentTier, tierName }: DiscoverClientProps) {
             <div className="flex items-center gap-4 pt-2">
               {isCurrentTier ? (
                 <Button
-                  onClick={() => router.push("/app/chat")}
+                  onClick={() => router.push("/app")}
                   className="bg-white/10 hover:bg-white/20 text-white border border-white/20"
                 >
                   <MessageSquare className="h-4 w-4 mr-2" />
