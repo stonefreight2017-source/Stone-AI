@@ -363,14 +363,14 @@ export function formatSearchResults(results: SearchResult[]): string {
 
   return [
     "",
-    "═══ WEB SEARCH RESULTS ═══",
-    "The following are real-time web search results relevant to the user's question.",
-    "Use these to inform your response. Cite sources when referencing specific information.",
-    "If the search results don't contain relevant information, rely on your existing knowledge.",
+    "═══ VERIFIED WEB SEARCH RESULTS ═══",
+    "These are REAL results from a live Google search. You MUST use these results to answer.",
+    "Do NOT ignore these results. Do NOT make up your own business names or addresses.",
+    "Present ONLY the businesses listed below. Add no others.",
     "",
     formatted,
     "",
-    "═══ END SEARCH RESULTS ═══",
+    "═══ END VERIFIED RESULTS ═══",
   ].join("\n");
 }
 
