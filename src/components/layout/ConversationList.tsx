@@ -81,51 +81,49 @@ export function ConversationList() {
             </p>
           ) : (
             filtered.map((convo) => (
-              <div key={convo.id} role="listitem">
+              <div key={convo.id} role="listitem" className="flex items-center gap-0.5 group">
                 <button
                   onClick={() => handleSelect(convo.id)}
                   aria-label={`Open conversation: ${convo.title}`}
                   aria-current={activeChatId === convo.id ? "true" : undefined}
                   className={cn(
-                    "w-full flex items-center gap-2 px-2 py-1.5 rounded-md text-sm text-left group transition-colors",
+                    "flex-1 min-w-0 flex items-center gap-2 px-2 py-1.5 rounded-md text-sm text-left transition-colors",
                     activeChatId === convo.id
                       ? "bg-zinc-700 text-white"
                       : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
                   )}
                 >
                   <MessageSquare className="h-4 w-4 shrink-0" />
-                  <span className="truncate flex-1">{convo.title}</span>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    aria-live="polite"
-                    aria-label={
-                      pendingDeleteId === convo.id
-                        ? "Click again to confirm delete"
-                        : "Delete conversation"
-                    }
-                    className={cn(
-                      "h-6 w-6 shrink-0",
-                      pendingDeleteId === convo.id
-                        ? "opacity-100 bg-red-900/50 hover:bg-red-800"
-                        : "opacity-70 hover:opacity-100 hover:bg-zinc-600"
-                    )}
-                    onClick={(e) => handleDelete(e, convo.id)}
-                    disabled={deleteConversation.isPending}
-                  >
-                    {deleteConversation.isPending ? (
-                      <Loader2 className="h-3 w-3 animate-spin" />
-                    ) : (
-                      <Trash2
-                        className={cn(
-                          "h-3 w-3",
-                          pendingDeleteId === convo.id
-                            ? "text-red-400"
-                            : "text-zinc-400"
-                        )}
-                      />
-                    )}
-                  </Button>
+                  <span className="truncate flex-1 min-w-0">{convo.title}</span>
+                </button>
+                <button
+                  aria-live="polite"
+                  aria-label={
+                    pendingDeleteId === convo.id
+                      ? "Click again to confirm delete"
+                      : "Delete conversation"
+                  }
+                  className={cn(
+                    "shrink-0 h-7 w-7 flex items-center justify-center rounded-md transition-colors",
+                    pendingDeleteId === convo.id
+                      ? "bg-red-900/50 hover:bg-red-800"
+                      : "hover:bg-zinc-700"
+                  )}
+                  onClick={(e) => handleDelete(e, convo.id)}
+                  disabled={deleteConversation.isPending}
+                >
+                  {deleteConversation.isPending ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin text-zinc-400" />
+                  ) : (
+                    <Trash2
+                      className={cn(
+                        "h-3.5 w-3.5",
+                        pendingDeleteId === convo.id
+                          ? "text-red-400"
+                          : "text-zinc-500 hover:text-zinc-300"
+                      )}
+                    />
+                  )}
                 </button>
               </div>
             ))
