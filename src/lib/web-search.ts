@@ -2,7 +2,7 @@
  * Web Search Module — Stone AI
  *
  * Provides web search capabilities for agents via external search APIs.
- * Supports Serper (primary), Brave Search (fallback), and DuckDuckGo (emergency fallback) providers.
+ * Supports Serper (primary) and DuckDuckGo (emergency fallback) providers.
  *
  * Usage:
  *   import { searchWeb, formatSearchResults, checkSearchQuota } from "@/lib/web-search";
@@ -20,7 +20,6 @@
  *   SERPER_PROXY_URL     — Optional proxy URL for Serper (e.g., https://serper.stone-ai.net)
  *                          When set, requests go through the proxy which adds the API key.
  *                          Used to bypass datacenter IP blocking on Vercel.
- *   BRAVE_SEARCH_API_KEY — Brave Search API key (fallback)
  *   (none for DDG)       — DuckDuckGo requires no API key (emergency fallback)
  *
  * Rate limiting:
@@ -53,7 +52,7 @@ export interface SearchResult {
 
 export interface SearchResponse {
   results: SearchResult[];
-  provider: "serper" | "brave" | "ddg" | "none";
+  provider: "serper" | "ddg" | "none";
   query: string;
   cached: boolean;
 }
@@ -97,18 +96,6 @@ interface SerperPlacesResponse {
   }>;
 }
 
-interface BraveWebResult {
-  title?: string;
-  url?: string;
-  description?: string;
-  age?: string;
-  meta_url?: { hostname?: string };
-}
-
-interface BraveSearchResponse {
-  web?: { results?: BraveWebResult[] };
-}
-
 // ═══════════════════════════════════════════════════════════
 // Constants
 // ═══════════════════════════════════════════════════════════
@@ -119,7 +106,7 @@ const SEARCH_TIMEOUT_MS = 8_000;
 const DDG_TIMEOUT_MS = 4_000;
 
 /** In-memory cache to avoid duplicate API calls within a short window */
-const searchCache = new Map<string, { results: SearchResult[]; provider: "serper" | "brave" | "ddg"; expiry: number }>();
+const searchCache = new Map<string, { results: SearchResult[]; provider: "serper" | "ddg"; expiry: number }>();
 const CACHE_TTL_MS = 5 * 60_000; // 5 minutes
 
 // Clean up expired cache entries every 10 minutes
@@ -135,7 +122,7 @@ setInterval(() => {
 // ═══════════════════════════════════════════════════════════
 
 /**
- * Search the web using available providers (Serper primary, Brave fallback, DDG emergency).
+ * Search the web using available providers (Serper primary, DDG emergency fallback).
  * Returns empty array on failure — never throws.
  *
  * @param query    - The search query string
@@ -208,16 +195,6 @@ export async function searchWeb(
     }
   }
 
-  // Try Brave Search (fallback)
-  const braveKey = process.env.BRAVE_SEARCH_API_KEY;
-  if (braveKey) {
-    const braveResults = await searchBrave(trimmedQuery, count, braveKey);
-    if (braveResults.length > 0) {
-      searchCache.set(cacheKey, { results: braveResults, provider: "brave", expiry: Date.now() + CACHE_TTL_MS });
-      return { results: braveResults, provider: "brave", query: trimmedQuery, cached: false };
-    }
-  }
-
   // Try DuckDuckGo (emergency fallback — no API key required)
   const ddgResults = await searchDDG(trimmedQuery, count);
   if (ddgResults.length > 0) {
@@ -226,8 +203,8 @@ export async function searchWeb(
   }
 
   // All providers failed or unconfigured
-  if (!serperKey && !braveKey) {
-    console.warn("[web-search] No search API keys configured (SERPER_API_KEY or BRAVE_SEARCH_API_KEY)");
+  if (!serperKey && !serperProxyUrl) {
+    console.warn("[web-search] No search API keys configured (SERPER_API_KEY or SERPER_PROXY_URL)");
   }
 
   return { results: [], provider: "none", query: trimmedQuery, cached: false };
@@ -365,66 +342,6 @@ async function searchSerperPlaces(
       console.warn("[web-search] Serper Places request timed out");
     } else {
       console.warn("[web-search] Serper Places error:", error instanceof Error ? error.message : "unknown");
-    }
-    return [];
-  }
-}
-
-// ═══════════════════════════════════════════════════════════
-// Provider: Brave Search
-// ═══════════════════════════════════════════════════════════
-
-async function searchBrave(
-  query: string,
-  numResults: number,
-  apiKey: string
-): Promise<SearchResult[]> {
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), SEARCH_TIMEOUT_MS);
-
-    const params = new URLSearchParams({
-      q: query,
-      count: String(numResults),
-    });
-
-    const response = await fetch(`https://api.search.brave.com/res/v1/web/search?${params}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip",
-        "X-Subscription-Token": apiKey,
-      },
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      console.warn(`[web-search] Brave returned ${response.status}: ${response.statusText}`);
-      return [];
-    }
-
-    const data = (await response.json()) as BraveSearchResponse;
-    const webResults = data.web?.results ?? [];
-
-    return webResults
-      .filter((r): r is BraveWebResult & { title: string; url: string } =>
-        typeof r.title === "string" && typeof r.url === "string"
-      )
-      .slice(0, numResults)
-      .map((r) => ({
-        title: r.title,
-        url: r.url,
-        snippet: r.description ?? "",
-        date: r.age,
-        source: r.meta_url?.hostname ?? extractDomain(r.url),
-      }));
-  } catch (error) {
-    if (error instanceof Error && error.name === "AbortError") {
-      console.warn("[web-search] Brave request timed out");
-    } else {
-      console.warn("[web-search] Brave error:", error instanceof Error ? error.message : "unknown");
     }
     return [];
   }
