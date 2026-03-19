@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Zap,
@@ -35,8 +37,9 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Insignia } from "@/components/brand/Insignia";
-// Language toggle removed until multi-language is verified
-// import { LandingLanguageToggle } from "./landing-language-toggle";
+import { LandingLanguageToggle } from "./landing-language-toggle";
+import { LanguageProvider } from "./language-context";
+import { useT } from "./use-translation";
 import { PricingSection } from "./pricing-section";
 import { LandingTabs } from "./landing-tabs";
 import { DepartmentTabs } from "./department-tabs";
@@ -50,6 +53,15 @@ import {
 
 
 export default function LandingPage() {
+  return (
+    <LanguageProvider>
+      <LandingPageContent />
+    </LanguageProvider>
+  );
+}
+
+function LandingPageContent() {
+  const t = useT();
   return (
     <div className="min-h-screen bg-zinc-900 text-white scroll-smooth relative">
       {/* ── Themed backdrop: dot grid + radial glows + noise ── */}
@@ -83,17 +95,17 @@ export default function LandingPage() {
           <Link href="/" className="text-zinc-300 hover:text-white transition-colors" aria-label="Home">
             <Home className="h-5 w-5" />
           </Link>
-          {/* Language toggle removed until multi-language verified */}
+          <LandingLanguageToggle />
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
           <Link href="#promotions" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
-            Deals
+            {t("pricing")}
           </Link>
           <Link href="#pricing" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
-            Pricing
+            {t("seePlans")}
           </Link>
           <Link href="/sign-in" className="text-sm text-zinc-300 hover:text-white transition-colors">
-            Sign In
+            {t("signIn")}
           </Link>
         </div>
       </nav>
@@ -111,18 +123,18 @@ export default function LandingPage() {
 
         <HeroSection>
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-            The workforce of the
+            {t("heroTitle1")}
             <br />
             <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-300 bg-clip-text text-transparent">
-              future is here.
+              {t("heroTitle2")}
             </span>
           </h1>
 
           <p className="text-lg sm:text-xl text-zinc-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-            38 AI specialists that think so you don't have to. Your data stays yours.
+            {t("heroSub1")}
           </p>
           <p className="text-base text-zinc-300 max-w-md mx-auto mb-6">
-            One platform. Instant responses. Starting at $0.
+            {t("heroSub2")}
           </p>
 
           {/* Promo callout */}
@@ -136,7 +148,7 @@ export default function LandingPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" className="bg-white text-black hover:bg-zinc-200 font-bold text-lg px-8">
               <Link href="/sign-up">
-                Start for Free <ArrowRight className="ml-2 h-5 w-5" />
+                {t("startForFree")} <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
             <Button
@@ -145,7 +157,7 @@ export default function LandingPage() {
               size="lg"
               className="border-zinc-700 text-zinc-300 text-lg px-8 hover:bg-zinc-800"
             >
-              <Link href="#pricing">See Plans</Link>
+              <Link href="#pricing">{t("seePlans")}</Link>
             </Button>
           </div>
         </HeroSection>
