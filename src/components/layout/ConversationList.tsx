@@ -58,7 +58,7 @@ export function ConversationList() {
   }
 
   return (
-    <div className="flex flex-col gap-2 h-full min-h-0 overflow-hidden">
+    <div className="flex flex-col gap-2 h-full min-h-0">
       <div className="px-3">
         <Input
           aria-label="Search conversations"
