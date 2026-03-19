@@ -141,7 +141,7 @@ function LandingPageContent() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-950 border border-amber-500/30 text-amber-400 text-sm font-medium animate-pulse">
               <Sparkles className="h-4 w-4" />
-              Launch Deals: Start at $9.99/mo
+              {t("launchDeals")}
             </div>
           </div>
 
@@ -303,7 +303,7 @@ function LandingPageContent() {
               <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                 <div className="flex-1">
                   <Badge className="mb-2 bg-emerald-500/10 text-emerald-400 border-emerald-500/20">{t("enterprise")}</Badge>
-                  <h3 className="text-xl font-bold mb-1">Finance, legal, strategy — we built for you</h3>
+                  <h3 className="text-xl font-bold mb-1">{t("enterpriseHeading")}</h3>
                   <p className="text-sm text-zinc-400">
                     {t("regulatedDesc")}
                   </p>
@@ -334,19 +334,19 @@ function LandingPageContent() {
           <AnimateOnScroll>
             <Card className="bg-gradient-to-br from-green-500/10 via-zinc-800/40 to-zinc-800/30 border-green-500/20 p-6 sm:p-8 mb-8 relative overflow-hidden">
               <div className="absolute top-3 right-3">
-                <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs uppercase tracking-wider">Featured Agent</Badge>
+                <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs uppercase tracking-wider">{t("featuredAgent")}</Badge>
               </div>
               <div className="flex flex-col sm:flex-row items-start gap-5">
                 <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-green-500/15 border border-green-500/20 flex items-center justify-center">
                   <Megaphone className="h-7 w-7 text-green-400" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1">Digital Marketing Strategist</h3>
+                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1">{t("featuredAgentName")}</h3>
                   <p className="text-sm text-zinc-400 leading-relaxed mb-4">
-                    Full-spectrum digital marketing strategist and Stone AI{`'`}s official marketing voice. Agency building, organic social, paid ads, client acquisition, analytics, and growth strategy.
+                    {t("featuredAgentDesc")}
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {["Organic Social", "Paid Ads", "Agency Building", "Client Acquisition", "Analytics", "Growth Strategy"].map((tag) => (
+                    {[t("tagOrganicSocial"), t("tagPaidAds"), t("tagAgencyBuilding"), t("tagClientAcquisition"), t("tagAnalytics"), t("tagGrowthStrategy")].map((tag) => (
                       <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-green-500/10 text-green-400/80 border border-green-500/15 font-medium">
                         {tag}
                       </span>
@@ -354,7 +354,7 @@ function LandingPageContent() {
                   </div>
                   <div className="mt-4">
                     <Button asChild size="sm" className="bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 font-semibold text-xs">
-                      <Link href="/sign-up">Upgrade to Access <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
+                      <Link href="/sign-up">{t("upgradeToAccess")} <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
                     </Button>
                   </div>
                 </div>
@@ -374,11 +374,11 @@ function LandingPageContent() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
                 {[
-                  { day: "Mon", agent: "Startup Launcher", task: "Validate & plan" },
-                  { day: "Tue", agent: "Business Plan", task: "Financials & model" },
-                  { day: "Wed", agent: "Brand Agent", task: "Name & identity" },
-                  { day: "Thu", agent: "Web Dev", task: "Landing page" },
-                  { day: "Fri", agent: "Marketing Strategist", task: "Ads & funnels" },
+                  { day: t("dayMon"), agent: t("agentStartupLauncher"), task: t("taskValidatePlan") },
+                  { day: t("dayTue"), agent: t("agentBusinessPlan"), task: t("taskFinancialsModel") },
+                  { day: t("dayWed"), agent: t("agentBrandAgent"), task: t("taskNameIdentity") },
+                  { day: t("dayThu"), agent: t("agentWebDev"), task: t("taskLandingPage") },
+                  { day: t("dayFri"), agent: t("agentMarketingStrategist"), task: t("taskAdsFunnels") },
                 ].map((s) => (
                   <div key={s.day} className="rounded-lg bg-zinc-700/30 p-3 sm:p-4">
                     <span className="text-xs text-zinc-400 uppercase font-semibold">{s.day}</span>
@@ -402,9 +402,9 @@ function LandingPageContent() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
                 {[
-                  "Blog series", "Email sequence", "30 days posts", "Video script",
-                  "Keyword strategy", "Ad campaigns", "Landing pages", "Episode outline",
-                  "Outreach emails", "Dashboard", "Client deck",
+                  t("outputBlogSeries"), t("outputEmailSequence"), t("output30DaysPosts"), t("outputVideoScript"),
+                  t("outputKeywordStrategy"), t("outputAdCampaigns"), t("outputLandingPages"), t("outputEpisodeOutline"),
+                  t("outputOutreachEmails"), t("outputDashboard"), t("outputClientDeck"),
                 ].map((output) => (
                   <div key={output} className="rounded-lg bg-zinc-700/20 p-3 text-center border border-zinc-700/30">
                     <p className="text-xs text-zinc-300 font-medium">{output}</p>
@@ -421,10 +421,10 @@ function LandingPageContent() {
           <AnimateOnScroll>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
-                { icon: Zap, title: "Deep Reasoning", desc: "Each agent doesn't just retrieve info — it thinks in your domain. Financial Agent reasons in cashflow models. Marketing Agent thinks in conversion funnels. You get specialist analysis, not generic guesses.", color: "text-amber-400" },
-                { icon: Clock, title: "Saves Thinking Time", desc: "The hardest part isn't typing — it's figuring out what to say. Our agents handle strategy, angle selection, prioritization, and analysis. You just review and ship.", color: "text-cyan-400" },
-                { icon: Brain, title: "Persistent Memory", desc: "Tell your Marketing Agent your brand voice once. Three months later, it still nails the tone. Tell your Bestie your goals — she remembers months later. No re-explaining, ever.", color: "text-blue-400" },
-                { icon: Terminal, title: "Production Output", desc: "Proposals, contracts, ad copy, code — hand it to the client or ship it to production. Done.", color: "text-green-400" },
+                { icon: Zap, title: t("deepReasoning"), desc: t("deepReasoningDesc"), color: "text-amber-400" },
+                { icon: Clock, title: t("savesThinkingTime"), desc: t("savesThinkingTimeDesc"), color: "text-cyan-400" },
+                { icon: Brain, title: t("persistentMemory"), desc: t("persistentMemoryDesc2"), color: "text-blue-400" },
+                { icon: Terminal, title: t("productionOutput"), desc: t("productionOutputDesc2"), color: "text-green-400" },
               ].map((item) => (
                 <div key={item.title} className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
                   <item.icon className={`h-5 w-5 ${item.color} mb-2`} />
@@ -451,9 +451,7 @@ function LandingPageContent() {
                 {t("bestieDesc")}
               </p>
               <p className="text-zinc-400 max-w-lg mx-auto text-sm">
-                Pick 2 communication styles and she blends them into someone uniquely yours.
-                Casual + intellectual? She texts like a smart friend. Hype + blunt? An energized straight-shooter.
-                Customize your chat with animated backdrops — cosmic nebulas, glass auroras, prismatic light — zero performance cost, pure atmosphere.
+                {t("bestieDetailText")}
               </p>
             </div>
           </ScrollSection>
@@ -489,24 +487,21 @@ function LandingPageContent() {
           <AnimateOnScroll delay={0.1}>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
               <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">2 Communication Styles</p>
+                <p className="text-xs font-bold text-amber-400 mb-1.5">{t("commStylesTitle")}</p>
                 <p className="text-xs text-zinc-400 leading-relaxed">
-                  Pick 2 styles that blend: casual + intellectual = a smart friend.
-                  Hype + blunt = an energized straight-shooter. Your bestie, your vibe.
+                  {t("commStylesDesc")}
                 </p>
               </div>
               <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">Custom Environments</p>
+                <p className="text-xs font-bold text-amber-400 mb-1.5">{t("customEnvTitle")}</p>
                 <p className="text-xs text-zinc-400 leading-relaxed">
-                  Animated backdrops from cosmic nebulas to glass auroras.
-                  Zero performance cost, pure atmosphere.
+                  {t("customEnvDesc")}
                 </p>
               </div>
               <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">Real Cultural Fluency</p>
+                <p className="text-xs font-bold text-amber-400 mb-1.5">{t("culturalFluencyTitle")}</p>
                 <p className="text-xs text-zinc-400 leading-relaxed">
-                  Not a phrasebook. Your bestie knows {`"`}no cap{`"`} in English, {`"`}666{`"`} in Mandarin,
-                  {`"`}wesh{`"`} in French, {`"`}yaar{`"`} in Hindi. Real slang. Real connection.
+                  {t("culturalFluencyDesc")}
                 </p>
               </div>
             </div>
@@ -517,27 +512,23 @@ function LandingPageContent() {
             <div className="mb-10">
               <div className="flex items-center justify-center gap-2 mb-4">
                 <Clock className="h-4 w-4 text-cyan-400" />
-                <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest">Coming to Mobile</p>
+                <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest">{t("comingToMobile")}</p>
               </div>
               <p className="text-center text-sm text-zinc-400 mb-5 max-w-lg mx-auto">
-                Your Bestie never leaves your side. Not when it matters most.
+                {t("bestieNeverLeaves")}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {/* Silent Safety Net removed */}
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
-                  <p className="text-xs font-bold text-cyan-400 mb-1.5">Auto-Text</p>
+                  <p className="text-xs font-bold text-cyan-400 mb-1.5">{t("autoTextTitle")}</p>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    Life gets chaotic — meetings run long, toddlers melt down, sometimes you just can{`'`}t
-                    deal. Bestie handles the reply for you, and it sounds like you wrote it. Not some
-                    stiff auto-response. Your Bestie. Typing the way you actually type. They{`'`}ll never know the difference.
+                    {t("autoTextDesc")}
                   </p>
                 </div>
                 <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
-                  <p className="text-xs font-bold text-cyan-400 mb-1.5">On Your Wrist</p>
+                  <p className="text-xs font-bold text-cyan-400 mb-1.5">{t("onYourWristTitle")}</p>
                   <p className="text-xs text-zinc-400 leading-relaxed">
-                    A quiet {`"`}you{`'`}ve got this{`"`} before your interview. A breathing reminder when your heart
-                    rate spikes. A check-in at 2am when you can{`'`}t sleep. Apple Watch. Galaxy Watch. Your
-                    Bestie is on your wrist — and never forgets about you.
+                    {t("onYourWristDesc")}
                   </p>
                 </div>
               </div>
@@ -547,10 +538,10 @@ function LandingPageContent() {
           <AnimateOnScroll>
             <div className="text-center">
               <p className="text-sm text-zinc-400 mb-2">
-                Three steps and you have a genius best friend — powered by up to 38 specialist agents — who knows your name, your goals, and your standards.
+                {t("bestieGeniusText")}
               </p>
               <p className="text-xs text-zinc-400 mb-4">
-                Built on ICF coaching ethics, crisis protocol, and anti-dependency guardrails. Your Bestie pushes you toward real human connections — not more screen time. Trust you can feel.
+                {t("bestieEthicsText")}
               </p>
               <Button asChild size="lg" className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-lg px-8 font-semibold">
                 <Link href="/app/bestie">
@@ -580,21 +571,21 @@ function LandingPageContent() {
                   <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold mb-4">{t("withoutStoneAI")}</p>
                   <div className="space-y-3">
                     {[
-                      { task: "Client proposal (thinking + writing)", time: "2.0 hours" },
-                      { task: "Competitor research (reading + analyzing)", time: "45 min" },
-                      { task: "Social media (brainstorming + drafting)", time: "1 hour" },
-                      { task: "Report formatting", time: "30 min" },
-                      { task: "Email follow-ups (crafting each one)", time: "1 hour" },
-                    ].map((t) => (
-                      <div key={t.task} className="flex items-center justify-between py-2 border-b border-zinc-700/30">
-                        <span className="text-sm text-zinc-400">{t.task}</span>
-                        <span className="text-sm text-zinc-400 font-mono">{t.time}</span>
+                      { task: t("taskProposal"), time: t("taskProposalTime") },
+                      { task: t("taskResearch"), time: t("taskResearchTime") },
+                      { task: t("taskSocial"), time: t("taskSocialTime") },
+                      { task: t("taskReport"), time: t("taskReportTime") },
+                      { task: t("taskEmail"), time: t("taskEmailTime") },
+                    ].map((item) => (
+                      <div key={item.task} className="flex items-center justify-between py-2 border-b border-zinc-700/30">
+                        <span className="text-sm text-zinc-400">{item.task}</span>
+                        <span className="text-sm text-zinc-400 font-mono">{item.time}</span>
                       </div>
                     ))}
                     <div className="pt-2">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-zinc-300">{t("total")}</span>
-                        <span className="text-sm font-bold text-zinc-300 font-mono">~5.25 hours</span>
+                        <span className="text-sm font-bold text-zinc-300 font-mono">{t("totalWithout")}</span>
                       </div>
                     </div>
                   </div>
@@ -605,21 +596,21 @@ function LandingPageContent() {
                   <p className="text-xs text-emerald-400 uppercase tracking-wider font-semibold mb-4">{t("withStoneAI")}</p>
                   <div className="space-y-3">
                     {[
-                      { task: "Proposal Agent", time: "8 min" },
-                      { task: "Research Agent", time: "5 min" },
-                      { task: "Social Media Agent", time: "12 min" },
-                      { task: "Analytics Agent", time: "3 min" },
-                      { task: "Sales Agent", time: "10 min" },
-                    ].map((t) => (
-                      <div key={t.task} className="flex items-center justify-between py-2 border-b border-emerald-500/10">
-                        <span className="text-sm text-zinc-300">{t.task}</span>
-                        <span className="text-sm text-emerald-400 font-mono font-semibold">{t.time}</span>
+                      { task: t("agentProposal"), time: t("agentProposalTime") },
+                      { task: t("agentResearch"), time: t("agentResearchTime") },
+                      { task: t("agentSocial"), time: t("agentSocialTime") },
+                      { task: t("agentAnalytics"), time: t("agentAnalyticsTime") },
+                      { task: t("agentSales"), time: t("agentSalesTime") },
+                    ].map((item) => (
+                      <div key={item.task} className="flex items-center justify-between py-2 border-b border-emerald-500/10">
+                        <span className="text-sm text-zinc-300">{item.task}</span>
+                        <span className="text-sm text-emerald-400 font-mono font-semibold">{item.time}</span>
                       </div>
                     ))}
                     <div className="pt-2">
                       <div className="flex items-center justify-between">
                         <span className="text-sm font-semibold text-white">{t("total")}</span>
-                        <span className="text-sm font-bold text-emerald-400 font-mono">38 minutes</span>
+                        <span className="text-sm font-bold text-emerald-400 font-mono">{t("totalWith")}</span>
                       </div>
                     </div>
                   </div>
@@ -637,24 +628,24 @@ function LandingPageContent() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold">{t("mentalLoadTitle")}</h3>
-                  <p className="text-xs text-zinc-400">Hours of mental labor — eliminated</p>
+                  <p className="text-xs text-zinc-400">{t("mentalLoadSub")}</p>
                 </div>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {[
-                  { scenario: "Client proposal", before: "45 min staring at a blank page, figuring out the angle", after: "Proposal Agent already drafted 3 angles before you sat down" },
-                  { scenario: "Career strategy", before: "Hours of research, weighing options, second-guessing", after: "Career Agent considered 12 angles before you finished your sentence" },
-                  { scenario: "Financial planning", before: "Spreadsheets, calculators, YouTube rabbit holes", after: "Finance Agent ran the numbers while you were still framing the question" },
+                  { scenario: t("scenarioProposal"), before: t("scenarioProposalBefore"), after: t("scenarioProposalAfter") },
+                  { scenario: t("scenarioCareer"), before: t("scenarioCareerBefore"), after: t("scenarioCareerAfter") },
+                  { scenario: t("scenarioFinance"), before: t("scenarioFinanceBefore"), after: t("scenarioFinanceAfter") },
                 ].map((s) => (
                   <div key={s.scenario} className="rounded-xl bg-zinc-800/50 border border-zinc-700/30 p-4">
                     <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">{s.scenario}</p>
                     <div className="space-y-2">
                       <div>
-                        <p className="text-xs text-zinc-400 uppercase">You used to:</p>
+                        <p className="text-xs text-zinc-400 uppercase">{t("youUsedTo")}</p>
                         <p className="text-xs text-zinc-400">{s.before}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-emerald-500 uppercase">Now:</p>
+                        <p className="text-xs text-emerald-500 uppercase">{t("now")}</p>
                         <p className="text-xs text-zinc-300">{s.after}</p>
                       </div>
                     </div>
@@ -667,10 +658,10 @@ function LandingPageContent() {
           {/* Impact summary */}
           <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { value: "40%+", label: t("timeSaved"), sub: "AI-assisted task completion" },
-              { value: "38", label: t("statAgents"), sub: "cognitive heavy-lifting handled" },
-              { value: "$0", label: t("localModeCost"), sub: "ask all day, pay nothing" },
-              { value: "24/7", label: t("available247"), sub: "3am ideas welcome" },
+              { value: "40%+", label: t("timeSaved"), sub: t("impactTimeSub") },
+              { value: "38", label: t("statAgents"), sub: t("impactAgentsSub") },
+              { value: "$0", label: t("localModeCost"), sub: t("impactCostSub") },
+              { value: "24/7", label: t("available247"), sub: t("impact247Sub") },
             ].map((s) => (
               <StaggerCard key={s.label}>
                 <div className="text-center p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30">
@@ -700,11 +691,11 @@ function LandingPageContent() {
                 <MessageSquare className="h-6 w-6 text-blue-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">{t("agentStrategies")}</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Steal the exact agent combos and prompts that are working for other founders right now.
+                  {t("strategiesCardDesc")}
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-400">
-                    Chain your Proposal + Sales Agent for cold leads. Close retainers in days, not weeks.
+                    {t("strategiesCardTip")}
                   </p>
                 </div>
               </Card>
@@ -714,11 +705,11 @@ function LandingPageContent() {
                 <Trophy className="h-6 w-6 text-amber-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">{t("wallOfWins")}</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Real people posting real receipts — launches, closed deals, first customers.
+                  {t("winsCardDesc")}
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-400">
-                    Go from idea to paying customer in weeks. Let agents handle the copy so you can focus on closing.
+                    {t("winsCardTip")}
                   </p>
                 </div>
               </Card>
@@ -728,11 +719,11 @@ function LandingPageContent() {
                 <Users className="h-6 w-6 text-green-400 mb-3" />
                 <h3 className="font-bold text-sm mb-2">{t("openHelp")}</h3>
                 <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  Stuck at 2am? Post the question. By morning, someone who solved it is walking you through it.
+                  {t("helpCardDesc")}
                 </p>
                 <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
                   <p className="text-xs text-zinc-400">
-                    Ask how to automate onboarding. Get agent combos with walkthroughs from people who already solved it.
+                    {t("helpCardTip")}
                   </p>
                 </div>
               </Card>
@@ -743,13 +734,13 @@ function LandingPageContent() {
           <AnimateOnScroll>
             <div className="grid grid-cols-3 sm:grid-cols-7 gap-2 mb-8">
               {[
-                { name: "General", icon: MessageSquare, color: "text-blue-400" },
-                { name: "Tips", icon: Lightbulb, color: "text-amber-400" },
-                { name: "Showcase", icon: Star, color: "text-purple-400" },
-                { name: "Questions", icon: Brain, color: "text-green-400" },
-                { name: "Features", icon: Rocket, color: "text-pink-400" },
-                { name: "Business", icon: Briefcase, color: "text-emerald-400" },
-                { name: "Feedback", icon: Heart, color: "text-red-400" },
+                { name: t("catGeneral"), icon: MessageSquare, color: "text-blue-400" },
+                { name: t("catTips"), icon: Lightbulb, color: "text-amber-400" },
+                { name: t("catShowcase"), icon: Star, color: "text-purple-400" },
+                { name: t("catQuestions"), icon: Brain, color: "text-green-400" },
+                { name: t("catFeatures"), icon: Rocket, color: "text-pink-400" },
+                { name: t("catBusiness"), icon: Briefcase, color: "text-emerald-400" },
+                { name: t("catFeedback"), icon: Heart, color: "text-red-400" },
               ].map((c) => (
                 <div key={c.name} className="text-center p-2.5 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-zinc-600/50 transition-colors">
                   <c.icon className={`h-4 w-4 ${c.color} mx-auto mb-1`} />
@@ -763,12 +754,10 @@ function LandingPageContent() {
             <Card className="bg-gradient-to-r from-amber-950/30 via-zinc-800/30 to-amber-950/30 border-amber-800/20 p-5 mb-6">
               <div className="flex items-center gap-3 mb-2">
                 <Trophy className="h-5 w-5 text-amber-400" />
-                <h3 className="font-bold text-sm text-white">OG Founding Member Badge</h3>
+                <h3 className="font-bold text-sm text-white">{t("ogBadgeTitle")}</h3>
               </div>
               <p className="text-xs text-zinc-400 leading-relaxed">
-                Join during launch and earn the <span className="text-amber-400 font-medium">OG founding member badge</span> — visible across the entire ecosystem.
-                Loyal members unlock surprises along the way.
-                These aren{`'`}t coming back. Once the window closes, it{`'`}s closed.
+                {t("ogBadgeDesc")}
               </p>
             </Card>
           </AnimateOnScroll>
@@ -849,10 +838,10 @@ function LandingPageContent() {
           <AnimateOnScroll delay={0.25}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12 max-w-2xl mx-auto">
               {[
-                { label: "38 AI Agents", live: true },
-                { label: "AI Bestie", live: true },
-                { label: "Community", live: true },
-                { label: "API Access", live: true },
+                { label: t("statusAgents"), live: true },
+                { label: t("statusBestie"), live: true },
+                { label: t("statusCommunity"), live: true },
+                { label: t("statusApi"), live: true },
                 { label: t("crossDeviceSync"), live: true },
                 { label: t("homeScreenWidget"), live: true },
                 { label: t("voiceChat"), live: false },
@@ -891,9 +880,9 @@ function LandingPageContent() {
         <div className="max-w-5xl mx-auto">
           <ScrollSection>
             <div className="text-center mb-12">
-              <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">Limited Time</Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">What You Get — Right Now</h2>
-              <p className="text-zinc-400 max-w-xl mx-auto">Sign up with Google, Apple, Outlook, or Yahoo — no credit card, no trial countdown. Just start.</p>
+              <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">{t("limitedTime")}</Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">{t("promoHeading")}</h2>
+              <p className="text-zinc-400 max-w-xl mx-auto">{t("promoSubheading")}</p>
             </div>
           </ScrollSection>
 
@@ -903,13 +892,13 @@ function LandingPageContent() {
               <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
                 <div className="flex items-center gap-2 mb-3">
                   <Sparkles className="h-5 w-5 text-amber-400" />
-                  <h3 className="text-lg font-semibold text-white">Free Forever — 4 agents, 100 msgs/day</h3>
+                  <h3 className="text-lg font-semibold text-white">{t("freeForeverTitle")}</h3>
                 </div>
                 <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> 4 AI agents — business, content, code, education</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> 5 SMART credits for cloud AI conversations</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> Community forum access</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> Install to home screen (PWA)</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem1")}</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem2")}</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem3")}</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem4")}</li>
                 </ul>
               </div>
             </StaggerCard>
@@ -919,13 +908,13 @@ function LandingPageContent() {
               <div className="p-6 rounded-2xl bg-zinc-800/40 border border-amber-800/30 h-full">
                 <div className="flex items-center gap-2 mb-3">
                   <Heart className="h-5 w-5 text-amber-400" />
-                  <h3 className="text-lg font-semibold text-white">AI Bestie</h3>
+                  <h3 className="text-lg font-semibold text-white">{t("aiBestieTitle")}</h3>
                 </div>
-                <p className="text-sm text-zinc-400 mb-3">Powered by up to 38 specialized agents — career coach, financial advisor, wellness guide, creative partner, and more. Your Bestie gets smarter as you upgrade — from 4 agents on Free to all 38 on Reseller.</p>
+                <p className="text-sm text-zinc-400 mb-3">{t("aiBestieDesc")}</p>
                 <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Persistent memory across sessions</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Voice chat</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> Customizable personality & behavior</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("bestieFeature1")}</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("bestieFeature2")}</li>
+                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("bestieFeature3")}</li>
                 </ul>
               </div>
             </StaggerCard>
@@ -935,14 +924,14 @@ function LandingPageContent() {
               <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
                 <div className="flex items-center gap-2 mb-3">
                   <Cpu className="h-5 w-5 text-cyan-400" />
-                  <h3 className="text-lg font-semibold text-white">Coming Soon</h3>
+                  <h3 className="text-lg font-semibold text-white">{t("comingSoonTitle")}</h3>
                 </div>
                 <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Mobile app (iOS & Android)</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Wearable companion — Apple Watch & Galaxy Watch</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Auto-text — your Bestie replies in your voice</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> Voice cloning — your bestie sounds like a loved one</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> AI Tools Directory (tools.stone-ai.net)</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem1")}</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem2")}</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem3")}</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem4")}</li>
+                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem5")}</li>
                 </ul>
               </div>
             </StaggerCard>
@@ -951,10 +940,10 @@ function LandingPageContent() {
           {/* Upgrade incentive */}
           <ScrollSection>
             <div className="mt-12 text-center p-8 rounded-2xl bg-gradient-to-r from-amber-950/40 via-zinc-900/60 to-amber-950/40 border border-amber-800/30">
-              <h3 className="text-xl font-bold text-white mb-2">Save up to 20% with annual billing</h3>
-              <p className="text-sm text-zinc-400 mb-4">All paid plans include multi-period discounts. Lock in your rate — early pricing may not last.</p>
+              <h3 className="text-xl font-bold text-white mb-2">{t("annualSaveTitle")}</h3>
+              <p className="text-sm text-zinc-400 mb-4">{t("annualSaveDesc")}</p>
               <Button asChild className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 rounded-full">
-                <Link href="#pricing">See All Plans <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Link href="#pricing">{t("seeAllPlans")} <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
             </div>
           </ScrollSection>
@@ -964,7 +953,7 @@ function LandingPageContent() {
       {/* Professional disclaimer */}
       <div className="px-4 sm:px-6 py-6 max-w-4xl mx-auto text-center">
         <p className="text-xs text-zinc-500">
-          AI agents provide assistance, not professional advice. Not a substitute for a licensed professional.
+          {t("disclaimer")}
         </p>
       </div>
 
@@ -982,10 +971,10 @@ function LandingPageContent() {
           <div>
             <p className="text-sm font-semibold text-zinc-300 mb-3">{t("product")}</p>
             <ul className="space-y-2 text-sm text-zinc-400">
-              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">AI Agents</Link></li>
-              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">AI Bestie</Link></li>
-              <li><Link href="#pricing" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">Pricing</Link></li>
-              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">Community</Link></li>
+              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerAiAgents")}</Link></li>
+              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerAiBestie")}</Link></li>
+              <li><Link href="#pricing" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("pricing")}</Link></li>
+              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerCommunity")}</Link></li>
             </ul>
           </div>
           <div>
@@ -1002,10 +991,10 @@ function LandingPageContent() {
               <li><Link href="/terms" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("terms")}</Link></li>
               <li><Link href="/privacy" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("privacy")}</Link></li>
               <li><Link href="/security" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("security")}</Link></li>
-              <li><Link href="/cookies" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">Cookies</Link></li>
-              <li><Link href="/accessibility" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">Accessibility</Link></li>
-              <li><Link href="/refund-policy" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">Refunds</Link></li>
-              <li><Link href="/privacy#do-not-sell" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">Do Not Sell My Info</Link></li>
+              <li><Link href="/cookies" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerCookies")}</Link></li>
+              <li><Link href="/accessibility" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerAccessibility")}</Link></li>
+              <li><Link href="/refund-policy" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerRefunds")}</Link></li>
+              <li><Link href="/privacy#do-not-sell" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerDoNotSell")}</Link></li>
             </ul>
           </div>
         </div>
