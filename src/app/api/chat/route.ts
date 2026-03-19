@@ -860,6 +860,7 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "X-Latency-Ms": String(firstTokenTime),
+        "X-Search-Injected": String(hasSearchData),
       },
     });
 
