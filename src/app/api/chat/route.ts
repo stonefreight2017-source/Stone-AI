@@ -667,10 +667,17 @@ export async function POST(req: NextRequest) {
       const errMsg = streamError instanceof Error ? streamError.message : String(streamError);
       const errStack = streamError instanceof Error ? streamError.stack : "";
       const errName = streamError instanceof Error ? streamError.name : "Unknown";
+      // Extract upstream status/body from AI SDK errors for debugging
+      const statusCode = (streamError as Record<string, unknown>)?.statusCode ?? (streamError as Record<string, unknown>)?.status;
+      const responseBody = (streamError as Record<string, unknown>)?.responseBody ?? (streamError as Record<string, unknown>)?.data;
+      const cause = (streamError as Record<string, unknown>)?.cause;
       console.error("POST /api/chat: streamText() FAILED", {
         errorName: errName,
         errorMessage: errMsg,
-        errorStack: errStack,
+        statusCode,
+        responseBody: typeof responseBody === "string" ? responseBody.slice(0, 500) : responseBody,
+        cause: cause instanceof Error ? cause.message : cause,
+        errorStack: errStack?.split("\n").slice(0, 5).join("\n"),
         mode,
         vllmBaseUrl: process.env.VLLM_BASE_URL?.slice(0, 40),
         vllmModel: process.env.VLLM_MODEL,

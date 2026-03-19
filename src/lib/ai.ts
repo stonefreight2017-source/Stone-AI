@@ -31,19 +31,46 @@ const vllmFetch: typeof globalThis.fetch = async (input, init) => {
   }
   init = { ...init, headers };
 
-  const response = await globalThis.fetch(input, init);
+  // Retry logic: Cloudflare tunnel can transiently reject Vercel data center IPs
+  // with 403 JS challenges or connection resets. One retry fixes most cases.
+  const MAX_RETRIES = 2;
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await globalThis.fetch(input, init);
 
-  // Detect Cloudflare JavaScript challenge (403 with HTML instead of JSON).
-  // This happens when Vercel's serverless IPs are flagged by Cloudflare's
-  // Bot Fight Mode / Browser Integrity Check on the vllm.stone-ai.net tunnel.
-  if (response.status === 403) {
-    const contentType = response.headers.get("content-type") ?? "";
-    if (contentType.includes("text/html")) {
-      throw new Error("VLLM_CLOUDFLARE_BLOCKED: Cloudflare returned 403 JS challenge — vLLM tunnel unreachable from this environment");
+      // Detect Cloudflare JavaScript challenge (403 with HTML instead of JSON)
+      if (response.status === 403) {
+        const contentType = response.headers.get("content-type") ?? "";
+        if (contentType.includes("text/html")) {
+          if (attempt < MAX_RETRIES) {
+            console.warn(`vllmFetch: Cloudflare 403 on attempt ${attempt}, retrying...`);
+            await new Promise(r => setTimeout(r, 500 * attempt));
+            continue;
+          }
+          throw new Error("VLLM_CLOUDFLARE_BLOCKED: Cloudflare returned 403 JS challenge — vLLM tunnel unreachable from this environment");
+        }
+      }
+
+      // Retry on 502/503/504 gateway errors (Cloudflare tunnel momentarily down)
+      if (response.status >= 502 && response.status <= 504 && attempt < MAX_RETRIES) {
+        console.warn(`vllmFetch: HTTP ${response.status} on attempt ${attempt}, retrying...`);
+        await new Promise(r => setTimeout(r, 500 * attempt));
+        continue;
+      }
+
+      return response;
+    } catch (err) {
+      if (attempt < MAX_RETRIES) {
+        console.warn(`vllmFetch: fetch error on attempt ${attempt}: ${err instanceof Error ? err.message : err}, retrying...`);
+        await new Promise(r => setTimeout(r, 500 * attempt));
+        continue;
+      }
+      throw err;
     }
   }
 
-  return response;
+  // Should never reach here, but TypeScript needs it
+  return globalThis.fetch(input, init);
 };
 
 /**
