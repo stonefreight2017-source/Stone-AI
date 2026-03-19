@@ -57,7 +57,7 @@ const chatRequestSchema = z
     agent: z.string().optional(),
     mode: z.enum(["LOCAL", "SMART"]).optional().default("LOCAL"),
   })
-  .strict();
+  .strip();
 
 // ---------------------------------------------------------------------------
 // Error helper - OpenAI-compatible error envelope

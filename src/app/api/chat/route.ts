@@ -107,7 +107,16 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const parsed = chatMessageSchema.safeParse(body);
+    // Strip extra fields before .strict() validation — keep only schema-defined keys
+    // This preserves security (.strict() still rejects unknown fields) while allowing
+    // the AI SDK to send additional transport fields like `messages`, `id`, etc.
+    const sanitizedBody = {
+      message: b.message,
+      conversationId: b.conversationId,
+      mode: b.mode,
+    };
+
+    const parsed = chatMessageSchema.safeParse(sanitizedBody);
     if (!parsed.success) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
