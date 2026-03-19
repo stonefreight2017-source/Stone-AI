@@ -99,31 +99,34 @@ const forceCloudSmart = process.env.FORCE_CLOUD_SMART === "true";
  * to route through the Cloudflare tunnel to the Palace's vLLM server.
  */
 export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
-  // SMART mode: use vLLM unless explicitly overridden to cloud
+  const vllmUrl = process.env.VLLM_BASE_URL?.trim() ?? "http://localhost:8000/v1";
+  const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
+  const isVercel = !!process.env.VERCEL;
+
+  // SMART mode: use cloud (Claude Sonnet) when forced, or fall back to cloud on Vercel with no tunnel
   if (mode === "SMART") {
     if (forceCloudSmart && process.env.ANTHROPIC_API_KEY) {
       return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
     }
-    // SMART uses the same vLLM model — the tier system handles the premium
-    // experience through higher token limits, longer context, and priority.
+    // On Vercel with localhost URL (no tunnel): fall back to cloud for SMART too
+    if (isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
+      return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
+    }
     const smartModel = process.env.VLLM_SMART_MODEL?.trim()
-      ?? tierLocalModel
       ?? process.env.VLLM_MODEL?.trim()
+      ?? tierLocalModel
       ?? "/home/stones/models/qwen3-32b-awq";
     return vllm(smartModel);
   }
 
   // LOCAL mode: always vLLM
-  const vllmUrl = process.env.VLLM_BASE_URL?.trim() ?? "http://localhost:8000/v1";
-  const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
-  const isVercel = !!process.env.VERCEL;
-
   // On Vercel with localhost URL (no tunnel configured): fall back to cloud if enabled
-  if (isLocalhost && isVercel && cloudFallbackEnabled && process.env.ANTHROPIC_API_KEY) {
+  if (isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
-  const model = tierLocalModel ?? process.env.VLLM_MODEL?.trim() ?? "/home/stones/models/qwen3-32b-awq";
+  // Prefer env var over tier config (env var is environment-specific, tier config is code)
+  const model = process.env.VLLM_MODEL?.trim() ?? tierLocalModel ?? "/home/stones/models/qwen3-32b-awq";
   return vllm(model);
 }
 

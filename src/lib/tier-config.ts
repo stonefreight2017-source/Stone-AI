@@ -109,7 +109,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Free",
     price: 0,
     stripePriceEnvKey: null,
-    localModel: "/mnt/c/models/qwen3-32b-awq",
+    localModel: "/home/stones/models/qwen3-32b-awq",
     agentCount: 4,
     tagline: "Explore AI with essential tools",
     limits: {
@@ -155,7 +155,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Builder",
     price: 19.99,
     stripePriceEnvKey: "STRIPE_PRICE_STARTER",
-    localModel: "/mnt/c/models/qwen3-32b-awq",
+    localModel: "/home/stones/models/qwen3-32b-awq",
     agentCount: 13,
     tagline: "Plan and start your business",
     limits: {
@@ -201,7 +201,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Growth",
     price: 49.99,
     stripePriceEnvKey: "STRIPE_PRICE_PLUS",
-    localModel: "/mnt/c/models/qwen3-32b-awq",
+    localModel: "/home/stones/models/qwen3-32b-awq",
     agentCount: 26,
     tagline: "Plan, start, and maintain your business",
     limits: {
@@ -247,7 +247,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Executive",
     price: 99.99,
     stripePriceEnvKey: "STRIPE_PRICE_SMART",
-    localModel: "/mnt/c/models/qwen3-32b-awq",
+    localModel: "/home/stones/models/qwen3-32b-awq",
     agentCount: 36,
     tagline: "Plan, start, maintain, and run your business",
     limits: {
@@ -293,7 +293,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Reseller",
     price: 200,
     stripePriceEnvKey: "STRIPE_PRICE_PRO",
-    localModel: "/mnt/c/models/qwen3-32b-awq",
+    localModel: "/home/stones/models/qwen3-32b-awq",
     agentCount: 38,
     tagline: "Full platform access with reseller capabilities",
     limits: {
@@ -339,7 +339,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
     name: "Organization",
     price: 500,
     stripePriceEnvKey: "STRIPE_PRICE_ENTERPRISE",
-    localModel: "/mnt/c/models/qwen3-32b-awq",
+    localModel: "/home/stones/models/qwen3-32b-awq",
     agentCount: 38,
     tagline: "Deploy AI across your entire organization",
     limits: {

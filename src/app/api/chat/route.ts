@@ -1,3 +1,5 @@
+export const maxDuration = 60;
+
 /**
  * ═══ PERFORMANCE HOT PATH ═══
  * This is the most-called route in the entire app.
