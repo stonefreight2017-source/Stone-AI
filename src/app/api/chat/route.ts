@@ -720,11 +720,22 @@ export async function POST(req: NextRequest) {
     const encoder = new TextEncoder();
     const byteStream = new ReadableStream({
       async start(controller) {
+        let bytesEnqueued = 0;
         const reader = thinkStripStream.getReader();
         while (true) {
           const { done, value } = await reader.read();
           if (done) break;
-          if (value) controller.enqueue(encoder.encode(value));
+          if (value) {
+            const encoded = encoder.encode(value);
+            controller.enqueue(encoded);
+            bytesEnqueued += encoded.byteLength;
+          }
+        }
+        // If vLLM returned nothing (empty stream), send a user-visible error
+        // instead of silently closing with an empty body (HTTP 200 + 0 bytes).
+        if (bytesEnqueued === 0) {
+          console.warn("POST /api/chat: stream completed with 0 bytes — injecting fallback error message");
+          controller.enqueue(encoder.encode(AI_ERROR_MESSAGE));
         }
         controller.close();
       },

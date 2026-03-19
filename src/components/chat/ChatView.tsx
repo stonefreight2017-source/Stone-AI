@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { Loader2, StopCircle, Zap, Download, Copy, Check } from "lucide-react";
+import { Loader2, StopCircle, Download, Copy, Check } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { ChatInput } from "./ChatInput";
@@ -22,11 +22,6 @@ interface ChatViewProps {
   conversationId: string;
 }
 
-function formatLatency(ms: number): string {
-  if (ms < 1000) return `${ms}ms`;
-  return `${(ms / 1000).toFixed(1)}s`;
-}
-
 export function ChatView({ conversationId }: ChatViewProps) {
   const { data, isLoading: isLoadingConversation, error: fetchError } =
     useConversation(conversationId);
@@ -36,11 +31,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
   const { data: userData } = useUser();
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [smartCapError, setSmartCapError] = useState<SmartQuotaExceededError | null>(null);
-
-  // Latency tracking
-  const sendTimeRef = useRef<number>(0);
-  const [latencyMap, setLatencyMap] = useState<Record<string, number>>({});
-  const firstTokenCaptured = useRef(false);
 
   const {
     messages,
@@ -78,12 +68,7 @@ export function ChatView({ conversationId }: ChatViewProps) {
       }
       toast.error("Failed to send message. Please try again.");
     },
-    onFinish: ({ message }) => {
-      if (sendTimeRef.current > 0) {
-        const totalMs = Date.now() - sendTimeRef.current;
-        setLatencyMap((prev) => ({ ...prev, [message.id]: totalMs }));
-        sendTimeRef.current = 0;
-      }
+    onFinish: () => {
       queryClient.invalidateQueries({ queryKey: ["conversations"] });
       queryClient.invalidateQueries({ queryKey: ["conversation", conversationId] });
     },
@@ -92,18 +77,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
   const isStreaming = status === "streaming";
   const isSubmitted = status === "submitted";
   const isBusy = isStreaming || isSubmitted;
-
-  // Capture first-token latency
-  useEffect(() => {
-    if (isStreaming && !firstTokenCaptured.current && sendTimeRef.current > 0) {
-      firstTokenCaptured.current = true;
-      const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
-      if (lastAssistant) {
-        const firstTokenMs = Date.now() - sendTimeRef.current;
-        setLatencyMap((prev) => ({ ...prev, [`${lastAssistant.id}-ttft`]: firstTokenMs }));
-      }
-    }
-  }, [isStreaming, messages]);
 
   // Auto-scroll
   useEffect(() => {
@@ -114,8 +87,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
 
   const handleSend = useCallback(
     (text: string) => {
-      sendTimeRef.current = Date.now();
-      firstTokenCaptured.current = false;
       setSmartCapError(null);
       sendMessage({ text });
     },
@@ -224,8 +195,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
         ) : (
           <div className="max-w-3xl mx-auto py-6 space-y-1" aria-live="polite" aria-relevant="additions">
             {allMessages.map((msg) => {
-              const ttft = latencyMap[`${msg.id}-ttft`];
-              const totalLatency = latencyMap[msg.id];
               const messageText = msg.parts.map((p) => p.text).join("");
 
               return (
@@ -276,14 +245,6 @@ export function ChatView({ conversationId }: ChatViewProps) {
                               <><Copy className="h-3 w-3" /> Copy</>
                             )}
                           </button>
-                          {(ttft || totalLatency) && (
-                            <span className="flex items-center gap-1 text-[11px] text-zinc-400">
-                              <Zap className="h-2.5 w-2.5" />
-                              {ttft && <span>{formatLatency(ttft)}</span>}
-                              {ttft && totalLatency && <span>/</span>}
-                              {totalLatency && <span>{formatLatency(totalLatency)}</span>}
-                            </span>
-                          )}
                         </div>
                       )}
                     </div>

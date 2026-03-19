@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useChat } from "@ai-sdk/react";
 import { TextStreamChatTransport } from "ai";
-import { Loader2, StopCircle, Zap, Brain, Info, X, Mic, MicOff, Volume2, VolumeX, ArrowUp } from "lucide-react";
+import { Loader2, StopCircle, Brain, Info, X, Mic, MicOff, Volume2, VolumeX, ArrowUp } from "lucide-react";
 import { ThinkingIndicator } from "@/components/chat/ThinkingIndicator";
 import { MessageRenderer } from "@/components/chat/MessageRenderer";
 import { toast } from "sonner";
@@ -137,11 +137,6 @@ const PATH_THEMES: Record<BestiePath, {
   },
 };
 
-function formatLatency(ms: number): string {
-  if (ms < 1000) return `${ms}ms`;
-  return `${(ms / 1000).toFixed(1)}s`;
-}
-
 // Render avatar — handles both emoji strings and data URI images
 function AvatarDisplay({ avatar, size = "sm" }: { avatar: string; size?: "sm" | "md" | "lg" }) {
   const isImage = avatar.startsWith("data:") || avatar.startsWith("http");
@@ -233,11 +228,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
     { code: "ar-SA", label: "Arabic", flag: "AR" },
   ];
 
-  // Latency tracking
-  const sendTimeRef = useRef<number>(0);
-  const [latencyMap, setLatencyMap] = useState<Record<string, number>>({});
   const [smartCapError, setSmartCapError] = useState<SmartQuotaExceededError | null>(null);
-  const firstTokenCaptured = useRef(false);
 
   const {
     messages,
@@ -275,12 +266,7 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
       }
       toast.error("Failed to send message. Please try again.");
     },
-    onFinish: ({ message }) => {
-      if (sendTimeRef.current > 0) {
-        const totalMs = Date.now() - sendTimeRef.current;
-        setLatencyMap((prev) => ({ ...prev, [message.id]: totalMs }));
-        sendTimeRef.current = 0;
-      }
+    onFinish: () => {
       queryClient.invalidateQueries({ queryKey: ["conversations"] });
     },
   });
@@ -322,8 +308,6 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
     recognition.onresult = (event: any) => {
       const transcript = event.results[0]?.[0]?.transcript;
       if (transcript && sendMessageRef.current) {
-        sendTimeRef.current = Date.now();
-        firstTokenCaptured.current = false;
         sendMessageRef.current({ text: transcript });
       }
       setIsListening(false);
@@ -408,18 +392,6 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
     };
   }, []);
 
-  // Capture first-token latency
-  useEffect(() => {
-    if (isStreaming && !firstTokenCaptured.current && sendTimeRef.current > 0) {
-      firstTokenCaptured.current = true;
-      const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
-      if (lastAssistant) {
-        const firstTokenMs = Date.now() - sendTimeRef.current;
-        setLatencyMap((prev) => ({ ...prev, [`${lastAssistant.id}-ttft`]: firstTokenMs }));
-      }
-    }
-  }, [isStreaming, messages]);
-
   // Auto-scroll
   useEffect(() => {
     if (scrollRef.current) {
@@ -430,8 +402,6 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
   const handleSend = useCallback(() => {
     const text = inputValue.trim();
     if (!text || isBusy) return;
-    sendTimeRef.current = Date.now();
-    firstTokenCaptured.current = false;
     sendMessage({ text });
     setInputValue("");
     setTimeout(() => textareaRef.current?.focus(), 0);
@@ -553,9 +523,6 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
         ) : (
           <div className="max-w-3xl mx-auto py-4">
             {allMessages.map((msg) => {
-              const ttft = latencyMap[`${msg.id}-ttft`];
-              const totalLatency = latencyMap[msg.id];
-
               return (
                 <div
                   key={msg.id}
@@ -586,14 +553,6 @@ export function BestieChat({ conversationId, bestieName, bestieEmoji, bestiePath
                         <MessageRenderer content={msg.parts.map((p) => p.text).join("")} />
                       )}
                     </div>
-                    {msg.role === "assistant" && (ttft || totalLatency) && (
-                      <div className="flex items-center gap-1.5 text-[10px] text-zinc-400">
-                        <Zap className="h-2.5 w-2.5" />
-                        {ttft && <span>First token: {formatLatency(ttft)}</span>}
-                        {ttft && totalLatency && <span className="text-zinc-700">|</span>}
-                        {totalLatency && <span>Total: {formatLatency(totalLatency)}</span>}
-                      </div>
-                    )}
                   </div>
                   {msg.role === "user" && (
                     <div className={cn("shrink-0 h-8 w-8 rounded-full flex items-center justify-center text-xs font-bold", theme.userAvatar)}>

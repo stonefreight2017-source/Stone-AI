@@ -46,8 +46,8 @@ const vllmFetch: typeof globalThis.fetch = async (input, init) => {
  * Monitor: GET /api/admin/health → scaling.alerts
  */
 export const vllm = createOpenAI({
-  baseURL: process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1",
-  apiKey: process.env.VLLM_API_KEY ?? "not-needed",
+  baseURL: process.env.VLLM_BASE_URL?.trim() ?? "http://localhost:8000/v1",
+  apiKey: process.env.VLLM_API_KEY?.trim() ?? "not-needed",
   name: "vllm",
   fetch: vllmFetch,
 });
@@ -106,15 +106,15 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
     }
     // SMART uses the same vLLM model — the tier system handles the premium
     // experience through higher token limits, longer context, and priority.
-    const smartModel = process.env.VLLM_SMART_MODEL
+    const smartModel = process.env.VLLM_SMART_MODEL?.trim()
       ?? tierLocalModel
-      ?? process.env.VLLM_MODEL
+      ?? process.env.VLLM_MODEL?.trim()
       ?? "/home/stones/models/qwen3-32b-awq";
     return vllm(smartModel);
   }
 
   // LOCAL mode: always vLLM
-  const vllmUrl = process.env.VLLM_BASE_URL ?? "http://localhost:8000/v1";
+  const vllmUrl = process.env.VLLM_BASE_URL?.trim() ?? "http://localhost:8000/v1";
   const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
   const isVercel = !!process.env.VERCEL;
 
@@ -123,7 +123,7 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
-  const model = tierLocalModel ?? process.env.VLLM_MODEL ?? "/home/stones/models/qwen3-32b-awq";
+  const model = tierLocalModel ?? process.env.VLLM_MODEL?.trim() ?? "/home/stones/models/qwen3-32b-awq";
   return vllm(model);
 }
 
