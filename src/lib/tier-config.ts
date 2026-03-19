@@ -135,7 +135,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1,
       maxBesties: 1,
       maxDocuments: 0,
-      webSearchesPerDay: 0,
+      webSearchesPerDay: 3,
       codeExecutionsPerDay: 0,
       fileUploadAnalysis: false,
 
@@ -181,7 +181,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1,
       maxBesties: 1,
       maxDocuments: 0,             // Coming Soon — document upload not yet built
-      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      webSearchesPerDay: 15,
       codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
       fileUploadAnalysis: false,   // Coming Soon
 
@@ -227,7 +227,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1,
       maxBesties: 1,
       maxDocuments: 0,             // Coming Soon — document upload not yet built
-      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      webSearchesPerDay: 30,
       codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
       fileUploadAnalysis: false,   // Coming Soon
 
@@ -273,7 +273,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1.5,
       maxBesties: 1,
       maxDocuments: 0,             // Coming Soon — document upload not yet built
-      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      webSearchesPerDay: 50,
       codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
       fileUploadAnalysis: false,   // Coming Soon
 
@@ -319,7 +319,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 2,
       maxBesties: 1,
       maxDocuments: 0,             // Coming Soon — document upload not yet built
-      webSearchesPerDay: 0,        // Coming Soon — web search not yet built
+      webSearchesPerDay: 100,
       codeExecutionsPerDay: 0,     // Coming Soon — code execution not yet built
       fileUploadAnalysis: false,   // Coming Soon
 

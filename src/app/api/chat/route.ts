@@ -53,6 +53,8 @@ import { trackEvent } from "@/lib/journey-tracker";
 import { extractAndSaveMemories as extractLongTermMemories, buildMemoryPrompt } from "@/lib/memory-manager";
 import { traceChat } from "@/lib/monitoring";
 import { selfCritique } from "@/lib/self-critique";
+import { searchWeb, formatSearchResults, checkSearchQuota, incrementSearchUsage } from "@/lib/web-search";
+import { lookupZip } from "@/lib/zip-lookup";
 
 /**
  * ═══ GOLDEN EGG A/B TEST FLAG ═══
@@ -410,6 +412,37 @@ export async function POST(req: NextRequest) {
     // Add the new user message
     history.push({ role: "user", content: message });
 
+    // 9b. Web search — detect location-based questions and inject real search results
+    let searchResultsBlock = "";
+    {
+      const msgLower = message.toLowerCase();
+      const locationKeywords = ["near me", "near ", "closest", "nearby", "restaurant", "store", "shop", "dealership", "where can i", "where is", "find a", "find me", "best place", "places to", "local "];
+      const hasLocationKeyword = locationKeywords.some((kw) => msgLower.includes(kw));
+      const zipMatch = message.match(/\b(\d{5})\b/);
+
+      if (hasLocationKeyword || zipMatch) {
+        const hasQuota = await checkSearchQuota(user.id, tier);
+        if (hasQuota) {
+          // Build an enhanced search query using ZIP code location if available
+          let searchQuery = message;
+          if (zipMatch) {
+            const zipInfo = lookupZip(zipMatch[1]);
+            if (zipInfo) {
+              // Replace bare ZIP with "city, STATE ZIP" for better search results
+              searchQuery = message.replace(zipMatch[0], `${zipInfo.city}, ${zipInfo.stateCode} ${zipMatch[0]}`);
+            }
+          }
+
+          const searchResponse = await searchWeb(searchQuery, 5);
+          if (searchResponse.results.length > 0) {
+            const formatted = formatSearchResults(searchResponse.results);
+            searchResultsBlock = `\n\n<search_results>\nThe following are REAL search results from the web. Use these to answer the user's question with accurate, real information. Do NOT make up business names or addresses — only reference what appears in these results.\n${formatted}\n</search_results>`;
+            await incrementSearchUsage(user.id);
+          }
+        }
+      }
+    }
+
     // 10. Build system prompt (agent-aware with RAG + memory + security wrapper)
     let basePrompt = SYSTEM_PROMPT;
 
@@ -526,6 +559,11 @@ export async function POST(req: NextRequest) {
       // Non-agent conversations: still get verification + output format
       basePrompt += "\n\n" + VERIFICATION_BLOCK;
       basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
+    }
+
+    // 9c. Inject web search results (if any) — placed before final override for high visibility
+    if (searchResultsBlock) {
+      basePrompt += searchResultsBlock;
     }
 
     // Final behavior override — placed last for maximum weight with the model
