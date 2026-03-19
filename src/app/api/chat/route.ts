@@ -422,6 +422,8 @@ export async function POST(req: NextRequest) {
 
       if (hasLocationKeyword || zipMatch) {
         // Fire search in parallel — don't block prompt assembly
+        // The .catch() ensures unhandled rejections never crash the process.
+        // The await site (step 9c) has its own try-catch for belt-and-suspenders safety.
         searchPromise = (async () => {
           const hasQuota = await checkSearchQuota(user.id, tier);
           if (!hasQuota) return "";
@@ -441,7 +443,11 @@ export async function POST(req: NextRequest) {
             return `\n\n<search_results>\nThe following are REAL search results from the web. Use these to answer the user's question with accurate, real information. Do NOT make up business names or addresses — only reference what appears in these results.\n${formatted}\n</search_results>`;
           }
           return "";
-        })();
+        })().catch((err) => {
+          console.warn("[web-search] Parallel search promise rejected:",
+            err instanceof Error ? err.message : "unknown");
+          return "";
+        });
       }
     }
 
@@ -564,10 +570,17 @@ export async function POST(req: NextRequest) {
     }
 
     // 9c. Inject web search results (if any) — await parallel search, placed before final override
+    // CRITICAL: Search is best-effort. If it fails for ANY reason (missing DB column,
+    // API timeout, network error), chat MUST still work. Never let search crash the endpoint.
     if (searchPromise) {
-      const searchResultsBlock = await searchPromise;
-      if (searchResultsBlock) {
-        basePrompt += searchResultsBlock;
+      try {
+        const searchResultsBlock = await searchPromise;
+        if (searchResultsBlock) {
+          basePrompt += searchResultsBlock;
+        }
+      } catch (searchError) {
+        console.warn("[web-search] Search failed during chat — continuing without results:",
+          searchError instanceof Error ? searchError.message : "unknown");
       }
     }
 
