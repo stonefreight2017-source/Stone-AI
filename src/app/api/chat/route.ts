@@ -615,6 +615,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Diagnostic: confirm whether search data was injected
+    const hasSearchData = basePrompt.includes("VERIFIED PLACES") || basePrompt.includes("VERIFIED WEB SEARCH");
+    console.warn(`[web-search-final] searchDataInjected=${hasSearchData} promptLength=${basePrompt.length}`);
+
     // Final behavior override — placed last for maximum weight with the model
     basePrompt += "\n\n" + FINAL_BEHAVIOR_OVERRIDE;
 

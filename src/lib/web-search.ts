@@ -85,7 +85,8 @@ interface SerperPlacesResponse {
   places?: Array<{
     title?: string;
     address?: string;
-    phone?: string;
+    phoneNumber?: string;
+    website?: string;
     rating?: number;
     ratingCount?: number;
     priceLevel?: string;
@@ -322,13 +323,14 @@ async function searchSerperPlaces(
     const data = (await response.json()) as SerperPlacesResponse;
     const places = data.places ?? [];
 
+    console.warn(`[web-search] Serper Places returned ${places.length} places`);
     return places
       .filter((p): p is typeof p & { title: string } => typeof p.title === "string")
       .slice(0, numResults)
       .map((p) => ({
         title: p.title,
         address: p.address,
-        phone: p.phone,
+        phone: p.phoneNumber,
         rating: p.rating,
         ratingCount: p.ratingCount,
         priceLevel: p.priceLevel,
