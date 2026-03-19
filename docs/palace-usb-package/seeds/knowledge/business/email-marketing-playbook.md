@@ -81,8 +81,8 @@ Segmentation is the difference between 15% open rates and 45% open rates. Every 
 - FREE ($0): 4 agents
 - STARTER ($19.99): 16 agents
 - PLUS ($49.99): 30 agents
-- SMART ($99.99): 39 agents — annual option $79.99
-- PRO ($200): 42 agents — annual option $170
+- SMART ($99.99): 39 agents — annual option $84.99
+- PRO ($200): 38 agents — annual option $170
 
 **By Behavior:**
 - Feature usage patterns (which agents they use, API endpoints called)
@@ -262,7 +262,7 @@ Segmentation is the difference between 15% open rates and 45% open rates. Every 
 Annual plans dramatically reduce churn and increase LTV. Target monthly subscribers after 3+ months of consistent usage.
 
 **Email 1 (Month 3):**
-- Subject: "Save $240/year. Switch to annual and get 2 months free."
+- Subject: "save $180/year. Switch to annual and get 2 months free."
 - Content: Calculate their savings (monthly price x 12 vs. annual price), show that they've been happy for 3 months
 - CTA: "Switch to annual and save"
 
@@ -271,7 +271,7 @@ Annual plans dramatically reduce churn and increase LTV. Target monthly subscrib
 - Content: Show cumulative spend, projected annual spend, vs. annual plan price
 - CTA: "Save [amount] per year"
 
-**SMART tier annual upsell** is particularly compelling: $99.99/mo = $1,199.88/yr vs. $79.99/mo annual = $959.88/yr. That's $240 savings — a clear, easy-to-understand number.
+**SMART tier annual upsell** is particularly compelling: $99.99/mo = $1,199.88/yr vs. $84.99/mo annual = $1019.88/yr. That's $180 savings — a clear, easy-to-understand number.
 
 ---
 

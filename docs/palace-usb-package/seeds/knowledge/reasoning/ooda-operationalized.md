@@ -136,11 +136,11 @@ ORIENT:
   - But SMART churn is lowest (4%) — those who get there, stay.
   - The problem isn't SMART value, it's the price cliff.
   - Mental model check: Am I anchored to round numbers?
-    Would $79.99 (annual) feel different psychologically?
+    Would $84.99 (annual) feel different psychologically?
 
 DECIDE:
   Option A: Add a tier between PLUS and SMART ($74.99)
-  Option B: Improve SMART annual pricing visibility ($79.99/mo annual)
+  Option B: Improve SMART annual pricing visibility ($84.99/mo annual)
   Option C: Add 14-day SMART trial for PLUS users
 
   Choosing C — lowest risk, directly tests whether SMART value

@@ -178,8 +178,8 @@ Don't overwhelm new users with everything at once. Reveal features and complexit
 - Keyboard shortcuts.
 - Detailed agent comparison.
 
-### Why 42 Agents on Day 1 Is Wrong
-- Showing 42 agents (or even 4) with detailed descriptions creates "choice overload."
+### Why 38 Agents on Day 1 Is Wrong
+- Showing 38 agents (or even 4) with detailed descriptions creates "choice overload."
 - The Jam Study (Iyengar & Lepper, 2000): 24 jam choices → 3% bought. 6 choices → 30% bought. Fewer options, more action.
 - Apply to Stone AI: Show 1 default agent with "3 more available" on Day 1. Not 4 agents with a "38 more on paid tiers" wall.
 - Let users discover agents through need: "That's a great coding question — did you know our Code Agent specializes in this?"

@@ -61,7 +61,7 @@ echo "=== Disk ===" && df -h / | tail -1
 | STARTER | $19.99/mo | 16 agents | Agents 1-16 |
 | PLUS | $49.99/mo | 30 agents | Agents 1-30 |
 | SMART | $99.99/mo | 39 agents | Agents 1-39 |
-| PRO | $200/mo | 42 agents | Agents 1-42 (all public) |
+| PRO | $200/mo | 38 agents | Agents 1-38 (all public) |
 
 ### Special Agents (Not Public)
 
@@ -84,7 +84,7 @@ MONTHLY PLANS:
   PRO:     $200
 
 ANNUAL PLANS:
-  SMART Annual: $79.99/mo (save 20%)
+  SMART Annual: $84.99/mo (save 15%)
   PRO Annual:   $170/mo (save 15%)
 ```
 
@@ -307,7 +307,7 @@ CREDENTIALS:
 
 ```
 [x] Chat system (multi-agent)
-[x] Agent system (44 agents, tiered access)
+[x] Agent system (40 agents, tiered access)
 [x] Billing (Stripe integration, test mode)
 [x] Settings page
 [x] Forum

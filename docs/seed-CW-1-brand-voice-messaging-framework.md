@@ -29,7 +29,7 @@ Stone AI sounds like **a text from a trusted advisor at 11pm**, not like **a qua
 | Context | Energy Level | Tone | Register | Example |
 |---|---|---|---|---|
 | **Hero / Landing** | High | Bold, declarative, punchy | Conversational-professional | "The workforce of the future is here." |
-| **Feature copy** | Medium-high | Confident, benefit-first | Professional-casual | "42 specialists. Zero salaries." |
+| **Feature copy** | Medium-high | Confident, benefit-first | Professional-casual | "38 specialists. Zero salaries." |
 | **Pricing copy** | Medium | Clear, honest, value-anchored | Professional | "Every tier puts more specialists in your corner." |
 | **Onboarding** | Medium | Warm, encouraging, action-oriented | Casual-professional | "You're chatting with 4 AI agents before your coffee gets cold." |
 | **Support / Help** | Medium-low | Calm, clear, solution-focused | Professional-warm | "Here's what happened and how to fix it." |
@@ -55,7 +55,7 @@ Stone AI sounds like **a text from a trusted advisor at 11pm**, not like **a qua
 | Stone Engine | The local inference engine |
 | Smart Mode | Cloud AI mode |
 | AI Bestie | The companion feature |
-| agents / specialists / thinkers | The 42 AI agents |
+| agents / specialists / thinkers | The 38 AI agents |
 | local-first | Our architecture philosophy |
 | your data stays yours | Privacy positioning |
 | Free / Builder / Growth / Executive / Reseller | Tier display names |
@@ -67,7 +67,7 @@ Stone AI sounds like **a text from a trusted advisor at 11pm**, not like **a qua
 | Banned | Why | Use Instead |
 |---|---|---|
 | "revolutionary" / "groundbreaking" | Overpromise, cliche | "built for [specific outcome]" |
-| "best AI on the market" | Unverifiable superlative | "42 specialists, one platform" |
+| "best AI on the market" | Unverifiable superlative | "38 specialists, one platform" |
 | "unlimited" (for Smart Mode) | Technically false -- daily caps exist | "generous daily allowance" or state the actual cap |
 | "guaranteed results" | Legal liability | "designed to deliver [specific thing]" |
 | "we're better than [competitor]" | Legal risk, brand damage | Never mention competitors by name |
@@ -80,7 +80,7 @@ Stone AI sounds like **a text from a trusted advisor at 11pm**, not like **a qua
 | "military-grade encryption" | Misleading term | "AES-256-GCM encryption" |
 
 ### Number & Formatting Rules
-- Always use specific numbers: "42 agents" not "dozens of agents"
+- Always use specific numbers: "38 agents" not "dozens of agents"
 - Prices always include the dollar sign and cents for paid tiers: "$19.99" not "20 dollars"
 - Free tier: "$0" not "free" in price displays (use "Free" as the tier name, "$0" as the price)
 - Response times: "<100ms" with the less-than symbol
@@ -91,7 +91,7 @@ Stone AI sounds like **a text from a trusted advisor at 11pm**, not like **a qua
 ### Hero Headline Formula
 **[Bold declarative statement] + [Subhead that grounds it in specifics]**
 
-Good: "The workforce of the future is here." + "42 AI specialists that think so you don't have to."
+Good: "The workforce of the future is here." + "38 AI specialists that think so you don't have to."
 Good: "Two engines. You choose." + "Local mode is fast, free, and private. Smart mode brings cloud AI when you need it."
 Bad: "Welcome to the Future of AI-Powered Business Solutions" (jargon, passive, generic)
 

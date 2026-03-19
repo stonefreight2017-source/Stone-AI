@@ -319,7 +319,7 @@ PRIORITY 5: Non-Critical Services
 □ Database writes work
 □ Image uploads work
 □ Settings save correctly
-□ All 44 agents are accessible (per tier)
+□ All 40 agents are accessible (per tier)
 □ Bestie system functions
 □ Admin dashboard accessible
 □ No error spikes in monitoring

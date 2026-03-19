@@ -67,7 +67,7 @@ LAYER 3 — Evidence
   A3: WEAK — Feature bloat is a known anti-pattern. More features
       can decrease usability. Value ≠ feature count.
   A4: UNSUPPORTED — Each feature has ongoing maintenance cost.
-      44 agents already. Each new feature multiplies test surface.
+      40 agents already. Each new feature multiplies test surface.
   A5: WEAK — If users don't find existing features, adding more
       won't help. Discoverability may be the actual problem.
 
@@ -79,7 +79,7 @@ LAYER 4 — Alternatives
   A5 alt: Users need better guidance, not more options
 
 LAYER 5 — Bedrock Truth
-  KNOW: We have 44 agents across 5 tiers
+  KNOW: We have 40 agents across 5 tiers
   KNOW: Feature count is already high
   DON'T KNOW: Why users actually churn
   DON'T KNOW: What competitors are doing that works
@@ -115,7 +115,7 @@ LAYER 4 — Alternatives
   A1 alt: The endpoint is fast but the UI renders slowly
   A2 alt: The database is the bottleneck (missing index, N+1 query)
   A3 alt: Caching eliminates the problem without code optimization
-  A3 alt: The real fix is pagination (don't load all 44 agents at once)
+  A3 alt: The real fix is pagination (don't load all 40 agents at once)
 
 LAYER 5 — Bedrock Truth
   KNOW: The endpoint serves agent data for the dashboard

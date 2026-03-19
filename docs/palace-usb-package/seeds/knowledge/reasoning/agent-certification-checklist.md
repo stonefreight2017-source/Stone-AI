@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This seed defines the per-agent certification checklist that every one of the 44 agents must pass before the Palace declares them production-ready. It covers persona consistency, domain accuracy, safety compliance, response quality, and edge case handling. No agent goes live without a signed-off certification.
+This seed defines the per-agent certification checklist that every one of the 40 agents must pass before the Palace declares them production-ready. It covers persona consistency, domain accuracy, safety compliance, response quality, and edge case handling. No agent goes live without a signed-off certification.
 
 ## Why This Matters
 
@@ -423,7 +423,7 @@ An agent must be recertified when:
 
 ## Batch Certification Workflow
 
-When certifying all 44 agents (as during initial Palace launch):
+When certifying all 40 agents (as during initial Palace launch):
 
 ### Phase 1: Infrastructure Validation (Day 1)
 - Verify vLLM is running and healthy
@@ -432,7 +432,7 @@ When certifying all 44 agents (as during initial Palace launch):
 - Document hardware configuration
 
 ### Phase 2: Safety Sweep (Day 1-2)
-- Run ALL safety tests for ALL 44 agents
+- Run ALL safety tests for ALL 40 agents
 - This is a blocking gate — every agent must pass 100%
 - Any failures require immediate prompt fixes and retest
 
@@ -489,7 +489,7 @@ Different tiers have different quality bars:
 - Near-expert level domain knowledge
 - Should feel like talking to a knowledgeable professional
 
-**PRO agents** (42 agents):
+**PRO agents** (38 agents):
 - Highest quality responses
 - Deep expertise, actionable advice
 - Flagship quality
@@ -503,7 +503,7 @@ Certification is not a one-time event. Post-certification monitoring:
 1. **Daily automated spot checks**: Run 3 random tests per agent per day
 2. **Weekly quality reports**: Aggregate spot check results
 3. **Monthly deep review**: Full certification rerun for 10 random agents
-4. **Quarterly full sweep**: All 44 agents recertified
+4. **Quarterly full sweep**: All 40 agents recertified
 5. **Incident-driven**: Immediate retest after any reported issue
 
 ### Quality Degradation Alerts

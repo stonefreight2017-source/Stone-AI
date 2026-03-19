@@ -3,12 +3,12 @@
 ## Seed Classification
 - **Domain**: Agent Conversation & UX
 - **Complexity**: Advanced
-- **Applicability**: All conversational AI routing, Stone AI's 44-agent dispatch system
+- **Applicability**: All conversational AI routing, Stone AI's 40-agent dispatch system
 - **Prerequisites**: NLP basics, classification fundamentals, system design
 
 ## Why This Matters
 
-When a user types "help me write better code," which of Stone AI's 44 agents should handle it? The Code Agent? The Writing Agent? A general assistant? What if they type "my subscription isn't working and I need help debugging my Python script" — that's TWO intents targeting TWO different agents.
+When a user types "help me write better code," which of Stone AI's 40 agents should handle it? The Code Agent? The Writing Agent? A general assistant? What if they type "my subscription isn't working and I need help debugging my Python script" — that's TWO intents targeting TWO different agents.
 
 Intent classification and routing is the traffic controller of any multi-agent system. Get it wrong, and users end up talking to the wrong agent, repeating themselves, or abandoning the platform entirely. Get it right, and the system feels like it reads minds.
 
@@ -848,12 +848,12 @@ const AGENT_ROUTING_MAP = {
     // + 9 more specialized agents including cloud AI
   ],
 
-  // Tier: PRO (42 agents) — includes SMART agents
+  // Tier: PRO (38 agents) — includes SMART agents
   pro: [
     // + 3 premium agents
   ],
 
-  // Internal/Founder (44 total)
+  // Internal/Founder (40 total)
   internal: [
     { agent: 'stone', intents: ['strategy.*', 'escalation.*'], access: 'internal' },
     { agent: 'chaos', intents: ['infrastructure.*', 'server.*'], access: 'founder_only' },

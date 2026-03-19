@@ -142,7 +142,7 @@ npx prisma db pull --print | diff - prisma/schema.prisma
 ```
 Checklist:
   [ ] Default tiers exist (FREE, STARTER, PLUS, SMART, PRO)
-  [ ] All 44 agents have records in DB
+  [ ] All 40 agents have records in DB
   [ ] Agent tier assignments match pricing table
   [ ] Backdrop pool populated (15 preset + 3 premium + 100 pool)
   [ ] Emote set complete (24 emotes)
@@ -371,15 +371,15 @@ curl -s http://[OMEN_IP]:8000/v1/completions \
 
 ### Agent Identity Loading
 ```
-Verify all 44 agents load correctly:
+Verify all 40 agents load correctly:
   1. Query agent list endpoint
-  2. Confirm count = 44 (42 public + Stone + Chaos)
+  2. Confirm count = 44 (38 public + Stone + Chaos)
   3. Verify tier assignments match pricing table:
      - FREE: 4 agents
      - STARTER: 16 agents
      - PLUS: 30 agents
      - SMART: 39 agents
-     - PRO: 42 agents (public)
+     - PRO: 38 agents (public)
      - Stone (#43) + Chaos (#44): internal only
   4. Verify agent prompts/identities are not empty strings
 ```

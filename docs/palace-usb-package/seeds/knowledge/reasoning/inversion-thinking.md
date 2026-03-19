@@ -35,7 +35,7 @@ GUARANTEED FAILURES:
 1. Ship with critical bugs in billing (users charged wrong amounts,
    double charges, can't cancel)
 2. Make onboarding confusing so users never discover core value
-   (44 agents, but users don't know which to use)
+   (40 agents, but users don't know which to use)
 3. Price so high that free-tier users never convert (no stepping
    stone between $0 and $19.99)
 4. Ignore performance — AI responses take 10+ seconds, users leave

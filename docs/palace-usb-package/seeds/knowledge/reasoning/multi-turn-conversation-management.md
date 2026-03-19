@@ -10,7 +10,7 @@
 
 Single-turn question-answering is trivial. The real test of a conversational AI agent is what happens across 5, 15, or 50 turns. Users don't think in isolated queries — they build on previous statements, reference earlier context, change their minds, go on tangents, and circle back. An agent that can't track all of this feels broken.
 
-Stone AI's 44 agents each maintain multi-turn conversations with users who expect the agent to remember what was said three messages ago, understand pronouns that reference entities from ten messages ago, and gracefully handle topic shifts without losing the thread. This seed teaches how to build that capability from the ground up.
+Stone AI's 40 agents each maintain multi-turn conversations with users who expect the agent to remember what was said three messages ago, understand pronouns that reference entities from ten messages ago, and gracefully handle topic shifts without losing the thread. This seed teaches how to build that capability from the ground up.
 
 ---
 

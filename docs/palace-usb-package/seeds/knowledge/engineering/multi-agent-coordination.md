@@ -27,7 +27,7 @@
 
 ## Orchestration Architecture
 
-The Palace runs 42 user-facing agents, 3 heads (Stone, Cardinal, Chaos), and 2 Royal Guards (Computer Wiz, Rush). Coordinating this requires a structured orchestration layer that handles dispatch, context management, quality control, and result synthesis.
+The Palace runs 38 user-facing agents, 3 heads (Stone, Cardinal, Chaos), and 2 Royal Guards (Computer Wiz, Rush). Coordinating this requires a structured orchestration layer that handles dispatch, context management, quality control, and result synthesis.
 
 ### Architecture Diagram
 

@@ -88,7 +88,7 @@ SELECT
         END
       WHEN u.billing_period = 'ANNUAL' THEN
         CASE u.current_plan
-          WHEN 'SMART' THEN 79.99
+          WHEN 'SMART' THEN 84.99
           WHEN 'PRO' THEN 170.00
           ELSE 0
         END
@@ -107,7 +107,7 @@ FROM (
   SELECT
     CASE
       WHEN u.billing_period = 'ANNUAL' THEN
-        CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+        CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
       ELSE
         CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
     END AS monthly_amount
@@ -154,7 +154,7 @@ SELECT
   COALESCE(SUM(
     CASE
       WHEN u.billing_period = 'ANNUAL' THEN
-        CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+        CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
       ELSE
         CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
     END
@@ -181,7 +181,7 @@ monthly_mrr AS (
     COALESCE(SUM(
       CASE
         WHEN u.billing_period = 'ANNUAL' THEN
-          CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+          CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
         ELSE
           CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
       END
@@ -215,7 +215,7 @@ FROM (
   SELECT COALESCE(SUM(
     CASE
       WHEN u.billing_period = 'ANNUAL' THEN
-        CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+        CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
       ELSE
         CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
     END
@@ -296,7 +296,7 @@ SELECT
     COALESCE(SUM(
       CASE
         WHEN u.billing_period = 'ANNUAL' THEN
-          CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+          CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
         ELSE
           CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
       END
@@ -305,7 +305,7 @@ SELECT
       SELECT SUM(
         CASE
           WHEN u2.billing_period = 'ANNUAL' THEN
-            CASE u2.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+            CASE u2.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
           ELSE
             CASE u2.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
         END
@@ -348,7 +348,7 @@ WITH metrics AS (
     COALESCE(AVG(
       CASE
         WHEN u.billing_period = 'ANNUAL' THEN
-          CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+          CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
         ELSE
           CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
       END
@@ -381,7 +381,7 @@ SELECT
   ROUND(AVG(
     CASE
       WHEN billing_period = 'ANNUAL' THEN
-        CASE current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+        CASE current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
       ELSE
         CASE current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
     END
@@ -504,7 +504,7 @@ WITH ltv_by_channel AS (
     ROUND(AVG(
       CASE
         WHEN billing_period = 'ANNUAL' THEN
-          CASE current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+          CASE current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
         ELSE
           CASE current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
       END
@@ -570,7 +570,7 @@ WITH monthly_cohort AS (
     date_trunc('month', u.created_at) AS signup_month,
     CASE
       WHEN u.billing_period = 'ANNUAL' THEN
-        CASE u.current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+        CASE u.current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
       ELSE
         CASE u.current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
     END AS current_mrr_contribution,
@@ -800,7 +800,7 @@ async function calculateMRR(): Promise<{
       COALESCE(SUM(
         CASE
           WHEN billing_period = 'ANNUAL' THEN
-            CASE current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+            CASE current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
           ELSE
             CASE current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
         END
@@ -810,7 +810,7 @@ async function calculateMRR(): Promise<{
           WHEN created_at >= date_trunc('month', CURRENT_DATE) THEN
             CASE
               WHEN billing_period = 'ANNUAL' THEN
-                CASE current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+                CASE current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
               ELSE
                 CASE current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
             END
@@ -847,7 +847,7 @@ export async function getPlanBreakdown(): Promise<{
       SUM(
         CASE
           WHEN billing_period = 'ANNUAL' THEN
-            CASE current_plan WHEN 'SMART' THEN 79.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
+            CASE current_plan WHEN 'SMART' THEN 84.99 WHEN 'PRO' THEN 170.00 ELSE 0 END
           ELSE
             CASE current_plan WHEN 'STARTER' THEN 19.99 WHEN 'PLUS' THEN 49.99 WHEN 'SMART' THEN 99.99 WHEN 'PRO' THEN 200.00 ELSE 0 END
         END

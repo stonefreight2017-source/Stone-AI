@@ -174,7 +174,7 @@ AGENT AUTHORITY HIERARCHY:
 ║  └────┬──────────────────────────────┘        ║
 ║       │                                       ║
 ║  ┌────┴──────────────────────────────┐        ║
-║  │  Standard Agents (1-42)            │        ║
+║  │  Standard Agents (1-38)            │        ║
 ║  │  Graded by Stone, dispatched by    │        ║
 ║  │  Claude under founder's authority  │        ║
 ║  └───────────────────────────────────┘        ║
@@ -184,7 +184,7 @@ AGENT AUTHORITY HIERARCHY:
 
 ### Agent Decision Rights
 
-**Standard Agents (1-42)**:
+**Standard Agents (1-38)**:
 - Can decide HOW to respond to a user query (within their prompt constraints)
 - Cannot decide to change their own behavior
 - Cannot access data outside their scope

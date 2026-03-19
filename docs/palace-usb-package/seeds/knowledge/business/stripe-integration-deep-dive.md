@@ -942,14 +942,14 @@ const PRODUCTS = [
     prices: [
       { amount: 9999, interval: 'month' as const, nickname: 'Smart Monthly' },
       { amount: 7999, interval: 'month' as const, nickname: 'Smart Annual (per month equivalent)',
-        intervalCount: 1, metadata: { billingPeriod: 'annual', displayPrice: '$79.99/mo billed annually' } },
-      // Actually for annual: $79.99/mo * 12 = $959.88/year
+        intervalCount: 1, metadata: { billingPeriod: 'annual', displayPrice: '$84.99/mo billed annually' } },
+      // Actually for annual: $84.99/mo * 12 = $1019.88/year
       { amount: 95988, interval: 'year' as const, nickname: 'Smart Annual' },
     ],
   },
   {
     name: 'Stone AI Pro',
-    description: 'Full access to all 42 public AI agents, priority support',
+    description: 'Full access to all 38 public AI agents, priority support',
     prices: [
       { amount: 20000, interval: 'month' as const, nickname: 'Pro Monthly' },
       { amount: 204000, interval: 'year' as const, nickname: 'Pro Annual ($170/mo)' },

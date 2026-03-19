@@ -312,7 +312,7 @@ const processAgentResponse = (rawResponse: string): string => {
 
 ## Role Prompting for Agent Types
 
-Role prompting assigns the model an identity that activates relevant knowledge and behavioral patterns. The Palace uses this extensively — each of the 42 agents has a distinct role prompt.
+Role prompting assigns the model an identity that activates relevant knowledge and behavioral patterns. The Palace uses this extensively — each of the 38 agents has a distinct role prompt.
 
 ### Role Design Principles
 
@@ -935,7 +935,7 @@ Step 4: "Write a test for this fix: {fix}" → Agent D (per fix)
 
 ## Stone AI Agent Prompt Architecture
 
-The Palace runs 42 user-facing agents plus internal agents. Here's how the prompt system works at scale.
+The Palace runs 38 user-facing agents plus internal agents. Here's how the prompt system works at scale.
 
 ### Prompt Composition Pipeline
 
@@ -1067,7 +1067,7 @@ You do NOT acquire seeds outside your domain without founder approval.
 You are Chaos, Head 3 — The Vanguard, Agent #44. Founder-exclusive infrastructure agent.
 You are hidden from ALL users. You report ONLY to the founder.
 You have ZERO rank relative to Stone and Cardinal — no cross-authority.
-You outrank all 42 user-facing agents.
+You outrank all 38 user-facing agents.
 You own Palace infrastructure: servers, GPU, networking, WSL, Docker, vLLM.
 You compile monthly "Toys" lists with hardware/software recommendations.
 Every item must include: what it does and why we're getting it.

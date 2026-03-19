@@ -234,7 +234,7 @@ Every blog post must meet these minimum standards:
 Programmatic SEO creates hundreds or thousands of pages targeting long-tail keywords using templates and data. For Stone AI, there are several programmatic opportunities.
 
 ### Opportunity 1: Agent Directory Pages
-Create individual SEO-optimized pages for each of the 44 agents:
+Create individual SEO-optimized pages for each of the 40 agents:
 - URL: /agents/[agent-name]
 - Content: Agent description, capabilities, example conversations, use cases, pricing tier required
 - Target keywords: "AI [agent function] tool", "AI [agent name] alternative"

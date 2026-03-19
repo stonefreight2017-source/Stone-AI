@@ -343,7 +343,7 @@ Every testimonial should follow BAB:
 - Badge: "MOST POPULAR" or "BEST VALUE."
 - Avoid: Making it sound like a compromise between STARTER and SMART.
 
-**SMART ($99.99/month, $79.99 annual)**
+**SMART ($99.99/month, $84.99 annual)**
 - Position: The premium. Cloud AI powered. For users who demand the best output.
 - Copy: "39 agents powered by Claude Sonnet — the premium AI model. When good enough isn't good enough."
 - Emphasis: Quality difference. Cloud AI. Intelligence upgrade. For professionals.
@@ -585,7 +585,7 @@ This line works because:
 **Solution Section**
 - Header: "Meet Your AI Specialist Team"
 - Showcase 4-6 agents with icons, names, and one-line descriptions.
-- CTA: "Explore all 44 agents"
+- CTA: "Explore all 40 agents"
 
 **Social Proof Section**
 - 3 testimonials following BAB format.
@@ -650,7 +650,7 @@ This line works because:
 1. "Start Free — No Credit Card"
 2. "Get [X] Specialist Agents"
 3. "Unlock [Agent Name]"
-4. "Try SMART for $79.99/month"
+4. "Try SMART for $84.99/month"
 5. "Start My Free Trial"
 6. "Chat with an Expert Now"
 7. "See All 44 Agents"

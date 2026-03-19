@@ -203,7 +203,7 @@ Cardinal must log the following for every content approval cycle:
 | `brand` | Which of the 5 brands | `stone-ai` / `stone-ai-tools` / `best-ai` / `best-ai-mobile` / `stone-ai-corporate` |
 | `platform` | Target platform | `instagram` / `twitter` / `tiktok` / etc. |
 | `content_format` | Content type | `carousel` / `post` / `video-15s` / `infographic` / etc. |
-| `content_summary` | Brief description of the content | `44 agents carousel post` |
+| `content_summary` | Brief description of the content | `40 agents carousel post` |
 | `drafted_by` | Who created the content | `stone` / `cardinal` / `marketing-strategist` |
 | `original_post_time` | First scheduled posting window | `2026-03-10T09:00:00-05:00` |
 | `reminder_email_timestamp` | When the reminder was sent | `2026-03-10T08:00:00-05:00` |

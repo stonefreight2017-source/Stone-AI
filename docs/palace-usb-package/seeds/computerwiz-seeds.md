@@ -206,8 +206,8 @@ Production: stone-ai.net (Vercel + Cloudflare) | Fallback: stone-ai-sooty.vercel
 Database: Neon (PostgreSQL 16 + pgvector) | Auth: Clerk | Payments: Stripe
 AI: vLLM + Qwen 2.5 32B AWQ (local, port 8000) | Anthropic Claude Sonnet (cloud) | Vision: Qwen2.5-VL-7B-AWQ (port 8001)
 Businesses: Stone AI (live SaaS), Best AI (mobile, ~18wk), Stone AI Tools (tools.stone-ai.net)
-Tiers: FREE/$0 (4 agents), STARTER/$19.99 (16), PLUS/$49.99 (30), SMART/$99.99 (39), PRO/$200 (42)
-44 total agents: 42 user-facing + Stone (internal) + Chaos (founder-only)
+Tiers: FREE/$0 (4 agents), STARTER/$19.99 (16), PLUS/$49.99 (30), SMART/$99.99 (39), PRO/$200 (38)
+40 total agents: 38 user-facing + Stone (internal) + Chaos (founder-only)
 GitHub: stonefreight2017-source/Stone-AI | Email: 3headedm@gmail.com
 
 ---

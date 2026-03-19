@@ -268,7 +268,7 @@ C1 + C2 → Free tier: enough agents to demo, not enough for real work
   → 4 agents satisfies both (can try the platform, needs upgrade for full use)
 
 C3 + C7 → Each tier adds agents
-  → FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=42
+  → FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=38
   → Clear progression: each tier roughly doubles or adds 50%
 
 C4 + C8 → Higher tiers use more AI → cost scales
@@ -282,7 +282,7 @@ C5 → Pricing anchors: $19.99, $49.99, $99.99, $200
   → All under psychological barriers (not $20, $50, $100, $200)
   → Exception: PRO at $200 is a round number → signals premium
 
-C6 → Annual: 15% off for PRO ($170/mo), 20% off for SMART ($79.99/mo)
+C6 → Annual: 15% off for PRO ($170/mo), 15% off for SMART ($84.99/mo)
   → Verify: annual price × 12 > monthly × 10 (user saves but we still profit)
 
 C9 → Promos: $9.99 first month, $14.99 trial, $39.99 growth

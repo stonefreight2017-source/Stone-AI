@@ -88,14 +88,14 @@ BEFORE (120 tokens):
   "When the user asks about pricing, explain that we have five tiers:
    FREE at $0 per month, STARTER at $19.99 per month,
    PLUS at $49.99 per month, SMART at $99.99 per month
-   (or $79.99 per year), and PRO at $200 per month
+   (or $84.99 per month billed annually), and PRO at $200 per month
    (or $170 per month billed annually with 15% discount).
    We also have promotional pricing: $9.99 for the first month,
    $14.99 trial price, and $39.99 growth promotion."
 
 AFTER (68 tokens):
   "Pricing tiers: FREE/$0, STARTER/$19.99, PLUS/$49.99,
-   SMART/$99.99 (annual $79.99), PRO/$200 (annual $170/15% off).
+   SMART/$99.99 (annual $84.99), PRO/$200 (annual $170/15% off).
    Promos: $9.99 first month, $14.99 trial, $39.99 growth."
 
 Reduction: 43%
@@ -144,7 +144,7 @@ BEFORE (62 tokens):
    If the user is on the STARTER tier, they can access agents 1 through 16.
    If the user is on the PLUS tier, they can access agents 1 through 30.
    If the user is on the SMART tier, they can access agents 1 through 39.
-   If the user is on the PRO tier, they can access agents 1 through 42."
+   If the user is on the PRO tier, they can access agents 1 through 38."
 
 AFTER (28 tokens):
   "Agent access by tier: FREE=1-4, STARTER=1-16, PLUS=1-30,
@@ -293,14 +293,14 @@ async function runCompressionTest(test: CompressionTest): Promise<TestResult> {
 ### System Prompt Compression
 ```
 BEFORE (234 tokens):
-  "You are Stone AI, a helpful AI assistant platform with 44 agents.
+  "You are Stone AI, a helpful AI assistant platform with 40 agents.
    Each agent has a specific specialty and purpose. The agents are
    organized into tiers based on the user's subscription level.
    Users on the FREE tier can access agents 1 through 4. Users on
    the STARTER tier ($19.99/month) can access agents 1 through 16.
    Users on the PLUS tier ($49.99/month) can access agents 1 through 30.
    Users on the SMART tier ($99.99/month) can access agents 1 through 39.
-   Users on the PRO tier ($200/month) can access agents 1 through 42.
+   Users on the PRO tier ($200/month) can access agents 1 through 38.
    There are also two Royal Guard agents and one special agent called
    Chaos that are only available to the founder.
 
@@ -312,8 +312,8 @@ BEFORE (234 tokens):
    enforced per user based on their subscription tier."
 
 AFTER (89 tokens):
-  "Stone AI assistant. 44 agents across tiers:
-   FREE(1-4), STARTER(1-16), PLUS(1-30), SMART(1-39), PRO(1-42).
+  "Stone AI assistant. 40 agents across tiers:
+   FREE(1-4), STARTER(1-16), PLUS(1-30), SMART(1-39), PRO(1-38).
    Royal Guards + Chaos: founder-only.
 
    Rules: Helpful, accurate, honest about unknowns. No hallucination.

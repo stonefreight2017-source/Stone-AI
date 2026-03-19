@@ -4,7 +4,7 @@
 
 Paid advertising is the fastest way to acquire customers at scale, but it's also the fastest way to burn money if done incorrectly. For AI SaaS businesses, paid ads serve three primary functions: (1) accelerate growth beyond what organic channels can deliver, (2) test messaging and positioning quickly before investing in long-form content, and (3) retarget warm audiences who've already shown interest. This playbook covers paid advertising across Google Ads, Meta (Facebook/Instagram), Reddit, and LinkedIn — the four highest-ROI platforms for AI SaaS products.
 
-The fundamental economics: Stone AI's pricing ranges from $19.99/month (STARTER) to $200/month (PRO). With annual plans, SMART is $79.99/month ($959.88/year) and PRO is $170/month ($2,040/year). These price points allow for meaningful customer acquisition cost (CAC) budgets while maintaining healthy LTV:CAC ratios. The target is a 3:1 or better LTV:CAC ratio — for every $1 spent acquiring a customer, that customer should generate $3+ in lifetime revenue.
+The fundamental economics: Stone AI's pricing ranges from $19.99/month (STARTER) to $200/month (PRO). With annual plans, SMART is $84.99/month ($1019.88/year) and PRO is $170/month ($2,040/year). These price points allow for meaningful customer acquisition cost (CAC) budgets while maintaining healthy LTV:CAC ratios. The target is a 3:1 or better LTV:CAC ratio — for every $1 spent acquiring a customer, that customer should generate $3+ in lifetime revenue.
 
 ---
 
@@ -342,7 +342,7 @@ Retargeting is the highest-ROI ad spend for SaaS. Website visitors who are retar
 |----------|----------------|---------|----------|
 | Pricing page visitors (no signup) | 14 days | "Still deciding? Start free." | Google, Meta, Reddit |
 | Signup page abandoners | 7 days | "Almost there! Complete signup." | Google, Meta |
-| Free users (no upgrade) | 30 days | "Unlock all 44 agents — $9.99/mo" | Meta, Google |
+| Free users (no upgrade) | 30 days | "Unlock all 40 agents — $9.99/mo" | Meta, Google |
 | Blog readers (3+ pages) | 30 days | "Ready to try it? Free plan." | Meta, Google |
 | Video viewers (50%+) | 30 days | "Liked what you saw? Try it." | Meta |
 | Churned users | 60 days | "We've improved. Come back." | Meta, Google |
@@ -493,7 +493,7 @@ Test which tone drives engagement:
 ### High-Performance Windows
 - **January**: New year, new tools. "Start 2026 with AI." Highest conversion month for SaaS.
 - **Back to school (August/September)**: Student pricing, academic use cases
-- **Black Friday / Cyber Monday**: Annual plan discount. "Get 1 year of SMART for $79.99/mo."
+- **Black Friday / Cyber Monday**: Annual plan discount. "Get 1 year of SMART for $84.99/mo."
 - **Product Hunt launch day**: Coordinate paid ads to amplify launch
 - **Competitor price increases**: When a competitor raises prices, run "[Competitor] raised prices. Stone AI didn't."
 - **Major AI announcements**: When OpenAI, Google, or others make news, run reactive ads positioning Stone AI

@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Behavioral Design
-- **Applies to**: All 42 user-facing Stone AI agents, Bestie system
+- **Applies to**: All 38 user-facing Stone AI agents, Bestie system
 - **Priority**: High — the line between helpful and annoying is razor-thin
 - **Last Updated**: 2026-03-09
 

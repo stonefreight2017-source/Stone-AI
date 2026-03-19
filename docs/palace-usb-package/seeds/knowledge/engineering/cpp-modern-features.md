@@ -1,7 +1,7 @@
 # C++ Modern Features (C++17/20/23)
 
 > Palace Knowledge Seed — Software Engineering Breadth
-> For: All 44 agents + Three Heads | Format: RAG-optimized chunks
+> For: All 40 agents + Three Heads | Format: RAG-optimized chunks
 
 ---
 
@@ -463,7 +463,7 @@ std::optional<User> find_user(int id) {
 }
 
 void example() {
-    auto user = find_user(42);
+    auto user = find_user(38);
 
     // Check and access
     if (user.has_value()) {
@@ -476,7 +476,7 @@ void example() {
         .value_or("Unknown");
 
     // Monadic operations (C++23)
-    auto result = find_user(42)
+    auto result = find_user(38)
         .and_then([](const User& u) -> std::optional<Address> {
             return u.address; // May also be optional
         })

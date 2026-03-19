@@ -174,7 +174,7 @@ export function calculateWeightedARPU(planMix: {
     planMix.starterPct * 19.99 +
     planMix.plusPct * 49.99 +
     planMix.smartMonthlyPct * 99.99 +
-    planMix.smartAnnualPct * 79.99 +
+    planMix.smartAnnualPct * 84.99 +
     planMix.proMonthlyPct * 200.00 +
     planMix.proAnnualPct * 170.00
   );

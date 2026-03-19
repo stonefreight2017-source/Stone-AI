@@ -233,7 +233,7 @@ Models missing `@updatedAt`: `Message`, `UsageRecord`, `InviteCode`, `InviteRede
 These don't hurt performance but add minor write overhead and clutter.
 
 ### LOW: N+1 Risk Patterns
-- Agent seeding (`src/lib/agent-seed.ts`) loops through agents one-by-one with upsert + count + create. At 44 agents this is fine; at scale, batch with `createMany`.
+- Agent seeding (`src/lib/agent-seed.ts`) loops through agents one-by-one with upsert + count + create. At 40 agents this is fine; at scale, batch with `createMany`.
 - Forum post listing with replies/likes could trigger N+1 if not using `include` carefully.
 
 ### LOW: String Arrays for Badges/Claims

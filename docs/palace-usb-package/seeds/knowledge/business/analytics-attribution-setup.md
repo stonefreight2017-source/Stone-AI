@@ -465,7 +465,7 @@ Example:
 | STARTER | $19.99 | 6 months | $120 | 3:1 |
 | PLUS | $49.99 | 8 months | $400 | 3:1 |
 | SMART (monthly) | $99.99 | 10 months | $1,000 | 4:1 |
-| SMART (annual) | $79.99 | 14 months | $1,120 | 4:1 |
+| SMART (annual) | $84.99 | 14 months | $1,120 | 4:1 |
 | PRO | $200 | 12 months | $2,400 | 5:1 |
 
 ### LTV:CAC Ratio

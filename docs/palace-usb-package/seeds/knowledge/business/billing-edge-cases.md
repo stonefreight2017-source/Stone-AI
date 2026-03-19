@@ -759,7 +759,7 @@ export async function sendPreChargeNotification(
 ### Switching Billing Period Mid-Cycle
 
 ```typescript
-// User on SMART Monthly ($99.99/mo) wants to switch to SMART Annual ($79.99/mo)
+// User on SMART Monthly ($99.99/mo) wants to switch to SMART Annual ($84.99/mo)
 // at 15 days into their monthly cycle.
 
 export async function switchBillingPeriod(

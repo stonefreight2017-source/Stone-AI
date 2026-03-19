@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Content Rendering
-- **Applies to**: All 42 user-facing Stone AI agents, chat interface, content pipeline
+- **Applies to**: All 38 user-facing Stone AI agents, chat interface, content pipeline
 - **Priority**: High — modern AI must handle more than plain text
 - **Last Updated**: 2026-03-09
 
@@ -186,7 +186,7 @@ const tableExample = `
 | STARTER | $19.99/mo | 16 | Yes |
 | PLUS | $49.99/mo | 30 | Yes |
 | SMART | $99.99/mo | 39 | Yes |
-| PRO | $200/mo | 42 | Yes |
+| PRO | $200/mo | 38 | Yes |
 `;
 ```
 

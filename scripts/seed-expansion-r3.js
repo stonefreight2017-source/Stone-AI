@@ -94,7 +94,7 @@ PLUS ($49.99/month):
 - Perfect for: Solopreneurs, freelancers, small agencies
 - Best value if: You run a business and need multiple agents regularly
 
-SMART ($99.99/month, annual: $79.99/month):
+SMART ($99.99/month, annual: $84.99/month):
 - 39 agents: Everything in PLUS + technical + specialized agents
 - Adds: Claims Agent, Compliance Agent, Cybersecurity, Engineering Architect, Enterprise Implementation, and more
 - Cloud AI powered (Claude Sonnet) — higher quality responses
@@ -102,7 +102,7 @@ SMART ($99.99/month, annual: $79.99/month):
 - Best value if: You need advanced agents AND higher response quality
 
 PRO ($200/month, annual: $170/month):
-- All 42 public agents — complete access
+- All 38 public agents — complete access
 - Priority support, highest rate limits
 - Perfect for: Power users, agencies managing multiple clients
 - Best value if: You use 5+ agents daily across different domains
@@ -375,7 +375,7 @@ RETENTION LEVERS (in order of impact):
 4. EXPANSION REVENUE:
 - Usage-based pricing tiers that grow with their business
 - Add-on features: advanced analytics, team seats, API access, white-label
-- Annual contracts: 20% discount for annual = reduces churn by 30-40%
+- Annual contracts: 15% discount for annual = reduces churn by 30-40%
 
 GROWTH LOOPS FOR AI SAAS:
 - Viral: Shared reports/outputs with "Powered by [YourProduct]" watermark

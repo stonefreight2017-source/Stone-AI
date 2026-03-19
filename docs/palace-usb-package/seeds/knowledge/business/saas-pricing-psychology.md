@@ -12,7 +12,7 @@ Anchor pricing exploits the cognitive bias where the first price a person sees b
 
 ### How It Works in Stone AI
 - **PRO at $200/month** is the anchor. When a user sees $200 first (or prominently), $99.99 for SMART feels reasonable by comparison.
-- The psychological math: "$200 is serious money, but $99.99 gets me 39 of the 42 agents? That's half the price for 93% of the product."
+- The psychological math: "$200 is serious money, but $99.99 gets me 39 of the 38 agents? That's half the price for 93% of the product."
 - Without the $200 anchor, $99.99 feels expensive on its own. With it, $99.99 feels like the smart middle ground.
 
 ### Anchor Placement Strategy
@@ -21,7 +21,7 @@ Anchor pricing exploits the cognitive bias where the first price a person sees b
 - If you're running a promotion, always show the original price crossed out next to the promo price. The crossed-out price is the anchor.
 
 ### Anchoring Rules
-1. **The anchor must be credible.** $200/month for PRO must be justified by real value (42 agents, priority everything, full access). If users think the price is fake or inflated, the anchor loses power.
+1. **The anchor must be credible.** $200/month for PRO must be justified by real value (38 agents, priority everything, full access). If users think the price is fake or inflated, the anchor loses power.
 2. **The gap between anchor and target shouldn't be too small.** PRO at $200 and SMART at $99.99 is a 50% gap — strong. If PRO were $120 and SMART were $99.99, the anchor barely moves the needle.
 3. **The gap shouldn't be too large either.** If PRO were $500 and SMART were $99.99, users might think "the $500 tier is for enterprises, not me" and mentally discard it, nullifying the anchor.
 4. **Multiple anchors work.** On a landing page, you might mention "enterprise AI solutions cost $500-2000/month" before showing your pricing. Now even PRO at $200 feels reasonable.
@@ -43,8 +43,8 @@ The current tier structure:
 - FREE: $0, 4 agents
 - STARTER: $19.99, 16 agents
 - PLUS: $49.99, 30 agents
-- SMART: $99.99, 39 agents (annual: $79.99)
-- PRO: $200, 42 agents (annual: $170)
+- SMART: $99.99, 39 agents (annual: $84.99)
+- PRO: $200, 38 agents (annual: $170)
 
 **STARTER functions partly as a decoy for PLUS.** Here's why:
 - STARTER gives 16 agents for $19.99 ($1.25 per agent).
@@ -53,7 +53,7 @@ The current tier structure:
 - A user comparing STARTER and PLUS thinks: "For just $30 more, I get almost twice the agents." The $19.99 STARTER makes the $49.99 PLUS feel like a bargain.
 
 **PRO functions as a decoy for SMART.**
-- PRO gives 42 agents for $200 ($4.76 per agent).
+- PRO gives 38 agents for $200 ($4.76 per agent).
 - SMART gives 39 agents for $99.99 ($2.56 per agent).
 - The gap: 3 extra agents for $100 more. Most users will rationally choose SMART.
 - PRO exists for users who genuinely want everything, but its primary job is making SMART look like the sweet spot.
@@ -106,7 +106,7 @@ Price elasticity measures how sensitive demand is to price changes. In AI produc
 ## 4. Annual vs Monthly Discount Psychology
 
 ### Current Structure
-- SMART: $99.99/month or $79.99/month billed annually (20% discount)
+- SMART: $99.99/month or $84.99/month billed annually (15% discount)
 - PRO: $200/month or $170/month billed annually (15% discount)
 
 ### Industry Benchmarks
@@ -116,7 +116,7 @@ Price elasticity measures how sensitive demand is to price changes. In AI produc
 - **Sweet spot for most SaaS: 17-20%.**
 
 ### Analysis of Stone AI's Discounts
-- **SMART at 20%**: Right in the sweet spot. $79.99 vs $99.99 is a clear, easy-to-calculate savings ($20/month, $240/year). This is strong.
+- **SMART at 15%**: $84.99 vs $99.99 is a clear savings ($15/month, $180/year). This incentivizes annual commitment without excessive discounting.
 - **PRO at 15%**: Slightly below the optimal range. Consider testing 17-18%. The difference: at 15%, annual PRO is $170/month ($2,040/year). At 17%, it would be $166/month ($1,992/year). At 20%, $160/month ($1,920/year). The question is whether the extra 2-5% conversion to annual plans is worth the per-user revenue reduction.
 
 ### Why Annual Plans Matter
@@ -136,8 +136,8 @@ Price elasticity measures how sensitive demand is to price changes. In AI produc
 ### Annual Discount Psychology
 
 **The Savings Frame**
-- Always express annual savings as monthly: "Save $20/month with annual billing" (not "save $240/year"). Monthly framing makes the savings feel relevant to their monthly budget decisions.
-- But ALSO show the total annual savings in a secondary callout: "That's $240 back in your pocket every year."
+- Always express annual savings as monthly: "Save $15/month with annual billing" (not "save $180/year"). Monthly framing makes the savings feel relevant to their monthly budget decisions.
+- But ALSO show the total annual savings in a secondary callout: "That's $180 back in your pocket every year."
 
 **The Commitment Frame**
 - For commitment-averse users, offer the annual plan as a trial: "Try annual for one year. If it's not for you, switch back to monthly."
@@ -150,9 +150,9 @@ Price elasticity measures how sensitive demand is to price changes. In AI produc
 
 ### Implementation Tactics
 1. **Default to annual billing** on the pricing page. Show annual prices prominently, with a toggle to see monthly. Most users won't toggle.
-2. **Show the monthly price crossed out** next to the annual monthly-equivalent: "~~$99.99~~ $79.99/month, billed annually."
+2. **Show the monthly price crossed out** next to the annual monthly-equivalent: "~~$99.99~~ $84.99/month, billed annually."
 3. **Add a "BEST VALUE" badge** to the annual option. Social proof signals that the annual plan is the smart choice.
-4. **At the monthly billing confirmation**, show what they'd save annually: "You're about to pay $99.99/month. Switch to annual and save $240/year." One last chance to convert.
+4. **At the monthly billing confirmation**, show what they'd save annually: "You're about to pay $99.99/month. Switch to annual and save $180/year." One last chance to convert.
 5. **Offer annual as an upgrade** to existing monthly subscribers. After 2-3 months of monthly billing, prompt: "You've been with us for 3 months — that's $300. Annual would have been $240 less. Want to switch?"
 
 ---
@@ -369,8 +369,8 @@ The average consumer has 4-6 active subscriptions. Every new subscription compet
 - **Monthly price**: Always show the monthly price for comparison purposes. Users budget monthly.
 - **Per-day price**: Use for justification. "$3.33/day for SMART" sounds trivial.
 - **Per-agent price**: Use when quantity is the differentiator. "Just $1.25 per agent at STARTER."
-- **Savings framing**: "Save $240/year with annual billing" — always show what they save, not what they pay.
-- **Never show the total annual price upfront** for expensive tiers. $960/year for SMART is scary. $79.99/month billed annually is palatable.
+- **Savings framing**: "Save $180/year with annual billing" — always show what they save, not what they pay.
+- **Never show the total annual price upfront** for expensive tiers. $960/year for SMART is scary. $84.99/month billed annually is palatable.
 
 ---
 
@@ -391,7 +391,7 @@ Stone AI charges per tier, where tiers are defined primarily by **agent access**
 **Arguments For (Agent Access as Value Metric)**
 - It's simple. Users understand "more agents = more capability."
 - It creates natural upgrade pressure. When you want an agent you don't have, you need a higher tier.
-- It's easy to market: "4 agents, 16 agents, 30 agents, 39 agents, 42 agents."
+- It's easy to market: "4 agents, 16 agents, 30 agents, 39 agents, 38 agents."
 - It doesn't penalize heavy users. Once you're on a tier, you can use your agents as much as you want.
 
 **Arguments Against**
@@ -532,7 +532,7 @@ Just $30 more per month. That's $1/day for 14 additional specialists.
 ```
 You've been on SMART monthly for 3 months — that's $299.97 so far.
 Annual billing would have saved you $60 already.
-Switch to annual and save $240 this year.
+Switch to annual and save $180 this year.
 [Switch to Annual →]
 ```
 
@@ -568,10 +568,10 @@ FREE tier: try 4 agents, no credit card needed.
 | FREE | $0 | — | 4 | Local Qwen | — | $0 |
 | STARTER | $19.99 | — | 16 | Local Qwen | — | $1.25 |
 | PLUS | $49.99 | — | 30 | Local Qwen | — | $1.67 |
-| SMART | $99.99 | $79.99 | 39 | Cloud Claude Sonnet | 20% | $2.56 (mo) / $2.05 (ann) |
-| PRO | $200 | $170 | 42 | Cloud Claude Sonnet | 15% | $4.76 (mo) / $4.05 (ann) |
+| SMART | $99.99 | $84.99 | 39 | Cloud Claude Sonnet | 15% | $2.56 (mo) / $2.18 (ann) |
+| PRO | $200 | $170 | 38 | Cloud Claude Sonnet | 15% | $4.76 (mo) / $4.05 (ann) |
 
-**Note**: 42 agents are public-facing. Agent #43 (Stone internal) and Agent #44 (Chaos, founder-exclusive) are not part of the tier structure.
+**Note**: 38 agents are public-facing. Agent #43 (Stone internal) and Agent #44 (Chaos, founder-exclusive) are not part of the tier structure.
 
 ### Key Pricing Principles Summary
 1. PRO anchors the page — makes SMART feel reasonable.

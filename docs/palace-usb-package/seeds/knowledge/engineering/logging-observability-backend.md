@@ -894,4 +894,4 @@ export const alertManager = new AlertManager();
 | Audit log | PostgreSQL | Security compliance |
 | Alerting | Alert rules + email | Proactive incident detection |
 
-Observability is not optional — it is the foundation that lets Stone AI detect issues before users report them, understand costs, and maintain the reliability that 44 agents depend on.
+Observability is not optional — it is the foundation that lets Stone AI detect issues before users report them, understand costs, and maintain the reliability that 40 agents depend on.

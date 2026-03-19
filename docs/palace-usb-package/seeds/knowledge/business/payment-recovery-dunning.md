@@ -857,7 +857,7 @@ SELECT
     CASE u.current_plan
       WHEN 'STARTER' THEN 19.99
       WHEN 'PLUS' THEN 49.99
-      WHEN 'SMART' THEN CASE u.billing_period WHEN 'ANNUAL' THEN 79.99 ELSE 99.99 END
+      WHEN 'SMART' THEN CASE u.billing_period WHEN 'ANNUAL' THEN 84.99 ELSE 99.99 END
       WHEN 'PRO' THEN CASE u.billing_period WHEN 'ANNUAL' THEN 170.00 ELSE 200.00 END
       ELSE 0
     END
@@ -867,7 +867,7 @@ SELECT
       CASE u.current_plan
         WHEN 'STARTER' THEN 19.99
         WHEN 'PLUS' THEN 49.99
-        WHEN 'SMART' THEN CASE u.billing_period WHEN 'ANNUAL' THEN 79.99 ELSE 99.99 END
+        WHEN 'SMART' THEN CASE u.billing_period WHEN 'ANNUAL' THEN 84.99 ELSE 99.99 END
         WHEN 'PRO' THEN CASE u.billing_period WHEN 'ANNUAL' THEN 170.00 ELSE 200.00 END
         ELSE 0
       END

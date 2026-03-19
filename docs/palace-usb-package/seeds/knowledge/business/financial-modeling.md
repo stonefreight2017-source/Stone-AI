@@ -21,7 +21,7 @@ MRR = Σ (Monthly price × Number of subscribers) for each tier
 | STARTER | $19.99 | 200 | $3,998 |
 | PLUS | $49.99 | 100 | $4,999 |
 | SMART (monthly) | $99.99 | 40 | $3,999.60 |
-| SMART (annual) | $79.99 | 60 | $4,799.40 |
+| SMART (annual) | $84.99 | 60 | $4,799.40 |
 | PRO (monthly) | $200 | 10 | $2,000 |
 | PRO (annual) | $170 | 15 | $2,550 |
 | **Total** | | **425 paid** | **$22,346** |
@@ -82,7 +82,7 @@ Where ARPU = Average Revenue Per User (paying users only).
 | STARTER | $19.99 | 7% | $285.57 |
 | PLUS | $49.99 | 5% | $999.80 |
 | SMART (monthly) | $99.99 | 4% | $2,499.75 |
-| SMART (annual) | $79.99 | 2% | $3,999.50 |
+| SMART (annual) | $84.99 | 2% | $3,999.50 |
 | PRO (monthly) | $200 | 3% | $6,666.67 |
 | PRO (annual) | $170 | 1.5% | $11,333.33 |
 
@@ -199,7 +199,7 @@ Payback Period = CAC / (ARPU × Gross Margin)
 | STARTER | $19.99 | $13.99 | 5.0 |
 | PLUS | $49.99 | $35.00 | 2.0 |
 | SMART (monthly) | $99.99 | $70.00 | 1.0 |
-| SMART (annual) | $79.99 | $56.00 | 1.3 |
+| SMART (annual) | $84.99 | $56.00 | 1.3 |
 | PRO | $200 | $140.00 | 0.5 |
 
 ### Payback Benchmarks

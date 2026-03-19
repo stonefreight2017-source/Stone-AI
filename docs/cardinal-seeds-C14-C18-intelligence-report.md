@@ -90,7 +90,7 @@ This achieves **95% of GPT-4o quality while using GPT-4o for only ~26% of reques
 | STARTER (16) | Mixed | ~1,200 | 70% local, 30% API | ~$0.008 |
 | PLUS (30) | Mixed-complex | ~2,000 | 50% local, 50% API | ~$0.025 |
 | SMART (39) | Complex agents | ~3,000 | 30% local, 70% API | ~$0.065 |
-| PRO (42) | All public | ~4,000 | 20% local, 80% API | ~$0.095 |
+| PRO (38) | All public | ~4,000 | 20% local, 80% API | ~$0.095 |
 
 **Revenue vs Cost (monthly, per user):**
 | Tier | Revenue | Est. Inference Cost (100 convos/mo) | Gross Margin |
@@ -193,7 +193,7 @@ This achieves **95% of GPT-4o quality while using GPT-4o for only ~26% of reques
 | Data Moat | 3 | Conversation data, preferences stored | Not yet using data to improve agents |
 | Switching Costs | 5 | Bestie emotional attachment, conversation history | No data export lock-in, limited workflow integration |
 | Brand | 3 | stone-ai.net live, Concept E insignia | Early stage, no market awareness yet |
-| Ecosystem Lock-in | 4 | 44 agents + Bestie + Backdrops + Emotes | Not yet integrated into daily workflows |
+| Ecosystem Lock-in | 4 | 40 agents + Bestie + Backdrops + Emotes | Not yet integrated into daily workflows |
 | Economies of Scale | 7 | Local inference = 95%+ margins | Major advantage vs API-dependent competitors |
 | Regulatory Moat | 1 | Basic security implemented | No certifications, no compliance badges |
 
@@ -225,7 +225,7 @@ This is Stone AI's **single strongest proto-moat** right now.
 
 ## 4. Agent Ecosystem as Workflow Lock-in
 
-**Current State**: 44 agents exist but operate independently. No workflow chaining.
+**Current State**: 40 agents exist but operate independently. No workflow chaining.
 
 **Lock-in Architecture (Recommended):**
 1. **Agent Workflows**: Let users chain agents (Research Agent → Content Writer → Social Media Agent)
@@ -542,10 +542,10 @@ As of January 1, 2026: **Mandatory opt-out confirmation** — websites must visi
 | Market | PPP Index | STARTER | PLUS | SMART | PRO |
 |---|---|---|---|---|---|
 | US (base) | 1.00 | $19.99 | $49.99 | $99.99 | $200.00 |
-| UK | 0.95 | £15.99 | £39.99 | £79.99 | £159.99 |
+| UK | 0.95 | £15.99 | £39.99 | £84.99 | £159.99 |
 | Canada | 0.90 | C$24.99 | C$59.99 | C$119.99 | C$239.99 |
 | Australia | 0.88 | A$26.99 | A$64.99 | A$129.99 | A$259.99 |
-| Germany | 0.85 | €17.99 | €44.99 | €89.99 | €179.99 |
+| Germany | 0.85 | €17.99 | €44.99 | €89.99 | €184.99 |
 | Japan | 0.80 | ¥2,480 | ¥5,980 | ¥11,980 | ¥23,980 |
 | India | 0.25 | ₹399 | ₹999 | ₹1,999 | ₹3,999 |
 | Brazil | 0.30 | R$39.90 | R$99.90 | R$199.90 | R$399.90 |
@@ -679,7 +679,7 @@ Stone AI is built as a monolithic Next.js application. API routes exist but are 
 ### Shared Services Architecture Principles:
 1. **Single Auth System**: Clerk manages identity across all three surfaces. One account, three platforms.
 2. **Unified Billing**: Stripe handles subscriptions for all three. Cross-platform tier benefits.
-3. **Shared Agent Engine**: Same 44 agents, same quality, same models — different interfaces.
+3. **Shared Agent Engine**: Same 40 agents, same quality, same models — different interfaces.
 4. **Single Database**: Neon PostgreSQL + pgvector. All conversation history, preferences, and data in one place.
 5. **Independent Frontends**: Each product has its own UI/UX optimized for its platform.
 

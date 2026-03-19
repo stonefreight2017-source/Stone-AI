@@ -104,8 +104,8 @@ This accelerates repeat builds by caching unchanged build artifacts remotely.
 | `STRIPE_PRICE_PLUS` | Server | Monthly price ID |
 | `STRIPE_PRICE_SMART` | Server | Monthly price ID |
 | `STRIPE_PRICE_PRO` | Server | Monthly price ID |
-| `STRIPE_PRICE_*_6MO` | Server | 6-month price IDs (10% off) |
-| `STRIPE_PRICE_*_ANNUAL` | Server | Annual price IDs (20% off) |
+| `STRIPE_PRICE_*_6MO` | Server | 6-month price IDs (5% off) |
+| `STRIPE_PRICE_*_ANNUAL` | Server | Annual price IDs (15% off) |
 | `STRIPE_UPGRADE_COUPON_ID` | Server | Coupon for upgrade discounts |
 
 ### AI / Inference

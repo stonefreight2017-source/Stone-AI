@@ -971,11 +971,11 @@ echo Palace is live.
       process.stdout.write('  FREE .......... $0\\n');
       process.stdout.write('  STARTER ....... $19.99/mo\\n');
       process.stdout.write('  PLUS .......... $49.99/mo\\n');
-      process.stdout.write('  SMART ......... $99.99/mo (annual $79.99)\\n');
+      process.stdout.write('  SMART ......... $99.99/mo (annual $84.99)\\n');
       process.stdout.write('  PRO ........... $200/mo (annual $170)\\n\\n');
 
       process.stdout.write('\\x1b[1;33m  AGENTS & COMMS\\x1b[0m\\n');
-      process.stdout.write('  Agents ........ 44 total (42 user-facing + Stone internal + Chaos founder-only)\\n');
+      process.stdout.write('  Agents ........ 40 total (38 user-facing + Stone internal + Chaos founder-only)\\n');
       process.stdout.write('  Email ......... 3headedm@gmail.com\\n\\n');
 
       process.stdout.write('\\x1b[1;33m  CREDENTIALS\\x1b[0m\\n');
@@ -2262,7 +2262,7 @@ function _extractActivityHint(buffer, lastHint) {
   console.log('    /expand [name]  — Show full buffered output (stone/cardinal/chaos/all)');
   console.log('    /home           — Business dashboard (auto-displays on boot)');
   console.log('    /info           — Stone AI company reference card');
-  console.log('    /agents         — List all 44 agents with tiers and categories');
+  console.log('    /agents         — List all 40 agents with tiers and categories');
   console.log('');
   console.log('  D19 — STATUS ENGINE (Claude Code-style):');
   console.log('    • Multi-head: 3-line display per agent (header / spinner+tokens / activity hint)');

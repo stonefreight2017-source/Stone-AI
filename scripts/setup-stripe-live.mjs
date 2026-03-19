@@ -63,7 +63,7 @@ async function main() {
 
   // ─── 4. Reseller ───────────────────────────────────────────────────────────
   console.log("4/5  Reseller");
-  const resellerProd = await createProduct("Reseller Plan", "Full platform access with reseller capabilities — 42 AI agents, API access");
+  const resellerProd = await createProduct("Reseller Plan", "Full platform access with reseller capabilities — 38 AI agents, API access");
   ids.STRIPE_PRICE_PRO              = await createRecurringPrice(resellerProd, "Reseller Monthly",   20000, "month");
   ids.STRIPE_PRICE_PRO_ANNUAL       = await createRecurringPrice(resellerProd, "Reseller Annual",  204000, "year");
 

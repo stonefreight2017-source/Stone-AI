@@ -24,8 +24,8 @@ Three products with independent pricing creates confusion. Three products with h
 | FREE | $0 | $0 | 4 | Basic agents, rate limited |
 | STARTER | $19.99 | — | 16 | More agents, higher limits |
 | PLUS | $49.99 | — | 30 | Most agents, forum access |
-| SMART | $99.99 | $79.99/mo | 39 | Cloud AI (Sonnet), priority |
-| PRO | $200 | $170/mo | 42 | All agents, max limits |
+| SMART | $99.99 | $84.99/mo | 39 | Cloud AI (Sonnet), priority |
+| PRO | $200 | $170/mo | 38 | All agents, max limits |
 
 Promos: $9.99 first month, $14.99 trial, $39.99 growth
 
@@ -228,7 +228,7 @@ Cross-Product Expectation:
 Agents available per product and tier:
 
 ```
-44 total agents (42 user-facing + Stone internal + Chaos founder-only)
+40 total agents (38 user-facing + Stone internal + Chaos founder-only)
 
 Stone AI distribution: As defined (4/16/30/39/42 by tier)
 Best AI distribution: Mobile-optimized subset
@@ -238,8 +238,8 @@ Best AI distribution: Mobile-optimized subset
 
 Tools distribution: API access to agents
   FREE: 3 (demo agents)
-  DEVELOPER: All 42 user-facing agents
-  BUSINESS: All 42 + priority queue
+  DEVELOPER: All 38 user-facing agents
+  BUSINESS: All 38 + priority queue
 ```
 
 ---

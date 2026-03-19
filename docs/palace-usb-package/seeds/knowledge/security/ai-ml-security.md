@@ -7,7 +7,7 @@
 ## Purpose
 Complete taxonomy of AI/ML attacks and defenses. Prompt injection (direct, indirect, stored),
 model extraction, data poisoning, adversarial examples, guardrails implementation, and
-jailbreak detection. Applied directly to Stone AI's 44-agent architecture.
+jailbreak detection. Applied directly to Stone AI's 40-agent architecture.
 
 ---
 

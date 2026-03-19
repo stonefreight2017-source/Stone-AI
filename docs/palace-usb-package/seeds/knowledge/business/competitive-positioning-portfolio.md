@@ -168,7 +168,7 @@ with the convenience of one account, one bestie, and one team].
 When all three products are referenced together:
 
 ```
-"One account. Three products. 44 agents. Zero switching."
+"One account. Three products. 40 agents. Zero switching."
 
 "Other companies sell you a chatbot.
  We give you a team — on your desktop, in your pocket, and in your code."
@@ -184,7 +184,7 @@ When all three products are referenced together:
 ### 5.1 Advantages by Category
 
 **1. Specialization Depth**
-- 44 agents with distinct personalities and expertise
+- 40 agents with distinct personalities and expertise
 - No competitor offers this level of agent specialization
 - Each agent is tuned for its domain, not a generic prompt wrapper
 
@@ -222,7 +222,7 @@ Response: Double down on cross-product integration
 **If a competitor launches bundle pricing**:
 ```
 Response: Match or beat on value, differentiate on specialization
-  - Highlight: "Same price, 44 agents vs. their [N]"
+  - Highlight: "Same price, 40 agents vs. their [N]"
   - Action: Promote bundle aggressively, add exclusive bundle features
   - Timeline: Within 1 week
 ```
@@ -253,7 +253,7 @@ Response: Emphasize consumer product tie-in
 HIGH SPECIALIZATION
         │
         │  ★ Stone AI Ecosystem
-        │     (44 agents, 3 platforms)
+        │     (40 agents, 3 platforms)
         │
         │        ○ Custom GPTs
         │          (many, 1 platform)
@@ -294,7 +294,7 @@ LOW SPECIALIZATION
 
 ```
 Primary moat: Speed + specialization
-  - 44 agents is hard to replicate quickly
+  - 40 agents is hard to replicate quickly
   - Cross-product features compound weekly
   - First-mover in "agent ecosystem" category
 

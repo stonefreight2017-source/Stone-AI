@@ -71,7 +71,7 @@ In-App Purchases:
 ├── bestai_plus_monthly — $49.99 (Auto-Renewable)
 ├── bestai_plus_annual — $499.99 (Auto-Renewable)
 ├── bestai_smart_monthly — $99.99 (Auto-Renewable)
-├── bestai_smart_annual — $959.99 (Auto-Renewable)
+├── bestai_smart_annual — $1019.88 (Auto-Renewable)
 ├── bestai_pro_monthly — $199.99 (Auto-Renewable)
 └── bestai_pro_annual — $2,039.99 (Auto-Renewable)
 ```
@@ -103,7 +103,7 @@ Review Notes for Apple:
    Password: [provided in App Store Connect]
 
 2. AI FUNCTIONALITY:
-   Best AI provides access to 42 AI agents, each specialized in
+   Best AI provides access to 38 AI agents, each specialized in
    different domains. The app uses Claude (by Anthropic) and local
    AI models for generating responses. All responses are clearly
    labeled as AI-generated.
@@ -119,7 +119,7 @@ Review Notes for Apple:
    - Starter ($19.99/mo): 16 agents
    - Plus ($49.99/mo): 30 agents
    - Smart ($99.99/mo): 39 agents with advanced AI
-   - Pro ($199.99/mo): All 42 agents, priority
+   - Pro ($199.99/mo): All 38 agents, priority
 
 5. OFFLINE FUNCTIONALITY:
    The app caches conversations locally and supports
@@ -138,7 +138,7 @@ Review Notes for Apple:
 ```
 App Details:
 ├── App Name: Best AI - AI Agents & Bestie
-├── Short Description: Chat with 42 AI agents. Your personal AI team.
+├── Short Description: Chat with 38 AI agents. Your personal AI team.
 ├── Full Description: [See below]
 ├── Category: Productivity
 ├── Tags: AI, Chat, Assistant, Productivity
@@ -181,12 +181,12 @@ Data Safety:
 ### Full Description Template
 
 ```
-Best AI brings 42 specialized AI agents to your pocket. From creative
+Best AI brings 38 specialized AI agents to your pocket. From creative
 writing to technical assistance, business strategy to personal growth
 — there's an agent for everything.
 
 KEY FEATURES:
-- 42 AI Agents — Each agent has unique expertise and personality
+- 38 AI Agents — Each agent has unique expertise and personality
 - Bestie — Your personal AI companion, customizable with 18 personality traits
 - 6 Languages — English, Spanish, French, German, Japanese, Korean
 - Offline Mode — Chat even without internet, syncs when connected
@@ -197,7 +197,7 @@ PRICING:
 - Starter: $19.99/mo — 16 agents
 - Plus: $49.99/mo — 30 agents
 - Smart: $99.99/mo — 39 agents with advanced AI
-- Pro: $199.99/mo — All 42 agents
+- Pro: $199.99/mo — All 38 agents
 
 SECURITY:
 - End-to-end encryption for all messages
@@ -279,7 +279,7 @@ const applePrivacyDeclaration = {
 | **Guideline 2.1 - Performance** (crashes) | Fix crash from Sentry, resubmit |
 | **Guideline 3.1.1 - IAP** (external payment link) | Remove any Stripe references from mobile UI |
 | **Guideline 4.0 - Design** (web view wrapper) | Ensure native UI components, offline features |
-| **Guideline 4.2 - Minimum Functionality** | Demonstrate unique value (42 agents, Bestie, offline) |
+| **Guideline 4.2 - Minimum Functionality** | Demonstrate unique value (38 agents, Bestie, offline) |
 | **Guideline 5.1.1 - Privacy** (incomplete labels) | Update privacy labels to match actual collection |
 | **Guideline 5.1.2 - Data Use** (missing consent) | Add consent dialogs for analytics |
 | **Guideline 5.6.4 - AI** (no content moderation) | Document moderation, add report button |

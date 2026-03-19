@@ -72,7 +72,7 @@ Score each channel 1-5 on each criterion. Total possible: 25 points.
 | Content Fit | 4 | Short-form, punchy copy matches CW-1 voice. Demo videos play well |
 | **Weighted Total** | **16.50** | |
 
-**Notes:** Founder personal brand is the unlock here. AI launch threads on X get massive engagement. The "42 agents, zero salaries" angle is highly tweetable.
+**Notes:** Founder personal brand is the unlock here. AI launch threads on X get massive engagement. The "38 agents, zero salaries" angle is highly tweetable.
 
 #### 3. Product Hunt
 | Criterion | Score | Rationale |
@@ -96,7 +96,7 @@ Score each channel 1-5 on each criterion. Total possible: 25 points.
 | Content Fit | 3 | Needs technical substance. "Local-first AI" angle is strong here. Marketing-speak is penalized |
 | **Weighted Total** | **15.00** | |
 
-**Notes:** The local-first, open-weight model, privacy angle resonates strongly with HN. Lead with the technical architecture, not the marketing copy. A "Show HN: We built a local-first AI platform with 42 specialist agents" could land well.
+**Notes:** The local-first, open-weight model, privacy angle resonates strongly with HN. Lead with the technical architecture, not the marketing copy. A "Show HN: We built a local-first AI platform with 38 specialist agents" could land well.
 
 #### 5. Discord
 | Criterion | Score | Rationale |
@@ -153,7 +153,7 @@ Score each channel 1-5 on each criterion. Total possible: 25 points.
 | Cost to Acquire | 3 | Organic reach has declined. Paid is expensive. Founder posts still get reach |
 | Time to First Result | 3 | Consistent posting yields results in 1-2 months |
 | Scalability Ceiling | 3 | Good for B2B but saturated. AI content fatigue is real |
-| Content Fit | 3 | Professional tone needed. "42 agents replace 42 hires" angle works. Too much hype gets ignored |
+| Content Fit | 3 | Professional tone needed. "38 agents replace 42 hires" angle works. Too much hype gets ignored |
 | **Weighted Total** | **13.50** | |
 
 **Notes:** Best for targeting Executive and Enterprise tiers. Founder personal brand + thought leadership on local-first AI / business privacy. Not the primary acquisition channel for Free/Builder users.

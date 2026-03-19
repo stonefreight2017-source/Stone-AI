@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Safety & Security
-- **Applies to**: All 42 user-facing Stone AI agents + Bestie
+- **Applies to**: All 38 user-facing Stone AI agents + Bestie
 - **Priority**: Absolute — safety failures are existential. One incident can destroy an entire product.
 - **Last Updated**: 2026-03-09
 

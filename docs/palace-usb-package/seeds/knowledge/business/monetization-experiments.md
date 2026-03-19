@@ -114,7 +114,7 @@ function PricingPage() {
 
   const pricing = variant === 'test'
     ? { smart: 109.99, smartAnnual: 89.99 } // Test higher price
-    : { smart: 99.99, smartAnnual: 79.99 }; // Control (current)
+    : { smart: 99.99, smartAnnual: 84.99 }; // Control (current)
 
   // Track which variant was shown
   trackEvent('pricing_page_view', { variant });
@@ -150,7 +150,7 @@ FREE (4 agents): Basic writing, research, Q&A, analysis
 STARTER (16 agents): + specialized agents, basic Bestie
 PLUS (30 agents): + advanced agents, full Bestie, forum
 SMART (39 agents): + premium agents, priority support
-PRO (42 agents): + all agents, everything unlocked
+PRO (38 agents): + all agents, everything unlocked
 ```
 
 ### Feature Gating Experiments to Run
@@ -327,7 +327,7 @@ Day [X+7]: "Special offer: X% off your first month"
 ### Alternative Tier Structures
 
 **Current Structure (Agent-based):**
-FREE (4) → STARTER (16) → PLUS (30) → SMART (39) → PRO (42)
+FREE (4) → STARTER (16) → PLUS (30) → SMART (39) → PRO (38)
 
 **Alternative A: Usage-Based**
 FREE (50 msgs/day) → BASIC (200 msgs) → STANDARD (unlimited msgs, basic agents) → PREMIUM (unlimited, all agents) → PRO (unlimited, priority)

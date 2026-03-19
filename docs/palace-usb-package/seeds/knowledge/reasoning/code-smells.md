@@ -152,7 +152,7 @@ export const TIER_CONFIG = {
   STARTER: { agents: 16, price: 1999, features: [...] },
   PLUS: { agents: 30, price: 4999, features: [...] },
   SMART: { agents: 39, price: 9999, features: [...] },
-  PRO: { agents: 42, price: 20000, features: [...] },
+  PRO: { agents: 38, price: 20000, features: [...] },
 } as const;
 
 // All other files import from TIER_CONFIG
@@ -297,10 +297,10 @@ const canAccessAgent = userHasRequiredTier(user, agent)
 
 ```typescript
 // SMELL
-if (agents.length > 42) throw new Error('Too many agents');
+if (agents.length > 38) throw new Error('Too many agents');
 
 // FIXED
-const MAX_PUBLIC_AGENTS = 42;
+const MAX_PUBLIC_AGENTS = 38;
 if (agents.length > MAX_PUBLIC_AGENTS) throw new Error('Too many agents');
 ```
 

@@ -283,7 +283,7 @@ Target three types of keywords:
 - Share insights about building an AI product, running a SaaS, and solo founding.
 - Twitter threads, blog posts, podcast appearances.
 - Authentic founder story attracts sympathetic users.
-- "I built a 44-agent AI platform as a solo founder. Here's what I learned."
+- "I built a 40-agent AI platform as a solo founder. Here's what I learned."
 
 ---
 

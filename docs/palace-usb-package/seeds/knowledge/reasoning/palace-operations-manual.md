@@ -260,7 +260,7 @@ FIRST SATURDAY OF MONTH:
 
 ```
 EVERY 3 MONTHS:
-[ ] 1. Full agent certification run (all 44 agents)
+[ ] 1. Full agent certification run (all 40 agents)
 [ ] 2. Hardware inspection:
        - Clean dust filters
        - Check fan operation

@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Personality Design
-- **Applies to**: All 42 user-facing Stone AI agents + Bestie
+- **Applies to**: All 38 user-facing Stone AI agents + Bestie
 - **Priority**: Critical — inconsistent personality destroys user trust instantly
 - **Last Updated**: 2026-03-09
 

@@ -110,7 +110,7 @@ Result: Current 5-tier model (FREE through PRO) — but the reasoning is grounde
 - Truth 4: Maintaining more agents costs more (prompt updates, testing, quality assurance).
 - Truth 5: Users can only use one agent at a time.
 
-**Rebuilt**: The right number of agents is the number where each one distinctly solves a real problem that others don't, and the cost of maintaining them doesn't outweigh their marginal value. 44 agents is only right if all 44 serve distinct, real jobs. If 10 agents cover 90% of user needs, the other 34 must justify their existence through tier differentiation, not just headcount.
+**Rebuilt**: The right number of agents is the number where each one distinctly solves a real problem that others don't, and the cost of maintaining them doesn't outweigh their marginal value. 40 agents is only right if all 44 serve distinct, real jobs. If 10 agents cover 90% of user needs, the other 34 must justify their existence through tier differentiation, not just headcount.
 
 ### When to Use First Principles
 - When you're stuck (conventional approaches aren't working).
@@ -397,7 +397,7 @@ Instead of asking "How do I succeed?" ask "How would I guarantee failure?" Then 
 6. Dunning, engagement scoring, churn prediction.
 7. OMTM focus. Sequential, not simultaneous.
 8. Security is non-negotiable (Zod strict, AES-256, CSP, audit logs).
-9. Build the unique — Bestie, 44 agents, ecosystem.
+9. Build the unique — Bestie, 40 agents, ecosystem.
 10. Founder energy management is a business-critical asset.
 
 ### When to Use Inversion

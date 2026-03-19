@@ -57,7 +57,7 @@ Best AI Mobile must handle subscriptions from **three sources**:
 | STARTER | $19.99/mo | $19.99/mo | $19.99/mo |
 | PLUS | $49.99/mo | $49.99/mo | $49.99/mo |
 | SMART | $99.99/mo | $99.99/mo | $99.99/mo |
-| SMART Annual | $79.99/mo | $79.99/mo | $79.99/mo |
+| SMART Annual | $84.99/mo | $84.99/mo | $84.99/mo |
 | PRO | $200/mo | $199.99/mo | $199.99/mo |
 | PRO Annual | $170/mo | $169.99/mo | $169.99/mo |
 
@@ -157,7 +157,7 @@ export function addCustomerInfoListener(
 // - "starter_access"  → STARTER tier agents (1-16)
 // - "plus_access"     → PLUS tier agents (1-30)
 // - "smart_access"    → SMART tier agents (1-39)
-// - "pro_access"      → PRO tier agents (1-42)
+// - "pro_access"      → PRO tier agents (1-38)
 
 // Products (iOS):
 // - bestai_starter_monthly     → $19.99/mo
@@ -165,7 +165,7 @@ export function addCustomerInfoListener(
 // - bestai_plus_monthly        → $49.99/mo
 // - bestai_plus_annual         → $499.99/yr ($41.67/mo)
 // - bestai_smart_monthly       → $99.99/mo
-// - bestai_smart_annual        → $959.99/yr ($79.99/mo)
+// - bestai_smart_annual        → $1019.88/yr ($84.99/mo)
 // - bestai_pro_monthly         → $199.99/mo
 // - bestai_pro_annual          → $2039.99/yr ($170/mo)
 
@@ -242,7 +242,7 @@ export function PlanSelector() {
         id: 'smart',
         name: 'Smart',
         monthlyPrice: '$99.99',
-        annualPrice: '$79.99',
+        annualPrice: '$84.99',
         agents: 39,
         features: ['39 AI Agents', '1 Bestie', 'Claude Sonnet', 'Priority Everything'],
       },
@@ -251,8 +251,8 @@ export function PlanSelector() {
         name: 'Pro',
         monthlyPrice: '$200',
         annualPrice: '$170',
-        agents: 42,
-        features: ['All 42 Agents', '1 Bestie', 'Full AI Power', 'VIP Support'],
+        agents: 38,
+        features: ['All 38 Agents', '1 Bestie', 'Full AI Power', 'VIP Support'],
       },
     ];
 

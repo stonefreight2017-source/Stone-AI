@@ -662,7 +662,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         price: "200",
         priceCurrency: "USD",
         billingIncrement: "P1M",
-        description: "42 AI agents, full access",
+        description: "38 AI agents, full access",
       },
     ],
   }}
@@ -1167,7 +1167,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Stone AI Pricing — Plans for Every Team",
     description:
-      "From free to pro. 4 to 42 AI agents. Find your perfect tier.",
+      "From free to pro. 4 to 38 AI agents. Find your perfect tier.",
   },
 };
 ```

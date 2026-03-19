@@ -107,7 +107,7 @@ an example and format rules.
 ```markdown
 | Feature | Free | Starter | Plus | Smart | Pro |
 |---------|------|---------|------|-------|-----|
-| Agents | 4 | 16 | 30 | 39 | 42 |
+| Agents | 4 | 16 | 30 | 39 | 38 |
 | AI Model | Haiku | Haiku | Haiku | Sonnet | Sonnet |
 | Bestie | No | 1 | 1 | 1 | 1 |
 | Price/mo | $0 | $19.99 | $49.99 | $99.99 | $200 |

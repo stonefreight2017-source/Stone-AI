@@ -95,7 +95,7 @@ interface AnalyticsEvent {
 Combined MRR = Stone AI MRR + Best AI MRR + Tools MRR
 
 Stone AI MRR = Σ(active_subscriptions × tier_price)
-  FREE: $0, STARTER: $19.99, PLUS: $49.99, SMART: $99.99/$79.99, PRO: $200/$170
+  FREE: $0, STARTER: $19.99, PLUS: $49.99, SMART: $99.99/$84.99, PRO: $200/$170
 
 Best AI MRR = Σ(active_subscriptions × tier_price)
   FREE: $0, BASIC: TBD, PREMIUM: TBD
@@ -282,7 +282,7 @@ API Response Time:
 │  │   FREE: 2,100 users ($0)                              │       │
 │  │   STARTER: 380 × $19.99 = $7,596                     │       │
 │  │   PLUS: 85 × $49.99 = $4,249                         │       │
-│  │   SMART: 42 × $99.99 = $4,200 (12 annual @ $79.99)  │       │
+│  │   SMART: 42 × $99.99 = $4,200 (12 annual @ $84.99)  │       │
 │  │   PRO: 8 × $200 = $1,600 (3 annual @ $170)          │       │
 │  │   Subtotal: $17,645                                   │       │
 │  ├──────────────────────────────────────────────────────┤       │

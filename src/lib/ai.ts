@@ -90,7 +90,7 @@ export const vllm = createOpenAI({
  * cloud dependency. Anthropic is a safety net, not a requirement.
  */
 export const cloud = createAnthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY ?? "",
+  apiKey: process.env.ANTHROPIC_API_KEY?.trim() ?? "",
 });
 
 /**

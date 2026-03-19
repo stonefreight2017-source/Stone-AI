@@ -146,7 +146,7 @@ Annual plans affect cash flow timing:
 Monthly customers: 70% of new signups
 Annual customers: 30% of new signups
 
-Annual plan discount: 17% (SMART: $79.99/mo equivalent)
+Annual plan discount: 17% (SMART: $84.99/mo equivalent)
 
 Monthly revenue recognition:
 - Monthly customer: full amount each month

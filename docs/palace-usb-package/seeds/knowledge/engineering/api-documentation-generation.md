@@ -68,7 +68,7 @@ const PaginationSchema = z.object({
 // Agent schemas
 const AgentSchema = z.object({
   id: z.number().int(),
-  number: z.number().int().min(1).max(42),
+  number: z.number().int().min(1).max(38),
   name: z.string(),
   description: z.string(),
   tier: TierSchema,
@@ -89,7 +89,7 @@ const ChatMessageSchema = z.object({
     example: 'How do I set up Prisma with PostgreSQL?',
   }),
   agentId: z.number().int().positive().openapi({
-    description: 'The agent to chat with (1-42)',
+    description: 'The agent to chat with (1-38)',
     example: 1,
   }),
   conversationId: z.string().uuid().optional().openapi({
@@ -300,7 +300,7 @@ export function generateOpenAPISpec() {
       title: 'Stone AI API',
       version: '1.0.0',
       description: `
-Stone AI provides access to 42 AI agents across 5 subscription tiers.
+Stone AI provides access to 38 AI agents across 5 subscription tiers.
 
 ## Authentication
 - **Session-based**: Clerk JWT tokens for web app
@@ -319,7 +319,7 @@ Rate limits vary by tier. See response headers:
 | STARTER | 16 | $19.99/mo |
 | PLUS | 30 | $49.99/mo |
 | SMART | 39 | $99.99/mo |
-| PRO | 42 | $200/mo |
+| PRO | 38 | $200/mo |
       `.trim(),
       contact: {
         name: 'Stone AI',

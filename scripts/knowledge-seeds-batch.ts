@@ -1078,7 +1078,7 @@ The energy audit: Track your energy levels (1-10) hourly for one week. Note what
   "platform-onboarding-concierge": [
     {
       title: `Welcome to Stone AI Platform Overview`,
-      content: `Welcome to Stone AI -- your team of 42 AI agents ready to help you build, grow, and optimize your business and life. Here is everything you need to know to get started and get the most from the platform.
+      content: `Welcome to Stone AI -- your team of 38 AI agents ready to help you build, grow, and optimize your business and life. Here is everything you need to know to get started and get the most from the platform.
 
 What Stone AI offers: 42 specialized AI agents across 6 categories: Business, Content, Marketing, Education, Technical, and Finance. Each agent has deep domain expertise powered by curated knowledge seeds -- they are not generic chatbots but trained specialists. Your agents are available 24/7 and learn from your conversations to provide increasingly personalized guidance.
 
@@ -1086,7 +1086,7 @@ Key platform features: AI Agent Marketplace: Browse and access specialized agent
 
 Getting started in 3 steps: Step 1: Complete the onboarding wizard (5 quick steps: welcome, set your goals, get agent recommendations, create your Bestie companion, and launch into the platform). Step 2: Start with the agent recommended for your primary goal. Ask specific questions -- the more context you provide, the better the response. Step 3: Explore the agent marketplace to discover specialists for other areas of your business or life.
 
-Navigation guide: Dashboard: Your home base with quick access to recent chats and recommended agents. Agents: Browse the full marketplace of 42 agents with filtering by category and tier. Chat: Your conversation interface with any agent or your Bestie. Bestie Hub: Create, manage, and customize your personal AI companions. Settings: Manage your account, billing, and preferences. Community: Forums, discussions, and user resources.`
+Navigation guide: Dashboard: Your home base with quick access to recent chats and recommended agents. Agents: Browse the full marketplace of 38 agents with filtering by category and tier. Chat: Your conversation interface with any agent or your Bestie. Bestie Hub: Create, manage, and customize your personal AI companions. Settings: Manage your account, billing, and preferences. Community: Forums, discussions, and user resources.`
     },
     {
       title: `Stone AI Subscription Tiers and Agent Access`,
@@ -1094,13 +1094,13 @@ Navigation guide: Dashboard: Your home base with quick access to recent chats an
 
 FREE tier ($0/month): Access to 4 foundational agents: General Coding Assistant, Academic Tutor, Platform Onboarding Concierge, and Personal Finance Advisor. Powered by the Stone Engine (Llama 3.1 70B local AI). 1 Bestie companion. Community forum access. Perfect for: Exploring the platform, students, and anyone getting started with AI assistance.
 
-STARTER tier ($19.99/month): Everything in FREE plus access to 13 agents including Project Management Coach, Health and Wellness Coach, and Research Synthesis. Increased Bestie companion limit. Enhanced conversation features. Billing options: Monthly at $19.99, 6-month at $17.99/month (10% savings), Annual at $15.99/month (20% savings). Perfect for: Freelancers, solopreneurs, and individuals building their first projects.
+STARTER tier ($19.99/month): Everything in FREE plus access to 13 agents including Project Management Coach, Health and Wellness Coach, and Research Synthesis. Increased Bestie companion limit. Enhanced conversation features. Billing options: Monthly at $19.99, 6-month at $18.99/month (5% savings), Annual at $16.99/month (15% savings). Perfect for: Freelancers, solopreneurs, and individuals building their first projects.
 
-PLUS tier ($49.99/month): Everything in STARTER plus access to 22 agents including E-Commerce Store Builder, Legal Basics Reviewer, Digital Marketing Strategist, and Podcast Production. Smart Mode powered by GPT-4o for advanced reasoning. 1 Bestie companion (powered by 30-agent knowledge). Billing options: Monthly at $49.99, 6-month at $44.99/month (10% savings), Annual at $39.99/month (20% savings). Perfect for: Small business owners, content creators, and growing teams.
+PLUS tier ($49.99/month): Everything in STARTER plus access to 22 agents including E-Commerce Store Builder, Legal Basics Reviewer, Digital Marketing Strategist, and Podcast Production. Smart Mode powered by GPT-4o for advanced reasoning. 1 Bestie companion (powered by 30-agent knowledge). Billing options: Monthly at $49.99, 6-month at $47.49/month (5% savings), Annual at $42.49/month (15% savings). Perfect for: Small business owners, content creators, and growing teams.
 
-SMART tier ($99.99/month): Everything in PLUS plus access to all standard agents including Enterprise Implementation, HR and People Operations, and Real Estate Investing. Priority response times. 1 Bestie companion (powered by all 42-agent knowledge). Advanced analytics. Billing options: Monthly at $99.99, 6-month at $89.99/month (10% savings), Annual at $79.99/month (20% savings). Perfect for: Established businesses, agencies, and power users.
+SMART tier ($99.99/month): Everything in PLUS plus access to all standard agents including Enterprise Implementation, HR and People Operations, and Real Estate Investing. Priority response times. 1 Bestie companion (powered by all 38-agent knowledge). Advanced analytics. Billing options: Monthly at $99.99, 6-month at $94.99/month (5% savings), Annual at $84.99/month (15% savings). Perfect for: Established businesses, agencies, and power users.
 
-PRO tier ($200/month): Everything in SMART plus exclusive PRO-only agents. 1 Bestie companion (powered by all 42-agent knowledge). Dedicated support. Reseller program eligibility. Billing options: Monthly at $200, 6-month and Annual available with savings. Perfect for: Agencies, consultants, and businesses that want the full Stone AI experience.
+PRO tier ($200/month): Everything in SMART plus exclusive PRO-only agents. 1 Bestie companion (powered by all 38-agent knowledge). Dedicated support. Reseller program eligibility. Billing options: Monthly at $200, 6-month and Annual available with savings. Perfect for: Agencies, consultants, and businesses that want the full Stone AI experience.
 
 Upgrading: Navigate to Settings then Billing to upgrade at any time. You will be credited for the unused portion of your current billing period.`
     },
@@ -1148,7 +1148,7 @@ Best practices for AI interaction (both modes): Be specific in your prompts -- v
       title: `Billing, Upgrades, and Account Management`,
       content: `Managing your Stone AI subscription is straightforward. Here is everything you need to know about billing, upgrades, and account settings.
 
-Billing overview: All payments are processed securely through Stripe. Accepted payment methods: major credit cards, debit cards. Billing cycles: Monthly, 6-month (10% discount), or Annual (20% discount). Note: Reseller and Enterprise plans use yearly billing at 5% discount. Invoices and receipts are available in your Settings under Billing.
+Billing overview: All payments are processed securely through Stripe. Accepted payment methods: major credit cards, debit cards. Billing cycles: Monthly, 6-month (5% discount), or Annual (15% discount). Note: Reseller and Enterprise plans use yearly billing at 5% discount. Invoices and receipts are available in your Settings under Billing.
 
 Upgrading your plan: Navigate to Settings then Billing. Select your desired tier and billing period. You will be credited for the unused portion of your current billing cycle. New features and agent access activate immediately upon upgrade. Recommendation: If you are unsure which tier to choose, start with STARTER and upgrade as your needs grow. You can always upgrade mid-cycle.
 

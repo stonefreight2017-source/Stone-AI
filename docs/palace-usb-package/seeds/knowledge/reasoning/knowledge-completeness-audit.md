@@ -376,7 +376,7 @@ done
 
 #### Phase 2: Coverage Mapping (2-4 hours)
 
-1. For each of the 44 agents, list its domain and sub-domains
+1. For each of the 40 agents, list its domain and sub-domains
 2. Check which seeds cover each sub-domain
 3. Score breadth, depth, and freshness
 4. Generate per-agent coverage reports

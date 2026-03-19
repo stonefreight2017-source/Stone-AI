@@ -333,8 +333,8 @@ const plans = {
   FREE:    { price: 0,      agentCount: 4,  features: ["basic-chat"] },
   STARTER: { price: 19.99,  agentCount: 16, features: ["basic-chat", "bestie"] },
   PLUS:    { price: 49.99,  agentCount: 30, features: ["basic-chat", "bestie", "forum"] },
-  SMART:   { price: 99.99,  annualPrice: 79.99, agentCount: 39, features: ["basic-chat", "bestie", "forum", "smart-agents"] },
-  PRO:     { price: 200,    annualPrice: 170,   agentCount: 42, features: ["basic-chat", "bestie", "forum", "smart-agents", "pro-exclusive"] },
+  SMART:   { price: 99.99,  annualPrice: 84.99, agentCount: 39, features: ["basic-chat", "bestie", "forum", "smart-agents"] },
+  PRO:     { price: 200,    annualPrice: 170,   agentCount: 38, features: ["basic-chat", "bestie", "forum", "smart-agents", "pro-exclusive"] },
 } satisfies Record<PlanId, PlanDefinition>;
 
 // plans.SMART.annualPrice is `number`, not `number | undefined` -- TS knows it exists

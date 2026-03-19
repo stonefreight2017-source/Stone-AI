@@ -25,7 +25,7 @@ const body = `
 
     <h3 style="color: #333;">Full Operational Independence</h3>
     <ul>
-      <li><strong>All 42 user-facing agents</strong> — conversation design, persona consistency, safety guardrails, error recovery, task decomposition. Claude-level interaction quality.</li>
+      <li><strong>All 38 user-facing agents</strong> — conversation design, persona consistency, safety guardrails, error recovery, task decomposition. Claude-level interaction quality.</li>
       <li><strong>Stone</strong> — dispatches, grades, optimizes, manages entire agent fleet without Claude</li>
       <li><strong>Cardinal</strong> — full intelligence tradecraft: scenario planning, systems modeling, competitive intel, weak signal detection, pattern recognition</li>
       <li><strong>Chaos</strong> — container orchestration, Kubernetes, cloud architecture, GPU cluster management, CI/CD, monitoring, disaster recovery, vLLM scaling</li>

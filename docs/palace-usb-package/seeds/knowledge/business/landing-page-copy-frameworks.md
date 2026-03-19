@@ -361,10 +361,10 @@ Free forever plan available
 - Copy tone: Premium, capability-focused, exclusivity
 - Key phrases: "Premium AI models," "Enterprise-grade intelligence," "The smartest agents available"
 - CTA: "Go Smart" or "Access Premium Intelligence"
-- Annual hook: "$79.99/mo billed annually — save $240/year"
+- Annual hook: "$84.99/mo billed annually — save $180/year"
 
 **PRO ($200/mo)** — The Full Arsenal
-- Emphasis: All 42 public agents, maximum capability, serious operators
+- Emphasis: All 38 public agents, maximum capability, serious operators
 - Copy tone: Elite, no-nonsense, ROI-dominant
 - Key phrases: "Every agent. Every capability. Zero limits.", "The complete AI workforce"
 - CTA: "Go Pro" or "Deploy the Full Arsenal"
@@ -560,7 +560,7 @@ Address objections BEFORE the reader thinks of them.
 
 Open a loop in one section, close it in a later section. Keeps readers scrolling.
 
-Hero: "44 agents that work like a real team. (Wait until you see how they collaborate.)"
+Hero: "40 agents that work like a real team. (Wait until you see how they collaborate.)"
 Later section: "Here's how agent collaboration actually works: [explanation]"
 
 ---

@@ -73,7 +73,7 @@ PARENT BRAND (The Endorser)
 "Stone AI Tools" is positioned as "Stone AI, but for developers"
 
 Tagline structure:
-  Stone AI: "Your AI team. 44 agents strong."
+  Stone AI: "Your AI team. 40 agents strong."
   Best AI: "Your AI team. In your pocket."
   Stone AI Tools: "Your AI team. Your way."
 ```
@@ -301,7 +301,7 @@ Bundle Tiers:       EXPLORER (2 products) → POWERHOUSE (all 3)
 
 **Voice Pillars**:
 1. **Direct**: Say what you mean. No filler. No "we're excited to announce."
-2. **Knowledgeable**: We know AI. We built 44 agents. We know what works.
+2. **Knowledgeable**: We know AI. We built 40 agents. We know what works.
 3. **Human**: Technology serves people. Never the other way around.
 4. **Bold**: We're three products deep and we're just getting started.
 
@@ -309,7 +309,7 @@ Bundle Tiers:       EXPLORER (2 products) → POWERHOUSE (all 3)
 
 **Stone AI (Web)** — Professional Confident:
 ```
-"44 agents. Zero BS. Get the AI team you actually need."
+"40 agents. Zero BS. Get the AI team you actually need."
 "Your competitors are using ChatGPT. You'll be using an army."
 ```
 - Tone: Authoritative but approachable

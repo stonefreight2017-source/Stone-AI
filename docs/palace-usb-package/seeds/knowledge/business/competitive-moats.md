@@ -115,7 +115,7 @@ Multiple interconnected products/services that create a self-reinforcing system.
 Unique intellectual property that competitors can't easily replicate.
 
 **How Stone AI Builds This**
-- 44 agent system prompts, each carefully engineered for a specific domain.
+- 40 agent system prompts, each carefully engineered for a specific domain.
 - These prompts represent months of iteration, testing, and refinement.
 - The prompts include domain-specific frameworks, response patterns, and quality controls that a competitor starting from scratch would need months to develop.
 
@@ -191,7 +191,7 @@ Moving faster than competitors. Being first to market, first to iterate, first t
 ### Why Agent Count Matters as a Moat
 
 **Hard to Replicate Quality at Scale**
-- Anyone can build 1 good AI agent. Building 44 agents, each genuinely specialized and high-quality, takes months of prompt engineering, testing, and iteration.
+- Anyone can build 1 good AI agent. Building 40 agents, each genuinely specialized and high-quality, takes months of prompt engineering, testing, and iteration.
 - Each agent needs: domain expertise baked into prompts, consistent tone, accurate information, good formatting, appropriate response depth.
 - A competitor starting from scratch needs to do this 44 times. That's a significant barrier.
 
@@ -216,7 +216,7 @@ Moving faster than competitors. Being first to market, first to iterate, first t
 - Invest in knowledge frameworks, decision trees, and domain-specific patterns within each agent's prompt.
 
 **Quality Consistency**
-- All 44 agents must meet a minimum quality bar. One bad agent reflects on the entire system.
+- All 40 agents must meet a minimum quality bar. One bad agent reflects on the entire system.
 - Regular auditing: sample conversations, quality scores, user feedback per agent.
 
 ---
@@ -225,7 +225,7 @@ Moving faster than competitors. Being first to market, first to iterate, first t
 
 ### The Three-Headed Business Strategy
 
-**Stone AI** → The main platform. Chat interface, 44 agents, Bestie, Forum.
+**Stone AI** → The main platform. Chat interface, 40 agents, Bestie, Forum.
 **Best AI** → Mobile-first experience. AI on the go.
 **Stone AI Tools** → Standalone tools. SEO entry point. tools.stone-ai.net.
 

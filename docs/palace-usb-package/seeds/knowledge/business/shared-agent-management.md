@@ -11,7 +11,7 @@
 
 ## 1. Executive Summary
 
-44 agents serve all three products. Some agents work identically across products, some are specialized for specific platforms, and some are exclusive to certain products. This seed defines how agents are managed across the ecosystem: which agents appear where, how they adapt to different platforms, how shared vs. product-specific agents work, and how the Three Heads + Royal Guard operate across products.
+40 agents serve all three products. Some agents work identically across products, some are specialized for specific platforms, and some are exclusive to certain products. This seed defines how agents are managed across the ecosystem: which agents appear where, how they adapt to different platforms, how shared vs. product-specific agents work, and how the Three Heads + Royal Guard operate across products.
 
 ---
 
@@ -48,7 +48,7 @@ FREE: 4 agents
 STARTER: 16 agents (4 free + 12 STARTER)
 PLUS: 30 agents
 SMART: 39 agents
-PRO: 42 agents (all user-facing)
+PRO: 38 agents (all user-facing)
 ```
 
 **Best AI (Mobile)**:
@@ -61,8 +61,8 @@ PREMIUM: 30 agents (all mobile-optimized agents)
 **Stone AI Tools (API)**:
 ```
 FREE: 3 agents (demo — limited interaction depth)
-DEVELOPER: 42 agents (all user-facing, full API access)
-BUSINESS: 42 agents (all, priority queue, higher rate limits)
+DEVELOPER: 38 agents (all user-facing, full API access)
+BUSINESS: 38 agents (all, priority queue, higher rate limits)
 ```
 
 ---
@@ -461,7 +461,7 @@ User uses "Code Helper" on web and "Finance Advisor" via API
 
 ## 9. Scaling Agent Operations
 
-### 9.1 Current State (44 agents)
+### 9.1 Current State (40 agents)
 
 Manageable with manual quality reviews, individual system prompts, and founder oversight.
 
@@ -509,4 +509,4 @@ Creator builds agent → submits for review
 ---
 
 *Seed created by Agent Stone (Head 1) + Cardinal (Head 2) — Three-Headed Monster Operations*
-*44 agents serving three products is a force multiplier — but only when each agent is adapted for each platform while maintaining its core identity.*
+*40 agents serving three products is a force multiplier — but only when each agent is adapted for each platform while maintaining its core identity.*

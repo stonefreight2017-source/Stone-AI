@@ -112,7 +112,7 @@ Stone AI's platform includes:
   analysis, creative, and productivity domains
 - Bestie: A personalized AI companion that adapts to each user's
   communication style, with 18 personality traits and 6 language options
-- Tiered pricing from FREE (4 agents, $0) to PRO (42 agents, $200/month)
+- Tiered pricing from FREE (4 agents, $0) to PRO (38 agents, $200/month)
 - Built-in community forum for user collaboration and support
 
 [TRACTION/PROOF — include when available]
@@ -310,7 +310,7 @@ Happy to expand on any of this or provide additional context.
 - Pitch to: Startup-focused publications, founder interview podcasts
 
 **3. Product Stories**: "This new tool does something interesting"
-- Stone AI angle: 44 agents vs. one chatbot, Bestie personalization
+- Stone AI angle: 40 agents vs. one chatbot, Bestie personalization
 - Best for: Product launches, major feature releases, milestone announcements
 
 **4. Contrarian Stories**: "Why the conventional wisdom is wrong"

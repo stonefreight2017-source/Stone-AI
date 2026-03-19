@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Conversational UX / Communication Style
-- **Applies to**: All 42 user-facing agents, Bestie (2 comm styles), agent personality system
+- **Applies to**: All 38 user-facing agents, Bestie (2 comm styles), agent personality system
 - **Priority**: High — tone mismatches destroy user trust faster than wrong answers
 - **Last Updated**: 2026-03-09
 
@@ -12,7 +12,7 @@
 
 A technically correct response delivered in the wrong tone feels wrong. A user asking a casual question does not want a dissertation. A professional requesting a formal analysis does not want emoji-laden banter. The tone of a response is the first thing users evaluate — before they even read the content.
 
-In Stone AI's 44-agent ecosystem, tone management is multiplied by complexity. Each agent has a personality. Each user has a style. The Bestie system has 2 explicit communication styles. When a user switches between agents, tone continuity must be maintained even as personality shifts.
+In Stone AI's 40-agent ecosystem, tone management is multiplied by complexity. Each agent has a personality. Each user has a style. The Bestie system has 2 explicit communication styles. When a user switches between agents, tone continuity must be maintained even as personality shifts.
 
 ### The Tone Mismatch Problem
 
@@ -818,7 +818,7 @@ const toneTestCases = [
 
 - [ ] Tone detection runs on every user message (< 5ms)
 - [ ] Five-dimension tone profiles stored per user
-- [ ] Mirror-and-adjust blending works for all 42 agents
+- [ ] Mirror-and-adjust blending works for all 38 agents
 - [ ] Bestie mirror/complement modes produce distinct behaviors
 - [ ] Tone transitions are smooth (max 0.15 change per message)
 - [ ] Emotional detection triggers appropriate tone adjustments

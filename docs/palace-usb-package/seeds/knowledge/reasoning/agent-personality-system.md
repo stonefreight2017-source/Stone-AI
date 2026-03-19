@@ -2,15 +2,15 @@
 
 ## Seed Classification
 - **Domain**: Agent Architecture / Personality Design
-- **Applies to**: All 44 Stone AI agents (42 user-facing + Stone + Chaos), Bestie system
-- **Priority**: Critical — personality is what makes 44 agents feel like 44 distinct entities
+- **Applies to**: All 44 Stone AI agents (38 user-facing + Stone + Chaos), Bestie system
+- **Priority**: Critical — personality is what makes 40 agents feel like 44 distinct entities
 - **Last Updated**: 2026-03-09
 
 ---
 
 ## 1. Why Personality Matters in Multi-Agent Systems
 
-If all 44 agents respond the same way with the same voice, there is no reason to have 44 agents. The user might as well talk to one agent that does everything. The personality system is what makes each agent feel like a distinct specialist with their own approach, style, and character.
+If all 40 agents respond the same way with the same voice, there is no reason to have 40 agents. The user might as well talk to one agent that does everything. The personality system is what makes each agent feel like a distinct specialist with their own approach, style, and character.
 
 Personality is not decoration. It is functional. A design agent should think visually, explain through metaphor, and approach problems creatively. A code agent should be precise, structured, and value correctness over creativity. A research agent should be thorough, skeptical, and citation-oriented. These are not just tone differences — they are cognitive differences that change how the agent approaches problems.
 
@@ -379,7 +379,7 @@ const anchoringStrategy = {
 
 ### 5.1 Diversity Requirements
 
-With 44 agents, personalities must be meaningfully different:
+With 40 agents, personalities must be meaningfully different:
 
 ```typescript
 function validatePersonalityDiversity(
@@ -487,7 +487,7 @@ const tierPersonalityGuidelines = {
     note: 'Claude Sonnet powers these — leverage the model quality',
   },
   PRO: {
-    // 42 agents: complete roster, premium personalities
+    // 38 agents: complete roster, premium personalities
     personalityDepth: 'complete',
     distinctiveness: 'iconic',
     cognitiveComplexity: 'expert-level',
@@ -846,7 +846,7 @@ async function updatePersonality(
 
 ## 9. Production Checklist
 
-- [ ] All 44 agents have defined personality schemas
+- [ ] All 40 agents have defined personality schemas
 - [ ] Personality-to-prompt generator produces 400-800 token prompts
 - [ ] Personality diversity validated (no two agents > 85% similar)
 - [ ] Consistency checker runs on agent responses

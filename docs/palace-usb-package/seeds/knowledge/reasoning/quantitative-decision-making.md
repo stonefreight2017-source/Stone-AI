@@ -127,7 +127,7 @@ def simulate_revenue(n_simulations: int = 10000, months: int = 12) -> np.ndarray
     Simulate Stone AI revenue for next 12 months.
     Accounts for uncertainty in user growth, conversion, churn, and ARPU.
     """
-    np.random.seed(42)
+    np.random.seed(38)
     results = np.zeros((n_simulations, months))
 
     for sim in range(n_simulations):

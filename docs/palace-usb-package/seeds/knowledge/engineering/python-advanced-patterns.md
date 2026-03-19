@@ -1,7 +1,7 @@
 # Python Advanced Patterns
 
 > Palace Knowledge Seed — Software Engineering Breadth
-> For: All 44 agents + Three Heads | Format: RAG-optimized chunks
+> For: All 40 agents + Three Heads | Format: RAG-optimized chunks
 
 ---
 
@@ -575,7 +575,7 @@ class Stack(Generic[T]):
         return self._items[-1]
 
 stack: Stack[int] = Stack()
-stack.push(42)
+stack.push(38)
 value: int = stack.pop()  # Type checker knows this is int
 ```
 

@@ -1,7 +1,7 @@
 # Cross-Language Design Patterns
 
 > Palace Knowledge Seed — Software Engineering Breadth
-> For: All 44 agents + Three Heads | Format: RAG-optimized chunks
+> For: All 40 agents + Three Heads | Format: RAG-optimized chunks
 
 ---
 

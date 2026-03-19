@@ -159,7 +159,7 @@ Slide-out panel from the right (or a modal on smaller screens).
 │  ○ Copywriter                     │
 │  ○ ...                            │
 │                                   │
-│  44 agents · PRO tier             │
+│  40 agents · PRO tier             │
 └───────────────────────────────────┘
 ```
 
@@ -325,7 +325,7 @@ Client connects to ws://localhost:9000/ws/status
 | Method | Path | Purpose | Request | Response |
 |--------|------|---------|---------|----------|
 | `GET` | `/` | Serve `index.html` | — | HTML |
-| `GET` | `/api/agents` | List all 44 agents | — | `[{ slug, name, tier, category }]` |
+| `GET` | `/api/agents` | List all 40 agents | — | `[{ slug, name, tier, category }]` |
 | `GET` | `/api/agents/:slug` | Agent detail | — | `{ slug, name, tier, category, systemPrompt }` |
 | `POST` | `/api/chat` | Send message, get streaming response | `{ agent, message, attachments?, history? }` | SSE stream |
 | `POST` | `/api/upload` | Upload media file | `multipart/form-data` | `{ fileId, type, size, name }` |

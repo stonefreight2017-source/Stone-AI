@@ -25,8 +25,8 @@ What makes Stone AI different:
 | FREE | $0 | N/A | 4 agents | Curious newcomers, students, tire-kickers |
 | STARTER | $19.99 | N/A | 16 agents | Freelancers, side-hustlers, casual users |
 | PLUS | $49.99 | N/A | 30 agents | Small business owners, power users |
-| SMART | $99.99 | $79.99/mo | 39 agents | Professionals, teams, heavy daily use |
-| PRO | $200 | $170/mo (15% off) | 42 agents (all public) | Agencies, enterprises, "I want everything" |
+| SMART | $99.99 | $84.99/mo | 39 agents | Professionals, teams, heavy daily use |
+| PRO | $200 | $170/mo (15% off) | 38 agents (all public) | Agencies, enterprises, "I want everything" |
 
 **Promotional prices (acquisition hooks):**
 - $9.99 FIRST MONTH — Lowest barrier to entry. Gets users in the door at STARTER.
@@ -36,8 +36,8 @@ What makes Stone AI different:
 **Why these specific prices:**
 - $19.99 is the "Netflix price" — familiar, low-commitment, widely accepted for digital subscriptions.
 - $49.99 is the "serious tool" price — signals value without sticker shock. Competes with single-purpose AI tools (Jasper, Copy.ai) that charge similar for less.
-- $99.99 is the "professional" price — users at this tier are making money with the tool. The annual discount ($79.99) rewards commitment and reduces churn.
-- $200 is the "enterprise-lite" price — no sales team needed, just a checkout button. Users self-select. Annual at $170 makes the math easy: $170/mo = $2,040/yr for 42 specialized AI agents.
+- $99.99 is the "professional" price — users at this tier are making money with the tool. The annual discount ($84.99) rewards commitment and reduces churn.
+- $200 is the "enterprise-lite" price — no sales team needed, just a checkout button. Users self-select. Annual at $170 makes the math easy: $170/mo = $2,040/yr for 38 specialized AI agents.
 
 **Revenue math:**
 - Break-even target: Cover Vercel Pro ($20/mo), Neon ($0-25/mo), Anthropic API usage, Cloudflare ($0), Clerk ($0-25/mo).
@@ -71,7 +71,7 @@ What makes Stone AI different:
 - Makes money directly with AI tools. Consultants, agency workers, power users.
 - Wants Claude Sonnet quality (SMART mode) for complex tasks
 - Willing to pay $99.99 because the tool pays for itself
-- Annual discount ($79.99) is designed for this user — they know they will use it for a year
+- Annual discount ($84.99) is designed for this user — they know they will use it for a year
 
 **PRO User — "The Power Player"**
 - Wants everything. No limits. No locked agents.
@@ -175,7 +175,7 @@ The founder is building three businesses that reinforce each other:
 - Poe by Quora (various) — multi-model but no specialist personalities or persistent memory
 
 **Our edge:**
-1. **Specialist agents** — 42 domain experts vs. one generic chatbot
+1. **Specialist agents** — 38 domain experts vs. one generic chatbot
 2. **Hybrid inference** — local + cloud. Faster for simple tasks, smarter for complex ones
 3. **Price-to-value ratio** — $19.99 gets you 16 specialists. ChatGPT charges $20 for one generic bot
 4. **Bestie retention** — emotional connection = sticky product. Nobody else has this

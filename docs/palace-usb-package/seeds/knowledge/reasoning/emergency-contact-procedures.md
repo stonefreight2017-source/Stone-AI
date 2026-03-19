@@ -260,7 +260,7 @@ REBUILD STEPS:
   6. Download model from HuggingFace
   7. Configure vLLM
   8. Run database migrations
-  9. Verify all 44 agents
+  9. Verify all 40 agents
   10. Update DNS/Vercel to point to new machine
 
 ESTIMATED TIME: 1-2 days with USB package, 1 week without

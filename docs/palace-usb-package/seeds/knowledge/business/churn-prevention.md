@@ -413,7 +413,7 @@ When a user initiates cancellation, present a brief exit survey. Keep it short �
 **If "found a better alternative" is the top reason (>20%)**
 - Competitive threat. Identify which competitors and why.
 - Research: What does the alternative offer that Stone AI doesn't?
-- Action: Feature parity on critical gaps, differentiation on unique strengths (44 agents, Bestie).
+- Action: Feature parity on critical gaps, differentiation on unique strengths (40 agents, Bestie).
 
 **If "AI responses weren't good enough" is the top reason (>20%)**
 - Product quality issue. The agents aren't delivering.
@@ -574,11 +574,11 @@ The goal is to intervene at the "light touch" stage. By the time you need heavy 
 - Expected: 3-5% monthly.
 - Primary cause: Budget pressure (it's $100/month — not trivial for individual users) or dissatisfaction with Claude Sonnet quality vs expectations.
 - Prevention: Annual plan push (locks them in, reduces decision points). Quality monitoring — make sure the Claude Sonnet experience consistently impresses. Value quantification: "Your SMART agents saved you approximately X hours this month."
-- The annual conversion is crucial at this tier. Annual SMART at $79.99/month has dramatically lower churn.
+- The annual conversion is crucial at this tier. Annual SMART at $84.99/month has dramatically lower churn.
 
 ### PRO Tier Churn ($200/month)
 - Expected: 2-4% monthly.
-- Primary cause: Business expense review ("do I need ALL 42 agents?") or competitor offering.
+- Primary cause: Business expense review ("do I need ALL 38 agents?") or competitor offering.
 - Prevention: White-glove treatment. Personal check-ins. Priority support. Make PRO users feel like VIPs.
 - PRO users are your most valuable — losing one hurts as much as losing 10 STARTER users.
 

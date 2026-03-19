@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Conversation Design
-- **Applies to**: All 42 user-facing Stone AI agents
+- **Applies to**: All 38 user-facing Stone AI agents
 - **Priority**: Critical — this is the primary interface between agents and humans
 - **Last Updated**: 2026-03-09
 

@@ -6,7 +6,7 @@ Retention is where SaaS businesses make or break their economics. Acquiring a ne
 
 Retention marketing is the systematic practice of keeping users engaged, progressing through the product, and renewing their subscriptions. It encompasses lifecycle marketing (the right message at the right time), churn prevention (identifying and saving at-risk users), win-back campaigns (recovering churned users), feature adoption (getting users to use more of the product), and NPS/feedback loops (measuring and improving satisfaction).
 
-For Stone AI, retention has unique levers: 44 agents create 44 reasons to stay, the Bestie system creates emotional attachment, the tier structure creates upgrade motivation, and the community creates social ties. Every one of these should be systematically leveraged.
+For Stone AI, retention has unique levers: 40 agents create 44 reasons to stay, the Bestie system creates emotional attachment, the tier structure creates upgrade motivation, and the community creates social ties. Every one of these should be systematically leveraged.
 
 ---
 
@@ -255,7 +255,7 @@ This offer expires in 7 days.
 
 ### The Feature Adoption Problem
 
-Most SaaS users use less than 20% of available features. For Stone AI, if a user only uses 2 of 44 agents, they're experiencing 5% of the product's value — and they're at high churn risk. Feature adoption directly correlates with retention.
+Most SaaS users use less than 20% of available features. For Stone AI, if a user only uses 2 of 40 agents, they're experiencing 5% of the product's value — and they're at high churn risk. Feature adoption directly correlates with retention.
 
 ### Feature Adoption Framework
 

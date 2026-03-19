@@ -1,8 +1,8 @@
-import { streamText } from "ai";
+import { streamText, generateText } from "ai";
 import { NextRequest } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
-import { getModelWithFallback } from "@/lib/ai";
+import { cloud, getModelWithFallback } from "@/lib/ai";
 import { buildRagContext } from "@/lib/embeddings";
 import { checkRateLimitAsync } from "@/lib/rate-limiter";
 import { sanitizeUserInput, wrapSystemPrompt, getClientIp, validateOrigin } from "@/lib/security";
@@ -63,7 +63,8 @@ export async function POST(req: NextRequest) {
   try {
     const raw = await req.json();
     body = messageSchema.parse(raw);
-  } catch {
+  } catch (parseErr) {
+    console.error("[enterprise-chat] Validation failed:", parseErr);
     return new Response(JSON.stringify({ error: "Invalid request" }), {
       status: 400,
       headers: { "Content-Type": "application/json" },
@@ -112,25 +113,32 @@ export async function POST(req: NextRequest) {
     basePrompt + configSection + (ragContext ? "\n\n" + ragContext : "")
   );
 
-  // Stream response — enterprise chat ALWAYS forces cloud fallback because
-  // a broken sales chat loses customers. If vLLM is down, Haiku takes over.
+  // Enterprise chat uses Anthropic Claude directly on Vercel.
+  // This is customer-facing: reliability > cost savings. No vLLM check needed
+  // since Vercel can't reach the local vLLM server anyway.
+  //
+  // We use generateText (not streamText) so that API errors (expired keys,
+  // exhausted credits, etc.) are caught BEFORE sending the response.
+  // With streamText, the 200 headers are sent immediately and API errors
+  // result in an empty response body instead of a proper error message.
   try {
-    const model = await getModelWithFallback("LOCAL", undefined, true);
+    // On Vercel: always use Anthropic directly. Locally: use fallback logic.
+    const isVercel = !!process.env.VERCEL;
+    const model = isVercel && process.env.ANTHROPIC_API_KEY
+      ? cloud("claude-sonnet-4-20250514")
+      : await getModelWithFallback("LOCAL", undefined, true);
 
-    const result = streamText({
+    const { text } = await generateText({
       model,
       system: systemPrompt,
       messages: sanitizedMessages,
       maxOutputTokens: 1024,
-      onError: ({ error }) => {
-        console.error("[enterprise-chat] Stream error:", error);
-      },
     });
 
-    // Consume the stream to catch errors — if the stream fails mid-flight,
-    // the client will see an incomplete response rather than infinite spinner.
-    // The toTextStreamResponse() handles this by closing the stream on error.
-    return result.toTextStreamResponse();
+    return new Response(text, {
+      status: 200,
+      headers: { "Content-Type": "text/plain; charset=utf-8" },
+    });
   } catch (err) {
     console.error("[enterprise-chat] Model connection failed:", err);
     return new Response(

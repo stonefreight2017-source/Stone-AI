@@ -69,7 +69,7 @@ interface AgentMessageEvent extends DomainEvent<{
 
 ### Why Events Matter for Stone AI
 
-Stone AI has 44 agents, Stripe billing, Clerk auth, and dual AI providers. Events let these systems communicate without tight coupling:
+Stone AI has 40 agents, Stripe billing, Clerk auth, and dual AI providers. Events let these systems communicate without tight coupling:
 
 - User upgrades tier → Event triggers agent access update, billing record, analytics
 - Agent conversation completes → Event triggers token counting, usage tracking, cost allocation
@@ -977,7 +977,7 @@ function getTierAgentLimit(tier: string): number {
     STARTER: 16,
     PLUS: 30,
     SMART: 39,
-    PRO: 42,
+    PRO: 38,
   };
   return limits[tier] ?? 4;
 }
@@ -1497,4 +1497,4 @@ async function retryDeadLetters(
 | Snapshots | Long event streams | High-activity conversations |
 | Dead Letter Queue | Fault tolerance | Failed webhook processing |
 
-Event-driven architecture enables Stone AI to scale its 44-agent system while maintaining clean separation of concerns and reliable state management.
+Event-driven architecture enables Stone AI to scale its 40-agent system while maintaining clean separation of concerns and reliable state management.

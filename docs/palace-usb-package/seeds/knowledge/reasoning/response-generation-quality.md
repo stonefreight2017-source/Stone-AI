@@ -10,7 +10,7 @@
 
 A conversational AI agent is only as good as its responses. Users don't care about your routing architecture or your context window management — they care about whether the response they received was helpful, accurate, and pleasant to read. Response generation quality is the final mile that determines whether users come back or leave.
 
-Stone AI runs 44 agents, each producing responses through Qwen 2.5 32B AWQ (local) or Claude Sonnet/Haiku (cloud). The LLM generates the raw text, but quality depends on everything around it: the prompt, the post-processing, the formatting, and the quality checks.
+Stone AI runs 40 agents, each producing responses through Qwen 2.5 32B AWQ (local) or Claude Sonnet/Haiku (cloud). The LLM generates the raw text, but quality depends on everything around it: the prompt, the post-processing, the formatting, and the quality checks.
 
 ---
 

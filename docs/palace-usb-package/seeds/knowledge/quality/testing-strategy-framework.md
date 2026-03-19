@@ -631,7 +631,7 @@ DO NOT test:
   │   Example: export const getUser = (id) => prisma.user.findUnique({ where: { id } })
   │   Why: You'd be testing Prisma, not your code
   │
-  ├─ Every agent variant (44 agents with similar behavior)
+  ├─ Every agent variant (40 agents with similar behavior)
   │   Instead: Test the agent framework once, spot-check 3-4 agents
   │   Why: Agent differences are in prompts, not code paths
   │

@@ -1571,7 +1571,7 @@ function ChatMessages({ messages }: { messages: Message[] }) {
 ### Agent Grid Optimization
 
 ```typescript
-// Problem: 42 agent cards re-render when search input changes
+// Problem: 38 agent cards re-render when search input changes
 // Solution: Separate state, memo cards, debounce search
 
 function OptimizedAgentGrid({ agents }: { agents: Agent[] }) {

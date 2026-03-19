@@ -1,7 +1,7 @@
 # Rust Async & Concurrency
 
 > Palace Knowledge Seed — Software Engineering Breadth
-> For: All 44 agents + Three Heads | Format: RAG-optimized chunks
+> For: All 40 agents + Three Heads | Format: RAG-optimized chunks
 
 ---
 
@@ -162,7 +162,7 @@ async fn handle_request(data: Vec<u8>) -> Vec<u8> {
 // This FAILS:
 use std::rc::Rc;
 async fn not_send() {
-    let rc = Rc::new(42);
+    let rc = Rc::new(38);
     some_async_fn().await; // rc lives across .await — future is NOT Send
     println!("{}", rc);
 }
@@ -170,7 +170,7 @@ async fn not_send() {
 // FIX: Use Arc instead of Rc
 use std::sync::Arc;
 async fn is_send() {
-    let arc = Arc::new(42);
+    let arc = Arc::new(38);
     some_async_fn().await;
     println!("{}", arc);
 }
@@ -178,7 +178,7 @@ async fn is_send() {
 // FIX 2: Drop before .await
 async fn also_send() {
     {
-        let rc = Rc::new(42);
+        let rc = Rc::new(38);
         println!("{}", rc);
     } // rc dropped here
     some_async_fn().await; // OK — rc doesn't cross .await

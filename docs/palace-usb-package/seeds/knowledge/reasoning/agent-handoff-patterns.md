@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent Architecture / Conversation Routing
-- **Applies to**: Stone AI's 44-agent ecosystem, routing layer, context management
+- **Applies to**: Stone AI's 40-agent ecosystem, routing layer, context management
 - **Priority**: Critical — handoffs are where multi-agent systems break
 - **Last Updated**: 2026-03-09
 
@@ -12,7 +12,7 @@
 
 In a multi-agent system, the moment a user is transferred from one agent to another is the most fragile point in the entire experience. Every piece of context the user has built with Agent A must survive the transition to Agent B. If the user has to repeat themselves, the multi-agent system is worse than a single agent.
 
-Stone AI has 44 agents (42 user-facing + Stone internal + Chaos founder-only). Users on higher tiers can access up to 42 agents in a single session. The handoff system must be invisible to the user — they should feel like they are talking to one system that happens to have different specialists, not like they are being bounced between disconnected chatbots.
+Stone AI has 40 agents (38 user-facing + Stone internal + Chaos founder-only). Users on higher tiers can access up to 38 agents in a single session. The handoff system must be invisible to the user — they should feel like they are talking to one system that happens to have different specialists, not like they are being bounced between disconnected chatbots.
 
 ### The Cost of Bad Handoffs
 
@@ -300,7 +300,7 @@ const routingMatrix: Record<number, number[]> = {
   15: [1, 18, 25],
   // Code agent → Design, Testing, DevOps
   22: [7, 28, 33],
-  // ... (full matrix for all 42 user-facing agents)
+  // ... (full matrix for all 38 user-facing agents)
 };
 ```
 
@@ -777,7 +777,7 @@ async function evaluateHandoffQuality(
 - [ ] Handoff loop prevention is active (max 5/session, no circular)
 - [ ] Round-trip bookmarks preserve return context
 - [ ] Parallel handoffs aggregate results correctly
-- [ ] All 42 user-facing agents have routing relationships defined
+- [ ] All 38 user-facing agents have routing relationships defined
 - [ ] Handoff analytics table is instrumented
 - [ ] Quality evaluation runs post-handoff
 - [ ] Tier access is checked before every handoff

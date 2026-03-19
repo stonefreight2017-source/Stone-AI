@@ -42,7 +42,7 @@ const TIER_LIMITS: Record<string, number> = {
   starter: 16,
   plus: 30,
   smart: 39,
-  pro: 42,
+  pro: 38,
 };
 
 export default async function AgentsPage() {

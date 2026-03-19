@@ -195,7 +195,7 @@ For a richer experience than Stripe's default portal, build a custom billing pag
 │  ┌─────────────────────────────────────────────┐ │
 │  │ $99.99/month · 39 AI Agents · Bestie Pro    │ │
 │  │ Next billing: April 9, 2026                  │ │
-│  │ Annual option: $79.99/mo (Save $240/year)    │ │
+│  │ Annual option: $84.99/mo (save $180/year)    │ │
 │  │ [Switch to Annual] [Change Plan]             │ │
 │  └─────────────────────────────────────────────┘ │
 │                                                   │

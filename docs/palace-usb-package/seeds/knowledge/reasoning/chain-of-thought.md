@@ -87,7 +87,7 @@ STEP 1: What is being asked?
 
 STEP 2: What do I need to know?
   HAVE:
-  - SMART tier costs $99.99/mo (annual $79.99/mo)
+  - SMART tier costs $99.99/mo (annual $84.99/mo)
   - Current tier structure: FREE, STARTER($19.99), PLUS($49.99), SMART($99.99), PRO($200)
   - Existing promos: $9.99 first month, $14.99 trial, $39.99 growth
   ASSUMING:

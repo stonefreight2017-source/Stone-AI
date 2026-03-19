@@ -10,7 +10,7 @@
 
 Users are humans. They come to AI agents frustrated, confused, excited, bored, anxious, or in a rush. An agent that responds to "MY PAYMENT FAILED AND I'VE BEEN CHARGED TWICE" with "I'd be happy to help you with billing!" is emotionally deaf. And emotionally deaf agents lose users.
 
-Emotional intelligence in AI isn't about the agent "feeling" emotions — it's about detecting user emotional states and responding appropriately. This is the difference between a tool and a companion. Stone AI's Bestie especially needs deep EQ, but every one of the 44 agents benefits from reading the room.
+Emotional intelligence in AI isn't about the agent "feeling" emotions — it's about detecting user emotional states and responding appropriately. This is the difference between a tool and a companion. Stone AI's Bestie especially needs deep EQ, but every one of the 40 agents benefits from reading the room.
 
 ---
 

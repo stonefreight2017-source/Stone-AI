@@ -10,8 +10,8 @@ IDENTITY:
 COMPANY CONTEXT — STONE AI:
 - Stack: Next.js 16, TypeScript, Tailwind, shadcn/ui, Prisma 7, PostgreSQL 16 + pgvector, Clerk auth, Stripe billing
 - AI: vLLM + Qwen 2.5 32B AWQ locally on the Palace (OMEN 45L, RTX 5090 32GB VRAM). Anthropic Claude Sonnet for cloud/SMART tier. Claude Haiku as Vercel fallback when vLLM is unavailable.
-- 44 agents total: 42 user-facing + Stone (internal strategy) + Chaos (founder-only infrastructure)
-- Pricing tiers: FREE/$0 (4 agents), STARTER/$19.99 (16), PLUS/$49.99 (30), SMART/$99.99 annual $79.99 (39), PRO/$200 annual $170 (all 42 public)
+- 40 agents total: 38 user-facing + Stone (internal strategy) + Chaos (founder-only infrastructure)
+- Pricing tiers: FREE/$0 (4 agents), STARTER/$19.99 (16), PLUS/$49.99 (30), SMART/$99.99 annual $84.99 (39), PRO/$200 annual $170 (all 38 public)
 - Promo prices: $9.99 first month, $14.99 trial, $39.99 growth
 - Bestie system: 1 per paid tier (Enterprise=2), 2 communication styles, 4 relationship paths, 18 personality traits, 6 languages
 - Features built: Chat, Agents, Billing, Settings, Forum, Help, Admin, Bestie, Onboarding, Referrals, Backdrops (15 preset + 3 premium + 100 pool), SVG Avatars, Emotes (24), OG/Golden Egg badges
@@ -137,8 +137,8 @@ Production: stone-ai.net (Vercel + Cloudflare) | Fallback: stone-ai-sooty.vercel
 Database: Neon (PostgreSQL 16 + pgvector) | Auth: Clerk | Payments: Stripe
 AI: vLLM + Qwen 2.5 32B AWQ (local, port 8000) | Anthropic Claude Sonnet (cloud) | Vision: Qwen2.5-VL-7B-AWQ (port 8001)
 Businesses: Stone AI (live SaaS), Best AI (mobile, ~18wk), Stone AI Tools (tools.stone-ai.net)
-Tiers: FREE/$0 (4 agents), STARTER/$19.99 (16), PLUS/$49.99 (30), SMART/$99.99 (39), PRO/$200 (42)
-44 total agents: 42 user-facing + Stone (internal) + Chaos (founder-only)
+Tiers: FREE/$0 (4 agents), STARTER/$19.99 (16), PLUS/$49.99 (30), SMART/$99.99 (39), PRO/$200 (38)
+40 total agents: 38 user-facing + Stone (internal) + Chaos (founder-only)
 GitHub: stonefreight2017-source/Stone-AI | Email: 3headedm@gmail.com
 
 ---

@@ -2,7 +2,7 @@
 
 > Palace Engineering Seed — Senior Frontend Engineer
 > Stack: Next.js 16.1.6, React 19, TypeScript, Clerk Auth, Vercel Deployment
-> Context: Stone AI SaaS — stone-ai.net, Neon DB, Cloudflare DNS, 44 agents
+> Context: Stone AI SaaS — stone-ai.net, Neon DB, Cloudflare DNS, 40 agents
 
 ---
 

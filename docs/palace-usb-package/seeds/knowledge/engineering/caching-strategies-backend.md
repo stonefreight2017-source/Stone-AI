@@ -12,7 +12,7 @@ Caching is the single most impactful performance optimization for backend system
 
 ### Why Cache in Stone AI?
 
-- **Agent list/config** — 44 agents, rarely change, queried on every page load
+- **Agent list/config** — 40 agents, rarely change, queried on every page load
 - **User tier/permissions** — Checked on every API call for authorization
 - **Pricing data** — Static between deployments
 - **Forum posts** — High read-to-write ratio

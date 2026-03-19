@@ -116,7 +116,7 @@ The schema is hardcoded to `vector(768)`. If the embedding model changes dimensi
 ## Indexing Strategies
 
 ### Current State: NO INDEX (Sequential Scan)
-Every similarity query scans all rows where `agentId` matches and `embedding IS NOT NULL`. This is acceptable at current scale (~44 agents, likely hundreds of chunks total) but will not scale.
+Every similarity query scans all rows where `agentId` matches and `embedding IS NOT NULL`. This is acceptable at current scale (~40 agents, likely hundreds of chunks total) but will not scale.
 
 ### When to Add an Index
 

@@ -192,7 +192,7 @@ export async function createAnnualCheckoutWithSavings(params: {
 }): Promise<Stripe.Checkout.Session> {
   const annualPriceId = getPriceIdForPlan(params.plan, 'annual');
   const monthlyCost = params.plan === 'SMART' ? 99.99 : 200.00;
-  const annualMonthlyCost = params.plan === 'SMART' ? 79.99 : 170.00;
+  const annualMonthlyCost = params.plan === 'SMART' ? 84.99 : 170.00;
   const annualSavings = (monthlyCost - annualMonthlyCost) * 12;
 
   return stripe.checkout.sessions.create({
@@ -239,7 +239,7 @@ const PRICING_PAGE_PRINCIPLES = {
   defaultPeriod: 'annual', // Show annual first — higher LTV
 
   // 3. Show savings prominently
-  showSavings: true, // "$240/year savings" badge on annual
+  showSavings: true, // "$180/year savings" badge on annual
 
   // 4. Reduce choice paralysis
   maxPlansVisible: 4, // Don't show all 5 plans equally (hide FREE in a smaller section)
@@ -343,7 +343,7 @@ function getUpsellOffer(plan: string, period: string) {
   // Monthly → Annual upsell (most common and highest impact)
   if (period === 'monthly' && ['SMART', 'PRO'].includes(plan)) {
     const monthlyCost = plan === 'SMART' ? 99.99 : 200.00;
-    const annualMonthlyCost = plan === 'SMART' ? 79.99 : 170.00;
+    const annualMonthlyCost = plan === 'SMART' ? 84.99 : 170.00;
     const annualSavings = (monthlyCost - annualMonthlyCost) * 12;
 
     return {
@@ -388,7 +388,7 @@ function getNextPlan(currentPlan: string) {
     },
     SMART: {
       id: 'PRO', name: 'Pro', price: 200.00, additionalAgents: 3,
-      pitch: 'Full access to all 42 agents plus priority support and early access.',
+      pitch: 'Full access to all 38 agents plus priority support and early access.',
     },
   };
   return upgrades[currentPlan] ?? null;

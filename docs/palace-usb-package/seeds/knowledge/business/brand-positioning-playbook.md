@@ -86,7 +86,7 @@ Stone AI Tools: Pre-configured AI APIs for developers. Skip the model training. 
 ### Stone AI UVPs
 
 **UVP 1: Specialization Over Generalization**
-"44 agents that are each experts at something specific" vs. "One chatbot that tries to do everything." This is the core differentiator. No other consumer AI platform offers this level of agent specialization.
+"40 agents that are each experts at something specific" vs. "One chatbot that tries to do everything." This is the core differentiator. No other consumer AI platform offers this level of agent specialization.
 
 Why it matters: Users don't want to prompt-engineer a general model into being good at research. They want to click "Research Agent" and get a research expert. Specialization = better results with less effort.
 
@@ -96,7 +96,7 @@ No other AI platform offers a persistent personal companion with 18 personality 
 Why it matters: Tools are commodities. Relationships are sticky. Users who connect with their Bestie have significantly higher retention because switching means losing their companion.
 
 **UVP 3: Accessible Pricing Tiers**
-From FREE (4 agents, $0) to PRO (42 agents, $200), with meaningful tiers in between. Plus promotional pricing ($9.99 first month, $14.99 trial, $39.99 growth). No competitor offers this many pricing tiers for a consumer AI product.
+From FREE (4 agents, $0) to PRO (38 agents, $200), with meaningful tiers in between. Plus promotional pricing ($9.99 first month, $14.99 trial, $39.99 growth). No competitor offers this many pricing tiers for a consumer AI product.
 
 Why it matters: One-size-fits-all pricing loses customers at both ends. Budget users need a free tier; power users need a premium tier. Stone AI captures the entire spectrum.
 
@@ -156,7 +156,7 @@ Stone AI occupies the "specialized + full price spectrum" quadrant. Competitors 
 
 **vs. Claude**: "Claude is brilliant at conversation. Stone AI gives you Claude-level intelligence across 44 specialized domains, plus a personal AI companion that learns your style."
 
-**vs. Gemini**: "Google built Gemini for search. Stone AI built 44 agents for work. Different purpose, different results."
+**vs. Gemini**: "Google built Gemini for search. Stone AI built 40 agents for work. Different purpose, different results."
 
 **vs. Microsoft Copilot**: "Copilot lives inside Microsoft's apps. Stone AI works everywhere, with specialized agents that go deeper than a sidebar assistant."
 
@@ -182,7 +182,7 @@ Stone AI occupies the "specialized + full price spectrum" quadrant. Competitors 
 ### Stone AI Brand Voice
 
 **Capable**: We know what we're doing and our product proves it. Confidence without arrogance.
-- Yes: "44 agents, each specialized in what they do best."
+- Yes: "40 agents, each specialized in what they do best."
 - No: "Our revolutionary AI agents are the most advanced in the industry."
 
 **Direct**: Say what you mean. No filler, no corporate speak, no wasted words.
@@ -206,7 +206,7 @@ Stone AI occupies the "specialized + full price spectrum" quadrant. Competitors 
 | Error messages | Calm, solution-oriented | "Something went wrong. Try refreshing, or contact support." |
 | Support | Empathetic, efficient | "I understand the frustration. Here's what's happening and how to fix it." |
 | Blog posts | Knowledgeable, conversational | "Here's what most people get wrong about AI agents..." |
-| Social media | Casual, witty (but not forced) | "Day 47 of people calling us 'just another chatbot.' *looks at 44 agents*" |
+| Social media | Casual, witty (but not forced) | "Day 47 of people calling us 'just another chatbot.' *looks at 40 agents*" |
 | Developer docs (Tools) | Technical, precise | "POST /api/v1/analyze — Returns structured analysis of the provided text." |
 | Pricing page | Transparent, reassuring | "No hidden fees. No surprises. Here's exactly what you get." |
 
@@ -257,7 +257,7 @@ Every marketing claim must have a proof point:
 - Content: "How Stone AI is built on Stone AI Tools" (dog-fooding story)
 
 **Best AI Mobile → Stone AI Pipeline:**
-"Need more power? Stone AI on desktop gives you the full experience — all 44 agents, deeper Bestie customization, and advanced features."
+"Need more power? Stone AI on desktop gives you the full experience — all 40 agents, deeper Bestie customization, and advanced features."
 - In-app: "Upgrade to full Stone AI experience" for mobile users hitting limits
 - Cross-platform: Shared login (Clerk) means one account works everywhere
 

@@ -222,7 +222,7 @@ The intellectual property assigned to the Company includes, without limitation:
 
 (a) **Software and Source Code:** All source code, object code, algorithms, data structures, APIs, and related documentation for the Stone AI platform, Best AI mobile application, Stone AI Tools directory, and any other software developed for or by the Company;
 
-(b) **AI Agent Definitions:** All system prompts, personality definitions, agent configurations, capability declarations, shared prompt fragments, disclaimers, memory systems, and knowledge seeds for all 44 AI agents (42 user-facing agents plus internal agents);
+(b) **AI Agent Definitions:** All system prompts, personality definitions, agent configurations, capability declarations, shared prompt fragments, disclaimers, memory systems, and knowledge seeds for all 44 AI agents (38 user-facing agents plus internal agents);
 
 (c) **Training Data and Knowledge Bases:** All curated data, knowledge seeds, RAG data, embeddings, and domain-specific content developed for the Company's AI systems;
 

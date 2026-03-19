@@ -189,7 +189,7 @@ For SaaS businesses, the pricing page has the highest conversion impact of any p
 ```
 ┌─────────────────────────────────────────────────────────┐
 │  HEADLINE: "Choose the Plan That Fits Your Workflow"     │
-│  TOGGLE: Monthly / Annual (show savings: "Save 15-20%") │
+│  TOGGLE: Monthly / Annual (show savings: "Save up to 15%") │
 ├─────────────────────────────────────────────────────────┤
 │                                                          │
 │  ┌──────┐  ┌──────────┐  ┌──────┐  ┌──────┐  ┌──────┐ │
@@ -222,7 +222,7 @@ When users see the PRO tier at $200 first, the SMART tier at $99.99 feels like a
 Add a "Most Popular" or "Best Value" badge to the SMART plan. This creates social proof ("others chose this") and guides undecided users. The highlighted plan typically captures 40-60% of all paid signups.
 
 **3. Show annual savings prominently**
-"SMART Annual: $79.99/mo (Save $240/year)" is more compelling than just showing two price points. Calculate and display the actual dollar savings.
+"SMART Annual: $84.99/mo (save $180/year)" is more compelling than just showing two price points. Calculate and display the actual dollar savings.
 
 **4. Promo pricing with original price struck through**
 Show `~~$19.99~~ $9.99/first month` for the STARTER promo. The anchoring effect of the original price makes the promo feel more valuable.
@@ -324,7 +324,7 @@ const upgradeNudgeTriggers = {
 - First month at $9.99 (STARTER): Reduces the perceived risk of trying paid
 - $14.99 trial offer: Gives a taste of PLUS features at STARTER price
 - $39.99 growth promo: PLUS-tier features at a reduced price
-- Annual discount: $79.99/mo for SMART (vs $99.99 monthly) — frame as "Get 2.4 months free"
+- Annual discount: $84.99/mo for SMART (vs $99.99 monthly) — frame as "Get 2.4 months free"
 
 **4. Upgrade flow optimization**
 When a user clicks "Upgrade," the path to payment must be frictionless:

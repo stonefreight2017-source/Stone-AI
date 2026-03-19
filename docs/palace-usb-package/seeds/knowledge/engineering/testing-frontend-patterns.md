@@ -2462,7 +2462,7 @@ describe('Authentication Flow', () => {
       { tier: 'starter', agentCount: 16 },
       { tier: 'plus', agentCount: 30 },
       { tier: 'smart', agentCount: 39 },
-      { tier: 'pro', agentCount: 42 },
+      { tier: 'pro', agentCount: 38 },
     ] as const;
 
     tiers.forEach(({ tier, agentCount }) => {
@@ -2582,7 +2582,7 @@ describe('Billing Page', () => {
     // Toggle to annual
     await user.click(screen.getByRole('switch', { name: /annual billing/i }));
 
-    // SMART annual should show $79.99
+    // SMART annual should show $84.99
     expect(screen.getByText(/\$79\.99\/year/i)).toBeInTheDocument();
     // PRO annual should show $170
     expect(screen.getByText(/\$170\/year/i)).toBeInTheDocument();

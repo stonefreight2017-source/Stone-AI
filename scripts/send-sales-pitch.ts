@@ -30,7 +30,7 @@ async function main() {
 
     <p style="font-size: 16px; line-height: 1.6;">I heard you're looking to launch a <strong>barbershop company</strong>. That's a solid move — and I want to put something in front of you that's going to give you a serious edge before you even open the doors.</p>
 
-    <p style="font-size: 16px; line-height: 1.6;">At <strong>Stone AI</strong>, we built a team of <strong>42 AI agents</strong> — not a chatbot, not a gimmick — real specialized AI that handles the business side so you can focus on what you do best: cutting hair and building culture.</p>
+    <p style="font-size: 16px; line-height: 1.6;">At <strong>Stone AI</strong>, we built a team of <strong>38 AI agents</strong> — not a chatbot, not a gimmick — real specialized AI that handles the business side so you can focus on what you do best: cutting hair and building culture.</p>
 
     <h2 style="color: #0f172a; font-size: 20px; margin-top: 24px;">Here's What Stone AI Does For Your Barbershop:</h2>
 
@@ -73,8 +73,8 @@ async function main() {
       <p style="margin: 0 0 8px 0; font-size: 18px; color: #16a34a;"><strong>Start for $9.99 Your First Month</strong></p>
       <p style="margin: 0 0 4px 0;">&#8226; <strong>STARTER</strong> — $19.99/mo — 16 agents: Brand Building, Sales, Content, Finance, Project Management</p>
       <p style="margin: 0 0 4px 0;">&#8226; <strong>PLUS</strong> — $49.99/mo — 30 agents: adds Lead Gen, Web Dev, E-Commerce, Data Analytics</p>
-      <p style="margin: 0 0 4px 0;">&#8226; <strong>SMART</strong> — $79.99/mo (annual) — 39 agents: adds Digital Marketing, Startup Launcher, HR</p>
-      <p style="margin: 0;">&#8226; <strong>PRO</strong> — $200/mo — All 42 agents, full access, no limits</p>
+      <p style="margin: 0 0 4px 0;">&#8226; <strong>SMART</strong> — $84.99/mo (annual) — 39 agents: adds Digital Marketing, Startup Launcher, HR</p>
+      <p style="margin: 0;">&#8226; <strong>PRO</strong> — $200/mo — All 38 agents, full access, no limits</p>
     </div>
 
     <p style="font-size: 16px; line-height: 1.6; margin-top: 24px;">Real talk — opening a barbershop is more than just being nice with the clippers. It's branding, marketing, finances, operations, and client acquisition all at once. <strong>Stone AI handles the business side so you handle the craft.</strong></p>

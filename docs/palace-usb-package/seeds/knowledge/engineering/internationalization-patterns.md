@@ -379,7 +379,7 @@ export const { Link, redirect, usePathname, useRouter, getPathname } =
 {
   "Metadata": {
     "title": "Stone AI — Tu Plataforma de Agentes de IA",
-    "description": "Accede a mas de 42 agentes de IA para investigacion, escritura, codigo y mas"
+    "description": "Accede a mas de 38 agentes de IA para investigacion, escritura, codigo y mas"
   },
   "Common": {
     "loading": "Cargando...",
@@ -1466,7 +1466,7 @@ const tierPrices = {
   free: { monthly: 0, annual: 0 },
   starter: { monthly: 19.99, annual: 19.99 * 12 * 0.85 },
   plus: { monthly: 49.99, annual: 49.99 * 12 * 0.85 },
-  smart: { monthly: 99.99, annual: 79.99 * 12 },
+  smart: { monthly: 99.99, annual: 84.99 * 12 },
   pro: { monthly: 200, annual: 170 * 12 },
 };
 

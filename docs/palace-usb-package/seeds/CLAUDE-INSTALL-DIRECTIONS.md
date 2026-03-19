@@ -48,7 +48,7 @@ C:\palace\
 |
 |-- seeds/                        # ALL KNOWLEDGE LIVES HERE
 |   |-- shared-context.md         # Universal context ALL agents receive
-|   |-- agent-identities.json     # Full system prompts for all 44 agents (70KB+)
+|   |-- agent-identities.json     # Full system prompts for all 40 agents (70KB+)
 |   |
 |   |-- stone-seeds.md            # Agent Stone (Head 1) identity + seeds
 |   |-- cardinal-seeds.md         # Cardinal (Head 2) identity + seeds
@@ -183,7 +183,7 @@ Seeds are structured knowledge files that give agents their intelligence. They a
 |---|---|---|
 | **Agent Identity Seeds** | `seeds/{agent}-seeds.md` | Full personality, role, protocols, Golden Seeds for each head/guard |
 | **Shared Context** | `seeds/shared-context.md` | Universal context injected into every agent's prompt |
-| **Agent System Prompts** | `seeds/agent-identities.json` | All 44 agent definitions with tier gates and system prompts |
+| **Agent System Prompts** | `seeds/agent-identities.json` | All 40 agent definitions with tier gates and system prompts |
 | **Operational Seeds** | `seeds/palace-operations.md` | Hardware, VRAM, ports, service map |
 | **Business Seeds** | `seeds/business-knowledge.md` | Company info, pricing, features |
 | **Technical Seeds** | `seeds/technical-patterns.md` | Code patterns and architecture |
@@ -227,7 +227,7 @@ Golden Seeds are quality gates earned from real Palace failures. They are embedd
                         |
               Rush (Royal Guard — Network Penetration)
                         |
-            ---- 42 User-Facing Agents ----
+            ---- 38 User-Facing Agents ----
 ```
 
 ### Rank Rules
@@ -235,7 +235,7 @@ Golden Seeds are quality gates earned from real Palace failures. They are embedd
 - **Stone, Cardinal, Chaos** are LATERAL to each other. Zero rank between them. None commands another.
 - **Computer Wiz** has BLOCK authority on deployments. Only the founder overrides a BLOCK.
 - **Rush** is founder-exclusive Royal Guard for network penetration. No agent number, no user visibility.
-- **All 42 user-facing agents** are subordinate to the Three Heads and Royal Guards.
+- **All 38 user-facing agents** are subordinate to the Three Heads and Royal Guards.
 - Chaos is INVISIBLE to all users. Never appears in UI, tiers, or documentation.
 
 ### Who Owns What
@@ -268,8 +268,8 @@ Stone AI uses subscription tiers to gate agent access. The tier assignments live
 | FREE | $0 | 4 | Basic agents for trial users |
 | STARTER | $19.99/mo | 16 | Core productivity agents |
 | PLUS | $49.99/mo | 30 | Advanced specialist agents |
-| SMART | $99.99/mo (annual $79.99) | 39 | Near-full fleet + Claude Sonnet cloud |
-| PRO | $200/mo (annual $170) | 42 | All public agents |
+| SMART | $99.99/mo (annual $84.99) | 39 | Near-full fleet + Claude Sonnet cloud |
+| PRO | $200/mo (annual $170) | 38 | All public agents |
 
 **Hidden agents (NOT in any tier):**
 - Agent Stone (#43) — internal strategy, not user-facing
@@ -365,7 +365,7 @@ Every USB transfer is a GROWTH EVENT. It is additive — new knowledge layers on
    - The Three-Headed Monster structure (Stone, Cardinal, Chaos above them)
    - Stone AI company context
    - The founder and D19 directive
-3. **Assign a tier** based on agent value. Current distribution: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=42.
+3. **Assign a tier** based on agent value. Current distribution: FREE=4, STARTER=16, PLUS=30, SMART=39, PRO=38.
 
 ### Adding a New Golden Seed
 

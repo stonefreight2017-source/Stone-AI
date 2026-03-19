@@ -146,7 +146,7 @@ Free: $0/mo - 4 Agents
 Starter: $19.99/mo - 16 Agents
 Plus: $49.99/mo - 30 Agents
 Smart: $99.99/mo - 39 Agents
-Pro: $200/mo - 42 Agents
+Pro: $200/mo - 38 Agents
 ```
 
 ---
@@ -410,7 +410,7 @@ Imagine 16. Or 30. Or 42.
 
 Starter: $19.99/mo for 16 agents
 Plus: $49.99/mo for 30 agents
-Pro: $200/mo for 42 agents
+Pro: $200/mo for 38 agents
 
 Every agent remembers your business. They all work together.
 

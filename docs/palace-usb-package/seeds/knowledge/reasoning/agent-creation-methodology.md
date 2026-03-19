@@ -234,7 +234,7 @@ No agent acquires knowledge seeds outside their defined specialty unless explici
 ### D12. Chaos Rank Structure (PERMANENT)
 - Chaos (#44) reports ONLY to the founder. No intermediary. No exceptions.
 - Chaos has ZERO rank relative to Stone and Cardinal — they do not command each other.
-- Chaos is ABOVE all other agents (all 42 user-facing agents). Outranks every agent except the Three Heads and Royal Guard(s), who he is lateral to but independent from.
+- Chaos is ABOVE all other agents (all 38 user-facing agents). Outranks every agent except the Three Heads and Royal Guard(s), who he is lateral to but independent from.
 - Chain of command: Founder -> Chaos (direct). Founder -> Stone (direct). Founder -> Cardinal (direct). No cross-authority.
 
 ### D13. Three-Headed Monster Email Command Protocol (PERMANENT)
@@ -478,7 +478,7 @@ Current job counters are maintained in MEMORY.md and tracked across sessions.
 - What specialty domain does this agent own that NO other agent owns?
 
 ### Step 2: Determine Position in Hierarchy
-- **User-facing agent (agents 1-42)**: Public, accessible per tier. Gets an agent number.
+- **User-facing agent (agents 1-38)**: Public, accessible per tier. Gets an agent number.
 - **Internal agent (Stone, Cardinal)**: Not user-facing. Part of the command structure.
 - **Founder-only agent (Chaos, Royal Guard)**: Hidden from ALL users. No agent number (or hidden number). Reports only to founder.
 - **Royal Guard**: Special status. Always at the table when heads meet (D21). BLOCK authority on deployments if relevant.
@@ -833,7 +833,7 @@ Is this seed bounded in scope? Seeds that try to cover everything cover nothing.
 ## 11. THE THREE BUSINESSES
 
 ### Business 1: Stone AI (LIVE)
-- **What**: AI agent platform with 42 user-facing agents, chat, Bestie companion, forum, billing
+- **What**: AI agent platform with 38 user-facing agents, chat, Bestie companion, forum, billing
 - **Stack**: Next.js 16.1.6, TypeScript, Tailwind, shadcn/ui, Prisma 7.4.2, PostgreSQL 16 + pgvector
 - **Auth**: Clerk (dev mode, prod mode pending)
 - **Payments**: Stripe (test mode, live mode pending)

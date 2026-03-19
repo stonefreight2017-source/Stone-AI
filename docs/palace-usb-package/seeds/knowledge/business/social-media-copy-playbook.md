@@ -277,7 +277,7 @@ Works on: LinkedIn, Reddit
 Works on: X, LinkedIn
 
 #### 9. The How I
-"How I went from solo founder to running a 44-agent AI team (without hiring anyone):"
+"How I went from solo founder to running a 40-agent AI team (without hiring anyone):"
 Works on: X (thread), LinkedIn, Reddit
 
 #### 10. The Curiosity Gap

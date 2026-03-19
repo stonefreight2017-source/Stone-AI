@@ -19,8 +19,8 @@ Stone AI's pricing is designed around a core principle: **every tier must feel l
 | FREE | $0 | — | — | 4 | Basic chat, limited agents |
 | STARTER | $19.99 | — | — | 16 | 1 Bestie, standard agents |
 | PLUS | $49.99 | — | — | 30 | Premium backdrops, more agents |
-| SMART | $99.99 | $79.99 | $959.88 | 39 | Claude Sonnet (cloud AI), SMART agents |
-| PRO | $200.00 | $170.00 | $2,040.00 | 42 | All agents, priority support |
+| SMART | $99.99 | $84.99 | $1,019.88 | 39 | Claude Sonnet (cloud AI), SMART agents |
+| PRO | $200.00 | $170.00 | $2,040.00 | 38 | All agents, priority support |
 
 ### Pricing Psychology at Each Tier
 
@@ -28,9 +28,9 @@ Stone AI's pricing is designed around a core principle: **every tier must feel l
 
 **STARTER to PLUS ($19.99 → $49.99)**: 2.5x the price, but nearly 2x the agents (16 → 30). The premium backdrops and additional agents create a "power user" feel. Users who hit the STARTER agent ceiling naturally gravitate here.
 
-**PLUS to SMART ($49.99 → $99.99)**: This is where the AI quality jump happens. Claude Sonnet (cloud AI) is only available at SMART and above. This creates a clear quality differentiation — SMART agents are demonstrably better. The annual discount ($79.99/mo) makes this tier the "sweet spot" for committed users.
+**PLUS to SMART ($49.99 → $99.99)**: This is where the AI quality jump happens. Claude Sonnet (cloud AI) is only available at SMART and above. This creates a clear quality differentiation — SMART agents are demonstrably better. The annual discount ($84.99/mo) makes this tier the "sweet spot" for committed users.
 
-**SMART to PRO ($99.99 → $200.00)**: The premium tier for power users. All 42 public agents, priority support. The 2x price jump is justified by completeness — PRO users never see a locked agent. Annual discount (15%, $170/mo) rewards commitment.
+**SMART to PRO ($99.99 → $200.00)**: The premium tier for power users. All 38 public agents, priority support. The 2x price jump is justified by completeness — PRO users never see a locked agent. Annual discount (15%, $170/mo) rewards commitment.
 
 ### Annual Discount Strategy
 
@@ -41,7 +41,7 @@ Annual discounts serve two purposes:
 Only SMART and PRO offer annual pricing because:
 - STARTER and PLUS are entry-level tiers where monthly flexibility encourages upgrades.
 - SMART and PRO users have demonstrated commitment — annual locks them in.
-- The annual discount on SMART ($79.99 vs $99.99 = 20% off) is aggressive because SMART is the target "forever" tier for most users.
+- The annual discount on SMART ($84.99 vs $99.99 = 15% off) incentivizes commitment because SMART is the target "forever" tier for most users.
 - PRO's annual discount (15%, $170/mo) is less aggressive because PRO users are already highly committed.
 
 ---
@@ -729,8 +729,8 @@ export async function GET(req: NextRequest) {
       name: 'Smart',
       description: 'Our most popular plan — powered by Claude Sonnet',
       monthlyPrice: 99.99,
-      annualPrice: 79.99,
-      annualSavings: 240.00, // (99.99 - 79.99) * 12
+      annualPrice: 84.99,
+      annualSavings: 180.00, // (99.99 - 84.99) * 12
       features: [
         { text: '39 AI agents including SMART agents', included: true },
         { text: '1 Bestie companion', included: true },
@@ -758,14 +758,14 @@ export async function GET(req: NextRequest) {
       annualPrice: 170.00,
       annualSavings: 360.00, // (200 - 170) * 12
       features: [
-        { text: 'All 42 public AI agents', included: true },
+        { text: 'All 38 public AI agents', included: true },
         { text: '1 Bestie companion', included: true },
         { text: 'All SMART features', included: true },
         { text: 'Priority support', included: true },
         { text: 'Early access to new agents', included: true },
         { text: 'Exclusive Pro community', included: true },
       ],
-      agentCount: 42,
+      agentCount: 38,
       cta: currentPlan === 'PRO' ? 'Current Plan' : 'Go Pro',
       highlighted: false,
       badge: 'Full Access',
@@ -871,7 +871,7 @@ const TIER_FEATURES: Record<PlanTier, TierFeatures> = {
     forumPostsPerDay: 50,
   },
   PRO: {
-    agentLimit: 42,
+    agentLimit: 38,
     hasBestie: true,
     bestieStyles: 2,
     bestiePaths: 4,
@@ -1067,7 +1067,7 @@ export async function assignPriceVariant(
 Stone AI's pricing strategy execution covers:
 
 1. **Five-tier architecture** (FREE through PRO) with psychological pricing at each level
-2. **Annual discounts** only for SMART (20%) and PRO (15%) to reward commitment
+2. **Annual discounts** for SMART (15%) and PRO (15%) to reward commitment
 3. **Three promotional programs** ($9.99 First Month, $14.99 Trial, $39.99 Growth) with plan-specific Stripe coupons
 4. **Coupon lifecycle management** including creation, tracking, deactivation, and analytics
 5. **Price change procedures** for existing customers with grandfathering options and 90-day grace periods

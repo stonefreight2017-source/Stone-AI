@@ -12,7 +12,7 @@ Provide a repeatable intelligence-gathering framework for mapping competitor pre
 | Category | Description | Examples of What to Track |
 |---|---|---|
 | **Direct competitors** | AI platforms offering multiple specialist agents for business use | Multi-agent platforms, AI business suites |
-| **Adjacent competitors** | Single-purpose AI tools that overlap with one of our 42 agents | AI writing tools, AI coding assistants, AI marketing tools |
+| **Adjacent competitors** | Single-purpose AI tools that overlap with one of our 38 agents | AI writing tools, AI coding assistants, AI marketing tools |
 | **Platform competitors** | Large AI providers whose general-purpose models users might use instead | General-purpose chatbots, cloud AI APIs |
 | **Niche competitors** | Tools targeting one of our specific tier personas (builders, agencies, enterprises) | Business plan generators, AI agency platforms |
 

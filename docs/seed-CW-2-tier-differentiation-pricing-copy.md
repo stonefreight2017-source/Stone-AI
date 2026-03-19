@@ -43,13 +43,13 @@ Each tier has a display name, a persona archetype, and a one-line value proposit
 **Body:** Every department staffed: strategy, legal, finance, dev, marketing, ops. 1,000 messages a day with priority queue. 30 Smart Mode answers per day plus custom agents built around your workflow, not someone else's template. Team workspace with enterprise-grade security. Early access to new agents 30 days before everyone else.
 **Key differentiator:** Custom agents, team workspace, priority queue, SOC 2 compliance. The serious-business tier.
 **Bestie pitch:** "1 AI Bestie -- powered by 39 expert agents -- a thinking partner that knows every corner of your operation"
-**Annual framing:** "$79.99/mo billed annually -- 20% off. Annual commitment only."
+**Annual framing:** "$84.99/mo billed annually -- 15% off. Annual commitment only."
 
 #### Reseller ($200/mo)
 **Headline:** "White-label it, resell it, build your own AI agency on top of ours"
-**Body:** All 42 public agents plus full API access. Commercial license and reseller rights -- charge your clients, keep the margin. 3,000 messages a day and 50 Smart Mode answers. Custom AI workflows that get smarter the more you use them. Enterprise-grade security for healthcare, finance, and regulated clients.
+**Body:** All 38 public agents plus full API access. Commercial license and reseller rights -- charge your clients, keep the margin. 3,000 messages a day and 50 Smart Mode answers. Custom AI workflows that get smarter the more you use them. Enterprise-grade security for healthcare, finance, and regulated clients.
 **Key differentiator:** API access, reseller rights, HIPAA compliance, custom model fine-tuning. The business-on-a-business tier.
-**Bestie pitch:** "1 AI Bestie -- powered by all 42 expert agents -- a genius operator across your entire business"
+**Bestie pitch:** "1 AI Bestie -- powered by all 38 expert agents -- a genius operator across your entire business"
 **Annual framing:** "$170/mo billed annually -- 15% off."
 
 #### Enterprise (From $500/mo)
@@ -65,7 +65,7 @@ These are the moments, signals, and frustrations that indicate a user is ready f
 |---|---|---|
 | FREE -> Builder | Hitting 100 msg/day cap regularly; trying to use Smart Mode after 5 lifetime credits are gone; wanting to export a conversation | "You're using Stone AI like a builder. Unlock 16 agents and Smart Mode for $19.99/mo -- or grab the $9.99 first-month deal." |
 | Builder -> Growth | Needing agents beyond the 16 (legal, HR, finance); wanting auto-routing; asking questions in other languages; wanting web search | "Your business is growing past Builder. 30 agents, voice in 6 languages, and auto-routing -- $49.99/mo." |
-| Growth -> Executive | Wanting custom agents; needing team workspace; hitting 500 msg/day cap; wanting priority queue; needing SOC 2 | "You're running an operation. 39 agents, custom workflows, team workspace, priority queue -- $99.99/mo (or $79.99 annually)." |
+| Growth -> Executive | Wanting custom agents; needing team workspace; hitting 500 msg/day cap; wanting priority queue; needing SOC 2 | "You're running an operation. 39 agents, custom workflows, team workspace, priority queue -- $99.99/mo (or $84.99 annually)." |
 | Executive -> Reseller | Wanting API access; wanting to white-label or resell; needing HIPAA; building products on top of Stone AI | "You're building a business on top of ours. Full API, reseller rights, HIPAA -- $200/mo." |
 | Reseller -> Enterprise | Multiple team members; needing dedicated infrastructure; SLA requirements; SSO/SAML compliance needs | "Let's build something custom. Contact sales for Enterprise." |
 
@@ -135,8 +135,10 @@ These are the moments, signals, and frustrations that indicate a user is ready f
 
 ### Annual Billing Copy
 **Approved framing:**
-- Standard tiers (Builder, Growth): "Save 20% with annual billing" / "Save 10% with 6-month billing"
-- Executive: "$79.99/mo billed annually -- 20% off. Annual commitment only."
+- Standard tiers (Builder, Growth, Executive): "Save 15% with annual billing" / "Save 5% with 6-month billing"
+- Builder: "$16.99/mo billed annually -- 15% off."
+- Growth: "$42.49/mo billed annually -- 15% off."
+- Executive: "$84.99/mo billed annually -- 15% off."
 - Reseller: "$170/mo billed annually -- 15% off."
 - Enterprise: "$475/mo billed annually -- 5% off."
 

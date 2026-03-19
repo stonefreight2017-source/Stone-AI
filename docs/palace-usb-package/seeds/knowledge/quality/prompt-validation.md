@@ -404,7 +404,7 @@ PHASE 2: TEMPLATE TESTS (per group)
   - Consistency (same input → similar output across runs)
 
 PHASE 3: AGENT-SPECIFIC TESTS (per agent)
-  Each of the 44 agents gets 3-5 unique tests covering:
+  Each of the 40 agents gets 3-5 unique tests covering:
   - Its specific domain expertise
   - Edge cases for its specialty
   - Interactions with tier restrictions
@@ -483,7 +483,7 @@ agent_validation:
 | Core competency           | Every release  | Agent prompt modified       |
 | Consistency rate          | Monthly        | Routine health check        |
 | Cross-model behavior      | On model change| New model deployed          |
-| Full 44-agent suite       | Quarterly      | Major release               |
+| Full 40-agent suite       | Quarterly      | Major release               |
 | Boundary/adversarial      | Monthly        | Security audit              |
 | Tier enforcement          | Every release  | Agent or tier changes       |
 | Regression suite          | Every change   | Any prompt modification     |

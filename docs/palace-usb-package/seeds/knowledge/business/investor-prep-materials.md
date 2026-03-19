@@ -113,8 +113,8 @@ Pricing Tiers:
 FREE: $0 (4 agents) → Conversion funnel
 STARTER: $19.99/mo (16 agents)
 PLUS: $49.99/mo (30 agents)
-SMART: $99.99/mo (39 agents) | Annual: $79.99/mo
-PRO: $200/mo (42 agents) | Annual: $170/mo
+SMART: $99.99/mo (39 agents) | Annual: $84.99/mo
+PRO: $200/mo (38 agents) | Annual: $170/mo
 
 Blended ARPU: $XX/mo
 Gross Margin: XX%

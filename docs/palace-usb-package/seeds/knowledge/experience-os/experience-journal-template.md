@@ -323,9 +323,9 @@
 
 ---
 
-## Template 5: User-Facing Agent Template (All 42 Agents)
+## Template 5: User-Facing Agent Template (All 38 Agents)
 
-**Used by:** All 42 user-facing agents (chat agents, bestie, etc.)
+**Used by:** All 38 user-facing agents (chat agents, bestie, etc.)
 
 **Pre-filled task_type options:**
 - `user-interaction` — Chat response, conversation turn
@@ -346,7 +346,7 @@
 {
   "id": "<<AUTO>>",
   "timestamp": "<<AUTO>>",
-  "agent": "<<agent-slug: one of the 42 user-facing agents>>",
+  "agent": "<<agent-slug: one of the 38 user-facing agents>>",
   "session_id": "<<AUTO>>",
   "task_type": "<<user-interaction|content-create|troubleshoot|research>>",
   "input_summary": "<<FILL: what did the user ask/need (max 200 chars)>>",
@@ -416,7 +416,7 @@ function selectTemplate(agentSlug) {
   if (ROYAL_GUARD.includes(agentSlug)) return 'royal-guard';
   if (BUILDERS.includes(agentSlug)) return 'builder';
   if (SPECIALISTS.includes(agentSlug)) return 'specialist';
-  return 'user-facing'; // default for all 42 user-facing agents
+  return 'user-facing'; // default for all 38 user-facing agents
 }
 ```
 

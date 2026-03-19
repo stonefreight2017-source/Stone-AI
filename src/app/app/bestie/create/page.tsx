@@ -487,7 +487,7 @@ export default function CreateBestiePage() {
             <div className="text-center space-y-2">
               <Target className="h-8 w-8 mx-auto text-purple-400" />
               <p className="text-lg text-zinc-300">What brings you here?</p>
-              <p className="text-sm text-zinc-400">Your Bestie inherits knowledge from your tier&apos;s full roster of specialist agents. Pick 1-3 reasons and she&apos;ll know exactly how to help.</p>
+              <p className="text-sm text-zinc-400">Your Bestie inherits knowledge from your tier&apos;s full roster of specialist agents. Pick 1-3 reasons and they&apos;ll know exactly how to help.</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

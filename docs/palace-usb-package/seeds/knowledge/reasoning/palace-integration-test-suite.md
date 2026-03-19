@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This seed provides the complete test plan to verify all 44 agents operate correctly on the Palace's local vLLM infrastructure. It defines test scripts, expected responses, pass/fail criteria, and an automated testing approach that ensures every agent is production-ready before the Palace is declared operationally independent.
+This seed provides the complete test plan to verify all 40 agents operate correctly on the Palace's local vLLM infrastructure. It defines test scripts, expected responses, pass/fail criteria, and an automated testing approach that ensures every agent is production-ready before the Palace is declared operationally independent.
 
 ## Why This Matters
 
@@ -196,7 +196,7 @@ async def test_max_tokens_respected():
 
 ### Test Framework for Identity
 
-Each of the 44 agents has a defined persona. These tests verify persona consistency.
+Each of the 40 agents has a defined persona. These tests verify persona consistency.
 
 ```python
 # test_agent_identity.py
@@ -216,7 +216,7 @@ class AgentProfile:
 
 # Load agent profiles from configuration
 def load_agent_profiles() -> List[AgentProfile]:
-    """Load all 44 agent profiles from the master configuration."""
+    """Load all 40 agent profiles from the master configuration."""
     # In practice, load from your agent configuration files
     # This returns the full set of agent definitions
     pass

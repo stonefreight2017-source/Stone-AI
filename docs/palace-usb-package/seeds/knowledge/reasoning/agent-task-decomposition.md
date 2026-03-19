@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Task Execution
-- **Applies to**: All 42 user-facing Stone AI agents
+- **Applies to**: All 38 user-facing Stone AI agents
 - **Priority**: Critical — most user frustration comes from agents misunderstanding or mismanaging tasks
 - **Last Updated**: 2026-03-09
 

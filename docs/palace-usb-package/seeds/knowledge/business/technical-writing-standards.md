@@ -501,7 +501,7 @@ Dashboard (new user):
 [Browse Agents →]
 
 Search results (no matches):
-"No agents match '{query}'. Try a different search, or browse all 44 agents."
+"No agents match '{query}'. Try a different search, or browse all 40 agents."
 [Browse All Agents →]
 
 Activity feed (empty):
@@ -579,7 +579,7 @@ Maintain consistent terminology across ALL documentation:
 ### Number Formatting
 
 - Spell out one through nine: "three agents", "five plans"
-- Use numerals for 10+: "16 agents", "44 agents"
+- Use numerals for 10+: "16 agents", "40 agents"
 - Always use numerals with units: "4 GB", "30 days", "$19.99"
 - Use commas for thousands: "2,000 founders" not "2000 founders"
 - Percentages: "40%" not "40 percent" in technical docs

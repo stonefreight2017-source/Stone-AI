@@ -307,7 +307,7 @@ Launch success creates leverage for partnerships:
 Stone AI is already live, so "launches" are feature launches and periodic re-launch campaigns.
 
 **New Agent Launches**
-Every time a new agent is added to the 44-agent roster, it's a mini-launch opportunity:
+Every time a new agent is added to the 40-agent roster, it's a mini-launch opportunity:
 - Pre-announcement: "New agent incoming this [day]"
 - Launch post: Agent introduction with demo and use cases
 - Tutorial: "How to use [Agent Name] — Complete Guide"

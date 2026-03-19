@@ -160,7 +160,7 @@ const TIER_AGENT_LIMITS: Record<Tier, number> = {
   STARTER: 16,
   PLUS: 30,
   SMART: 39,
-  PRO: 42,
+  PRO: 38,
 };
 
 export function getAgentLimit(tier: string): number {
@@ -840,7 +840,7 @@ describe('Tier Access', () => {
   it('should map agent access correctly', () => {
     expect(canAccessAgent('FREE', 4)).toBe(true);
     expect(canAccessAgent('FREE', 5)).toBe(false);
-    expect(canAccessAgent('PRO', 42)).toBe(true);
+    expect(canAccessAgent('PRO', 38)).toBe(true);
   });
 });
 ```

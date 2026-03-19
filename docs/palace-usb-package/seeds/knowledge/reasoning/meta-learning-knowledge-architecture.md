@@ -410,7 +410,7 @@ LOW IMPACT  │ Example:            │ Example:              │
 7. INCLUDE STONE AI CONTEXT
    Generic knowledge is available everywhere.
    Our seeds should include Stone AI-specific applications.
-   "Here's how this applies to our 44-agent architecture..."
+   "Here's how this applies to our 40-agent architecture..."
 
 8. DATE EVERYTHING
    "Best practice" without a date is useless.

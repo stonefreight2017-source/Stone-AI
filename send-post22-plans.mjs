@@ -161,7 +161,7 @@ const html = `
           <tr style="border-bottom:1px solid #f0f0f5;">
             <td width="30" style="color:#ffd700;font-weight:700;font-size:14px;vertical-align:top;">01</td>
             <td style="font-size:14px;color:#2a2a4a;line-height:1.6;">
-              <strong>Stripe Live Billing</strong> — All tiers collecting real revenue. FREE/$0, STARTER/$19.99, PLUS/$49.99, SMART/$99.99 (annual $79.99), PRO/$200 (annual $170). Promo codes active: $9.99 first month, $14.99 trial, $39.99 growth.
+              <strong>Stripe Live Billing</strong> — All tiers collecting real revenue. FREE/$0, STARTER/$19.99, PLUS/$49.99, SMART/$99.99 (annual $84.99), PRO/$200 (annual $170). Promo codes active: $9.99 first month, $14.99 trial, $39.99 growth.
             </td>
           </tr>
           <tr style="border-bottom:1px solid #f0f0f5;">

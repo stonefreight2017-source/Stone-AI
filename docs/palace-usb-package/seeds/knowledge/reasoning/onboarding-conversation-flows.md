@@ -552,7 +552,7 @@ Strategy:
 1. Immediately show quality difference (Claude Sonnet responses)
 2. Demonstrate complex reasoning tasks
 3. Push Bestie as a daily companion, not just a tool
-4. Annual pitch: "$79.99/mo saves you $240/year"
+4. Annual pitch: "$84.99/mo saves you $180/year"
 
 Metrics:
 - Quality satisfaction score: target 4.5/5

@@ -792,7 +792,7 @@ function getAgentLimitForPlan(plan: PlanTier): number {
     STARTER: 16,
     PLUS: 30,
     SMART: 39,
-    PRO: 42,
+    PRO: 38,
   };
   return limits[plan];
 }

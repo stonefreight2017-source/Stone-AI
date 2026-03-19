@@ -2,7 +2,7 @@
 
 ## Seed Classification
 - **Domain**: Agent UX / Error Handling
-- **Applies to**: All 42 user-facing Stone AI agents
+- **Applies to**: All 38 user-facing Stone AI agents
 - **Priority**: Critical — how agents handle failure defines user trust more than how they handle success
 - **Last Updated**: 2026-03-09
 

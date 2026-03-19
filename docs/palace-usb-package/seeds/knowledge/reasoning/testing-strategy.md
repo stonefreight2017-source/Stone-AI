@@ -45,7 +45,7 @@ describe('canAccessAgent', () => {
     expect(canAccessAgent('FREE', 5)).toBe(false);
   });
 
-  it('allows PRO user to access all 42 public agents', () => {
+  it('allows PRO user to access all 38 public agents', () => {
     expect(canAccessAgent('PRO', 42)).toBe(true);
   });
 

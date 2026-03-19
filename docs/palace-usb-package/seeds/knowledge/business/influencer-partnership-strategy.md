@@ -293,7 +293,7 @@ Month End: Analysis & Optimization
 1. Stone AI has 44 specialized AI agents — not one chatbot for everything
 2. Each agent is an expert in its domain (writing, research, code, etc.)
 3. Bestie is a personal AI companion that adapts to your communication style
-4. Plans from $0 (FREE, 4 agents) to $200 (PRO, 42 agents)
+4. Plans from $0 (FREE, 4 agents) to $200 (PRO, 38 agents)
 5. First month of STARTER is just $9.99
 
 ## Must Include

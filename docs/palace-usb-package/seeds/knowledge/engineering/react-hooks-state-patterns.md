@@ -2,7 +2,7 @@
 
 > Palace Engineering Seed — Senior Frontend Engineer
 > Stack: React 19, Next.js 16, TypeScript, Zustand, React Query (TanStack Query v5)
-> Context: Stone AI SaaS — 44 agents, chat streaming, Bestie system, real-time UI
+> Context: Stone AI SaaS — 40 agents, chat streaming, Bestie system, real-time UI
 
 ---
 
@@ -496,7 +496,7 @@ function AgentCard({ agent }: { agent: Agent }) {
 
 // RIGHT: useMemo for expensive computation
 function AgentList({ agents, searchQuery }: Props) {
-  // Filtering/sorting 44 agents is borderline, but with complex
+  // Filtering/sorting 40 agents is borderline, but with complex
   // matching logic it's worth memoizing
   const filteredAgents = useMemo(() => {
     return agents

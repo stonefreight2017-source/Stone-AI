@@ -10,7 +10,7 @@
 
 Conversations go wrong. It's not a question of if — it's how often and how well you recover. Studies show that users who experience a well-handled conversation failure have HIGHER satisfaction than users who had a flawless but boring interaction. The recovery is the opportunity.
 
-Stone AI's 44 agents will inevitably misunderstand users, give wrong answers, lose context, or hit dead ends. This seed teaches how to detect these failures and recover gracefully.
+Stone AI's 40 agents will inevitably misunderstand users, give wrong answers, lose context, or hit dead ends. This seed teaches how to detect these failures and recover gracefully.
 
 ---
 
@@ -286,7 +286,7 @@ Agent: "Got it — you're looking to unlock more agents, not create new ones.
         - STARTER ($19.99): 16 agents
         - PLUS ($49.99): 30 agents
         - SMART ($99.99): 39 agents
-        - PRO ($200): 42 agents
+        - PRO ($200): 38 agents
         Which tier were you considering?"
 ```
 
