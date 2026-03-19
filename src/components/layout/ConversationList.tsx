@@ -108,7 +108,7 @@ export function ConversationList() {
                       "h-6 w-6 shrink-0",
                       pendingDeleteId === convo.id
                         ? "opacity-100 bg-red-900/50 hover:bg-red-800"
-                        : "opacity-0 group-hover:opacity-100 hover:bg-zinc-600"
+                        : "opacity-70 hover:opacity-100 hover:bg-zinc-600"
                     )}
                     onClick={(e) => handleDelete(e, convo.id)}
                     disabled={deleteConversation.isPending}
