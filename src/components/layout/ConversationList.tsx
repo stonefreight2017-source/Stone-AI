@@ -90,9 +90,11 @@ export function ConversationList() {
                 </button>
                 <button
                   type="button"
-                  aria-label="Delete conversation"
+                  aria-label="Double-click to delete conversation"
+                  title="Double-click to delete"
                   className="shrink-0 h-7 w-7 flex items-center justify-center rounded-md transition-colors cursor-pointer hover:bg-zinc-700"
-                  onClick={(e) => handleDelete(e, convo.id)}
+                  onDoubleClick={(e) => handleDelete(e, convo.id)}
+                  onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
                   disabled={deleteConversation.isPending}
                 >
                   {deleteConversation.isPending ? (
