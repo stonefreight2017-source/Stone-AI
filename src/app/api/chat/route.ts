@@ -415,32 +415,56 @@ export async function POST(req: NextRequest) {
     // 9b. Web search — detect location-based questions and kick off search in parallel with prompt assembly
     let searchPromise: Promise<string> | null = null;
     {
+      // Combine current message with recent conversation context for better search detection
       const msgLower = message.toLowerCase();
+      const recentContext = history.slice(-4).map((m) => m.content.toLowerCase()).join(" ");
+      const combinedContext = msgLower + " " + recentContext;
+
       const locationKeywords = ["near me", "near ", "closest", "nearby", "restaurant", "store", "shop", "dealership", "where can i", "where is", "find a", "find me", "best place", "places to", "local "];
-      const hasLocationKeyword = locationKeywords.some((kw) => msgLower.includes(kw));
+      const hasLocationKeyword = locationKeywords.some((kw) => combinedContext.includes(kw));
       const zipMatch = message.match(/\b(\d{5})\b/);
 
       if (hasLocationKeyword || zipMatch) {
-        // Fire search in parallel — don't block prompt assembly
-        // The .catch() ensures unhandled rejections never crash the process.
-        // The await site (step 9c) has its own try-catch for belt-and-suspenders safety.
         searchPromise = (async () => {
           const hasQuota = await checkSearchQuota(user.id, tier);
           if (!hasQuota) return "";
 
+          // Build search query from conversation context, not just current message
           let searchQuery = message;
-          if (zipMatch) {
-            const zipInfo = lookupZip(zipMatch[1]);
+          const zipCode = zipMatch?.[1] ?? recentContext.match(/\b(\d{5})\b/)?.[1];
+          let locationStr = "";
+
+          if (zipCode) {
+            const zipInfo = lookupZip(zipCode);
             if (zipInfo) {
-              searchQuery = message.replace(zipMatch[0], `${zipInfo.city}, ${zipInfo.stateCode} ${zipMatch[0]}`);
+              locationStr = `${zipInfo.city}, ${zipInfo.stateCode} ${zipCode}`;
             }
+          }
+
+          // If current message is just a ZIP/location, pull the actual question from history
+          if (message.trim().length < 20 && history.length >= 2) {
+            const prevUserMsgs = history.filter((m) => m.role === "user").slice(-3);
+            const questionMsg = prevUserMsgs.find((m) => {
+              const lower = m.content.toLowerCase();
+              return locationKeywords.some((kw) => lower.includes(kw));
+            });
+            if (questionMsg) {
+              // Combine the original question with the location
+              searchQuery = questionMsg.content.replace(/\b(near me|to me|close to me|around me|near\s*)$/gi, "").trim();
+              if (locationStr) {
+                searchQuery = `${searchQuery} near ${locationStr}`;
+              }
+            }
+          } else if (locationStr) {
+            // Current message has the full question — enhance with resolved location
+            searchQuery = message.replace(/\b\d{5}\b/, locationStr);
           }
 
           const searchResponse = await searchWeb(searchQuery, 5);
           if (searchResponse.results.length > 0) {
             const formatted = formatSearchResults(searchResponse.results);
             await incrementSearchUsage(user.id);
-            return `\n\n<search_results>\nThe following are REAL search results from the web. Use these to answer the user's question with accurate, real information. Do NOT make up business names or addresses — only reference what appears in these results.\n${formatted}\n</search_results>`;
+            return `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${formatted}\n</web_search_data>`;
           }
           return "";
         })().catch((err) => {
