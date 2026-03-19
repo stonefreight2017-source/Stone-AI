@@ -61,7 +61,7 @@ export function ConversationList() {
         />
       </div>
 
-      <ScrollArea className="flex-1">
+      <ScrollArea className="flex-1 min-h-0">
         <div className="px-2 space-y-0.5" role="list" aria-label="Conversations">
           {isLoading ? (
             Array.from({ length: 5 }).map((_, i) => (
