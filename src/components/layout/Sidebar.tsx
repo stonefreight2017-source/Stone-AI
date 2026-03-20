@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 import { Plus, Settings, CreditCard, PanelLeftClose, HelpCircle, Bell, Home, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -22,8 +22,10 @@ interface SidebarProps {
 
 export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const createConversation = useCreateConversation();
   const { toggleSidebar } = useAppStore();
+  const isOnChat = pathname === "/app/chat";
   const { data: notifData } = useQuery<{ unreadCount: number }>({
     queryKey: ["notifications-count"],
     queryFn: async () => {
@@ -79,24 +81,27 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
         </div>
       </div>
 
-      {/* New Chat */}
-      <div className="px-3 pb-2">
-        <Button
-          onClick={handleNewChat}
-          disabled={createConversation.isPending}
-          className="w-full justify-start gap-2 bg-zinc-800 hover:bg-zinc-700 text-white"
-        >
-          <Plus className="h-4 w-4" />
-          New Chat
-        </Button>
-      </div>
+      {/* Chat section — only visible on /app/chat */}
+      {isOnChat && (
+        <>
+          <div className="px-3 pb-2">
+            <Button
+              onClick={handleNewChat}
+              disabled={createConversation.isPending}
+              className="w-full justify-start gap-2 bg-zinc-800 hover:bg-zinc-700 text-white"
+            >
+              <Plus className="h-4 w-4" />
+              New Chat
+            </Button>
+          </div>
 
-      <Separator className="bg-zinc-800" />
+          <Separator className="bg-zinc-800" />
 
-      {/* Conversation List — fills remaining space, overflow clipped (ScrollArea handles internal scrolling) */}
-      <div className="flex-1 min-h-0 overflow-hidden py-2">
-        <ConversationList />
-      </div>
+          <div className="flex-1 min-h-0 overflow-hidden py-2">
+            <ConversationList />
+          </div>
+        </>
+      )}
 
       <Separator className="bg-zinc-800" />
 
