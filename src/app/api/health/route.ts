@@ -70,7 +70,12 @@ export async function GET(req: NextRequest) {
             if (locationStr) finalSearchQuery = `${finalSearchQuery} near ${locationStr}`;
           }
         } else if (locationStr) {
-          finalSearchQuery = message.replace(/\b\d{5}\b/, locationStr);
+          if (/\b\d{5}\b/.test(message)) {
+            finalSearchQuery = message.replace(/\b\d{5}\b/, locationStr);
+          } else {
+            finalSearchQuery = message.replace(/\b(near me|close to me|around me|to me)\b/gi, "").trim();
+            finalSearchQuery = `${finalSearchQuery} near ${locationStr}`;
+          }
         }
 
         const searchTypeParam = hasLocationKeyword ? "places" as const : "search" as const;
