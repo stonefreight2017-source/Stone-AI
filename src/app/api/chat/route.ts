@@ -537,47 +537,127 @@ export async function POST(req: NextRequest) {
       basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
     }
 
-    // 9d. Factual lookup detection — ZIP codes, addresses, phone numbers
-    // This runs BEFORE the general web search to catch specific factual queries
-    // and provide verified data instead of letting the model guess.
+    // 9d. Deterministic ZIP code lookup — BYPASSES LLM entirely
+    // ZIP queries are answered from verified data sources, never from the model.
+    // Pipeline: local zipcodes DB → SERPER fallback → "not confident" response.
+    // The LLM NEVER generates or guesses ZIP → city mappings.
     let searchData = "";
     let factualLookupHandled = false;
     {
       const msgLower = message.toLowerCase();
       const recentContext = history.slice(-4).map((m) => m.content.toLowerCase()).join(" ");
 
-      // Detect ZIP-to-city queries
+      // Detect ANY ZIP code query: message contains a 5-digit number AND context suggests a ZIP lookup
       const zipQueryMatch = message.match(/\b(\d{5})\b/);
-      const isZipQuestion = msgLower.match(/(?:what|which|where)\s+(?:city|town|place|area|location|state)\s+(?:is|for|does)\s+(?:zip\s*(?:code)?|postal\s*code)?\s*\d{5}/) ||
-        msgLower.match(/(?:zip\s*(?:code)?|postal\s*code)\s*\d{5}/) ||
-        (msgLower.match(/\b\d{5}\b/) && (msgLower.includes("where") || msgLower.includes("what city") || msgLower.includes("what town") || msgLower.includes("what state") || msgLower.includes("located")));
+      const isZipContext = msgLower.includes("zip") || msgLower.includes("postal") ||
+        msgLower.includes("what city") || msgLower.includes("what town") || msgLower.includes("what state") ||
+        msgLower.includes("where is") || msgLower.includes("located") || msgLower.includes("which city") ||
+        msgLower.includes("which town") || msgLower.includes("which state") || msgLower.includes("what area");
 
       // Detect correction/retry with ZIP in recent context
-      const isCorrection = (msgLower.includes("not correct") || msgLower.includes("wrong") || msgLower.includes("try again") || msgLower.includes("incorrect") || msgLower.includes("that's wrong") || msgLower.includes("thats wrong"));
+      const isCorrection = msgLower.includes("not correct") || msgLower.includes("wrong") ||
+        msgLower.includes("try again") || msgLower.includes("incorrect") ||
+        msgLower.includes("that's wrong") || msgLower.includes("thats wrong");
       const recentZipMatch = recentContext.match(/\b(\d{5})\b/);
 
-      // Detect other factual lookups
+      // Also catch bare "zip code XXXXX" or "XXXXX zip code" patterns
+      const isExplicitZipQuery = msgLower.match(/(?:zip\s*(?:code)?|postal\s*code)\s*\d{5}/) ||
+        msgLower.match(/\b\d{5}\b\s*(?:zip\s*(?:code)?|postal\s*code)/);
+
+      const isZipLookup = (zipQueryMatch && isZipContext) || isExplicitZipQuery || (isCorrection && recentZipMatch);
+
+      if (isZipLookup) {
+        const zip = zipQueryMatch?.[1] || recentZipMatch?.[1];
+        if (zip) {
+          let resolvedCity: string | null = null;
+          let resolvedState: string | null = null;
+          let source: "serper" | "local" | "none" = "none";
+
+          // Step A: Try SERPER first (most authoritative for edge cases)
+          try {
+            const hasQuota = await checkSearchQuota(user.id, tier);
+            if (hasQuota) {
+              const searchResponse = await searchWeb(`ZIP code ${zip} city state United States`, 3);
+              if (searchResponse.results.length > 0) {
+                await incrementSearchUsage(user.id);
+                const snippets = searchResponse.results.map((r) => r.title + " " + r.snippet).join(" ");
+                // Extract city/state patterns from SERPER results
+                const cityStateMatch =
+                  snippets.match(new RegExp(`${zip}[^.]*?\\b([A-Z][a-zA-Z\\s]+),\\s*([A-Z]{2})\\b`, "i")) ||
+                  snippets.match(/(?:is\s+(?:in\s+)?|located\s+in\s+|belongs?\s+to\s+|for\s+|covers?\s+)([A-Z][a-zA-Z\s]+),\s*([A-Z]{2})\b/i) ||
+                  snippets.match(/([A-Z][a-zA-Z\s]+),\s*([A-Z]{2})\s+\d{5}/i);
+
+                if (cityStateMatch) {
+                  resolvedCity = cityStateMatch[1].trim();
+                  resolvedState = cityStateMatch[2].trim();
+                  source = "serper";
+                }
+              }
+            }
+          } catch (err) {
+            console.warn(`[zip-lookup] SERPER error for ${zip}:`, err instanceof Error ? err.message : "unknown");
+          }
+
+          // Step B: Fall back to local ZIP dataset if SERPER didn't resolve
+          if (!resolvedCity) {
+            const zipInfo = lookupZip(zip);
+            if (zipInfo) {
+              resolvedCity = zipInfo.city;
+              resolvedState = zipInfo.stateCode;
+              source = "local";
+              console.warn(`[zip-lookup] LOCAL FALLBACK: ${zip} → ${zipInfo.city}, ${zipInfo.stateCode} (SERPER missed — potential dataset gap)`);
+            }
+          }
+
+          // Build and return deterministic response — BYPASS LLM
+          let answer: string;
+          if (resolvedCity && resolvedState) {
+            answer = `ZIP code ${zip} is **${resolvedCity}, ${resolvedState}**.`;
+          } else {
+            answer = "I'm not confident I have the correct information for that ZIP code. I wasn't able to verify it against my data sources.";
+            console.warn(`[zip-lookup] MISS: ${zip} — not in local DB, SERPER returned no match`);
+          }
+
+          // Save assistant response to DB
+          await db.message.create({
+            data: {
+              conversationId: conversation.id,
+              role: "ASSISTANT" as Role,
+              content: answer,
+              mode: mode as Mode,
+              model: `zip-lookup-${source}`,
+              tokensIn: 0,
+              tokensOut: 0,
+            },
+          });
+
+          // Update conversation timestamp + auto-title
+          if (conversation.title === "New Chat" && conversation.messages.length === 0) {
+            await db.conversation.update({
+              where: { id: conversation.id },
+              data: { title: `ZIP Code ${zip}`, updatedAt: new Date() },
+            });
+          } else {
+            await db.conversation.update({
+              where: { id: conversation.id },
+              data: { updatedAt: new Date() },
+            });
+          }
+
+          await concurrency.release();
+          console.log(`[zip-lookup] ${source.toUpperCase()}: ${zip} → ${resolvedCity ?? "MISS"}, ${resolvedState ?? "?"}`);
+          return new Response(answer, {
+            headers: { "Content-Type": "text/plain; charset=utf-8", "X-Zip-Source": source },
+          });
+        }
+      }
+
+      // Non-ZIP factual lookups (address, phone) — still use SERPER + inject into prompt
       const isAddressLookup = msgLower.includes("address of") || msgLower.includes("address for") || msgLower.includes("exact address") || msgLower.includes("street address");
       const isPhoneLookup = msgLower.includes("phone number") || msgLower.includes("phone for") || msgLower.includes("call number");
       const isFactualWhere = msgLower.match(/^where (?:is|are) (?!my |the best|a good|the nearest)/) && !msgLower.includes("near me");
 
-      // Handle ZIP-to-city (local lookup, no SERPER needed)
-      if ((isZipQuestion && zipQueryMatch) || (isCorrection && recentZipMatch)) {
-        const zip = zipQueryMatch?.[1] || recentZipMatch?.[1];
-        if (zip) {
-          const zipInfo = lookupZip(zip);
-          if (zipInfo) {
-            searchData = `\n\nVERIFIED FACTUAL DATA (from official US ZIP code database):\nZIP code ${zip} = ${zipInfo.city}, ${zipInfo.stateCode}\nCoordinates: ${zipInfo.lat}, ${zipInfo.lng}\n\nYou MUST use ONLY this verified data to answer. Do NOT guess or provide alternative cities. This data comes from the official USPS ZIP code database and is authoritative.`;
-            factualLookupHandled = true;
-          } else {
-            searchData = `\n\nZIP code ${zip} was not found in the US ZIP code database. Tell the user this ZIP code does not appear to be a valid US ZIP code. Do NOT guess what city it might be.`;
-            factualLookupHandled = true;
-          }
-        }
-      }
-
-      // Handle address/phone/factual lookups via SERPER
-      if (!factualLookupHandled && (isAddressLookup || isPhoneLookup || isFactualWhere)) {
+      if (isAddressLookup || isPhoneLookup || isFactualWhere) {
         try {
           const hasQuota = await checkSearchQuota(user.id, tier);
           if (hasQuota) {
