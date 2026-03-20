@@ -661,6 +661,13 @@ export async function POST(req: NextRequest) {
 
     const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
 
+    // TEMPORARY DEBUG: return diagnostic instead of model response to verify pipeline
+    if (process.env.SEARCH_DEBUG === "true" && hasSearchData) {
+      const debugMsg = `[SEARCH DEBUG] Search was injected! Prompt length: ${systemPrompt.length} chars. First 500 chars of search block: ${systemPrompt.substring(systemPrompt.indexOf("VERIFIED"), systemPrompt.indexOf("VERIFIED") + 500)}`;
+      await concurrency.release();
+      return new Response(debugMsg, { status: 200, headers: { "Content-Type": "text/plain; charset=utf-8" } });
+    }
+
     const AI_ERROR_MESSAGE = "I'm having trouble connecting to the AI service right now. Please try again in a moment.";
 
     let streamResult;
