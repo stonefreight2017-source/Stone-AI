@@ -103,7 +103,7 @@ export default function AgentMarketplace({ userTier }: { userTier: string }) {
     });
     const data = await res.json();
     if (data.conversation) {
-      router.push(`/app/chat/${data.conversation.id}`);
+      router.push('/app/chat');
     }
   }
 

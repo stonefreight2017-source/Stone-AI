@@ -28,7 +28,7 @@ export function ConversationList() {
 
   function handleSelect(id: string) {
     setActiveChatId(id);
-    router.push(`/app/chat/${id}`);
+    router.push('/app/chat');
   }
 
   function handleDelete(e: React.MouseEvent, id: string) {

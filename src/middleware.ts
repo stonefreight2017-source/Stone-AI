@@ -31,8 +31,8 @@ const isPublicRoute = createRouteMatcher([
   "/api/enterprise/(.*)",
   "/api/v1/(.*)", // API key auth handled separately
   "/api/internal/(.*)", // Internal alert system — secured by x-alert-secret header
-  "/chat", // Test chat page — remove after launch
-  "/api/chat", // Test chat API — remove after launch
+  "/chat",
+  "/api/chat",
   "/pricing",
   "/accessibility",
   "/refund-policy",

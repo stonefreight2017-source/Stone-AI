@@ -39,7 +39,7 @@ export default function AppPage() {
     });
     const data = await res.json();
     if (data.conversation) {
-      router.push(`/app/chat/${data.conversation.id}?prompt=${encodeURIComponent(prompt)}`);
+      router.push('/app/chat');
     }
   }
 

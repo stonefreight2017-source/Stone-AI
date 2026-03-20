@@ -266,7 +266,7 @@ export function OnboardingWizard({ userName, userTier }: OnboardingWizardProps) 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "complete" }),
       });
-      router.push(`/app/chat/${data.conversation.id}`);
+      router.push('/app/chat');
     }
   }
 

@@ -39,7 +39,7 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
     createConversation.mutate(undefined, {
       onSuccess: (data) => {
         useAppStore.getState().setActiveChatId(data.conversation.id);
-        router.push(`/app/chat/${data.conversation.id}`);
+        router.push('/app/chat');
       },
     });
   }
