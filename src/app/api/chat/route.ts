@@ -460,7 +460,13 @@ export async function POST(req: NextRequest) {
             }
           } else if (locationStr) {
             // Current message has the full question — enhance with resolved location
-            searchQuery = message.replace(/\b\d{5}\b/, locationStr);
+            // If message contains a ZIP, replace it with city/state. Otherwise strip "near me" and append location.
+            if (/\b\d{5}\b/.test(message)) {
+              searchQuery = message.replace(/\b\d{5}\b/, locationStr);
+            } else {
+              searchQuery = message.replace(/\b(near me|close to me|around me|to me)\b/gi, "").trim();
+              searchQuery = `${searchQuery} near ${locationStr}`;
+            }
           }
 
           const searchTypeParam = hasLocationKeyword ? "places" as const : "search" as const;
