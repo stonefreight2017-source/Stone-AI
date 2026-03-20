@@ -40,7 +40,7 @@ import { buildMemoryContext } from "@/lib/agent-memory";
 import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
-import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK } from "@/lib/agent-shared-prompts";
+import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK, FINAL_BEHAVIOR_OVERRIDE } from "@/lib/agent-shared-prompts";
 import { buildTierCapabilityBlock } from "@/lib/tier-capabilities";
 import { assemblePrompt, getTokenEstimate } from "@/lib/golden-egg";
 import { buildAnswerContext } from "@/lib/answer-bank";
@@ -541,7 +541,12 @@ export async function POST(req: NextRequest) {
       const hasLocationKeyword = locationKeywords.some((kw) => combinedContext.includes(kw));
       const zipMatch = message.match(/\b(\d{5})\b/) || recentContext.match(/\b(\d{5})\b/);
 
-      if (hasLocationKeyword || zipMatch) {
+      // Only run web search if we have a concrete location (ZIP code or city/state mention).
+      // "near me" without a location = let the model ask the user for their ZIP.
+      // This prevents Serper from returning results based on Vercel server IP.
+      const hasCityState = /\b[A-Z][a-z]+,?\s*[A-Z]{2}\b/.test(message) || /\b[A-Z][a-z]+,?\s*[A-Z]{2}\b/.test(recentContext);
+
+      if (zipMatch || (hasLocationKeyword && hasCityState)) {
         try {
           const hasQuota = await checkSearchQuota(user.id, tier);
           if (hasQuota) {
@@ -581,8 +586,12 @@ export async function POST(req: NextRequest) {
             } else if (locationStr && zipCode) {
               // Replace bare ZIP in the query with city/state for better results
               searchQuery = searchQuery.replace(new RegExp(`\\b${zipCode}\\b`), locationStr);
-            } else if (searchQuery.includes("near me")) {
-              // Can't resolve location — keep "near me" and let Serper handle it
+            }
+
+            // Strip "near me" / "to me" from final query — we've resolved to real location
+            searchQuery = searchQuery.replace(/\b(near me|to me|close to me|around me)\b/gi, "").trim();
+            if (locationStr && !searchQuery.includes(locationStr)) {
+              searchQuery = `${searchQuery} near ${locationStr}`;
             }
 
             console.warn(`[web-search] query="${searchQuery}" tier=${tier}`);
@@ -604,6 +613,9 @@ export async function POST(req: NextRequest) {
     if (searchData) {
       basePrompt += `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${searchData}\n</web_search_data>`;
     }
+
+    // Final behavior override — placed last for maximum weight with the model
+    basePrompt += "\n\n" + FINAL_BEHAVIOR_OVERRIDE;
 
     // Wrap with anti-injection security directives
     const systemPrompt = wrapSystemPrompt(basePrompt);
