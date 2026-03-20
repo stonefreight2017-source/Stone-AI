@@ -31,6 +31,8 @@ const isPublicRoute = createRouteMatcher([
   "/api/enterprise/(.*)",
   "/api/v1/(.*)", // API key auth handled separately
   "/api/internal/(.*)", // Internal alert system — secured by x-alert-secret header
+  "/chat", // Test chat page — remove after launch
+  "/api/chat", // Test chat API — remove after launch
   "/pricing",
   "/accessibility",
   "/refund-policy",
@@ -57,7 +59,7 @@ const SECURITY_HEADERS: Record<string, string> = {
   // Content Security Policy — defense-in-depth against XSS, data injection
   "Content-Security-Policy": [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com https://static.cloudflareinsights.com",
+    `script-src 'self' 'unsafe-inline'${process.env.NODE_ENV === 'development' ? " 'unsafe-eval'" : ''} https://clerk.stone-ai.net https://*.clerk.accounts.dev https://challenges.cloudflare.com https://static.cloudflareinsights.com https://va.vercel-scripts.com`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: https: blob:",
     "font-src 'self' data:",

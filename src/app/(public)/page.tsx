@@ -7,62 +7,20 @@ import {
   Shield,
   ArrowRight,
   Check,
-  Bot,
-  Briefcase,
-  Pen,
-  BarChart2,
   Code,
   TrendingUp,
-  Users,
-  MessageSquare,
-  Rocket,
-  Target,
-  Clock,
-  Cpu,
-  Smartphone,
-  Laptop,
-  Globe,
-  Heart,
-  Lightbulb,
-  Trophy,
-  Sparkles,
-  Star,
-  Network,
-  Terminal,
-  Mic,
-  Megaphone,
+  Wrench,
+  DollarSign,
+  Settings,
+  Search,
   Home,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Insignia } from "@/components/brand/Insignia";
-import { LandingLanguageToggle } from "./landing-language-toggle";
-import { LanguageProvider } from "./language-context";
-import { useT } from "./use-translation";
-import { PricingSection } from "./pricing-section";
-import { LandingTabs } from "./landing-tabs";
-import { DepartmentTabs } from "./department-tabs";
-import { SalesWidget } from "@/components/sales/SalesWidget";
-import {
-  HeroSection,
-  ScrollSection,
-  StaggerGrid,
-  StaggerCard,
-  AnimateOnScroll,
-} from "./animated-sections";
-
 
 export default function LandingPage() {
-  return (
-    <LanguageProvider>
-      <LandingPageContent />
-    </LanguageProvider>
-  );
-}
-
-function LandingPageContent() {
-  const t = useT();
   return (
     <div className="min-h-screen bg-zinc-900 text-white scroll-smooth relative">
       {/* ── Themed backdrop: dot grid + radial glows + noise ── */}
@@ -77,9 +35,9 @@ function LandingPageContent() {
         />
         {/* Hero glow — cool cyan */}
         <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[600px] rounded-full bg-cyan-500/[0.04] blur-[120px]" />
-        {/* Mid-page glow — warm amber (aligns with Bestie section) */}
+        {/* Mid-page glow — warm amber */}
         <div className="absolute top-[45%] right-[-10%] w-[600px] h-[600px] rounded-full bg-amber-500/[0.03] blur-[150px]" />
-        {/* Bottom glow — subtle purple (pricing/closer area) */}
+        {/* Bottom glow — subtle purple */}
         <div className="absolute bottom-[5%] left-[-5%] w-[700px] h-[500px] rounded-full bg-purple-500/[0.03] blur-[130px]" />
         {/* Noise texture overlay */}
         <svg className="absolute inset-0 w-full h-full opacity-[0.03]">
@@ -89,925 +47,276 @@ function LandingPageContent() {
           <rect width="100%" height="100%" filter="url(#noiseFilter)" />
         </svg>
       </div>
+
       <div className="relative z-10">
-      {/* Top bar — home + language upper-left, nav links upper-right */}
-      <nav aria-label="Main navigation" className="flex items-center justify-between px-4 sm:px-6 pt-4 pb-2">
-        <div className="flex items-center gap-3">
-          <Link href="/" className="text-zinc-300 hover:text-white transition-colors" aria-label="Home">
-            <Home className="h-5 w-5" />
-          </Link>
-          <LandingLanguageToggle />
+        {/* ═══════════════════════════════════════════════════════════
+            NAV
+        ═══════════════════════════════════════════════════════════ */}
+        <nav aria-label="Main navigation" className="flex items-center justify-between px-4 sm:px-6 pt-4 pb-2">
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-zinc-300 hover:text-white transition-colors" aria-label="Home">
+              <Home className="h-5 w-5" />
+            </Link>
+          </div>
+          <div className="flex items-center gap-3 sm:gap-6">
+            <Link href="#features" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
+              Features
+            </Link>
+            <Link href="#pricing" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
+              Pricing
+            </Link>
+            <Link href="/sign-in" className="text-sm text-zinc-300 hover:text-white transition-colors">
+              Sign In
+            </Link>
+          </div>
+        </nav>
+
+        {/* Insignia — centered */}
+        <div className="flex justify-center pt-4 pb-4">
+          <Insignia size={18} />
         </div>
-        <div className="flex items-center gap-3 sm:gap-6">
-          <Link href="#promotions" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
-            {t("pricing")}
-          </Link>
-          <Link href="#pricing" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
-            {t("seePlans")}
-          </Link>
-          <Link href="/sign-in" className="text-sm text-zinc-300 hover:text-white transition-colors">
-            {t("signIn")}
-          </Link>
-        </div>
-      </nav>
 
-      {/* Insignia — centered */}
-      <div className="flex justify-center pt-4 pb-4">
-        <Insignia size={18} />
-      </div>
-
-      <main id="main-content">
-      {/* ═══════════════════════════════════════════════════════════════
-          Hero — Clean, Tesla-inspired, premium feel
-         ═══════════════════════════════════════════════════════════════ */}
-      <section className="relative px-4 sm:px-6 pt-16 sm:pt-24 pb-16 max-w-5xl mx-auto text-center overflow-hidden">
-
-        <HeroSection>
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
-            {t("heroTitle1")}
-            <br />
-            <span className="bg-gradient-to-r from-zinc-300 via-white to-zinc-300 bg-clip-text text-transparent">
-              {t("heroTitle2")}
-            </span>
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 1 — HERO
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="max-w-3xl mx-auto text-center px-4 pt-16 pb-20">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight leading-tight">
+            AI specialists for businesses that need real answers fast
           </h1>
-
-          <p className="text-lg sm:text-xl text-zinc-300 max-w-2xl mx-auto mb-4 leading-relaxed">
-            {t("heroSub1")}
+          <p className="mt-6 text-lg text-zinc-300 max-w-2xl mx-auto">
+            Stone routes each request to the right specialist for troubleshooting, coding, billing, operations, and growth.
           </p>
-          <p className="text-base text-zinc-300 max-w-md mx-auto mb-6">
-            {t("heroSub2")}
+          <p className="mt-3 text-sm text-zinc-400">
+            Local-first by default. Stronger handling available on supported tiers when needed.
           </p>
-
-          {/* Promo callout */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-950 border border-amber-500/30 text-amber-400 text-sm font-medium animate-pulse">
-              <Sparkles className="h-4 w-4" />
-              {t("launchDeals")}
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button asChild size="lg" className="bg-white text-black hover:bg-zinc-200 font-bold text-lg px-8">
-              <Link href="/sign-up">
-                {t("startForFree")} <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button asChild size="lg" className="bg-white text-zinc-900 hover:bg-zinc-200 font-semibold px-8">
+              <Link href="/sign-up">Start Free</Link>
             </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-zinc-700 text-zinc-300 text-lg px-8 hover:bg-zinc-800"
-            >
-              <Link href="#pricing">{t("seePlans")}</Link>
+            <Button asChild size="lg" variant="outline" className="border-zinc-600 text-zinc-200 hover:bg-zinc-800 px-8">
+              <Link href="#pricing">See Pricing</Link>
             </Button>
           </div>
-        </HeroSection>
-      </section>
+          <p className="mt-4 text-xs text-zinc-500">
+            Built for real business workflows, not just generic chat.
+          </p>
+        </section>
 
-      {/* Performance strip — clean horizontal stats */}
-      <section className="px-4 sm:px-6 pb-12 max-w-4xl mx-auto">
-        <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {[
-            { value: "<100ms", label: t("statResponse"), sub: t("statLocal") },
-            { value: "32B", label: t("statParams"), sub: t("statOpenWeight") },
-            { value: "$0", label: t("statUnlimitedMsgs"), sub: t("statLocalResponse") },
-            { value: "38", label: t("statAgents"), sub: t("statEveryDept") },
-          ].map((s) => (
-            <StaggerCard key={s.label}>
-              <div className="text-center p-4 sm:p-5 rounded-xl bg-zinc-800 border border-zinc-700/50">
-                <p className="text-2xl sm:text-3xl font-bold text-white">{s.value}</p>
-                <p className="text-xs text-zinc-300 mt-1">{s.label}</p>
-                <p className="text-xs text-zinc-300">{s.sub}</p>
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 2 — TRUST / VALUE STRIP
+        ═══════════════════════════════════════════════════════════ */}
+        <section id="features" className="max-w-5xl mx-auto px-4 pb-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="bg-zinc-800 border-zinc-700 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <Brain className="h-5 w-5 text-cyan-400" />
+                <h3 className="font-semibold text-white">Smart specialist routing</h3>
               </div>
-            </StaggerCard>
-          ))}
-        </StaggerGrid>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════
-          Tabbed Content — Each section covers ONE topic
-         ═══════════════════════════════════════════════════════════════ */}
-      <LandingTabs
-        tabs={[
-          { id: "how", label: t("tabHowItWorks"), icon: <Cpu className="h-4 w-4" /> },
-          { id: "agents", label: t("tabAgents"), icon: <Bot className="h-4 w-4" /> },
-          { id: "bestie", label: t("tabBestie"), icon: <Heart className="h-4 w-4" /> },
-          { id: "time", label: t("tabTimeSaved"), icon: <Clock className="h-4 w-4" /> },
-          { id: "community", label: t("tabCommunity"), icon: <Users className="h-4 w-4" /> },
-          { id: "builders", label: t("tabBuilders"), icon: <Code className="h-4 w-4" /> },
-        ]}
-      >
-        {/* ──────── TAB 1: How It Works ──────── */}
-        <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
-          <ScrollSection>
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              {t("twoEngines")} <span className="text-zinc-400">{t("youChoose")}</span>
-            </h2>
-            <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-              {t("engineDesc")}
-            </p>
-          </ScrollSection>
-
-          {/* Architecture comparison — clean, not terminal red */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-            <AnimateOnScroll>
-              <Card className="bg-zinc-800/50 border-zinc-700/50 p-6 h-full">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-xl bg-zinc-700/50 flex items-center justify-center">
-                    <Cpu className="h-5 w-5 text-white" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-white">{t("stoneEngine")}</p>
-                    <p className="text-xs text-zinc-400">{t("defaultAllTiers")}</p>
-                  </div>
-                </div>
-                <div className="space-y-3 text-sm text-zinc-300">
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                    <span>{t("sub100ms")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                    <span>{t("dataLocal")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                    <span>{t("unlimitedLocal")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-emerald-400 shrink-0" aria-hidden="true" />
-                    <span>{t("openWeight")}</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 rounded-lg bg-zinc-700/30">
-                  <p className="text-xs text-zinc-400">{t("bestForLocal")}</p>
-                </div>
-              </Card>
-            </AnimateOnScroll>
-
-            <AnimateOnScroll delay={0.1}>
-              <Card className="bg-zinc-800/50 border-zinc-700/50 p-6 h-full">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="h-10 w-10 rounded-xl bg-blue-900/30 flex items-center justify-center">
-                    <Sparkles className="h-5 w-5 text-blue-400" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-white">{t("smartMode")}</p>
-                    <p className="text-xs text-zinc-400">{t("optInBuilder")}</p>
-                  </div>
-                </div>
-                <div className="space-y-3 text-sm text-zinc-300">
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-400 shrink-0" aria-hidden="true" />
-                    <span>{t("gpt4o")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-400 shrink-0" aria-hidden="true" />
-                    <span>{t("dataCloud")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-400 shrink-0" aria-hidden="true" />
-                    <span>{t("dailyCap")}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Check className="h-4 w-4 text-blue-400 shrink-0" aria-hidden="true" />
-                    <span>{t("creditPacks")}</span>
-                  </div>
-                </div>
-                <div className="mt-4 p-3 rounded-lg bg-blue-900/10 border border-blue-800/20">
-                  <p className="text-xs text-zinc-400">{t("bestForSmart")}</p>
-                </div>
-              </Card>
-            </AnimateOnScroll>
-          </div>
-
-          {/* 3 steps */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {[
-              { step: "1", title: t("step1"), desc: t("step1desc") },
-              { step: "2", title: t("step2"), desc: t("step2desc") },
-              { step: "3", title: t("step3"), desc: t("step3desc") },
-            ].map((s) => (
-              <AnimateOnScroll key={s.step} delay={Number(s.step) * 0.1}>
-                <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5">
-                  <span className="text-3xl font-bold text-zinc-400">{s.step}</span>
-                  <h3 className="font-bold text-white mt-2 mb-1">{s.title}</h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed">{s.desc}</p>
-                </div>
-              </AnimateOnScroll>
-            ))}
-          </div>
-
-          {/* Enterprise callout */}
-          <AnimateOnScroll delay={0.3}>
-            <Card className="bg-zinc-800/30 border-zinc-700/30 p-6 sm:p-8 mt-8">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                <div className="flex-1">
-                  <Badge className="mb-2 bg-emerald-500/10 text-emerald-400 border-emerald-500/20">{t("enterprise")}</Badge>
-                  <h3 className="text-xl font-bold mb-1">{t("enterpriseHeading")}</h3>
-                  <p className="text-sm text-zinc-400">
-                    {t("regulatedDesc")}
-                  </p>
-                </div>
-                <Button asChild variant="outline" className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 shrink-0">
-                  <Link href="/sign-up">{t("contactSales")}</Link>
-                </Button>
-              </div>
-            </Card>
-          </AnimateOnScroll>
-        </div>
-
-        {/* ──────── TAB 2: AI Agents ──────── */}
-        <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
-          <ScrollSection>
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              {t("agentsTitle1")} <span className="text-zinc-400">{t("agentsTitle2")}</span>
-            </h2>
-            <p className="text-center text-zinc-400 mb-4 max-w-2xl mx-auto">
-              {t("agentsDesc")}
-            </p>
-            <p className="text-center text-emerald-400/80 text-sm mb-12 max-w-lg mx-auto">
-              {t("proLevelLocal")}
-            </p>
-          </ScrollSection>
-
-          {/* Featured Agent: Digital Marketing Strategist */}
-          <AnimateOnScroll>
-            <Card className="bg-gradient-to-br from-green-500/10 via-zinc-800/40 to-zinc-800/30 border-green-500/20 p-6 sm:p-8 mb-8 relative overflow-hidden">
-              <div className="absolute top-3 right-3">
-                <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs uppercase tracking-wider">{t("featuredAgent")}</Badge>
-              </div>
-              <div className="flex flex-col sm:flex-row items-start gap-5">
-                <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-green-500/15 border border-green-500/20 flex items-center justify-center">
-                  <Megaphone className="h-7 w-7 text-green-400" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg sm:text-xl font-bold text-white mb-1">{t("featuredAgentName")}</h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed mb-4">
-                    {t("featuredAgentDesc")}
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {[t("tagOrganicSocial"), t("tagPaidAds"), t("tagAgencyBuilding"), t("tagClientAcquisition"), t("tagAnalytics"), t("tagGrowthStrategy")].map((tag) => (
-                      <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-green-500/10 text-green-400/80 border border-green-500/15 font-medium">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="mt-4">
-                    <Button asChild size="sm" className="bg-green-500/20 text-green-400 hover:bg-green-500/30 border border-green-500/30 font-semibold text-xs">
-                      <Link href="/sign-up">{t("upgradeToAccess")} <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
-          {/* Scenario: Business launch */}
-          <AnimateOnScroll>
-            <Card className="bg-zinc-800/30 border-zinc-700/30 p-6 sm:p-8 mb-8">
-              <div className="flex items-center gap-3 mb-6">
-                <Rocket className="h-6 w-6 text-white" />
-                <div>
-                  <h3 className="text-lg font-bold">{t("launchBusiness")}</h3>
-                  <p className="text-sm text-zinc-400">{t("fiveDays")}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                {[
-                  { day: t("dayMon"), agent: t("agentStartupLauncher"), task: t("taskValidatePlan") },
-                  { day: t("dayTue"), agent: t("agentBusinessPlan"), task: t("taskFinancialsModel") },
-                  { day: t("dayWed"), agent: t("agentBrandAgent"), task: t("taskNameIdentity") },
-                  { day: t("dayThu"), agent: t("agentWebDev"), task: t("taskLandingPage") },
-                  { day: t("dayFri"), agent: t("agentMarketingStrategist"), task: t("taskAdsFunnels") },
-                ].map((s) => (
-                  <div key={s.day} className="rounded-lg bg-zinc-700/30 p-3 sm:p-4">
-                    <span className="text-xs text-zinc-400 uppercase font-semibold">{s.day}</span>
-                    <p className="text-sm font-semibold text-white mt-1">{s.agent}</p>
-                    <p className="text-xs text-zinc-400 mt-0.5">{s.task}</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
-          {/* One input, 12 outputs */}
-          <AnimateOnScroll delay={0.1}>
-            <Card className="bg-zinc-800/30 border-zinc-700/30 p-6 sm:p-8 mb-8">
-              <div className="flex items-center gap-3 mb-6">
-                <Network className="h-6 w-6 text-white" />
-                <div>
-                  <h3 className="text-lg font-bold">{t("oneIdea")}</h3>
-                  <p className="text-sm text-zinc-400">{t("agentsBuild")}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-                {[
-                  t("outputBlogSeries"), t("outputEmailSequence"), t("output30DaysPosts"), t("outputVideoScript"),
-                  t("outputKeywordStrategy"), t("outputAdCampaigns"), t("outputLandingPages"), t("outputEpisodeOutline"),
-                  t("outputOutreachEmails"), t("outputDashboard"), t("outputClientDeck"),
-                ].map((output) => (
-                  <div key={output} className="rounded-lg bg-zinc-700/20 p-3 text-center border border-zinc-700/30">
-                    <p className="text-xs text-zinc-300 font-medium">{output}</p>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
-          {/* Department Tabs — interactive agent browser */}
-          <DepartmentTabs />
-
-          {/* What makes them different — compact */}
-          <AnimateOnScroll>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {[
-                { icon: Zap, title: t("deepReasoning"), desc: t("deepReasoningDesc"), color: "text-amber-400" },
-                { icon: Clock, title: t("savesThinkingTime"), desc: t("savesThinkingTimeDesc"), color: "text-cyan-400" },
-                { icon: Brain, title: t("persistentMemory"), desc: t("persistentMemoryDesc2"), color: "text-blue-400" },
-                { icon: Terminal, title: t("productionOutput"), desc: t("productionOutputDesc2"), color: "text-green-400" },
-              ].map((item) => (
-                <div key={item.title} className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                  <item.icon className={`h-5 w-5 ${item.color} mb-2`} />
-                  <h4 className="text-sm font-semibold mb-1">{item.title}</h4>
-                  <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </AnimateOnScroll>
-        </div>
-
-        {/* ──────── TAB 3: My Bestie ──────── */}
-        <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
-          <ScrollSection>
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-medium mb-6">
-                <Heart className="h-3.5 w-3.5" />
-                {t("bestieCompanion")}
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                {t("bestieTitle1")} <span className="text-amber-400">{t("bestieTitle2")}</span>
-              </h2>
-              <p className="text-zinc-400 max-w-xl mx-auto mb-3">
-                {t("bestieDesc")}
+              <p className="text-sm text-zinc-400">
+                Stone automatically routes each request to the best specialist, so users do not have to choose from a long list of bots.
               </p>
-              <p className="text-zinc-400 max-w-lg mx-auto text-sm">
-                {t("bestieDetailText")}
+            </Card>
+            <Card className="bg-zinc-800 border-zinc-700 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <Zap className="h-5 w-5 text-amber-400" />
+                <h3 className="font-semibold text-white">Local-first performance</h3>
+              </div>
+              <p className="text-sm text-zinc-400">
+                Standard work is handled locally first for speed and cost control.
               </p>
-            </div>
-          </ScrollSection>
+            </Card>
+            <Card className="bg-zinc-800 border-zinc-700 p-6">
+              <div className="flex items-center gap-3 mb-3">
+                <Shield className="h-5 w-5 text-purple-400" />
+                <h3 className="font-semibold text-white">Cloud support when needed</h3>
+              </div>
+              <p className="text-sm text-zinc-400">
+                More demanding requests can use stronger handling based on tier, priority, and workload.
+              </p>
+            </Card>
+          </div>
+        </section>
 
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 3 — WHAT STONE HELPS WITH
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="max-w-5xl mx-auto px-4 pb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold">What Stone helps with</h2>
+            <p className="mt-3 text-zinc-400 max-w-xl mx-auto">
+              Stone is built to help with the work businesses actually need done every day.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Laptop, title: t("desktopLaptop"), desc: t("desktopDesc"), status: "Live" },
-              { icon: Smartphone, title: t("homeScreen"), desc: t("homeDesc"), status: "Live" },
-              { icon: Globe, title: t("crossDevice"), desc: t("crossDesc"), status: "Live" },
-              { icon: Mic, title: t("voiceChat"), desc: t("voiceDesc"), status: "Live" },
+              { icon: Wrench, title: "Troubleshooting", text: "Fix broken workflows, setup issues, failed integrations, and service problems faster." },
+              { icon: Code, title: "Coding and implementation", text: "Get help with APIs, routes, scripts, backend logic, and technical fixes." },
+              { icon: DollarSign, title: "Billing and pricing", text: "Handle plans, Stripe setup, payment issues, pricing decisions, and customer billing questions." },
+              { icon: Settings, title: "Operations", text: "Get help with launch planning, usage limits, service design, support flow, and business systems." },
+              { icon: TrendingUp, title: "Growth and planning", text: "Use specialist support for decision-making, scaling, and next-step planning." },
             ].map((item) => (
-              <StaggerCard key={item.title}>
-                <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 text-center h-full hover:border-amber-500/20 transition-colors">
-                  <item.icon className="h-8 w-8 text-amber-400 mx-auto mb-3" />
-                  <h3 className="font-bold text-white text-sm mb-1">{item.title}</h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed mb-3">{item.desc}</p>
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                    item.status === "Live"
-                      ? "bg-emerald-500/10 border border-emerald-500/20 text-emerald-400"
-                      : "bg-amber-500/10 border border-amber-500/20 text-amber-400"
-                  }`}>
-                    {item.status === "Live" ? <Check className="h-3 w-3" aria-hidden="true" /> : <Clock className="h-3 w-3" aria-hidden="true" />}
-                    {item.status === "Live" ? t("live") : t("comingSoon")}
-                  </span>
-                </Card>
-              </StaggerCard>
+              <Card key={item.title} className="bg-zinc-800 border-zinc-700 p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <item.icon className="h-5 w-5 text-cyan-400" />
+                  <h3 className="font-semibold text-white">{item.title}</h3>
+                </div>
+                <p className="text-sm text-zinc-400">{item.text}</p>
+              </Card>
             ))}
-          </StaggerGrid>
-
-          {/* Bestie 6 languages section removed until multi-language verified */}
-
-          {/* Compact feature highlights */}
-          <AnimateOnScroll delay={0.1}>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
-              <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">{t("commStylesTitle")}</p>
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  {t("commStylesDesc")}
-                </p>
-              </div>
-              <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">{t("customEnvTitle")}</p>
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  {t("customEnvDesc")}
-                </p>
-              </div>
-              <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-4">
-                <p className="text-xs font-bold text-amber-400 mb-1.5">{t("culturalFluencyTitle")}</p>
-                <p className="text-xs text-zinc-400 leading-relaxed">
-                  {t("culturalFluencyDesc")}
-                </p>
-              </div>
-            </div>
-          </AnimateOnScroll>
-
-          {/* Coming to Mobile — wearable, safety, auto-text */}
-          <AnimateOnScroll delay={0.15}>
-            <div className="mb-10">
-              <div className="flex items-center justify-center gap-2 mb-4">
-                <Clock className="h-4 w-4 text-cyan-400" />
-                <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest">{t("comingToMobile")}</p>
-              </div>
-              <p className="text-center text-sm text-zinc-400 mb-5 max-w-lg mx-auto">
-                {t("bestieNeverLeaves")}
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {/* Silent Safety Net removed */}
-                <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
-                  <p className="text-xs font-bold text-cyan-400 mb-1.5">{t("autoTextTitle")}</p>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    {t("autoTextDesc")}
-                  </p>
-                </div>
-                <div className="rounded-xl bg-cyan-950/20 border border-cyan-800/30 p-4">
-                  <p className="text-xs font-bold text-cyan-400 mb-1.5">{t("onYourWristTitle")}</p>
-                  <p className="text-xs text-zinc-400 leading-relaxed">
-                    {t("onYourWristDesc")}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll>
-            <div className="text-center">
-              <p className="text-sm text-zinc-400 mb-2">
-                {t("bestieGeniusText")}
-              </p>
-              <p className="text-xs text-zinc-400 mb-4">
-                {t("bestieEthicsText")}
-              </p>
-              <Button asChild size="lg" className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-lg px-8 font-semibold">
-                <Link href="/app/bestie">
-                  {t("createBestie")} <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </AnimateOnScroll>
-        </div>
-
-        {/* ──────── TAB 4: Time Saved ──────── */}
-        <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
-          <ScrollSection>
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              {t("timeTitle1")} <span className="text-zinc-400">{t("timeTitle2")}</span>
-            </h2>
-            <p className="text-center text-zinc-400 mb-12 max-w-lg mx-auto">
-              {t("timeDesc")}
-            </p>
-          </ScrollSection>
-
-          <AnimateOnScroll>
-            <Card className="bg-zinc-800/30 border-zinc-700/30 p-6 sm:p-8 mb-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Before */}
-                <div>
-                  <p className="text-xs text-zinc-400 uppercase tracking-wider font-semibold mb-4">{t("withoutStoneAI")}</p>
-                  <div className="space-y-3">
-                    {[
-                      { task: t("taskProposal"), time: t("taskProposalTime") },
-                      { task: t("taskResearch"), time: t("taskResearchTime") },
-                      { task: t("taskSocial"), time: t("taskSocialTime") },
-                      { task: t("taskReport"), time: t("taskReportTime") },
-                      { task: t("taskEmail"), time: t("taskEmailTime") },
-                    ].map((item) => (
-                      <div key={item.task} className="flex items-center justify-between py-2 border-b border-zinc-700/30">
-                        <span className="text-sm text-zinc-400">{item.task}</span>
-                        <span className="text-sm text-zinc-400 font-mono">{item.time}</span>
-                      </div>
-                    ))}
-                    <div className="pt-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-semibold text-zinc-300">{t("total")}</span>
-                        <span className="text-sm font-bold text-zinc-300 font-mono">{t("totalWithout")}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* After */}
-                <div>
-                  <p className="text-xs text-emerald-400 uppercase tracking-wider font-semibold mb-4">{t("withStoneAI")}</p>
-                  <div className="space-y-3">
-                    {[
-                      { task: t("agentProposal"), time: t("agentProposalTime") },
-                      { task: t("agentResearch"), time: t("agentResearchTime") },
-                      { task: t("agentSocial"), time: t("agentSocialTime") },
-                      { task: t("agentAnalytics"), time: t("agentAnalyticsTime") },
-                      { task: t("agentSales"), time: t("agentSalesTime") },
-                    ].map((item) => (
-                      <div key={item.task} className="flex items-center justify-between py-2 border-b border-emerald-500/10">
-                        <span className="text-sm text-zinc-300">{item.task}</span>
-                        <span className="text-sm text-emerald-400 font-mono font-semibold">{item.time}</span>
-                      </div>
-                    ))}
-                    <div className="pt-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm font-semibold text-white">{t("total")}</span>
-                        <span className="text-sm font-bold text-emerald-400 font-mono">{t("totalWith")}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
-          {/* Mental Load — the STAR section */}
-          <AnimateOnScroll delay={0.1}>
-            <Card className="bg-gradient-to-r from-cyan-950/30 via-zinc-800/30 to-cyan-950/30 border-cyan-800/20 p-6 sm:p-8 mb-8">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="h-10 w-10 rounded-xl bg-cyan-900/30 flex items-center justify-center">
-                  <Brain className="h-5 w-5 text-cyan-400" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold">{t("mentalLoadTitle")}</h3>
-                  <p className="text-xs text-zinc-400">{t("mentalLoadSub")}</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[
-                  { scenario: t("scenarioProposal"), before: t("scenarioProposalBefore"), after: t("scenarioProposalAfter") },
-                  { scenario: t("scenarioCareer"), before: t("scenarioCareerBefore"), after: t("scenarioCareerAfter") },
-                  { scenario: t("scenarioFinance"), before: t("scenarioFinanceBefore"), after: t("scenarioFinanceAfter") },
-                ].map((s) => (
-                  <div key={s.scenario} className="rounded-xl bg-zinc-800/50 border border-zinc-700/30 p-4">
-                    <p className="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-2">{s.scenario}</p>
-                    <div className="space-y-2">
-                      <div>
-                        <p className="text-xs text-zinc-400 uppercase">{t("youUsedTo")}</p>
-                        <p className="text-xs text-zinc-400">{s.before}</p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-emerald-500 uppercase">{t("now")}</p>
-                        <p className="text-xs text-zinc-300">{s.after}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </AnimateOnScroll>
-
-          {/* Impact summary */}
-          <StaggerGrid className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {[
-              { value: "40%+", label: t("timeSaved"), sub: t("impactTimeSub") },
-              { value: "38", label: t("statAgents"), sub: t("impactAgentsSub") },
-              { value: "$0", label: t("localModeCost"), sub: t("impactCostSub") },
-              { value: "24/7", label: t("available247"), sub: t("impact247Sub") },
-            ].map((s) => (
-              <StaggerCard key={s.label}>
-                <div className="text-center p-4 rounded-xl bg-zinc-800/30 border border-zinc-700/30">
-                  <p className="text-2xl font-bold text-white">{s.value}</p>
-                  <p className="text-xs text-zinc-400 mt-1">{s.label}</p>
-                  <p className="text-xs text-zinc-400">{s.sub}</p>
-                </div>
-              </StaggerCard>
-            ))}
-          </StaggerGrid>
-        </div>
-
-        {/* ──────── TAB 5: Community ──────── */}
-        <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-6xl mx-auto">
-          <ScrollSection>
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              {t("communityTitle1")} <span className="text-zinc-400">{t("communityTitle2")}</span>
-            </h2>
-            <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              {t("communityDesc")}
-            </p>
-          </ScrollSection>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-            <StaggerCard>
-              <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 h-full">
-                <MessageSquare className="h-6 w-6 text-blue-400 mb-3" />
-                <h3 className="font-bold text-sm mb-2">{t("agentStrategies")}</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  {t("strategiesCardDesc")}
-                </p>
-                <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-400">
-                    {t("strategiesCardTip")}
-                  </p>
-                </div>
-              </Card>
-            </StaggerCard>
-            <StaggerCard>
-              <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 h-full">
-                <Trophy className="h-6 w-6 text-amber-400 mb-3" />
-                <h3 className="font-bold text-sm mb-2">{t("wallOfWins")}</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  {t("winsCardDesc")}
-                </p>
-                <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-400">
-                    {t("winsCardTip")}
-                  </p>
-                </div>
-              </Card>
-            </StaggerCard>
-            <StaggerCard>
-              <Card className="bg-zinc-800/30 border-zinc-700/30 p-5 h-full">
-                <Users className="h-6 w-6 text-green-400 mb-3" />
-                <h3 className="font-bold text-sm mb-2">{t("openHelp")}</h3>
-                <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-                  {t("helpCardDesc")}
-                </p>
-                <div className="bg-zinc-700/20 rounded-lg p-3 border border-zinc-700/30">
-                  <p className="text-xs text-zinc-400">
-                    {t("helpCardTip")}
-                  </p>
-                </div>
-              </Card>
-            </StaggerCard>
-          </StaggerGrid>
-
-          {/* Category bar — user loved this */}
-          <AnimateOnScroll>
-            <div className="grid grid-cols-3 sm:grid-cols-7 gap-2 mb-8">
-              {[
-                { name: t("catGeneral"), icon: MessageSquare, color: "text-blue-400" },
-                { name: t("catTips"), icon: Lightbulb, color: "text-amber-400" },
-                { name: t("catShowcase"), icon: Star, color: "text-purple-400" },
-                { name: t("catQuestions"), icon: Brain, color: "text-green-400" },
-                { name: t("catFeatures"), icon: Rocket, color: "text-pink-400" },
-                { name: t("catBusiness"), icon: Briefcase, color: "text-emerald-400" },
-                { name: t("catFeedback"), icon: Heart, color: "text-red-400" },
-              ].map((c) => (
-                <div key={c.name} className="text-center p-2.5 rounded-lg bg-zinc-800/30 border border-zinc-700/30 hover:border-zinc-600/50 transition-colors">
-                  <c.icon className={`h-4 w-4 ${c.color} mx-auto mb-1`} />
-                  <p className="text-xs text-zinc-400 font-medium">{c.name}</p>
-                </div>
-              ))}
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll>
-            <Card className="bg-gradient-to-r from-amber-950/30 via-zinc-800/30 to-amber-950/30 border-amber-800/20 p-5 mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <Trophy className="h-5 w-5 text-amber-400" />
-                <h3 className="font-bold text-sm text-white">{t("ogBadgeTitle")}</h3>
-              </div>
-              <p className="text-xs text-zinc-400 leading-relaxed">
-                {t("ogBadgeDesc")}
-              </p>
-            </Card>
-          </AnimateOnScroll>
-
-          <div className="text-center">
-            <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-500 text-lg px-8">
-              <Link href="/sign-up">
-                {t("joinCommunity")} <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
           </div>
-        </div>
+        </section>
 
-        {/* ──────── TAB 6: For Builders ──────── */}
-        <div className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
-          <ScrollSection>
-            <h2 className="text-3xl sm:text-4xl font-bold text-center mb-4">
-              {t("buildersTitle1")} <span className="text-emerald-400">{t("buildersTitle2")}</span>
-            </h2>
-            <p className="text-center text-zinc-400 mb-12 max-w-2xl mx-auto">
-              {t("buildersDesc")}
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 4 — HOW IT WORKS
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="max-w-4xl mx-auto px-4 pb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold">How it works</h2>
+            <p className="mt-3 text-zinc-400 max-w-xl mx-auto">
+              Stone is designed to be simple to use, even when the work behind the scenes is more advanced.
             </p>
-          </ScrollSection>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: Terminal, title: t("restApi"), desc: t("restApiDesc"), color: "text-emerald-400" },
-              { icon: Shield, title: t("whiteLabel"), desc: t("whiteLabelDesc"), color: "text-amber-400" },
-              { icon: Target, title: t("flatPrice"), desc: t("flatPriceDesc"), color: "text-blue-400" },
+              { step: "1", title: "Ask your question", text: "Start with a clear question, task, or problem inside the Stone workspace." },
+              { step: "2", title: "Stone routes it", text: "The system decides which specialist is the best fit for the request." },
+              { step: "3", title: "Get a practical answer", text: "Receive a structured response with plain-English guidance and next steps." },
             ].map((item) => (
-              <StaggerCard key={item.title}>
-                <div className="rounded-xl bg-zinc-800/30 border border-zinc-700/30 p-5 h-full">
-                  <item.icon className={`h-6 w-6 ${item.color} mb-3`} />
-                  <h3 className="font-semibold text-sm mb-1">{item.title}</h3>
-                  <p className="text-xs text-zinc-400 leading-relaxed">{item.desc}</p>
+              <div key={item.step} className="text-center">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-cyan-500/10 text-cyan-400 font-bold text-xl mb-4">
+                  {item.step}
                 </div>
-              </StaggerCard>
+                <h3 className="font-semibold text-white mb-2">{item.title}</h3>
+                <p className="text-sm text-zinc-400">{item.text}</p>
+              </div>
             ))}
-          </StaggerGrid>
+          </div>
+          <p className="mt-8 text-center text-sm text-zinc-500">
+            Higher tiers add more specialist depth, stronger priority, and broader business support.
+          </p>
+        </section>
 
-          <div className="text-center">
-            <Button asChild variant="outline" size="lg" className="border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10 px-8">
-              <Link href="/sign-up">
-                {t("getApiAccess")} <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 5 — SPECIALIST CATEGORIES PREVIEW
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="max-w-5xl mx-auto px-4 pb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold">Built around specialist categories</h2>
+            <p className="mt-3 text-zinc-400 max-w-2xl mx-auto">
+              Stone uses specialist roles behind the scenes so users can get the right kind of help without sorting through dozens of separate agents.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              { icon: Wrench, label: "Troubleshooting" },
+              { icon: Code, label: "Development" },
+              { icon: DollarSign, label: "Billing" },
+              { icon: Settings, label: "Operations" },
+              { icon: TrendingUp, label: "Growth" },
+              { icon: Search, label: "Research" },
+            ].map((cat) => (
+              <Card key={cat.label} className="bg-zinc-800 border-zinc-700 p-4 flex flex-col items-center gap-2 text-center">
+                <cat.icon className="h-6 w-6 text-cyan-400" />
+                <span className="text-sm font-medium text-zinc-200">{cat.label}</span>
+              </Card>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-sm text-zinc-500">
+            As the platform grows, specialist depth grows with it, without making the interface harder to use.
+          </p>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 6 — PRICING PREVIEW
+        ═══════════════════════════════════════════════════════════ */}
+        <section id="pricing" className="max-w-5xl mx-auto px-4 pb-20">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl font-bold">Choose the plan that fits your workload</h2>
+            <p className="mt-3 text-zinc-400 max-w-2xl mx-auto">
+              Start free, upgrade as your usage grows, and unlock more specialist depth, stronger priority, and white-label options.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Free */}
+            <Card className="bg-zinc-800 border-zinc-700 p-6 flex flex-col">
+              <h3 className="text-xl font-bold text-white">Free</h3>
+              <p className="mt-1 text-3xl font-bold text-white">$0</p>
+              <p className="mt-3 text-sm text-zinc-400 flex-1">
+                Try Stone with limited usage and core specialist access.
+              </p>
+              <Button asChild className="mt-6 w-full bg-white text-zinc-900 hover:bg-zinc-200 font-semibold">
+                <Link href="/sign-up">Start Free</Link>
+              </Button>
+            </Card>
+
+            {/* Builder */}
+            <Card className="bg-zinc-800 border-zinc-700 p-6 flex flex-col">
+              <h3 className="text-xl font-bold text-white">Builder</h3>
+              <p className="mt-1 text-3xl font-bold text-white">
+                $19.99<span className="text-sm font-normal text-zinc-400">/mo</span>
+              </p>
+              <p className="mt-3 text-sm text-zinc-400 flex-1">
+                Base capabilities for solo builders and early business use.
+              </p>
+              <Button asChild className="mt-6 w-full bg-white text-zinc-900 hover:bg-zinc-200 font-semibold">
+                <Link href="/sign-up">Choose Builder</Link>
+              </Button>
+            </Card>
+
+            {/* Executive */}
+            <Card className="bg-zinc-800 border-zinc-700 p-6 flex flex-col relative">
+              <Badge className="absolute top-4 right-4 bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
+                Most Popular
+              </Badge>
+              <h3 className="text-xl font-bold text-white">Executive</h3>
+              <p className="mt-1 text-3xl font-bold text-white">
+                $99.99<span className="text-sm font-normal text-zinc-400">/mo</span>
+              </p>
+              <p className="mt-3 text-sm text-zinc-400 flex-1">
+                Advanced capability for users who need stronger priority and deeper support.
+              </p>
+              <Button asChild variant="outline" className="mt-6 w-full border-cyan-500/40 text-cyan-300 hover:bg-cyan-500/10 font-semibold">
+                <Link href="/pricing">View Plans</Link>
+              </Button>
+            </Card>
+          </div>
+          <div className="mt-6 text-center">
+            <Link href="/pricing" className="inline-flex items-center gap-1 text-sm text-cyan-400 hover:text-cyan-300 transition-colors">
+              See all plans <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════
+            SECTION 7 — FINAL CTA
+        ═══════════════════════════════════════════════════════════ */}
+        <section className="max-w-3xl mx-auto text-center px-4 pb-20">
+          <h2 className="text-3xl font-bold">Start simple and scale when you&apos;re ready</h2>
+          <p className="mt-4 text-zinc-400 max-w-2xl mx-auto">
+            Begin with Free, move into Builder or Growth as your workload increases, and upgrade to Reseller or Enterprise when your business needs white-label or custom support.
+          </p>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button asChild size="lg" className="bg-white text-zinc-900 hover:bg-zinc-200 font-semibold px-8">
+              <Link href="/sign-up">Start Free</Link>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="border-zinc-600 text-zinc-200 hover:bg-zinc-800 px-8">
+              <Link href="/pricing">See Pricing</Link>
             </Button>
           </div>
-        </div>
-      </LandingTabs>
+          <p className="mt-4 text-xs text-zinc-500">
+            Stone is designed to begin simply and grow with your business.
+          </p>
+        </section>
 
-      {/* ═══════════════════════════════════════════════════════════════
-          Pricing — outside tabs, always visible
-         ═══════════════════════════════════════════════════════════════ */}
-      <PricingSection />
-
-      {/* ═══════════════════════════════════════════════════════════════
-          Closer — Cinematic finale
-         ═══════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900 via-zinc-800/50 to-zinc-900 pointer-events-none" />
-
-        <div className="relative px-4 sm:px-6 py-20 sm:py-32 max-w-4xl mx-auto text-center">
-          <AnimateOnScroll>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-              {t("closerTitle1")}<br />{t("closerTitle2")}
-              <br />
-              <span className="text-zinc-400 mt-2 block">{t("closerTitle3")}</span>
-            </h2>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={0.15}>
-            <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-10">
-              {t("closerDesc")}
-            </p>
-          </AnimateOnScroll>
-
-          {/* Status board */}
-          <AnimateOnScroll delay={0.25}>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-12 max-w-2xl mx-auto">
-              {[
-                { label: t("statusAgents"), live: true },
-                { label: t("statusBestie"), live: true },
-                { label: t("statusCommunity"), live: true },
-                { label: t("statusApi"), live: true },
-                { label: t("crossDeviceSync"), live: true },
-                { label: t("homeScreenWidget"), live: true },
-                { label: t("voiceChat"), live: false },
-                { label: t("mobileApp"), live: false },
-              ].map((item) => (
-                <div key={item.label} className="text-center p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/30">
-                  <p className="text-xs font-medium text-zinc-300 mb-1">{item.label}</p>
-                  <span className={`text-xs font-semibold ${item.live ? "text-emerald-400" : "text-amber-400"}`}>
-                    {item.live ? t("live") : t("comingSoon")}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </AnimateOnScroll>
-
-          <AnimateOnScroll delay={0.35}>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mb-4">
-              <Button asChild size="lg" className="bg-white text-black hover:bg-zinc-200 font-bold text-lg px-10 py-6 h-auto">
-                <Link href="/sign-up">
-                  {t("startBuilding")} <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="border-zinc-700 text-zinc-300 text-lg px-8 py-6 h-auto">
-                <Link href="#pricing">{t("comparePlans")}</Link>
-              </Button>
-            </div>
-            <p className="text-xs text-zinc-400">{t("noCreditCard")}</p>
-          </AnimateOnScroll>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════════════════════════
-          Promotions — What's new, deals, and what you get
-         ═══════════════════════════════════════════════════════════════ */}
-      <section id="promotions" className="px-4 sm:px-6 py-16 sm:py-24 bg-gradient-to-b from-zinc-900 to-zinc-950">
-        <div className="max-w-5xl mx-auto">
-          <ScrollSection>
-            <div className="text-center mb-12">
-              <Badge className="mb-4 bg-amber-900/50 text-amber-300 border-amber-800">{t("limitedTime")}</Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-3">{t("promoHeading")}</h2>
-              <p className="text-zinc-400 max-w-xl mx-auto">{t("promoSubheading")}</p>
-            </div>
-          </ScrollSection>
-
-          <StaggerGrid className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {/* Free Forever */}
-            <StaggerCard>
-              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <Sparkles className="h-5 w-5 text-amber-400" />
-                  <h3 className="text-lg font-semibold text-white">{t("freeForeverTitle")}</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem1")}</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem2")}</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem3")}</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-emerald-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("freeItem4")}</li>
-                </ul>
-              </div>
-            </StaggerCard>
-
-            {/* AI Bestie */}
-            <StaggerCard>
-              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-amber-800/30 h-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <Heart className="h-5 w-5 text-amber-400" />
-                  <h3 className="text-lg font-semibold text-white">{t("aiBestieTitle")}</h3>
-                </div>
-                <p className="text-sm text-zinc-400 mb-3">{t("aiBestieDesc")}</p>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("bestieFeature1")}</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("bestieFeature2")}</li>
-                  <li className="flex items-start gap-2"><Check className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" aria-hidden="true" /> {t("bestieFeature3")}</li>
-                </ul>
-              </div>
-            </StaggerCard>
-
-            {/* Coming Soon */}
-            <StaggerCard>
-              <div className="p-6 rounded-2xl bg-zinc-800/40 border border-zinc-700/50 h-full">
-                <div className="flex items-center gap-2 mb-3">
-                  <Cpu className="h-5 w-5 text-cyan-400" />
-                  <h3 className="text-lg font-semibold text-white">{t("comingSoonTitle")}</h3>
-                </div>
-                <ul className="space-y-2 text-sm text-zinc-400">
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem1")}</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem2")}</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem3")}</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem4")}</li>
-                  <li className="flex items-start gap-2"><Clock className="h-4 w-4 text-amber-400 mt-0.5 shrink-0" /> {t("comingSoonItem5")}</li>
-                </ul>
-              </div>
-            </StaggerCard>
-          </StaggerGrid>
-
-          {/* Upgrade incentive */}
-          <ScrollSection>
-            <div className="mt-12 text-center p-8 rounded-2xl bg-gradient-to-r from-amber-950/40 via-zinc-900/60 to-amber-950/40 border border-amber-800/30">
-              <h3 className="text-xl font-bold text-white mb-2">{t("annualSaveTitle")}</h3>
-              <p className="text-sm text-zinc-400 mb-4">{t("annualSaveDesc")}</p>
-              <Button asChild className="bg-amber-500 hover:bg-amber-600 text-black font-semibold px-6 rounded-full">
-                <Link href="#pricing">{t("seeAllPlans")} <ArrowRight className="ml-2 h-4 w-4" /></Link>
-              </Button>
-            </div>
-          </ScrollSection>
-        </div>
-      </section>
-
-      {/* Professional disclaimer */}
-      <div className="px-4 sm:px-6 py-6 max-w-4xl mx-auto text-center">
-        <p className="text-xs text-zinc-500">
-          {t("disclaimer")}
-        </p>
+        {/* ═══════════════════════════════════════════════════════════
+            FOOTER
+        ═══════════════════════════════════════════════════════════ */}
+        <footer className="border-t border-zinc-800 py-8 px-4">
+          <p className="text-center text-xs text-zinc-500 max-w-2xl mx-auto">
+            Stone provides AI-assisted support and guidance. It does not replace licensed legal, financial, medical, or other regulated professional advice.
+          </p>
+        </footer>
       </div>
-
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-zinc-800 px-4 sm:px-6 py-12 sm:py-16" aria-label="Site footer">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-          <div className="col-span-2 md:col-span-1">
-            <Insignia size={11} showPills={false} />
-            <p className="text-sm text-zinc-400 mt-2 leading-relaxed">
-              {t("footerTagline")}
-            </p>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-zinc-300 mb-3">{t("product")}</p>
-            <ul className="space-y-2 text-sm text-zinc-400">
-              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerAiAgents")}</Link></li>
-              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerAiBestie")}</Link></li>
-              <li><Link href="#pricing" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("pricing")}</Link></li>
-              <li><Link href="/sign-up" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerCommunity")}</Link></li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-zinc-300 mb-3">{t("company")}</p>
-            <ul className="space-y-2 text-sm text-zinc-400">
-              <li><Link href="/about" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("about")}</Link></li>
-              <li><Link href="/blog" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("blog")}</Link></li>
-              <li><Link href="/app/support" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("contact")}</Link></li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-sm font-semibold text-zinc-300 mb-3">{t("legal")}</p>
-            <ul className="space-y-2 text-sm text-zinc-400">
-              <li><Link href="/terms" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("terms")}</Link></li>
-              <li><Link href="/privacy" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("privacy")}</Link></li>
-              <li><Link href="/security" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("security")}</Link></li>
-              <li><Link href="/cookies" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerCookies")}</Link></li>
-              <li><Link href="/accessibility" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerAccessibility")}</Link></li>
-              <li><Link href="/refund-policy" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerRefunds")}</Link></li>
-              <li><Link href="/privacy#do-not-sell" className="hover:text-white focus:text-white focus:outline-none focus:ring-1 focus:ring-zinc-500 focus:rounded transition-colors">{t("footerDoNotSell")}</Link></li>
-            </ul>
-          </div>
-        </div>
-        <div className="max-w-6xl mx-auto mt-8 pt-6 border-t border-zinc-800/50 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span className="text-xs text-zinc-400">&copy; 2026 Stone AI&#8482;. {t("allRightsReserved")}</span>
-          <span className="text-xs text-zinc-400">{t("localFirstAI")}</span>
-        </div>
-      </footer>
-      </div>{/* close z-10 content wrapper */}
-
-      {/* Floating Sales Chat Widget */}
-      <SalesWidget configSnapshot="" variant="landing" />
     </div>
   );
 }
