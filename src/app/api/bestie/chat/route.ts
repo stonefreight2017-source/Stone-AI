@@ -254,7 +254,7 @@ export async function POST(req: NextRequest) {
 
     // 11. Stream response
     const startTime = Date.now();
-    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
+    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel, tier);
 
     const result = streamText({
       model,

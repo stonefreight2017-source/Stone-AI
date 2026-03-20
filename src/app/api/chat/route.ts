@@ -125,7 +125,13 @@ export async function POST(req: NextRequest) {
       return Response.json({ error: "Invalid input" }, { status: 400 });
     }
 
-    const { message: rawMessage, conversationId, mode } = parsed.data;
+    const { message: rawMessage, conversationId, mode: requestedMode } = parsed.data;
+
+    // ═══ STRICT TIER ENFORCEMENT ═══
+    // FREE users MUST use LOCAL mode only — never route to cloud models.
+    // This is the hard gate. Even if the client sends mode="SMART", FREE users
+    // are forced to LOCAL. Paid tiers (STARTER and above) can use SMART.
+    const mode = tier === "FREE" ? "LOCAL" : requestedMode;
 
     // 2b. Sanitize user input (strip prompt injection patterns)
     const message = sanitizeUserInput(rawMessage);
@@ -525,14 +531,76 @@ export async function POST(req: NextRequest) {
         // Long-term memory is best-effort
       }
     } else {
-      // Non-agent conversations: still get verification + output format
+      // Non-agent conversations: get the same knowledge + quality + verification blocks
+      basePrompt = GENERAL_KNOWLEDGE_BLOCK + "\n\n" + RESPONSE_QUALITY_BLOCK + "\n\n" + basePrompt;
       basePrompt += "\n\n" + VERIFICATION_BLOCK;
       basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
     }
 
-    // 9c. Web search — detect location-based or factual questions and inject real search results
+    // 9d. Factual lookup detection — ZIP codes, addresses, phone numbers
+    // This runs BEFORE the general web search to catch specific factual queries
+    // and provide verified data instead of letting the model guess.
     let searchData = "";
+    let factualLookupHandled = false;
     {
+      const msgLower = message.toLowerCase();
+      const recentContext = history.slice(-4).map((m) => m.content.toLowerCase()).join(" ");
+
+      // Detect ZIP-to-city queries
+      const zipQueryMatch = message.match(/\b(\d{5})\b/);
+      const isZipQuestion = msgLower.match(/(?:what|which|where)\s+(?:city|town|place|area|location|state)\s+(?:is|for|does)\s+(?:zip\s*(?:code)?|postal\s*code)?\s*\d{5}/) ||
+        msgLower.match(/(?:zip\s*(?:code)?|postal\s*code)\s*\d{5}/) ||
+        (msgLower.match(/\b\d{5}\b/) && (msgLower.includes("where") || msgLower.includes("what city") || msgLower.includes("what town") || msgLower.includes("what state") || msgLower.includes("located")));
+
+      // Detect correction/retry with ZIP in recent context
+      const isCorrection = (msgLower.includes("not correct") || msgLower.includes("wrong") || msgLower.includes("try again") || msgLower.includes("incorrect") || msgLower.includes("that's wrong") || msgLower.includes("thats wrong"));
+      const recentZipMatch = recentContext.match(/\b(\d{5})\b/);
+
+      // Detect other factual lookups
+      const isAddressLookup = msgLower.includes("address of") || msgLower.includes("address for") || msgLower.includes("exact address") || msgLower.includes("street address");
+      const isPhoneLookup = msgLower.includes("phone number") || msgLower.includes("phone for") || msgLower.includes("call number");
+      const isFactualWhere = msgLower.match(/^where (?:is|are) (?!my |the best|a good|the nearest)/) && !msgLower.includes("near me");
+
+      // Handle ZIP-to-city (local lookup, no SERPER needed)
+      if ((isZipQuestion && zipQueryMatch) || (isCorrection && recentZipMatch)) {
+        const zip = zipQueryMatch?.[1] || recentZipMatch?.[1];
+        if (zip) {
+          const zipInfo = lookupZip(zip);
+          if (zipInfo) {
+            searchData = `\n\nVERIFIED FACTUAL DATA (from official US ZIP code database):\nZIP code ${zip} = ${zipInfo.city}, ${zipInfo.stateCode}\nCoordinates: ${zipInfo.lat}, ${zipInfo.lng}\n\nYou MUST use ONLY this verified data to answer. Do NOT guess or provide alternative cities. This data comes from the official USPS ZIP code database and is authoritative.`;
+            factualLookupHandled = true;
+          } else {
+            searchData = `\n\nZIP code ${zip} was not found in the US ZIP code database. Tell the user this ZIP code does not appear to be a valid US ZIP code. Do NOT guess what city it might be.`;
+            factualLookupHandled = true;
+          }
+        }
+      }
+
+      // Handle address/phone/factual lookups via SERPER
+      if (!factualLookupHandled && (isAddressLookup || isPhoneLookup || isFactualWhere)) {
+        try {
+          const hasQuota = await checkSearchQuota(user.id, tier);
+          if (hasQuota) {
+            const searchResponse = await searchWeb(message, 5);
+            if (searchResponse.results.length > 0) {
+              searchData = formatSearchResults(searchResponse.results);
+              searchData = `\n\nVERIFIED WEB SEARCH RESULTS — answer using ONLY this data. Do NOT supplement with guesses or unverified information. If the answer is not in these results, say you couldn't find verified information.\n${searchData}`;
+              await incrementSearchUsage(user.id);
+              factualLookupHandled = true;
+            } else {
+              searchData = `\n\nWeb search returned no results for this factual query. Tell the user you couldn't find verified information for their question. Do NOT guess the answer.`;
+              factualLookupHandled = true;
+            }
+          }
+        } catch {
+          searchData = `\n\nFactual lookup failed. Tell the user you couldn't verify this information right now. Do NOT guess the answer.`;
+          factualLookupHandled = true;
+        }
+      }
+    }
+
+    // 9c. Web search — detect location-based or factual questions and inject real search results
+    if (!factualLookupHandled) {
       const msgLower = message.toLowerCase();
       const recentContext = history.slice(-4).map((m) => m.content.toLowerCase()).join(" ");
       const combinedContext = msgLower + " " + recentContext;
@@ -611,7 +679,12 @@ export async function POST(req: NextRequest) {
     }
 
     if (searchData) {
-      basePrompt += `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${searchData}\n</web_search_data>`;
+      if (factualLookupHandled) {
+        // Factual lookup data already has its own strict instructions
+        basePrompt += `\n\n<verified_data role="system">${searchData}\n</verified_data>`;
+      } else {
+        basePrompt += `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${searchData}\n</web_search_data>`;
+      }
     }
 
     // Final behavior override — placed last for maximum weight with the model
@@ -646,7 +719,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
+    const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel, tier);
 
     const AI_ERROR_MESSAGE = "I'm having trouble connecting to the AI service right now. Please try again in a moment.";
 

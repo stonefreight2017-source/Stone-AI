@@ -170,18 +170,24 @@ async function isVllmReachable(): Promise<boolean> {
  * For Vercel deployment, set VLLM_BASE_URL=https://vllm.stone-ai.net/v1
  * to route through the Cloudflare tunnel to the Palace's vLLM server.
  */
-export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
+export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string, userTier?: string) {
   const vllmUrl = process.env.VLLM_BASE_URL?.trim() ?? "http://localhost:8000/v1";
   const isLocalhost = vllmUrl.includes("localhost") || vllmUrl.includes("127.0.0.1");
   const isVercel = !!process.env.VERCEL;
 
+  // ═══ TIER-AWARE CLOUD GUARD ═══
+  // FREE users MUST use vLLM only. No cloud fallback under any condition.
+  // This is defense-in-depth — route.ts already forces mode="LOCAL" for FREE,
+  // but this guard catches any future code path that might bypass that check.
+  const isFreeUser = userTier === "FREE";
+
   // SMART mode: use cloud (Claude Sonnet) when forced, or fall back to cloud on Vercel with no tunnel
   if (mode === "SMART") {
-    if (forceCloudSmart && process.env.ANTHROPIC_API_KEY) {
+    if (!isFreeUser && forceCloudSmart && process.env.ANTHROPIC_API_KEY) {
       return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
     }
     // On Vercel with localhost URL (no tunnel): fall back to cloud for SMART too
-    if (isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
+    if (!isFreeUser && isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
       return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");
     }
     const smartModel = process.env.VLLM_SMART_MODEL?.trim()
@@ -193,15 +199,14 @@ export function getModel(mode: "LOCAL" | "SMART", tierLocalModel?: string) {
 
   // LOCAL mode: always vLLM
   // On Vercel with localhost URL (no tunnel configured): fall back to cloud if enabled
-  if (isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
+  // NEVER for FREE users — they get vLLM or an error, never cloud.
+  if (!isFreeUser && isLocalhost && isVercel && process.env.ANTHROPIC_API_KEY) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
   // On Vercel with cloud fallback enabled: use cloud provider directly.
-  // This handles the case where VLLM_BASE_URL points to a Cloudflare tunnel
-  // but Cloudflare's Bot Fight Mode blocks Vercel's serverless function IPs
-  // with a 403 JavaScript challenge.
-  if (isVercel && cloudFallbackEnabled && process.env.ANTHROPIC_API_KEY) {
+  // NEVER for FREE users — even if ENABLE_CLOUD_FALLBACK=true.
+  if (!isFreeUser && isVercel && cloudFallbackEnabled && process.env.ANTHROPIC_API_KEY) {
     return cloud(process.env.LOCAL_FALLBACK_MODEL ?? "claude-haiku-4-5-20251001");
   }
 
@@ -222,21 +227,24 @@ export async function getModelWithFallback(
   mode: "LOCAL" | "SMART",
   tierLocalModel?: string,
   forceFallback = false,
+  userTier?: string,
 ): Promise<ReturnType<typeof getModel>> {
-  const shouldFallback = cloudFallbackEnabled || forceFallback;
+  // FREE users NEVER get cloud fallback — vLLM or error, period.
+  const isFreeUser = userTier === "FREE";
+  const shouldFallback = !isFreeUser && (cloudFallbackEnabled || forceFallback);
 
-  // If no fallback configured, just return the normal model
+  // If no fallback configured (or FREE user), just return the normal model
   if (!shouldFallback || !process.env.ANTHROPIC_API_KEY) {
-    return getModel(mode, tierLocalModel);
+    return getModel(mode, tierLocalModel, userTier);
   }
 
   // Check if vLLM is reachable
   const reachable = await isVllmReachable();
   if (reachable) {
-    return getModel(mode, tierLocalModel);
+    return getModel(mode, tierLocalModel, userTier);
   }
 
-  // vLLM is down — fall back to cloud
+  // vLLM is down — fall back to cloud (paid tiers only, FREE never reaches here)
   console.warn("[ai] vLLM unreachable, falling back to Anthropic cloud");
   if (mode === "SMART") {
     return cloud(process.env.SMART_MODEL ?? "claude-sonnet-4-20250514");

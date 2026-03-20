@@ -264,7 +264,7 @@ export async function POST(req: NextRequest) {
   }));
 
   // 9. Select model and determine token limits
-  const model = getModel(mode, tierConfig.localModel);
+  const model = getModel(mode, tierConfig.localModel, tier);
   const maxTokens =
     max_tokens ??
     (mode === "SMART" && tierConfig.limits.smartMaxResponseTokens > 0

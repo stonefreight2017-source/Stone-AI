@@ -147,7 +147,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       hipaaCompliance: false,
       mobileApp: true,
     },
-    allowedModes: ["LOCAL", "SMART"],    // SMART allowed for 5 lifetime trial credits
+    allowedModes: ["LOCAL"],
     priority: 0,
     cloudFallback: false,
   },
