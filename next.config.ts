@@ -29,17 +29,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Redirect /app/chat to /app (chat lives at /app, not /app/chat)
-  async redirects() {
-    return [
-      {
-        source: "/app/chat",
-        destination: "/app",
-        permanent: true,
-      },
-    ];
-  },
-
   // Disable x-powered-by header
   poweredByHeader: false,
 };
