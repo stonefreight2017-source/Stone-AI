@@ -54,6 +54,7 @@ import { extractAndSaveMemories as extractLongTermMemories, buildMemoryPrompt } 
 import { traceChat } from "@/lib/monitoring";
 import { selfCritique } from "@/lib/self-critique";
 import { searchWeb, formatSearchResults, checkSearchQuota, incrementSearchUsage } from "@/lib/web-search";
+import { lookupZip } from "@/lib/zip-lookup";
 
 /**
  * ═══ GOLDEN EGG A/B TEST FLAG ═══
@@ -547,6 +548,21 @@ export async function POST(req: NextRequest) {
             // Build the best search query from conversation context
             let searchQuery = message;
 
+            // Resolve ZIP code to city/state for better search results
+            const zipCode = zipMatch?.[1];
+            let locationStr = "";
+            if (zipCode) {
+              try {
+                const zipInfo = lookupZip(zipCode);
+                if (zipInfo) {
+                  locationStr = `${zipInfo.city}, ${zipInfo.stateCode} ${zipCode}`;
+                }
+              } catch {
+                // ZIP lookup failed — use raw ZIP
+                locationStr = zipCode;
+              }
+            }
+
             // If current message is short (like just a ZIP), pull the actual question from history
             if (message.trim().length < 20 && history.length >= 2) {
               const prevUserMsgs = history.filter((m) => m.role === "user").slice(-3);
@@ -556,10 +572,17 @@ export async function POST(req: NextRequest) {
               });
               if (questionMsg) {
                 searchQuery = questionMsg.content.replace(/\b(near me|to me|close to me|around me)\b/gi, "").trim();
-                if (zipMatch) {
-                  searchQuery = `${searchQuery} near ${zipMatch[1]}`;
+                if (locationStr) {
+                  searchQuery = `${searchQuery} near ${locationStr}`;
+                } else if (zipCode) {
+                  searchQuery = `${searchQuery} near ${zipCode}`;
                 }
               }
+            } else if (locationStr && zipCode) {
+              // Replace bare ZIP in the query with city/state for better results
+              searchQuery = searchQuery.replace(new RegExp(`\\b${zipCode}\\b`), locationStr);
+            } else if (searchQuery.includes("near me")) {
+              // Can't resolve location — keep "near me" and let Serper handle it
             }
 
             console.warn(`[web-search] query="${searchQuery}" tier=${tier}`);

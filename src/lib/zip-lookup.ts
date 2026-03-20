@@ -1,11 +1,12 @@
 /**
  * ZIP Code Lookup — Stone AI
  *
- * Thin wrapper around zipcodes-us for resolving ZIP codes to city/state/coordinates.
+ * Thin wrapper around zipcodes for resolving ZIP codes to city/state/coordinates.
  * Used by the chat route to enhance location-based search queries.
  */
 
-import zipcodes from "zipcodes-us";
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const zipcodes = require("zipcodes");
 
 export interface ZipInfo {
   city: string;
@@ -20,13 +21,13 @@ export interface ZipInfo {
  * Returns null if the ZIP code is invalid or not found.
  */
 export function lookupZip(zip: string): ZipInfo | null {
-  const result = zipcodes.find(zip);
-  if (!result.isValid) return null;
+  const result = zipcodes.lookup(zip);
+  if (!result) return null;
 
   return {
     city: result.city,
     state: result.state,
-    stateCode: result.stateCode,
+    stateCode: result.state,
     lat: result.latitude,
     lng: result.longitude,
   };
