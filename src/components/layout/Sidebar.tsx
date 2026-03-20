@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
-import { Plus, Settings, CreditCard, PanelLeftClose, Users, HelpCircle, Bell, Sparkles, Heart, Compass, Home } from "lucide-react";
+import { Plus, Settings, CreditCard, PanelLeftClose, HelpCircle, Bell, Home, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ConversationList } from "./ConversationList";
@@ -58,7 +58,7 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
             size="icon"
             aria-label="Notifications"
             className="h-8 w-8 text-zinc-400 hover:text-white relative"
-            onClick={() => router.push("/app/community")}
+            onClick={() => router.push("/app")}
           >
             <Bell className="h-4 w-4" />
             {(notifData?.unreadCount ?? 0) > 0 && (
@@ -105,34 +105,18 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
         <Button
           variant="ghost"
           className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
-          onClick={() => router.push("/")}
+          onClick={() => router.push("/app")}
         >
           <Home className="h-4 w-4" />
-          Home
+          Dashboard
         </Button>
         <Button
           variant="ghost"
           className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
-          onClick={() => router.push("/app/discover")}
+          onClick={() => router.push("/app/chat")}
         >
-          <Compass className="h-4 w-4" />
-          Discover
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
-          onClick={() => router.push("/app/bestie")}
-        >
-          <Heart className="h-4 w-4" />
-          My Bestie
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
-          onClick={() => router.push("/app/community")}
-        >
-          <Users className="h-4 w-4" />
-          Community
+          <MessageSquare className="h-4 w-4" />
+          Chat
         </Button>
         <Button
           variant="ghost"
@@ -144,11 +128,11 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
         </Button>
         <Button
           variant="ghost"
-          className="w-full justify-start gap-2 text-amber-400 hover:text-amber-300 hover:bg-amber-900/20 h-9"
-          onClick={() => router.push("/app/promotions")}
+          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
+          onClick={() => router.push("/app/support")}
         >
-          <Sparkles className="h-4 w-4" />
-          Deals & Trials
+          <HelpCircle className="h-4 w-4" />
+          Support
         </Button>
         <Button
           variant="ghost"
@@ -157,14 +141,6 @@ export function Sidebar({ userTier, userBadges = [] }: SidebarProps) {
         >
           <Settings className="h-4 w-4" />
           Settings
-        </Button>
-        <Button
-          variant="ghost"
-          className="w-full justify-start gap-2 text-zinc-300 hover:text-white hover:bg-zinc-800 h-9"
-          onClick={() => router.push("/app/support")}
-        >
-          <HelpCircle className="h-4 w-4" />
-          Help & Support
         </Button>
 
         {/* Ad slot removed — ads disabled */}
