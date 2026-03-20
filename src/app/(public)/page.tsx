@@ -65,6 +65,9 @@ export default function LandingPage() {
             <Link href="#pricing" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
               Pricing
             </Link>
+            <Link href="/security" className="text-sm text-zinc-300 hover:text-white transition-colors hidden sm:inline">
+              Security
+            </Link>
             <Link href="/sign-in" className="text-sm text-zinc-300 hover:text-white transition-colors">
               Sign In
             </Link>
@@ -311,10 +314,59 @@ export default function LandingPage() {
         {/* ═══════════════════════════════════════════════════════════
             FOOTER
         ═══════════════════════════════════════════════════════════ */}
-        <footer className="border-t border-zinc-800 py-8 px-4">
-          <p className="text-center text-xs text-zinc-500 max-w-2xl mx-auto">
-            Stone provides AI-assisted support and guidance. It does not replace licensed legal, financial, medical, or other regulated professional advice.
-          </p>
+        <footer className="border-t border-zinc-800 py-12 px-4">
+          <div className="max-w-5xl mx-auto">
+            {/* Footer links grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 mb-8">
+              {/* Product */}
+              <div>
+                <h4 className="text-sm font-semibold text-zinc-200 mb-3">Product</h4>
+                <ul className="space-y-2">
+                  <li><Link href="/sign-up" className="text-sm text-zinc-400 hover:text-white transition-colors">Get Started</Link></li>
+                  <li><Link href="/pricing" className="text-sm text-zinc-400 hover:text-white transition-colors">Pricing</Link></li>
+                  <li><Link href="/enterprise" className="text-sm text-zinc-400 hover:text-white transition-colors">Enterprise</Link></li>
+                  <li><Link href="/security" className="text-sm text-zinc-400 hover:text-white transition-colors">Security</Link></li>
+                </ul>
+              </div>
+              {/* Company */}
+              <div>
+                <h4 className="text-sm font-semibold text-zinc-200 mb-3">Company</h4>
+                <ul className="space-y-2">
+                  <li><Link href="/about" className="text-sm text-zinc-400 hover:text-white transition-colors">About</Link></li>
+                  <li><Link href="/blog" className="text-sm text-zinc-400 hover:text-white transition-colors">Blog</Link></li>
+                  <li><Link href="/app/support" className="text-sm text-zinc-400 hover:text-white transition-colors">Contact</Link></li>
+                </ul>
+              </div>
+              {/* Legal */}
+              <div>
+                <h4 className="text-sm font-semibold text-zinc-200 mb-3">Legal</h4>
+                <ul className="space-y-2">
+                  <li><Link href="/terms" className="text-sm text-zinc-400 hover:text-white transition-colors">Terms of Service</Link></li>
+                  <li><Link href="/privacy" className="text-sm text-zinc-400 hover:text-white transition-colors">Privacy Policy</Link></li>
+                  <li><Link href="/cookies" className="text-sm text-zinc-400 hover:text-white transition-colors">Cookie Policy</Link></li>
+                  <li><Link href="/refund-policy" className="text-sm text-zinc-400 hover:text-white transition-colors">Refund Policy</Link></li>
+                </ul>
+              </div>
+              {/* Resources */}
+              <div>
+                <h4 className="text-sm font-semibold text-zinc-200 mb-3">Resources</h4>
+                <ul className="space-y-2">
+                  <li><Link href="/sla" className="text-sm text-zinc-400 hover:text-white transition-colors">SLA</Link></li>
+                  <li><Link href="/reseller-agreement" className="text-sm text-zinc-400 hover:text-white transition-colors">Reseller Agreement</Link></li>
+                  <li><Link href="/accessibility" className="text-sm text-zinc-400 hover:text-white transition-colors">Accessibility</Link></li>
+                </ul>
+              </div>
+            </div>
+            {/* Bottom bar */}
+            <div className="border-t border-zinc-800 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <p className="text-xs text-zinc-500">
+                &copy; {new Date().getFullYear()} Stone AI. All rights reserved.
+              </p>
+              <p className="text-xs text-zinc-500 max-w-lg text-center sm:text-right">
+                Stone provides AI-assisted support and guidance. It does not replace licensed legal, financial, medical, or other regulated professional advice.
+              </p>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
