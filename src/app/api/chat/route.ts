@@ -598,16 +598,10 @@ export async function POST(req: NextRequest) {
             console.warn(`[zip-lookup] SERPER error for ${zip}:`, err instanceof Error ? err.message : "unknown");
           }
 
-          // Step B: Fall back to local ZIP dataset if SERPER didn't resolve
-          if (!resolvedCity) {
-            const zipInfo = lookupZip(zip);
-            if (zipInfo) {
-              resolvedCity = zipInfo.city;
-              resolvedState = zipInfo.stateCode;
-              source = "local";
-              console.warn(`[zip-lookup] LOCAL FALLBACK: ${zip} → ${zipInfo.city}, ${zipInfo.stateCode} (SERPER missed — potential dataset gap)`);
-            }
-          }
+          // Local ZIP dataset is NOT used for user-facing answers.
+          // The `zipcodes` npm package has known errors (e.g. 07097 returns Jersey City
+          // instead of Secaucus). SERPER is the only trusted source. If SERPER fails,
+          // return uncertainty — never guess, never use untrusted local data.
 
           // Build and return deterministic response — BYPASS LLM
           let answer: string;
@@ -615,7 +609,8 @@ export async function POST(req: NextRequest) {
             answer = `ZIP code ${zip} is **${resolvedCity}, ${resolvedState}**.`;
           } else {
             answer = "I'm not confident I have the correct information for that ZIP code. I wasn't able to verify it against my data sources.";
-            console.warn(`[zip-lookup] MISS: ${zip} — not in local DB, SERPER returned no match`);
+            source = "none";
+            console.warn(`[zip-lookup] MISS: ${zip} — SERPER returned no match, local DB skipped (untrusted)`);
           }
 
           // Save assistant response to DB
