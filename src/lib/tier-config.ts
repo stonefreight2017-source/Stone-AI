@@ -135,7 +135,7 @@ export const TIER_CONFIG: Record<Tier, TierConfig> = {
       referralMultiplier: 1,
       maxBesties: 1,
       maxDocuments: 0,
-      webSearchesPerDay: 3,
+      webSearchesPerDay: 5,
       codeExecutionsPerDay: 0,
       fileUploadAnalysis: false,
 

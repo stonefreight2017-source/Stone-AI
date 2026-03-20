@@ -31,7 +31,19 @@
  *   Search should never block or break a chat response.
  */
 
-import { search as ddgSearch, SafeSearchType } from "duck-duck-scrape";
+// Dynamic import — duck-duck-scrape may not be installed
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let ddgSearch: any = null;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let SafeSearchType: any = null;
+try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const ddg = require("duck-duck-scrape");
+  ddgSearch = ddg.search;
+  SafeSearchType = ddg.SafeSearchType;
+} catch {
+  // duck-duck-scrape not installed — DDG fallback disabled
+}
 import { db } from "./db";
 import { getTierConfig } from "./tier-config";
 import type { Tier } from "./tier-config";
@@ -358,6 +370,10 @@ async function searchDDG(
   numResults: number
 ): Promise<SearchResult[]> {
   try {
+    if (!ddgSearch || !SafeSearchType) {
+      console.warn("[web-search] DDG fallback unavailable — duck-duck-scrape not installed");
+      return [];
+    }
     const results = await Promise.race([
       ddgSearch(query, { safeSearch: SafeSearchType.MODERATE }),
       new Promise<never>((_, reject) =>
@@ -369,13 +385,14 @@ async function searchDDG(
       return [];
     }
 
-    return results.results
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return (results.results as any[])
       .filter(
-        (r): r is typeof r & { title: string; url: string } =>
+        (r: any): r is { title: string; url: string; description?: string; hostname?: string } =>
           typeof r.title === "string" && typeof r.url === "string"
       )
       .slice(0, numResults)
-      .map((r) => ({
+      .map((r: { title: string; url: string; description?: string; hostname?: string }) => ({
         title: r.title,
         url: r.url,
         snippet: r.description ?? "",

@@ -40,7 +40,7 @@ import { buildMemoryContext } from "@/lib/agent-memory";
 import { sanitizeUserInput, wrapSystemPrompt } from "@/lib/security";
 import { logAuditEvent, getClientIp } from "@/lib/audit";
 import { getDisclaimerPrompts } from "@/lib/agent-disclaimers";
-import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK, FINAL_BEHAVIOR_OVERRIDE } from "@/lib/agent-shared-prompts";
+import { VERIFICATION_BLOCK, OUTPUT_CAPABILITIES_BLOCK, GENERAL_KNOWLEDGE_BLOCK, RESPONSE_QUALITY_BLOCK } from "@/lib/agent-shared-prompts";
 import { buildTierCapabilityBlock } from "@/lib/tier-capabilities";
 import { assemblePrompt, getTokenEstimate } from "@/lib/golden-egg";
 import { buildAnswerContext } from "@/lib/answer-bank";
@@ -54,7 +54,6 @@ import { extractAndSaveMemories as extractLongTermMemories, buildMemoryPrompt } 
 import { traceChat } from "@/lib/monitoring";
 import { selfCritique } from "@/lib/self-critique";
 import { searchWeb, formatSearchResults, checkSearchQuota, incrementSearchUsage } from "@/lib/web-search";
-import { lookupZip } from "@/lib/zip-lookup";
 
 /**
  * ═══ GOLDEN EGG A/B TEST FLAG ═══
@@ -412,82 +411,6 @@ export async function POST(req: NextRequest) {
     // Add the new user message
     history.push({ role: "user", content: message });
 
-    // 9b. Web search — detect location-based questions and kick off search in parallel with prompt assembly
-    let searchPromise: Promise<string> | null = null;
-    {
-      // Combine current message with recent conversation context for better search detection
-      const msgLower = message.toLowerCase();
-      const recentContext = history.slice(-4).map((m) => m.content.toLowerCase()).join(" ");
-      const combinedContext = msgLower + " " + recentContext;
-
-      const locationKeywords = ["near me", "near ", "closest", "nearby", "restaurant", "store", "shop", "dealership", "where can i", "where is", "find a", "find me", "best place", "places to", "local "];
-      const hasLocationKeyword = locationKeywords.some((kw) => combinedContext.includes(kw));
-      const zipMatch = message.match(/\b(\d{5})\b/);
-
-      console.warn(`[web-search-detect] msg="${message.substring(0, 50)}" hasKW=${hasLocationKeyword} zip=${zipMatch?.[1] ?? "none"} histLen=${history.length}`);
-
-      if (hasLocationKeyword || zipMatch) {
-        searchPromise = (async () => {
-          const hasQuota = await checkSearchQuota(user.id, tier);
-          console.warn(`[web-search-quota] hasQuota=${hasQuota} tier=${tier}`);
-          if (!hasQuota) return "";
-
-          // Build search query from conversation context, not just current message
-          let searchQuery = message;
-          const zipCode = zipMatch?.[1] ?? recentContext.match(/\b(\d{5})\b/)?.[1];
-          let locationStr = "";
-
-          if (zipCode) {
-            const zipInfo = lookupZip(zipCode);
-            if (zipInfo) {
-              locationStr = `${zipInfo.city}, ${zipInfo.stateCode} ${zipCode}`;
-            }
-          }
-
-          // If current message is just a ZIP/location, pull the actual question from history
-          if (message.trim().length < 20 && history.length >= 2) {
-            const prevUserMsgs = history.filter((m) => m.role === "user").slice(-3);
-            const questionMsg = prevUserMsgs.find((m) => {
-              const lower = m.content.toLowerCase();
-              return locationKeywords.some((kw) => lower.includes(kw));
-            });
-            if (questionMsg) {
-              // Combine the original question with the location
-              searchQuery = questionMsg.content.replace(/\b(near me|to me|close to me|around me|near\s*)$/gi, "").trim();
-              if (locationStr) {
-                searchQuery = `${searchQuery} near ${locationStr}`;
-              }
-            }
-          } else if (locationStr) {
-            // Current message has the full question — enhance with resolved location
-            // If message contains a ZIP, replace it with city/state. Otherwise strip "near me" and append location.
-            if (/\b\d{5}\b/.test(message)) {
-              searchQuery = message.replace(/\b\d{5}\b/, locationStr);
-            } else {
-              searchQuery = message.replace(/\b(near me|close to me|around me|to me)\b/gi, "").trim();
-              searchQuery = `${searchQuery} near ${locationStr}`;
-            }
-          }
-
-          const searchTypeParam = hasLocationKeyword ? "places" as const : "search" as const;
-          console.warn(`[web-search-query] query="${searchQuery.substring(0, 100)}" type=${searchTypeParam} provider=serper keySet=${!!process.env.SERPER_API_KEY}`);
-          const searchResponse = await searchWeb(searchQuery, 5, searchTypeParam);
-          console.warn(`[web-search-result] provider=${searchResponse.provider} count=${searchResponse.results.length} cached=${searchResponse.cached}`);
-          if (searchResponse.results.length > 0) {
-            const formatted = formatSearchResults(searchResponse.results);
-            await incrementSearchUsage(user.id);
-            console.warn(`[web-search-injected] ${formatted.substring(0, 200)}`);
-            return `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${formatted}\n</web_search_data>`;
-          }
-          return "";
-        })().catch((err) => {
-          console.warn("[web-search] Parallel search promise rejected:",
-            err instanceof Error ? err.message : "unknown");
-          return "";
-        });
-      }
-    }
-
     // 10. Build system prompt (agent-aware with RAG + memory + security wrapper)
     let basePrompt = SYSTEM_PROMPT;
 
@@ -606,29 +529,58 @@ export async function POST(req: NextRequest) {
       basePrompt += "\n\n" + OUTPUT_CAPABILITIES_BLOCK;
     }
 
-    // 9c. Inject web search results (if any) — await parallel search, placed before final override
-    // CRITICAL: Search is best-effort. If it fails for ANY reason (missing DB column,
-    // API timeout, network error), chat MUST still work. Never let search crash the endpoint.
-    console.warn(`[web-search-inject] searchPromise=${searchPromise ? "EXISTS" : "NULL"}`);
-    if (searchPromise) {
-      try {
-        const searchResultsBlock = await searchPromise;
-        console.warn(`[web-search-inject] blockLength=${searchResultsBlock?.length ?? 0} hasContent=${!!searchResultsBlock} first100=${(searchResultsBlock || "EMPTY").substring(0, 100)}`);
-        if (searchResultsBlock) {
-          basePrompt += searchResultsBlock;
+    // 9c. Web search — detect location-based or factual questions and inject real search results
+    let searchData = "";
+    {
+      const msgLower = message.toLowerCase();
+      const recentContext = history.slice(-4).map((m) => m.content.toLowerCase()).join(" ");
+      const combinedContext = msgLower + " " + recentContext;
+
+      const locationKeywords = ["near me", "near ", "closest", "nearby", "restaurant", "store", "shop", "dealership", "where can i", "where is", "find a", "find me", "best place", "places to", "local ", "salon", "barber", "hotel", "pharmacy", "gas station", "grocery"];
+      const hasLocationKeyword = locationKeywords.some((kw) => combinedContext.includes(kw));
+      const zipMatch = message.match(/\b(\d{5})\b/) || recentContext.match(/\b(\d{5})\b/);
+
+      if (hasLocationKeyword || zipMatch) {
+        try {
+          const hasQuota = await checkSearchQuota(user.id, tier);
+          if (hasQuota) {
+            // Build the best search query from conversation context
+            let searchQuery = message;
+
+            // If current message is short (like just a ZIP), pull the actual question from history
+            if (message.trim().length < 20 && history.length >= 2) {
+              const prevUserMsgs = history.filter((m) => m.role === "user").slice(-3);
+              const questionMsg = prevUserMsgs.find((m) => {
+                const lower = m.content.toLowerCase();
+                return locationKeywords.some((kw) => lower.includes(kw));
+              });
+              if (questionMsg) {
+                searchQuery = questionMsg.content.replace(/\b(near me|to me|close to me|around me)\b/gi, "").trim();
+                if (zipMatch) {
+                  searchQuery = `${searchQuery} near ${zipMatch[1]}`;
+                }
+              }
+            }
+
+            console.warn(`[web-search] query="${searchQuery}" tier=${tier}`);
+            const searchResponse = await searchWeb(searchQuery, 5);
+            console.warn(`[web-search] provider=${searchResponse.provider} results=${searchResponse.results.length}`);
+
+            if (searchResponse.results.length > 0) {
+              searchData = formatSearchResults(searchResponse.results);
+              await incrementSearchUsage(user.id);
+            }
+          }
+        } catch (err) {
+          console.warn("[web-search] Error:", err instanceof Error ? err.message : "unknown");
+          // Search failures never block chat
         }
-      } catch (searchError) {
-        console.warn("[web-search] Search failed during chat — continuing without results:",
-          searchError instanceof Error ? searchError.message : "unknown");
       }
     }
 
-    // Diagnostic: confirm whether search data was injected
-    const hasSearchData = basePrompt.includes("VERIFIED PLACES") || basePrompt.includes("VERIFIED WEB SEARCH");
-    console.warn(`[web-search-final] searchDataInjected=${hasSearchData} promptLength=${basePrompt.length}`);
-
-    // Final behavior override — placed last for maximum weight with the model
-    basePrompt += "\n\n" + FINAL_BEHAVIOR_OVERRIDE;
+    if (searchData) {
+      basePrompt += `\n\n<web_search_data role="system">\nSYSTEM-PROVIDED WEB RESULTS — use these to answer the user accurately. Present the information naturally WITHOUT reproducing these tags or this wrapper. Do NOT fabricate any business names, addresses, or details not found below.\n${searchData}\n</web_search_data>`;
+    }
 
     // Wrap with anti-injection security directives
     const systemPrompt = wrapSystemPrompt(basePrompt);
@@ -660,22 +612,6 @@ export async function POST(req: NextRequest) {
     }
 
     const model = getModel(mode as "LOCAL" | "SMART", tierConfig.localModel);
-
-    // TEMPORARY DEBUG: always return diagnostic when SEARCH_DEBUG is true
-    if (process.env.SEARCH_DEBUG === "true") {
-      const debugInfo = {
-        searchDataInjected: hasSearchData,
-        searchPromiseExists: searchPromise !== null,
-        messageReceived: message,
-        historyLength: history.length,
-        historyMessages: history.map((m: { role: string; content: string }) => `${m.role}: ${m.content.substring(0, 60)}`),
-        promptLength: systemPrompt.length,
-        promptContainsVerified: systemPrompt.includes("VERIFIED"),
-        promptLast500: systemPrompt.substring(systemPrompt.length - 500),
-      };
-      await concurrency.release();
-      return new Response(JSON.stringify(debugInfo, null, 2), { status: 200, headers: { "Content-Type": "text/plain; charset=utf-8" } });
-    }
 
     const AI_ERROR_MESSAGE = "I'm having trouble connecting to the AI service right now. Please try again in a moment.";
 
@@ -884,7 +820,7 @@ export async function POST(req: NextRequest) {
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
         "X-Latency-Ms": String(firstTokenTime),
-        "X-Search-Injected": String(hasSearchData),
+        "X-Search-Injected": String(!!searchData),
       },
     });
 
